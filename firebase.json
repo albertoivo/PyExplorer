@@ -8,6 +8,18 @@
     ],
     "rewrites": [
       {
+        "source": "/sitemap.xml",
+        "destination": "/sitemap.xml"
+      },
+      {
+        "source": "/robots.txt",
+        "destination": "/robots.txt"
+      },
+      {
+        "source": "/og-image.png",
+        "destination": "/og-image.png"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
