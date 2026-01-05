@@ -129,18 +129,46 @@ export function HomePage() {
                         <span className="world-preview__icon">🔄</span>
                         <span className="world-preview__name">Repetição</span>
                     </div>
-                    <div className="world-preview world-preview--locked">
-                        <span className="world-preview__icon">✨</span>
-                        <span className="world-preview__name">Funções</span>
-                    </div>
-                    <div className="world-preview world-preview--locked">
-                        <span className="world-preview__icon">📜</span>
-                        <span className="world-preview__name">Listas</span>
-                    </div>
-                    <div className="world-preview world-preview--locked">
-                        <span className="world-preview__icon">📝</span>
-                        <span className="world-preview__name">Strings</span>
-                    </div>
+                </div>
+            </section>
+
+            {/* Learn Section Preview */}
+            <section className="features" style={{ background: 'var(--bg-secondary)', marginTop: '0' }}>
+                <h2 className="features__title">Aprenda Python Gratuitamente 📚</h2>
+                <div style={{ textAlign: 'center', marginBottom: '2rem', color: 'var(--text-secondary)' }}>
+                    <p>Confira nossos guias e tutoriais completos para iniciantes e pais.</p>
+                </div>
+
+                <div className="features__grid">
+                    <Link to="/learn/o-que-e-python" className="feature-card" style={{ textDecoration: 'none', cursor: 'pointer' }}>
+                        <div className="feature-card__icon">🐍</div>
+                        <h3 className="feature-card__title">O que é Python?</h3>
+                        <p className="feature-card__description">
+                            Entenda por que essa é a melhor linguagem para começar.
+                        </p>
+                    </Link>
+
+                    <Link to="/learn/python-para-criancas" className="feature-card" style={{ textDecoration: 'none', cursor: 'pointer' }}>
+                        <div className="feature-card__icon">👨‍👩‍👧‍👦</div>
+                        <h3 className="feature-card__title">Guia para Pais</h3>
+                        <p className="feature-card__description">
+                            Como ajudar seu filho a aprender programação.
+                        </p>
+                    </Link>
+
+                    <Link to="/learn/primeiros-passos-python" className="feature-card" style={{ textDecoration: 'none', cursor: 'pointer' }}>
+                        <div className="feature-card__icon">👣</div>
+                        <h3 className="feature-card__title">Primeiros Passos</h3>
+                        <p className="feature-card__description">
+                            Seu primeiro tutorial prático de Python.
+                        </p>
+                    </Link>
+                </div>
+
+                <div style={{ textAlign: 'center', marginTop: '3rem' }}>
+                    <Link to="/learn" className="hero__btn hero__btn--secondary">
+                        📖 Ver Todos os Artigos
+                    </Link>
                 </div>
             </section>
 

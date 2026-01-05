@@ -16,6 +16,14 @@
     <priority>0.9</priority>
   </url>
   
+  <!-- Página Sobre o Projeto -->
+  <url>
+    <loc>https://pyexplorer-cd32d.web.app/about</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
   <!-- Página de Aprender - Lista de Artigos -->
   <url>
     <loc>https://pyexplorer-cd32d.web.app/learn</loc>

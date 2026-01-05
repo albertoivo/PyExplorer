@@ -21,6 +21,7 @@ import { ProfilePage } from './pages/ProfilePage';
 import { GamificationPage } from './pages/GamificationPage';
 import { LearnPage } from './pages/LearnPage';
 import { ArticlePage } from './pages/ArticlePage';
+import { AboutPage } from './pages/AboutPage';
 
 import './App.css';
 
@@ -61,6 +62,7 @@ function App() {
                   <Route path="/register" element={<RegisterPage />} />
                   <Route path="/learn" element={<LearnPage />} />
                   <Route path="/learn/:slug" element={<ArticlePage />} />
+                  <Route path="/about" element={<AboutPage />} />
 
                   {/* Páginas protegidas (requerem login ou modo convidado) */}
                   <Route

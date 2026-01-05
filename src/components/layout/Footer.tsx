@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './Footer.css';
 
 /**
@@ -11,7 +12,7 @@ export function Footer() {
             <div className="footer__container">
                 <div className="footer__content">
                     <div className="footer__brand">
-                        <span className="footer__logo">🐍 PyExplorer</span>
+                        <Link to="/" className="footer__logo">🐍 PyExplorer</Link>
                         <p className="footer__tagline">
                             Aprenda Python de forma divertida!
                         </p>
@@ -20,16 +21,15 @@ export function Footer() {
                     <div className="footer__links">
                         <div className="footer__link-group">
                             <h4 className="footer__link-title">Aprender</h4>
-                            <a href="#" className="footer__link">Mundos</a>
-                            <a href="#" className="footer__link">Desafios</a>
-                            <a href="#" className="footer__link">Conquistas</a>
+                            <Link to="/learn" className="footer__link">📚 Tutoriais</Link>
+                            <Link to="/game" className="footer__link">🎮 Jogar</Link>
+                            <Link to="/rewards" className="footer__link">🏆 Conquistas</Link>
                         </div>
 
                         <div className="footer__link-group">
                             <h4 className="footer__link-title">Sobre</h4>
-                            <a href="#" className="footer__link">O Projeto</a>
-                            <a href="#" className="footer__link">Para Pais</a>
-                            <a href="#" className="footer__link">Contato</a>
+                            <Link to="/about" className="footer__link">O Projeto</Link>
+                            <Link to="/learn/python-para-criancas" className="footer__link">Para Pais</Link>
                         </div>
                     </div>
                 </div>
@@ -50,3 +50,4 @@ export function Footer() {
 }
 
 export default Footer;
+
