@@ -19,6 +19,8 @@ import { RegisterPage } from './pages/RegisterPage';
 import { GamePage } from './pages/GamePage';
 import { ProfilePage } from './pages/ProfilePage';
 import { GamificationPage } from './pages/GamificationPage';
+import { LearnPage } from './pages/LearnPage';
+import { ArticlePage } from './pages/ArticlePage';
 
 import './App.css';
 
@@ -57,6 +59,8 @@ function App() {
                   <Route path="/" element={<HomePage />} />
                   <Route path="/login" element={<LoginPage />} />
                   <Route path="/register" element={<RegisterPage />} />
+                  <Route path="/learn" element={<LearnPage />} />
+                  <Route path="/learn/:slug" element={<ArticlePage />} />
 
                   {/* Páginas protegidas (requerem login ou modo convidado) */}
                   <Route
