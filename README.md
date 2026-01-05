@@ -2,12 +2,16 @@
 
 > Aprenda Python de forma divertida e interativa!
 
+[![CI/CD](https://github.com/albertoivo/PyExplorer/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/albertoivo/PyExplorer/actions/workflows/ci-cd.yml)
+[![Security](https://github.com/albertoivo/PyExplorer/actions/workflows/security.yml/badge.svg)](https://github.com/albertoivo/PyExplorer/actions/workflows/security.yml)
+
 PyExplorer é um jogo educativo desenvolvido em ReactJS para ensinar programação Python para crianças de 8 a 15 anos. O jogo utiliza Pyodide para executar código Python diretamente no navegador, proporcionando uma experiência completa de aprendizado sem necessidade de instalações.
 
 ![PyExplorer](https://img.shields.io/badge/python-kids-yellow?style=for-the-badge&logo=python)
 ![React](https://img.shields.io/badge/react-19-blue?style=for-the-badge&logo=react)
 ![TypeScript](https://img.shields.io/badge/typescript-5.9-blue?style=for-the-badge&logo=typescript)
 ![Firebase](https://img.shields.io/badge/firebase-hosting-orange?style=for-the-badge&logo=firebase)
+![PWA](https://img.shields.io/badge/PWA-ready-brightgreen?style=for-the-badge&logo=pwa)
 
 ## ✨ Características
 

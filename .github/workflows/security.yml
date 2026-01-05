@@ -1,0 +1,89 @@
+# =============================================================================
+# PyExplorer - Security & Quality Checks
+# =============================================================================
+# Workflow semanal para verificar vulnerabilidades e qualidade do código
+# =============================================================================
+
+name: Security & Quality
+
+on:
+  schedule:
+    # Executa toda segunda-feira às 9h UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch: # Permite executar manualmente
+
+jobs:
+  # ===========================================================================
+  # JOB: Dependency Audit
+  # ===========================================================================
+  audit:
+    name: 🔒 Security Audit
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📥 Install dependencies
+        run: npm ci
+
+      - name: 🔍 Run npm audit
+        run: npm audit --audit-level=high
+        continue-on-error: true
+
+      - name: 📊 Audit Summary
+        run: |
+          echo "## 🔒 Security Audit Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          npm audit --json | jq -r '.metadata | "- **Total:** \(.totalDependencies) dependencies\n- **Vulnerabilities:** \(.vulnerabilities.total // 0)"' >> $GITHUB_STEP_SUMMARY || echo "Audit completed" >> $GITHUB_STEP_SUMMARY
+
+  # ===========================================================================
+  # JOB: Check for outdated dependencies
+  # ===========================================================================
+  outdated:
+    name: 📦 Check Outdated Packages
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📥 Install dependencies
+        run: npm ci
+
+      - name: 🔍 Check outdated packages
+        run: |
+          echo "## 📦 Outdated Packages" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          npm outdated || true
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+        continue-on-error: true
+
+  # ===========================================================================
+  # JOB: Code Quality with SonarCloud (opcional)
+  # ===========================================================================
+  # sonarcloud:
+  #   name: 📊 SonarCloud Analysis
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0
+  #     - name: SonarCloud Scan
+  #       uses: SonarSource/sonarcloud-github-action@master
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
