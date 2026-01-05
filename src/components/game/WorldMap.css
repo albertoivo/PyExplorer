@@ -1,0 +1,343 @@
+.world-map {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.world-map__header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.world-map__title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, #00d9ff, #00ff88);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0 0 0.75rem;
+}
+
+.world-map__subtitle {
+    color: #a0aec0;
+    font-size: 1.15rem;
+    margin: 0 0 1.5rem;
+}
+
+.world-map__score {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 165, 0, 0.15) 100%);
+    border: 2px solid rgba(255, 215, 0, 0.4);
+    border-radius: 50px;
+    padding: 0.75rem 1.5rem;
+}
+
+.world-map__score-icon {
+    font-size: 1.5rem;
+}
+
+.world-map__score-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ffd700;
+}
+
+/* Grid de mundos */
+.world-map__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* Card de mundo */
+.world-card {
+    position: relative;
+    background: linear-gradient(145deg, #1e1e2e 0%, #2a2a3e 100%);
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+}
+
+.world-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--world-color);
+    opacity: 0.5;
+}
+
+.world-card--unlocked:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: var(--world-color);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
+        0 0 30px color-mix(in srgb, var(--world-color) 30%, transparent);
+}
+
+.world-card--unlocked:hover::before {
+    opacity: 1;
+}
+
+.world-card--locked {
+    opacity: 0.6;
+    cursor: not-allowed;
+    filter: grayscale(0.5);
+}
+
+.world-card--complete {
+    border-color: rgba(72, 187, 120, 0.5);
+    background: linear-gradient(145deg, #1e2e24 0%, #2a3e30 100%);
+}
+
+.world-card--complete::before {
+    background: linear-gradient(90deg, #48bb78, #68d391);
+    opacity: 1;
+}
+
+.world-card__number {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #a0aec0;
+}
+
+.world-card__icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.world-card--unlocked:hover .world-card__icon {
+    transform: scale(1.1);
+    animation: bounce 0.6s ease infinite;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: scale(1.1) translateY(0);
+    }
+
+    50% {
+        transform: scale(1.1) translateY(-10px);
+    }
+}
+
+.world-card__name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 0.5rem;
+}
+
+.world-card--unlocked .world-card__name {
+    color: var(--world-color);
+}
+
+.world-card__description {
+    font-size: 0.9rem;
+    color: #a0aec0;
+    margin: 0 0 1.25rem;
+    line-height: 1.5;
+}
+
+/* Progresso */
+.world-card__progress {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.world-card__progress-bar {
+    flex: 1;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+.world-card__progress-fill {
+    height: 100%;
+    background: var(--world-color);
+    border-radius: 50px;
+    transition: width 0.5s ease;
+}
+
+.world-card__progress-text {
+    font-size: 0.8rem;
+    color: #a0aec0;
+    font-weight: 600;
+    min-width: 40px;
+}
+
+.world-card__requirement {
+    font-size: 0.85rem;
+    color: #a0aec0;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+}
+
+.world-card__badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+/* Caminho visual (decorativo) */
+.world-map__path {
+    display: none;
+    /* Pode ser habilitado para layout linear */
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    z-index: 0;
+}
+
+.world-map__path-segment {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 0 -10px;
+    border-radius: 2px;
+}
+
+.world-map__path-segment--active {
+    background: linear-gradient(90deg, #00d9ff, #667eea);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .world-map {
+        padding: 1rem;
+    }
+
+    .world-map__title {
+        font-size: 1.75rem;
+    }
+
+    .world-map__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .world-card {
+        padding: 1.5rem;
+    }
+
+    .world-card__icon {
+        font-size: 3rem;
+    }
+}
+
+/* World card wrapper para ações */
+.world-card-wrapper {
+    position: relative;
+}
+
+/* Badge de tutorial novo */
+.world-card__tutorial-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    padding: 0.3rem 0.6rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    animation: glow 2s ease infinite;
+}
+
+@keyframes glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 5px rgba(102, 126, 234, 0.5);
+    }
+
+    50% {
+        box-shadow: 0 0 15px rgba(102, 126, 234, 0.8);
+    }
+}
+
+/* Botões de ação do card */
+.world-card__actions {
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5rem;
+    z-index: 2;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.world-card-wrapper:hover .world-card__actions {
+    opacity: 1;
+    visibility: visible;
+    bottom: -20px;
+}
+
+.world-card__action-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(145deg, #1e1e2e 0%, #2a2a3e 100%);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.world-card__action-btn:hover {
+    transform: scale(1.15);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Mobile: ações sempre visíveis */
+@media (max-width: 768px) {
+    .world-card__actions {
+        opacity: 1;
+        visibility: visible;
+        bottom: -20px;
+    }
+}

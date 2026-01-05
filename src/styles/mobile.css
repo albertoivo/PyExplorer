@@ -1,0 +1,579 @@
+/**
+ * Estilos otimizados para dispositivos móveis
+ * Touch-friendly e responsivo
+ */
+
+/* ============================================
+   VARIÁVEIS MOBILE
+   ============================================ */
+
+:root {
+    --touch-target-min: 44px;
+    --safe-area-top: env(safe-area-inset-top, 0px);
+    --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-area-left: env(safe-area-inset-left, 0px);
+    --safe-area-right: env(safe-area-inset-right, 0px);
+}
+
+/* ============================================
+   LAYOUT RESPONSIVO
+   ============================================ */
+
+/* Safe area para notch de iPhones */
+.app {
+    padding-top: var(--safe-area-top);
+    padding-bottom: var(--safe-area-bottom);
+    padding-left: var(--safe-area-left);
+    padding-right: var(--safe-area-right);
+}
+
+/* ============================================
+   TOUCH TARGETS
+   ============================================ */
+
+/* Botões mínimos para touch */
+@media (pointer: coarse) {
+
+    button,
+    .btn,
+    a.header__nav-link,
+    .world-card,
+    .shop-item,
+    .achievement-card,
+    .mission-card {
+        min-height: var(--touch-target-min);
+    }
+
+    /* Aumenta área de toque em inputs */
+    input,
+    textarea,
+    select {
+        min-height: var(--touch-target-min);
+        font-size: 16px;
+        /* Previne zoom em iOS */
+    }
+
+    /* Links maiores */
+    a {
+        padding: 0.5rem;
+        margin: -0.5rem;
+    }
+}
+
+/* ============================================
+   HEADER MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .header__container {
+        padding: 0.5rem 1rem;
+        flex-wrap: wrap;
+    }
+
+    .header__logo-text {
+        font-size: 1rem;
+    }
+
+    .header__nav {
+        order: 3;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        padding-top: 0.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: 0.5rem;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .header__nav-link {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.75rem;
+        white-space: nowrap;
+    }
+
+    .header__user {
+        order: 2;
+    }
+
+    .header__user-details {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .header__user-name {
+        font-size: 0.85rem;
+    }
+
+    .header__user-stars {
+        font-size: 0.75rem;
+    }
+}
+
+/* ============================================
+   GAME PAGE MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .game-page__content {
+        padding: 0.75rem;
+    }
+
+    .game-page__header {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+
+    .game-page__world-info {
+        font-size: 1rem;
+    }
+}
+
+/* ============================================
+   QUESTION CARD MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .question-card {
+        padding: 1rem;
+        border-radius: 16px;
+    }
+
+    .question-card__header {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .question-card__title {
+        font-size: 1rem;
+        width: 100%;
+    }
+
+    .question-card__prompt {
+        font-size: 0.9rem;
+        padding: 0.75rem;
+    }
+
+    /* Opções de múltipla escolha */
+    .options-grid {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+
+    .option-button {
+        padding: 1rem;
+        font-size: 0.9rem;
+        min-height: 60px;
+    }
+
+    /* Botões verdadeiro/falso */
+    .true-false-buttons {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .true-false-btn {
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+
+/* ============================================
+   PYTHON EDITOR MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .python-editor {
+        min-height: 200px;
+    }
+
+    .python-editor__textarea,
+    .CodeMirror {
+        font-size: 14px !important;
+        line-height: 1.4;
+    }
+
+    .python-editor__toolbar {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .python-editor__run-btn {
+        width: 100%;
+        padding: 1rem;
+        font-size: 1rem;
+    }
+
+    .python-editor__output {
+        font-size: 0.85rem;
+        max-height: 150px;
+        overflow-y: auto;
+    }
+}
+
+/* ============================================
+   WORLD MAP MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .world-map {
+        padding: 1rem;
+    }
+
+    .world-map__header {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.75rem;
+    }
+
+    .world-map__score {
+        margin: 0 auto;
+    }
+
+    .world-map__grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .world-card {
+        padding: 1.25rem;
+    }
+
+    .world-card__icon {
+        font-size: 2.5rem;
+    }
+}
+
+/* ============================================
+   RESULT PANEL MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .result-panel {
+        padding: 1rem;
+        margin: 0.5rem;
+    }
+
+    .result-panel__icon {
+        font-size: 2.5rem;
+    }
+
+    .result-panel__title {
+        font-size: 1.25rem;
+    }
+
+    .result-panel__actions {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .result-panel__btn {
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .result-panel__explanation {
+        font-size: 0.85rem;
+        padding: 0.75rem;
+    }
+}
+
+/* ============================================
+   GAMIFICATION MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .gamification-page {
+        padding: 0.75rem;
+    }
+
+    .gamification-page__header {
+        padding: 1rem;
+    }
+
+    .gamification-page__avatar {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+    }
+
+    .gamification-page__name {
+        font-size: 1.25rem;
+    }
+
+    .gamification-page__tabs {
+        gap: 0.25rem;
+    }
+
+    .gamification-page__tab {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+    }
+
+    .gamification-page__tab-name {
+        display: none;
+    }
+
+    /* Achievement Grid */
+    .achievement-grid__list {
+        grid-template-columns: 1fr;
+    }
+
+    .achievement-card {
+        padding: 0.75rem;
+    }
+
+    /* Mission List */
+    .mission-card {
+        padding: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .mission-card__icon {
+        font-size: 2rem;
+    }
+
+    .mission-card__rewards {
+        width: 100%;
+        flex-direction: row;
+        justify-content: center;
+        border-left: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 0.75rem;
+    }
+
+    /* Shop */
+    .avatar-shop__grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+
+    .shop-item {
+        padding: 0.75rem;
+    }
+
+    .shop-item__icon {
+        font-size: 2rem;
+    }
+
+    /* Leaderboard */
+    .leaderboard__podium {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .podium-card {
+        width: 100%;
+    }
+
+    .podium-card--1 {
+        transform: none;
+    }
+}
+
+/* ============================================
+   HOMEPAGE MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .home-page__hero {
+        padding: 2rem 1rem;
+    }
+
+    .home-page__title {
+        font-size: 2rem;
+    }
+
+    .home-page__subtitle {
+        font-size: 1rem;
+    }
+
+    .home-page__features {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .home-page__feature {
+        padding: 1.25rem;
+    }
+
+    .home-page__cta-buttons {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .home-page__cta-btn {
+        width: 100%;
+        padding: 1rem;
+        font-size: 1rem;
+    }
+}
+
+/* ============================================
+   LOGIN/REGISTER MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+
+    .login-page,
+    .register-page {
+        padding: 1rem;
+    }
+
+    .login-page__form,
+    .register-page__form {
+        padding: 1.5rem;
+        border-radius: 16px;
+    }
+
+    .login-page__title,
+    .register-page__title {
+        font-size: 1.5rem;
+    }
+
+    .form-group input {
+        padding: 1rem;
+        font-size: 16px;
+        /* Previne zoom */
+    }
+}
+
+/* ============================================
+   PROFILE MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .profile-page {
+        padding: 1rem;
+    }
+
+    .profile-page__header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .profile-page__avatar {
+        margin: 0 auto 1rem;
+    }
+
+    .profile-page__stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+}
+
+/* ============================================
+   STREAMING / ANIMATIONS REDUCED
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ============================================
+   LANDSCAPE MOBILE
+   ============================================ */
+
+@media (max-height: 500px) and (orientation: landscape) {
+    .header {
+        padding: 0.25rem 1rem;
+    }
+
+    .header__logo-icon {
+        font-size: 1.25rem;
+    }
+
+    .game-page__content {
+        padding: 0.5rem;
+    }
+
+    .question-card {
+        padding: 0.75rem;
+    }
+
+    .python-editor {
+        min-height: 120px;
+    }
+}
+
+/* ============================================
+   SMALL PHONES (< 375px)
+   ============================================ */
+
+@media (max-width: 374px) {
+    html {
+        font-size: 14px;
+    }
+
+    .header__nav-link {
+        padding: 0.4rem 0.5rem;
+        font-size: 0.7rem;
+    }
+
+    .world-card {
+        padding: 1rem;
+    }
+
+    .gamification-page__stat {
+        padding: 0.4rem;
+    }
+
+    .gamification-page__stat-value {
+        font-size: 1rem;
+    }
+}
+
+/* ============================================
+   SCROLLBAR MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+
+    /* Esconde scrollbars em mobile, mas mantém scroll */
+    ::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+    }
+
+    /* Adiciona scroll snap para carrosséis */
+    .world-map__grid,
+    .gamification-page__tabs {
+        scroll-snap-type: x mandatory;
+    }
+
+    .world-card,
+    .gamification-page__tab {
+        scroll-snap-align: start;
+    }
+}
+
+/* ============================================
+   PWA STANDALONE MODE
+   ============================================ */
+
+@media (display-mode: standalone) {
+
+    /* Ajustes para quando instalado como app */
+    .header {
+        padding-top: calc(var(--safe-area-top) + 0.5rem);
+    }
+
+    .footer {
+        padding-bottom: calc(var(--safe-area-bottom) + 1rem);
+    }
+
+    /* Esconde links "instalar app" quando já instalado */
+    .install-prompt {
+        display: none;
+    }
+}

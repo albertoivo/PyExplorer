@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e1e2e"/>
+      <stop offset="100%" style="stop-color:#0f0f1a"/>
+    </linearGradient>
+    <linearGradient id="snake" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ff88"/>
+      <stop offset="100%" style="stop-color:#00d9ff"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="512" height="512" rx="80" fill="url(#bg)"/>
+  
+  <!-- Stars -->
+  <circle cx="100" cy="100" r="8" fill="#ffd700" opacity="0.8"/>
+  <circle cx="420" cy="80" r="6" fill="#ffd700" opacity="0.6"/>
+  <circle cx="80" cy="380" r="5" fill="#ffd700" opacity="0.7"/>
+  <circle cx="440" cy="420" r="7" fill="#ffd700" opacity="0.8"/>
+  <circle cx="380" cy="150" r="4" fill="#00d9ff" opacity="0.6"/>
+  <circle cx="130" cy="300" r="4" fill="#00ff88" opacity="0.6"/>
+  
+  <!-- Snake Body (coiled) -->
+  <path d="M256 380 
+           C180 380 140 320 140 256 
+           C140 180 200 140 256 140
+           C320 140 360 180 360 240
+           C360 300 320 320 280 320
+           C240 320 220 290 220 256
+           C220 220 250 200 280 200
+           C310 200 330 230 320 260" 
+        stroke="url(#snake)" 
+        stroke-width="40" 
+        stroke-linecap="round"
+        fill="none"/>
+  
+  <!-- Snake Head -->
+  <circle cx="320" cy="260" r="35" fill="#00ff88"/>
+  
+  <!-- Snake Eyes -->
+  <circle cx="310" cy="250" r="10" fill="#1e1e2e"/>
+  <circle cx="335" cy="250" r="10" fill="#1e1e2e"/>
+  <circle cx="312" cy="248" r="4" fill="#fff"/>
+  <circle cx="337" cy="248" r="4" fill="#fff"/>
+  
+  <!-- Snake Tongue -->
+  <path d="M345 270 L365 275 M345 270 L365 265" 
+        stroke="#ff6b6b" 
+        stroke-width="4" 
+        stroke-linecap="round"/>
+  
+  <!-- Sparkle effect -->
+  <path d="M400 300 L410 290 L420 300 L410 310 Z" fill="#ffd700" opacity="0.8"/>
+  <path d="M90 200 L100 190 L110 200 L100 210 Z" fill="#00d9ff" opacity="0.6"/>
+</svg>

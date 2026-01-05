@@ -1,0 +1,207 @@
+.progress-bar {
+    width: 100%;
+}
+
+.progress-bar__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.progress-bar__label {
+    color: #e0e0f0;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.progress-bar__percentage {
+    color: #a0aec0;
+    font-size: 0.875rem;
+}
+
+.progress-bar__track {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+/* Tamanhos */
+.progress-bar--small .progress-bar__track {
+    height: 8px;
+}
+
+.progress-bar--medium .progress-bar__track {
+    height: 12px;
+}
+
+.progress-bar--large .progress-bar__track {
+    height: 20px;
+}
+
+.progress-bar__fill {
+    height: 100%;
+    border-radius: 50px;
+    transition: width 0.5s ease;
+    position: relative;
+}
+
+.progress-bar__fill--animated {
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% center;
+    }
+
+    100% {
+        background-position: 200% center;
+    }
+}
+
+/* Variantes */
+.progress-bar__fill--primary {
+    background: linear-gradient(90deg, #667eea, #764ba2);
+}
+
+.progress-bar__fill--success {
+    background: linear-gradient(90deg, #48bb78, #68d391);
+}
+
+.progress-bar__fill--warning {
+    background: linear-gradient(90deg, #ed8936, #fbd38d);
+}
+
+.progress-bar__fill--danger {
+    background: linear-gradient(90deg, #f56565, #fc8181);
+}
+
+.progress-bar__fill--rainbow {
+    background: linear-gradient(90deg,
+            #ff6b6b,
+            #feca57,
+            #48bb78,
+            #00d9ff,
+            #667eea,
+            #764ba2);
+    background-size: 200% 100%;
+}
+
+.progress-bar__shine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.3) 50%,
+            transparent 100%);
+    animation: shine 2s infinite;
+}
+
+@keyframes shine {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* ============================================
+   World Progress Bar
+   ============================================ */
+
+.world-progress {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    transition: all 0.3s ease;
+}
+
+.world-progress:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(102, 126, 234, 0.3);
+}
+
+.world-progress--complete {
+    background: rgba(72, 187, 120, 0.1);
+    border-color: rgba(72, 187, 120, 0.3);
+}
+
+.world-progress__icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.world-progress__content {
+    flex: 1;
+    min-width: 0;
+}
+
+.world-progress__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.world-progress__name {
+    font-weight: 700;
+    color: #e0e0f0;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.world-progress__count {
+    font-size: 0.85rem;
+    color: #a0aec0;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.world-progress__track {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+.world-progress__fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00d9ff, #667eea);
+    border-radius: 50px;
+    transition: width 0.5s ease;
+}
+
+.world-progress__fill--complete {
+    background: linear-gradient(90deg, #48bb78, #68d391);
+}
+
+.world-progress__badge {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}

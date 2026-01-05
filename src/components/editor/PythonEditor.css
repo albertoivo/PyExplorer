@@ -1,0 +1,60 @@
+.python-editor {
+    border-radius: 12px;
+    overflow: hidden;
+    background: #1e1e1e;
+}
+
+.python-editor--disabled {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.python-editor__loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: 200px;
+    gap: 1rem;
+    color: #a0aec0;
+    background: #1e1e1e;
+}
+
+.python-editor__loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(0, 217, 255, 0.2);
+    border-top-color: #00d9ff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Customizações adicionais para Monaco */
+.monaco-editor {
+    border-radius: 12px;
+}
+
+.monaco-editor .margin {
+    background: transparent !important;
+}
+
+/* Scrollbar customizada */
+.monaco-editor .scrollbar {
+    border-radius: 5px;
+}
+
+.monaco-editor .slider {
+    background: rgba(0, 217, 255, 0.3) !important;
+    border-radius: 5px;
+}
+
+.monaco-editor .slider:hover {
+    background: rgba(0, 217, 255, 0.5) !important;
+}

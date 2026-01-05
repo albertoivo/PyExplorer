@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0f1a"/>
+      <stop offset="100%" style="stop-color:#1e1e2e"/>
+    </linearGradient>
+  </defs>
+  
+  <rect width="1280" height="720" fill="url(#bg)"/>
+  
+  <!-- Header -->
+  <rect x="0" y="0" width="1280" height="60" fill="#1a1a2e"/>
+  <text x="640" y="38" font-family="Arial" font-size="24" fill="#fff" text-anchor="middle">🐍 PyExplorer</text>
+  
+  <!-- Central content -->
+  <text x="640" y="320" font-family="Arial" font-size="48" fill="#00ff88" text-anchor="middle">Aprenda Python Jogando!</text>
+  <text x="640" y="380" font-family="Arial" font-size="24" fill="#a0aec0" text-anchor="middle">Explore mundos, resolva desafios e ganhe estrelas</text>
+  
+  <!-- World cards -->
+  <rect x="200" y="450" width="200" height="180" rx="16" fill="#2a2a3e" stroke="#00d9ff" stroke-width="2"/>
+  <text x="300" y="530" font-family="Arial" font-size="40" text-anchor="middle">🚀</text>
+  <text x="300" y="580" font-family="Arial" font-size="14" fill="#fff" text-anchor="middle">Primeiros Passos</text>
+  
+  <rect x="440" y="450" width="200" height="180" rx="16" fill="#2a2a3e" stroke="#9f7aea" stroke-width="2"/>
+  <text x="540" y="530" font-family="Arial" font-size="40" text-anchor="middle">🔢</text>
+  <text x="540" y="580" font-family="Arial" font-size="14" fill="#fff" text-anchor="middle">Números Mágicos</text>
+  
+  <rect x="680" y="450" width="200" height="180" rx="16" fill="#2a2a3e" stroke="#48bb78" stroke-width="2"/>
+  <text x="780" y="530" font-family="Arial" font-size="40" text-anchor="middle">📦</text>
+  <text x="780" y="580" font-family="Arial" font-size="14" fill="#fff" text-anchor="middle">Variáveis</text>
+  
+  <rect x="920" y="450" width="200" height="180" rx="16" fill="#2a2a3e" stroke="#ffd700" stroke-width="2"/>
+  <text x="1020" y="530" font-family="Arial" font-size="40" text-anchor="middle">🔀</text>
+  <text x="1020" y="580" font-family="Arial" font-size="14" fill="#fff" text-anchor="middle">Decisões</text>
+</svg>

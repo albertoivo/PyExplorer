@@ -1,0 +1,46 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Função auxiliar para verificar se está autenticado
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Função para verificar se é o próprio usuário
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Coleção de questões - leitura pública, escrita apenas admin
+    match /questions/{questionId} {
+      allow read: if true;
+      allow write: if false; // Apenas via console ou scripts admin
+    }
+    
+    // Coleção de usuários
+    match /users/{userId} {
+      // Usuários podem ler e escrever seus próprios dados
+      allow read, write: if isOwner(userId);
+    }
+    
+    // Coleção de progresso dos usuários
+    // Documentos têm formato: uid_questionId
+    match /userProgress/{progressId} {
+      // Permite leitura se:
+      // 1. O usuário está autenticado E
+      // 2. O documento pertence ao usuário (o uid no documento corresponde)
+      allow read: if isAuthenticated() && resource.data.uid == request.auth.uid;
+      
+      // Permite criar se:
+      // 1. O usuário está autenticado E
+      // 2. O uid nos dados da requisição corresponde ao usuário
+      allow create: if isAuthenticated() && request.resource.data.uid == request.auth.uid;
+      
+      // Permite atualizar/deletar se:
+      // 1. O usuário está autenticado E
+      // 2. O documento pertence ao usuário (verificando dados existentes)
+      allow update, delete: if isAuthenticated() && resource.data.uid == request.auth.uid;
+    }
+  }
+}

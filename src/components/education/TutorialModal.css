@@ -1,0 +1,426 @@
+.tutorial-modal__overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 1rem;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.tutorial-modal {
+    background: linear-gradient(145deg, #1e1e2e 0%, #2a2a3e 100%);
+    border-radius: 20px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow:
+        0 25px 80px rgba(0, 0, 0, 0.5),
+        0 0 100px rgba(102, 126, 234, 0.2);
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tutorial-modal--animating {
+    opacity: 0.8;
+    transform: scale(0.98);
+    transition: all 0.2s ease;
+}
+
+/* Header */
+.tutorial-modal__header {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tutorial-modal__title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.tutorial-modal__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+    background: linear-gradient(135deg, #667eea 0%, #00d9ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.tutorial-modal__close {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    color: #a0aec0;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tutorial-modal__close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.tutorial-modal__progress {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.tutorial-modal__progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea 0%, #00ff88 100%);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+.tutorial-modal__step-counter {
+    font-size: 0.8rem;
+    color: #a0aec0;
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+/* Content */
+.tutorial-modal__content {
+    padding: 2rem;
+    text-align: center;
+}
+
+.tutorial-modal__content--fadeIn {
+    animation: fadeIn 0.5s ease;
+}
+
+.tutorial-modal__content--slideUp {
+    animation: slideUp 0.5s ease;
+}
+
+.tutorial-modal__content--bounce {
+    animation: bounce 0.6s ease;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    30% {
+        transform: translateY(-15px);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+
+    70% {
+        transform: translateY(-10px);
+    }
+}
+
+.tutorial-modal__content--typewriter .tutorial-modal__step-text {
+    animation: fadeIn 0.5s ease;
+}
+
+.tutorial-modal__step-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    animation: pulse 2s ease infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.tutorial-modal__step-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 1rem 0;
+}
+
+.tutorial-modal__step-text {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #e2e8f0;
+    margin: 0 0 1.5rem 0;
+}
+
+/* Code section */
+.tutorial-modal__code-section {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: left;
+    margin-top: 1rem;
+}
+
+.tutorial-modal__code-header {
+    font-size: 0.85rem;
+    color: #a0aec0;
+    margin-bottom: 0.5rem;
+}
+
+.tutorial-modal__code {
+    background: #0d1117;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 0;
+    font-family: 'Fira Code', 'Monaco', monospace;
+    font-size: 0.9rem;
+    color: #00ff88;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.tutorial-modal__cursor {
+    animation: blink 0.8s infinite;
+    color: #fff;
+}
+
+@keyframes blink {
+
+    0%,
+    50% {
+        opacity: 1;
+    }
+
+    51%,
+    100% {
+        opacity: 0;
+    }
+}
+
+.tutorial-modal__output {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px dashed rgba(255, 255, 255, 0.2);
+}
+
+.tutorial-modal__output-header {
+    font-size: 0.85rem;
+    color: #a0aec0;
+    margin-bottom: 0.5rem;
+}
+
+.tutorial-modal__output-text {
+    background: rgba(0, 255, 136, 0.1);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin: 0;
+    font-family: monospace;
+    font-size: 0.9rem;
+    color: #00d9ff;
+    white-space: pre-wrap;
+}
+
+/* Exercise */
+.tutorial-modal__exercise {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-top: 1.5rem;
+    text-align: left;
+}
+
+.tutorial-modal__exercise-header {
+    font-weight: 600;
+    color: #667eea;
+    margin-bottom: 0.5rem;
+}
+
+.tutorial-modal__exercise p {
+    color: #e2e8f0;
+    margin: 0 0 0.75rem 0;
+}
+
+/* Footer */
+.tutorial-modal__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 1rem;
+}
+
+.tutorial-modal__btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.tutorial-modal__btn--secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: #a0aec0;
+}
+
+.tutorial-modal__btn--secondary:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.tutorial-modal__btn--secondary:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.tutorial-modal__btn--primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.tutorial-modal__btn--primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+/* Concepts */
+.tutorial-modal__concepts {
+    flex: 1;
+    text-align: center;
+}
+
+.tutorial-modal__concepts-label {
+    display: block;
+    font-size: 0.75rem;
+    color: #a0aec0;
+    margin-bottom: 0.5rem;
+}
+
+.tutorial-modal__concepts-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.tutorial-modal__concept-tag {
+    background: rgba(0, 255, 136, 0.2);
+    color: #00ff88;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* Dots */
+.tutorial-modal__dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem;
+}
+
+.tutorial-modal__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+
+.tutorial-modal__dot:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.tutorial-modal__dot--active {
+    background: linear-gradient(135deg, #667eea 0%, #00d9ff 100%);
+    transform: scale(1.2);
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .tutorial-modal {
+        max-height: 100vh;
+        border-radius: 0;
+        margin: 0;
+    }
+
+    .tutorial-modal__overlay {
+        padding: 0;
+    }
+
+    .tutorial-modal__content {
+        padding: 1.5rem;
+    }
+
+    .tutorial-modal__step-icon {
+        font-size: 3rem;
+    }
+
+    .tutorial-modal__step-title {
+        font-size: 1.2rem;
+    }
+
+    .tutorial-modal__step-text {
+        font-size: 1rem;
+    }
+
+    .tutorial-modal__footer {
+        flex-wrap: wrap;
+    }
+
+    .tutorial-modal__concepts {
+        order: -1;
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    .tutorial-modal__btn {
+        flex: 1;
+        min-width: 120px;
+    }
+}

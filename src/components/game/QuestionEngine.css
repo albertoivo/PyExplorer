@@ -1,0 +1,109 @@
+.question-engine {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.question-engine__result {
+    margin-top: 2rem;
+    animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.question-engine__unsupported {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    background: rgba(245, 101, 101, 0.1);
+    border: 2px solid rgba(245, 101, 101, 0.3);
+    border-radius: 20px;
+    text-align: center;
+}
+
+.question-engine__unsupported-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.question-engine__unsupported p {
+    color: #fc8181;
+    font-size: 1.1rem;
+}
+
+/* Seção de dicas */
+.question-engine__hints-section {
+    margin-top: 1.5rem;
+}
+
+.question-engine__hints-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: rgba(255, 215, 0, 0.1);
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    border-radius: 12px;
+    color: #ffd700;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.question-engine__hints-toggle:hover {
+    background: rgba(255, 215, 0, 0.2);
+    border-color: rgba(255, 215, 0, 0.5);
+}
+
+.question-engine__hints-toggle--active {
+    background: rgba(255, 215, 0, 0.2);
+    border-color: #ffd700;
+}
+
+.question-engine__hints-count {
+    background: rgba(255, 215, 0, 0.3);
+    padding: 0.2rem 0.5rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+}
+
+.question-engine__hints-used {
+    margin-top: 1rem;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    background: rgba(237, 137, 54, 0.15);
+    border-radius: 8px;
+    color: #ed8936;
+    font-size: 0.85rem;
+}
+
+/* Animação para o painel de dicas */
+.question-engine__hints-section>.hints {
+    margin-top: 1rem;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

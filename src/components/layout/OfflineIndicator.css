@@ -1,0 +1,99 @@
+.offline-indicator {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.25rem;
+    background: linear-gradient(135deg, #1e1e2e 0%, #2a2a3e 100%);
+    border-radius: 50px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    z-index: 9999;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+.offline-indicator--offline {
+    border: 2px solid rgba(245, 101, 101, 0.5);
+}
+
+.offline-indicator--syncing {
+    border: 2px solid rgba(237, 137, 54, 0.5);
+}
+
+.offline-indicator--install {
+    border: 2px solid rgba(102, 126, 234, 0.5);
+}
+
+.offline-indicator--update {
+    border: 2px solid rgba(72, 187, 120, 0.5);
+}
+
+.offline-indicator__icon {
+    font-size: 1.25rem;
+}
+
+.offline-indicator__text {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.offline-indicator__pending {
+    font-size: 0.8rem;
+    color: #a0aec0;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+.offline-indicator__btn {
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.offline-indicator__btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.offline-indicator__btn--primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+}
+
+.offline-indicator__btn--primary:hover {
+    transform: scale(1.05);
+}
+
+/* Responsivo */
+@media (max-width: 480px) {
+    .offline-indicator {
+        left: 10px;
+        right: 10px;
+        transform: none;
+        border-radius: 16px;
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+    }
+}

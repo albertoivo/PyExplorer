@@ -1,0 +1,166 @@
+/**
+ * Tipos de questão disponíveis no jogo
+ */
+export type QuestionType =
+  | 'multiple_choice'
+  | 'true_false'
+  | 'fill_code'
+  | 'partial_function'
+  | 'full_function';
+
+/**
+ * Níveis de dificuldade das questões
+ */
+export type Difficulty = 'easy' | 'medium' | 'hard';
+
+/**
+ * Mundos/temas disponíveis no jogo
+ */
+export type World =
+  | 'basic_commands'
+  | 'numbers'
+  | 'variables'
+  | 'conditions'
+  | 'decisions'
+  | 'loops'
+  | 'functions'
+  | 'lists'
+  | 'strings';
+
+/**
+ * Caso de teste para validação de código Python
+ */
+export interface TestCase {
+  /** Entrada para a função (pode ser array, número, string, etc.) */
+  input: unknown;
+  /** Saída esperada da função */
+  expectedOutput: unknown;
+  /** Descrição amigável do teste (opcional) */
+  description?: string;
+}
+
+/**
+ * Resultado de execução de um teste
+ */
+export interface TestResult {
+  /** Se o teste passou ou não */
+  passed: boolean;
+  /** Entrada fornecida */
+  input: unknown;
+  /** Saída esperada */
+  expectedOutput: unknown;
+  /** Saída real obtida */
+  actualOutput: unknown;
+  /** Mensagem de erro, se houver */
+  error?: string;
+}
+
+/**
+ * Documento de questão armazenado no Firestore
+ */
+export interface QuestionDocument {
+  /** ID único da questão (Firestore ID ou campo próprio) */
+  id: string;
+  /** Tipo da questão */
+  type: QuestionType;
+  /** Mundo/tema da questão */
+  world: World;
+  /** Dificuldade da questão */
+  difficulty: Difficulty;
+  /** Idade mínima recomendada */
+  ageMin: number;
+  /** Idade máxima recomendada (opcional) */
+  ageMax?: number;
+
+  /** Título da questão */
+  title: string;
+  /** Enunciado em linguagem infantil */
+  prompt: string;
+
+  // Para múltipla escolha
+  /** Lista de alternativas */
+  options?: string[];
+  /** Índice da alternativa correta */
+  answerIndex?: number;
+
+  // Para verdadeiro/falso
+  /** Resposta correta (true/false) */
+  correctBool?: boolean;
+
+  // Para questões com código
+  /** Código inicial exibido no editor */
+  starterCode?: string;
+  /** Template da solução (usado em fill_code/partial_function) */
+  solutionTemplate?: string;
+  /** Nome da função esperada (para validação) */
+  functionName?: string;
+  /** Casos de teste para Pyodide */
+  tests?: TestCase[];
+
+  /** Explicação simples do conceito, em linguagem acessível às crianças */
+  explanationKidFriendly: string;
+
+  /** Pontos/estrelas que a questão vale */
+  points?: number;
+}
+
+/**
+ * Status de progresso em uma questão
+ */
+export type ProgressStatus = 'not_started' | 'in_progress' | 'completed';
+
+/**
+ * Progresso do usuário em uma questão
+ */
+export interface UserProgress {
+  /** ID do usuário */
+  uid: string;
+  /** ID da questão */
+  questionId: string;
+  /** Status do progresso */
+  status: ProgressStatus;
+  /** Número de pontos/estrelas ganhos */
+  score: number;
+  /** Número de tentativas */
+  attempts: number;
+  /** Timestamp da última tentativa */
+  lastAttemptAt: Date | null;
+}
+
+/**
+ * Dados do usuário
+ */
+export interface UserData {
+  /** ID do usuário (Firebase Auth UID) */
+  uid: string;
+  /** Apelido/nome de exibição */
+  displayName: string;
+  /** Avatar (URL ou identificador) */
+  avatar: string;
+  /** Email (pode ser do responsável) */
+  email: string;
+  /** Data de criação */
+  createdAt: Date;
+  /** Data da última atualização */
+  updatedAt: Date;
+  /** Total de estrelas/pontos acumulados */
+  totalScore: number;
+  /** Mundos desbloqueados */
+  unlockedWorlds: World[];
+}
+
+/**
+ * Resultado da execução de código Python
+ */
+export interface PythonExecutionResult {
+  /** Saída padrão (output de print) */
+  stdout: string;
+  /** Saída de erro */
+  stderr: string;
+  /** Se houve erro na execução */
+  hasError: boolean;
+  /** Resultados dos testes (se aplicável) */
+  testResults?: TestResult[];
+  /** Se todos os testes passaram */
+  allTestsPassed?: boolean;
+}

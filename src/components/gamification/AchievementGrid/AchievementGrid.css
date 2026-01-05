@@ -1,0 +1,225 @@
+.achievement-grid {
+    background: linear-gradient(135deg, #1e1e2e 0%, #2a2a3e 100%);
+    border-radius: 16px;
+    padding: 1.5rem;
+}
+
+.achievement-grid__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.achievement-grid__title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+}
+
+.achievement-grid__count {
+    font-size: 0.9rem;
+    color: #a0aec0;
+    font-weight: 500;
+}
+
+.achievement-grid__filters {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: auto;
+}
+
+.achievement-grid__filter {
+    padding: 0.5rem 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: #a0aec0;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.achievement-grid__filter:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.achievement-grid__filter--active {
+    background: rgba(102, 126, 234, 0.2);
+    border-color: #667eea;
+    color: #667eea;
+}
+
+.achievement-grid__toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: #a0aec0;
+    cursor: pointer;
+}
+
+.achievement-grid__toggle input {
+    accent-color: #667eea;
+}
+
+.achievement-grid__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+/* Achievement Card */
+.achievement-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.achievement-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--rarity-color);
+    opacity: 0.5;
+}
+
+.achievement-card--unlocked {
+    border-color: var(--rarity-color);
+}
+
+.achievement-card--unlocked::before {
+    opacity: 1;
+}
+
+.achievement-card--unlocked:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px color-mix(in srgb, var(--rarity-color) 30%, transparent);
+}
+
+.achievement-card--locked {
+    opacity: 0.6;
+}
+
+.achievement-card__icon {
+    font-size: 2rem;
+    min-width: 2.5rem;
+    text-align: center;
+}
+
+.achievement-card--unlocked .achievement-card__icon {
+    animation: bounce 0.6s ease;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+.achievement-card__info {
+    flex: 1;
+    min-width: 0;
+}
+
+.achievement-card__name {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.25rem;
+}
+
+.achievement-card__description {
+    display: block;
+    font-size: 0.8rem;
+    color: #a0aec0;
+    line-height: 1.4;
+}
+
+.achievement-card__rarity-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--rarity-color);
+}
+
+.achievement-card__rarity-dot--legendary {
+    animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 5px var(--rarity-color);
+    }
+
+    50% {
+        box-shadow: 0 0 15px var(--rarity-color);
+    }
+}
+
+.achievement-card__reward {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #48bb78;
+    background: rgba(72, 187, 120, 0.2);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+}
+
+.achievement-grid__empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #a0aec0;
+}
+
+.achievement-grid__empty-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .achievement-grid__header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .achievement-grid__filters {
+        margin-left: 0;
+        flex-wrap: wrap;
+    }
+
+    .achievement-grid__list {
+        grid-template-columns: 1fr;
+    }
+}

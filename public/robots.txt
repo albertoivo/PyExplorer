@@ -1,0 +1,11 @@
+# Robots.txt para PyExplorer
+# https://pyexplorer-cd32d.web.app
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://pyexplorer-cd32d.web.app/sitemap.xml
+
+# Cache-control hints for crawlers
+Crawl-delay: 1

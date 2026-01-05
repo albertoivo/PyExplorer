@@ -1,0 +1,136 @@
+.footer {
+    background: linear-gradient(180deg, #0f0f1a 0%, #1a1a2e 100%);
+    border-top: 2px solid #0f3460;
+    margin-top: auto;
+}
+
+.footer__container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 3rem 2rem 1.5rem;
+}
+
+.footer__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+/* Brand */
+.footer__brand {
+    max-width: 300px;
+}
+
+.footer__logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, #00d9ff, #00ff88);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.footer__tagline {
+    color: #a0aec0;
+    margin-top: 0.75rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Links */
+.footer__links {
+    display: flex;
+    gap: 4rem;
+}
+
+.footer__link-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.footer__link-title {
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+}
+
+.footer__link {
+    color: #a0aec0;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.footer__link:hover {
+    color: #00d9ff;
+    transform: translateX(5px);
+}
+
+/* Bottom */
+.footer__bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.footer__copyright {
+    color: #718096;
+    font-size: 0.85rem;
+}
+
+.footer__badges {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.footer__badge {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+    color: #a0aec0;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .footer__container {
+        padding: 2rem 1rem 1rem;
+    }
+
+    .footer__content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 2rem;
+    }
+
+    .footer__brand {
+        max-width: 100%;
+    }
+
+    .footer__links {
+        gap: 2rem;
+    }
+
+    .footer__bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer__badges {
+        justify-content: center;
+    }
+}

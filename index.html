@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
+
+  <!-- SEO Meta Tags -->
+  <title>PyExplorer - Aprenda Python Jogando! 🐍</title>
+  <meta name="description"
+    content="Jogo educativo para crianças aprenderem programação Python de forma divertida. Explore mundos, resolva desafios e ganhe estrelas enquanto aprende a programar!" />
+  <meta name="keywords"
+    content="python, programação, crianças, educação, jogo educativo, codificação, aprender programação, PWA" />
+  <meta name="author" content="PyExplorer" />
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="PyExplorer - Aprenda Python Jogando!" />
+  <meta property="og:description" content="Jogo educativo para crianças aprenderem Python de forma divertida!" />
+  <meta property="og:url" content="https://pyexplorer-cd32d.web.app" />
+  <meta property="og:image" content="/icons/icon-512x512.png" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="PyExplorer - Aprenda Python Jogando!" />
+  <meta name="twitter:description" content="Jogo educativo para crianças aprenderem Python de forma divertida!" />
+  <meta name="twitter:image" content="/icons/icon-512x512.png" />
+
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#0f0f1a" />
+  <meta name="background-color" content="#0f0f1a" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="PyExplorer" />
+  <meta name="application-name" content="PyExplorer" />
+  <meta name="msapplication-TileColor" content="#0f0f1a" />
+  <meta name="msapplication-tap-highlight" content="no" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="/icons/icon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="mask-icon" href="/icons/icon.svg" color="#00ff88" />
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+  <!-- DNS Prefetch para recursos externos -->
+  <link rel="dns-prefetch" href="https://firestore.googleapis.com" />
+
+  <!-- Splash screens para iOS -->
+  <link rel="apple-touch-startup-image" href="/icons/icon-512x512.png" />
+
+  <!-- Fonte otimizada -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* Loading screen crítico inline */
+    #loading-screen {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #0f0f1a 0%, #1e1e2e 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    #loading-screen .spinner {
+      width: 60px;
+      height: 60px;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-top-color: #00ff88;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    #loading-screen .logo {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      animation: bounce 1s ease infinite;
+    }
+
+    #loading-screen p {
+      color: #a0aec0;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes bounce {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Loading screen antes do React carregar -->
+  <div id="loading-screen">
+    <div class="logo">🐍</div>
+    <div class="spinner"></div>
+    <p>Carregando PyExplorer...</p>
+  </div>
+
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+
+  <script>
+    // Remove loading screen quando React carregar
+    window.addEventListener('load', function () {
+      setTimeout(function () {
+        var loadingScreen = document.getElementById('loading-screen');
+        if (loadingScreen) {
+          loadingScreen.style.opacity = '0';
+          loadingScreen.style.transition = 'opacity 0.3s ease';
+          setTimeout(function () {
+            loadingScreen.remove();
+          }, 300);
+        }
+      }, 500);
+    });
+  </script>
+
+  <!-- Noscript fallback -->
+  <noscript>
+    <div
+      style="padding: 2rem; text-align: center; background: #1a1a2e; color: white; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <h1>🐍 PyExplorer</h1>
+      <p>Por favor, habilite o JavaScript para jogar PyExplorer.</p>
+    </div>
+  </noscript>
+</body>
+
+</html>
