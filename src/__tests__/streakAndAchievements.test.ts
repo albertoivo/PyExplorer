@@ -2,7 +2,7 @@
  * Testes para lógica de Streak e Conquistas
  * Testa: cálculo de streak diário, verificação de conquistas
  */
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect } from 'vitest'
 
 // ============================================
 // FUNÇÕES EXTRAÍDAS DA LÓGICA DE STREAK
