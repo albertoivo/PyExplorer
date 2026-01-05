@@ -1,0 +1,447 @@
+/* ============================================
+   MASCOT - Pythoninho
+   ============================================ */
+
+.mascot {
+    position: fixed;
+    z-index: 9999;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.3s ease;
+}
+
+.mascot:hover {
+    transform: scale(1.05);
+}
+
+/* Posições */
+.mascot--bottom-right {
+    bottom: 20px;
+    right: 20px;
+}
+
+.mascot--bottom-left {
+    bottom: 20px;
+    left: 20px;
+}
+
+.mascot--center {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.mascot--inline {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Tamanhos */
+.mascot--small .mascot__body {
+    width: 50px;
+    height: 50px;
+}
+
+.mascot--small .mascot__face {
+    font-size: 1.75rem;
+}
+
+.mascot--medium .mascot__body {
+    width: 70px;
+    height: 70px;
+}
+
+.mascot--medium .mascot__face {
+    font-size: 2.5rem;
+}
+
+.mascot--large .mascot__body {
+    width: 100px;
+    height: 100px;
+}
+
+.mascot--large .mascot__face {
+    font-size: 3.5rem;
+}
+
+/* Corpo do mascote */
+.mascot__body {
+    position: relative;
+    background: linear-gradient(145deg, #1e1e2e 0%, #2a2a3e 100%);
+    border: 3px solid var(--mascot-color, #667eea);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.mascot__face {
+    position: relative;
+    z-index: 2;
+    line-height: 1;
+}
+
+/* Brilho */
+.mascot__glow {
+    position: absolute;
+    inset: -5px;
+    background: var(--mascot-color, #667eea);
+    border-radius: 50%;
+    opacity: 0.3;
+    filter: blur(10px);
+    z-index: -1;
+    animation: glowPulse 2s ease infinite;
+}
+
+@keyframes glowPulse {
+
+    0%,
+    100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(1.1);
+    }
+}
+
+/* Cauda */
+.mascot__tail {
+    position: absolute;
+    bottom: -5px;
+    right: -15px;
+    width: 40px;
+    height: 20px;
+    transform: rotate(-30deg);
+}
+
+.mascot__tail-svg {
+    width: 100%;
+    height: 100%;
+    animation: wiggle 1s ease infinite;
+}
+
+@keyframes wiggle {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-2px);
+    }
+
+    75% {
+        transform: translateX(2px);
+    }
+}
+
+/* Nome */
+.mascot__name {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--mascot-color, #667eea);
+    text-align: center;
+    opacity: 0.8;
+}
+
+/* Balão de fala */
+.mascot__bubble {
+    position: absolute;
+    bottom: calc(100% + 15px);
+    right: 0;
+    max-width: 200px;
+    padding: 0.75rem 1rem;
+    background: linear-gradient(145deg, #1e1e2e 0%, #2a2a3e 100%);
+    border: 2px solid var(--mascot-color, #667eea);
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    animation: bubblePop 0.3s ease;
+}
+
+@keyframes bubblePop {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.mascot__message {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: #fff;
+    text-align: center;
+}
+
+.mascot__bubble-tail {
+    position: absolute;
+    bottom: -10px;
+    right: 20px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 12px solid var(--mascot-color, #667eea);
+}
+
+/* ============================================
+   ANIMAÇÕES POR MOOD
+   ============================================ */
+
+/* Float (idle, sleeping) */
+.mascot__body--float {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Bounce (happy) */
+.mascot__body--bounce {
+    animation: bounce 0.6s ease infinite;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-20px);
+    }
+
+    60% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Shake (excited) */
+.mascot__body--shake {
+    animation: shake 0.5s ease infinite;
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0) rotate(0);
+    }
+
+    25% {
+        transform: translateX(-5px) rotate(-5deg);
+    }
+
+    75% {
+        transform: translateX(5px) rotate(5deg);
+    }
+}
+
+/* Tilt (thinking) */
+.mascot__body--tilt {
+    animation: tilt 2s ease infinite;
+}
+
+@keyframes tilt {
+
+    0%,
+    100% {
+        transform: rotate(0);
+    }
+
+    25% {
+        transform: rotate(-15deg);
+    }
+
+    75% {
+        transform: rotate(15deg);
+    }
+}
+
+/* Wobble (confused) */
+.mascot__body--wobble {
+    animation: wobble 0.8s ease infinite;
+}
+
+@keyframes wobble {
+
+    0%,
+    100% {
+        transform: rotate(0);
+    }
+
+    15% {
+        transform: rotate(-10deg);
+    }
+
+    30% {
+        transform: rotate(8deg);
+    }
+
+    45% {
+        transform: rotate(-6deg);
+    }
+
+    60% {
+        transform: rotate(4deg);
+    }
+
+    75% {
+        transform: rotate(-2deg);
+    }
+}
+
+/* Pulse (encouraging) */
+.mascot__body--pulse {
+    animation: mascotPulse 1s ease infinite;
+}
+
+@keyframes mascotPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+/* Confetti (celebrating) */
+.mascot__body--confetti {
+    animation: celebrate 0.8s ease infinite;
+}
+
+@keyframes celebrate {
+
+    0%,
+    100% {
+        transform: scale(1) rotate(0);
+    }
+
+    25% {
+        transform: scale(1.1) rotate(-5deg);
+    }
+
+    50% {
+        transform: scale(1.15) rotate(0);
+    }
+
+    75% {
+        transform: scale(1.1) rotate(5deg);
+    }
+}
+
+/* Wave (waving) */
+.mascot__body--wave {
+    animation: wave 1s ease infinite;
+}
+
+@keyframes wave {
+
+    0%,
+    100% {
+        transform: rotate(0);
+    }
+
+    10% {
+        transform: rotate(20deg);
+    }
+
+    20% {
+        transform: rotate(-10deg);
+    }
+
+    30% {
+        transform: rotate(20deg);
+    }
+
+    40% {
+        transform: rotate(-10deg);
+    }
+
+    50% {
+        transform: rotate(0);
+    }
+}
+
+/* ============================================
+   TEMA CLARO
+   ============================================ */
+
+[data-color-mode="light"] .mascot__body {
+    background: linear-gradient(145deg, #ffffff 0%, #f0f0f0 100%);
+}
+
+[data-color-mode="light"] .mascot__bubble {
+    background: linear-gradient(145deg, #ffffff 0%, #f5f5f5 100%);
+}
+
+[data-color-mode="light"] .mascot__message {
+    color: #333;
+}
+
+/* ============================================
+   RESPONSIVO
+   ============================================ */
+
+@media (max-width: 768px) {
+
+    .mascot--bottom-right,
+    .mascot--bottom-left {
+        bottom: 80px;
+    }
+
+    .mascot--medium .mascot__body {
+        width: 55px;
+        height: 55px;
+    }
+
+    .mascot--medium .mascot__face {
+        font-size: 2rem;
+    }
+
+    .mascot__bubble {
+        max-width: 160px;
+        right: -10px;
+    }
+
+    .mascot__name {
+        display: none;
+    }
+}
+
+/* Reduz animações para quem prefere */
+@media (prefers-reduced-motion: reduce) {
+
+    .mascot__body,
+    .mascot__tail-svg,
+    .mascot__glow {
+        animation: none !important;
+    }
+}

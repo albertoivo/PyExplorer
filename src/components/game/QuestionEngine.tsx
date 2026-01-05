@@ -11,6 +11,7 @@ import {
 import { ResultPanel } from './feedback/ResultPanel';
 import { ProgressiveHints } from '../education';
 import { useAuth } from '../../hooks/useAuth';
+import { useMascotContext } from '../../context/MascotContext';
 import './QuestionEngine.css';
 
 interface QuestionEngineProps {
@@ -38,6 +39,7 @@ export function QuestionEngine({
     onRetry,
 }: QuestionEngineProps) {
     const { userData, updateUserData } = useAuth();
+    const { react: mascotReact } = useMascotContext();
     const [showResult, setShowResult] = useState(false);
     const [isCorrect, setIsCorrect] = useState(false);
     const [showHints, setShowHints] = useState(false);
@@ -93,6 +95,9 @@ export function QuestionEngine({
         setIsCorrect(correct);
         setShowResult(true);
         setShowHints(false);
+
+        // Faz o mascote reagir
+        mascotReact(correct);
 
         // Desconta custo das dicas da pontuação
         let score = correct ? calculateScore(question) : 0;
