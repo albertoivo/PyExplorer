@@ -7,7 +7,7 @@ import { useAuth } from './useAuth';
  * Hook para gerenciar progresso do usuário
  */
 export function useProgress() {
-    const { userData, isGuest } = useAuth();
+    const { userData, isGuest, updateUserData, refreshUserData } = useAuth();
     const [allProgress, setAllProgress] = useState<UserProgress[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -83,6 +83,11 @@ export function useProgress() {
             const newAttempts = (existing?.attempts || 0) + 1;
             const newScore = passed ? Math.max(existing?.score || 0, score) : (existing?.score || 0);
 
+            // Calcula pontos adicionais (só conta se for maior que o anterior)
+            const additionalScore = passed && newScore > (existing?.score || 0)
+                ? newScore - (existing?.score || 0)
+                : 0;
+
             const newProgress: UserProgress = {
                 uid: userData.uid,
                 questionId,
@@ -97,6 +102,13 @@ export function useProgress() {
             updatedProgress.push(newProgress);
             setAllProgress(updatedProgress);
 
+            // Atualiza o score total na UI imediatamente
+            if (additionalScore > 0) {
+                const newTotalScore = (userData.totalScore || 0) + additionalScore;
+                console.log('Atualizando totalScore:', userData.totalScore, '+', additionalScore, '=', newTotalScore);
+                await updateUserData({ totalScore: newTotalScore });
+            }
+
             if (isGuest) {
                 // Salva no localStorage para convidados
                 localStorage.setItem(GUEST_PROGRESS_KEY, JSON.stringify(updatedProgress));
@@ -105,6 +117,9 @@ export function useProgress() {
                 // Salva no Firestore para usuários autenticados
                 await updateProgress(userData.uid, questionId, passed, score);
                 console.log('Progresso salvo no Firestore');
+
+                // Recarrega dados do usuário para garantir sincronização
+                await refreshUserData();
             }
         } catch (err) {
             const message = err instanceof Error ? err.message : 'Erro ao salvar progresso';
@@ -113,7 +128,7 @@ export function useProgress() {
             // Em caso de erro, recarrega para ter o estado correto
             await loadAllProgress();
         }
-    }, [userData, isGuest, allProgress, loadAllProgress]);
+    }, [userData, isGuest, allProgress, loadAllProgress, updateUserData, refreshUserData]);
 
     /**
      * Calcula estatísticas gerais do progresso
