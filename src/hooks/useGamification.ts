@@ -16,6 +16,7 @@ import {
     generateWeeklyMissions,
 } from '../data/gamificationData';
 import { useAuth } from './useAuth';
+import { getGamification, saveGamificationData } from '../firebase/firestore';
 
 // Chaves do localStorage para convidados
 const GUEST_GAMIFICATION_KEY = 'pyexplorer_guest_gamification';
@@ -58,6 +59,26 @@ function getInitialGamification(): UserGamification {
 }
 
 /**
+ * Converte dados do storage (onde datas são strings) para objetos Date
+ */
+function parseGamificationFromStorage(json: string): UserGamification {
+    const data = JSON.parse(json);
+
+    return {
+        ...data,
+        achievements: (data.achievements || []).map((a: any) => ({
+            ...a,
+            unlockedAt: new Date(a.unlockedAt),
+        })),
+        activeMissions: (data.activeMissions || []).map((m: any) => ({
+            ...m,
+            expiresAt: new Date(m.expiresAt),
+            completedAt: m.completedAt ? new Date(m.completedAt) : undefined,
+        })),
+    } as UserGamification;
+}
+
+/**
  * Hook principal de gamificação
  */
 export function useGamification() {
@@ -82,18 +103,32 @@ export function useGamification() {
             if (isGuest) {
                 const stored = localStorage.getItem(GUEST_GAMIFICATION_KEY);
                 if (stored) {
-                    setGamification(JSON.parse(stored));
+                    setGamification(parseGamificationFromStorage(stored));
                 } else {
                     setGamification(getInitialGamification());
                 }
             } else if (userData) {
-                // TODO: Carregar do Firestore quando implementar
-                // Por enquanto, usa localStorage mesmo para usuários autenticados
-                const stored = localStorage.getItem(`gamification_${userData.uid}`);
-                if (stored) {
-                    setGamification(JSON.parse(stored));
-                } else {
-                    setGamification(getInitialGamification());
+                let loaded = false;
+
+                // Tenta carregar do Firestore
+                try {
+                    const remoteData = await getGamification(userData.uid);
+                    if (remoteData) {
+                        setGamification(remoteData);
+                        loaded = true;
+                    }
+                } catch (err) {
+                    console.error('Erro ao buscar gamificação do Firestore:', err);
+                }
+
+                // Se não carregou do Firestore (erro ou não existe), tenta carregar do localStorage (migração/offline)
+                if (!loaded) {
+                    const stored = localStorage.getItem(`gamification_${userData.uid}`);
+                    if (stored) {
+                        setGamification(parseGamificationFromStorage(stored));
+                    } else {
+                        setGamification(getInitialGamification());
+                    }
                 }
             }
         } catch (error) {
@@ -111,8 +146,13 @@ export function useGamification() {
             if (isGuest) {
                 localStorage.setItem(GUEST_GAMIFICATION_KEY, JSON.stringify(data));
             } else if (userData) {
+                // Salva localmente
                 localStorage.setItem(`gamification_${userData.uid}`, JSON.stringify(data));
-                // TODO: Salvar no Firestore
+
+                // Salva no Firestore
+                saveGamificationData(userData.uid, data).catch(err => {
+                    console.error('Erro ao salvar gamificação no Firestore:', err);
+                });
             }
         } catch (error) {
             console.error('Erro ao salvar gamificação:', error);

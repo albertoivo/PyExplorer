@@ -21,6 +21,7 @@ import type {
     Difficulty,
     ProgressStatus,
 } from '../types/question';
+import type { UserGamification, UserAchievement, UserMission } from '../types/gamification';
 
 // ============================================
 // SERVIÇO DE QUESTÕES
@@ -257,4 +258,66 @@ export async function updateProgress(
         const additionalScore = score - (existing?.score || 0);
         await updateUserScore(uid, additionalScore);
     }
+}
+
+// ============================================
+// SERVIÇO DE GAMIFICAÇÃO
+// ============================================
+
+const GAMIFICATION_COLLECTION = 'gamification';
+
+/**
+ * Salva os dados de gamificação do usuário
+ * @param uid - ID do usuário
+ * @param data - Dados de gamificação
+ */
+export async function saveGamificationData(uid: string, data: UserGamification): Promise<void> {
+    const docRef = doc(db, GAMIFICATION_COLLECTION, uid);
+
+    // Converte datas para Timestamp do Firestore
+    const firestoreData = {
+        ...data,
+        achievements: data.achievements.map(a => ({
+            ...a,
+            unlockedAt: Timestamp.fromDate(a.unlockedAt),
+        })),
+        activeMissions: data.activeMissions.map(m => ({
+            ...m,
+            expiresAt: Timestamp.fromDate(m.expiresAt),
+            completedAt: m.completedAt ? Timestamp.fromDate(m.completedAt) : null,
+        })),
+        updatedAt: Timestamp.now(),
+    };
+
+    await setDoc(docRef, firestoreData, { merge: true });
+}
+
+/**
+ * Busca os dados de gamificação do usuário
+ * @param uid - ID do usuário
+ * @returns Dados de gamificação ou null
+ */
+export async function getGamification(uid: string): Promise<UserGamification | null> {
+    const docRef = doc(db, GAMIFICATION_COLLECTION, uid);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+        const data = docSnap.data();
+
+        // Converte Timestamps de volta para Date
+        return {
+            ...data,
+            achievements: (data.achievements || []).map((a: any) => ({
+                ...a,
+                unlockedAt: a.unlockedAt instanceof Timestamp ? a.unlockedAt.toDate() : new Date(a.unlockedAt),
+            })) as UserAchievement[],
+            activeMissions: (data.activeMissions || []).map((m: any) => ({
+                ...m,
+                expiresAt: m.expiresAt instanceof Timestamp ? m.expiresAt.toDate() : new Date(m.expiresAt),
+                completedAt: m.completedAt instanceof Timestamp ? m.completedAt.toDate() : (m.completedAt ? new Date(m.completedAt) : undefined),
+            })) as UserMission[],
+        } as UserGamification;
+    }
+
+    return null;
 }
