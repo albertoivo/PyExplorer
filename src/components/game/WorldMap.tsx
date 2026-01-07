@@ -16,7 +16,7 @@ interface WorldInfo {
 }
 
 // Definição dos mundos do jogo
-// Ordem pedagógica: básico → números → variáveis → decisões → repetições → listas → funções → strings
+// Ordem pedagógica correta: básico → variáveis → números → decisões → repetições → funções → listas → strings
 const WORLDS: WorldInfo[] = [
     {
         id: 'basic_commands',
@@ -26,19 +26,19 @@ const WORLDS: WorldInfo[] = [
         color: '#00d9ff',
     },
     {
-        id: 'numbers',
-        name: 'Números Mágicos',
-        description: 'Faça cálculos incríveis como um mago da matemática!',
-        icon: '🔢',
-        color: '#9f7aea',
-        requiredScore: 30,
-    },
-    {
         id: 'variables',
         name: 'Mundo das Variáveis',
         description: 'Guarde informações em caixinhas mágicas!',
         icon: '📦',
         color: '#667eea',
+        requiredScore: 30,
+    },
+    {
+        id: 'numbers',
+        name: 'Números Mágicos',
+        description: 'Faça cálculos incríveis como um mago da matemática!',
+        icon: '🔢',
+        color: '#9f7aea',
         requiredScore: 60,
     },
     {
@@ -58,19 +58,19 @@ const WORLDS: WorldInfo[] = [
         requiredScore: 150,
     },
     {
-        id: 'lists',
-        name: 'Floresta das Listas',
-        description: 'Organize muitas coisas numa única lista!',
-        icon: '📜',
-        color: '#fc8181',
-        requiredScore: 200,
-    },
-    {
         id: 'functions',
         name: 'Vale das Funções',
         description: 'Crie suas próprias magias reutilizáveis!',
         icon: '✨',
         color: '#ed8936',
+        requiredScore: 200,
+    },
+    {
+        id: 'lists',
+        name: 'Floresta das Listas',
+        description: 'Organize muitas coisas numa única lista!',
+        icon: '📜',
+        color: '#fc8181',
         requiredScore: 260,
     },
     {

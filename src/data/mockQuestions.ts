@@ -3,10 +3,21 @@ import type { QuestionDocument } from '../types/question';
 /**
  * Questões mockadas para desenvolvimento e teste
  * Em produção, essas questões virão do Firestore
+ * 
+ * ORDEM PEDAGÓGICA CORRETA:
+ * 1. basic_commands - print, comentários (SEM variáveis)
+ * 2. variables - criar e usar variáveis
+ * 3. numbers - operações matemáticas (com variáveis)
+ * 4. conditions (decisions) - if/else
+ * 5. loops - for/while
+ * 6. functions - def/return
+ * 7. lists - listas
+ * 8. strings - manipulação de texto
  */
 export const MOCK_QUESTIONS: QuestionDocument[] = [
     // ============================================
-    // Mundo: Primeiros Passos (basic_commands)
+    // Mundo 1: Primeiros Passos (basic_commands)
+    // Apenas print, comentários, aspas
     // ============================================
     {
         id: 'basic_1',
@@ -88,7 +99,8 @@ export const MOCK_QUESTIONS: QuestionDocument[] = [
     },
 
     // ============================================
-    // Mundo: Variáveis (variables)
+    // Mundo 2: Variáveis (variables)
+    // Agora ensinamos variáveis!
     // ============================================
     {
         id: 'var_1',
@@ -157,30 +169,104 @@ export const MOCK_QUESTIONS: QuestionDocument[] = [
     },
     {
         id: 'var_5',
-        type: 'full_function',
+        type: 'fill_code',
         world: 'variables',
-        difficulty: 'hard',
+        difficulty: 'medium',
         ageMin: 10,
-        title: 'Trocar valores',
-        prompt: 'Crie uma função chamada "troca" que recebe dois valores e retorna eles na ordem inversa (como uma tupla ou lista).',
-        starterCode: '# Escreva sua função aqui\ndef troca(a, b):\n    # seu código aqui\n    pass',
-        functionName: 'troca',
+        title: 'Guardando e mostrando',
+        prompt: 'Complete o código para guardar seu nome e mostrar uma saudação:',
+        starterCode: 'nome = "___"\nprint("Bem-vindo, " + nome)',
+        solutionTemplate: 'nome = "Python"',
         tests: [
-            { input: [1, 2], expectedOutput: [2, 1] },
-            { input: ['x', 'y'], expectedOutput: ['y', 'x'] },
-            { input: [10, 20], expectedOutput: [20, 10] },
+            { input: null, expectedOutput: 'Bem-vindo, Python' },
         ],
-        explanationKidFriendly: 'Para trocar valores, basta retornar eles na ordem contrária! return [b, a] ou return (b, a). É como trocar as bolas de lugar numa caixa! ⚽🏀',
-        points: 30,
+        explanationKidFriendly: 'Variáveis guardam valores que podemos usar depois! É só escolher um nome, usar = e colocar o valor. Depois é só usar o nome da variável!',
+        points: 20,
     },
 
     // ============================================
-    // Mundo: Decisões (decisions)
+    // Mundo 3: Números (numbers)
+    // Usa variáveis que já aprendemos!
+    // ============================================
+    {
+        id: 'num_1',
+        type: 'multiple_choice',
+        world: 'numbers',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Soma em Python',
+        prompt: 'Qual símbolo usamos para somar dois números?',
+        options: ['+', 'x', '&', '@'],
+        answerIndex: 0,
+        explanationKidFriendly: 'O + funciona igual na matemática! 5 + 3 = 8. Python é sua calculadora pessoal! 🧮',
+        points: 10,
+    },
+    {
+        id: 'num_2',
+        type: 'true_false',
+        world: 'numbers',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Multiplicação com asterisco',
+        prompt: 'Em Python, usamos o asterisco (*) para multiplicar números.',
+        correctBool: true,
+        explanationKidFriendly: 'Isso! O asterisco (*) é a multiplicação. 4 * 3 = 12. Diferente do x do caderno, mas faz a mesma coisa! ✖️',
+        points: 10,
+    },
+    {
+        id: 'num_3',
+        type: 'fill_code',
+        world: 'numbers',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Calcule a idade futura',
+        prompt: 'Complete o código para calcular a idade daqui a 5 anos:',
+        starterCode: 'idade = 10\nidade_futura = idade ___ 5\nprint(idade_futura)',
+        solutionTemplate: 'idade_futura = idade + 5',
+        tests: [
+            { input: null, expectedOutput: '15' },
+        ],
+        explanationKidFriendly: 'Para calcular a idade futura, some a idade atual com os anos! 10 + 5 = 15! 🎂',
+        points: 15,
+    },
+    {
+        id: 'num_4',
+        type: 'multiple_choice',
+        world: 'numbers',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Divisão em Python',
+        prompt: 'Qual é o resultado de 10 / 2 em Python?',
+        options: ['5.0', '5', '2', 'Erro'],
+        answerIndex: 0,
+        explanationKidFriendly: 'A divisão com / sempre dá número com ponto! 10 / 2 = 5.0. Para número inteiro, use // (dois tracinhos).',
+        points: 15,
+    },
+    {
+        id: 'num_5',
+        type: 'fill_code',
+        world: 'numbers',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Calcule o dobro',
+        prompt: 'Complete para calcular o dobro de um número:',
+        starterCode: 'numero = 7\ndobro = numero ___ 2\nprint(dobro)',
+        solutionTemplate: 'dobro = numero * 2',
+        tests: [
+            { input: null, expectedOutput: '14' },
+        ],
+        explanationKidFriendly: 'O dobro é multiplicar por 2! 7 * 2 = 14! ✌️',
+        points: 20,
+    },
+
+    // ============================================
+    // Mundo 4: Decisões (conditions)
+    // if/else - usa variáveis e números
     // ============================================
     {
         id: 'dec_1',
         type: 'multiple_choice',
-        world: 'decisions',
+        world: 'conditions',
         difficulty: 'easy',
         ageMin: 9,
         title: 'Palavra mágica: if',
@@ -198,7 +284,7 @@ export const MOCK_QUESTIONS: QuestionDocument[] = [
     {
         id: 'dec_2',
         type: 'true_false',
-        world: 'decisions',
+        world: 'conditions',
         difficulty: 'easy',
         ageMin: 9,
         title: 'else é obrigatório',
@@ -209,8 +295,21 @@ export const MOCK_QUESTIONS: QuestionDocument[] = [
     },
     {
         id: 'dec_3',
+        type: 'multiple_choice',
+        world: 'conditions',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Comparando valores',
+        prompt: 'Qual símbolo usamos para verificar se dois valores são IGUAIS?',
+        options: ['==', '=', '===', '<>'],
+        answerIndex: 0,
+        explanationKidFriendly: 'Dois iguais (==) para comparar! Um igual (=) guarda valores. Dois iguais (==) pergunta: "São iguais?" ⚖️',
+        points: 10,
+    },
+    {
+        id: 'dec_4',
         type: 'fill_code',
-        world: 'decisions',
+        world: 'conditions',
         difficulty: 'medium',
         ageMin: 10,
         title: 'É maior de idade?',
@@ -222,47 +321,23 @@ export const MOCK_QUESTIONS: QuestionDocument[] = [
         points: 20,
     },
     {
-        id: 'dec_4',
-        type: 'full_function',
-        world: 'decisions',
+        id: 'dec_5',
+        type: 'fill_code',
+        world: 'conditions',
         difficulty: 'medium',
         ageMin: 10,
         title: 'Par ou ímpar?',
-        prompt: 'Crie uma função chamada "par_ou_impar" que recebe um número e retorna "par" se o número for par, ou "ímpar" se for ímpar.',
-        starterCode: 'def par_ou_impar(numero):\n    # seu código aqui\n    pass',
-        functionName: 'par_ou_impar',
-        tests: [
-            { input: 2, expectedOutput: 'par' },
-            { input: 3, expectedOutput: 'ímpar' },
-            { input: 10, expectedOutput: 'par' },
-            { input: 15, expectedOutput: 'ímpar' },
-            { input: 0, expectedOutput: 'par' },
-        ],
-        explanationKidFriendly: 'Para saber se é par, verificamos se o resto da divisão por 2 é zero! Em Python: numero % 2 == 0. O % dá o resto da divisão! 🎲',
+        prompt: 'Complete o código para verificar se o número é par:',
+        starterCode: 'numero = 4\nif numero % 2 ___ 0:\n    print("É par!")\nelse:\n    print("É ímpar!")',
+        solutionTemplate: 'if numero % 2 == 0:',
+        tests: [],
+        explanationKidFriendly: 'O % dá o resto da divisão. Se numero % 2 == 0, o resto é zero, então é par! 🎲',
         points: 25,
-    },
-    {
-        id: 'dec_5',
-        type: 'full_function',
-        world: 'decisions',
-        difficulty: 'hard',
-        ageMin: 11,
-        title: 'Maior de três',
-        prompt: 'Crie uma função chamada "maior" que recebe três números e retorna o maior deles.',
-        starterCode: 'def maior(a, b, c):\n    # seu código aqui\n    pass',
-        functionName: 'maior',
-        tests: [
-            { input: [1, 2, 3], expectedOutput: 3 },
-            { input: [5, 3, 1], expectedOutput: 5 },
-            { input: [2, 7, 4], expectedOutput: 7 },
-            { input: [10, 10, 10], expectedOutput: 10 },
-        ],
-        explanationKidFriendly: 'Você pode comparar os números um por um com if/elif, ou usar a função max() do Python que já faz isso pra você! max(a, b, c) 👑',
-        points: 30,
     },
 
     // ============================================
-    // Mundo: Loops (loops)
+    // Mundo 5: Loops (loops)
+    // for/while - usa tudo anterior
     // ============================================
     {
         id: 'loop_1',
@@ -310,44 +385,37 @@ export const MOCK_QUESTIONS: QuestionDocument[] = [
     },
     {
         id: 'loop_4',
-        type: 'full_function',
+        type: 'multiple_choice',
         world: 'loops',
         difficulty: 'medium',
         ageMin: 10,
-        title: 'Soma de números',
-        prompt: 'Crie uma função chamada "soma_ate" que recebe um número n e retorna a soma de 1 até n.',
-        starterCode: 'def soma_ate(n):\n    # seu código aqui\n    pass',
-        functionName: 'soma_ate',
-        tests: [
-            { input: 5, expectedOutput: 15 },      // 1+2+3+4+5 = 15
-            { input: 3, expectedOutput: 6 },       // 1+2+3 = 6
-            { input: 10, expectedOutput: 55 },     // 1+2+...+10 = 55
-            { input: 1, expectedOutput: 1 },
-        ],
-        explanationKidFriendly: 'Use um for loop e vá somando cada número! Comece com soma = 0, depois some cada número de 1 até n. No final, retorne a soma total! ➕',
-        points: 25,
+        title: 'While repete enquanto...',
+        prompt: 'O comando "while" repete algo enquanto uma condição for...',
+        options: ['Verdadeira', 'Falsa', 'Zero', 'Negativa'],
+        answerIndex: 0,
+        explanationKidFriendly: 'While significa "enquanto"! Repete enquanto a condição for verdadeira. Quando fica falsa, para! 🔁',
+        points: 15,
     },
     {
         id: 'loop_5',
-        type: 'full_function',
+        type: 'fill_code',
         world: 'loops',
-        difficulty: 'hard',
-        ageMin: 11,
-        title: 'Tabuada',
-        prompt: 'Crie uma função chamada "tabuada" que recebe um número e retorna uma lista com a tabuada desse número (de 1 a 10).',
-        starterCode: 'def tabuada(n):\n    # seu código aqui\n    pass',
-        functionName: 'tabuada',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Soma com loop',
+        prompt: 'Complete o código para somar os números de 1 até 5:',
+        starterCode: 'soma = 0\nfor i in range(1, 6):\n    soma = soma ___ i\nprint(soma)',
+        solutionTemplate: 'soma = soma + i',
         tests: [
-            { input: 2, expectedOutput: [2, 4, 6, 8, 10, 12, 14, 16, 18, 20] },
-            { input: 5, expectedOutput: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50] },
-            { input: 3, expectedOutput: [3, 6, 9, 12, 15, 18, 21, 24, 27, 30] },
+            { input: null, expectedOutput: '15' },
         ],
-        explanationKidFriendly: 'Use um loop de 1 a 10 e multiplique cada número pelo n! Guarde os resultados numa lista e retorne ela. Pronto, você fez uma calculadora de tabuada! 🔢',
-        points: 30,
+        explanationKidFriendly: 'Some cada número! 1+2+3+4+5 = 15. O loop faz isso automaticamente! ➕',
+        points: 25,
     },
 
     // ============================================
-    // Mundo: Funções (functions)
+    // Mundo 6: Funções (functions)
+    // AGORA podemos ensinar funções!
     // ============================================
     {
         id: 'func_1',
@@ -422,17 +490,94 @@ export const MOCK_QUESTIONS: QuestionDocument[] = [
         world: 'functions',
         difficulty: 'hard',
         ageMin: 12,
-        title: 'Fatorial',
-        prompt: 'Crie uma função chamada "fatorial" que calcula o fatorial de um número. Fatorial de 5 = 5 x 4 x 3 x 2 x 1 = 120.',
-        starterCode: 'def fatorial(n):\n    # seu código aqui\n    pass',
-        functionName: 'fatorial',
+        title: 'Soma até N',
+        prompt: 'Crie uma função chamada "soma_ate" que soma todos os números de 1 até n.',
+        starterCode: 'def soma_ate(n):\n    # seu código aqui\n    pass',
+        functionName: 'soma_ate',
         tests: [
-            { input: 5, expectedOutput: 120 },
+            { input: 5, expectedOutput: 15 },
             { input: 3, expectedOutput: 6 },
+            { input: 10, expectedOutput: 55 },
             { input: 1, expectedOutput: 1 },
-            { input: 0, expectedOutput: 1 },
         ],
-        explanationKidFriendly: 'Fatorial multiplica todos os números de n até 1! Use um loop ou recursão. Dica: fatorial de 0 e 1 é sempre 1! 🎰',
-        points: 35,
+        explanationKidFriendly: 'Use um for loop de 1 até n e vá somando! Comece com soma = 0 e adicione cada número. ➕',
+        points: 30,
+    },
+
+    // ============================================
+    // Mundo 7: Listas (lists)
+    // Agora podemos usar funções com listas!
+    // ============================================
+    {
+        id: 'list_1',
+        type: 'multiple_choice',
+        world: 'lists',
+        difficulty: 'easy',
+        ageMin: 10,
+        title: 'Criando uma lista',
+        prompt: 'Qual símbolo usamos para criar uma lista em Python?',
+        options: ['[ ]', '( )', '{ }', '< >'],
+        answerIndex: 0,
+        explanationKidFriendly: 'Listas usam colchetes [ ]! frutas = ["maçã", "banana"] guarda duas frutas numa lista! 📋',
+        points: 10,
+    },
+    {
+        id: 'list_2',
+        type: 'true_false',
+        world: 'lists',
+        difficulty: 'easy',
+        ageMin: 10,
+        title: 'Primeiro item é zero',
+        prompt: 'Em Python, o primeiro item de uma lista tem posição 0 (não 1).',
+        correctBool: true,
+        explanationKidFriendly: 'Python começa do zero! frutas[0] é o primeiro item, frutas[1] é o segundo. 🎯',
+        points: 10,
+    },
+    {
+        id: 'list_3',
+        type: 'fill_code',
+        world: 'lists',
+        difficulty: 'easy',
+        ageMin: 10,
+        title: 'Pegue o segundo item',
+        prompt: 'Complete para mostrar "banana" (segundo item):',
+        starterCode: 'frutas = ["maçã", "banana", "laranja"]\nprint(frutas[___])',
+        solutionTemplate: 'print(frutas[1])',
+        tests: [
+            { input: null, expectedOutput: 'banana' },
+        ],
+        explanationKidFriendly: 'Posição 0 é maçã, posição 1 é banana, posição 2 é laranja! 🍌',
+        points: 15,
+    },
+    {
+        id: 'list_4',
+        type: 'multiple_choice',
+        world: 'lists',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Adicionar à lista',
+        prompt: 'Qual método adiciona um item ao final da lista?',
+        options: ['append()', 'add()', 'insert()', 'push()'],
+        answerIndex: 0,
+        explanationKidFriendly: 'append() adiciona no final! frutas.append("uva") coloca uva no fim da lista! ➕',
+        points: 15,
+    },
+    {
+        id: 'list_5',
+        type: 'full_function',
+        world: 'lists',
+        difficulty: 'medium',
+        ageMin: 11,
+        title: 'Contar pares na lista',
+        prompt: 'Crie uma função que conta quantos números pares tem na lista.',
+        starterCode: 'def contar_pares(lista):\n    # seu código aqui\n    pass',
+        functionName: 'contar_pares',
+        tests: [
+            { input: [[1, 2, 3, 4]], expectedOutput: 2 },
+            { input: [[2, 4, 6]], expectedOutput: 3 },
+            { input: [[1, 3, 5]], expectedOutput: 0 },
+        ],
+        explanationKidFriendly: 'Use for para passar por cada número. Se numero % 2 == 0, é par! Conte quantos são. 🔢',
+        points: 25,
     },
 ];
