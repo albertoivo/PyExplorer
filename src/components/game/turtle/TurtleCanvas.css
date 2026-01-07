@@ -1,0 +1,37 @@
+
+.turtle-container {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    background-color: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.turtle-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.turtle-sprite {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    font-size: 24px;
+    line-height: 1;
+    z-index: 2;
+    transform-origin: center center;
+    transition: transform 0.1s linear, top 0.1s linear, left 0.1s linear;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

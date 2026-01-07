@@ -1,0 +1,103 @@
+.question-type-badge--parsons {
+    background-color: #6f42c1;
+    /* Roxo */
+    color: white;
+}
+
+.parsons-instructions {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 20px;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 8px;
+    border-left: 4px solid #6f42c1;
+}
+
+.parsons-area {
+    min-height: 200px;
+    background-color: #f0f2f5;
+    padding: 20px;
+    border-radius: 12px;
+    border: 2px dashed #ced4da;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.parsons-block {
+    background-color: white;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    cursor: grab;
+    transition: all 0.2s ease;
+    /* Suaviza mudança de margem */
+    transition: margin-left 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.parsons-block:active {
+    cursor: grabbing;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transform: scale(1.01);
+    z-index: 10;
+}
+
+.parsons-block--disabled {
+    cursor: default;
+    opacity: 0.9;
+    background-color: #f8f9fa;
+}
+
+.parsons-block__content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.parsons-block__drag-handle {
+    color: #adb5bd;
+    font-size: 1.2rem;
+    cursor: grab;
+}
+
+.parsons-block code {
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 1rem;
+    color: #212529;
+}
+
+.parsons-block__controls {
+    display: flex;
+    gap: 4px;
+}
+
+.parsons-block__controls button {
+    background: #e9ecef;
+    border: none;
+    border-radius: 4px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: #495057;
+    transition: background 0.2s;
+}
+
+.parsons-block__controls button:hover:not(:disabled) {
+    background: #dee2e6;
+    color: #212529;
+}
+
+.parsons-block__controls button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}

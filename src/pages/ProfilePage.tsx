@@ -1,6 +1,7 @@
 import { useAuth } from '../hooks/useAuth';
 import { useProgress } from '../hooks/useProgress';
 import { WorldProgressBar } from '../components/game/feedback/ProgressBar';
+import { DataSeeder } from '../components/education/DataSeeder';
 import './ProfilePage.css';
 
 // Avatars disponíveis
@@ -177,6 +178,10 @@ export function ProfilePage() {
                         </div>
                     </div>
                 )}
+
+
+                {/* Ferramentas de Desenvolvedor */}
+                <DataSeeder />
             </div>
         </div>
     );

@@ -1,0 +1,39 @@
+.question-container--turtle {
+    max-width: 1000px;
+    /* Mais largo para caber lado a lado */
+}
+
+.turtle-workspace {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.turtle-editor-section {
+    flex: 1;
+    min-width: 300px;
+}
+
+.turtle-canvas-section {
+    flex: 0 0 400px;
+    /* Tamanho fixo do canvas */
+}
+
+.question-type-badge--turtle {
+    background-color: #20c997;
+    /* Verde azulado */
+    color: white;
+}
+
+@media (max-width: 800px) {
+    .turtle-workspace {
+        flex-direction: column;
+    }
+
+    .turtle-canvas-section {
+        flex: auto;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+}

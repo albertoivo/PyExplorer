@@ -7,12 +7,16 @@ import {
     FillCodeQuestion,
     PartialFunctionQuestion,
     FullFunctionQuestion,
+    ParsonsQuestion,
+    TurtleQuestion,
 } from './questionTypes';
 import { ResultPanel } from './feedback/ResultPanel';
 import { ProgressiveHints } from '../education';
 import { useAuth } from '../../hooks/useAuth';
 import { useMascotContext } from '../../context/MascotContext';
 import './QuestionEngine.css';
+
+// ... (existing helper functions: calculateScore, etc)
 
 interface QuestionEngineProps {
     /** Questão a ser renderizada */
@@ -28,16 +32,13 @@ interface QuestionEngineProps {
 // Chave para armazenar dicas usadas
 const USED_HINTS_KEY = 'pyexplorer_used_hints';
 
-/**
- * Motor de questões - decide qual componente renderizar
- * baseado no tipo da questão e coordena o fluxo de resposta
- */
 export function QuestionEngine({
     question,
     onComplete,
     onNext,
     onRetry,
 }: QuestionEngineProps) {
+    // ... (existing state and hooks)
     const { userData, updateUserData } = useAuth();
     const { react: mascotReact } = useMascotContext();
     const [showResult, setShowResult] = useState(false);
@@ -46,7 +47,6 @@ export function QuestionEngine({
     const [revealedHints, setRevealedHints] = useState<HintLevel[]>([]);
     const [hintsCost, setHintsCost] = useState(0);
 
-    // Carrega dicas já usadas para esta questão
     const loadUsedHints = useCallback((): HintLevel[] => {
         try {
             const stored = localStorage.getItem(USED_HINTS_KEY);
@@ -60,7 +60,6 @@ export function QuestionEngine({
         return [];
     }, [question.id]);
 
-    // Salva dicas usadas
     const saveUsedHints = useCallback((hints: HintLevel[]) => {
         try {
             const stored = localStorage.getItem(USED_HINTS_KEY);
@@ -72,55 +71,35 @@ export function QuestionEngine({
         }
     }, [question.id]);
 
-    // Handler quando uma dica é revelada
     const handleHintRevealed = useCallback((level: HintLevel, cost: number) => {
         const newRevealed = [...revealedHints, level];
         setRevealedHints(newRevealed);
         setHintsCost(prev => prev + cost);
-
-        // Salva no localStorage
         saveUsedHints(newRevealed);
-
-        // Deduz as estrelas do usuário
         if (cost > 0 && userData) {
             const newScore = Math.max(0, (userData.totalScore || 0) - cost);
             updateUserData?.({ totalScore: newScore });
         }
     }, [revealedHints, saveUsedHints, userData, updateUserData]);
 
-    /**
-     * Processa a resposta do usuário
-     */
     const handleAnswer = (correct: boolean, _answer: unknown) => {
         setIsCorrect(correct);
         setShowResult(true);
         setShowHints(false);
-
-        // Faz o mascote reagir
         mascotReact(correct);
-
-        // Desconta custo das dicas da pontuação
         let score = correct ? calculateScore(question) : 0;
         if (correct && hintsCost > 0) {
             score = Math.max(1, score - Math.floor(hintsCost / 2));
         }
-
         onComplete(correct, score);
     };
 
-    /**
-     * Tenta novamente a questão
-     */
     const handleRetry = () => {
         setShowResult(false);
         setIsCorrect(false);
-        // Mantém as dicas reveladas
         onRetry?.();
     };
 
-    /**
-     * Vai para próxima questão
-     */
     const handleNext = () => {
         setShowResult(false);
         setIsCorrect(false);
@@ -130,9 +109,6 @@ export function QuestionEngine({
         onNext();
     };
 
-    /**
-     * Renderiza o componente de questão apropriado
-     */
     const renderQuestion = () => {
         const commonProps = {
             question,
@@ -156,6 +132,12 @@ export function QuestionEngine({
 
             case 'full_function':
                 return <FullFunctionQuestion {...commonProps} />;
+
+            case 'parsons_problem':
+                return <ParsonsQuestion {...commonProps} />;
+
+            case 'turtle_challenge':
+                return <TurtleQuestion {...commonProps} />;
 
             default:
                 return (
@@ -242,6 +224,8 @@ function calculateScore(question: QuestionDocument): number {
         fill_code: 1.5,
         partial_function: 1.8,
         full_function: 2,
+        parsons_problem: 1.5,
+        turtle_challenge: 1.5,
     };
 
     return Math.round(

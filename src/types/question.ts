@@ -6,7 +6,9 @@ export type QuestionType =
   | 'true_false'
   | 'fill_code'
   | 'partial_function'
-  | 'full_function';
+  | 'full_function'
+  | 'parsons_problem'
+  | 'turtle_challenge';
 
 /**
  * Níveis de dificuldade das questões
@@ -96,6 +98,14 @@ export interface QuestionDocument {
   functionName?: string;
   /** Casos de teste para Pyodide */
   tests?: TestCase[];
+
+  // Para Parsons Problem
+  /** Segmentos de código para ordenar */
+  parsonsSegments?: string[];
+
+  // Para Turtle Challenge
+  /** Imagem alvo (opcional) para questões visuais */
+  targetImage?: string;
 
   /** Explicação simples do conceito, em linguagem acessível às crianças */
   explanationKidFriendly: string;
