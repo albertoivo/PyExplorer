@@ -42,33 +42,6 @@ export function useOffline() {
         isSyncing: false,
     });
 
-    // Monitora status de conexão
-    useEffect(() => {
-        const handleOnline = () => {
-            setState(prev => ({ ...prev, isOnline: true }));
-            // Tenta sincronizar quando volta online
-            syncPendingProgress();
-        };
-
-        const handleOffline = () => {
-            setState(prev => ({ ...prev, isOnline: false }));
-        };
-
-        window.addEventListener('online', handleOnline);
-        window.addEventListener('offline', handleOffline);
-
-        return () => {
-            window.removeEventListener('online', handleOnline);
-            window.removeEventListener('offline', handleOffline);
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    // Carrega dados do cache ao iniciar
-    useEffect(() => {
-        loadCachedData();
-    }, []);
-
     /**
      * Carrega dados do cache local
      */
@@ -164,6 +137,33 @@ export function useOffline() {
             return false;
         }
     }, [state.isOnline, state.pendingProgress, state.isSyncing]);
+
+    // Monitora status de conexão
+    useEffect(() => {
+        const handleOnline = () => {
+            setState(prev => ({ ...prev, isOnline: true }));
+            // Tenta sincronizar quando volta online
+            syncPendingProgress();
+        };
+
+        const handleOffline = () => {
+            setState(prev => ({ ...prev, isOnline: false }));
+        };
+
+        window.addEventListener('online', handleOnline);
+        window.addEventListener('offline', handleOffline);
+
+        return () => {
+            window.removeEventListener('online', handleOnline);
+            window.removeEventListener('offline', handleOffline);
+        };
+    }, [syncPendingProgress]);
+
+    // Carrega dados do cache ao iniciar
+    useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        loadCachedData();
+    }, [loadCachedData]);
 
     /**
      * Obtém questões (do cache se offline)

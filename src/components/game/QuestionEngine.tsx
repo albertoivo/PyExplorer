@@ -82,7 +82,7 @@ export function QuestionEngine({
         }
     }, [revealedHints, saveUsedHints, userData, updateUserData]);
 
-    const handleAnswer = (correct: boolean, _answer: unknown) => {
+    const handleAnswer = (correct: boolean) => {
         setIsCorrect(correct);
         setShowResult(true);
         setShowHints(false);

@@ -43,7 +43,7 @@ export function RegisterPage() {
         try {
             await register(email, password, displayName.trim());
             navigate('/game', { replace: true });
-        } catch (err) {
+        } catch {
             // Erro já é tratado pelo contexto
         } finally {
             setIsLoading(false);
