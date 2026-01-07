@@ -204,64 +204,6 @@ export function useGamification() {
     }, [saveGamification, userData, updateUserData]);
 
     // ============================================
-    // STREAK
-    // ============================================
-
-    /**
-     * Registra atividade diária e atualiza streak
-     */
-    const recordDailyActivity = useCallback(() => {
-        const today = new Date().toISOString().split('T')[0];
-
-        setGamification(prev => {
-            const { lastActivityDate, currentStreak, longestStreak, activityHistory } = prev.streak;
-
-            // Se já registrou hoje, não faz nada
-            if (lastActivityDate === today) {
-                return prev;
-            }
-
-            // Calcula diferença de dias
-            const yesterday = new Date();
-            yesterday.setDate(yesterday.getDate() - 1);
-            const yesterdayStr = yesterday.toISOString().split('T')[0];
-
-            let newStreak = currentStreak;
-
-            if (lastActivityDate === yesterdayStr) {
-                // Continuou o streak
-                newStreak = currentStreak + 1;
-            } else if (lastActivityDate === '') {
-                // Primeira atividade
-                newStreak = 1;
-            } else {
-                // Perdeu o streak
-                newStreak = 1;
-            }
-
-            // Atualiza histórico (últimos 30 dias)
-            const newHistory = [...activityHistory, today].slice(-30);
-
-            const updated = {
-                ...prev,
-                streak: {
-                    currentStreak: newStreak,
-                    longestStreak: Math.max(longestStreak, newStreak),
-                    lastActivityDate: today,
-                    activityHistory: newHistory,
-                },
-            };
-
-            saveGamification(updated);
-
-            // Verifica conquistas de streak
-            checkStreakAchievements(newStreak);
-
-            return updated;
-        });
-    }, [saveGamification]);
-
-    // ============================================
     // CONQUISTAS
     // ============================================
 
@@ -317,6 +259,64 @@ export function useGamification() {
         if (streak >= 30) unlockAchievement('streak_30');
         if (streak >= 100) unlockAchievement('streak_100');
     }, [unlockAchievement]);
+
+    // ============================================
+    // STREAK
+    // ============================================
+
+    /**
+     * Registra atividade diária e atualiza streak
+     */
+    const recordDailyActivity = useCallback(() => {
+        const today = new Date().toISOString().split('T')[0];
+
+        setGamification(prev => {
+            const { lastActivityDate, currentStreak, longestStreak, activityHistory } = prev.streak;
+
+            // Se já registrou hoje, não faz nada
+            if (lastActivityDate === today) {
+                return prev;
+            }
+
+            // Calcula diferença de dias
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            const yesterdayStr = yesterday.toISOString().split('T')[0];
+
+            let newStreak = currentStreak;
+
+            if (lastActivityDate === yesterdayStr) {
+                // Continuou o streak
+                newStreak = currentStreak + 1;
+            } else if (lastActivityDate === '') {
+                // Primeira atividade
+                newStreak = 1;
+            } else {
+                // Perdeu o streak
+                newStreak = 1;
+            }
+
+            // Atualiza histórico (últimos 30 dias)
+            const newHistory = [...activityHistory, today].slice(-30);
+
+            const updated = {
+                ...prev,
+                streak: {
+                    currentStreak: newStreak,
+                    longestStreak: Math.max(longestStreak, newStreak),
+                    lastActivityDate: today,
+                    activityHistory: newHistory,
+                },
+            };
+
+            saveGamification(updated);
+
+            // Verifica conquistas de streak
+            checkStreakAchievements(newStreak);
+
+            return updated;
+        });
+    }, [saveGamification, checkStreakAchievements]);
 
     /**
      * Verifica conquistas baseadas em questões

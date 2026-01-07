@@ -58,6 +58,17 @@ export function ProgressiveHints({
         return userStars >= hint.cost;
     }, [isRevealed, hints, userStars]);
 
+    const revealHint = useCallback((level: HintLevel, cost: number) => {
+        setShowConfirm(null);
+        setAnimatingHint(level);
+
+        setTimeout(() => {
+            setLocalRevealed(prev => [...prev, level]);
+            onHintRevealed(level, cost);
+            setAnimatingHint(null);
+        }, 300);
+    }, [onHintRevealed]);
+
     const handleRevealClick = useCallback((level: HintLevel) => {
         if (isRevealed(level)) return;
         if (!canReveal(level)) return;
@@ -71,18 +82,7 @@ export function ProgressiveHints({
             // Dica gratuita - revela direto
             revealHint(level, 0);
         }
-    }, [isRevealed, canReveal, hints]);
-
-    const revealHint = useCallback((level: HintLevel, cost: number) => {
-        setShowConfirm(null);
-        setAnimatingHint(level);
-
-        setTimeout(() => {
-            setLocalRevealed(prev => [...prev, level]);
-            onHintRevealed(level, cost);
-            setAnimatingHint(null);
-        }, 300);
-    }, [onHintRevealed]);
+    }, [isRevealed, canReveal, hints, revealHint]);
 
     const cancelReveal = useCallback(() => {
         setShowConfirm(null);

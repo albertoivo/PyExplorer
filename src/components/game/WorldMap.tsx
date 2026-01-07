@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import type { CSSProperties } from 'react';
 import type { World } from '../../types/question';
 import { useAuth } from '../../hooks/useAuth';
@@ -97,14 +97,15 @@ interface WorldMapProps {
 export function WorldMap({ onSelectWorld, worldProgress }: WorldMapProps) {
     const { userData } = useAuth();
     const userScore = userData?.totalScore || 0;
-    const unlockedWorlds = userData?.unlockedWorlds || ['basic_commands'];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const unlockedWorlds = useMemo(() => userData?.unlockedWorlds || ['basic_commands'], [userData?.unlockedWorlds]);
 
     // Estado para tutorial e flashcards
     const [showTutorial, setShowTutorial] = useState<World | null>(null);
     const [showFlashcards, setShowFlashcards] = useState<World | null>(null);
     const [selectedWorld, setSelectedWorld] = useState<World | null>(null);
 
-    const isWorldUnlocked = (world: WorldInfo): boolean => {
+    const isWorldUnlocked = useCallback((world: WorldInfo): boolean => {
         // O primeiro mundo está sempre desbloqueado
         if (!world.requiredScore) return true;
 
@@ -113,7 +114,7 @@ export function WorldMap({ onSelectWorld, worldProgress }: WorldMapProps) {
 
         // Verifica se tem pontuação suficiente
         return userScore >= world.requiredScore;
-    };
+    }, [unlockedWorlds, userScore]);
 
     const getWorldStatus = (world: WorldInfo) => {
         const progress = worldProgress?.get(world.id);
@@ -168,7 +169,7 @@ export function WorldMap({ onSelectWorld, worldProgress }: WorldMapProps) {
             // Vai direto para o mundo
             onSelectWorld(world.id);
         }
-    }, [hasViewedTutorial, onSelectWorld]);
+    }, [hasViewedTutorial, onSelectWorld, isWorldUnlocked]);
 
     // Quando completa o tutorial
     const handleTutorialComplete = useCallback(() => {

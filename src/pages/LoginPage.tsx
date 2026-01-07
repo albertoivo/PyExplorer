@@ -25,7 +25,7 @@ export function LoginPage() {
         try {
             await login(email, password);
             navigate(from, { replace: true });
-        } catch (err) {
+        } catch {
             // Erro já é tratado pelo contexto
         } finally {
             setIsLoading(false);

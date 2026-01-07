@@ -283,4 +283,6 @@ function translateFirebaseError(message: string): string {
     return message;
 }
 
+// Fast refresh doesn't allow exporting default non-component value if file exports components
+// so we remove default export and only export hooks/components
 export default AuthContext;

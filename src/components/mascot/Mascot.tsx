@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import './Mascot.css';
+import { MOOD_CONFIGS } from '../../utils/mascotConfig';
+import { RANDOM_MESSAGES } from '../../utils/mascotMessages';
 
 // ============================================
 // TIPOS
@@ -34,106 +36,6 @@ interface MascotProps {
     /** Auto-hide após X segundos */
     autoHide?: number;
 }
-
-// ============================================
-// CONFIGURAÇÃO DOS MOODS
-// ============================================
-
-interface MoodConfig {
-    face: string;
-    animation: string;
-    defaultMessage: string;
-    color: string;
-}
-
-const MOOD_CONFIGS: Record<MascotMood, MoodConfig> = {
-    idle: {
-        face: '🐍',
-        animation: 'float',
-        defaultMessage: 'Olá! Estou aqui para ajudar!',
-        color: '#667eea',
-    },
-    happy: {
-        face: '😊',
-        animation: 'bounce',
-        defaultMessage: 'Isso aí! Você está indo muito bem!',
-        color: '#48bb78',
-    },
-    excited: {
-        face: '🤩',
-        animation: 'shake',
-        defaultMessage: 'INCRÍVEL! Você é demais!',
-        color: '#ffd700',
-    },
-    thinking: {
-        face: '🤔',
-        animation: 'tilt',
-        defaultMessage: 'Hmm, deixe-me pensar...',
-        color: '#9f7aea',
-    },
-    confused: {
-        face: '😅',
-        animation: 'wobble',
-        defaultMessage: 'Oops! Não foi bem assim...',
-        color: '#ed8936',
-    },
-    encouraging: {
-        face: '💪',
-        animation: 'pulse',
-        defaultMessage: 'Você consegue! Tenta de novo!',
-        color: '#00d9ff',
-    },
-    celebrating: {
-        face: '🎉',
-        animation: 'confetti',
-        defaultMessage: 'PARABÉNS! Você é um campeão!',
-        color: '#f093fb',
-    },
-    sleeping: {
-        face: '😴',
-        animation: 'float',
-        defaultMessage: 'Zzz...',
-        color: '#a0aec0',
-    },
-    waving: {
-        face: '👋',
-        animation: 'wave',
-        defaultMessage: 'Bem-vindo de volta!',
-        color: '#667eea',
-    },
-};
-
-// Mensagens aleatórias para diferentes situações
-const RANDOM_MESSAGES: Record<string, string[]> = {
-    correct: [
-        'Isso aí! Mandou bem!',
-        'Perfeito! Você é demais!',
-        'Acertou em cheio! 🎯',
-        'Você está arrasando!',
-        'Excelente trabalho!',
-        'Uau! Muito bom!',
-    ],
-    incorrect: [
-        'Não desiste! Você consegue!',
-        'Quase lá! Tenta de novo!',
-        'Errar faz parte! Vamos lá!',
-        'Você está aprendendo! 💪',
-        'Não se preocupa, tenta outra vez!',
-    ],
-    hint: [
-        'Pensa com calma...',
-        'Dica: leia a pergunta de novo!',
-        'Você já sabe a resposta!',
-        'Confia em você!',
-    ],
-    idle: [
-        'Estou aqui se precisar!',
-        'Vamos aprender juntos?',
-        'Python é muito legal!',
-        'Você sabia que Python foi criado em 1991?',
-        'Curtindo o jogo? 🐍',
-    ],
-};
 
 /**
  * Mascote interativo que reage às ações do usuário
