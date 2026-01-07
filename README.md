@@ -175,6 +175,13 @@ firebase deploy --only hosting
 - **Backend**: Firebase (Auth + Firestore + Hosting)
 - **Editor**: Monaco Editor (VS Code)
 
+## 👨‍💻 Equipe
+
+| Nome | Papel |
+|------|-------|
+| **Alberto Ivo Vieira** | 🚀 Lead Developer |
+| **Isaac Andrade** | 🧪 Quality Assurance (QA) |
+
 ## 📄 Licença
 
 Este projeto está sob a licença MIT.
