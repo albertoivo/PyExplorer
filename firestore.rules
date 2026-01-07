@@ -23,6 +23,12 @@ service cloud.firestore {
       // Usuários podem ler e escrever seus próprios dados
       allow read, write: if isOwner(userId);
     }
+
+    // Coleção de gamificação
+    match /gamification/{userId} {
+      // Usuários podem ler e escrever seus próprios dados
+      allow read, write: if isOwner(userId);
+    }
     
     // Coleção de progresso dos usuários
     // Documentos têm formato: uid_questionId
