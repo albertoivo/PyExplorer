@@ -21,7 +21,13 @@ export function GamePage() {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
     const { allProgress, recordAttempt, getQuestionProgress } = useProgress();
-    const { loading: pyodideLoading, loadingProgress } = usePyodide();
+    const { loading: pyodideLoading, loadingProgress, loadPyodide, ready } = usePyodide();
+
+    useEffect(() => {
+        if (!ready && !pyodideLoading) {
+            loadPyodide();
+        }
+    }, [ready, pyodideLoading, loadPyodide]);
 
     // Agrupa questões por mundo para calcular progresso
     const worldProgress = useMemo(() => {
@@ -123,7 +129,7 @@ export function GamePage() {
     };
 
     // Mostra loading do Pyodide
-    if (pyodideLoading) {
+    if (!ready) {
         return (
             <div className="game-page game-page--loading">
                 <div className="pyodide-loading">

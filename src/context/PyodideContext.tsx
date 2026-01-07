@@ -16,6 +16,8 @@ interface PyodideContextType {
     loadingProgress: number;
     /** Executa código Python */
     runPython: (code: string, tests?: TestCase[], functionName?: string) => Promise<PythonExecutionResult>;
+    /** Carrega o Pyodide sob demanda */
+    loadPyodide: () => Promise<void>;
 }
 
 const PyodideContext = createContext<PyodideContextType | undefined>(undefined);
@@ -48,58 +50,54 @@ declare global {
 export function PyodideProvider({ children }: PyodideProviderProps) {
     const [pyodide, setPyodide] = useState<PyodideInterface | null>(null);
     const [ready, setReady] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [loadingProgress, setLoadingProgress] = useState(0);
 
-    // Carrega o Pyodide uma única vez
-    useEffect(() => {
-        let mounted = true;
+    const loadPyodide = useCallback(async () => {
+        if (ready || loading) return;
 
-        async function loadPyodideInstance() {
-            try {
-                setLoading(true);
-                setLoadingProgress(10);
+        try {
+            setLoading(true);
+            setLoadingProgress(10);
 
-                // Carrega o script do Pyodide via CDN
-                if (!document.querySelector('script[src*="pyodide"]')) {
-                    const script = document.createElement('script');
-                    script.src = 'https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js';
-                    script.async = true;
+            // Carrega o script do Pyodide via CDN
+            if (!document.querySelector('script[src*="pyodide"]')) {
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js';
+                script.async = true;
 
-                    await new Promise<void>((resolve, reject) => {
-                        script.onload = () => resolve();
-                        script.onerror = () => reject(new Error('Falha ao carregar script do Pyodide'));
-                        document.head.appendChild(script);
-                    });
-                }
-
-                if (!mounted) return;
-                setLoadingProgress(30);
-
-                // Aguarda o loadPyodide estar disponível
-                let attempts = 0;
-                while (!window.loadPyodide && attempts < 50) {
-                    await new Promise(resolve => setTimeout(resolve, 100));
-                    attempts++;
-                }
-
-                if (!window.loadPyodide) {
-                    throw new Error('loadPyodide não está disponível');
-                }
-
-                setLoadingProgress(50);
-
-                // Inicializa o Pyodide
-                const pyodideInstance = await window.loadPyodide({
-                    indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.24.1/full/',
+                await new Promise<void>((resolve, reject) => {
+                    script.onload = () => resolve();
+                    script.onerror = () => reject(new Error('Falha ao carregar script do Pyodide'));
+                    document.head.appendChild(script);
                 });
+            }
 
-                if (!mounted) return;
-                setLoadingProgress(80);
+            setLoadingProgress(30);
 
-                // Configura stdout e stderr capturáveis
-                await pyodideInstance.runPythonAsync(`
+            // Aguarda o loadPyodide estar disponível
+            let attempts = 0;
+            while (!window.loadPyodide && attempts < 50) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                attempts++;
+            }
+
+            if (!window.loadPyodide) {
+                throw new Error('loadPyodide não está disponível');
+            }
+
+            setLoadingProgress(50);
+
+            // Inicializa o Pyodide
+            const pyodideInstance = await window.loadPyodide({
+                indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.24.1/full/',
+            });
+
+            setLoadingProgress(80);
+
+            // Configura stdout e stderr capturáveis
+            await pyodideInstance.runPythonAsync(`
 import sys
 from io import StringIO
 
@@ -121,26 +119,18 @@ class CaptureOutput:
 _capture = CaptureOutput()
         `);
 
-                setLoadingProgress(100);
-                setPyodide(pyodideInstance);
-                setReady(true);
-                setLoading(false);
-                console.log('✅ Pyodide carregado com sucesso!');
-            } catch (err) {
-                if (!mounted) return;
-                const message = err instanceof Error ? err.message : 'Erro ao carregar Pyodide';
-                console.error('❌ Erro ao carregar Pyodide:', err);
-                setError(message);
-                setLoading(false);
-            }
+            setLoadingProgress(100);
+            setPyodide(pyodideInstance);
+            setReady(true);
+            setLoading(false);
+            console.log('✅ Pyodide carregado com sucesso!');
+        } catch (err) {
+            const message = err instanceof Error ? err.message : 'Erro ao carregar Pyodide';
+            console.error('❌ Erro ao carregar Pyodide:', err);
+            setError(message);
+            setLoading(false);
         }
-
-        loadPyodideInstance();
-
-        return () => {
-            mounted = false;
-        };
-    }, []);
+    }, [ready, loading]);
 
     /**
      * Executa código Python e retorna resultado
@@ -266,6 +256,7 @@ sys.stderr = sys.__stderr__
         error,
         loadingProgress,
         runPython,
+        loadPyodide,
     };
 
     return (
