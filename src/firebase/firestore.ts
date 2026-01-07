@@ -307,11 +307,11 @@ export async function getGamification(uid: string): Promise<UserGamification | n
         // Converte Timestamps de volta para Date
         return {
             ...data,
-            achievements: (data.achievements || []).map((a: any) => ({
+            achievements: (data.achievements || []).map((a: DocumentData) => ({
                 ...a,
                 unlockedAt: a.unlockedAt instanceof Timestamp ? a.unlockedAt.toDate() : new Date(a.unlockedAt),
             })) as UserAchievement[],
-            activeMissions: (data.activeMissions || []).map((m: any) => ({
+            activeMissions: (data.activeMissions || []).map((m: DocumentData) => ({
                 ...m,
                 expiresAt: m.expiresAt instanceof Timestamp ? m.expiresAt.toDate() : new Date(m.expiresAt),
                 completedAt: m.completedAt instanceof Timestamp ? m.completedAt.toDate() : (m.completedAt ? new Date(m.completedAt) : undefined),

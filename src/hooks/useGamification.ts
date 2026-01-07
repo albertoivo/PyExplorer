@@ -66,11 +66,11 @@ function parseGamificationFromStorage(json: string): UserGamification {
 
     return {
         ...data,
-        achievements: (data.achievements || []).map((a: any) => ({
+        achievements: (data.achievements || []).map((a: UserAchievement) => ({
             ...a,
             unlockedAt: new Date(a.unlockedAt),
         })),
-        activeMissions: (data.activeMissions || []).map((m: any) => ({
+        activeMissions: (data.activeMissions || []).map((m: UserMission) => ({
             ...m,
             expiresAt: new Date(m.expiresAt),
             completedAt: m.completedAt ? new Date(m.completedAt) : undefined,
