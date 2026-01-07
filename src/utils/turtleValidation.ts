@@ -1,7 +1,4 @@
 
-import { PyodideInterface } from '../hooks/usePyodide';
-import { TURTLE_PYTHON_SHIM } from '../components/game/turtle/turtle-python-shim';
-
 export interface Point {
     x: number;
     y: number;
@@ -18,9 +15,6 @@ export interface Segment {
 // Helper to check if two numbers are close enough
 const isClose = (a: number, b: number, epsilon = 2) => Math.abs(a - b) < epsilon;
 
-// Helper to calculate distance between two points
-const dist = (p1: Point, p2: Point) => Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
-
 /**
  * Executes python code using a headless turtle simulation to capture the drawn path.
  */
@@ -36,7 +30,7 @@ export async function runTurtleSimulation(
     let angle = 0; // 0 = East
     let penDown = true;
     let color = 'black';
-    let width = 2;
+    // let width = 2;
     // let speed = 5;
 
     // Mock global window functions
@@ -94,10 +88,10 @@ export async function runTurtleSimulation(
     window.turtle_penup = () => { penDown = false; };
     window.turtle_pendown = () => { penDown = true; };
     window.turtle_color = (c: string) => { color = c; };
-    window.turtle_width = (w: number) => { width = w; };
-    window.turtle_speed = (s: number) => { /* speed = s; */ };
+    window.turtle_width = (_w: number) => { /* width = w; */ };
+    window.turtle_speed = (_s: number) => { /* speed = s; */ };
     window.turtle_reset = () => {
-        x = 0; y = 0; angle = 0; penDown = true; color = 'black'; width = 2;
+        x = 0; y = 0; angle = 0; penDown = true; color = 'black'; /* width = 2; */
         segments.length = 0;
     };
 

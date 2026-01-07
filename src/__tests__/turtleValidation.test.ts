@@ -1,6 +1,6 @@
 
 import { describe, it, expect, vi } from 'vitest';
-import { compareTurtlePaths, runTurtleSimulation, Segment } from '../utils/turtleValidation';
+import { compareTurtlePaths, runTurtleSimulation, type Segment } from '../utils/turtleValidation';
 
 describe('turtleValidation', () => {
     describe('compareTurtlePaths', () => {
