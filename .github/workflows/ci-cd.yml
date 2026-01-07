@@ -23,6 +23,11 @@ env:
   NODE_VERSION: '20'
   FIREBASE_PROJECT_ID: pyexplorer-cd32d
 
+permissions:
+  checks: write
+  contents: read
+  pull-requests: write
+
 jobs:
   # ===========================================================================
   # JOB: Build & Lint
