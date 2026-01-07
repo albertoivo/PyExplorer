@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import type { World, QuestionDocument } from '../types/question';
 import { WorldMap } from '../components/game/WorldMap';
 import { QuestionEngine } from '../components/game/QuestionEngine';
