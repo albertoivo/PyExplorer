@@ -580,4 +580,21 @@ export const MOCK_QUESTIONS: QuestionDocument[] = [
         explanationKidFriendly: 'Use for para passar por cada número. Se numero % 2 == 0, é par! Conte quantos são. 🔢',
         points: 25,
     },
+
+    // ============================================
+    // Turtle Challenges
+    // ============================================
+    {
+        id: 'turtle_1',
+        type: 'turtle_challenge',
+        world: 'basic_commands',
+        difficulty: 'easy',
+        ageMin: 8,
+        title: 'Desenhando um Quadrado',
+        prompt: 'Vamos desenhar um quadrado! Use o comando forward(100) e right(90) para fazer as 4 linhas.',
+        starterCode: '# Desenhe um quadrado\nforward(100)\nright(90)\n',
+        solutionCode: 'forward(100)\nright(90)\nforward(100)\nright(90)\nforward(100)\nright(90)\nforward(100)\nright(90)',
+        explanationKidFriendly: 'Um quadrado tem 4 lados iguais e 4 cantos de 90 graus. Repetindo andar e virar 4 vezes, fechamos o quadrado! ⏹️',
+        points: 20,
+    },
 ];

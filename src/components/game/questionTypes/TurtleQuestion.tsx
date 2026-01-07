@@ -5,6 +5,7 @@ import { usePyodide } from '../../../hooks/usePyodide';
 import PythonEditor from '../../editor/PythonEditor';
 import TurtleCanvas from '../turtle/TurtleCanvas';
 import { TURTLE_PYTHON_SHIM } from '../turtle/turtle-python-shim';
+import { runTurtleSimulation, compareTurtlePaths } from '../../../utils/turtleValidation';
 import './QuestionTypes.css';
 import './TurtleQuestion.css';
 
@@ -52,12 +53,6 @@ export function TurtleQuestion({
             if (result.hasError) {
                 setError(result.stderr);
             }
-
-            // Em desafios visuais, a validação automática é difícil.
-            // Por enquanto, consideramos que se rodou sem erro, "passou" para fins de teste livre.
-            // Para validação real, precisaríamos inspecionar o histórico de comandos da tartaruga.
-            // Como melhoria futura: capturar o histórico de comandos e comparar com 'expectedPath'.
-
         } catch (err) {
             const message = err instanceof Error ? err.message : 'Erro desconhecido';
             setError(message);
@@ -67,20 +62,50 @@ export function TurtleQuestion({
     };
 
     const handleSubmit = async () => {
-        // Validação simples: se rodou sem erro, pergunta ao usuário se o desenho está igual.
-        // Ou, idealmente, verifica o estado final da tartaruga.
-        // Vamos implementar uma validação "Honestidade" + check simples de erro por enquanto,
-        // mas o ideal é comparar o rastro.
-        // Vou assumir correto se rodou sem erro.
+        setIsRunning(true);
+        setError(null);
+        if (window.turtle_reset) window.turtle_reset();
 
-        await handleRun();
+        try {
+            // 1. Run user code for visual feedback
+            // This runs via the shim hook into TurtleCanvas
+            await new Promise(r => setTimeout(r, 100));
+            const result = await runPython(code);
 
-        if (!error) {
-            // TODO: Validação real do desenho.
-            // Por simplificação neste MVP, se não deu erro de execução, consideramos sucesso.
-            onAnswer(true, code);
-        } else {
+            if (result.hasError) {
+                setError(result.stderr);
+                onAnswer(false, code);
+                return;
+            }
+
+            // 2. Validate drawing if solutionCode is present
+            if (question.solutionCode) {
+                // Run user code AGAIN in simulation mode to capture segments synchronously
+                // This avoids race conditions with the visual canvas animation
+                const userSegments = await runTurtleSimulation(runPython, code);
+
+                // Calculate expected segments using headless simulation
+                const expectedSegments = await runTurtleSimulation(runPython, question.solutionCode);
+
+                const isMatch = compareTurtlePaths(userSegments, expectedSegments);
+
+                if (isMatch) {
+                     onAnswer(true, code);
+                } else {
+                    setError('O desenho não ficou igual ao esperado. Tente novamente! 🐢');
+                    onAnswer(false, code);
+                }
+            } else {
+                // Fallback for older questions or if no solution provided
+                onAnswer(true, code);
+            }
+
+        } catch (err) {
+            const message = err instanceof Error ? err.message : 'Erro desconhecido';
+            setError(message);
             onAnswer(false, code);
+        } finally {
+            setIsRunning(false);
         }
     };
 
