@@ -8,6 +8,11 @@
     cursor: pointer;
     user-select: none;
     transition: transform 0.3s ease;
+    background: none;
+    border: none;
+    padding: 0;
+    text-align: inherit;
+    font: inherit;
 }
 
 .mascot:hover {

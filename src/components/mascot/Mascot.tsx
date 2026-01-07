@@ -203,9 +203,11 @@ export function Mascot({
     if (!isVisible) return null;
 
     return (
-        <div
+        <button
             className={`mascot mascot--${size} mascot--${position}`}
             onClick={handleClick}
+            type="button"
+            aria-label={`Mascote Pythoninho: ${mood}. ${isMessageVisible && currentMessage ? `Dizendo: ${currentMessage}` : 'Clique para interagir'}`}
         >
             {/* Balão de fala */}
             {isMessageVisible && currentMessage && (
@@ -251,7 +253,7 @@ export function Mascot({
 
             {/* Nome do mascote */}
             <span className="mascot__name">Pythoninho</span>
-        </div>
+        </button>
     );
 }
 
