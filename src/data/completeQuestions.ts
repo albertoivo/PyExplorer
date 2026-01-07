@@ -55,8 +55,8 @@ const basicCommandsQuestions: QuestionDocument[] = [
         ageMax: 12,
         title: 'Complete o Print',
         prompt: 'Complete o código para mostrar "Eu amo Python!" na tela: 🐍',
-        starterCode: '___(\"Eu amo Python!\")',
-        solutionTemplate: 'print(\"Eu amo Python!\")',
+        starterCode: '___("Eu amo Python!")',
+        solutionTemplate: 'print("Eu amo Python!")',
         tests: [
             { input: null, expectedOutput: 'Eu amo Python!' }
         ],
@@ -123,8 +123,8 @@ const variablesQuestions: QuestionDocument[] = [
         ageMax: 12,
         title: 'Criando uma Variável',
         prompt: 'Complete o código para criar uma variável chamada "nome" com o valor "Python": 🏷️',
-        starterCode: '___ = \"Python\"\nprint(nome)',
-        solutionTemplate: 'nome = \"Python\"\nprint(nome)',
+        starterCode: '___ = "Python"\nprint(nome)',
+        solutionTemplate: 'nome = "Python"\nprint(nome)',
         tests: [
             { input: null, expectedOutput: 'Python' }
         ],
@@ -306,8 +306,8 @@ const conditionsQuestions: QuestionDocument[] = [
         ageMax: 14,
         title: 'Verificando a Idade',
         prompt: 'Complete o código para verificar se a pessoa pode votar (idade >= 16): 🗳️',
-        starterCode: 'idade = 18\n___ idade >= 16:\n    print(\"Pode votar!\")',
-        solutionTemplate: 'idade = 18\nif idade >= 16:\n    print(\"Pode votar!\")',
+        starterCode: 'idade = 18\n___ idade >= 16:\n    print("Pode votar!")',
+        solutionTemplate: 'idade = 18\nif idade >= 16:\n    print("Pode votar!")',
         tests: [
             { input: null, expectedOutput: 'Pode votar!' }
         ],
@@ -322,8 +322,8 @@ const conditionsQuestions: QuestionDocument[] = [
         ageMax: 14,
         title: 'Número Par ou Ímpar',
         prompt: 'Complete o código para verificar se o número é par: 🎲',
-        starterCode: 'numero = 4\nif numero % 2 ___ 0:\n    print(\"É par!\")\nelse:\n    print(\"É ímpar!\")',
-        solutionTemplate: 'numero = 4\nif numero % 2 == 0:\n    print(\"É par!\")\nelse:\n    print(\"É ímpar!\")',
+        starterCode: 'numero = 4\nif numero % 2 ___ 0:\n    print("É par!")\nelse:\n    print("É ímpar!")',
+        solutionTemplate: 'numero = 4\nif numero % 2 == 0:\n    print("É par!")\nelse:\n    print("É ímpar!")',
         tests: [
             { input: null, expectedOutput: 'É par!' }
         ],
@@ -451,8 +451,8 @@ const functionsQuestions: QuestionDocument[] = [
         ageMax: 14,
         title: 'Função de Saudação',
         prompt: 'Complete a função para retornar "Olá, " seguido do nome: 👋',
-        starterCode: 'def saudacao(nome):\n    ___ \"Olá, \" + nome\n\nprint(saudacao(\"Maria\"))',
-        solutionTemplate: 'def saudacao(nome):\n    return \"Olá, \" + nome\n\nprint(saudacao(\"Maria\"))',
+        starterCode: 'def saudacao(nome):\n    ___ "Olá, " + nome\n\nprint(saudacao("Maria"))',
+        solutionTemplate: 'def saudacao(nome):\n    return "Olá, " + nome\n\nprint(saudacao("Maria"))',
         tests: [
             { input: ['Maria'], expectedOutput: 'Olá, Maria' },
             { input: ['João'], expectedOutput: 'Olá, João' },
@@ -537,8 +537,8 @@ const listsQuestions: QuestionDocument[] = [
         ageMax: 14,
         title: 'Acessando Item da Lista',
         prompt: 'Complete o código para mostrar "banana" (segundo item da lista): 🍌',
-        starterCode: 'frutas = [\"maçã\", \"banana\", \"laranja\"]\nprint(frutas[___])',
-        solutionTemplate: 'frutas = [\"maçã\", \"banana\", \"laranja\"]\nprint(frutas[1])',
+        starterCode: 'frutas = ["maçã", "banana", "laranja"]\nprint(frutas[___])',
+        solutionTemplate: 'frutas = ["maçã", "banana", "laranja"]\nprint(frutas[1])',
         tests: [
             { input: null, expectedOutput: 'banana' }
         ],
@@ -615,8 +615,8 @@ const stringsQuestions: QuestionDocument[] = [
         ageMax: 14,
         title: 'Maiúsculas',
         prompt: 'Complete o código para transformar o texto em maiúsculas: 🔠',
-        starterCode: 'texto = \"python\"\nprint(texto.___())',
-        solutionTemplate: 'texto = \"python\"\nprint(texto.upper())',
+        starterCode: 'texto = "python"\nprint(texto.___())',
+        solutionTemplate: 'texto = "python"\nprint(texto.upper())',
         tests: [
             { input: null, expectedOutput: 'PYTHON' }
         ],
@@ -645,7 +645,7 @@ const stringsQuestions: QuestionDocument[] = [
         title: 'Contando Vogais',
         prompt: 'Crie uma função que conta quantas vogais (a, e, i, o, u) tem em uma palavra: 🔤',
         starterCode: 'def contar_vogais(texto):\n    # Seu código aqui\n    pass',
-        solutionTemplate: 'def contar_vogais(texto):\n    vogais = \"aeiouAEIOU\"\n    contador = 0\n    for letra in texto:\n        if letra in vogais:\n            contador = contador + 1\n    return contador',
+        solutionTemplate: 'def contar_vogais(texto):\n    vogais = "aeiouAEIOU"\n    contador = 0\n    for letra in texto:\n        if letra in vogais:\n            contador = contador + 1\n    return contador',
         tests: [
             { input: ['Python'], expectedOutput: 1 },
             { input: ['banana'], expectedOutput: 3 },
