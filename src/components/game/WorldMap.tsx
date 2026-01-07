@@ -104,7 +104,7 @@ export function WorldMap({ onSelectWorld, worldProgress }: WorldMapProps) {
     const [showFlashcards, setShowFlashcards] = useState<World | null>(null);
     const [selectedWorld, setSelectedWorld] = useState<World | null>(null);
 
-    const isWorldUnlocked = (world: WorldInfo): boolean => {
+    const isWorldUnlocked = useCallback((world: WorldInfo): boolean => {
         // O primeiro mundo está sempre desbloqueado
         if (!world.requiredScore) return true;
 
@@ -113,7 +113,7 @@ export function WorldMap({ onSelectWorld, worldProgress }: WorldMapProps) {
 
         // Verifica se tem pontuação suficiente
         return userScore >= world.requiredScore;
-    };
+    }, [unlockedWorlds, userScore]);
 
     const getWorldStatus = (world: WorldInfo) => {
         const progress = worldProgress?.get(world.id);
@@ -168,7 +168,7 @@ export function WorldMap({ onSelectWorld, worldProgress }: WorldMapProps) {
             // Vai direto para o mundo
             onSelectWorld(world.id);
         }
-    }, [hasViewedTutorial, onSelectWorld]);
+    }, [hasViewedTutorial, onSelectWorld, isWorldUnlocked]);
 
     // Quando completa o tutorial
     const handleTutorialComplete = useCallback(() => {

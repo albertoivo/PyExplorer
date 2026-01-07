@@ -158,6 +158,7 @@ export function MascotProvider({ children }: MascotProviderProps) {
 // HOOK
 // ============================================
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useMascotContext(): MascotContextType {
     const context = useContext(MascotContext);
     if (!context) {

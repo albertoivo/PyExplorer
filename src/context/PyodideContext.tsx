@@ -238,7 +238,9 @@ json.dumps(_test_result) if not isinstance(_test_result, (int, float, bool, type
 sys.stdout = sys.__stdout__
 sys.stderr = sys.__stderr__
         `);
-            } catch { }
+            } catch {
+                // Ignora erro ao restaurar stdout/stderr
+            }
 
             const errorMessage = err instanceof Error ? err.message : String(err);
 
@@ -269,6 +271,7 @@ sys.stderr = sys.__stderr__
 /**
  * Hook para acessar o contexto do Pyodide
  */
+// eslint-disable-next-line react-refresh/only-export-components
 export function usePyodide(): PyodideContextType {
     const context = useContext(PyodideContext);
     if (context === undefined) {

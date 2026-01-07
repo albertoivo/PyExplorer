@@ -161,7 +161,7 @@ export function TurtleCanvas({
         };
 
         switch (cmd.type) {
-            case 'FORWARD':
+            case 'FORWARD': {
                 const dist = cmd.value;
 
                 // Espera... Se angle aumenta horário (right), então:
@@ -193,8 +193,8 @@ export function TurtleCanvas({
                 const targetY = state.current.y - dist * Math.sin(thetaRad); // Y cresce pra cima, angulo cresce horário (pra baixo)
 
                 // Animação de forward
-                let startX = state.current.x;
-                let startY = state.current.y;
+                const startX = state.current.x;
+                const startY = state.current.y;
                 let currentStep = 0;
                 // Passos dependem da distância e velocidade
                 const steps = animationSpeed.current >= 10 ? 1 : Math.max(1, Math.floor(Math.abs(dist) / (animationSpeed.current / 2)));
@@ -223,13 +223,14 @@ export function TurtleCanvas({
 
                 animateForward();
                 return; // Retorna para não chamar processQueue imediatamente
+            }
 
-            case 'ROTATE':
+            case 'ROTATE': {
                 const targetAngle = state.current.angle + cmd.value;
 
                 // Animação de rotação
-                let startAngle = state.current.angle;
-                let rotSteps = animationSpeed.current >= 10 ? 1 : Math.max(1, Math.floor(Math.abs(cmd.value) / (animationSpeed.current)));
+                const startAngle = state.current.angle;
+                const rotSteps = animationSpeed.current >= 10 ? 1 : Math.max(1, Math.floor(Math.abs(cmd.value) / (animationSpeed.current)));
                 let rotStep = 0;
 
                 const animateRotate = () => {
@@ -248,6 +249,7 @@ export function TurtleCanvas({
 
                 animateRotate();
                 return;
+            }
 
             case 'COLOR':
                 state.current.color = cmd.value;

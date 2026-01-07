@@ -172,7 +172,7 @@ describe('Cálculo de Pontuação', () => {
         })
 
         it('errar após acertar deve manter score', () => {
-            let currentScore = 20
+            const currentScore = 20
 
             // Erra a questão
             const newScore = calculateNewScore(false, 0, currentScore)

@@ -307,10 +307,12 @@ export async function getGamification(uid: string): Promise<UserGamification | n
         // Converte Timestamps de volta para Date
         return {
             ...data,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             achievements: (data.achievements || []).map((a: any) => ({
                 ...a,
                 unlockedAt: a.unlockedAt instanceof Timestamp ? a.unlockedAt.toDate() : new Date(a.unlockedAt),
             })) as UserAchievement[],
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             activeMissions: (data.activeMissions || []).map((m: any) => ({
                 ...m,
                 expiresAt: m.expiresAt instanceof Timestamp ? m.expiresAt.toDate() : new Date(m.expiresAt),

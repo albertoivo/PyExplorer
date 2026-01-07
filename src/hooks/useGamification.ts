@@ -66,10 +66,12 @@ function parseGamificationFromStorage(json: string): UserGamification {
 
     return {
         ...data,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         achievements: (data.achievements || []).map((a: any) => ({
             ...a,
             unlockedAt: new Date(a.unlockedAt),
         })),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         activeMissions: (data.activeMissions || []).map((m: any) => ({
             ...m,
             expiresAt: new Date(m.expiresAt),

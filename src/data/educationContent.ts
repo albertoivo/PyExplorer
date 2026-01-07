@@ -326,7 +326,7 @@ export const WORLD_TUTORIALS: WorldTutorial[] = [
                 title: 'Adicionando Itens',
                 content: 'Use .append() para adicionar um item no final da lista!',
                 code: 'cores = ["azul", "verde"]\ncores.append("vermelho")\nprint(cores)',
-                output: "[\'azul\', \'verde\', \'vermelho\']",
+                output: "['azul', 'verde', 'vermelho']",
                 animation: 'bounce',
             },
             {
