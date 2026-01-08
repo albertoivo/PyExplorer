@@ -94,6 +94,8 @@ export interface QuestionDocument {
   starterCode?: string;
   /** Template da solução (usado em fill_code/partial_function) */
   solutionTemplate?: string;
+  /** Código da solução completa (usado para gerar validação em Turtle/Canvas) */
+  solutionCode?: string;
   /** Nome da função esperada (para validação) */
   functionName?: string;
   /** Casos de teste para Pyodide */
