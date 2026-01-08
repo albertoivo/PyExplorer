@@ -2,51 +2,89 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // Função auxiliar para verificar se está autenticado
+    // ============================================
+    // FUNÇÕES AUXILIARES
+    // ============================================
+    
+    // Verifica se está autenticado
     function isAuthenticated() {
       return request.auth != null;
     }
     
-    // Função para verificar se é o próprio usuário
+    // Verifica se é o próprio usuário
     function isOwner(userId) {
       return isAuthenticated() && request.auth.uid == userId;
     }
     
-    // Coleção de questões - leitura pública, escrita apenas admin
+    // Valida que um campo é string com tamanho máximo
+    function isValidString(field, maxLength) {
+      return field is string && field.size() <= maxLength;
+    }
+    
+    // Valida que um número está dentro de um range
+    function isValidNumber(field, min, max) {
+      return field is number && field >= min && field <= max;
+    }
+    
+    // ============================================
+    // QUESTÕES - Leitura pública, escrita bloqueada
+    // ============================================
     match /questions/{questionId} {
       allow read: if true;
-      allow write: if false; // Apenas via console ou scripts admin
+      allow write: if false; // Apenas via Console Firebase ou scripts admin
     }
     
-    // Coleção de usuários
+    // ============================================
+    // USUÁRIOS - Cada um só acessa seus dados
+    // ============================================
     match /users/{userId} {
-      // Usuários podem ler e escrever seus próprios dados
-      allow read, write: if isOwner(userId);
+      allow read: if isOwner(userId);
+      
+      // Validação na escrita para evitar dados malformados
+      allow write: if isOwner(userId)
+        && request.resource.data.keys().hasOnly(['uid', 'email', 'displayName', 'avatar', 'createdAt', 'updatedAt', 'totalScore', 'lastLoginAt'])
+        && isValidString(request.resource.data.displayName, 50)
+        && isValidNumber(request.resource.data.get('totalScore', 0), 0, 999999);
     }
 
-    // Coleção de gamificação
+    // ============================================
+    // GAMIFICAÇÃO - Cada usuário só acessa seu progresso
+    // ============================================
     match /gamification/{userId} {
-      // Usuários podem ler e escrever seus próprios dados
-      allow read, write: if isOwner(userId);
+      allow read: if isOwner(userId);
+      
+      // Validação na escrita
+      allow write: if isOwner(userId)
+        && isValidNumber(request.resource.data.get('streak', 0), 0, 9999)
+        && isValidNumber(request.resource.data.get('totalXP', 0), 0, 9999999);
     }
     
-    // Coleção de progresso dos usuários
-    // Documentos têm formato: uid_questionId
+    // ============================================
+    // PROGRESSO - Documentos no formato uid_questionId
+    // ============================================
     match /userProgress/{progressId} {
-      // Permite leitura se:
-      // 1. O usuário está autenticado E
-      // 2. O documento pertence ao usuário (o uid no documento corresponde)
+      // Leitura: usuário autenticado + documento pertence ao usuário
       allow read: if isAuthenticated() && resource.data.uid == request.auth.uid;
       
-      // Permite criar se:
-      // 1. O usuário está autenticado E
-      // 2. O uid nos dados da requisição corresponde ao usuário
-      allow create: if isAuthenticated() && request.resource.data.uid == request.auth.uid;
+      // Criação: validação completa dos dados
+      allow create: if isAuthenticated() 
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.keys().hasOnly(['uid', 'questionId', 'status', 'score', 'attempts', 'lastAttemptAt'])
+        && isValidString(request.resource.data.questionId, 100)
+        && request.resource.data.status in ['not_started', 'in_progress', 'completed']
+        && isValidNumber(request.resource.data.score, 0, 1000)
+        && isValidNumber(request.resource.data.attempts, 0, 9999);
       
-      // Permite atualizar/deletar se:
-      // 1. O usuário está autenticado E
-      // 2. O documento pertence ao usuário (verificando dados existentes)
-      allow update, delete: if isAuthenticated() && resource.data.uid == request.auth.uid;
+      // Atualização: mesmo dono + validações
+      allow update: if isAuthenticated() 
+        && resource.data.uid == request.auth.uid
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.status in ['not_started', 'in_progress', 'completed']
+        && isValidNumber(request.resource.data.score, 0, 1000)
+        && isValidNumber(request.resource.data.attempts, 0, 9999);
+      
+      // Deleção: apenas o dono
+      allow delete: if isAuthenticated() && resource.data.uid == request.auth.uid;
     }
   }
 }
