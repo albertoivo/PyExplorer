@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { QuestionDocument } from '../types/question';
-import { MOCK_QUESTIONS } from '../data/mockQuestions';
+import { fetchAllQuestions } from '../firebase/questionsService';
 import { useAuth } from '../context/AuthContext';
 import { updateProgress } from '../firebase/firestore';
+
 
 // Chaves do localStorage
 const CACHED_QUESTIONS_KEY = 'pyexplorer_cached_questions';
@@ -47,13 +48,18 @@ export function useOffline() {
     /**
      * Carrega dados do cache local
      */
-    const loadCachedData = useCallback(() => {
+    const loadCachedData = useCallback(async () => {
         try {
-            // Carrega questões em cache
+            // Carrega questões em cache ou busca do Firestore
             const cachedQuestionsStr = localStorage.getItem(CACHED_QUESTIONS_KEY);
-            const cachedQuestions = cachedQuestionsStr
-                ? JSON.parse(cachedQuestionsStr)
-                : MOCK_QUESTIONS; // Usa questões mock como fallback
+            let cachedQuestions: QuestionDocument[];
+
+            if (cachedQuestionsStr) {
+                cachedQuestions = JSON.parse(cachedQuestionsStr);
+            } else {
+                // Busca do Firestore (com fallback para local)
+                cachedQuestions = await fetchAllQuestions();
+            }
 
             // Carrega progresso pendente
             const pendingProgressStr = localStorage.getItem(OFFLINE_PROGRESS_KEY);

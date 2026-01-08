@@ -1,8 +1,5 @@
-
 import { useState } from 'react';
-import { doc, setDoc } from 'firebase/firestore';
-import { db } from '../../firebase/firebaseConfig';
-import { questionsSeed } from '../../data/questionsSeed';
+import { seedQuestions, forceSeedQuestions } from '../../firebase/questionsService';
 import { useAuth } from '../../hooks/useAuth';
 
 export function DataSeeder() {
@@ -10,7 +7,7 @@ export function DataSeeder() {
     const [loading, setLoading] = useState(false);
     const [status, setStatus] = useState<string | null>(null);
 
-    // Permite apenas para o usuário admin específico (hardcoded por segurança simples neste contexto)
+    // Permite apenas para o usuário admin específico
     const isAdmin = user?.email === 'albertoivo@gmail.com';
 
     const handleSeed = async () => {
@@ -19,15 +16,37 @@ export function DataSeeder() {
         setStatus('Iniciando seed...');
 
         try {
-            let count = 0;
-            for (const question of questionsSeed) {
-                await setDoc(doc(db, 'questions', question.id), question);
-                count++;
+            const result = await seedQuestions();
+            if (result.success) {
+                setStatus(`✅ Sucesso! ${result.count} questões no Firestore.`);
+            } else {
+                setStatus(`❌ Erro: ${result.error}`);
             }
-            setStatus(`Sucesso! ${count} questões adicionadas/atualizadas.`);
         } catch (err) {
             console.error(err);
-            setStatus('Erro ao salvar dados. Verifique o console.');
+            setStatus('❌ Erro ao salvar dados. Verifique o console.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleForceSeed = async () => {
+        if (!isAdmin) return;
+        if (!confirm('⚠️ Isso vai DELETAR todas as questões e criar novas. Continuar?')) return;
+
+        setLoading(true);
+        setStatus('🗑️ Deletando questões antigas...');
+
+        try {
+            const result = await forceSeedQuestions();
+            if (result.success) {
+                setStatus(`✅ Re-seed completo! ${result.count} questões atualizadas.`);
+            } else {
+                setStatus(`❌ Erro: ${result.error}`);
+            }
+        } catch (err) {
+            console.error(err);
+            setStatus('❌ Erro ao salvar dados. Verifique o console.');
         } finally {
             setLoading(false);
         }
@@ -36,19 +55,50 @@ export function DataSeeder() {
     if (!isAdmin) return null;
 
     return (
-        <div style={{ padding: '20px', border: '1px solid #ccc', margin: '20px', borderRadius: '8px', background: '#fff3cd' }}>
-            <h3>🛠️ Área do Desenvolvedor</h3>
-            <p>Admin detectado: {user?.email}</p>
-            <div style={{ marginTop: '10px' }}>
+        <div style={{ padding: '20px', border: '2px solid #22c55e', margin: '20px', borderRadius: '12px', background: 'linear-gradient(135deg, #f0fdf4, #dcfce7)' }}>
+            <h3 style={{ margin: '0 0 10px', color: '#166534' }}>🛠️ Área do Desenvolvedor</h3>
+            <p style={{ margin: '0 0 15px', color: '#15803d' }}>Admin: {user?.email}</p>
+            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                 <button
                     onClick={handleSeed}
                     disabled={loading}
-                    style={{ padding: '8px 16px', background: '#ffc107', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}
+                    style={{
+                        padding: '10px 20px',
+                        background: loading ? '#86efac' : '#22c55e',
+                        border: 'none',
+                        borderRadius: '8px',
+                        cursor: loading ? 'wait' : 'pointer',
+                        fontWeight: 'bold',
+                        color: 'white',
+                        fontSize: '14px',
+                        transition: 'all 0.2s'
+                    }}
                 >
-                    {loading ? 'Enviando...' : 'Popular Firestore com Questões'}
+                    {loading ? '⏳ Enviando...' : '📚 Seed (se vazio)'}
+                </button>
+                <button
+                    onClick={handleForceSeed}
+                    disabled={loading}
+                    style={{
+                        padding: '10px 20px',
+                        background: loading ? '#fca5a5' : '#ef4444',
+                        border: 'none',
+                        borderRadius: '8px',
+                        cursor: loading ? 'wait' : 'pointer',
+                        fontWeight: 'bold',
+                        color: 'white',
+                        fontSize: '14px',
+                        transition: 'all 0.2s'
+                    }}
+                >
+                    🔄 Force Re-Seed (deleta tudo)
                 </button>
             </div>
-            {status && <p style={{ marginTop: '10px', fontWeight: 'bold' }}>{status}</p>}
+            {status && (
+                <p style={{ marginTop: '15px', fontWeight: 'bold', padding: '10px', borderRadius: '6px', background: status.includes('✅') ? '#bbf7d0' : status.includes('🗑️') ? '#fef3c7' : '#fecaca' }}>
+                    {status}
+                </p>
+            )}
         </div>
     );
 }

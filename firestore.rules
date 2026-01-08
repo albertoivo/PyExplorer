@@ -25,13 +25,17 @@ service cloud.firestore {
     function isValidNumber(field, min, max) {
       return field is number && field >= min && field <= max;
     }
+    // Função para verificar se é admin
+    function isAdmin() {
+      return isAuthenticated() && request.auth.token.email == 'albertoivo@gmail.com';
+    }
     
     // ============================================
-    // QUESTÕES - Leitura pública, escrita bloqueada
+    // QUESTÕES - Leitura pública, escrita apenas admin
     // ============================================
     match /questions/{questionId} {
       allow read: if true;
-      allow write: if false; // Apenas via Console Firebase ou scripts admin
+      allow write: if isAdmin(); // Apenas admin pode escrever
     }
     
     // ============================================

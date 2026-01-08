@@ -5,7 +5,7 @@ import { QuestionEngine } from '../components/game/QuestionEngine';
 import { QuestionCard } from '../components/game/QuestionCard';
 import { useProgress } from '../hooks/useProgress';
 import { usePyodide } from '../hooks/usePyodide';
-import { MOCK_QUESTIONS } from '../data/mockQuestions';
+import { useQuestionsFirestore } from '../hooks/useQuestionsFirestore';
 import './GamePage.css';
 
 type GameView = 'world-map' | 'world-questions' | 'playing';
@@ -22,6 +22,7 @@ export function GamePage() {
 
     const { allProgress, recordAttempt, getQuestionProgress } = useProgress();
     const { loading: pyodideLoading, loadingProgress, loadPyodide, ready } = usePyodide();
+    const { questions: allQuestions, loading: questionsLoading, getQuestionsByWorld } = useQuestionsFirestore();
 
     useEffect(() => {
         if (!ready && !pyodideLoading) {
@@ -33,7 +34,7 @@ export function GamePage() {
     const worldProgress = useMemo(() => {
         const progress = new Map<World, { completed: number; total: number }>();
 
-        const worldGroups = MOCK_QUESTIONS.reduce((acc, q) => {
+        const worldGroups = allQuestions.reduce((acc, q) => {
             if (!acc[q.world]) acc[q.world] = [];
             acc[q.world].push(q.id);
             return acc;
@@ -47,17 +48,18 @@ export function GamePage() {
         }
 
         return progress;
-    }, [allProgress]);
+    }, [allProgress, allQuestions]);
 
     /**
      * Seleciona um mundo para ver suas questões
      */
     const handleSelectWorld = (world: World) => {
-        const questions = MOCK_QUESTIONS.filter(q => q.world === world);
+        const questions = getQuestionsByWorld(world);
         setSelectedWorld(world);
         setWorldQuestions(questions);
         setView('world-questions');
     };
+
 
     /**
      * Começa a jogar uma questão
@@ -128,8 +130,8 @@ export function GamePage() {
         return names[world] || world;
     };
 
-    // Mostra loading do Pyodide
-    if (!ready) {
+    // Mostra loading do Pyodide ou questões
+    if (!ready || questionsLoading) {
         return (
             <div className="game-page game-page--loading">
                 <div className="pyodide-loading">
