@@ -15,11 +15,17 @@ export interface Segment {
 // Helper to check if two numbers are close enough
 const isClose = (a: number, b: number, epsilon = 2) => Math.abs(a - b) < epsilon;
 
+interface PyodideResult {
+    stdout: string;
+    stderr: string;
+    hasError: boolean;
+}
+
 /**
  * Executes python code using a headless turtle simulation to capture the drawn path.
  */
 export async function runTurtleSimulation(
-    runPython: (code: string) => Promise<any>,
+    runPython: (code: string) => Promise<PyodideResult | unknown>,
     code: string
 ): Promise<Segment[]> {
     const segments: Segment[] = [];
@@ -88,8 +94,8 @@ export async function runTurtleSimulation(
     window.turtle_penup = () => { penDown = false; };
     window.turtle_pendown = () => { penDown = true; };
     window.turtle_color = (c: string) => { color = c; };
-    window.turtle_width = (_w: number) => { /* width = w; */ };
-    window.turtle_speed = (_s: number) => { /* speed = s; */ };
+    window.turtle_width = () => { /* width = w; */ };
+    window.turtle_speed = () => { /* speed = s; */ };
     window.turtle_reset = () => {
         x = 0; y = 0; angle = 0; penDown = true; color = 'black'; /* width = 2; */
         segments.length = 0;

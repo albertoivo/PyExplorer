@@ -1,6 +1,6 @@
 import { collection, doc, setDoc, getDocs, writeBatch } from 'firebase/firestore';
 import { db } from './firebaseConfig';
-import { MOCK_QUESTIONS } from '../data/mockQuestions';
+import { ALL_QUESTIONS } from '../data/productionQuestions';
 import type { QuestionDocument, TestCase } from '../types/question';
 
 const QUESTIONS_COLLECTION = 'questions';
@@ -10,6 +10,7 @@ const QUESTIONS_COLLECTION = 'questions';
  * O Firestore não suporta arrays aninhados, então serializamos os inputs complexos
  */
 function sanitizeForFirestore(question: QuestionDocument): Record<string, unknown> {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, ...data } = question;
 
     // Se tem testes, serializa inputs que são arrays
@@ -35,9 +36,11 @@ function deserializeFromFirestore(data: Record<string, unknown>, id: string): Qu
     if (question.tests && Array.isArray(question.tests)) {
         question.tests = question.tests.map((test: TestCase & { inputSerialized?: boolean }) => {
             if (test.inputSerialized && typeof test.input === 'string') {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 const { inputSerialized, ...rest } = test;
                 return { ...rest, input: JSON.parse(test.input as string) };
             }
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { inputSerialized, ...rest } = test;
             return rest;
         });
@@ -63,7 +66,7 @@ export async function seedQuestions(): Promise<{ success: boolean; count: number
         // Usa batch para operações em lote (mais eficiente)
         const batch = writeBatch(db);
 
-        for (const question of MOCK_QUESTIONS) {
+        for (const question of ALL_QUESTIONS) {
             const docRef = doc(db, QUESTIONS_COLLECTION, question.id);
             const sanitizedData = sanitizeForFirestore(question);
             batch.set(docRef, sanitizedData);
@@ -71,8 +74,8 @@ export async function seedQuestions(): Promise<{ success: boolean; count: number
 
         await batch.commit();
 
-        console.log(`✅ ${MOCK_QUESTIONS.length} questões inseridas no Firestore com sucesso!`);
-        return { success: true, count: MOCK_QUESTIONS.length };
+        console.log(`✅ ${ALL_QUESTIONS.length} questões inseridas no Firestore com sucesso!`);
+        return { success: true, count: ALL_QUESTIONS.length };
     } catch (error) {
         const message = error instanceof Error ? error.message : 'Erro desconhecido';
         console.error('❌ Erro ao popular Firestore:', message);
@@ -90,7 +93,7 @@ export async function fetchAllQuestions(): Promise<QuestionDocument[]> {
 
         if (querySnapshot.empty) {
             console.log('Firestore vazio, usando questões locais');
-            return MOCK_QUESTIONS;
+            return ALL_QUESTIONS;
         }
 
         const questions = querySnapshot.docs.map(docSnap =>
@@ -101,7 +104,7 @@ export async function fetchAllQuestions(): Promise<QuestionDocument[]> {
         return questions;
     } catch (error) {
         console.warn('Erro ao buscar questões do Firestore, usando fallback local:', error);
-        return MOCK_QUESTIONS;
+        return ALL_QUESTIONS;
     }
 }
 
@@ -143,7 +146,7 @@ export async function forceSeedQuestions(): Promise<{ success: boolean; count: n
         // Agora insere as novas
         const insertBatch = writeBatch(db);
 
-        for (const question of MOCK_QUESTIONS) {
+        for (const question of ALL_QUESTIONS) {
             const docRef = doc(db, QUESTIONS_COLLECTION, question.id);
             const sanitizedData = sanitizeForFirestore(question);
             insertBatch.set(docRef, sanitizedData);
@@ -151,8 +154,8 @@ export async function forceSeedQuestions(): Promise<{ success: boolean; count: n
 
         await insertBatch.commit();
 
-        console.log(`✅ ${MOCK_QUESTIONS.length} questões inseridas no Firestore com sucesso!`);
-        return { success: true, count: MOCK_QUESTIONS.length };
+        console.log(`✅ ${ALL_QUESTIONS.length} questões inseridas no Firestore com sucesso!`);
+        return { success: true, count: ALL_QUESTIONS.length };
     } catch (error) {
         const message = error instanceof Error ? error.message : 'Erro desconhecido';
         console.error('❌ Erro ao popular Firestore:', message);
