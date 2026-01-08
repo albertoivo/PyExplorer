@@ -60,7 +60,7 @@ describe('ParsonsQuestion', () => {
         await act(async () => {
             fireEvent.click(submitButton);
             // Aguarda a execução assíncrona
-            await new Promise(process.nextTick);
+            await new Promise(resolve => setTimeout(resolve, 0));
         });
 
         expect(mockRunPython).toHaveBeenCalled();

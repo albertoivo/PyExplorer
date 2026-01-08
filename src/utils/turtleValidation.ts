@@ -15,6 +15,12 @@ export interface Segment {
 // Helper to check if two numbers are close enough
 const isClose = (a: number, b: number, epsilon = 2) => Math.abs(a - b) < epsilon;
 
+interface PyodideResult {
+    stdout: string;
+    stderr: string;
+    hasError: boolean;
+}
+
 /**
  * Executes python code using a headless turtle simulation to capture the drawn path.
  */
