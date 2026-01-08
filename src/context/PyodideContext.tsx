@@ -20,7 +20,7 @@ interface PyodideContextType {
     loadPyodide: () => Promise<void>;
 }
 
-const PyodideContext = createContext<PyodideContextType | undefined>(undefined);
+export const PyodideContext = createContext<PyodideContextType | undefined>(undefined);
 
 interface PyodideProviderProps {
     children: ReactNode;
@@ -239,7 +239,7 @@ sys.stdout = sys.__stdout__
 sys.stderr = sys.__stderr__
         `);
             } catch {
-                // Ignora erro ao restaurar stdout/stderr
+                // Ignore error during cleanup
             }
 
             const errorMessage = err instanceof Error ? err.message : String(err);
@@ -329,4 +329,5 @@ function formatPythonError(error: string): string {
     return formatted;
 }
 
+// Fast refresh doesn't allow exporting default non-component value if file exports components
 export default PyodideContext;

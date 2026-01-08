@@ -73,30 +73,8 @@ export function TurtleCanvas({
         visible: true
     });
 
-    // Limpa o canvas
-    const clearCanvas = useCallback(() => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Reseta estado
-        state.current = {
-            x: 0,
-            y: 0,
-            angle: 0, // 0 aponta para direita (leste)
-            penDown: true,
-            color: 'black',
-            width: 2,
-            visible: true
-        };
-
-        updateTurtleSprite();
-    }, []);
-
     // Atualiza a posição do sprite HTML
-    const updateTurtleSprite = () => {
+    const updateTurtleSprite = useCallback(() => {
         // Converte coordenadas cartesianas (0,0 no centro) para coordenadas do DOM (top/left)
         // Y inverte: para cima é positivo no turtle, mas negativo no DOM
         const domX = (state.current.x + width / 2);
@@ -123,7 +101,29 @@ export function TurtleCanvas({
             // O icone padrão 🐢 costuma estar de lado. Vamos assumir Leste.
             transform: `translate(-50%, -50%) rotate(${state.current.angle}deg)`
         });
-    };
+    }, [width, height]);
+
+    // Limpa o canvas
+    const clearCanvas = useCallback(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Reseta estado
+        state.current = {
+            x: 0,
+            y: 0,
+            angle: 0, // 0 aponta para direita (leste)
+            penDown: true,
+            color: 'black',
+            width: 2,
+            visible: true
+        };
+
+        updateTurtleSprite();
+    }, [updateTurtleSprite]);
 
     // Processa a fila de animação
     const processQueue = useCallback(() => {
@@ -138,7 +138,8 @@ export function TurtleCanvas({
         const ctx = canvasRef.current?.getContext('2d');
 
         if (!cmd || !ctx) {
-            requestAnimationFrame(processQueue);
+            // Need to wrap processQueue in arrow function to avoid circular reference in dependency array if we passed processQueue directly
+            requestAnimationFrame(() => processQueue());
             return;
         }
 
@@ -164,30 +165,6 @@ export function TurtleCanvas({
             case 'FORWARD': {
                 const dist = cmd.value;
 
-                // Espera... Se angle aumenta horário (right), então:
-                // 0 -> cos=1, sin=0 -> x+
-                // 90 -> cos=0, sin=1 -> y- (para baixo no canvas, que é Y+)
-                // Mas no nosso sistema cartesiano Y+ é pra cima.
-                // Então 90 graus (sul) deve diminuir Y.
-                // cos(90) = 0. sin(90) = 1.
-                // dx = dist * cos(theta). dy = dist * sin(theta).
-                // Se theta = 90 (graus horario), = -90 (graus cartesiano).
-
-                // Vamos simplificar: ângulo `state.current.angle` cresce horário.
-                // dx = dist * Math.cos(state.current.angle * Math.PI / 180)
-                // dy = dist * Math.sin(state.current.angle * Math.PI / 180) 
-                // X aumenta para direita. Y aumenta para BAIXO no canvas nativo.
-                // Se ângulo 0: dx=d, dy=0. (Direita). OK.
-                // Se ângulo 90 (Sul): dx=0, dy=d. (Baixo). OK.
-                // Então podemos usar Math.cos/sin direto se considerarmos Y do canvas.
-
-                // Mas para o `state` lógico, eu mantive Y "matemático" (cima positivo) no `updateTurtleSprite`.
-                // updateTurtleSprite: `(-state.current.y + height / 2)`
-                // Então meu state Y cresce para cima.
-                // Se 90 graus é SUL: x não muda, Y diminui.
-                // cos(90) = 0. sin(90) = 1.
-                // dx = d * cos(theta). dy = -d * sin(theta) (pois sin(90) daria +1, mas quero descer).
-
                 const thetaRad = state.current.angle * (Math.PI / 180);
                 const targetX = state.current.x + dist * Math.cos(thetaRad);
                 const targetY = state.current.y - dist * Math.sin(thetaRad); // Y cresce pra cima, angulo cresce horário (pra baixo)
@@ -204,7 +181,8 @@ export function TurtleCanvas({
                         state.current.x = targetX;
                         state.current.y = targetY;
                         updateTurtleSprite();
-                        processQueue();
+                        // Recursive call via requestAnimationFrame
+                        requestAnimationFrame(() => processQueue());
                         return;
                     }
                     currentStep++;
@@ -237,7 +215,8 @@ export function TurtleCanvas({
                     if (rotStep >= rotSteps) {
                         state.current.angle = targetAngle;
                         updateTurtleSprite();
-                        processQueue();
+                        // Recursive call via requestAnimationFrame
+                        requestAnimationFrame(() => processQueue());
                         return;
                     }
                     rotStep++;
@@ -282,7 +261,7 @@ export function TurtleCanvas({
                 break;
         }
 
-    }, [width, height, clearCanvas]);
+    }, [width, height, clearCanvas, updateTurtleSprite, onCommandExecuted]);
 
     // Registra listeners globais ao montar
     useEffect(() => {
@@ -305,7 +284,7 @@ export function TurtleCanvas({
             window.turtle_right = () => { };
             // ...
         };
-    }, [clearCanvas, processQueue]);
+    }, [clearCanvas, processQueue, updateTurtleSprite]);
 
     // Resize observer para manter canvas nítido? 
     // Por enquanto fixo em width/height props.

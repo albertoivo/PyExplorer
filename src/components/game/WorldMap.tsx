@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import type { CSSProperties } from 'react';
 import type { World } from '../../types/question';
 import { useAuth } from '../../hooks/useAuth';
@@ -97,7 +97,8 @@ interface WorldMapProps {
 export function WorldMap({ onSelectWorld, worldProgress }: WorldMapProps) {
     const { userData } = useAuth();
     const userScore = userData?.totalScore || 0;
-    const unlockedWorlds = userData?.unlockedWorlds || ['basic_commands'];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const unlockedWorlds = useMemo(() => userData?.unlockedWorlds || ['basic_commands'], [userData?.unlockedWorlds]);
 
     // Estado para tutorial e flashcards
     const [showTutorial, setShowTutorial] = useState<World | null>(null);
