@@ -271,6 +271,7 @@ sys.stderr = sys.__stderr__
 /**
  * Hook para acessar o contexto do Pyodide
  */
+// eslint-disable-next-line react-refresh/only-export-components
 export function usePyodide(): PyodideContextType {
     const context = useContext(PyodideContext);
     if (context === undefined) {

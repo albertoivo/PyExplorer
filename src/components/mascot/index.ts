@@ -1,1 +1,2 @@
-export { Mascot, useMascot, type MascotMood } from './Mascot';
+export { Mascot, type MascotMood } from './Mascot';
+export { useMascot } from '../../hooks/useMascot';

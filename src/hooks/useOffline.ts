@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { QuestionDocument } from '../types/question';
 import { MOCK_QUESTIONS } from '../data/mockQuestions';
+import { useAuth } from '../context/AuthContext';
+import { updateProgress } from '../firebase/firestore';
 
 // Chaves do localStorage
 const CACHED_QUESTIONS_KEY = 'pyexplorer_cached_questions';
@@ -104,6 +106,8 @@ export function useOffline() {
         });
     }, []);
 
+    const { user } = useAuth();
+
     /**
      * Sincroniza progresso pendente com o servidor
      */
@@ -112,14 +116,24 @@ export function useOffline() {
             return false;
         }
 
+        if (!user) {
+            // Se não estiver logado, não faz sentido sincronizar com o Firestore.
+            // Poderíamos sincronizar com dados de convidado no LocalStorage se a lógica de login como convidado
+            // não usasse o mesmo LocalStorage.
+            return false;
+        }
+
         setState(prev => ({ ...prev, isSyncing: true }));
 
         try {
-            // TODO: Implementar chamada real ao Firestore
-            // Por enquanto, apenas limpa o progresso pendente
             console.log('Sincronizando progresso:', state.pendingProgress);
 
-            // Simula sucesso
+            // TODO: Otimizar para usar batch writes se houver muitos itens
+            for (const item of state.pendingProgress) {
+                await updateProgress(user.uid, item.questionId, item.passed, item.score);
+            }
+
+            // Sucesso
             localStorage.removeItem(OFFLINE_PROGRESS_KEY);
             localStorage.setItem(LAST_SYNC_KEY, new Date().toISOString());
 
@@ -136,7 +150,7 @@ export function useOffline() {
             setState(prev => ({ ...prev, isSyncing: false }));
             return false;
         }
-    }, [state.isOnline, state.pendingProgress, state.isSyncing]);
+    }, [state.isOnline, state.pendingProgress, state.isSyncing, user]);
 
     // Monitora status de conexão
     useEffect(() => {
