@@ -1,3 +1,4 @@
+import confetti from 'canvas-confetti';
 import { useState, useCallback } from 'react';
 import type { QuestionDocument } from '../../types/question';
 import type { HintLevel } from '../../types/education';
@@ -12,6 +13,7 @@ import {
 } from './questionTypes';
 import { ResultPanel } from './feedback/ResultPanel';
 import { ProgressiveHints } from '../education';
+import { playSound } from '../../utils/soundEffects';
 import { useAuth } from '../../hooks/useAuth';
 import { useMascotContext } from '../../context/MascotContext';
 import './QuestionEngine.css';
@@ -87,6 +89,20 @@ export function QuestionEngine({
         setShowResult(true);
         setShowHints(false);
         mascotReact(correct);
+
+        if (correct) {
+            // 🎉 Dispara confetes!
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4']
+            });
+            playSound('success');
+        } else {
+            playSound('error');
+        }
+
         let score = correct ? calculateScore(question) : 0;
         if (correct && hintsCost > 0) {
             score = Math.max(1, score - Math.floor(hintsCost / 2));

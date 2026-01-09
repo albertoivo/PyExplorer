@@ -4,6 +4,7 @@ import type { User } from 'firebase/auth';
 import { subscribeToAuthChanges, signIn, signUp, logOut, resetPassword } from '../firebase/auth';
 import { saveUser, getUser } from '../firebase/firestore';
 import type { UserData, World } from '../types/question';
+import { calculateStreak } from '../utils/gamificationUtils';
 
 /**
  * Interface do contexto de autenticação
@@ -66,6 +67,21 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 localStorage.removeItem(GUEST_KEY);
                 try {
                     const data = await getUser(firebaseUser.uid);
+
+                    if (data) {
+                        // Lógica de Streak (Ofensiva)
+                        const streakResult = calculateStreak(
+                            data.streak || 0,
+                            data.lastActiveDate
+                        );
+
+                        if (streakResult.shouldUpdate) {
+                            data.streak = streakResult.streak;
+                            data.lastActiveDate = streakResult.lastActiveDate;
+                            await saveUser(data);
+                        }
+                    }
+
                     setUserData(data);
                 } catch (err) {
                     console.error('Erro ao buscar dados do usuário:', err);
@@ -75,7 +91,21 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 const guestData = localStorage.getItem(GUEST_KEY);
                 if (guestData) {
                     setIsGuest(true);
-                    setUserData(JSON.parse(guestData));
+                    const data = JSON.parse(guestData);
+
+                    // Lógica de Streak para convidado
+                    const streakResult = calculateStreak(
+                        data.streak || 0,
+                        data.lastActiveDate
+                    );
+
+                    if (streakResult.shouldUpdate) {
+                        data.streak = streakResult.streak;
+                        data.lastActiveDate = streakResult.lastActiveDate;
+                        localStorage.setItem(GUEST_KEY, JSON.stringify(data));
+                    }
+
+                    setUserData(data);
                 } else {
                     setUserData(null);
                     setIsGuest(false);
@@ -124,6 +154,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 updatedAt: new Date(),
                 totalScore: 0,
                 unlockedWorlds: ['basic_commands' as World],
+                streak: 1,
+                lastActiveDate: new Date().toISOString().split('T')[0],
+                inventory: [],
+                equippedAvatar: 'default',
             };
 
             await saveUser(newUserData);
@@ -184,6 +218,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
             updatedAt: new Date(),
             totalScore: 0,
             unlockedWorlds: ['basic_commands' as World],
+            streak: 1,
+            lastActiveDate: new Date().toISOString().split('T')[0],
         };
 
         localStorage.setItem(GUEST_KEY, JSON.stringify(guestData));

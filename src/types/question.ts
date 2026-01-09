@@ -159,6 +159,30 @@ export interface UserData {
   totalScore: number;
   /** Mundos desbloqueados */
   unlockedWorlds: World[];
+  /** Ofensiva atual (dias seguidos) */
+  streak: number;
+  /** Data da última atividade para cálculo de streak */
+  lastActiveDate: string;
+  /** Start of Phase 2 logic */
+  /** Itens desbloqueados (IDs dos itens) */
+  inventory: string[];
+  /** Avatar equipado (pode ser URL ou ID de um item) */
+  equippedAvatar: string;
+}
+
+/**
+ * Item da loja
+ */
+export interface ShopItem {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  type: 'avatar' | 'theme' | 'sticker';
+  /** URL da imagem ou identificador do asset */
+  assetUrl: string;
+  /** Se requer algum unlock especial (ex: nível 10) */
+  requirement?: string;
 }
 
 /**
