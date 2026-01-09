@@ -120,6 +120,9 @@ export function useProgress() {
 
                 // Recarrega dados do usuário para garantir sincronização
                 await refreshUserData();
+                
+                // Recarrega progresso do Firestore para garantir sincronização completa
+                await loadAllProgress();
             }
         } catch (err) {
             const message = err instanceof Error ? err.message : 'Erro ao salvar progresso';
