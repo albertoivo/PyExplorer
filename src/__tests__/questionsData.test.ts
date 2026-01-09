@@ -1,6 +1,6 @@
 
 import { describe, it, expect } from 'vitest';
-import { ALL_QUESTIONS } from '../data/productionQuestions';
+import { COMPLETE_QUESTIONS as ALL_QUESTIONS } from '../data/completeQuestions';
 
 describe('Production Question Data Integrity', () => {
     it('should have unique IDs', () => {

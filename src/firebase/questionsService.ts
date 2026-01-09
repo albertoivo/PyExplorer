@@ -1,6 +1,6 @@
 import { collection, doc, setDoc, getDocs, writeBatch } from 'firebase/firestore';
 import { db } from './firebaseConfig';
-import { ALL_QUESTIONS } from '../data/productionQuestions';
+import { COMPLETE_QUESTIONS as ALL_QUESTIONS } from '../data/completeQuestions';
 import type { QuestionDocument, TestCase } from '../types/question';
 
 const QUESTIONS_COLLECTION = 'questions';

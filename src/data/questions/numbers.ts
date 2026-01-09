@@ -1,0 +1,96 @@
+import type { QuestionDocument } from '../../types/question';
+
+export const numbersQuestions: QuestionDocument[] = [
+    {
+        id: 'num_1',
+        type: 'multiple_choice',
+        world: 'numbers',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Soma em Python',
+        prompt: 'Qual símbolo usamos para somar dois números?',
+        options: ['+', 'x', '&', '@'],
+        answerIndex: 0,
+        explanationKidFriendly: 'O + funciona igual na matemática! 5 + 3 = 8. Python é sua calculadora pessoal! 🧮',
+        points: 10,
+    },
+    {
+        id: 'num_2',
+        type: 'true_false',
+        world: 'numbers',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Multiplicação com asterisco',
+        prompt: 'Em Python, usamos o asterisco (*) para multiplicar números.',
+        correctBool: true,
+        explanationKidFriendly: 'Isso! O asterisco (*) é a multiplicação. 4 * 3 = 12. Diferente do x do caderno, mas faz a mesma coisa! ✖️',
+        points: 10,
+    },
+    {
+        id: 'num_3',
+        type: 'fill_code',
+        world: 'numbers',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Calcule a idade futura',
+        prompt: 'Complete o código para calcular a idade daqui a 5 anos:',
+        starterCode: 'idade = 10\nidade_futura = idade ___ 5\nprint(idade_futura)',
+        solutionTemplate: 'idade_futura = idade + 5',
+        tests: [
+            { input: null, expectedOutput: '15' },
+        ],
+        explanationKidFriendly: 'Para calcular a idade futura, some a idade atual com os anos! 10 + 5 = 15! 🎂',
+        points: 15,
+    },
+    {
+        id: 'num_4',
+        type: 'multiple_choice',
+        world: 'numbers',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Divisão em Python',
+        prompt: 'Qual é o resultado de 10 / 2 em Python?',
+        options: ['5.0', '5', '2', 'Erro'],
+        answerIndex: 0,
+        explanationKidFriendly: 'A divisão com / sempre dá número com ponto! 10 / 2 = 5.0. Para número inteiro, use // (dois tracinhos).',
+        points: 15,
+    },
+    {
+        id: 'num_5',
+        type: 'fill_code',
+        world: 'numbers',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Calcule o dobro',
+        prompt: 'Complete para calcular o dobro de um número:',
+        starterCode: 'numero = 7\ndobro = numero ___ 2\nprint(dobro)',
+        solutionTemplate: 'dobro = numero * 2',
+        tests: [
+            { input: null, expectedOutput: '14' },
+        ],
+        explanationKidFriendly: 'O dobro é multiplicar por 2! 7 * 2 = 14! ✌️',
+        points: 20,
+    },
+    // PARSONS PROBLEM
+    {
+        id: 'num_parsons_avg',
+        type: 'parsons_problem',
+        world: 'numbers',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Calculando a Média',
+        prompt: 'Organize o código para calcular a média de 3 notas.',
+        parsonsSegments: [
+            'nota1 = 8',
+            'nota2 = 9',
+            'nota3 = 7',
+            'media = (nota1 + nota2 + nota3) / 3',
+            'print(media)'
+        ],
+        tests: [
+            { input: null, expectedOutput: '8.0' }
+        ],
+        explanationKidFriendly: 'Primeiro definimos as notas, depois somamos e dividimos por 3 para achar a média!',
+        points: 20
+    }
+];
