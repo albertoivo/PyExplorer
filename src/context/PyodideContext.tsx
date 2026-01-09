@@ -192,7 +192,7 @@ sys.stderr = sys.__stderr__
                         const callCode = `
 import json
 _test_result = ${functionName}(${args})
-json.dumps(_test_result) if not isinstance(_test_result, (int, float, bool, type(None))) else _test_result
+json.dumps(_test_result) if not isinstance(_test_result, (int, float, bool, str, type(None))) else _test_result
             `;
 
                         const actualOutput = await pyodide.runPythonAsync(callCode);
