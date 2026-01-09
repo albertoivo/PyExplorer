@@ -254,6 +254,13 @@ export function WorldMap({ onSelectWorld, worldProgress }: WorldMapProps) {
                                     <div className="world-card__badge">🏆</div>
                                 )}
 
+                                {/* Indicador de Boss - só falta 1 para completar */}
+                                {unlocked && !isComplete && status.total > 0 && status.completed === status.total - 1 && (
+                                    <div className="world-card__boss-badge">
+                                        👹 BOSS BATTLE!
+                                    </div>
+                                )}
+
                                 {/* Indicador de tutorial novo */}
                                 {unlocked && hasTutorial && !viewedTutorial && (
                                     <div className="world-card__tutorial-badge">

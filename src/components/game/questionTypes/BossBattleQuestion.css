@@ -1,0 +1,172 @@
+.boss-intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    color: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    text-align: center;
+    border: 2px solid #e53e3e;
+    animation: pulse-border 2s infinite;
+}
+
+.boss-avatar-large {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+    animation: shake 2s infinite;
+}
+
+.boss-start-btn {
+    margin-top: 2rem;
+    padding: 1rem 2rem;
+    font-size: 1.5rem;
+    background-color: #e53e3e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s;
+}
+
+.boss-start-btn:hover {
+    transform: scale(1.05);
+    background-color: #c53030;
+}
+
+.boss-battle-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: #2d3748;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 2px solid #4a5568;
+}
+
+.boss-battle-container.hurry-up {
+    border-color: #e53e3e;
+    animation: flash-border 1s infinite;
+}
+
+.boss-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1a202c;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.boss-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.boss-avatar-small {
+    font-size: 2rem;
+}
+
+.boss-name {
+    font-weight: bold;
+    color: #e53e3e;
+    font-size: 1.2rem;
+}
+
+.boss-timer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: monospace;
+    font-size: 1.5rem;
+    background-color: #4a5568;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    color: white;
+}
+
+.boss-timer.danger {
+    background-color: #c53030;
+    animation: pulse 0.5s infinite;
+}
+
+.boss-prompt {
+    background: rgba(255,255,255,0.1);
+    padding: 1rem;
+    border-radius: 8px;
+    color: #e2e8f0;
+}
+
+.boss-feedback {
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.boss-feedback.failure {
+    background-color: #fed7d7;
+    color: #c53030;
+    border: 1px solid #c53030;
+}
+
+.boss-feedback.info {
+    background-color: #bee3f8;
+    color: #2c5282;
+}
+
+.boss-controls {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.boss-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.boss-btn.attack {
+    background-color: #e53e3e;
+    color: white;
+}
+
+.boss-btn.attack:hover:not(:disabled) {
+    background-color: #c53030;
+    transform: translateY(-2px);
+}
+
+.boss-btn.retry {
+    background-color: #4a5568;
+    color: white;
+}
+
+.boss-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+@keyframes shake {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(2px, 2px) rotate(2deg); }
+    50% { transform: translate(0, 0) rotate(0deg); }
+    75% { transform: translate(-2px, 2px) rotate(-2deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}

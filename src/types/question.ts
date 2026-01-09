@@ -8,7 +8,15 @@ export type QuestionType =
   | 'partial_function'
   | 'full_function'
   | 'parsons_problem'
-  | 'turtle_challenge';
+  | 'turtle_challenge'
+  | 'boss_battle';
+
+export interface BossMetadata {
+  bossName: string;
+  bossAvatar: string; // URL ou emoji
+  timeLimitSeconds: number;
+  initialCode?: string; // Código inicial específico para o boss
+}
 
 /**
  * Níveis de dificuldade das questões
@@ -108,6 +116,9 @@ export interface QuestionDocument {
   // Para Turtle Challenge
   /** Imagem alvo (opcional) para questões visuais */
   targetImage?: string;
+
+  /** Metadados para Boss Battle */
+  bossMetadata?: BossMetadata;
 
   /** Explicação simples do conceito, em linguagem acessível às crianças */
   explanationKidFriendly: string;
