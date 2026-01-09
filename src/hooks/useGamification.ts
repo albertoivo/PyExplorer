@@ -189,7 +189,7 @@ export function useGamification() {
 
                 // Aplica recompensas do novo nível
                 if (newLevel.rewards?.stars && userData) {
-                    updateUserData({ totalScore: userData.totalScore + newLevel.rewards.stars });
+                    updateUserData({ balance: (userData.balance || 0) + newLevel.rewards.stars });
                 }
             }
 
@@ -247,7 +247,7 @@ export function useGamification() {
         // Adiciona XP e estrelas
         addXP(achievement.xpReward);
         if (achievement.starsReward > 0 && userData) {
-            updateUserData({ totalScore: userData.totalScore + achievement.starsReward });
+            updateUserData({ balance: (userData.balance || 0) + achievement.starsReward });
         }
 
         // Notifica o usuário
@@ -514,7 +514,7 @@ export function useGamification() {
         // Dá as recompensas
         addXP(mission.xpReward);
         if (mission.starsReward > 0 && userData) {
-            updateUserData({ totalScore: userData.totalScore + mission.starsReward });
+            updateUserData({ balance: (userData.balance || 0) + mission.starsReward });
         }
 
         // Marca como reivindicada
@@ -580,10 +580,10 @@ export function useGamification() {
         const powerUp = POWERUPS.find(p => p.id === type);
         if (!powerUp || !userData) return false;
 
-        if (userData.totalScore < powerUp.price) return false;
+        if ((userData.balance || 0) < powerUp.price) return false;
 
         // Deduz estrelas
-        updateUserData({ totalScore: userData.totalScore - powerUp.price });
+        updateUserData({ balance: (userData.balance || 0) - powerUp.price });
 
         // Adiciona ao inventário
         setGamification(prev => {
@@ -610,11 +610,11 @@ export function useGamification() {
      */
     const buyShopItem = useCallback((itemId: string, price: number): boolean => {
         if (!userData) return false;
-        if (userData.totalScore < price) return false;
+        if ((userData.balance || 0) < price) return false;
         if (gamification.inventory.ownedItems.includes(itemId)) return false;
 
         // Deduz estrelas
-        updateUserData({ totalScore: userData.totalScore - price });
+        updateUserData({ balance: (userData.balance || 0) - price });
 
         // Adiciona ao inventário
         setGamification(prev => {
@@ -638,6 +638,11 @@ export function useGamification() {
     const equipItem = useCallback((itemId: string, type: 'avatar' | 'frame' | 'title') => {
         if (!gamification.inventory.ownedItems.includes(itemId)) return;
 
+        // Se for avatar, atualiza também o perfil do usuário
+        if (type === 'avatar' && userData) {
+            updateUserData({ avatar: itemId });
+        }
+
         setGamification(prev => {
             const updated = {
                 ...prev,
@@ -651,7 +656,7 @@ export function useGamification() {
             saveGamification(updated);
             return updated;
         });
-    }, [gamification.inventory.ownedItems, saveGamification]);
+    }, [gamification.inventory.ownedItems, saveGamification, userData, updateUserData]);
 
     // ============================================
     // ESTATÍSTICAS

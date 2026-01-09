@@ -69,7 +69,7 @@ export function Header() {
                         <div className="header__user-info">
                             <div className="header__user-details">
                                 <span className="header__user-name">{userData.displayName}</span>
-                                <span className="header__user-stars">⭐ {userData.totalScore}</span>
+                                <span className="header__user-stars" title="Estrelas disponíveis">⭐ {userData.balance || 0}</span>
                                 <span className="header__user-streak" title="Ofensiva diária">🔥 {userData.streak || 0}</span>
                                 {isGuest && <span className="header__user-guest">(Convidado)</span>}
                             </div>

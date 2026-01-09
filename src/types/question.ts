@@ -155,8 +155,10 @@ export interface UserData {
   createdAt: Date;
   /** Data da última atualização */
   updatedAt: Date;
-  /** Total de estrelas/pontos acumulados */
+  /** Total de estrelas/pontos acumulados (XP Vitalício) */
   totalScore: number;
+  /** Estrelas disponíveis para gastar (Moeda) */
+  balance: number;
   /** Mundos desbloqueados */
   unlockedWorlds: World[];
   /** Ofensiva atual (dias seguidos) */

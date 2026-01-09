@@ -80,7 +80,17 @@ export function QuestionEngine({
         saveUsedHints(newRevealed);
         if (cost > 0 && userData) {
             const newScore = Math.max(0, (userData.totalScore || 0) - cost);
-            updateUserData?.({ totalScore: newScore });
+            // Hints cost reduces both total score and potentially balance? 
+            // Usually hints just reduce the POTENTIAL score of the question, 
+            // but if we are deducting from totalScore, that's a penalty.
+            // Let's stick to deducting from totalScore for now as implemented, 
+            // but logic usually is: Hints reduce the points gained from THIS question.
+            // The current implementation deducts from GLOBAL score.
+            // Let's keep it consistent: Deduct from balance too?
+            // "Spending" hints sounds like spending currency.
+            // Let's deduct from balance too.
+            const newBalance = Math.max(0, (userData.balance || 0) - cost);
+            updateUserData?.({ totalScore: newScore, balance: newBalance });
         }
     }, [revealedHints, saveUsedHints, userData, updateUserData]);
 

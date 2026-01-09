@@ -201,7 +201,7 @@ export function GamificationPage() {
 
                 {activeTab === 'shop' && (
                     <AvatarShop
-                        userStars={userData?.totalScore || 0}
+                        userStars={userData?.balance || 0}
                         userLevel={currentLevel.level}
                         inventory={inventory}
                         onBuy={buyShopItem}

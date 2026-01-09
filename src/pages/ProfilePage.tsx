@@ -4,27 +4,19 @@ import { WorldProgressBar } from '../components/game/feedback/ProgressBar';
 import { DataSeeder } from '../components/education/DataSeeder';
 import './ProfilePage.css';
 
-// Avatars disponíveis
-const AVATARS = [
-    { id: 'default_avatar', emoji: '🧑‍💻', name: 'Programador' },
-    { id: 'ninja', emoji: '🥷', name: 'Ninja' },
-    { id: 'wizard', emoji: '🧙‍♂️', name: 'Mago' },
-    { id: 'astronaut', emoji: '👨‍🚀', name: 'Astronauta' },
-    { id: 'scientist', emoji: '🧑‍🔬', name: 'Cientista' },
-    { id: 'robot', emoji: '🤖', name: 'Robô' },
-    { id: 'dragon', emoji: '🐉', name: 'Dragão' },
-    { id: 'unicorn', emoji: '🦄', name: 'Unicórnio' },
-];
+import { SHOP_ITEMS } from '../data/gamificationData';
+import './ProfilePage.css';
 
-// Mundos para exibir progresso
+// Mundos para exibir progresso (mantido local por enquanto ou mover para gamificationData)
 const WORLDS_INFO = [
     { id: 'basic_commands', name: 'Primeiros Passos', icon: '🚀' },
     { id: 'variables', name: 'Variáveis', icon: '📦' },
-    { id: 'decisions', name: 'Decisões', icon: '🔀' },
-    { id: 'loops', name: 'Repetição', icon: '🔄' },
-    { id: 'functions', name: 'Funções', icon: '✨' },
-    { id: 'lists', name: 'Listas', icon: '📜' },
-    { id: 'strings', name: 'Strings', icon: '📝' },
+    { id: 'numbers', name: 'Números Mágicos', icon: '🔢' },
+    { id: 'conditions', name: 'Terra das Decisões', icon: '🔀' },
+    { id: 'loops', name: 'Ilha da Repetição', icon: '🔄' },
+    { id: 'functions', name: 'Vale das Funções', icon: '✨' },
+    { id: 'lists', name: 'Floresta das Listas', icon: '📜' },
+    { id: 'strings', name: 'Reino das Palavras', icon: '📝' },
 ];
 
 /**
@@ -45,8 +37,10 @@ export function ProfilePage() {
         );
     }
 
-    // Encontra o emoji do avatar atual
-    const currentAvatar = AVATARS.find(a => a.id === userData.avatar) || AVATARS[0];
+    // Encontra o item do avatar atual
+    const currentAvatarItem = SHOP_ITEMS.find(a => a.id === userData.avatar && a.type === 'avatar');
+    // Fallback: se não achar, procura um default ou usa o primeiro da lista
+    const displayAvatar = currentAvatarItem || SHOP_ITEMS.find(a => a.id === 'avatar_snake_green') || { icon: '🧑‍💻', name: 'Programador' };
 
     // Calcula progresso por mundo
     const getWorldProgress = (worldId: string) => {
@@ -71,8 +65,8 @@ export function ProfilePage() {
                 {/* Card do Perfil */}
                 <div className="profile-card">
                     <div className="profile-card__avatar">
-                        <span className="profile-card__avatar-emoji">{currentAvatar.emoji}</span>
-                        <span className="profile-card__avatar-name">{currentAvatar.name}</span>
+                        <span className="profile-card__avatar-emoji">{displayAvatar.icon}</span>
+                        <span className="profile-card__avatar-name">{displayAvatar.name}</span>
                     </div>
 
                     <h1 className="profile-card__name">{userData.displayName}</h1>
