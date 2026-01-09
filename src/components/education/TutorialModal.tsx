@@ -116,13 +116,20 @@ export function TutorialModal({
             <div
                 className={`tutorial-modal ${isAnimating ? 'tutorial-modal--animating' : ''}`}
                 onClick={e => e.stopPropagation()}
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="tutorial-title"
             >
                 {/* Header */}
                 <div className="tutorial-modal__header">
                     <div className="tutorial-modal__title-row">
-                        <h2 className="tutorial-modal__title">{tutorial.title}</h2>
+                        <h2 id="tutorial-title" className="tutorial-modal__title">{tutorial.title}</h2>
                         {!forceWatch && (
-                            <button className="tutorial-modal__close" onClick={handleSkip}>
+                            <button
+                                className="tutorial-modal__close"
+                                onClick={handleSkip}
+                                aria-label="Fechar tutorial"
+                            >
                                 ✕
                             </button>
                         )}
@@ -222,6 +229,8 @@ export function TutorialModal({
                                 setCurrentStep(idx);
                                 setShowCode(false);
                             }}
+                            aria-label={`Ir para passo ${idx + 1}`}
+                            aria-current={idx === currentStep ? 'step' : undefined}
                         />
                     ))}
                 </div>
