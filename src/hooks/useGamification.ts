@@ -51,6 +51,10 @@ function getInitialGamification(): UserGamification {
         stats: {
             totalQuestionsCompleted: 0,
             totalCorrectAnswers: 0,
+            consecutiveCorrect: 0,
+            bestConsecutiveCorrect: 0,
+            weekendQuestionsCount: 0,
+            lastWeekendDate: '',
             totalPlayTime: 0,
             worldsCompleted: 0,
             perfectWorlds: 0,
@@ -335,6 +339,63 @@ export function useGamification() {
     }, [unlockAchievement]);
 
     /**
+     * Verifica conquistas baseadas no horário
+     */
+    const checkTimeAchievements = useCallback(() => {
+        const hour = new Date().getHours();
+
+        // Madrugador: entre 5h e 7h
+        if (hour >= 5 && hour < 7) {
+            unlockAchievement('early_bird');
+        }
+
+        // Coruja Noturna: entre 23h e 1h
+        if (hour >= 23 || hour < 1) {
+            unlockAchievement('night_owl');
+        }
+    }, [unlockAchievement]);
+
+    /**
+     * Verifica conquistas de velocidade
+     */
+    const checkSpeedAchievement = useCallback((responseTimeSeconds: number) => {
+        // Velocista: resposta correta em menos de 10 segundos
+        if (responseTimeSeconds < 10) {
+            unlockAchievement('speed_demon');
+        }
+    }, [unlockAchievement]);
+
+    /**
+     * Verifica conquistas de fim de semana
+     */
+    const checkWeekendAchievements = useCallback((weekendCount: number) => {
+        // Guerreiro de fim de semana: 10 questões em um único fim de semana
+        if (weekendCount >= 10) {
+            unlockAchievement('weekend_warrior');
+        }
+    }, [unlockAchievement]);
+
+    /**
+     * Verifica conquistas de mundo
+     */
+    const checkWorldAchievements = useCallback((worldsCompleted: number, isPerfect: boolean) => {
+        // Explorador: completou um mundo
+        if (worldsCompleted >= 1) {
+            unlockAchievement('first_world');
+        }
+
+        // Perfeição Absoluta: completou um mundo sem errar
+        if (isPerfect) {
+            unlockAchievement('perfect_world');
+        }
+
+        // Conquistador de Mundos: completou todos os mundos (6 mundos)
+        if (worldsCompleted >= 6) {
+            unlockAchievement('all_worlds');
+        }
+    }, [unlockAchievement]);
+
+    /**
      * Marca conquista como vista
      */
     const markAchievementSeen = useCallback((achievementId: string) => {
@@ -598,28 +659,75 @@ export function useGamification() {
 
     /**
      * Registra uma questão completada
+     * @param passed - Se a resposta foi correta
+     * @param xpEarned - XP ganho (padrão: 10)
+     * @param responseTimeSeconds - Tempo de resposta em segundos (opcional)
      */
-    const recordQuestionCompleted = useCallback((passed: boolean, xpEarned: number = 10) => {
+    const recordQuestionCompleted = useCallback((passed: boolean, xpEarned: number = 10, responseTimeSeconds?: number) => {
         recordDailyActivity();
         addXP(xpEarned);
 
+        // Verifica conquistas de horário sempre que completar uma questão
+        checkTimeAchievements();
+
+        // Verifica conquista de velocidade se passou e temos o tempo
+        if (passed && responseTimeSeconds !== undefined) {
+            checkSpeedAchievement(responseTimeSeconds);
+        }
+
         setGamification(prev => {
+            // Calcula novo streak de acertos consecutivos
+            const newConsecutive = passed ? (prev.stats.consecutiveCorrect || 0) + 1 : 0;
+            const newBestConsecutive = Math.max(prev.stats.bestConsecutiveCorrect || 0, newConsecutive);
+
+            // Verifica se é fim de semana e contabiliza
+            const today = new Date();
+            const dayOfWeek = today.getDay();
+            const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+            const todayStr = today.toISOString().split('T')[0];
+
+            // Calcula contagem de fim de semana
+            let weekendCount = prev.stats.weekendQuestionsCount || 0;
+            const lastWeekendDate = prev.stats.lastWeekendDate || '';
+
+            if (isWeekend) {
+                // Se é o mesmo fim de semana, incrementa
+                // Se é um novo fim de semana, reseta
+                const lastDate = lastWeekendDate ? new Date(lastWeekendDate) : null;
+                const daysDiff = lastDate ? Math.abs((today.getTime() - lastDate.getTime()) / (1000 * 60 * 60 * 24)) : 999;
+
+                if (daysDiff <= 1) {
+                    weekendCount = weekendCount + 1;
+                } else {
+                    weekendCount = 1; // Novo fim de semana
+                }
+            }
+
             const updated = {
                 ...prev,
                 stats: {
                     ...prev.stats,
                     totalQuestionsCompleted: prev.stats.totalQuestionsCompleted + 1,
                     totalCorrectAnswers: passed ? prev.stats.totalCorrectAnswers + 1 : prev.stats.totalCorrectAnswers,
+                    consecutiveCorrect: newConsecutive,
+                    bestConsecutiveCorrect: newBestConsecutive,
+                    weekendQuestionsCount: weekendCount,
+                    lastWeekendDate: isWeekend ? todayStr : prev.stats.lastWeekendDate,
                 },
             };
             saveGamification(updated);
 
-            // Verifica conquistas
-            checkQuestionAchievements(updated.stats.totalQuestionsCompleted, passed ? updated.stats.totalCorrectAnswers : 0);
+            // Verifica conquistas de questões e acertos consecutivos
+            checkQuestionAchievements(updated.stats.totalQuestionsCompleted, newConsecutive);
+
+            // Verifica conquistas de fim de semana
+            if (isWeekend) {
+                checkWeekendAchievements(weekendCount);
+            }
 
             return updated;
         });
-    }, [recordDailyActivity, addXP, saveGamification, checkQuestionAchievements]);
+    }, [recordDailyActivity, addXP, saveGamification, checkQuestionAchievements, checkTimeAchievements, checkSpeedAchievement, checkWeekendAchievements]);
 
     // ============================================
     // INICIALIZAÇÃO
@@ -680,6 +788,7 @@ export function useGamification() {
         // Stats
         stats: gamification.stats,
         recordQuestionCompleted,
+        checkWorldAchievements,
 
         // Reload
         reload: loadGamification,

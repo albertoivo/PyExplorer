@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import type { World, QuestionDocument } from '../types/question';
 import { WorldMap } from '../components/game/WorldMap';
 import { QuestionEngine } from '../components/game/QuestionEngine';
@@ -6,6 +6,7 @@ import { QuestionCard } from '../components/game/QuestionCard';
 import { useProgress } from '../hooks/useProgress';
 import { usePyodide } from '../hooks/usePyodide';
 import { useQuestionsFirestore } from '../hooks/useQuestionsFirestore';
+import { useGamification } from '../hooks/useGamification';
 import './GamePage.css';
 
 type GameView = 'world-map' | 'world-questions' | 'playing';
@@ -23,6 +24,10 @@ export function GamePage() {
     const { allProgress, recordAttempt, getQuestionProgress } = useProgress();
     const { loading: pyodideLoading, loadingProgress, loadPyodide, ready } = usePyodide();
     const { questions: allQuestions, loading: questionsLoading, getQuestionsByWorld } = useQuestionsFirestore();
+    const { recordQuestionCompleted, checkWorldAchievements } = useGamification();
+
+    // Timer para medir tempo de resposta (inicializa com 0, será setado quando iniciar questão)
+    const questionStartTime = useRef<number>(0);
 
     useEffect(() => {
         if (!ready && !pyodideLoading) {
@@ -69,14 +74,23 @@ export function GamePage() {
         setCurrentQuestion(question);
         setCurrentQuestionIndex(index);
         setView('playing');
+        // Inicia o timer para a questão
+        // eslint-disable-next-line react-hooks/purity
+        questionStartTime.current = Date.now();
     };
 
     /**
      * Callback quando uma questão é completada
      */
     const handleQuestionComplete = async (passed: boolean, score: number) => {
+        // Calcula tempo de resposta em segundos
+        const responseTimeSeconds = (Date.now() - questionStartTime.current) / 1000;
+
         if (currentQuestion) {
             await recordAttempt(currentQuestion.id, passed, score);
+
+            // Registra no sistema de gamificação com tempo de resposta
+            recordQuestionCompleted(passed, score, responseTimeSeconds);
         }
     };
 
@@ -88,8 +102,26 @@ export function GamePage() {
         if (nextIndex < worldQuestions.length) {
             setCurrentQuestion(worldQuestions[nextIndex]);
             setCurrentQuestionIndex(nextIndex);
+            // Reinicia o timer para a próxima questão
+            questionStartTime.current = Date.now();
         } else {
             // Terminou todas as questões do mundo
+            // Verifica conquistas de mundo
+            if (selectedWorld) {
+                const progress = worldProgress.get(selectedWorld);
+                if (progress && progress.completed === progress.total) {
+                    // Mundo completo! Verifica conquistas
+                    const totalWorldsCompleted = Array.from(worldProgress.values())
+                        .filter(p => p.completed === p.total && p.total > 0).length;
+
+                    // Verifica se foi perfeito (sem erros neste mundo)
+                    // TODO: implementar rastreamento de erros por mundo
+                    const isPerfect = false;
+
+                    checkWorldAchievements(totalWorldsCompleted, isPerfect);
+                }
+            }
+
             setView('world-questions');
             setCurrentQuestion(null);
         }
