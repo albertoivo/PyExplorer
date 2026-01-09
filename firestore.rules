@@ -46,7 +46,7 @@ service cloud.firestore {
       
       // Validação na escrita para evitar dados malformados
       allow write: if isOwner(userId)
-        && request.resource.data.keys().hasOnly(['uid', 'email', 'displayName', 'avatar', 'createdAt', 'updatedAt', 'totalScore', 'lastLoginAt'])
+        && request.resource.data.keys().hasOnly(['uid', 'email', 'displayName', 'avatar', 'createdAt', 'updatedAt', 'totalScore', 'lastLoginAt', 'unlockedWorlds'])
         && isValidString(request.resource.data.displayName, 50)
         && isValidNumber(request.resource.data.get('totalScore', 0), 0, 999999);
     }
@@ -59,8 +59,8 @@ service cloud.firestore {
       
       // Validação na escrita
       allow write: if isOwner(userId)
-        && isValidNumber(request.resource.data.get('streak', 0), 0, 9999)
-        && isValidNumber(request.resource.data.get('totalXP', 0), 0, 9999999);
+        && isValidNumber(request.resource.data.streak.currentStreak, 0, 9999)
+        && isValidNumber(request.resource.data.level.totalXP, 0, 9999999);
     }
     
     // ============================================

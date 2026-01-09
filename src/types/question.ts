@@ -159,6 +159,8 @@ export interface UserData {
   totalScore: number;
   /** Mundos desbloqueados */
   unlockedWorlds: World[];
+  /** Data do último login */
+  lastLoginAt?: Date;
 }
 
 /**
