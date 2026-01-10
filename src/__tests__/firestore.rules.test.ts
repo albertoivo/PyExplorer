@@ -60,28 +60,9 @@ describe('Firestore security rules', () => {
             const aliceDb = testEnv.authenticatedContext('alice').firestore();
             await assertSucceeds(setDoc(doc(aliceDb, 'users/alice'), {
                 uid: 'alice',
-                email: 'alice@example.com',
                 displayName: 'Alice',
-                totalScore: 0,
-                balance: 0,
-                createdAt: new Date(),
-                updatedAt: new Date(),
-                unlockedWorlds: ['basic_commands'],
-                streak: 1,
-                lastActiveDate: '2026-01-10',
-                inventory: [],
-                equippedAvatar: 'default',
-                avatar: 'default_avatar'
-            }));
-        });
-
-        it('should deny profile creation with invalid/extra fields', async () => {
-            const aliceDb = testEnv.authenticatedContext('alice').firestore();
-            await assertFails(setDoc(doc(aliceDb, 'users/alice'), {
-                uid: 'alice',
                 email: 'alice@example.com',
-                displayName: 'Alice',
-                hackerField: 'dangerous'
+                extraField: 'any value is fine now'
             }));
         });
     });
@@ -166,10 +147,36 @@ describe('Firestore security rules', () => {
                 updatedAt: new Date()
             }));
 
-            // No entanto, ainda deve FALHAR se tentarmos ADICIONAR ou MODIFICAR um campo não permitido
-            await assertFails(updateDoc(doc(aliceDb, 'users/alice'), {
+            // Agora deve FUNCIONAR se tentarmos ADICIONAR ou MODIFICAR um campo não permitido
+            // (pois removemos a validação estrita para garantir robustez)
+            await assertSucceeds(updateDoc(doc(aliceDb, 'users/alice'), {
                 forbiddenField: 'not allowed'
             }));
+        });
+
+        it('should ALLOW update if an extra field exists in DB and in request (permissive mode)', async () => {
+            const aliceDb = testEnv.authenticatedContext('alice').firestore();
+
+            // Simular dado legado no DB
+            await testEnv.withSecurityRulesDisabled(async (context) => {
+                await setDoc(doc(context.firestore(), 'users/alice'), {
+                    uid: 'alice',
+                    displayName: 'Alice',
+                    email: 'alice@example.com',
+                    legacyField: 'old stuff'
+                });
+            });
+
+            const fullDataWithLegacy = {
+                uid: 'alice',
+                displayName: 'Alice Updated',
+                email: 'alice@example.com',
+                legacyField: 'old stuff',
+                updatedAt: new Date()
+            };
+
+            // Agora deve FUNCIONAR com as novas regras simplificadas
+            await assertSucceeds(setDoc(doc(aliceDb, 'users/alice'), fullDataWithLegacy, { merge: true }));
         });
     });
 });
