@@ -35,7 +35,10 @@ export type World =
   | 'loops'
   | 'functions'
   | 'lists'
-  | 'strings';
+  | 'strings'
+  | 'user_input'
+  | 'dictionaries'
+  | 'error_handling';
 
 /**
  * Caso de teste para validação de código Python

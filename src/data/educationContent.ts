@@ -459,6 +459,172 @@ export const WORLD_TUTORIALS: WorldTutorial[] = [
             },
         ],
     },
+
+    // ============================================
+    // 🎤 ENTRADA DE DADOS (user_input)
+    // ============================================
+    {
+        worldId: 'user_input',
+        title: 'Conversando com o Usuário 🎤',
+        description: 'Aprenda a fazer programas interativos!',
+        estimatedMinutes: 6,
+        keyConcepts: ['input()', 'int()', 'str()', 'float()', 'conversão'],
+        steps: [
+            {
+                icon: '🎤',
+                title: 'Programas que Conversam!',
+                content: 'Até agora, seus programas só falavam. Mas com input() eles podem ouvir! É como dar um microfone para o usuário.',
+                animation: 'fadeIn',
+            },
+            {
+                icon: '💬',
+                title: 'O Comando input()',
+                content: 'input() faz o programa parar e esperar o usuário digitar algo. O que for digitado fica guardado numa variável.',
+                code: 'nome = input("Qual seu nome? ")\nprint("Olá, " + nome)',
+                output: 'Qual seu nome? Maria\nOlá, Maria',
+                animation: 'typewriter',
+            },
+            {
+                icon: '⚠️',
+                title: 'input() Sempre Dá Texto!',
+                content: 'CUIDADO! Mesmo se o usuário digitar 42, o input() devolve "42" (texto). Para fazer contas, precisa converter!',
+                code: 'idade = input("Idade: ")  # isso é TEXTO\nprint(type(idade))  # <class str>',
+                animation: 'slideUp',
+            },
+            {
+                icon: '🔢',
+                title: 'int() - Convertendo para Número',
+                content: 'Use int() para transformar texto em número inteiro. Assim você pode fazer contas!',
+                code: 'idade_texto = input("Idade: ")\nidade = int(idade_texto)\nprint(idade + 5)',
+                output: 'Idade: 10\n15',
+                animation: 'bounce',
+            },
+            {
+                icon: '📏',
+                title: 'float() - Números com Vírgula',
+                content: 'Para números decimais (como 1.75), use float() ao invés de int().',
+                code: 'altura = float(input("Altura: "))\nprint("Sua altura é", altura)',
+                output: 'Altura: 1.65\nSua altura é 1.65',
+                animation: 'slideUp',
+            },
+            {
+                icon: '🎉',
+                title: 'Programas Interativos!',
+                content: 'Agora você sabe fazer programas que conversam com o usuário! Lembre: input() dá texto, use int() ou float() para números.',
+                animation: 'bounce',
+            },
+        ],
+    },
+
+    // ============================================
+    // 📚 DICIONÁRIOS (dictionaries)
+    // ============================================
+    {
+        worldId: 'dictionaries',
+        title: 'Agenda Mágica 📚',
+        description: 'Aprenda a organizar dados com chaves e valores!',
+        estimatedMinutes: 7,
+        keyConcepts: ['dicionário', 'chave', 'valor', '{}', 'acesso'],
+        steps: [
+            {
+                icon: '📚',
+                title: 'O que é um Dicionário?',
+                content: 'Imagine uma agenda telefônica: você procura pelo NOME (chave) e encontra o TELEFONE (valor). Dicionários funcionam assim!',
+                animation: 'fadeIn',
+            },
+            {
+                icon: '🔑',
+                title: 'Chaves e Valores',
+                content: 'Cada informação no dicionário tem uma chave (o nome) e um valor (a informação).',
+                code: 'pessoa = {"nome": "Ana", "idade": 12}\nprint(pessoa)',
+                output: "{'nome': 'Ana', 'idade': 12}",
+                animation: 'typewriter',
+            },
+            {
+                icon: '🎯',
+                title: 'Acessando Valores',
+                content: 'Para pegar um valor, use a chave entre colchetes. É como procurar na agenda!',
+                code: 'pessoa = {"nome": "Ana", "idade": 12}\nprint(pessoa["nome"])\nprint(pessoa["idade"])',
+                output: 'Ana\n12',
+                animation: 'slideUp',
+            },
+            {
+                icon: '➕',
+                title: 'Adicionando Novas Chaves',
+                content: 'Para adicionar algo novo, é só atribuir! A chave é criada automaticamente.',
+                code: 'pessoa = {"nome": "Ana"}\npessoa["cidade"] = "Rio"\nprint(pessoa)',
+                output: "{'nome': 'Ana', 'cidade': 'Rio'}",
+                animation: 'bounce',
+            },
+            {
+                icon: '🔄',
+                title: 'Listas vs Dicionários',
+                content: 'Listas usam índices (0, 1, 2...). Dicionários usam nomes como chave. Use dicionários quando os nomes fazem mais sentido!',
+                animation: 'fadeIn',
+            },
+            {
+                icon: '🎉',
+                title: 'Mestre dos Dicionários!',
+                content: 'Dicionários são super úteis para organizar dados de forma clara. Cada coisa tem um nome!',
+                animation: 'bounce',
+            },
+        ],
+    },
+
+    // ============================================
+    // 🛡️ TRATAMENTO DE ERROS (error_handling)
+    // ============================================
+    {
+        worldId: 'error_handling',
+        title: 'Caçando Bugs! 🛡️',
+        description: 'Aprenda a proteger seus programas contra erros!',
+        estimatedMinutes: 6,
+        keyConcepts: ['try', 'except', 'erro', 'exceção', 'proteção'],
+        steps: [
+            {
+                icon: '🐛',
+                title: 'O que são Erros?',
+                content: 'Às vezes o programa encontra problemas: dividir por zero, converter texto inválido... Python para e mostra um erro.',
+                animation: 'fadeIn',
+            },
+            {
+                icon: '💥',
+                title: 'Erros Param o Programa!',
+                content: 'Sem proteção, qualquer erro faz o programa inteiro parar. Mas podemos evitar isso!',
+                code: 'print(10 / 0)  # ZeroDivisionError!',
+                output: 'ZeroDivisionError: division by zero',
+                animation: 'slideUp',
+            },
+            {
+                icon: '🛡️',
+                title: 'try/except ao Resgate!',
+                content: 'Coloque o código "perigoso" dentro de try. Se der erro, o except cuida dele!',
+                code: 'try:\n    resultado = 10 / 0\nexcept:\n    print("Ops! Erro na divisão!")',
+                output: 'Ops! Erro na divisão!',
+                animation: 'typewriter',
+            },
+            {
+                icon: '🎯',
+                title: 'Programa Continua!',
+                content: 'Com try/except, mesmo que dê erro, o programa não para. Ele continua depois do except!',
+                code: 'try:\n    x = int("abc")\nexcept:\n    print("Não é número!")\n\nprint("Continuando...")',
+                output: 'Não é número!\nContinuando...',
+                animation: 'bounce',
+            },
+            {
+                icon: '📋',
+                title: 'Tipos de Erro',
+                content: 'Cada erro tem um nome: ZeroDivisionError, ValueError, TypeError... Você pode tratar cada um diferente!',
+                animation: 'fadeIn',
+            },
+            {
+                icon: '🎉',
+                title: 'Programas Robustos!',
+                content: 'Agora seus programas podem lidar com problemas sem quebrar! Use try/except sempre que algo pode dar errado.',
+                animation: 'bounce',
+            },
+        ],
+    },
 ];
 
 // ============================================
@@ -513,6 +679,24 @@ export const FLASHCARDS: Flashcard[] = [
     { id: 'fc_str_2', worldId: 'strings', emoji: '✨', difficulty: 'medium', question: 'O que é f-string?', answer: 'String com f antes, permite {variáveis}', codeExample: 'f"Olá, {nome}"' },
     { id: 'fc_str_3', worldId: 'strings', emoji: '🔠', difficulty: 'easy', question: 'Como deixar tudo maiúsculo?', answer: '.upper()', codeExample: '"abc".upper()  # ABC' },
     { id: 'fc_str_4', worldId: 'strings', emoji: '✂️', difficulty: 'medium', question: 'String[0] pega...', answer: 'A primeira letra', codeExample: '"Python"[0]  # P' },
+
+    // Entrada de Dados (user_input)
+    { id: 'fc_input_1', worldId: 'user_input', emoji: '🎤', difficulty: 'easy', question: 'Qual comando pede para o usuário digitar?', answer: 'input()', codeExample: 'nome = input("Nome: ")' },
+    { id: 'fc_input_2', worldId: 'user_input', emoji: '⚠️', difficulty: 'medium', question: 'input() sempre devolve...', answer: 'Texto (string)', hint: 'Mesmo se digitar 42, vem "42"' },
+    { id: 'fc_input_3', worldId: 'user_input', emoji: '🔢', difficulty: 'medium', question: 'Como converter texto para número inteiro?', answer: 'int()', codeExample: 'int("42")  # 42' },
+    { id: 'fc_input_4', worldId: 'user_input', emoji: '📏', difficulty: 'medium', question: 'E para número decimal?', answer: 'float()', codeExample: 'float("1.5")  # 1.5' },
+
+    // Dicionários
+    { id: 'fc_dict_1', worldId: 'dictionaries', emoji: '📚', difficulty: 'easy', question: 'Como criar um dicionário?', answer: 'Com chaves { }', codeExample: '{"nome": "Ana"}' },
+    { id: 'fc_dict_2', worldId: 'dictionaries', emoji: '🔑', difficulty: 'easy', question: 'Como acessar um valor?', answer: 'dicionario["chave"]', codeExample: 'pessoa["nome"]' },
+    { id: 'fc_dict_3', worldId: 'dictionaries', emoji: '➕', difficulty: 'medium', question: 'Como adicionar nova chave?', answer: 'd["nova"] = valor', codeExample: 'pessoa["idade"] = 12' },
+    { id: 'fc_dict_4', worldId: 'dictionaries', emoji: '🔄', difficulty: 'medium', question: 'Diferença de lista e dicionário?', answer: 'Lista: índice. Dict: chave nomeada', hint: 'lista[0] vs dict["nome"]' },
+
+    // Tratamento de Erros
+    { id: 'fc_error_1', worldId: 'error_handling', emoji: '🛡️', difficulty: 'easy', question: 'Como proteger código de erros?', answer: 'try/except', codeExample: 'try:\\n  x = 1/0\\nexcept:\\n  print("Erro!")' },
+    { id: 'fc_error_2', worldId: 'error_handling', emoji: '💥', difficulty: 'easy', question: 'O que é ZeroDivisionError?', answer: 'Erro de divisão por zero', hint: 'Acontece quando divide por 0' },
+    { id: 'fc_error_3', worldId: 'error_handling', emoji: '📋', difficulty: 'medium', question: 'O que é ValueError?', answer: 'Erro de valor inválido', codeExample: 'int("abc")  # ValueError' },
+    { id: 'fc_error_4', worldId: 'error_handling', emoji: '✅', difficulty: 'medium', question: 'O programa para após try/except?', answer: 'Não! Ele continua normalmente', hint: 'except captura o erro' },
 ];
 
 // ============================================

@@ -158,6 +158,9 @@ export function GamePage() {
             functions: 'Vale das Funções',
             lists: 'Floresta das Listas',
             strings: 'Reino das Palavras',
+            user_input: 'Conversando com o Usuário',
+            dictionaries: 'Agenda Mágica',
+            error_handling: 'Caçando Bugs',
         };
         return names[world] || world;
     };

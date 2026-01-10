@@ -6,6 +6,9 @@ import { loopsQuestions } from './loops';
 import { functionsQuestions } from './functions';
 import { listsQuestions } from './lists';
 import { stringsQuestions } from './strings';
+import { userInputQuestions } from './user_input';
+import { dictionariesQuestions } from './dictionaries';
+import { errorHandlingQuestions } from './error_handling';
 import { BOSS_QUESTIONS } from './bosses';
 import type { QuestionDocument } from '../../types/question';
 
@@ -26,6 +29,9 @@ export const ALL_QUESTIONS_BY_WORLD = {
     functions: addBoss(functionsQuestions, 'functions'),
     lists: addBoss(listsQuestions, 'lists'),
     strings: addBoss(stringsQuestions, 'strings'),
+    user_input: addBoss(userInputQuestions, 'user_input'),
+    dictionaries: addBoss(dictionariesQuestions, 'dictionaries'),
+    error_handling: addBoss(errorHandlingQuestions, 'error_handling'),
 };
 
 export const ALL_QUESTIONS: QuestionDocument[] = [
@@ -41,4 +47,7 @@ export {
     functionsQuestions,
     listsQuestions,
     stringsQuestions,
+    userInputQuestions,
+    dictionariesQuestions,
+    errorHandlingQuestions,
 };
