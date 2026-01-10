@@ -23,3 +23,5 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+dev-dist
+SITEMAP_AGENT_PROMPT.md

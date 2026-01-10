@@ -1,0 +1,133 @@
+import type { QuestionDocument } from '../../types/question';
+
+export const loopsQuestions: QuestionDocument[] = [
+    {
+        id: 'loop_1',
+        type: 'multiple_choice',
+        world: 'loops',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Para que serve o for?',
+        prompt: 'O comando "for" em Python é usado para...',
+        options: [
+            'Repetir algo várias vezes',
+            'Fazer perguntas',
+            'Criar variáveis',
+            'Apagar arquivos',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'for é um loop! Ele repete comandos várias vezes sem você ter que escrever tudo de novo. É como uma máquina do tempo que faz o mesmo passo várias vezes! ⏰',
+        points: 10,
+    },
+    {
+        id: 'loop_2',
+        type: 'true_false',
+        world: 'loops',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'range(5) vai de 0 a 4',
+        prompt: 'O comando range(5) gera os números de 0 até 4 (cinco números no total).',
+        correctBool: true,
+        explanationKidFriendly: 'range(5) cria: 0, 1, 2, 3, 4. São 5 números, mas começa no 0! Em programação, quase tudo começa do zero. É como um elevador que tem andar 0! 🏢',
+        points: 10,
+    },
+    {
+        id: 'loop_3',
+        type: 'fill_code',
+        world: 'loops',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Conte até 5',
+        prompt: 'Complete o código para mostrar os números de 1 até 5:',
+        starterCode: 'for i in range(1, ___):\n    print(i)',
+        solutionTemplate: 'for i in range(1, 6):',
+        tests: [
+            { input: null, expectedOutput: '1\n2\n3\n4\n5' }
+        ],
+        explanationKidFriendly: 'range(1, 6) vai de 1 até 5! O último número não entra, então para ir até 5, precisa ser 6. É como uma fila que não inclui a pessoa que está segurando a placa! 🪧',
+        points: 20,
+    },
+    {
+        id: 'loop_4',
+        type: 'multiple_choice',
+        world: 'loops',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'While repete enquanto...',
+        prompt: 'O comando "while" repete algo enquanto uma condição for...',
+        options: ['Verdadeira', 'Falsa', 'Zero', 'Negativa'],
+        answerIndex: 0,
+        explanationKidFriendly: 'While significa "enquanto"! Repete enquanto a condição for verdadeira. Quando fica falsa, para! 🔁',
+        points: 15,
+    },
+    {
+        id: 'loop_5',
+        type: 'fill_code',
+        world: 'loops',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Soma com loop',
+        prompt: 'Complete o código para somar os números de 1 até 5:',
+        starterCode: 'soma = 0\nfor i in range(1, 6):\n    soma = soma ___ i\nprint(soma)',
+        solutionTemplate: 'soma = soma + i',
+        tests: [
+            { input: null, expectedOutput: '15' },
+        ],
+        explanationKidFriendly: 'Some cada número! 1+2+3+4+5 = 15. O loop faz isso automaticamente! ➕',
+        points: 25,
+    },
+    {
+        id: 'loop_parsons_1',
+        type: 'parsons_problem',
+        world: 'loops',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Repetindo Coisas',
+        prompt: 'Coloque os blocos na ordem certa para imprimir os números de 0 a 4.',
+        parsonsSegments: [
+            'for i in range(5):',
+            '    print(i)',
+            'print("Fim do loop!")'
+        ],
+        tests: [
+            { input: null, expectedOutput: '0\n1\n2\n3\n4\nFim do loop!' }
+        ],
+        explanationKidFriendly: 'Primeiro começamos o loop com `for`. Tudo que queremos repetir (como o `print(i)`) precisa estar "dentro" do loop (com espaço na frente). O que não repete fica fora!',
+        points: 20
+    },
+    {
+        id: 'turtle_triangle_loop',
+        type: 'turtle_challenge',
+        world: 'loops',
+        difficulty: 'hard',
+        ageMin: 10,
+        title: 'Triângulo Repetido',
+        prompt: 'Use um loop "for" para desenhar um triângulo. (Dica: Um triângulo tem 3 lados e o ângulo externo é 120 graus).',
+        starterCode: `import turtle
+
+# Escreva um loop que repita 3 vezes
+for i in range(___):
+    turtle.forward(100)
+    turtle.left(___) # Qual o ângulo do triângulo?
+`,
+        solutionCode: 'for i in range(3):\n    turtle.forward(100)\n    turtle.left(120)',
+        explanationKidFriendly: 'Para fechar um triângulo, a tartaruga precisa girar um total de 360 graus. Como são 3 giros, cada um é 360 dividido por 3 = 120 graus!',
+        points: 30
+    },
+    {
+        id: 'loop_6',
+        type: 'fill_code',
+        world: 'loops',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Loop Enquanto',
+        prompt: 'Complete o `while` para repetir enquanto x for menor que 3:',
+        starterCode: 'x = 0\n___ x < 3:\n    print(x)\n    x = x + 1',
+        solutionTemplate: 'x = 0\nwhile x < 3:\n    print(x)\n    x = x + 1',
+        tests: [
+            { input: null, expectedOutput: '0\n1\n2' },
+        ],
+        explanationKidFriendly: 'while significa "enquanto". O código vai repetir ENQUANTO x for menor que 3. Não esqueça de aumentar o x, senão o loop nunca para! 🔄',
+        points: 20,
+    },
+];

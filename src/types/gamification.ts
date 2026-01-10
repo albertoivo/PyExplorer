@@ -221,6 +221,10 @@ export interface UserGamification {
     stats: {
         totalQuestionsCompleted: number;
         totalCorrectAnswers: number;
+        consecutiveCorrect: number; // Acertos consecutivos atuais
+        bestConsecutiveCorrect: number; // Melhor sequência de acertos
+        weekendQuestionsCount: number; // Questões completadas no fim de semana atual
+        lastWeekendDate: string; // Data do último fim de semana contado
         totalPlayTime: number; // em minutos
         worldsCompleted: number;
         perfectWorlds: number; // mundos com 100% sem errar

@@ -105,8 +105,9 @@ export function useProgress() {
             // Atualiza o score total na UI imediatamente
             if (additionalScore > 0) {
                 const newTotalScore = (userData.totalScore || 0) + additionalScore;
-                console.log('Atualizando totalScore:', userData.totalScore, '+', additionalScore, '=', newTotalScore);
-                await updateUserData({ totalScore: newTotalScore });
+                const newBalance = (userData.balance || 0) + additionalScore;
+                console.log('Atualizando totalScore/balance:', { old: userData.totalScore, new: newTotalScore, balance: newBalance });
+                await updateUserData({ totalScore: newTotalScore, balance: newBalance });
             }
 
             if (isGuest) {
@@ -120,6 +121,9 @@ export function useProgress() {
 
                 // Recarrega dados do usuário para garantir sincronização
                 await refreshUserData();
+
+                // Recarrega progresso do Firestore para garantir sincronização completa
+                await loadAllProgress();
             }
         } catch (err) {
             const message = err instanceof Error ? err.message : 'Erro ao salvar progresso';

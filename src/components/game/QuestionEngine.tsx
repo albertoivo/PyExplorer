@@ -1,3 +1,4 @@
+import confetti from 'canvas-confetti';
 import { useState, useCallback } from 'react';
 import type { QuestionDocument } from '../../types/question';
 import type { HintLevel } from '../../types/education';
@@ -10,9 +11,12 @@ import {
     ParsonsQuestion,
     TurtleQuestion,
 } from './questionTypes';
+import { BossBattleQuestion } from './questionTypes/BossBattleQuestion';
 import { ResultPanel } from './feedback/ResultPanel';
 import { ProgressiveHints } from '../education';
+import { playSound } from '../../utils/soundEffects';
 import { useAuth } from '../../hooks/useAuth';
+import { usePyodide } from '../../context/PyodideContext';
 import { useMascotContext } from '../../context/MascotContext';
 import './QuestionEngine.css';
 
@@ -40,6 +44,7 @@ export function QuestionEngine({
 }: QuestionEngineProps) {
     // ... (existing state and hooks)
     const { userData, updateUserData } = useAuth();
+    const { runPython, loading: isLoading } = usePyodide();
     const { react: mascotReact } = useMascotContext();
     const [showResult, setShowResult] = useState(false);
     const [isCorrect, setIsCorrect] = useState(false);
@@ -78,7 +83,17 @@ export function QuestionEngine({
         saveUsedHints(newRevealed);
         if (cost > 0 && userData) {
             const newScore = Math.max(0, (userData.totalScore || 0) - cost);
-            updateUserData?.({ totalScore: newScore });
+            // Hints cost reduces both total score and potentially balance? 
+            // Usually hints just reduce the POTENTIAL score of the question, 
+            // but if we are deducting from totalScore, that's a penalty.
+            // Let's stick to deducting from totalScore for now as implemented, 
+            // but logic usually is: Hints reduce the points gained from THIS question.
+            // The current implementation deducts from GLOBAL score.
+            // Let's keep it consistent: Deduct from balance too?
+            // "Spending" hints sounds like spending currency.
+            // Let's deduct from balance too.
+            const newBalance = Math.max(0, (userData.balance || 0) - cost);
+            updateUserData?.({ totalScore: newScore, balance: newBalance });
         }
     }, [revealedHints, saveUsedHints, userData, updateUserData]);
 
@@ -87,6 +102,20 @@ export function QuestionEngine({
         setShowResult(true);
         setShowHints(false);
         mascotReact(correct);
+
+        if (correct) {
+            // 🎉 Dispara confetes!
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4']
+            });
+            playSound('success');
+        } else {
+            playSound('error');
+        }
+
         let score = correct ? calculateScore(question) : 0;
         if (correct && hintsCost > 0) {
             score = Math.max(1, score - Math.floor(hintsCost / 2));
@@ -138,6 +167,28 @@ export function QuestionEngine({
 
             case 'turtle_challenge':
                 return <TurtleQuestion {...commonProps} />;
+
+            case 'boss_battle':
+                return (
+                    <BossBattleQuestion
+                        question={question}
+                        onRun={async (code) => {
+                            // Executa o código usando Pyodide
+                            try {
+                                return await runPython(code, question.tests);
+                            } catch (error) {
+                                return {
+                                    stdout: '',
+                                    stderr: String(error),
+                                    hasError: true,
+                                    allTestsPassed: false
+                                };
+                            }
+                        }}
+                        onComplete={(score) => onComplete(true, score)}
+                        isExecuting={isLoading}
+                    />
+                );
 
             default:
                 return (
@@ -226,6 +277,7 @@ function calculateScore(question: QuestionDocument): number {
         full_function: 2,
         parsons_problem: 1.5,
         turtle_challenge: 1.5,
+        boss_battle: 5.0, // Bosses valem muito!
     };
 
     return Math.round(

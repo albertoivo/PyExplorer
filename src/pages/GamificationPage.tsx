@@ -7,11 +7,10 @@ import {
     AchievementGrid,
     MissionList,
     AvatarShop,
-    Leaderboard,
     PowerUpBar,
     GamificationToastContainer,
+    Leaderboard,
 } from '../components/gamification';
-import type { LeaderboardEntry } from '../types/gamification';
 import './GamificationPage.css';
 
 type GamificationTab = 'overview' | 'achievements' | 'missions' | 'shop' | 'ranking';
@@ -46,14 +45,7 @@ export function GamificationPage() {
     const [activeTab, setActiveTab] = useState<GamificationTab>('overview');
 
     // Mock leaderboard data (em produção, viria do Firestore)
-    const mockLeaderboard: LeaderboardEntry[] = [
-        { rank: 1, uid: '1', displayName: 'PythonMaster', avatar: '🐍', score: 5420, level: 12 },
-        { rank: 2, uid: '2', displayName: 'CodeNinja', avatar: '🥷', score: 4850, level: 11 },
-        { rank: 3, uid: '3', displayName: 'ByteKid', avatar: '🤖', score: 4200, level: 10 },
-        { rank: 4, uid: '4', displayName: 'LoopMaster', avatar: '🔄', score: 3800, level: 9 },
-        { rank: 5, uid: '5', displayName: 'FuncGuru', avatar: '✨', score: 3500, level: 9 },
-        { rank: 6, uid: userData?.uid || '6', displayName: userData?.displayName || 'Você', avatar: '🎮', score: userData?.totalScore || 0, level: currentLevel.level, isCurrentUser: true },
-    ].sort((a, b) => b.score - a.score).map((e, i) => ({ ...e, rank: i + 1 }));
+
 
     const tabs: { id: GamificationTab; name: string; icon: string }[] = [
         { id: 'overview', name: 'Visão Geral', icon: '📊' },
@@ -201,7 +193,7 @@ export function GamificationPage() {
 
                 {activeTab === 'shop' && (
                     <AvatarShop
-                        userStars={userData?.totalScore || 0}
+                        userStars={userData?.balance || 0}
                         userLevel={currentLevel.level}
                         inventory={inventory}
                         onBuy={buyShopItem}
@@ -211,8 +203,7 @@ export function GamificationPage() {
 
                 {activeTab === 'ranking' && (
                     <Leaderboard
-                        entries={mockLeaderboard}
-                        currentUserId={userData?.uid}
+                        currentUser={userData || null}
                     />
                 )}
             </main>

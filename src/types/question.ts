@@ -8,7 +8,15 @@ export type QuestionType =
   | 'partial_function'
   | 'full_function'
   | 'parsons_problem'
-  | 'turtle_challenge';
+  | 'turtle_challenge'
+  | 'boss_battle';
+
+export interface BossMetadata {
+  bossName: string;
+  bossAvatar: string; // URL ou emoji
+  timeLimitSeconds: number;
+  initialCode?: string; // Código inicial específico para o boss
+}
 
 /**
  * Níveis de dificuldade das questões
@@ -109,6 +117,9 @@ export interface QuestionDocument {
   /** Imagem alvo (opcional) para questões visuais */
   targetImage?: string;
 
+  /** Metadados para Boss Battle */
+  bossMetadata?: BossMetadata;
+
   /** Explicação simples do conceito, em linguagem acessível às crianças */
   explanationKidFriendly: string;
 
@@ -155,12 +166,36 @@ export interface UserData {
   createdAt: Date;
   /** Data da última atualização */
   updatedAt: Date;
-  /** Total de estrelas/pontos acumulados */
+  /** Total de estrelas/pontos acumulados (XP Vitalício) */
   totalScore: number;
+  /** Estrelas disponíveis para gastar (Moeda) */
+  balance: number;
   /** Mundos desbloqueados */
   unlockedWorlds: World[];
-  /** Data do último login */
-  lastLoginAt?: Date;
+  /** Ofensiva atual (dias seguidos) */
+  streak: number;
+  /** Data da última atividade para cálculo de streak */
+  lastActiveDate: string;
+  /** Start of Phase 2 logic */
+  /** Itens desbloqueados (IDs dos itens) */
+  inventory: string[];
+  /** Avatar equipado (pode ser URL ou ID de um item) */
+  equippedAvatar: string;
+}
+
+/**
+ * Item da loja
+ */
+export interface ShopItem {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  type: 'avatar' | 'theme' | 'sticker';
+  /** URL da imagem ou identificador do asset */
+  assetUrl: string;
+  /** Se requer algum unlock especial (ex: nível 10) */
+  requirement?: string;
 }
 
 /**
