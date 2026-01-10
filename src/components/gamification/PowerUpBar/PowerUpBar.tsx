@@ -74,6 +74,7 @@ export function PowerUpBar({
                                         onClick={() => onUsePowerUp(powerUp.id)}
                                         disabled={!canUseNow || isActive}
                                         title={usesLeft === 0 ? 'Limite diário atingido' : powerUp.description}
+                                        aria-label={isActive ? `${powerUp.name} ativado` : `Usar ${powerUp.name}`}
                                     >
                                         {isActive ? 'Ativo!' : 'Usar'}
                                     </button>
@@ -83,8 +84,11 @@ export function PowerUpBar({
                                         onClick={() => onBuyPowerUp(powerUp.id)}
                                         disabled={!canBuyNow}
                                         title={`Comprar por ${powerUp.price} estrelas`}
+                                        aria-label={`Comprar ${powerUp.name} por ${powerUp.price} estrelas`}
                                     >
-                                        <span className="powerup-item__buy-icon">⭐</span>
+                                        <span className="powerup-item__buy-icon" aria-hidden="true">
+                                            ⭐
+                                        </span>
                                         {powerUp.price}
                                     </button>
                                 )}
@@ -145,8 +149,11 @@ export function PowerUpBarCompact({
                         onClick={() => onUsePowerUp(powerUp.id)}
                         disabled={!canUseNow || isActive}
                         title={powerUp.description}
+                        aria-label={`Usar ${powerUp.name}. ${quantity} disponíveis.`}
                     >
-                        <span className="powerup-compact__icon">{powerUp.icon}</span>
+                        <span className="powerup-compact__icon" aria-hidden="true">
+                            {powerUp.icon}
+                        </span>
                         <span className="powerup-compact__count">{quantity}</span>
                     </button>
                 );
