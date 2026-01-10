@@ -114,4 +114,20 @@ for i in range(___):
         explanationKidFriendly: 'Para fechar um triângulo, a tartaruga precisa girar um total de 360 graus. Como são 3 giros, cada um é 360 dividido por 3 = 120 graus!',
         points: 30
     },
+    {
+        id: 'loop_6',
+        type: 'fill_code',
+        world: 'loops',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Loop Enquanto',
+        prompt: 'Complete o `while` para repetir enquanto x for menor que 3:',
+        starterCode: 'x = 0\n___ x < 3:\n    print(x)\n    x = x + 1',
+        solutionTemplate: 'x = 0\nwhile x < 3:\n    print(x)\n    x = x + 1',
+        tests: [
+            { input: null, expectedOutput: '0\n1\n2' },
+        ],
+        explanationKidFriendly: 'while significa "enquanto". O código vai repetir ENQUANTO x for menor que 3. Não esqueça de aumentar o x, senão o loop nunca para! 🔄',
+        points: 20,
+    },
 ];

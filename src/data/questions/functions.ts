@@ -106,5 +106,21 @@ export const functionsQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'Definimos a função primeiro e depois a usamos (chamamos) no final.',
         points: 20
-    }
+    },
+    {
+        id: 'func_6',
+        type: 'fill_code',
+        world: 'functions',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Soma de Dois Números',
+        prompt: 'Complete a função para somar dois números:',
+        starterCode: 'def somar(a, b):\n    return a ___ b\nprint(somar(5, 3))',
+        solutionTemplate: 'def somar(a, b):\n    return a + b\nprint(somar(5, 3))',
+        tests: [
+            { input: null, expectedOutput: '8' },
+        ],
+        explanationKidFriendly: 'Funções podem receber várias informações! Aqui a e b são parâmetros. Para somar, usamos o sinal de mais (+). ➕',
+        points: 15,
+    },
 ];

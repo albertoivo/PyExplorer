@@ -97,4 +97,20 @@ export const conditionsQuestions: QuestionDocument[] = [
         explanationKidFriendly: 'O computador verifica a condição no `if`. Se for verdade, ele faz o primeiro bloco. Se não, ele pula para o `else`!',
         points: 15
     },
+    {
+        id: 'dec_6',
+        type: 'fill_code',
+        world: 'conditions',
+        difficulty: 'hard',
+        ageMin: 11,
+        title: 'Muitas Opções',
+        prompt: 'Use `elif` para verificar se a nota é 8:',
+        starterCode: 'nota = 8\nif nota == 10:\n    print("Excelente!")\n___ nota == 8:\n    print("Muito bom!")',
+        solutionTemplate: 'nota = 8\nif nota == 10:\n    print("Excelente!")\nelif nota == 8:\n    print("Muito bom!")',
+        tests: [
+            { input: null, expectedOutput: 'Muito bom!' },
+        ],
+        explanationKidFriendly: 'Quando temos mais de uma opção, usamos elif (que significa "else if"). É como dizer: "Se não for a primeira, verifique se é esta..." 🤔',
+        points: 20,
+    },
 ];

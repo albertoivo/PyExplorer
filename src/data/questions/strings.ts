@@ -74,4 +74,20 @@ export const stringsQuestions: QuestionDocument[] = [
         explanationKidFriendly: 'Passe por cada letra do texto com um for. Se a letra estiver na lista de vogais, adicione 1 ao contador!',
         points: 30,
     },
+    {
+        id: 'strings_6',
+        type: 'fill_code',
+        world: 'strings',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'F-string Mágica',
+        prompt: 'Use uma f-string para colocar o nome no texto:',
+        starterCode: 'nome = "Leo"\nprint(___"Olá, {nome}")',
+        solutionTemplate: 'nome = "Leo"\nprint(f"Olá, {nome}")',
+        tests: [
+            { input: null, expectedOutput: 'Olá, Leo' },
+        ],
+        explanationKidFriendly: 'Colocando um f antes das aspas, você pode usar {variavel} dentro do texto! O Python troca {nome} por "Leo" automaticamente. ✨',
+        points: 20,
+    },
 ];

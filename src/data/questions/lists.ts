@@ -73,4 +73,22 @@ export const listsQuestions: QuestionDocument[] = [
         explanationKidFriendly: 'Use for para passar por cada número. Se numero % 2 == 0, é par! Conte quantos são. 🔢',
         points: 25,
     },
+    {
+        id: 'list_6',
+        type: 'multiple_choice',
+        world: 'lists',
+        difficulty: 'easy',
+        ageMin: 10,
+        title: 'Tamanho da Lista',
+        prompt: 'Qual comando diz quantos itens tem na lista `[10, 20, 30]`?',
+        options: [
+            'size()',
+            'count()',
+            'len()',
+            'items()',
+        ],
+        answerIndex: 2,
+        explanationKidFriendly: 'len() vem de "length" (comprimento). Ele conta quantos itens tem na lista. len([10, 20, 30]) dá 3! 📏',
+        points: 10,
+    },
 ];

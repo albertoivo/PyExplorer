@@ -92,5 +92,21 @@ export const numbersQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'Primeiro definimos as notas, depois somamos e dividimos por 3 para achar a média!',
         points: 20
+    },
+    {
+        id: 'num_6',
+        type: 'fill_code',
+        world: 'numbers',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Poder da Potência',
+        prompt: 'Complete o código para calcular 3 elevado a 2 (3 ao quadrado):',
+        starterCode: 'print(3 ___ 2)',
+        solutionTemplate: 'print(3 ** 2)',
+        tests: [
+            { input: null, expectedOutput: '9' },
+        ],
+        explanationKidFriendly: 'Para fazer potência (um número elevado ao outro), usamos dois asteriscos (**). 3 ** 2 é 3 vezes 3! 🚀',
+        points: 15,
     }
 ];
