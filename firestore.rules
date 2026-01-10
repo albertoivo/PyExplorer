@@ -98,7 +98,7 @@ service cloud.firestore {
         && request.resource.data.uid == request.auth.uid
         && isValidString(request.resource.data.questionId, 100)
         && request.resource.data.status in ['not_started', 'in_progress', 'completed']
-        && isValidNumber(request.resource.data.score, 0, 1000)
+        && isValidNumber(request.resource.data.score, 0, 9999)
         && isValidNumber(request.resource.data.attempts, 0, 9999);
       
       // Atualização: dono pode atualizar seu próprio progresso
@@ -106,7 +106,7 @@ service cloud.firestore {
         && resource.data.uid == request.auth.uid
         && request.resource.data.uid == request.auth.uid
         && request.resource.data.status in ['not_started', 'in_progress', 'completed']
-        && isValidNumber(request.resource.data.score, 0, 1000)
+        && isValidNumber(request.resource.data.score, 0, 9999)
         && isValidNumber(request.resource.data.attempts, 0, 9999);
       
       // Deleção: apenas o dono
