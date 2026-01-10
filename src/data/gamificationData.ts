@@ -441,6 +441,47 @@ export const SHOP_ITEMS: ShopItem[] = [
 ];
 
 // ============================================
+// NARRATIVA (STORY MODE)
+// ============================================
+
+export interface StoryEpisode {
+    worldId: string;
+    type: 'intro' | 'outro';
+    title: string;
+    dialogue: {
+        speaker: string;
+        text: string;
+        avatar?: string;
+    }[];
+}
+
+export const STORY_CHAPTERS: StoryEpisode[] = [
+    {
+        worldId: 'basic_commands',
+        type: 'intro',
+        title: 'O Início da Jornada',
+        dialogue: [
+            { speaker: 'Mestre Python', text: 'Olá, jovem explorador! Seja bem-vindo ao mundo de PyExplorer.', avatar: '🧙' },
+            { speaker: 'Mestre Python', text: 'Eu sou o Mestre Python. Vou te ensinar a magia do código.', avatar: '🧙' },
+            { speaker: 'Mestre Python', text: 'Para começar, você precisa aprender como falar com o computador.', avatar: '🧙' },
+            { speaker: 'Mestre Python', text: 'Use o comando "print()" para mostrar mensagens na tela.', avatar: '🧙' },
+            { speaker: 'Você', text: 'Parece fácil! Vamos lá!', avatar: '🧑‍💻' },
+        ],
+    },
+    {
+        worldId: 'basic_commands',
+        type: 'outro',
+        title: 'O Primeiro Desafio Vencido',
+        dialogue: [
+            { speaker: 'Mestre Python', text: 'Impressionante! Você derrotou o Guardião Printus.', avatar: '🧙' },
+            { speaker: 'Mestre Python', text: 'Você provou que sabe se comunicar com a máquina.', avatar: '🧙' },
+            { speaker: 'Mestre Python', text: 'Mas cuidado... O próximo mundo guarda segredos maiores.', avatar: '🧙' },
+            { speaker: 'Mestre Python', text: 'Prepare-se para conhecer as Variáveis!', avatar: '🧙' },
+        ],
+    },
+];
+
+// ============================================
 // FUNÇÕES AUXILIARES
 // ============================================
 

@@ -4,6 +4,8 @@ import type { World } from '../../types/question';
 import { useAuth } from '../../hooks/useAuth';
 import { TutorialModal, FlashcardDeck } from '../education';
 import { getTutorialByWorld } from '../../data/educationContent';
+import { StoryModal } from './StoryModal';
+import { STORY_CHAPTERS, type StoryEpisode } from '../../data/gamificationData';
 import './WorldMap.css';
 
 interface WorldInfo {
@@ -85,6 +87,7 @@ const WORLDS: WorldInfo[] = [
 
 // Chave para guardar tutoriais vistos
 const VIEWED_TUTORIALS_KEY = 'pyexplorer_viewed_tutorials';
+const VIEWED_STORIES_KEY = 'pyexplorer_viewed_stories';
 
 interface WorldMapProps {
     onSelectWorld: (world: World) => void;
@@ -100,10 +103,12 @@ export function WorldMap({ onSelectWorld, worldProgress }: WorldMapProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const unlockedWorlds = useMemo(() => userData?.unlockedWorlds || ['basic_commands'], [userData?.unlockedWorlds]);
 
-    // Estado para tutorial e flashcards
+    // Estado para tutorial, flashcards e história
     const [showTutorial, setShowTutorial] = useState<World | null>(null);
     const [showFlashcards, setShowFlashcards] = useState<World | null>(null);
     const [selectedWorld, setSelectedWorld] = useState<World | null>(null);
+    const [activeStory, setActiveStory] = useState<StoryEpisode | null>(null);
+    const [pendingWorldNavigation, setPendingWorldNavigation] = useState<World | null>(null);
 
     const isWorldUnlocked = useCallback((world: WorldInfo): boolean => {
         // O primeiro mundo está sempre desbloqueado
@@ -154,9 +159,69 @@ export function WorldMap({ onSelectWorld, worldProgress }: WorldMapProps) {
         }
     }, []);
 
+    // Check if story is viewed
+    const hasViewedStory = useCallback((worldId: string, type: 'intro' | 'outro'): boolean => {
+        try {
+            const viewed = localStorage.getItem(VIEWED_STORIES_KEY);
+            if (viewed) {
+                const list: string[] = JSON.parse(viewed);
+                return list.includes(`${worldId}_${type}`);
+            }
+        } catch { /* ignore */ }
+        return false;
+    }, []);
+
+    // Mark story as viewed
+    const markStoryViewed = useCallback((worldId: string, type: 'intro' | 'outro') => {
+        try {
+            const viewed = localStorage.getItem(VIEWED_STORIES_KEY);
+            const list: string[] = viewed ? JSON.parse(viewed) : [];
+            const key = `${worldId}_${type}`;
+            if (!list.includes(key)) {
+                list.push(key);
+                localStorage.setItem(VIEWED_STORIES_KEY, JSON.stringify(list));
+            }
+        } catch { /* ignore */ }
+    }, []);
+
+    // Handler when completing a story
+    const handleStoryComplete = useCallback(() => {
+        if (!activeStory) return;
+
+        markStoryViewed(activeStory.worldId, activeStory.type);
+        setActiveStory(null);
+
+        // Se era intro, navega para o mundo
+        if (activeStory.type === 'intro' && pendingWorldNavigation) {
+            const worldId = pendingWorldNavigation;
+            setPendingWorldNavigation(null);
+
+            // Verifica tutorial
+            const hasTutorial = getTutorialByWorld(worldId);
+            const alreadyViewedTutorial = hasViewedTutorial(worldId);
+
+            if (hasTutorial && !alreadyViewedTutorial) {
+                setSelectedWorld(worldId);
+                setShowTutorial(worldId);
+            } else {
+                onSelectWorld(worldId);
+            }
+        }
+    }, [activeStory, markStoryViewed, pendingWorldNavigation, hasViewedTutorial, onSelectWorld]);
+
     // Handler quando clica em um mundo
     const handleWorldClick = useCallback((world: WorldInfo) => {
         if (!isWorldUnlocked(world)) return;
+
+        // Check for Intro Story first
+        const introStory = STORY_CHAPTERS.find(s => s.worldId === world.id && s.type === 'intro');
+        const viewedIntro = hasViewedStory(world.id, 'intro');
+
+        if (introStory && !viewedIntro) {
+            setPendingWorldNavigation(world.id);
+            setActiveStory(introStory);
+            return;
+        }
 
         const hasTutorial = getTutorialByWorld(world.id);
         const alreadyViewed = hasViewedTutorial(world.id);
@@ -169,7 +234,7 @@ export function WorldMap({ onSelectWorld, worldProgress }: WorldMapProps) {
             // Vai direto para o mundo
             onSelectWorld(world.id);
         }
-    }, [hasViewedTutorial, onSelectWorld, isWorldUnlocked]);
+    }, [hasViewedTutorial, onSelectWorld, isWorldUnlocked, hasViewedStory]);
 
     // Quando completa o tutorial
     const handleTutorialComplete = useCallback(() => {
@@ -191,6 +256,32 @@ export function WorldMap({ onSelectWorld, worldProgress }: WorldMapProps) {
         setShowTutorial(null);
         setSelectedWorld(null);
     }, [showTutorial, markTutorialViewed]);
+
+    /*
+     * Note: Outro story logic would ideally be checked when returning to the map 
+     * after completing a world. For now, we'll check on map mount if a world is complete
+     * but outro not seen.
+     */
+    /* eslint-disable react-hooks/exhaustive-deps */
+    useMemo(() => {
+        if (!worldProgress) return;
+
+        for (const world of WORLDS) {
+            const status = worldProgress.get(world.id);
+            if (status && status.completed === status.total && status.total > 0) {
+                // World complete, check outro
+                const outroStory = STORY_CHAPTERS.find(s => s.worldId === world.id && s.type === 'outro');
+                if (outroStory && !hasViewedStory(world.id, 'outro')) {
+                    // Only show if no other modal is active
+                    if (!showTutorial && !activeStory) {
+                        setActiveStory(outroStory);
+                        break; // Show one at a time
+                    }
+                }
+            }
+        }
+    }, [worldProgress, hasViewedStory]);
+    /* eslint-enable react-hooks/exhaustive-deps */
 
     return (
         <div className="world-map">
@@ -328,6 +419,14 @@ export function WorldMap({ onSelectWorld, worldProgress }: WorldMapProps) {
                 <FlashcardDeck
                     worldId={showFlashcards}
                     onClose={() => setShowFlashcards(null)}
+                />
+            )}
+
+            {/* Story Modal */}
+            {activeStory && (
+                <StoryModal
+                    episode={activeStory}
+                    onComplete={handleStoryComplete}
                 />
             )}
         </div>
