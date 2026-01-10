@@ -45,22 +45,30 @@ service cloud.firestore {
       allow read: if isOwner(userId);
       
       // Campos permitidos para documentos de usuário
+      // Atualizado para incluir campos de gamificação (fase 2+)
       function isValidUserField(field) {
-        return field in ['uid', 'email', 'displayName', 'avatar', 'createdAt', 'updatedAt', 'totalScore', 'lastLoginAt', 'unlockedWorlds'];
+        return field in ['uid', 'email', 'displayName', 'avatar', 'createdAt', 'updatedAt', 'totalScore', 'lastLoginAt', 'unlockedWorlds', 'balance', 'inventory', 'equippedAvatar', 'streak', 'lastActiveDate'];
       }
       
+      // Lista de campos permitidos
+      function allowedKeys() {
+        return ['uid', 'email', 'displayName', 'avatar', 'createdAt', 'updatedAt', 'totalScore', 'lastLoginAt', 'unlockedWorlds', 'balance', 'inventory', 'equippedAvatar', 'streak', 'lastActiveDate'].toSet();
+      }
+
       // Validação na criação - todos os campos devem ser válidos
       allow create: if isOwner(userId)
         && request.resource.data.keys().hasAll(['uid', 'email', 'displayName'])
-        && request.resource.data.keys().toSet().difference(['uid', 'email', 'displayName', 'avatar', 'createdAt', 'updatedAt', 'totalScore', 'lastLoginAt', 'unlockedWorlds'].toSet()).size() == 0
+        && request.resource.data.keys().toSet().difference(allowedKeys()).size() == 0
         && isValidString(request.resource.data.displayName, 50)
-        && isValidNumber(request.resource.data.get('totalScore', 0), 0, 999999);
+        && isValidNumber(request.resource.data.get('totalScore', 0), 0, 999999)
+        && isValidNumber(request.resource.data.get('balance', 0), 0, 999999);
       
       // Validação na atualização - permite atualização parcial
       allow update: if isOwner(userId)
-        && request.resource.data.keys().toSet().difference(['uid', 'email', 'displayName', 'avatar', 'createdAt', 'updatedAt', 'totalScore', 'lastLoginAt', 'unlockedWorlds'].toSet()).size() == 0
+        && request.resource.data.keys().toSet().difference(allowedKeys()).size() == 0
         && isValidString(request.resource.data.displayName, 50)
-        && isValidNumber(request.resource.data.get('totalScore', 0), 0, 999999);
+        && isValidNumber(request.resource.data.get('totalScore', 0), 0, 999999)
+        && isValidNumber(request.resource.data.get('balance', 0), 0, 999999);
     }
 
     // ============================================
