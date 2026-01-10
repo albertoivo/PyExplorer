@@ -4,7 +4,7 @@ import {
     assertFails,
 } from '@firebase/rules-unit-testing';
 import type { RulesTestEnvironment } from '@firebase/rules-unit-testing';
-import { readFileSync } from 'fs';
+import { readFileSync } from 'node:fs';
 import { describe, it, beforeAll, afterAll, beforeEach } from 'vitest';
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 
