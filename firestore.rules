@@ -44,13 +44,7 @@ service cloud.firestore {
     match /users/{userId} {
       allow read: if isOwner(userId);
       
-      // Campos permitidos para documentos de usuário
-      // Atualizado para incluir campos de gamificação (fase 2+)
-      function isValidUserField(field) {
-        return field in ['uid', 'email', 'displayName', 'avatar', 'createdAt', 'updatedAt', 'totalScore', 'lastLoginAt', 'unlockedWorlds', 'balance', 'inventory', 'equippedAvatar', 'streak', 'lastActiveDate'];
-      }
-      
-      // Lista de campos permitidos
+      // Lista de campos permitidos para escrita
       function allowedKeys() {
         return ['uid', 'email', 'displayName', 'avatar', 'createdAt', 'updatedAt', 'totalScore', 'lastLoginAt', 'unlockedWorlds', 'balance', 'inventory', 'equippedAvatar', 'streak', 'lastActiveDate'].toSet();
       }
@@ -63,12 +57,14 @@ service cloud.firestore {
         && isValidNumber(request.resource.data.get('totalScore', 0), 0, 999999)
         && isValidNumber(request.resource.data.get('balance', 0), 0, 999999);
       
-      // Validação na atualização - permite atualização parcial
+      // Validação na atualização
+      // Usa diff() para garantir que apenas campos permitidos sejam ALTERADOS ou ADICIONADOS
+      // Isso permite que campos legados existam no banco sem bloquear atualizações futuras
       allow update: if isOwner(userId)
-        && request.resource.data.keys().toSet().difference(allowedKeys()).size() == 0
-        && isValidString(request.resource.data.displayName, 50)
-        && isValidNumber(request.resource.data.get('totalScore', 0), 0, 999999)
-        && isValidNumber(request.resource.data.get('balance', 0), 0, 999999);
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(allowedKeys())
+        && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['displayName']) || isValidString(request.resource.data.displayName, 50))
+        && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['totalScore']) || isValidNumber(request.resource.data.totalScore, 0, 999999))
+        && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['balance']) || isValidNumber(request.resource.data.balance, 0, 999999));
     }
 
     // ============================================
@@ -89,9 +85,8 @@ service cloud.firestore {
     // PROGRESSO - Documentos no formato uid_questionId
     // ============================================
     match /userProgress/{progressId} {
-      // Leitura: usuário autenticado pode ler seus próprios documentos
-      // A query no código sempre filtra por uid, então é seguro
-      allow read: if isAuthenticated();
+      // Leitura: usuário só pode ler seu próprio progresso
+      allow read: if isAuthenticated() && resource.data.uid == request.auth.uid;
       
       // Criação: usuário pode criar seu próprio progresso
       allow create: if isAuthenticated() 
