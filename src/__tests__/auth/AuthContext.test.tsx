@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, act, waitFor, renderHook } from '@testing-library/react';
+import { act, waitFor, renderHook } from '@testing-library/react';
 import { AuthProvider, useAuth } from '../../context/AuthContext';
 import * as authModule from '../../firebase/auth';
 import * as firestoreModule from '../../firebase/firestore';

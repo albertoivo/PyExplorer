@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { signUp, signIn, logOut, resetPassword, updateUserDisplayName, subscribeToAuthChanges, getCurrentUser } from '../../firebase/auth';
 import { auth } from '../../firebase/firebaseConfig';
