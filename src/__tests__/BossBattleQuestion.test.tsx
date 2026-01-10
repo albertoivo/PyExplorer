@@ -113,7 +113,10 @@ describe('BossBattleQuestion', () => {
         fireEvent.click(screen.getByText('⚔️ Iniciar Batalha'));
 
         const attackBtn = screen.getByText('⚔️ Atacar (Rodar)');
-        fireEvent.click(attackBtn);
+
+        await act(async () => {
+            fireEvent.click(attackBtn);
+        });
 
         expect(mockOnRun).toHaveBeenCalled();
     });

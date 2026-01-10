@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { renderHook, act } from '@testing-library/react';
+import { renderHook, act, waitFor } from '@testing-library/react';
 import { useGamification } from '../hooks/useGamification';
 import * as useAuthModule from '../hooks/useAuth';
 
@@ -56,9 +56,8 @@ describe('useGamification', () => {
     it('should allow buying an item if user has enough balance', async () => {
         const { result } = renderHook(() => useGamification());
 
-        // Wait for initial load (useEffect)
-        // Since we mocked getGamification to return undefined, it falls back to initial state
-        // Initial state has empty inventory (except defaults)
+        // Wait for initial load to finish
+        await waitFor(() => expect(result.current.loading).toBe(false));
 
         const itemPrice = 100;
         const itemId = 'test_item_1';
@@ -100,6 +99,9 @@ describe('useGamification', () => {
 
         const { result } = renderHook(() => useGamification());
 
+        // Wait for initial load to finish
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
         const itemPrice = 100;
         const itemId = 'test_item_2';
 
@@ -117,6 +119,9 @@ describe('useGamification', () => {
 
     it('should NOT allow buying an item if already owned', async () => {
         const { result } = renderHook(() => useGamification());
+
+        // Wait for initial load to finish
+        await waitFor(() => expect(result.current.loading).toBe(false));
 
         // First buy
         act(() => {
