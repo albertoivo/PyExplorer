@@ -111,5 +111,23 @@ export const basicCommandsQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'O Python lê o código de cima para baixo! Primeiro o "Olá", depois o "Mundo".',
         points: 15
+    },
+    {
+        id: 'basic_6',
+        type: 'multiple_choice',
+        world: 'basic_commands',
+        difficulty: 'easy',
+        ageMin: 8,
+        title: 'Aspas Simples ou Duplas?',
+        prompt: 'Qual destas opções está correta para criar um texto em Python?',
+        options: [
+            "'Olá'",
+            '"Olá"',
+            'As duas opções acima',
+            'Nenhuma das opções',
+        ],
+        answerIndex: 2,
+        explanationKidFriendly: 'Em Python, você pode usar tanto aspas simples (\' \') quanto aspas duplas (" ")! O importante é abrir e fechar com o mesmo tipo. 😉',
+        points: 10,
     }
 ];

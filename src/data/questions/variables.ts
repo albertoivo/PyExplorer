@@ -82,4 +82,16 @@ export const variablesQuestions: QuestionDocument[] = [
         explanationKidFriendly: 'Variáveis guardam valores que podemos usar depois! É só escolher um nome, usar = e colocar o valor. Depois é só usar o nome da variável!',
         points: 20,
     },
+    {
+        id: 'var_6',
+        type: 'true_false',
+        world: 'variables',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Nome de Variável',
+        prompt: 'Nomes de variáveis podem começar com números (ex: 1nome = "Ana").',
+        correctBool: false,
+        explanationKidFriendly: 'Variáveis não podem começar com números! Elas devem começar com uma letra ou sublinhado (_). "nome1" pode, mas "1nome" não! 🚫',
+        points: 10,
+    },
 ];
