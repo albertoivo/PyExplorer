@@ -20,6 +20,7 @@ interface PyodideContextType {
     loadPyodide: () => Promise<void>;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const PyodideContext = createContext<PyodideContextType | undefined>(undefined);
 
 interface PyodideProviderProps {

@@ -100,7 +100,6 @@ interface WorldMapProps {
 export function WorldMap({ onSelectWorld, worldProgress }: WorldMapProps) {
     const { userData } = useAuth();
     const userScore = userData?.totalScore || 0;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     const unlockedWorlds = useMemo(() => userData?.unlockedWorlds || ['basic_commands'], [userData?.unlockedWorlds]);
 
     // Estado para tutorial, flashcards e história
