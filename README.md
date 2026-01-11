@@ -15,13 +15,20 @@ PyExplorer é um jogo educativo desenvolvido em ReactJS para ensinar programaç�
 
 ## ✨ Características
 
-- 🎮 **Interface gamificada** - Mundos, estrelas e conquistas para motivar o aprendizado
+- 🎮 **Gamificação Avançada** - Mundos, estrelas, conquistas, streak diário, missões e loja de itens
 - 🐍 **Python no navegador** - Execute código Python real usando Pyodide (WebAssembly)
-- 📚 **5 tipos de questões** - Múltipla escolha, V/F, complete código, funções parciais e completas
-- 🌍 **7 mundos temáticos** - Comandos básicos, variáveis, decisões, loops, funções, listas e strings
-- 👶 **Design para crianças** - Linguagem simples e visual colorido
-- 👤 **Modo convidado** - Jogar sem criar conta (progresso salvo localmente)
-- 🔥 **Firebase** - Autenticação e armazenamento na nuvem
+- 🐢 **Aprendizado Visual** - Desafios com Turtle Graphics para desenhar com código
+- 🧩 **7 Tipos de Questões** - Múltipla escolha, V/F, complete código, funções, Parsons problems e desafios visuais
+- 🌍 **8 Mundos Temáticos** - Sequência pedagógica otimizada para iniciantes
+- 📱 **PWA & Offline** - Instale como app e jogue mesmo sem internet
+- ⚡ **Alta Performance** - Carregamento otimizado com lazy loading e cache inteligente
+- 👤 **Modo Convidado** - Experimente sem cadastro com salvamento local
+
+## 📚 Educação & Conteúdo
+
+- **Tutoriais Interativos**: Lições passo a passo antes de cada mundo
+- **Flashcards**: Sistema de revisão rápida para memorização
+- **Artigos**: Biblioteca de conteúdo extra para aprofundamento (/learn)
 
 ## 🚀 Começando
 
@@ -103,16 +110,19 @@ src/
 | `fill_code` | Complete lacunas no código |
 | `partial_function` | Complete parte de uma função |
 | `full_function` | Escreva uma função completa |
+| `parsons` | Reordene blocos de código (lógica sem digitação) |
+| `turtle_challenge` | Desenhe formas geométricas com Python |
 
 ## 🌍 Mundos disponíveis
 
 1. 🚀 **Primeiros Passos** - Comandos básicos (print, comentários)
 2. 📦 **Variáveis** - Criação e uso de variáveis
-3. 🔀 **Decisões** - if, else, elif
-4. 🔄 **Repetição** - for, while, range
-5. ✨ **Funções** - Criação e uso de funções
-6. 📜 **Listas** - Manipulação de listas
-7. 📝 **Strings** - Trabalho com textos
+3. 🔢 **Números Mágicos** - Operações matemáticas e tipos numéricos
+4. 🔀 **Decisões** - if, else, elif
+5. 🔄 **Repetição** - for, while, range
+6. ✨ **Funções** - Criação e uso de funções
+7. 📜 **Listas** - Manipulação de listas
+8. 📝 **Strings** - Trabalho com textos
 
 ## 🔥 Configuração do Firebase
 
@@ -144,9 +154,33 @@ firebase deploy --only firestore:rules
 | Comando | Descrição |
 |---------|-----------|
 | `npm run dev` | Inicia servidor de desenvolvimento |
-| `npm run build` | Cria build de produção |
+| `npm run build` | Cria build de produção otimizado |
 | `npm run preview` | Visualiza build local |
 | `npm run lint` | Executa linting do código |
+| `npm run test:run` | Executa todos os testes unitários (Smoke, Integration, Regression) |
+| `npm run test:ui` | Abre interface visual do Vitest |
+
+## 🧪 Testes & Qualidade
+
+O projeto conta com uma suíte de testes robusta utilizando **Vitest**:
+
+- **Smoke Tests**: Verificam integridade crítica dos dados (questões, mundos, gamificação)
+- **Integration Tests**: Testam fluxo de pontuação, achievements e loja
+- **Regression Tests**: Garantem consistência da progressão e lógica de jogo
+
+Para rodar os testes:
+```bash
+npm run test:run
+```
+
+## ⚡ Performance & Otimização
+
+O PyExplorer foi otimizado para rodar suavemente em qualquer dispositivo:
+
+- **Lazy Loading**: Páginas carregadas sob demanda (Code Splitting)
+- **Manual Chunks**: Separação inteligente de dependências (React, Firebase)
+- **Memoização**: Componentes otimizados para evitar re-renderizações
+- **Cache PWA**: Funcionamento offline e carregamento instantâneo
 
 ## 🚀 Deploy
 
