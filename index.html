@@ -123,8 +123,18 @@
   <!-- Splash screens para iOS -->
   <link rel="apple-touch-startup-image" href="/icons/icon-512x512.png" />
 
-  <!-- Fonte otimizada -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Fonte otimizada com preload para melhor FCP -->
+  <link rel="preload"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
+    as="style" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
+    rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
+      rel="stylesheet" />
+  </noscript>
 
   <style>
     /* Loading screen crítico inline */
@@ -189,7 +199,7 @@
     <p>Carregando PyExplorer...</p>
   </div>
 
-  <div id="root"></div>
+  <div id="root" style="min-height: 100vh"></div>
   <script type="module" src="/src/main.tsx"></script>
 
   <script>
@@ -204,7 +214,7 @@
             loadingScreen.remove();
           }, 300);
         }
-      }, 500);
+      }, 100);
     });
   </script>
 

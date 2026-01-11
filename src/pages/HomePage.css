@@ -102,10 +102,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    min-width: 300px;
+    min-height: 250px;
 }
 
 .hero__snake {
     font-size: 12rem;
+    width: 192px;
+    height: 192px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     animation: float 4s ease-in-out infinite;
     filter: drop-shadow(0 20px 40px rgba(0, 217, 255, 0.3));
 }

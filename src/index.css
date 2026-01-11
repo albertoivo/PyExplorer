@@ -2,8 +2,7 @@
    PyExplorer - Global Styles
    ================================================== */
 
-/* Google Fonts - Inter */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Fira+Code:wght@400;500;600;700&display=swap');
+/* Google Fonts loaded via index.html for better performance */
 
 /* CSS Reset e Base */
 *,

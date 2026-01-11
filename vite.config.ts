@@ -168,9 +168,19 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (id.includes('node_modules')) {
+            // Monaco editor - heavy, lazy loaded
+            if (id.includes('@monaco-editor') || id.includes('monaco-editor')) {
+              return 'monaco-vendor';
+            }
+            // Canvas confetti - only needed on success
+            if (id.includes('canvas-confetti')) {
+              return 'confetti-vendor';
+            }
+            // React core
             if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom')) {
               return 'react-vendor';
             }
+            // Firebase - heavy, can be deferred
             if (id.includes('firebase')) {
               return 'firebase-vendor';
             }
@@ -179,6 +189,10 @@ export default defineConfig({
       }
     },
     chunkSizeWarningLimit: 1000,
-    sourcemap: false
+    sourcemap: false,
+    // Enable minification
+    minify: 'esbuild',
+    // Target modern browsers for smaller bundles
+    target: 'es2020'
   }
 })
