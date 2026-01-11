@@ -167,5 +167,21 @@ export const listsQuestions: QuestionDocument[] = [
         explanationKidFriendly: 'remove() tira o item pelo valor! Diga o nome do item e ele some da lista. 🍌❌',
         points: 20,
     },
+    {
+        id: 'list_7',
+        type: 'fill_code',
+        world: 'lists',
+        difficulty: 'easy',
+        ageMin: 10,
+        title: 'Lista de Compras',
+        prompt: 'Adicione "leite" na lista de compras usando append:',
+        starterCode: 'compras = ["ovos", "pão"]\ncompras.___("leite")\nprint(compras)',
+        solutionTemplate: 'compras.append("leite")',
+        tests: [
+            { input: null, expectedOutput: "['ovos', 'pão', 'leite']" },
+        ],
+        explanationKidFriendly: 'append() cola o item no final da lista! Agora "leite" faz parte das compras! 🛒',
+        points: 15,
+    }
 ];
 

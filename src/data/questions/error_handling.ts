@@ -121,4 +121,22 @@ export const errorHandlingQuestions: QuestionDocument[] = [
         explanationKidFriendly: 'O try vem antes, depois o código perigoso (com espaços), e o except por último!',
         points: 20,
     },
+    {
+        id: 'error_7',
+        type: 'multiple_choice',
+        world: 'error_handling',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Texto + Número = ?',
+        prompt: 'O que acontece se tentarmos fazer: print("Olá" + 5)?',
+        options: [
+            'Mostra "Olá5"',
+            'Mostra "Olá + 5"',
+            'Erro: TypeError',
+            'Erro: ZeroDivisionError',
+        ],
+        answerIndex: 2,
+        explanationKidFriendly: 'Python não sabe somar texto com número! Ele fica confuso e dá TypeError (Erro de Tipo). Use str(5) para consertar! 😵‍💫',
+        points: 15,
+    }
 ];

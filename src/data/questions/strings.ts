@@ -159,5 +159,21 @@ export const stringsQuestions: QuestionDocument[] = [
         explanationKidFriendly: '" ".join(lista) usa espaço como cola entre as palavras! Resultado: "Eu amo Python". 📝',
         points: 20,
     },
+    {
+        id: 'strings_7',
+        type: 'fill_code',
+        world: 'strings',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Primeiras Letras',
+        prompt: 'Complete para pegar as primeiras 3 letras de "Python":',
+        starterCode: 'texto = "Python"\nprint(texto[___])',
+        solutionTemplate: 'print(texto[0:3])',
+        tests: [
+            { input: null, expectedOutput: 'Pyt' },
+        ],
+        explanationKidFriendly: 'Usamos [0:3] para pegar do começo (0) até antes do 3. P(0), y(1), t(2). O h(3) fica de fora! ✂️',
+        points: 15,
+    }
 ];
 

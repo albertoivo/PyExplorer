@@ -129,5 +129,23 @@ export const basicCommandsQuestions: QuestionDocument[] = [
         answerIndex: 2,
         explanationKidFriendly: 'Em Python, você pode usar tanto aspas simples (\' \') quanto aspas duplas (" ")! O importante é abrir e fechar com o mesmo tipo. 😉',
         points: 10,
+    },
+    {
+        id: 'basic_7',
+        type: 'multiple_choice',
+        world: 'basic_commands',
+        difficulty: 'easy',
+        ageMin: 8,
+        title: 'Para que serve o #?',
+        prompt: 'Quando colocamos um # no começo da linha, o Python:',
+        options: [
+            'Lê o código normalmente',
+            'Ignora a linha (é um comentário)',
+            'Para o programa',
+            'Repete a linha',
+        ],
+        answerIndex: 1,
+        explanationKidFriendly: 'O # cria um comentário! O Python pula essa linha, então você pode escrever recados para você mesmo sem atrapalhar o código! 📝',
+        points: 10,
     }
 ];

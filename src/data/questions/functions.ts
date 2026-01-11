@@ -123,4 +123,22 @@ export const functionsQuestions: QuestionDocument[] = [
         explanationKidFriendly: 'Funções podem receber várias informações! Aqui a e b são parâmetros. Para somar, usamos o sinal de mais (+). ➕',
         points: 15,
     },
+    {
+        id: 'func_7',
+        type: 'multiple_choice',
+        world: 'functions',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Reutilizando Funções',
+        prompt: 'Se eu escrever `saudar()` 3 vezes no meu código, o que acontece?',
+        options: [
+            'A função roda 3 vezes',
+            'A função roda só 1 vez',
+            'Dá erro',
+            'Nada acontece',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'Essa é a mágica das funções! Você escreve a receita uma vez, e pode cozinhar o prato quantas vezes quiser chamando o nome dela! 🍳🍳🍳',
+        points: 10,
+    }
 ];
