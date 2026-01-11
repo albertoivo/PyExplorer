@@ -14,10 +14,14 @@ import { OfflineIndicator } from './components/layout/OfflineIndicator';
 import { Mascot } from './components/mascot';
 
 // ===========================================
+// EAGER LOADING (Home Page - LCP Optimization)
+// ===========================================
+import { HomePage } from './pages/HomePage';
+
+// ===========================================
 // LAZY LOADING DE PÁGINAS (Code Splitting)
 // Cada página será um chunk separado
 // ===========================================
-const HomePage = lazy(() => import('./pages/HomePage').then(m => ({ default: m.HomePage })));
 const LoginPage = lazy(() => import('./pages/LoginPage').then(m => ({ default: m.LoginPage })));
 const RegisterPage = lazy(() => import('./pages/RegisterPage').then(m => ({ default: m.RegisterPage })));
 const GamePage = lazy(() => import('./pages/GamePage').then(m => ({ default: m.GamePage })));

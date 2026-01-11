@@ -177,11 +177,11 @@ export default defineConfig({
               return 'confetti-vendor';
             }
             // React core
-            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom')) {
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom') || id.includes('scheduler')) {
               return 'react-vendor';
             }
             // Firebase - heavy, can be deferred
-            if (id.includes('firebase')) {
+            if (id.includes('firebase') || id.includes('@firebase')) {
               return 'firebase-vendor';
             }
           }

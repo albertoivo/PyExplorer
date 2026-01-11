@@ -148,6 +148,7 @@
       justify-content: center;
       z-index: 99999;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      transition: opacity 0.3s ease;
     }
 
     #loading-screen .spinner {
@@ -203,18 +204,20 @@
   <script type="module" src="/src/main.tsx"></script>
 
   <script>
-    // Remove loading screen quando React carregar
+    // Fallback: Remove loading screen se demorar muito (caso o React não monte)
     window.addEventListener('load', function () {
+      // O main.tsx deve remover a tela antes disso, mas deixamos como segurança
       setTimeout(function () {
         var loadingScreen = document.getElementById('loading-screen');
-        if (loadingScreen) {
-          loadingScreen.style.opacity = '0';
-          loadingScreen.style.transition = 'opacity 0.3s ease';
-          setTimeout(function () {
-            loadingScreen.remove();
-          }, 300);
+        if (loadingScreen && !window.reactMounted) {
+            // Apenas remove se o React não tiver sinalizado que montou
+            // Se o React falhar totalmente, removemos para mostrar erro (se houver) ou apenas liberar a tela
+            loadingScreen.style.opacity = '0';
+            setTimeout(function() {
+              loadingScreen.remove();
+            }, 300);
         }
-      }, 100);
+      }, 3000);
     });
   </script>
 
