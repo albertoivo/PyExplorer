@@ -47,7 +47,7 @@ describe('Leaderboard', () => {
         vi.clearAllMocks();
     });
 
-    it('renders loading state initially', () => {
+    it('renders loading state initially', async () => {
         render(<Leaderboard currentUser={mockUser} />);
 
         // Should show title
@@ -55,6 +55,11 @@ describe('Leaderboard', () => {
 
         // Should show loading state
         expect(screen.getByText(/Carregando ranking/)).toBeDefined();
+
+        // Wait for loading to finish to avoid act() warning
+        await waitFor(() => {
+            expect(screen.queryByText(/Carregando/)).toBeNull();
+        });
     });
 
     it('renders correctly with user data after loading', async () => {

@@ -10,6 +10,7 @@ import {
     orderBy,
     limit,
     Timestamp,
+    writeBatch,
 } from 'firebase/firestore';
 import type { DocumentData, QueryConstraint } from 'firebase/firestore';
 import { db } from './firebaseConfig';
@@ -290,6 +291,84 @@ export async function updateProgress(
         const additionalScore = score - (existing?.score || 0);
         await updateUserScore(uid, additionalScore);
     }
+}
+
+/**
+ * Atualiza o progresso de múltiplas questões em lote (batch)
+ * Ideal para sincronização offline
+ */
+export async function updateProgressBatch(
+    uid: string,
+    items: { questionId: string; passed: boolean; score: number }[]
+): Promise<void> {
+    const batch = writeBatch(db);
+    let totalScoreToAdd = 0;
+
+    // Precisamos buscar o progresso atual de todos os itens para calcular diff de score
+    // Como batch.get() não existe, temos que fazer leituras paralelas
+    // Isso é aceitável pois é uma operação de sincronização menos frequente
+    const progressPromises = items.map(item => getProgress(uid, item.questionId));
+    const currentProgresses = await Promise.all(progressPromises);
+
+    for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        const existing = currentProgresses[i];
+
+        const docId = getProgressDocId(uid, item.questionId);
+        const docRef = doc(db, PROGRESS_COLLECTION, docId);
+
+        const newStatus: ProgressStatus = item.passed ? 'completed' : 'in_progress';
+        const newAttempts = (existing?.attempts || 0) + 1;
+        const newScore = item.passed ? Math.max(existing?.score || 0, item.score) : (existing?.score || 0);
+
+        batch.set(docRef, {
+            uid,
+            questionId: item.questionId,
+            status: newStatus,
+            score: newScore,
+            attempts: newAttempts,
+            lastAttemptAt: Timestamp.now(),
+        }, { merge: true });
+
+        // Calcula score adicional
+        if (item.passed && item.score > 0 && (!existing || existing.score < item.score)) {
+            totalScoreToAdd += item.score - (existing?.score || 0);
+        }
+    }
+
+    // Se houve ganho de pontos, atualiza o usuário também
+    if (totalScoreToAdd > 0) {
+        // Precisamos ler o usuário atual para atualizar o score total no batch
+        // Ou podemos apenas fazer um updateDoc separado se preferir
+        // Para manter consistência, vamos ler e usar o batch
+        const userRef = doc(db, USERS_COLLECTION, uid);
+        const leaderboardRef = doc(db, LEADERBOARD_COLLECTION, uid);
+
+        // Nota: Em um batch real, idealmente leríamos o user antes, mas como já fizemos leituras acima,
+        // vamos simplificar usando increment do Firestore se possível, mas como não importamos increment,
+        // vamos fazer uma leitura extra do user.
+        const userSnap = await getDoc(userRef);
+        if (userSnap.exists()) {
+            const userData = userSnap.data();
+            const newTotalScore = (userData.totalScore || 0) + totalScoreToAdd;
+
+            batch.update(userRef, {
+                totalScore: newTotalScore,
+                updatedAt: Timestamp.now()
+            });
+
+            // Atualiza leaderboard
+            batch.set(leaderboardRef, {
+                uid: uid,
+                displayName: userData.displayName,
+                avatar: userData.avatar,
+                totalScore: newTotalScore,
+                updatedAt: Timestamp.now(),
+            }, { merge: true });
+        }
+    }
+
+    await batch.commit();
 }
 
 // ============================================
