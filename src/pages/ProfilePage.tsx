@@ -1,5 +1,6 @@
 import { useAuth } from '../hooks/useAuth';
 import { useProgress } from '../hooks/useProgress';
+import { useQuestionsFirestore } from '../hooks/useQuestionsFirestore';
 import { WorldProgressBar } from '../components/game/feedback/ProgressBar';
 import { DataSeeder } from '../components/education/DataSeeder';
 import './ProfilePage.css';
@@ -25,6 +26,7 @@ const WORLDS_INFO = [
 export function ProfilePage() {
     const { userData, isGuest } = useAuth();
     const { stats, allProgress } = useProgress();
+    const { getQuestionsByWorld } = useQuestionsFirestore();
 
     if (!userData) {
         return (
@@ -42,16 +44,15 @@ export function ProfilePage() {
     // Fallback: se não achar, procura um default ou usa o primeiro da lista
     const displayAvatar = currentAvatarItem || SHOP_ITEMS.find(a => a.id === 'avatar_snake_green') || { icon: '🧑‍💻', name: 'Programador' };
 
-    // Calcula progresso por mundo
+    // Calcula progresso por mundo usando o total real de questões
     const getWorldProgress = (worldId: string) => {
-        const worldProgress = allProgress.filter(p => {
-            // Isso seria baseado em uma relação questão -> mundo
-            // Por simplicidade, retornamos valores mock
-            return p.questionId.includes(worldId.split('_')[0]);
-        });
+        const worldQuestions = getQuestionsByWorld(worldId as import('../types/question').World);
+        const completedProgress = allProgress.filter(p =>
+            p.status === 'completed' && worldQuestions.some(q => q.id === p.questionId)
+        );
         return {
-            completed: worldProgress.filter(p => p.status === 'completed').length,
-            total: 5, // Mock - seria o total real de questões do mundo
+            completed: completedProgress.length,
+            total: worldQuestions.length,
         };
     };
 

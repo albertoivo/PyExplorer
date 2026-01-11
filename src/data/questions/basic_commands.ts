@@ -147,5 +147,43 @@ export const basicCommandsQuestions: QuestionDocument[] = [
         answerIndex: 1,
         explanationKidFriendly: 'O # cria um comentário! O Python pula essa linha, então você pode escrever recados para você mesmo sem atrapalhar o código! 📝',
         points: 10,
+    },
+    // QUESTÕES HARD PARA BALANCEAMENTO
+    {
+        id: 'basic_hard_1',
+        type: 'fill_code',
+        world: 'basic_commands',
+        difficulty: 'hard',
+        ageMin: 10,
+        title: 'Vários Prints',
+        prompt: 'Complete para mostrar seu nome, idade e cidade em 3 linhas separadas:',
+        starterCode: '___("Maria")\n___("12 anos")\n___("São Paulo")',
+        solutionTemplate: 'print("Maria")\nprint("12 anos")\nprint("São Paulo")',
+        tests: [
+            { input: null, expectedOutput: 'Maria\n12 anos\nSão Paulo' },
+        ],
+        explanationKidFriendly: 'Cada print() mostra uma linha! Para mostrar 3 informações diferentes, usamos 3 prints, um para cada coisa. 📋',
+        points: 20,
+    },
+    {
+        id: 'basic_hard_2',
+        type: 'parsons_problem',
+        world: 'basic_commands',
+        difficulty: 'hard',
+        ageMin: 10,
+        title: 'Calculadora com Print',
+        prompt: 'Monte o código para calcular 10 + 5 * 2 e mostrar o resultado:',
+        parsonsSegments: [
+            '# Primeiro calculamos',
+            'resultado = 10 + 5 * 2',
+            '# Depois mostramos',
+            'print(resultado)',
+        ],
+        tests: [
+            { input: null, expectedOutput: '20' }
+        ],
+        explanationKidFriendly: 'Primeiro guardamos a conta em uma variável, depois usamos print para mostrar! Lembre: multiplicação vem antes da soma! 🧮',
+        points: 25,
     }
 ];
+

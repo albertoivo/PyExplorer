@@ -321,3 +321,32 @@ export async function getGamification(uid: string): Promise<UserGamification | n
 
     return null;
 }
+
+// ============================================
+// SERVIÇO DE LEADERBOARD
+// ============================================
+
+/**
+ * Busca os top usuários por pontuação
+ * @param topN - Número máximo de usuários a retornar (default: 10)
+ * @returns Array de usuários ordenados por pontuação decrescente
+ */
+export async function getTopUsers(topN: number = 10): Promise<UserData[]> {
+    const q = query(
+        collection(db, USERS_COLLECTION),
+        orderBy('totalScore', 'desc'),
+        limit(topN)
+    );
+    const querySnapshot = await getDocs(q);
+
+    return querySnapshot.docs.map(docSnap => {
+        const data = docSnap.data() as DocumentData;
+        return {
+            ...data,
+            uid: docSnap.id,
+            createdAt: data.createdAt?.toDate() || new Date(),
+            updatedAt: data.updatedAt?.toDate() || new Date(),
+        } as UserData;
+    });
+}
+

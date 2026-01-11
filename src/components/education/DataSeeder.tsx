@@ -7,8 +7,9 @@ export function DataSeeder() {
     const [loading, setLoading] = useState(false);
     const [status, setStatus] = useState<string | null>(null);
 
-    // Permite apenas para o usuário admin específico
-    const isAdmin = user?.email === 'albertoivo@gmail.com';
+    // Permite para admin ou em ambiente de desenvolvimento local
+    const isLocalDev = typeof window !== 'undefined' && window.location.hostname === 'localhost';
+    const isAdmin = user?.email === 'albertoivo@gmail.com' || isLocalDev;
 
     const handleSeed = async () => {
         if (!isAdmin) return;

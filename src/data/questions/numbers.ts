@@ -124,5 +124,36 @@ export const numbersQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'O símbolo % mostra o que sobra da divisão! 10 dividido por 3 dá 3 e sobra 1. Então 10 % 3 é 1! 🍕',
         points: 15,
+    },
+    // QUESTÃO HARD PARA BALANCEAMENTO
+    {
+        id: 'num_hard_operators',
+        type: 'fill_code',
+        world: 'numbers',
+        difficulty: 'hard',
+        ageMin: 11,
+        title: 'Todos os Operadores',
+        prompt: 'Complete para calcular: (20 + 10) / 2, depois mostre o resultado inteiro:',
+        starterCode: 'resultado = (20 ___ 10) ___ 2\nprint(int(resultado))',
+        solutionTemplate: '(20 + 10) / 2',
+        tests: [
+            { input: null, expectedOutput: '15' },
+        ],
+        explanationKidFriendly: 'Parênteses primeiro! (20 + 10) = 30, depois 30 / 2 = 15. Usamos int() para tirar o ponto! 🎯',
+        points: 25,
+    },
+    {
+        id: 'num_hard_order',
+        type: 'multiple_choice',
+        world: 'numbers',
+        difficulty: 'hard',
+        ageMin: 11,
+        title: 'Ordem das Operações',
+        prompt: 'Qual é o resultado de: 2 + 3 * 4 - 1?',
+        options: ['13', '19', '16', '20'],
+        answerIndex: 0,
+        explanationKidFriendly: 'Multiplicação primeiro! 3 * 4 = 12. Depois: 2 + 12 - 1 = 13. Lembre: * e / vêm antes de + e -! 📐',
+        points: 20,
     }
 ];
+

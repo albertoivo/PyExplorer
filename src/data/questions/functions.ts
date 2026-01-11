@@ -140,5 +140,76 @@ export const functionsQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'Essa é a mágica das funções! Você escreve a receita uma vez, e pode cozinhar o prato quantas vezes quiser chamando o nome dela! 🍳🍳🍳',
         points: 10,
+    },
+    // PARÂMETROS PADRÃO
+    {
+        id: 'func_default_1',
+        type: 'multiple_choice',
+        world: 'functions',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Valores Padrão',
+        prompt: 'O que significa `def saudar(nome="Amigo"):`?',
+        options: [
+            'Se nome não for passado, usa "Amigo"',
+            'O nome sempre será "Amigo"',
+            'Dá erro porque tem = no parâmetro',
+            'Cria uma variável global',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'Parâmetros padrão são como planos B! Se ninguém disser o nome, a função usa "Amigo". saudar() mostra "Amigo", mas saudar("Ana") mostra "Ana"! 🎁',
+        points: 15,
+    },
+    {
+        id: 'func_default_2',
+        type: 'fill_code',
+        world: 'functions',
+        difficulty: 'hard',
+        ageMin: 11,
+        title: 'Criando Valor Padrão',
+        prompt: 'Complete a função para que, se ninguém passar a cor, use "azul":',
+        starterCode: 'def pintar(cor___):\n    print(f"Pintando de {cor}")\n\npintar()  # Deve mostrar: Pintando de azul',
+        solutionTemplate: 'def pintar(cor="azul"):',
+        tests: [
+            { input: null, expectedOutput: 'Pintando de azul' },
+        ],
+        explanationKidFriendly: 'Colocamos = depois do parâmetro para dar um valor padrão. cor="azul" significa: se não disserem a cor, use azul! 🎨',
+        points: 25,
+    },
+    {
+        id: 'func_scope_1',
+        type: 'true_false',
+        world: 'functions',
+        difficulty: 'hard',
+        ageMin: 11,
+        title: 'Variáveis Locais',
+        prompt: 'Uma variável criada dentro de uma função só existe dentro dela. Verdadeiro ou falso?',
+        correctBool: true,
+        explanationKidFriendly: 'Variáveis dentro de funções são "locais" - elas moram só ali! Quando a função termina, elas desaparecem. É como um segredo que só a função sabe! 🔒',
+        points: 20,
+    },
+    {
+        id: 'turtle_house',
+        type: 'turtle_challenge',
+        world: 'functions',
+        difficulty: 'hard',
+        ageMin: 11,
+        title: 'Desenhe uma Casa',
+        prompt: 'Crie uma função `desenhar_quadrado(lado)` e use para desenhar uma casa (quadrado + telhado triangular).',
+        starterCode: `import turtle
+
+# Crie a função desenhar_quadrado
+def desenhar_quadrado(lado):
+    for i in range(___):
+        turtle.forward(___)
+        turtle.left(90)
+
+# Use a função para desenhar a casa
+desenhar_quadrado(100)  # corpo da casa
+`,
+        solutionCode: 'def desenhar_quadrado(lado):\n    for i in range(4):\n        turtle.forward(lado)\n        turtle.left(90)\n\ndesenhar_quadrado(100)',
+        explanationKidFriendly: 'Funções são ótimas para desenhar! Crie uma função que desenha um quadrado e reutilize para a casa e janelas! 🏠',
+        points: 30,
     }
 ];
+

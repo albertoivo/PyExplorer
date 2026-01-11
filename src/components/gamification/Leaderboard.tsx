@@ -1,5 +1,6 @@
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import type { UserData } from '../../types/question';
+import { getTopUsers } from '../../firebase/firestore';
 import './Leaderboard.css';
 
 interface LeaderboardProps {
@@ -16,29 +17,47 @@ interface LeaderboardEntry {
 }
 
 export function Leaderboard({ currentUser }: LeaderboardProps) {
-    // Dados mockados para simular uma comunidade ativa
-    const mockUsers = useMemo(() => [
-        { id: 'bot1', name: 'Ana Code', avatar: '👩‍💻', score: 2500 },
-        { id: 'bot2', name: 'Pedro Python', avatar: '🐍', score: 1800 },
-        { id: 'bot3', name: 'Lucas Loop', avatar: '🔄', score: 1200 },
-        { id: 'bot4', name: 'Maria Matriz', avatar: '🔢', score: 950 },
-        { id: 'bot5', name: 'João Java', avatar: '☕', score: 800 },
-    ], []);
+    const [topUsers, setTopUsers] = useState<UserData[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Carrega os top usuários do Firestore
+    useEffect(() => {
+        async function loadTopUsers() {
+            try {
+                setLoading(true);
+                const users = await getTopUsers(10);
+                setTopUsers(users);
+                setError(null);
+            } catch (err) {
+                console.error('Erro ao carregar leaderboard:', err);
+                setError('Não foi possível carregar o ranking.');
+            } finally {
+                setLoading(false);
+            }
+        }
+        loadTopUsers();
+    }, []);
 
     const leaderboardData = useMemo(() => {
-        let allUsers = [...mockUsers];
+        const allUsers = topUsers.map(user => ({
+            id: user.uid,
+            name: user.displayName || 'Jogador',
+            avatar: user.avatar && user.avatar.length < 5 ? user.avatar : '🧑‍💻',
+            score: user.totalScore || 0,
+        }));
 
-        // Se o usuário atual existe e não está na lista (pelo ID), adiciona-o
+        // Se o usuário atual existe e não está na lista, adiciona-o
         if (currentUser) {
-            // Remove mocks se tiverem mesmo ID (improvável, mas boa prática)
-            allUsers = allUsers.filter(u => u.id !== currentUser.uid);
-
-            allUsers.push({
-                id: currentUser.uid,
-                name: currentUser.displayName || 'Você',
-                avatar: currentUser.avatar && currentUser.avatar.length < 5 ? currentUser.avatar : '🧑‍💻', // Simple emoji fallback checks
-                score: currentUser.totalScore || 0
-            });
+            const alreadyInList = allUsers.some(u => u.id === currentUser.uid);
+            if (!alreadyInList) {
+                allUsers.push({
+                    id: currentUser.uid,
+                    name: currentUser.displayName || 'Você',
+                    avatar: currentUser.avatar && currentUser.avatar.length < 5 ? currentUser.avatar : '🧑‍💻',
+                    score: currentUser.totalScore || 0
+                });
+            }
         }
 
         // Ordena por score decrescente
@@ -50,36 +69,68 @@ export function Leaderboard({ currentUser }: LeaderboardProps) {
             rank: index + 1,
             isCurrentUser: currentUser ? user.id === currentUser.uid : false
         } as LeaderboardEntry));
-    }, [currentUser, mockUsers]);
+    }, [currentUser, topUsers]);
+
+    if (loading) {
+        return (
+            <div className="leaderboard">
+                <h2 className="leaderboard-title">🏆 Ranking Global</h2>
+                <div className="leaderboard-loading">
+                    <span>⏳</span>
+                    <p>Carregando ranking...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="leaderboard">
+                <h2 className="leaderboard-title">🏆 Ranking Global</h2>
+                <div className="leaderboard-error">
+                    <span>⚠️</span>
+                    <p>{error}</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="leaderboard">
             <h2 className="leaderboard-title">🏆 Ranking Global</h2>
-            <div className="leaderboard-list">
-                {leaderboardData.map((entry) => (
-                    <div
-                        key={entry.id}
-                        className={`leaderboard-item ${entry.isCurrentUser ? 'current-user' : ''}`}
-                    >
-                        <div className="rank-badge">
-                            {entry.rank === 1 ? '🥇' : entry.rank === 2 ? '🥈' : entry.rank === 3 ? '🥉' : `#${entry.rank}`}
+            {leaderboardData.length === 0 ? (
+                <div className="leaderboard-empty">
+                    <span>🎮</span>
+                    <p>Nenhum jogador no ranking ainda. Seja o primeiro!</p>
+                </div>
+            ) : (
+                <div className="leaderboard-list">
+                    {leaderboardData.map((entry) => (
+                        <div
+                            key={entry.id}
+                            className={`leaderboard-item ${entry.isCurrentUser ? 'current-user' : ''}`}
+                        >
+                            <div className="rank-badge">
+                                {entry.rank === 1 ? '🥇' : entry.rank === 2 ? '🥈' : entry.rank === 3 ? '🥉' : `#${entry.rank}`}
+                            </div>
+                            <div className="player-info">
+                                <span className="player-avatar">{entry.avatar}</span>
+                                <span className="player-name">
+                                    {entry.name} {entry.isCurrentUser && '(Você)'}
+                                </span>
+                            </div>
+                            <div className="player-score">
+                                {entry.score} ⭐
+                            </div>
                         </div>
-                        <div className="player-info">
-                            <span className="player-avatar">{entry.avatar}</span>
-                            <span className="player-name">
-                                {entry.name} {entry.isCurrentUser && '(Você)'}
-                            </span>
-                        </div>
-                        <div className="player-score">
-                            {entry.score} ⭐
-                        </div>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
+            )}
 
             <div className="leaderboard-footer">
-                <p>O ranking é atualizado toda semana! Continue jogando para subir! 🚀</p>
+                <p>O ranking mostra os jogadores com maior pontuação! 🚀</p>
             </div>
         </div>
     );
 }
+

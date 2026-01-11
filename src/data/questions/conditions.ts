@@ -200,6 +200,29 @@ export const conditionsQuestions: QuestionDocument[] = [
         correctBool: true,
         explanationKidFriendly: 'Isso aí! O ponto de exclamação ! junto com o igual = quer dizer "não igual", ou seja, "diferente"! 3 != 4 é Verdadeiro! ≠',
         points: 10,
+    },
+    // TURTLE CHALLENGE COM CONDIÇÕES
+    {
+        id: 'turtle_colors',
+        type: 'turtle_challenge',
+        world: 'conditions',
+        difficulty: 'hard',
+        ageMin: 11,
+        title: 'Cores Condicionais',
+        prompt: 'Complete o código para desenhar 4 linhas: se o número for par, use azul; se for ímpar, use vermelho.',
+        starterCode: `import turtle
+
+for i in range(4):
+    if i % 2 ___ 0:
+        turtle.pencolor("blue")
+    ___:
+        turtle.pencolor("red")
+    turtle.forward(100)
+    turtle.right(90)
+`,
+        solutionCode: 'for i in range(4):\n    if i % 2 == 0:\n        turtle.pencolor("blue")\n    else:\n        turtle.pencolor("red")\n    turtle.forward(100)\n    turtle.right(90)',
+        explanationKidFriendly: 'Use if/else para escolher cores! Se i for par (i % 2 == 0), use azul. Se não (else), use vermelho! 🎨',
+        points: 30,
     }
 ];
 

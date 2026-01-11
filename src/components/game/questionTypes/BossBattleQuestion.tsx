@@ -155,6 +155,3 @@ export function BossBattleQuestion({ question, onRun, onComplete, isExecuting }:
     );
 }
 
-// Pequeno mock para variável success que esqueci de definir no state, 
-// vou corrigir na próxima iteração se necessário, mas por enquanto vou deixar o botão dependendo apenas de isExecuting e feedback logic.
-// Ah, percebi que usei "success" no render do botão. Vou ajustar o render.

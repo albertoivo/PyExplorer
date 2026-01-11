@@ -42,10 +42,8 @@ export function GamificationPage() {
         gamification,
     } = useGamification();
 
+
     const [activeTab, setActiveTab] = useState<GamificationTab>('overview');
-
-    // Mock leaderboard data (em produção, viria do Firestore)
-
 
     const tabs: { id: GamificationTab; name: string; icon: string }[] = [
         { id: 'overview', name: 'Visão Geral', icon: '📊' },

@@ -17,16 +17,14 @@ O PyExplorer oferece uma base sólida para ensinar Python a crianças, cobrindo 
 
 | Mundo | Questões | Conceitos Cobertos |
 |-------|----------|-------------------|
-| `basic_commands` | 8 | `print()`, aspas, comentários, cálculos no print |
-| `variables` | 6 | Criar variáveis, mudar valores, concatenação, regras de nomes |
-| `numbers` | 7 | Operadores `+, -, *, /, //, %, **` |
-| `conditions` | 7 | `if`, `else`, `elif`, operadores de comparação |
-| `loops` | 8 | `for`, `range()`, `while`, loops em listas |
-| `functions` | 7 | `def`, `return`, parâmetros, reutilização |
-| `lists` | 6 | Criar listas, índices, `append()`, `len()` |
-| `strings` | 6 | Concatenação, f-strings, `upper()`, `lower()` |
-
-**Total: ~55-58 questões regulares + 2 Boss Battles**
+| `basic_commands` | 10 | `print()`, aspas, comentários, cálculos no print |
+| `variables` | 8 | Criar variáveis, mudar valores, concatenação, regras de nomes |
+| `numbers` | 9 | Operadores `+, -, *, /, //, %, **` |
+| `conditions` | 14 | `if`, `else`, `elif`, operadores de comparação |
+| `loops` | 14 | `for`, `range()`, `while`, loops em listas |
+| `functions` | 9 | `def`, `return`, parâmetros, reutilização |
+| `lists` | 13 | Criar listas, índices, `append()`, `len()` |
+| `strings` | 12 | Concatenação, f-strings, `upper()`, `lower()` |
 
 ### Tipos de Questões Suportados
 

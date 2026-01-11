@@ -1,7 +1,29 @@
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { render, screen, waitFor } from '@testing-library/react';
 import { Leaderboard } from '../components/gamification/Leaderboard';
 import type { UserData } from '../types/question';
+
+// Mock getTopUsers from firestore
+vi.mock('../firebase/firestore', () => ({
+    getTopUsers: vi.fn().mockResolvedValue([
+        {
+            uid: 'user1',
+            displayName: 'Ana Code',
+            avatar: '👩‍💻',
+            totalScore: 2500,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        },
+        {
+            uid: 'user2',
+            displayName: 'Pedro Python',
+            avatar: '🧑‍💻',
+            totalScore: 1800,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        },
+    ]),
+}));
 
 // Mock user data
 const mockUser: UserData = {
@@ -21,37 +43,62 @@ const mockUser: UserData = {
 };
 
 describe('Leaderboard', () => {
-    it('renders correctly with user data', () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
+
+    it('renders loading state initially', () => {
         render(<Leaderboard currentUser={mockUser} />);
 
         // Should show title
         expect(screen.getByText('🏆 Ranking Global')).toBeDefined();
 
-        // Should show the user
+        // Should show loading state
+        expect(screen.getByText(/Carregando ranking/)).toBeDefined();
+    });
+
+    it('renders correctly with user data after loading', async () => {
+        render(<Leaderboard currentUser={mockUser} />);
+
+        // Wait for data to load
+        await waitFor(() => {
+            expect(screen.queryByText(/Carregando/)).toBeNull();
+        });
+
+        // Should show the current user
         expect(screen.getByText(/Test User/i)).toBeDefined();
         expect(screen.getByText(/\(Você\)/)).toBeDefined();
 
-        // Should show mock users (Ana Code has 2500, so she should be there)
+        // Should show mock users from getTopUsers
         expect(screen.getByText('Ana Code')).toBeDefined();
+        expect(screen.getByText('Pedro Python')).toBeDefined();
     });
 
-    it('ranks user correctly based on score', () => {
+    it('ranks user correctly based on score', async () => {
         render(<Leaderboard currentUser={mockUser} />);
 
-        // Mock users:
-        // Ana Code: 2500
-        // Pedro Python: 1800
-        // Test User: 1500
-        // Lucas Loop: 1200
+        // Wait for data to load
+        await waitFor(() => {
+            expect(screen.queryByText(/Carregando/)).toBeNull();
+        });
 
-        // Test User should be 3rd
+        // Mock users + current user:
+        // Ana Code: 2500 -> 1st
+        // Pedro Python: 1800 -> 2nd
+        // Test User: 1500 -> 3rd
+
         const userRow = screen.getByText(/Test User/i).closest('.leaderboard-item');
         expect(userRow?.textContent).toContain('🥉'); // 3rd place
     });
 
-    it('ranks user first if score is highest', () => {
+    it('ranks user first if score is highest', async () => {
         const highScoreUser = { ...mockUser, totalScore: 5000 };
         render(<Leaderboard currentUser={highScoreUser} />);
+
+        // Wait for data to load
+        await waitFor(() => {
+            expect(screen.queryByText(/Carregando/)).toBeNull();
+        });
 
         const userRow = screen.getByText(/Test User/i).closest('.leaderboard-item');
         expect(userRow?.textContent).toContain('🥇');
