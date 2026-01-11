@@ -159,25 +159,41 @@
 }
 
 /* Tables */
+.markdown-table,
 .markdown-content table {
     width: 100%;
     border-collapse: collapse;
     margin: 1.5rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
 }
 
-.markdown-content tr {
-    border-bottom: 1px solid var(--border-color);
-}
-
-.markdown-content td {
-    padding: 0.75rem;
-    color: var(--text-secondary);
-}
-
-.markdown-content tr:first-child td {
+.markdown-table th,
+.markdown-content th {
+    padding: 0.75rem 1rem;
     font-weight: 600;
     color: var(--text-primary);
     background: var(--secondary-dark);
+    text-align: left;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.markdown-table td,
+.markdown-content td {
+    padding: 0.75rem 1rem;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.markdown-table tbody tr:hover,
+.markdown-content tbody tr:hover {
+    background: var(--secondary-dark);
+}
+
+.markdown-table tbody tr:last-child td,
+.markdown-content tbody tr:last-child td {
+    border-bottom: none;
 }
 
 /* CTA */

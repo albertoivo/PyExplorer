@@ -112,8 +112,42 @@ export function ArticlePage() {
  * Renderiza conteúdo Markdown simples
  */
 function MarkdownContent({ content }: { content: string }) {
+    // Primeiro, processa tabelas separadamente
+    let processedContent = content;
+
+    // Encontra e converte tabelas markdown
+    const tableRegex = /(\|.+\|[\r\n]+\|[-:| ]+\|[\r\n]+(?:\|.+\|[\r\n]*)+)/gm;
+    processedContent = processedContent.replace(tableRegex, (tableBlock) => {
+        const lines = tableBlock.trim().split('\n').filter(line => line.trim());
+        if (lines.length < 2) return tableBlock;
+
+        // Primeira linha é o header
+        const headerCells = lines[0].split('|').filter(c => c.trim()).map(c => c.trim());
+        // Segunda linha é o separador (ignoramos)
+        // Restante são as linhas de dados
+        const dataRows = lines.slice(2);
+
+        let html = '<table class="markdown-table"><thead><tr>';
+        headerCells.forEach(cell => {
+            html += `<th>${cell}</th>`;
+        });
+        html += '</tr></thead><tbody>';
+
+        dataRows.forEach(row => {
+            const cells = row.split('|').filter(c => c.trim()).map(c => c.trim());
+            html += '<tr>';
+            cells.forEach(cell => {
+                html += `<td>${cell}</td>`;
+            });
+            html += '</tr>';
+        });
+
+        html += '</tbody></table>';
+        return html;
+    });
+
     // Converte markdown básico para HTML
-    const html = content
+    const html = processedContent
         // Headers
         .replace(/^### (.*$)/gim, '<h3>$1</h3>')
         .replace(/^## (.*$)/gim, '<h2>$1</h2>')
@@ -134,11 +168,6 @@ function MarkdownContent({ content }: { content: string }) {
         .replace(/^- ✅ (.*$)/gim, '<li class="check">✅ $1</li>')
         // Line breaks
         .replace(/\n\n/gim, '</p><p>')
-        // Tables (simplified)
-        .replace(/\|(.+)\|/gim, (match) => {
-            const cells = match.split('|').filter(c => c.trim())
-            return `<tr>${cells.map(c => `<td>${c.trim()}</td>`).join('')}</tr>`
-        })
 
     return (
         <div
