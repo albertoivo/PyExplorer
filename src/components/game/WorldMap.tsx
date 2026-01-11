@@ -1,10 +1,10 @@
 import { useState, useCallback, useMemo } from 'react';
-import type { CSSProperties } from 'react';
 import type { World } from '../../types/question';
 import { useAuth } from '../../hooks/useAuth';
 import { TutorialModal, FlashcardDeck } from '../education';
 import { getTutorialByWorld } from '../../data/educationContent';
 import { StoryModal } from './StoryModal';
+import { WorldCard } from './WorldCard';
 import { STORY_CHAPTERS, type StoryEpisode } from '../../data/gamificationData';
 import './WorldMap.css';
 
@@ -256,6 +256,15 @@ export function WorldMap({ onSelectWorld, worldProgress }: WorldMapProps) {
         setSelectedWorld(null);
     }, [showTutorial, markTutorialViewed]);
 
+    // Handlers for card actions
+    const handleShowTutorial = useCallback((worldId: World) => {
+        setShowTutorial(worldId);
+    }, []);
+
+    const handleShowFlashcards = useCallback((worldId: World) => {
+        setShowFlashcards(worldId);
+    }, []);
+
     /*
      * Note: Outro story logic would ideally be checked when returning to the map 
      * after completing a world. For now, we'll check on map mount if a world is complete
@@ -296,99 +305,31 @@ export function WorldMap({ onSelectWorld, worldProgress }: WorldMapProps) {
             </div>
 
             <div className="world-map__grid">
-                {useMemo(() => WORLDS.map((world, index) => {
+                {WORLDS.map((world, index) => {
                     const unlocked = isWorldUnlocked(world);
                     const status = getWorldStatus(world);
                     const isComplete = status.percentage === 100;
-                    const hasTutorial = getTutorialByWorld(world.id);
+                    const hasTutorial = !!getTutorialByWorld(world.id);
                     const viewedTutorial = hasViewedTutorial(world.id);
 
                     return (
-                        <div key={world.id} className="world-card-wrapper">
-                            <button
-                                className={`world-card ${unlocked ? 'world-card--unlocked' : 'world-card--locked'} ${isComplete ? 'world-card--complete' : ''}`}
-                                style={{ '--world-color': world.color } as CSSProperties}
-                                onClick={() => handleWorldClick(world)}
-                                disabled={!unlocked}
-                            >
-                                <div className="world-card__number">{index + 1}</div>
-
-                                <div className="world-card__icon">
-                                    {unlocked ? world.icon : '🔒'}
-                                </div>
-
-                                <h3 className="world-card__name">{world.name}</h3>
-                                <p className="world-card__description">{world.description}</p>
-
-                                {unlocked && status.total > 0 && (
-                                    <div className="world-card__progress">
-                                        <div className="world-card__progress-bar">
-                                            <div
-                                                className="world-card__progress-fill"
-                                                style={{ width: `${status.percentage}%` }}
-                                            />
-                                        </div>
-                                        <span className="world-card__progress-text">
-                                            {status.completed}/{status.total}
-                                        </span>
-                                    </div>
-                                )}
-
-                                {!unlocked && world.requiredScore && (
-                                    <div className="world-card__requirement">
-                                        🔒 Precisa de {world.requiredScore} ⭐
-                                    </div>
-                                )}
-
-                                {isComplete && (
-                                    <div className="world-card__badge">🏆</div>
-                                )}
-
-                                {/* Indicador de Boss - só falta 1 para completar */}
-                                {unlocked && !isComplete && status.total > 0 && status.completed === status.total - 1 && (
-                                    <div className="world-card__boss-badge">
-                                        👹 BOSS BATTLE!
-                                    </div>
-                                )}
-
-                                {/* Indicador de tutorial novo */}
-                                {unlocked && hasTutorial && !viewedTutorial && (
-                                    <div className="world-card__tutorial-badge">
-                                        📖 Nova lição!
-                                    </div>
-                                )}
-                            </button>
-
-                            {/* Botões de ações extras quando desbloqueado */}
-                            {unlocked && (
-                                <div className="world-card__actions">
-                                    {hasTutorial && (
-                                        <button
-                                            className="world-card__action-btn"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                setShowTutorial(world.id);
-                                            }}
-                                            title="Ver Tutorial"
-                                        >
-                                            📖
-                                        </button>
-                                    )}
-                                    <button
-                                        className="world-card__action-btn"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            setShowFlashcards(world.id);
-                                        }}
-                                        title="Flashcards"
-                                    >
-                                        📚
-                                    </button>
-                                </div>
-                            )}
-                        </div>
+                        <WorldCard
+                            key={world.id}
+                            world={world}
+                            index={index}
+                            unlocked={unlocked}
+                            completed={status.completed}
+                            total={status.total}
+                            percentage={status.percentage}
+                            isComplete={isComplete}
+                            hasTutorial={hasTutorial}
+                            viewedTutorial={viewedTutorial}
+                            onClick={handleWorldClick}
+                            onShowTutorial={handleShowTutorial}
+                            onShowFlashcards={handleShowFlashcards}
+                        />
                     );
-                }), [getWorldStatus, hasViewedTutorial, handleWorldClick, isWorldUnlocked])}
+                })}
             </div>
 
             {/* Caminho conectando os mundos */}
