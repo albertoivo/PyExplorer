@@ -189,5 +189,17 @@ export const conditionsQuestions: QuestionDocument[] = [
         explanationKidFriendly: 'in funciona em textos também! "a" in "banana" é True porque banana tem a letra a! 🔤',
         points: 20,
     },
+    {
+        id: 'dec_7',
+        type: 'true_false',
+        world: 'conditions',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Símbolo de Diferente',
+        prompt: 'O símbolo != significa "diferente" em Python.',
+        correctBool: true,
+        explanationKidFriendly: 'Isso aí! O ponto de exclamação ! junto com o igual = quer dizer "não igual", ou seja, "diferente"! 3 != 4 é Verdadeiro! ≠',
+        points: 10,
+    }
 ];
 

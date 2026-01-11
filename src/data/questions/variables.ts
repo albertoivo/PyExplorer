@@ -94,4 +94,22 @@ export const variablesQuestions: QuestionDocument[] = [
         explanationKidFriendly: 'Variáveis não podem começar com números! Elas devem começar com uma letra ou sublinhado (_). "nome1" pode, mas "1nome" não! 🚫',
         points: 10,
     },
+    {
+        id: 'var_7',
+        type: 'multiple_choice',
+        world: 'variables',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Qual é o tipo?',
+        prompt: 'Se fizermos x = "10" (com aspas), qual é o tipo de x?',
+        options: [
+            'Número (int)',
+            'Texto (string)',
+            'Lista',
+            'Comando',
+        ],
+        answerIndex: 1,
+        explanationKidFriendly: 'Tem aspas? Então é texto! Mesmo que seja um número dentro, as aspas transformam ele em string (texto). "10" não serve para conta de matemática! 🎭',
+        points: 10,
+    }
 ];

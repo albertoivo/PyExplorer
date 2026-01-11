@@ -108,5 +108,21 @@ export const numbersQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'Para fazer potência (um número elevado ao outro), usamos dois asteriscos (**). 3 ** 2 é 3 vezes 3! 🚀',
         points: 15,
+    },
+    {
+        id: 'num_7',
+        type: 'fill_code',
+        world: 'numbers',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Resto da Divisão',
+        prompt: 'Complete para descobrir o resto da divisão de 10 por 3:',
+        starterCode: 'resto = 10 ___ 3\nprint(resto)',
+        solutionTemplate: 'resto = 10 % 3',
+        tests: [
+            { input: null, expectedOutput: '1' },
+        ],
+        explanationKidFriendly: 'O símbolo % mostra o que sobra da divisão! 10 dividido por 3 dá 3 e sobra 1. Então 10 % 3 é 1! 🍕',
+        points: 15,
     }
 ];

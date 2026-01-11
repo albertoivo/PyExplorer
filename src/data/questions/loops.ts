@@ -189,5 +189,21 @@ for i in range(___):
         explanationKidFriendly: 'Se i é par, continue pula o print e vai para o próximo número. Resultado: só ímpares! 🔢',
         points: 20,
     },
+    {
+        id: 'loop_7',
+        type: 'fill_code',
+        world: 'loops',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Contagem Regressiva',
+        prompt: 'Complete o while para contar de 5 até 1:',
+        starterCode: 'n = 5\nwhile n > 0:\n    print(n)\n    n = n ___ 1',
+        solutionTemplate: 'n = n - 1',
+        tests: [
+            { input: null, expectedOutput: '5\n4\n3\n2\n1' },
+        ],
+        explanationKidFriendly: 'Para contar para trás, precisamos diminuir o número! n = n - 1 faz o número descer a cada volta. 5, 4, 3... 🚀',
+        points: 20,
+    }
 ];
 

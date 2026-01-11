@@ -124,4 +124,20 @@ export const userInputQuestions: QuestionDocument[] = [
         explanationKidFriendly: 'Primeiro perguntamos (input), depois respondemos (print)! A ordem importa!',
         points: 15,
     },
+    {
+        id: 'input_8',
+        type: 'fill_code',
+        world: 'user_input',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Texto e Número',
+        prompt: 'Complete para juntar o texto com o número 10:',
+        starterCode: 'print("Nota: " + ___(10))',
+        solutionTemplate: 'print("Nota: " + str(10))',
+        tests: [
+            { input: null, expectedOutput: 'Nota: 10' },
+        ],
+        explanationKidFriendly: 'Não podemos somar texto com número! Use str(10) para transformar o 10 em texto, aí o Python deixa juntar! 📝',
+        points: 15,
+    }
 ];

@@ -117,4 +117,20 @@ export const dictionariesQuestions: QuestionDocument[] = [
         explanationKidFriendly: 'Primeiro criamos o dicionário, depois acessamos com a chave!',
         points: 15,
     },
+    {
+        id: 'dict_7',
+        type: 'fill_code',
+        world: 'dictionaries',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Atualizando Valor',
+        prompt: 'A pontuação mudou! Mude o valor de "pontos" para 50:',
+        starterCode: 'jogo = {"pontos": 10}\njogo["pontos"] = ___\nprint(jogo["pontos"])',
+        solutionTemplate: 'jogo["pontos"] = 50',
+        tests: [
+            { input: null, expectedOutput: '50' },
+        ],
+        explanationKidFriendly: 'Para mudar um valor, é só usar a chave e o sinal de igual! É como apagar o que estava escrito na agenda e escrever o novo valor. ✏️',
+        points: 15,
+    }
 ];
