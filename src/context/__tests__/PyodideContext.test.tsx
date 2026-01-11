@@ -2,6 +2,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act, waitFor } from '@testing-library/react';
 import { PyodideProvider, usePyodide } from '../PyodideContext';
+import type { PythonExecutionResult } from '../../types/question';
 
 // Mock pyodide load script
 // We need to intercept the script loading or mock window.loadPyodide immediately if logic checks for script tag.
@@ -103,13 +104,13 @@ describe('PyodideContext', () => {
             .mockResolvedValueOnce('') // stderr
             .mockResolvedValueOnce(undefined); // restore
 
-        let output;
+        let output: PythonExecutionResult | undefined;
         await act(async () => {
             output = await result.current.runPython('print("Hello World")');
         });
 
-        expect(output.stdout).toBe('Hello World');
-        expect(output.hasError).toBe(false);
+        expect(output?.stdout).toBe('Hello World');
+        expect(output?.hasError).toBe(false);
     });
 
     it('handles python errors', async () => {
@@ -124,13 +125,13 @@ describe('PyodideContext', () => {
             .mockResolvedValueOnce(undefined) // reset
             .mockRejectedValueOnce(new Error('SyntaxError: invalid syntax')); // user code error
 
-        let output;
+        let output: PythonExecutionResult | undefined;
         await act(async () => {
             output = await result.current.runPython('syntax error');
         });
 
-        expect(output.hasError).toBe(true);
-        expect(output.stderr).toContain('Erro de Sintaxe');
+        expect(output?.hasError).toBe(true);
+        expect(output?.stderr).toContain('Erro de Sintaxe');
     });
 
     it('executes tests against python code', async () => {
@@ -159,13 +160,13 @@ describe('PyodideContext', () => {
 
         const tests = [{ input: [2, 2], expectedOutput: 4 }];
 
-        let output;
+        let output: PythonExecutionResult | undefined;
         await act(async () => {
             output = await result.current.runPython('def sum(a,b): return a+b', tests, 'sum');
         });
 
-        expect(output.testResults).toBeDefined();
-        expect(output.testResults![0].passed).toBe(true);
-        expect(output.allTestsPassed).toBe(true);
+        expect(output?.testResults).toBeDefined();
+        expect(output?.testResults![0].passed).toBe(true);
+        expect(output?.allTestsPassed).toBe(true);
     });
 });
