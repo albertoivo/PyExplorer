@@ -89,7 +89,28 @@ export async function getQuestionsByWorld(world: World): Promise<QuestionDocumen
 // SERVIÇO DE USUÁRIOS
 // ============================================
 
+// ============================================
+// SERVIÇO DE USUÁRIOS
+// ============================================
+
 const USERS_COLLECTION = 'users';
+const LEADERBOARD_COLLECTION = 'leaderboard';
+
+/**
+ * Atualiza os dados públicos do usuário no leaderboard
+ * @param userData - Dados completos do usuário
+ */
+async function updateLeaderboard(userData: UserData): Promise<void> {
+    const docRef = doc(db, LEADERBOARD_COLLECTION, userData.uid);
+    // Salva apenas dados seguros/públicos
+    await setDoc(docRef, {
+        uid: userData.uid,
+        displayName: userData.displayName,
+        avatar: userData.avatar,
+        totalScore: userData.totalScore,
+        updatedAt: Timestamp.now(),
+    }, { merge: true });
+}
 
 /**
  * Cria ou atualiza dados do usuário
@@ -102,6 +123,9 @@ export async function saveUser(userData: UserData): Promise<void> {
         createdAt: Timestamp.fromDate(userData.createdAt),
         updatedAt: Timestamp.fromDate(userData.updatedAt),
     }, { merge: true });
+
+    // Sincroniza com leaderboard
+    await updateLeaderboard(userData);
 }
 
 /**
@@ -133,10 +157,18 @@ export async function getUser(uid: string): Promise<UserData | null> {
 export async function updateUserScore(uid: string, additionalScore: number): Promise<void> {
     const user = await getUser(uid);
     if (user) {
+        const newScore = user.totalScore + additionalScore;
         const docRef = doc(db, USERS_COLLECTION, uid);
+
         await updateDoc(docRef, {
-            totalScore: user.totalScore + additionalScore,
+            totalScore: newScore,
             updatedAt: Timestamp.now(),
+        });
+
+        // Atualiza leaderboard com o novo score
+        await updateLeaderboard({
+            ...user,
+            totalScore: newScore
         });
     }
 }
@@ -333,7 +365,7 @@ export async function getGamification(uid: string): Promise<UserGamification | n
  */
 export async function getTopUsers(topN: number = 10): Promise<UserData[]> {
     const q = query(
-        collection(db, USERS_COLLECTION),
+        collection(db, LEADERBOARD_COLLECTION),
         orderBy('totalScore', 'desc'),
         limit(topN)
     );
@@ -341,12 +373,29 @@ export async function getTopUsers(topN: number = 10): Promise<UserData[]> {
 
     return querySnapshot.docs.map(docSnap => {
         const data = docSnap.data() as DocumentData;
-        return {
-            ...data,
+
+        // Mapeia explicitamente para garantir que o TS reconheça os campos
+        const userData: UserData = {
             uid: docSnap.id,
-            createdAt: data.createdAt?.toDate() || new Date(),
+            displayName: data.displayName || 'Jogador',
+            avatar: data.avatar || '🧑‍💻',
+            totalScore: typeof data.totalScore === 'number' ? data.totalScore : 0,
+
+            // Campos de data
             updatedAt: data.updatedAt?.toDate() || new Date(),
-        } as UserData;
+            createdAt: new Date(), // Leaderboard não precisa saber a data real de criação
+
+            // Campos dummy para satisfazer a interface UserData (não usados no Leaderboard)
+            email: '',
+            balance: 0,
+            unlockedWorlds: [],
+            streak: 0,
+            lastActiveDate: new Date().toISOString(),
+            inventory: [],
+            equippedAvatar: '',
+        };
+
+        return userData;
     });
 }
 

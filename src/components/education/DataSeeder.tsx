@@ -53,6 +53,28 @@ export function DataSeeder() {
         }
     };
 
+    const handleSyncLeaderboard = async () => {
+        if (!user) return;
+        setLoading(true);
+        setStatus('🔄 Sincronizando leaderboard...');
+
+        try {
+            // Import dinâmico para evitar dependências circulares se houver
+            const { updateUserScore } = await import('../../firebase/firestore');
+
+            // Adicionando 0 pontos, forçamos a atualização da coleção leaderboard no backend
+            // pois a função updateUserScore agora chama updateLeaderboard
+            await updateUserScore(user.uid, 0);
+
+            setStatus('✅ Leaderboard sincronizado para este usuário!');
+        } catch (err) {
+            console.error(err);
+            setStatus('❌ Erro ao sincronizar leaderboard.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     if (!isAdmin) return null;
 
     return (
@@ -93,6 +115,23 @@ export function DataSeeder() {
                     }}
                 >
                     🔄 Force Re-Seed (deleta tudo)
+                </button>
+                <button
+                    onClick={handleSyncLeaderboard}
+                    disabled={loading}
+                    style={{
+                        padding: '10px 20px',
+                        background: loading ? '#93c5fd' : '#3b82f6',
+                        border: 'none',
+                        borderRadius: '8px',
+                        cursor: loading ? 'wait' : 'pointer',
+                        fontWeight: 'bold',
+                        color: 'white',
+                        fontSize: '14px',
+                        transition: 'all 0.2s'
+                    }}
+                >
+                    🏆 Sync Leaderboard (Self)
                 </button>
             </div>
             {status && (

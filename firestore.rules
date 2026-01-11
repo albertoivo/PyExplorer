@@ -69,5 +69,15 @@ service cloud.firestore {
         isAdmin()
       );
     }
+    // ============================================
+    // LEADERBOARD - Dados públicos (sem email/PII)
+    // ============================================
+    match /leaderboard/{userId} {
+      // Leitura pública (para montar o ranking)
+      allow read: if isAuthenticated();
+      
+      // Escrita apenas pelo próprio usuário (para atualizar seu score)
+      allow write: if isOwner(userId);
+    }
   }
 }
