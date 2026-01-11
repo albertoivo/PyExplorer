@@ -50,32 +50,81 @@ function deserializeFromFirestore(data: Record<string, unknown>, id: string): Qu
 }
 
 /**
- * Popula o Firestore com as questões mock
- * Esta função deve ser chamada apenas uma vez para inicializar o banco
+ * Sincroniza automaticamente as questões se houver diferenças
+ * Compara a quantidade e IDs das questões locais vs Firestore
+ */
+export async function autoSyncQuestions(): Promise<{ synced: boolean; count: number; message: string }> {
+    try {
+        const localCount = ALL_QUESTIONS.length;
+        const localIds = new Set(ALL_QUESTIONS.map(q => q.id));
+
+        // Busca questões existentes
+        const existingDocs = await getDocs(collection(db, QUESTIONS_COLLECTION));
+        const firestoreIds = new Set(existingDocs.docs.map(d => d.id));
+
+        // Verifica questões que precisam ser adicionadas
+        const toAdd = ALL_QUESTIONS.filter(q => !firestoreIds.has(q.id));
+
+        // Verifica questões que precisam ser removidas (estão no Firestore mas não no código)
+        const toRemove = existingDocs.docs.filter(d => !localIds.has(d.id));
+
+        // Se não há diferenças, não faz nada
+        if (toAdd.length === 0 && toRemove.length === 0) {
+            console.log(`✅ Questões sincronizadas (${localCount} questões)`);
+            return { synced: false, count: localCount, message: 'Já sincronizado' };
+        }
+
+        console.log(`🔄 Sincronizando: +${toAdd.length} novas, -${toRemove.length} removidas`);
+
+        // Usa batch para operações em lote (limite de 500 por batch)
+        const BATCH_SIZE = 450; // Margem de segurança
+
+        // Processa em batches se necessário
+        for (let i = 0; i < toAdd.length; i += BATCH_SIZE) {
+            const batch = writeBatch(db);
+            const chunk = toAdd.slice(i, i + BATCH_SIZE);
+
+            for (const question of chunk) {
+                const docRef = doc(db, QUESTIONS_COLLECTION, question.id);
+                const sanitizedData = sanitizeForFirestore(question);
+                batch.set(docRef, sanitizedData);
+            }
+
+            await batch.commit();
+        }
+
+        // Remove questões obsoletas
+        for (let i = 0; i < toRemove.length; i += BATCH_SIZE) {
+            const batch = writeBatch(db);
+            const chunk = toRemove.slice(i, i + BATCH_SIZE);
+
+            for (const docSnap of chunk) {
+                batch.delete(doc(db, QUESTIONS_COLLECTION, docSnap.id));
+            }
+
+            await batch.commit();
+        }
+
+        const message = `Sincronizado: ${toAdd.length > 0 ? `+${toAdd.length} adicionadas` : ''} ${toRemove.length > 0 ? `-${toRemove.length} removidas` : ''}`.trim();
+        console.log(`✅ ${message}`);
+
+        return { synced: true, count: localCount, message };
+    } catch (error) {
+        const message = error instanceof Error ? error.message : 'Erro desconhecido';
+        console.error('❌ Erro ao sincronizar:', message);
+        return { synced: false, count: 0, message: `Erro: ${message}` };
+    }
+}
+
+/**
+ * Popula o Firestore com as questões (primeira vez)
+ * Se já existem questões, usa autoSync para atualizar
  */
 export async function seedQuestions(): Promise<{ success: boolean; count: number; error?: string }> {
     try {
-        // Verifica se já existem questões no Firestore
-        const existingDocs = await getDocs(collection(db, QUESTIONS_COLLECTION));
-
-        if (!existingDocs.empty) {
-            console.log(`Firestore já contém ${existingDocs.size} questões. Pulando seed.`);
-            return { success: true, count: existingDocs.size };
-        }
-
-        // Usa batch para operações em lote (mais eficiente)
-        const batch = writeBatch(db);
-
-        for (const question of ALL_QUESTIONS) {
-            const docRef = doc(db, QUESTIONS_COLLECTION, question.id);
-            const sanitizedData = sanitizeForFirestore(question);
-            batch.set(docRef, sanitizedData);
-        }
-
-        await batch.commit();
-
-        console.log(`✅ ${ALL_QUESTIONS.length} questões inseridas no Firestore com sucesso!`);
-        return { success: true, count: ALL_QUESTIONS.length };
+        // Usa o auto-sync ao invés da lógica antiga
+        const result = await autoSyncQuestions();
+        return { success: true, count: result.count };
     } catch (error) {
         const message = error instanceof Error ? error.message : 'Erro desconhecido';
         console.error('❌ Erro ao popular Firestore:', message);

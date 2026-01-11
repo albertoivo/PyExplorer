@@ -1,28 +1,39 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import type { QuestionDocument, World } from '../types/question';
-import { fetchAllQuestions, seedQuestions } from '../firebase/questionsService';
+import { fetchAllQuestions, autoSyncQuestions } from '../firebase/questionsService';
 
 /**
  * Hook para gerenciar questões do Firestore
- * Carrega questões do Firestore com fallback automático para dados locais
+ * Sincroniza automaticamente questões novas e carrega do Firestore
  */
 export function useQuestionsFirestore() {
     const [questions, setQuestions] = useState<QuestionDocument[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [source, setSource] = useState<'firestore' | 'local' | 'loading'>('loading');
+    const [syncStatus, setSyncStatus] = useState<string | null>(null);
 
     /**
-     * Carrega todas as questões
+     * Carrega todas as questões (com auto-sync)
      */
-    const loadQuestions = useCallback(async () => {
+    const loadQuestions = useCallback(async (doSync: boolean = false) => {
         setLoading(true);
         setError(null);
 
         try {
+            // Auto-sync na primeira carga para garantir que novas questões apareçam
+            if (doSync) {
+                setSyncStatus('Sincronizando...');
+                const syncResult = await autoSyncQuestions();
+                if (syncResult.synced) {
+                    setSyncStatus(`✅ ${syncResult.message}`);
+                } else {
+                    setSyncStatus(null); // Já sincronizado, não precisa mostrar
+                }
+            }
+
             const data = await fetchAllQuestions();
             setQuestions(data);
-            // Se temos dados, determina a fonte (Firestore não lança erro se vazio)
             setSource(data.length > 0 ? 'firestore' : 'local');
         } catch (err) {
             const message = err instanceof Error ? err.message : 'Erro ao carregar questões';
@@ -34,19 +45,15 @@ export function useQuestionsFirestore() {
     }, []);
 
     /**
-     * Popula o Firestore com as questões mock (run once)
+     * Força re-sincronização
      */
-    const runSeed = useCallback(async () => {
-        const result = await seedQuestions();
-        if (result.success) {
-            await loadQuestions(); // Recarrega após seed
-        }
-        return result;
+    const resync = useCallback(async () => {
+        await loadQuestions(true);
     }, [loadQuestions]);
 
-    // Carrega questões na montagem do componente
+    // Carrega questões na montagem do componente (com auto-sync)
     useEffect(() => {
-        loadQuestions();
+        loadQuestions(true);
     }, [loadQuestions]);
 
     /**
@@ -87,6 +94,7 @@ export function useQuestionsFirestore() {
         availableWorlds,
         getQuestionsByWorld,
         reload: loadQuestions,
-        seed: runSeed,
+        syncStatus,
+        resync,
     };
 }
