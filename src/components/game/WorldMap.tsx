@@ -120,7 +120,7 @@ export function WorldMap({ onSelectWorld, worldProgress }: WorldMapProps) {
         return userScore >= world.requiredScore;
     }, [unlockedWorlds, userScore]);
 
-    const getWorldStatus = (world: WorldInfo) => {
+    const getWorldStatus = useCallback((world: WorldInfo) => {
         const progress = worldProgress?.get(world.id);
         if (!progress) return { completed: 0, total: 0, percentage: 0 };
 
@@ -128,7 +128,7 @@ export function WorldMap({ onSelectWorld, worldProgress }: WorldMapProps) {
             ...progress,
             percentage: progress.total > 0 ? (progress.completed / progress.total) * 100 : 0,
         };
-    };
+    }, [worldProgress]);
 
     // Verifica se já viu o tutorial desse mundo
     const hasViewedTutorial = useCallback((worldId: World): boolean => {
@@ -296,7 +296,7 @@ export function WorldMap({ onSelectWorld, worldProgress }: WorldMapProps) {
             </div>
 
             <div className="world-map__grid">
-                {WORLDS.map((world, index) => {
+                {useMemo(() => WORLDS.map((world, index) => {
                     const unlocked = isWorldUnlocked(world);
                     const status = getWorldStatus(world);
                     const isComplete = status.percentage === 100;
@@ -388,7 +388,7 @@ export function WorldMap({ onSelectWorld, worldProgress }: WorldMapProps) {
                             )}
                         </div>
                     );
-                })}
+                }), [getWorldStatus, hasViewedTutorial, handleWorldClick, isWorldUnlocked])}
             </div>
 
             {/* Caminho conectando os mundos */}
