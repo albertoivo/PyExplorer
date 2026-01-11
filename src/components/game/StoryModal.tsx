@@ -23,17 +23,30 @@ export function StoryModal({ episode, onComplete }: StoryModalProps) {
 
     return (
         <div className="story-overlay">
-            <div className="story-modal">
+            <div
+                className="story-modal"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="story-title"
+            >
                 <div className="story-header">
-                    <h2 className="story-title">{episode.title}</h2>
-                    <span className="story-progress">{step + 1} / {episode.dialogue.length}</span>
+                    <h2 id="story-title" className="story-title">
+                        {episode.title}
+                    </h2>
+                    <span className="story-progress">
+                        {step + 1} / {episode.dialogue.length}
+                    </span>
                 </div>
 
                 <div className="story-content">
-                    <div className="story-avatar">
+                    <div
+                        className="story-avatar"
+                        role="img"
+                        aria-label={`Avatar de ${currentDialogue.speaker}`}
+                    >
                         {currentDialogue.avatar || '🗣️'}
                     </div>
-                    <div className="story-text-box">
+                    <div className="story-text-box" aria-live="polite">
                         <strong className="story-speaker">{currentDialogue.speaker}</strong>
                         <p className="story-text">{currentDialogue.text}</p>
                     </div>
