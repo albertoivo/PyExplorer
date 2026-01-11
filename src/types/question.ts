@@ -136,6 +136,15 @@ export interface QuestionDocument {
 export type ProgressStatus = 'not_started' | 'in_progress' | 'completed';
 
 /**
+ * Tipo da resposta do usuário (varia conforme tipo de questão)
+ * - string: código escrito (fill_code, partial_function, full_function, turtle_challenge)
+ * - number: índice da alternativa (multiple_choice)
+ * - boolean: true/false (true_false)
+ * - string[]: ordem dos blocos (parsons_problem)
+ */
+export type UserAnswer = string | number | boolean | string[];
+
+/**
  * Progresso do usuário em uma questão
  */
 export interface UserProgress {
@@ -151,6 +160,8 @@ export interface UserProgress {
   attempts: number;
   /** Timestamp da última tentativa */
   lastAttemptAt: Date | null;
+  /** Resposta do usuário na última tentativa bem-sucedida */
+  userAnswer?: UserAnswer;
 }
 
 /**

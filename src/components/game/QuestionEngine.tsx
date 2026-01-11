@@ -1,6 +1,6 @@
 import confetti from 'canvas-confetti';
 import { useState, useCallback } from 'react';
-import type { QuestionDocument } from '../../types/question';
+import type { QuestionDocument, UserAnswer } from '../../types/question';
 import type { HintLevel } from '../../types/education';
 import {
     MultipleChoiceQuestion,
@@ -31,6 +31,10 @@ interface QuestionEngineProps {
     onNext: () => void;
     /** Callback para tentar novamente */
     onRetry?: () => void;
+    /** Modo somente leitura (visualização de resposta anterior) */
+    readOnly?: boolean;
+    /** Resposta salva do usuário (para exibir em modo readOnly) */
+    savedAnswer?: UserAnswer;
 }
 
 // Chave para armazenar dicas usadas
@@ -41,13 +45,15 @@ export function QuestionEngine({
     onComplete,
     onNext,
     onRetry,
+    readOnly = false,
+    savedAnswer,
 }: QuestionEngineProps) {
     // ... (existing state and hooks)
     const { userData, updateUserData } = useAuth();
     const { runPython, loading: isLoading } = usePyodide();
     const { react: mascotReact } = useMascotContext();
-    const [showResult, setShowResult] = useState(false);
-    const [isCorrect, setIsCorrect] = useState(false);
+    const [showResult, setShowResult] = useState(readOnly); // Em readOnly, já mostra como "resultado"
+    const [isCorrect, setIsCorrect] = useState(readOnly); // Em readOnly, mostra como correto
     const [showHints, setShowHints] = useState(false);
     const [revealedHints, setRevealedHints] = useState<HintLevel[]>([]);
     const [hintsCost, setHintsCost] = useState(0);
@@ -201,11 +207,23 @@ export function QuestionEngine({
     };
 
     return (
-        <div className="question-engine">
+        <div className={`question-engine ${readOnly ? 'question-engine--readonly' : ''}`}>
+            {/* Em modo readOnly, mostra badge de visualização */}
+            {readOnly && (
+                <div className="question-engine__readonly-badge">
+                    📖 Modo Visualização
+                    {savedAnswer !== undefined && (
+                        <span className="question-engine__readonly-badge-sub">
+                            Sua resposta está destacada abaixo
+                        </span>
+                    )}
+                </div>
+            )}
+
             {renderQuestion()}
 
-            {/* Botão de dicas (antes de responder) */}
-            {!showResult && (
+            {/* Botão de dicas (antes de responder) - oculto em readOnly */}
+            {!showResult && !readOnly && (
                 <div className="question-engine__hints-section">
                     <button
                         className={`question-engine__hints-toggle ${showHints ? 'question-engine__hints-toggle--active' : ''}`}
@@ -235,18 +253,20 @@ export function QuestionEngine({
                     <ResultPanel
                         success={isCorrect}
                         message={
-                            isCorrect
-                                ? 'Você acertou! Continue assim! 🌟'
-                                : 'Não foi dessa vez, mas você está aprendendo!'
+                            readOnly
+                                ? 'Você já completou esta questão! 🎉'
+                                : isCorrect
+                                    ? 'Você acertou! Continue assim! 🌟'
+                                    : 'Não foi dessa vez, mas você está aprendendo!'
                         }
                         explanation={question.explanationKidFriendly}
-                        points={isCorrect ? calculateScore(question) - (hintsCost > 0 ? Math.floor(hintsCost / 2) : 0) : undefined}
-                        onRetry={!isCorrect ? handleRetry : undefined}
-                        onNext={handleNext}
+                        points={readOnly ? undefined : (isCorrect ? calculateScore(question) - (hintsCost > 0 ? Math.floor(hintsCost / 2) : 0) : undefined)}
+                        onRetry={!isCorrect && !readOnly ? handleRetry : undefined}
+                        onNext={readOnly ? undefined : handleNext}
                     />
 
                     {/* Info de dicas usadas */}
-                    {hintsCost > 0 && isCorrect && (
+                    {hintsCost > 0 && isCorrect && !readOnly && (
                         <div className="question-engine__hints-used">
                             💡 Você usou dicas (-{Math.floor(hintsCost / 2)} pontos)
                         </div>

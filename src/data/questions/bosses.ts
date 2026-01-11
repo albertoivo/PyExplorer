@@ -31,13 +31,13 @@ export const BOSS_QUESTIONS: QuestionDocument[] = [
         difficulty: 'hard',
         ageMin: 8,
         title: 'O Mímico das Caixas',
-        prompt: 'Este monstro bagunçou todas as caixas! Crie uma variável chamada `tesouro` e guarde o valor "ouro" nela. Depois, mostre o que tem na caixa.',
-        explanationKidFriendly: 'Variáveis são como caixas. O Mímico escondeu o ouro, você precisa organizar!',
+        prompt: 'Este monstro bagunçou todas as caixas! Crie uma variável chamada `tesouro` e guarde o valor "ouro" nela. Depois, mostre o que tem na caixa usando print(tesouro).',
+        explanationKidFriendly: 'Variáveis são como caixas mágicas! O Mímico quer que você crie uma caixinha chamada "tesouro" e coloque "ouro" dentro. Use print(tesouro) para mostrar o que tem dentro!',
         bossMetadata: {
             bossName: 'Mímico Variável',
             bossAvatar: '📦',
             timeLimitSeconds: 90,
-            initialCode: '# Crie a variável tesouro\n'
+            initialCode: '# Crie a variável tesouro com o valor "ouro"\n# Use: tesouro = "ouro"\n# Depois mostre: print(tesouro)\n'
         },
         tests: [
             {

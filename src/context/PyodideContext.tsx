@@ -224,6 +224,48 @@ json.dumps(_test_result) if not isinstance(_test_result, (int, float, bool, str,
                     }
                 }
             }
+            // Se há testes MAS não há functionName, valida via stdout
+            else if (tests && tests.length > 0 && !functionName) {
+                testResults = [];
+                const outputLines = stdoutText.trim().split('\n').map(line => line.trim()).filter(line => line);
+
+                for (const test of tests) {
+                    // expectedOutput pode ser array de linhas ou string única
+                    const expectedLines = Array.isArray(test.expectedOutput)
+                        ? test.expectedOutput.map(String)
+                        : [String(test.expectedOutput)];
+
+                    // Verifica se todas as linhas esperadas estão presentes na saída
+                    // Comparação flexível: cada linha esperada deve aparecer na saída
+                    const allLinesFound = expectedLines.every(expected =>
+                        outputLines.some(actual =>
+                            actual.toLowerCase().includes(expected.toLowerCase()) ||
+                            actual === expected
+                        )
+                    );
+
+                    // Também verifica correspondência exata por posição se números de linhas forem iguais
+                    const exactMatch = expectedLines.length === outputLines.length &&
+                        expectedLines.every((expected, idx) => {
+                            const actual = outputLines[idx] || '';
+                            return actual.toLowerCase() === expected.toLowerCase() ||
+                                actual === expected;
+                        });
+
+                    const passed = exactMatch || (allLinesFound && outputLines.length >= expectedLines.length);
+
+                    testResults.push({
+                        passed,
+                        input: test.input,
+                        expectedOutput: test.expectedOutput,
+                        actualOutput: outputLines,
+                    });
+
+                    if (!passed) {
+                        allTestsPassed = false;
+                    }
+                }
+            }
 
             return {
                 stdout: stdoutText,

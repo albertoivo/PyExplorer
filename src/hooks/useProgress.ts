@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { UserProgress, ProgressStatus } from '../types/question';
+import type { UserProgress, ProgressStatus, UserAnswer } from '../types/question';
 import { getUserProgress, updateProgress } from '../firebase/firestore';
 import { useAuth } from './useAuth';
 
@@ -63,18 +63,23 @@ export function useProgress() {
 
     /**
      * Atualiza o progresso de uma questão (após tentativa)
+     * @param questionId - ID da questão
+     * @param passed - Se acertou
+     * @param score - Pontuação potencial
+     * @param userAnswer - Resposta do usuário (código, índice, booleano, etc.)
      */
     const recordAttempt = useCallback(async (
         questionId: string,
         passed: boolean,
-        score: number = 0
+        score: number = 0,
+        userAnswer?: UserAnswer
     ): Promise<void> => {
         if (!userData) {
             console.warn('recordAttempt: sem userData, ignorando');
             return;
         }
 
-        console.log('recordAttempt:', { questionId, passed, score, isGuest });
+        console.log('recordAttempt:', { questionId, passed, score, isGuest, userAnswer });
 
         try {
             // Calcula o novo progresso
@@ -83,10 +88,15 @@ export function useProgress() {
             const newAttempts = (existing?.attempts || 0) + 1;
             const newScore = passed ? Math.max(existing?.score || 0, score) : (existing?.score || 0);
 
-            // Calcula pontos adicionais (só conta se for maior que o anterior)
-            const additionalScore = passed && newScore > (existing?.score || 0)
+            // IMPORTANTE: Se já estava completed, NÃO adiciona pontos (refazer é só prática)
+            const wasAlreadyCompleted = existing?.status === 'completed';
+            const additionalScore = passed && !wasAlreadyCompleted && newScore > (existing?.score || 0)
                 ? newScore - (existing?.score || 0)
                 : 0;
+
+            if (wasAlreadyCompleted && passed) {
+                console.log('Questão já completada anteriormente - sem pontos adicionais (modo prática)');
+            }
 
             const newProgress: UserProgress = {
                 uid: userData.uid,
@@ -95,6 +105,8 @@ export function useProgress() {
                 score: newScore,
                 attempts: newAttempts,
                 lastAttemptAt: new Date(),
+                // Salva a resposta do usuário apenas se passou
+                userAnswer: passed && userAnswer !== undefined ? userAnswer : existing?.userAnswer,
             };
 
             // Atualização otimista da UI (imediata)
@@ -116,7 +128,7 @@ export function useProgress() {
                 console.log('Progresso salvo no localStorage');
             } else {
                 // Salva no Firestore para usuários autenticados
-                await updateProgress(userData.uid, questionId, passed, score);
+                await updateProgress(userData.uid, questionId, passed, score, userAnswer);
                 console.log('Progresso salvo no Firestore');
 
                 // Recarrega dados do usuário para garantir sincronização

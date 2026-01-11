@@ -1,15 +1,16 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
-import type { World, QuestionDocument } from '../types/question';
+import type { World, QuestionDocument, UserProgress } from '../types/question';
 import { WorldMap } from '../components/game/WorldMap';
 import { QuestionEngine } from '../components/game/QuestionEngine';
 import { QuestionCard } from '../components/game/QuestionCard';
+import { CompletedQuestionModal } from '../components/game/CompletedQuestionModal';
 import { useProgress } from '../hooks/useProgress';
 import { usePyodide } from '../hooks/usePyodide';
 import { useQuestionsFirestore } from '../hooks/useQuestionsFirestore';
 import { useGamification } from '../hooks/useGamification';
 import './GamePage.css';
 
-type GameView = 'world-map' | 'world-questions' | 'playing';
+type GameView = 'world-map' | 'world-questions' | 'playing' | 'reviewing';
 
 /**
  * Página principal do jogo
@@ -23,6 +24,10 @@ export function GamePage() {
 
     // Track mistakes in current session for perfect run achievement
     const [isPerfectRun, setIsPerfectRun] = useState(true);
+
+    // Modal para questões já completadas
+    const [showCompletedModal, setShowCompletedModal] = useState(false);
+    const [completedQuestionProgress, setCompletedQuestionProgress] = useState<UserProgress | null>(null);
 
     const { allProgress, recordAttempt, getQuestionProgress } = useProgress();
     const { loading: pyodideLoading, loadingProgress, loadPyodide, ready } = usePyodide();
@@ -73,15 +78,52 @@ export function GamePage() {
 
     /**
      * Começa a jogar uma questão
+     * Se a questão já foi completada, mostra modal com opções
      */
     const handleStartQuestion = (question: QuestionDocument) => {
+        const progress = getQuestionProgress(question.id);
         const index = worldQuestions.findIndex(q => q.id === question.id);
+
         setCurrentQuestion(question);
         setCurrentQuestionIndex(index);
+
+        // Se questão já foi completada, mostra modal com opções
+        if (progress?.status === 'completed') {
+            setCompletedQuestionProgress(progress);
+            setShowCompletedModal(true);
+        } else {
+            // Questão nova ou em progresso - vai direto para jogar
+            setView('playing');
+            // Inicia o timer para a questão
+            // eslint-disable-next-line react-hooks/purity
+            questionStartTime.current = Date.now();
+        }
+    };
+
+    /**
+     * Usuário escolheu "Ver minha resposta" no modal
+     */
+    const handleViewAnswer = () => {
+        setShowCompletedModal(false);
+        setView('reviewing');
+    };
+
+    /**
+     * Usuário escolheu "Refazer" no modal (modo prática, sem pontos)
+     */
+    const handleRedoQuestion = () => {
+        setShowCompletedModal(false);
         setView('playing');
-        // Inicia o timer para a questão
-        // eslint-disable-next-line react-hooks/purity
         questionStartTime.current = Date.now();
+    };
+
+    /**
+     * Fecha o modal de questão completada
+     */
+    const handleCloseCompletedModal = () => {
+        setShowCompletedModal(false);
+        setCurrentQuestion(null);
+        setCompletedQuestionProgress(null);
     };
 
     /**
@@ -262,6 +304,48 @@ export function GamePage() {
                         onNext={handleNext}
                     />
                 </div>
+            )}
+
+            {/* Revisando uma Questão (modo leitura) */}
+            {view === 'reviewing' && currentQuestion && completedQuestionProgress && (
+                <div className="question-play question-play--reviewing">
+                    <div className="question-play__header">
+                        <button className="back-button" onClick={handleBackToQuestions}>
+                            ← Voltar às Questões
+                        </button>
+                        <div className="question-play__review-badge">
+                            📖 Visualização
+                        </div>
+                    </div>
+
+                    <QuestionEngine
+                        question={currentQuestion}
+                        onComplete={handleQuestionComplete}
+                        onNext={handleBackToQuestions}
+                        readOnly={true}
+                        savedAnswer={completedQuestionProgress.userAnswer}
+                    />
+
+                    <div className="question-play__review-footer">
+                        <button
+                            className="question-play__redo-btn"
+                            onClick={handleRedoQuestion}
+                        >
+                            🔄 Refazer para Praticar
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {/* Modal de questão já completada */}
+            {showCompletedModal && currentQuestion && completedQuestionProgress && (
+                <CompletedQuestionModal
+                    question={currentQuestion}
+                    progress={completedQuestionProgress}
+                    onViewAnswer={handleViewAnswer}
+                    onRedo={handleRedoQuestion}
+                    onClose={handleCloseCompletedModal}
+                />
             )}
         </div>
     );

@@ -216,6 +216,125 @@ describe('Cálculo de Pontuação', () => {
     })
 
     // ============================================
+    // TESTES DE REFAZER QUESTÃO (modo prática)
+    // ============================================
+    describe('Refazer Questão Completada (modo prática)', () => {
+        /**
+         * Simula a lógica de recordAttempt em useProgress.ts
+         * wasAlreadyCompleted impede ganho de pontos ao refazer
+         */
+        function calculateAdditionalScoreWithCompletionCheck(
+            passed: boolean,
+            newScore: number,
+            existingScore: number,
+            wasAlreadyCompleted: boolean
+        ): number {
+            // Se já estava completed, NÃO adiciona pontos (refazer é só prática)
+            if (wasAlreadyCompleted) return 0
+            if (!passed) return 0
+            if (newScore <= existingScore) return 0
+            return newScore - existingScore
+        }
+
+        it('NÃO deve dar pontos ao refazer questão já completada', () => {
+            const existingScore = 15
+            const wasAlreadyCompleted = true
+            const newAttemptScore = 20 // Mesmo sendo maior, não deve dar pontos
+
+            const additional = calculateAdditionalScoreWithCompletionCheck(
+                true,
+                newAttemptScore,
+                existingScore,
+                wasAlreadyCompleted
+            )
+
+            expect(additional).toBe(0)
+        })
+
+        it('DEVE dar pontos na primeira conclusão', () => {
+            const existingScore = 0
+            const wasAlreadyCompleted = false
+            const newAttemptScore = 15
+
+            const additional = calculateAdditionalScoreWithCompletionCheck(
+                true,
+                newAttemptScore,
+                existingScore,
+                wasAlreadyCompleted
+            )
+
+            expect(additional).toBe(15)
+        })
+
+        it('DEVE dar pontos ao melhorar score antes de completar', () => {
+            const existingScore = 10 // status: in_progress
+            const wasAlreadyCompleted = false
+            const newAttemptScore = 20
+
+            const additional = calculateAdditionalScoreWithCompletionCheck(
+                true,
+                newAttemptScore,
+                existingScore,
+                wasAlreadyCompleted
+            )
+
+            expect(additional).toBe(10) // Diferença
+        })
+
+        it('NÃO deve dar pontos ao errar após ter completado', () => {
+            const existingScore = 15
+            const wasAlreadyCompleted = true // Já tinha completado antes
+
+            const additional = calculateAdditionalScoreWithCompletionCheck(
+                false, // Errou
+                0,
+                existingScore,
+                wasAlreadyCompleted
+            )
+
+            expect(additional).toBe(0)
+        })
+
+        it('simulação completa: completar, refazer, não ganhar pontos', () => {
+            let totalScore = 0
+            let questionScore = 0
+            let status = 'not_started'
+
+            // Passo 1: Primeira tentativa - acerta com 15 pontos
+            const wasCompleted1 = status === 'completed'
+            const attempt1Score = 15
+            const additional1 = calculateAdditionalScoreWithCompletionCheck(
+                true,
+                attempt1Score,
+                questionScore,
+                wasCompleted1
+            )
+            questionScore = Math.max(questionScore, attempt1Score)
+            totalScore += additional1
+            status = 'completed'
+
+            expect(additional1).toBe(15)
+            expect(totalScore).toBe(15)
+
+            // Passo 2: Refaz a questão (já completed) - acerta com 20 pontos
+            const wasCompleted2 = status === 'completed'
+            const attempt2Score = 20
+            const additional2 = calculateAdditionalScoreWithCompletionCheck(
+                true,
+                attempt2Score,
+                questionScore,
+                wasCompleted2
+            )
+            questionScore = Math.max(questionScore, attempt2Score)
+            totalScore += additional2
+
+            expect(additional2).toBe(0) // NÃO ganha pontos
+            expect(totalScore).toBe(15) // Total permanece 15
+            expect(questionScore).toBe(20) // Mas o questionScore pode atualizar se quisermos
+        })
+    })
+
+    // ============================================
     // EDGE CASES
     // ============================================
     describe('Edge Cases', () => {
