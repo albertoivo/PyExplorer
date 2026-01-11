@@ -53,6 +53,8 @@
     gap: 1.5rem;
     position: relative;
     z-index: 1;
+    align-items: stretch;
+    /* Garante que as células tenham a mesma altura */
 }
 
 /* Card de mundo */
@@ -66,6 +68,24 @@
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     overflow: hidden;
+    /* Alinhamento Flexbox */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+    width: 100%;
+}
+
+/* ... (mantém pseudo-elementos e hover) ... */
+
+/* World card wrapper para ações */
+.world-card-wrapper {
+    position: relative;
+    height: 100%;
+    /* Ocupa altura total da célula da grid */
+    display: flex;
+    flex-direction: column;
 }
 
 .world-card::before {
@@ -176,6 +196,12 @@
     color: #a0aec0;
     margin: 0 0 1.25rem;
     line-height: 1.5;
+    flex-grow: 1;
+    /* Ocupa espaço disponível para empurrar conteúdo abaixo */
+    display: flex;
+    align-items: center;
+    /* Centraliza texto verticalmente se for curto */
+    justify-content: center;
 }
 
 /* Progresso */
