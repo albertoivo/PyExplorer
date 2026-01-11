@@ -21,6 +21,9 @@ export function GamePage() {
     const [worldQuestions, setWorldQuestions] = useState<QuestionDocument[]>([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
+    // Track mistakes in current session for perfect run achievement
+    const [isPerfectRun, setIsPerfectRun] = useState(true);
+
     const { allProgress, recordAttempt, getQuestionProgress } = useProgress();
     const { loading: pyodideLoading, loadingProgress, loadPyodide, ready } = usePyodide();
     const { questions: allQuestions, loading: questionsLoading, getQuestionsByWorld } = useQuestionsFirestore();
@@ -63,6 +66,8 @@ export function GamePage() {
         setSelectedWorld(world);
         setWorldQuestions(questions);
         setView('world-questions');
+        // Reset perfect run state when entering a world
+        setIsPerfectRun(true);
     };
 
 
@@ -85,6 +90,10 @@ export function GamePage() {
     const handleQuestionComplete = async (passed: boolean, score: number) => {
         // Calcula tempo de resposta em segundos
         const responseTimeSeconds = (Date.now() - questionStartTime.current) / 1000;
+
+        if (!passed) {
+            setIsPerfectRun(false);
+        }
 
         if (currentQuestion) {
             await recordAttempt(currentQuestion.id, passed, score);
@@ -114,11 +123,7 @@ export function GamePage() {
                     const totalWorldsCompleted = Array.from(worldProgress.values())
                         .filter(p => p.completed === p.total && p.total > 0).length;
 
-                    // Verifica se foi perfeito (sem erros neste mundo)
-                    // TODO: implementar rastreamento de erros por mundo
-                    const isPerfect = false;
-
-                    checkWorldAchievements(totalWorldsCompleted, isPerfect);
+                    checkWorldAchievements(totalWorldsCompleted, isPerfectRun);
                 }
             }
 

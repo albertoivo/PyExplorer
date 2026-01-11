@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import type { QuestionDocument } from '../types/question';
 import { fetchAllQuestions } from '../firebase/questionsService';
 import { useAuth } from '../context/AuthContext';
-import { updateProgress } from '../firebase/firestore';
+import { updateProgressBatch } from '../firebase/firestore';
 
 
 // Chaves do localStorage
@@ -134,10 +134,7 @@ export function useOffline() {
         try {
             console.log('Sincronizando progresso:', state.pendingProgress);
 
-            // TODO: Otimizar para usar batch writes se houver muitos itens
-            for (const item of state.pendingProgress) {
-                await updateProgress(user.uid, item.questionId, item.passed, item.score);
-            }
+            await updateProgressBatch(user.uid, state.pendingProgress);
 
             // Sucesso
             localStorage.removeItem(OFFLINE_PROGRESS_KEY);
@@ -162,8 +159,6 @@ export function useOffline() {
     useEffect(() => {
         const handleOnline = () => {
             setState(prev => ({ ...prev, isOnline: true }));
-            // Tenta sincronizar quando volta online
-            syncPendingProgress();
         };
 
         const handleOffline = () => {
@@ -177,7 +172,15 @@ export function useOffline() {
             window.removeEventListener('online', handleOnline);
             window.removeEventListener('offline', handleOffline);
         };
-    }, [syncPendingProgress]);
+    }, []);
+
+    // Tenta sincronizar quando volta online
+    useEffect(() => {
+        if (state.isOnline) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            syncPendingProgress();
+        }
+    }, [state.isOnline, syncPendingProgress]);
 
     // Carrega dados do cache ao iniciar
     useEffect(() => {

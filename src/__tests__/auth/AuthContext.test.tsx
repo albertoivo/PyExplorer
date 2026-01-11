@@ -15,9 +15,26 @@ const wrapper = ({ children }: { children: React.ReactNode }) => (
 );
 
 describe('AuthContext', () => {
+    let localStorageStore: Record<string, string> = {};
+
     beforeEach(() => {
         vi.clearAllMocks();
-        localStorage.clear();
+
+        // Setup LocalStorage Mock
+        localStorageStore = {};
+
+        vi.mocked(localStorage.getItem).mockImplementation((key) => {
+            return localStorageStore[key] || null;
+        });
+        vi.mocked(localStorage.setItem).mockImplementation((key, value) => {
+            localStorageStore[key] = value;
+        });
+        vi.mocked(localStorage.removeItem).mockImplementation((key) => {
+            delete localStorageStore[key];
+        });
+        vi.mocked(localStorage.clear).mockImplementation(() => {
+            localStorageStore = {};
+        });
     });
 
     it('initializes with loading state', async () => {
@@ -72,11 +89,35 @@ describe('AuthContext', () => {
         expect(result.current.isGuest).toBe(true);
         expect(result.current.userData?.displayName).toBe('Guest User');
         expect(result.current.user).toBeNull();
+
         const storedGuest = localStorage.getItem('pyexplorer_guest');
         expect(storedGuest).not.toBeNull();
         if (storedGuest) {
              expect(storedGuest).toContain('Guest User');
         }
+    });
+
+    it('handles guest login persistence', async () => {
+        // Setup existing guest data in localStorage
+        const guestData = {
+            uid: 'guest_123',
+            displayName: 'Stored Guest',
+            streak: 2,
+            lastActiveDate: new Date().toISOString().split('T')[0]
+        };
+        localStorage.setItem('pyexplorer_guest', JSON.stringify(guestData));
+
+        (authModule.subscribeToAuthChanges as any).mockImplementation((callback: any) => {
+            callback(null);
+            return vi.fn();
+        });
+
+        const { result } = renderHook(() => useAuth(), { wrapper });
+
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
+        expect(result.current.isGuest).toBe(true);
+        expect(result.current.userData?.displayName).toBe('Stored Guest');
     });
 
     it('register creates user and saves to firestore', async () => {
@@ -122,6 +163,27 @@ describe('AuthContext', () => {
         expect(authModule.signIn).toHaveBeenCalledWith('test@example.com', 'password');
     });
 
+    it('handles login error', async () => {
+        (authModule.subscribeToAuthChanges as any).mockImplementation((callback: any) => {
+            callback(null);
+            return vi.fn();
+        });
+        (authModule.signIn as any).mockRejectedValue(new Error('auth/user-not-found'));
+
+        const { result } = renderHook(() => useAuth(), { wrapper });
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
+        await act(async () => {
+            try {
+                await result.current.login('wrong@example.com', 'password');
+            } catch {
+                // Ignore expected error
+            }
+        });
+
+        expect(result.current.error).toBe('Usuário não encontrado');
+    });
+
     it('logout clears state', async () => {
          const mockUser = { uid: 'user123' };
          (authModule.subscribeToAuthChanges as any).mockImplementation((callback: any) => {
@@ -137,6 +199,30 @@ describe('AuthContext', () => {
         });
 
         expect(authModule.logOut).toHaveBeenCalled();
+    });
+
+    it('guest logout clears local storage', async () => {
+        (authModule.subscribeToAuthChanges as any).mockImplementation((callback: any) => {
+            callback(null);
+            return vi.fn();
+        });
+
+        const { result } = renderHook(() => useAuth(), { wrapper });
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
+        act(() => {
+            result.current.enterAsGuest('Guest');
+        });
+
+        expect(localStorage.getItem('pyexplorer_guest')).not.toBeNull();
+
+        await act(async () => {
+            await result.current.logout();
+        });
+
+        expect(result.current.isGuest).toBe(false);
+        expect(result.current.userData).toBeNull();
+        expect(localStorage.getItem('pyexplorer_guest')).toBeNull();
     });
 
     it('updates user data', async () => {
