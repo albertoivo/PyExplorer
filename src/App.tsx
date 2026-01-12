@@ -9,8 +9,8 @@ import { Footer } from './components/layout/Footer';
 import { ProtectedRoute } from './components/layout/ProtectedRoute';
 import { OfflineIndicator } from './components/layout/OfflineIndicator';
 
-// Mascot (pequeno, carregado imediatamente)
-import { Mascot } from './components/mascot';
+// Mascot - lazy loaded para reduzir bundle inicial
+const Mascot = lazy(() => import('./components/mascot').then(m => ({ default: m.Mascot })));
 
 // ===========================================
 // EAGER LOADING (Home Page - LCP Optimization)
@@ -65,13 +65,15 @@ function GlobalMascot() {
   const { mood, message, visible } = useMascotContext();
 
   return (
-    <Mascot
-      mood={mood}
-      message={message}
-      visible={visible}
-      size="medium"
-      position="bottom-right"
-    />
+    <Suspense fallback={null}>
+      <Mascot
+        mood={mood}
+        message={message}
+        visible={visible}
+        size="medium"
+        position="bottom-right"
+      />
+    </Suspense>
   );
 }
 
