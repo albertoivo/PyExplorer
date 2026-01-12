@@ -47,10 +47,11 @@ export const WorldCard = memo(function WorldCard({
                 style={{ '--world-color': world.color } as CSSProperties}
                 onClick={() => onClick(world)}
                 disabled={!unlocked}
+                aria-label={`Mundo ${index + 1}: ${world.name}. ${unlocked ? (isComplete ? 'Completo' : 'Disponível') : 'Bloqueado'}.${unlocked && total > 0 ? ` Progresso: ${percentage}%.` : ''}`}
             >
-                <div className="world-card__number">{index + 1}</div>
+                <div className="world-card__number" aria-hidden="true">{index + 1}</div>
 
-                <div className="world-card__icon">
+                <div className="world-card__icon" aria-hidden="true">
                     {unlocked ? world.icon : '🔒'}
                 </div>
 
@@ -107,8 +108,9 @@ export const WorldCard = memo(function WorldCard({
                                 onShowTutorial(world.id);
                             }}
                             title="Ver Tutorial"
+                            aria-label="Ver Tutorial"
                         >
-                            📖
+                            <span aria-hidden="true">📖</span>
                         </button>
                     )}
                     <button
@@ -118,8 +120,9 @@ export const WorldCard = memo(function WorldCard({
                             onShowFlashcards(world.id);
                         }}
                         title="Flashcards"
+                        aria-label="Ver Flashcards"
                     >
-                        📚
+                        <span aria-hidden="true">📚</span>
                     </button>
                 </div>
             )}
