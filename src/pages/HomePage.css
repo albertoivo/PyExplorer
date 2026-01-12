@@ -108,11 +108,6 @@
 
 .hero__snake {
     font-size: 12rem;
-    width: 192px;
-    height: 192px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     animation: float 4s ease-in-out infinite;
     filter: drop-shadow(0 20px 40px rgba(0, 217, 255, 0.3));
 }
@@ -129,54 +124,26 @@
     }
 }
 
-.hero__stars {
+/* Decorative stars via pseudo-elements */
+.hero__illustration::before,
+.hero__illustration::after {
+    content: '⭐';
     position: absolute;
-    width: 100%;
-    height: 100%;
-}
-
-.star {
-    position: absolute;
-    font-size: 2rem;
+    font-size: 1.5rem;
     animation: twinkle 2s ease-in-out infinite;
+    pointer-events: none;
 }
 
-.star--1 {
+.hero__illustration::before {
     top: 10%;
     left: 10%;
-    animation-delay: 0s;
 }
 
-.star--2 {
+.hero__illustration::after {
+    content: '✨';
     top: 20%;
     right: 10%;
     animation-delay: 0.5s;
-}
-
-.star--3 {
-    bottom: 20%;
-    left: 5%;
-    animation-delay: 1s;
-}
-
-.star--4 {
-    bottom: 10%;
-    right: 15%;
-    animation-delay: 1.5s;
-}
-
-@keyframes twinkle {
-
-    0%,
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-
-    50% {
-        opacity: 0.5;
-        transform: scale(0.8);
-    }
 }
 
 /* ============================================
@@ -219,7 +186,15 @@
     transform: translateY(-5px);
 }
 
-.feature-card__icon {
+.feature-card--link {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Icon via data attribute - eliminates extra DOM elements */
+.feature-card__title[data-icon]::before {
+    content: attr(data-icon);
+    display: block;
     font-size: 3rem;
     margin-bottom: 1rem;
 }
@@ -236,6 +211,17 @@
     color: #a0aec0;
     line-height: 1.6;
     margin: 0;
+}
+
+@keyframes twinkle {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(0.8);
+    }
 }
 
 /* ============================================

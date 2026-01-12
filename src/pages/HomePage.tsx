@@ -42,14 +42,8 @@ export function HomePage() {
                     </div>
                 </div>
 
-                <div className="hero__illustration">
-                    <div className="hero__snake">🐍</div>
-                    <div className="hero__stars">
-                        <span className="star star--1">⭐</span>
-                        <span className="star star--2">✨</span>
-                        <span className="star star--3">🌟</span>
-                        <span className="star star--4">💫</span>
-                    </div>
+                <div className="hero__illustration" aria-hidden="true">
+                    <span className="hero__snake">🐍</span>
                 </div>
             </section>
 
@@ -58,53 +52,35 @@ export function HomePage() {
                 <h2 className="features__title">Por que o PyExplorer é Especial?</h2>
 
                 <div className="features__grid">
-                    <div className="feature-card">
-                        <div className="feature-card__icon">🎯</div>
-                        <h3 className="feature-card__title">Questões Interativas</h3>
-                        <p className="feature-card__description">
-                            Múltipla escolha, verdadeiro/falso, complete o código e muito mais!
-                        </p>
-                    </div>
+                    <article className="feature-card">
+                        <h3 className="feature-card__title" data-icon="🎯">Questões Interativas</h3>
+                        <p className="feature-card__description">Múltipla escolha, verdadeiro/falso, complete o código e mais!</p>
+                    </article>
 
-                    <div className="feature-card">
-                        <div className="feature-card__icon">🌍</div>
-                        <h3 className="feature-card__title">7 Mundos para Explorar</h3>
-                        <p className="feature-card__description">
-                            Desbloqueie novos mundos conforme avança na sua jornada!
-                        </p>
-                    </div>
+                    <article className="feature-card">
+                        <h3 className="feature-card__title" data-icon="🌍">7 Mundos para Explorar</h3>
+                        <p className="feature-card__description">Desbloqueie novos mundos conforme avança!</p>
+                    </article>
 
-                    <div className="feature-card">
-                        <div className="feature-card__icon">💻</div>
-                        <h3 className="feature-card__title">Python no Navegador</h3>
-                        <p className="feature-card__description">
-                            Execute código Python de verdade sem instalar nada!
-                        </p>
-                    </div>
+                    <article className="feature-card">
+                        <h3 className="feature-card__title" data-icon="💻">Python no Navegador</h3>
+                        <p className="feature-card__description">Execute código Python de verdade sem instalar nada!</p>
+                    </article>
 
-                    <div className="feature-card">
-                        <div className="feature-card__icon">⭐</div>
-                        <h3 className="feature-card__title">Ganhe Estrelas</h3>
-                        <p className="feature-card__description">
-                            Complete desafios e acumule pontos para subir de nível!
-                        </p>
-                    </div>
+                    <article className="feature-card">
+                        <h3 className="feature-card__title" data-icon="⭐">Ganhe Estrelas</h3>
+                        <p className="feature-card__description">Complete desafios e acumule pontos!</p>
+                    </article>
 
-                    <div className="feature-card">
-                        <div className="feature-card__icon">📚</div>
-                        <h3 className="feature-card__title">Aprenda Jogando</h3>
-                        <p className="feature-card__description">
-                            Conceitos explicados de forma simples e divertida!
-                        </p>
-                    </div>
+                    <article className="feature-card">
+                        <h3 className="feature-card__title" data-icon="📚">Aprenda Jogando</h3>
+                        <p className="feature-card__description">Conceitos explicados de forma simples e divertida!</p>
+                    </article>
 
-                    <div className="feature-card">
-                        <div className="feature-card__icon">🔒</div>
-                        <h3 className="feature-card__title">Seguro para Crianças</h3>
-                        <p className="feature-card__description">
-                            Ambiente seguro e adequado para todas as idades!
-                        </p>
-                    </div>
+                    <article className="feature-card">
+                        <h3 className="feature-card__title" data-icon="🔒">Seguro para Crianças</h3>
+                        <p className="feature-card__description">Ambiente seguro para todas as idades!</p>
+                    </article>
                 </div>
             </section>
 
@@ -140,28 +116,19 @@ export function HomePage() {
                 </div>
 
                 <div className="features__grid">
-                    <Link to="/learn/o-que-e-python" className="feature-card" style={{ textDecoration: 'none', cursor: 'pointer' }}>
-                        <div className="feature-card__icon">🐍</div>
-                        <h3 className="feature-card__title">O que é Python?</h3>
-                        <p className="feature-card__description">
-                            Entenda por que essa é a melhor linguagem para começar.
-                        </p>
+                    <Link to="/learn/o-que-e-python" className="feature-card feature-card--link">
+                        <h3 className="feature-card__title" data-icon="🐍">O que é Python?</h3>
+                        <p className="feature-card__description">Entenda por que essa é a melhor linguagem para começar.</p>
                     </Link>
 
-                    <Link to="/learn/python-para-criancas" className="feature-card" style={{ textDecoration: 'none', cursor: 'pointer' }}>
-                        <div className="feature-card__icon">👨‍👩‍👧‍👦</div>
-                        <h3 className="feature-card__title">Guia para Pais</h3>
-                        <p className="feature-card__description">
-                            Como ajudar seu filho a aprender programação.
-                        </p>
+                    <Link to="/learn/python-para-criancas" className="feature-card feature-card--link">
+                        <h3 className="feature-card__title" data-icon="👨‍👩‍👧‍👦">Guia para Pais</h3>
+                        <p className="feature-card__description">Como ajudar seu filho a aprender programação.</p>
                     </Link>
 
-                    <Link to="/learn/primeiros-passos-python" className="feature-card" style={{ textDecoration: 'none', cursor: 'pointer' }}>
-                        <div className="feature-card__icon">👣</div>
-                        <h3 className="feature-card__title">Primeiros Passos</h3>
-                        <p className="feature-card__description">
-                            Seu primeiro tutorial prático de Python.
-                        </p>
+                    <Link to="/learn/primeiros-passos-python" className="feature-card feature-card--link">
+                        <h3 className="feature-card__title" data-icon="👣">Primeiros Passos</h3>
+                        <p className="feature-card__description">Seu primeiro tutorial prático de Python.</p>
                     </Link>
                 </div>
 
