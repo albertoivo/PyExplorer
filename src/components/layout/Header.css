@@ -6,6 +6,9 @@
   top: 0;
   z-index: 1000;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  /* Prevent CLS: fixed header height */
+  height: 64px;
+  contain: layout style;
 }
 
 .header__container {
@@ -94,6 +97,9 @@
 .header__user {
   display: flex;
   align-items: center;
+  /* Prevent CLS: reserve space for auth buttons */
+  min-width: 180px;
+  justify-content: flex-end;
 }
 
 .header__loading {

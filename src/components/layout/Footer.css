@@ -2,6 +2,9 @@
     background: linear-gradient(180deg, #0f0f1a 0%, #1a1a2e 100%);
     border-top: 2px solid #0f3460;
     margin-top: auto;
+    /* Prevent CLS: reserve space for footer */
+    min-height: 200px;
+    contain: layout style;
 }
 
 .footer__container {
