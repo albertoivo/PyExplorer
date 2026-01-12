@@ -50,7 +50,7 @@ export function QuestionEngine({
 }: QuestionEngineProps) {
     // ... (existing state and hooks)
     const { userData, updateUserData } = useAuth();
-    const { runPython, loading: isLoading } = usePyodide();
+    const { runPython, executing: isExecuting } = usePyodide();
     const { react: mascotReact } = useMascotContext();
     const [showResult, setShowResult] = useState(readOnly); // Em readOnly, já mostra como "resultado"
     const [isCorrect, setIsCorrect] = useState(readOnly); // Em readOnly, mostra como correto
@@ -192,7 +192,7 @@ export function QuestionEngine({
                             }
                         }}
                         onComplete={(score) => onComplete(true, score)}
-                        isExecuting={isLoading}
+                        isExecuting={isExecuting}
                     />
                 );
 

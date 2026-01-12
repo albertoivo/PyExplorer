@@ -8,8 +8,10 @@ import type { TestCase, TestResult, PythonExecutionResult } from '../types/quest
 interface PyodideContextType {
     /** Se o Pyodide está pronto para uso */
     ready: boolean;
-    /** Se está carregando o Pyodide */
+    /** Se está carregando o Pyodide inicialmente */
     loading: boolean;
+    /** Se está executando código Python */
+    executing: boolean;
     /** Erro de carregamento, se houver */
     error: string | null;
     /** Progresso de carregamento (0-100) */
@@ -52,6 +54,7 @@ export function PyodideProvider({ children }: PyodideProviderProps) {
     const [pyodide, setPyodide] = useState<PyodideInterface | null>(null);
     const [ready, setReady] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [executing, setExecuting] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [loadingProgress, setLoadingProgress] = useState(0);
 
@@ -149,6 +152,7 @@ _capture = CaptureOutput()
             };
         }
 
+        setExecuting(true);
         try {
             // Reseta captura de saída
             await pyodide.runPythonAsync(`
@@ -292,12 +296,15 @@ sys.stderr = sys.__stderr__
                 stderr: formatPythonError(errorMessage),
                 hasError: true,
             };
+        } finally {
+            setExecuting(false);
         }
     }, [pyodide, ready]);
 
     const value: PyodideContextType = {
         ready,
         loading,
+        executing,
         error,
         loadingProgress,
         runPython,
