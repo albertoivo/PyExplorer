@@ -1,11 +1,11 @@
 # Robots.txt para PyExplorer
-# https://pyexplorer-cd32d.web.app
+# https://pyexplorer-cd32d.firebaseapp.com
 
 User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://pyexplorer-cd32d.web.app/sitemap.xml
+Sitemap: https://pyexplorer-cd32d.firebaseapp.com/sitemap.xml
 
 # Cache-control hints for crawlers
 Crawl-delay: 1

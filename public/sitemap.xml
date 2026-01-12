@@ -1,80 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://pyexplorer-cd32d.web.app/</loc>
+    <loc>https://pyexplorer-cd32d.firebaseapp.com/</loc>
     <lastmod>2026-01-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://pyexplorer-cd32d.web.app/login</loc>
+    <loc>https://pyexplorer-cd32d.firebaseapp.com/login</loc>
     <lastmod>2026-01-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://pyexplorer-cd32d.web.app/register</loc>
+    <loc>https://pyexplorer-cd32d.firebaseapp.com/register</loc>
     <lastmod>2026-01-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://pyexplorer-cd32d.web.app/learn</loc>
+    <loc>https://pyexplorer-cd32d.firebaseapp.com/learn</loc>
     <lastmod>2026-01-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://pyexplorer-cd32d.web.app/about</loc>
+    <loc>https://pyexplorer-cd32d.firebaseapp.com/about</loc>
     <lastmod>2026-01-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://pyexplorer-cd32d.web.app/game</loc>
+    <loc>https://pyexplorer-cd32d.firebaseapp.com/game</loc>
     <lastmod>2026-01-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://pyexplorer-cd32d.web.app/profile</loc>
+    <loc>https://pyexplorer-cd32d.firebaseapp.com/profile</loc>
     <lastmod>2026-01-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://pyexplorer-cd32d.web.app/rewards</loc>
+    <loc>https://pyexplorer-cd32d.firebaseapp.com/rewards</loc>
     <lastmod>2026-01-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://pyexplorer-cd32d.web.app/learn/o-que-e-python</loc>
-    <lastmod>2026-01-12</lastmod>
+    <loc>https://pyexplorer-cd32d.firebaseapp.com/learn/o-que-e-python</loc>
+    <lastmod>2026-01-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://pyexplorer-cd32d.web.app/learn/por-que-aprender-python</loc>
-    <lastmod>2026-01-12</lastmod>
+    <loc>https://pyexplorer-cd32d.firebaseapp.com/learn/por-que-aprender-python</loc>
+    <lastmod>2026-01-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://pyexplorer-cd32d.web.app/learn/python-para-criancas</loc>
-    <lastmod>2026-01-12</lastmod>
+    <loc>https://pyexplorer-cd32d.firebaseapp.com/learn/python-para-criancas</loc>
+    <lastmod>2026-01-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://pyexplorer-cd32d.web.app/learn/primeiros-passos-python</loc>
-    <lastmod>2026-01-12</lastmod>
+    <loc>https://pyexplorer-cd32d.firebaseapp.com/learn/primeiros-passos-python</loc>
+    <lastmod>2026-01-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://pyexplorer-cd32d.web.app/learn/jogos-aprender-programacao</loc>
-    <lastmod>2026-01-12</lastmod>
+    <loc>https://pyexplorer-cd32d.firebaseapp.com/learn/jogos-aprender-programacao</loc>
+    <lastmod>2026-01-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

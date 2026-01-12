@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
-const BASE_URL = 'https://pyexplorer-cd32d.web.app';
+const BASE_URL = 'https://pyexplorer-cd32d.firebaseapp.com';
 const TARGET_FILE = path.resolve(__dirname, '../public/sitemap.xml');
 const APP_FILE = path.resolve(__dirname, '../src/App.tsx');
 const LEARN_DATA_FILE = path.resolve(__dirname, '../src/data/learnData.ts');
