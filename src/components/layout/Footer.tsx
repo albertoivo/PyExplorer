@@ -30,6 +30,7 @@ export function Footer() {
                             <h4 className="footer__link-title">Sobre</h4>
                             <Link to="/about" className="footer__link">O Projeto</Link>
                             <Link to="/learn/python-para-criancas" className="footer__link">Para Pais</Link>
+                            <a href="https://github.com/sponsors/albertoivo" target="_blank" rel="noopener noreferrer" className="footer__link footer__link--highlight">💜 Apoie o Projeto</a>
                         </div>
                     </div>
                 </div>

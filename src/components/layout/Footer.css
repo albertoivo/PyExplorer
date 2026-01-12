@@ -72,8 +72,20 @@
 }
 
 .footer__link:hover {
-    color: #00d9ff;
+    color: #fff;
     transform: translateX(5px);
+}
+
+.footer__link--highlight {
+    color: #ffd700 !important;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.footer__link--highlight:hover {
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
 /* Bottom */
