@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { SEO } from '../components/common/SEO';
 import './HomePage.css';
 
 /**
@@ -10,6 +11,10 @@ export function HomePage() {
 
     return (
         <div className="home-page">
+            <SEO
+                title="Aprenda Python Jogando"
+                description="O melhor jogo educativo para crianças aprenderem Python. 100% Grátis, Seguro e Divertido!"
+            />
             {/* Hero Section */}
             <section className="hero">
                 <div className="hero__content">

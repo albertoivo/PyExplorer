@@ -4,6 +4,7 @@
  */
 import { Link } from 'react-router-dom'
 import { ARTICLES, type Article } from '../data/learnData'
+import { SEO } from '../components/common/SEO'
 import './LearnPage.css'
 
 export function LearnPage() {
@@ -13,6 +14,7 @@ export function LearnPage() {
 
     return (
         <div className="learn-page">
+            <SEO title="Aprenda Python" description="Tutoriais de Python para crianças e iniciantes. Guias passo a passo e dicas para pais." />
             {/* Hero Section */}
             <section className="learn-hero">
                 <div className="learn-hero__content">

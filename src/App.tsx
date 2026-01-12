@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { Suspense, lazy } from 'react';
 import { AuthProvider } from './context/AuthContext';
 import { MascotProvider, useMascotContext } from './context/MascotContext';
@@ -84,57 +85,59 @@ function GlobalMascot() {
 function App() {
   return (
     <Router>
-      <AuthProvider>
-        <MascotProvider>
-          <div className="app">
-            <Header />
-            <main className="app__main">
-              <Suspense fallback={<PageLoader />}>
-                <Routes>
-                  {/* Páginas públicas */}
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/login" element={<LoginPage />} />
-                  <Route path="/register" element={<RegisterPage />} />
-                  <Route path="/learn" element={<LearnPage />} />
-                  <Route path="/learn/:slug" element={<ArticlePage />} />
-                  <Route path="/about" element={<AboutPage />} />
+      <HelmetProvider>
+        <AuthProvider>
+          <MascotProvider>
+            <div className="app">
+              <Header />
+              <main className="app__main">
+                <Suspense fallback={<PageLoader />}>
+                  <Routes>
+                    {/* Páginas públicas */}
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/learn" element={<LearnPage />} />
+                    <Route path="/learn/:slug" element={<ArticlePage />} />
+                    <Route path="/about" element={<AboutPage />} />
 
-                  {/* Páginas protegidas (requerem login ou modo convidado) */}
-                  <Route
-                    path="/game"
-                    element={
-                      <ProtectedRoute>
-                        <GamePageWithPyodide />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/profile"
-                    element={
-                      <ProtectedRoute>
-                        <ProfilePage />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/rewards"
-                    element={
-                      <ProtectedRoute>
-                        <GamificationPage />
-                      </ProtectedRoute>
-                    }
-                  />
-                </Routes>
-              </Suspense>
-            </main>
-            <Footer />
-            <OfflineIndicator />
+                    {/* Páginas protegidas (requerem login ou modo convidado) */}
+                    <Route
+                      path="/game"
+                      element={
+                        <ProtectedRoute>
+                          <GamePageWithPyodide />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/profile"
+                      element={
+                        <ProtectedRoute>
+                          <ProfilePage />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/rewards"
+                      element={
+                        <ProtectedRoute>
+                          <GamificationPage />
+                        </ProtectedRoute>
+                      }
+                    />
+                  </Routes>
+                </Suspense>
+              </main>
+              <Footer />
+              <OfflineIndicator />
 
-            {/* Mascote global */}
-            <GlobalMascot />
-          </div>
-        </MascotProvider>
-      </AuthProvider>
+              {/* Mascote global */}
+              <GlobalMascot />
+            </div>
+          </MascotProvider>
+        </AuthProvider>
+      </HelmetProvider>
     </Router>
   );
 }

@@ -8,6 +8,7 @@ import { useProgress } from '../hooks/useProgress';
 import { usePyodide } from '../hooks/usePyodide';
 import { useQuestionsFirestore } from '../hooks/useQuestionsFirestore';
 import { useGamification } from '../hooks/useGamification';
+import { SEO } from '../components/common/SEO';
 import './GamePage.css';
 
 type GameView = 'world-map' | 'world-questions' | 'playing' | 'reviewing';
@@ -237,6 +238,7 @@ export function GamePage() {
 
     return (
         <div className="game-page">
+            <SEO title="Aventura" description="Explore mundos, resolva desafios em Python e ganhe recompensas." />
             {/* Mapa de Mundos */}
             {view === 'world-map' && (
                 <WorldMap

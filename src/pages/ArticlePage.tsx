@@ -5,6 +5,7 @@
 import { useParams, Link, Navigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { getArticleBySlug, getRelatedArticles, type Article } from '../data/learnData'
+import { SEO } from '../components/common/SEO'
 import './ArticlePage.css'
 
 export function ArticlePage() {
@@ -17,23 +18,10 @@ export function ArticlePage() {
         window.scrollTo(0, 0)
     }, [slug])
 
-    // Atualiza title e meta description para SEO
+    // Scroll to top quando artigo muda
     useEffect(() => {
-        if (article) {
-            document.title = `${article.title} | PyExplorer`
-
-            // Atualiza meta description
-            const metaDescription = document.querySelector('meta[name="description"]')
-            if (metaDescription) {
-                metaDescription.setAttribute('content', article.description)
-            }
-        }
-
-        return () => {
-            // Restaura título original ao sair
-            document.title = 'PyExplorer - Aprenda Python Jogando! | Curso Grátis de Programação para Crianças 🐍'
-        }
-    }, [article])
+        window.scrollTo(0, 0)
+    }, [slug])
 
     if (!article) {
         return <Navigate to="/learn" replace />
@@ -41,6 +29,11 @@ export function ArticlePage() {
 
     return (
         <article className="article-page">
+            <SEO
+                title={article.title}
+                description={article.description}
+                type="article"
+            />
             {/* Breadcrumb */}
             <nav className="article-breadcrumb">
                 <Link to="/">Início</Link>
