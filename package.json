@@ -19,6 +19,8 @@
     "@monaco-editor/react": "^4.7.0",
     "canvas-confetti": "^1.9.4",
     "firebase": "^12.7.0",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^4.0.0",
     "pyodide": "^0.29.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",

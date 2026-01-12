@@ -28,6 +28,7 @@ const ProfilePage = lazy(() => import('./pages/ProfilePage').then(m => ({ defaul
 const GamificationPage = lazy(() => import('./pages/GamificationPage').then(m => ({ default: m.GamificationPage })));
 const LearnPage = lazy(() => import('./pages/LearnPage').then(m => ({ default: m.LearnPage })));
 const ArticlePage = lazy(() => import('./pages/ArticlePage').then(m => ({ default: m.ArticlePage })));
+const CertificatePage = lazy(() => import('./pages/CertificatePage').then(m => ({ default: m.CertificatePage })));
 const AboutPage = lazy(() => import('./pages/AboutPage').then(m => ({ default: m.AboutPage })));
 
 // GamePage com Pyodide - lazy loaded separadamente para reduzir bundle inicial
@@ -99,6 +100,7 @@ function App() {
                     <Route path="/register" element={<RegisterPage />} />
                     <Route path="/learn" element={<LearnPage />} />
                     <Route path="/learn/:slug" element={<ArticlePage />} />
+                    <Route path="/certificate" element={<CertificatePage />} />
                     <Route path="/about" element={<AboutPage />} />
 
                     {/* Páginas protegidas (requerem login ou modo convidado) */}

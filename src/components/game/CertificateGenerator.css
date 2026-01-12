@@ -1,0 +1,184 @@
+.certificate-generator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+}
+
+.certificate-preview-container {
+    width: 100%;
+    max-width: 900px;
+    overflow-x: auto;
+    padding: 1rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+}
+
+.certificate-frame {
+    background-color: #fdfbf7;
+    /* Paper color */
+    color: #1a1a2e;
+    padding: 2rem;
+    position: relative;
+    width: 800px;
+    /* Fixed width for consistent PDF output */
+    height: 600px;
+    margin: 0 auto;
+    font-family: 'Playfair Display', serif;
+    /* Classic certificate look */
+    text-align: center;
+}
+
+.certificate-border {
+    border: 4px double #d4af37;
+    /* Gold border */
+    height: 100%;
+    padding: 2rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.certificate-border::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    border: 1px solid #d4af37;
+}
+
+.certificate-header h1 {
+    font-size: 3rem;
+    color: #1a1a2e;
+    margin: 0.5rem 0;
+    font-family: 'Cinzel', serif;
+    /* Elegant font */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.certificate-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.certificate-subtitle {
+    font-size: 1.2rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    border-bottom: 2px solid #d4af37;
+    display: inline-block;
+    padding-bottom: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.certificate-body {
+    margin: 2rem 0;
+}
+
+.certificate-text {
+    font-size: 1.2rem;
+    font-style: italic;
+    color: #444;
+}
+
+.student-name {
+    font-size: 3.5rem;
+    color: #d4af37;
+    margin: 1rem 0;
+    font-family: 'Great Vibes', cursive;
+    /* Script font */
+}
+
+.course-title {
+    font-size: 2rem;
+    color: #1a1a2e;
+    margin: 1rem 0;
+    font-weight: bold;
+}
+
+.certificate-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: auto;
+    padding-top: 2rem;
+}
+
+.signature-block,
+.date-block {
+    flex: 1;
+}
+
+.signature-line {
+    border-bottom: 1px solid #1a1a2e;
+    width: 150px;
+    margin: 0 auto 0.5rem;
+}
+
+.signature-block p,
+.date-block p {
+    font-weight: bold;
+    margin: 0;
+}
+
+.signature-block small,
+.date-block small {
+    color: #666;
+    font-size: 0.8rem;
+}
+
+.badge-block {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.completion-badge {
+    background: #d4af37;
+    color: white;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border: 4px solid #fff;
+    outline: 4px solid #d4af37;
+}
+
+.download-btn {
+    background: linear-gradient(135deg, #00d9ff 0%, #00ff88 100%);
+    color: #0d1117;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 255, 136, 0.4);
+}
+
+.download-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Load fonts via @import or link in HTML (Cinzel, Great Vibes, Playfair Display) */

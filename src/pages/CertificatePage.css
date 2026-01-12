@@ -1,0 +1,98 @@
+.certificate-page-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #0f0f1a;
+    color: white;
+}
+
+.certificate-content-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    gap: 2rem;
+}
+
+.certificate-page-header {
+    text-align: center;
+}
+
+.certificate-page-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(90deg, #ffd700, #ffaa00);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.certificate-locked {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    gap: 1.5rem;
+}
+
+.locked-icon {
+    font-size: 4rem;
+    opacity: 0.5;
+}
+
+.btn-primary {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-primary:hover {
+    background: #5a67d8;
+}
+
+.donation-prompt {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 12px;
+    max-width: 600px;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.donation-prompt h3 {
+    color: #e9d8fd;
+    margin-bottom: 0.5rem;
+}
+
+.donation-prompt p {
+    color: #a0aec0;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.btn-sponsor {
+    display: inline-block;
+    background: #db61a2;
+    /* GitHub Sponsors pink */
+    color: white;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    font-weight: bold;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.btn-sponsor:hover {
+    background: #bf4080;
+    transform: scale(1.05);
+}

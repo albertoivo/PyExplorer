@@ -1,0 +1,95 @@
+import { useRef, useState } from 'react';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import './CertificateGenerator.css';
+
+interface CertificateGeneratorProps {
+    studentName: string;
+    completionDate: string;
+}
+
+export function CertificateGenerator({ studentName, completionDate }: CertificateGeneratorProps) {
+    const certificateRef = useRef<HTMLDivElement>(null);
+    const [isGenerating, setIsGenerating] = useState(false);
+
+    const handleDownload = async () => {
+        if (!certificateRef.current) return;
+        setIsGenerating(true);
+
+        try {
+            const canvas = await html2canvas(certificateRef.current, {
+                scale: 2, // Higher resolution
+                useCORS: true,
+                backgroundColor: '#1e1e2e', // Match theme
+            });
+
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF({
+                orientation: 'landscape',
+                unit: 'px',
+                format: [canvas.width, canvas.height]
+            });
+
+            pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+            pdf.save(`PyExplorer_Certificate_${studentName.replace(/\s+/g, '_')}.pdf`);
+        } catch (error) {
+            console.error('Error generating certificate:', error);
+        } finally {
+            setIsGenerating(false);
+        }
+    };
+
+    return (
+        <div className="certificate-generator">
+            <div className="certificate-preview-container">
+                <div ref={certificateRef} className="certificate-frame">
+                    <div className="certificate-border">
+                        <div className="certificate-content">
+                            <div className="certificate-header">
+                                <span className="certificate-icon">🐍</span>
+                                <h1>Certificado de Conclusão</h1>
+                                <p className="certificate-subtitle">PyExplorer Academy</p>
+                            </div>
+
+                            <div className="certificate-body">
+                                <p className="certificate-text">Certificamos que</p>
+                                <h2 className="student-name">{studentName}</h2>
+                                <p className="certificate-text">
+                                    completou com sucesso a jornada do iniciante em
+                                </p>
+                                <h3 className="course-title">Programação Python</h3>
+                            </div>
+
+                            <div className="certificate-footer">
+                                <div className="signature-block">
+                                    <div className="signature-line"></div>
+                                    <p>Mestre Py</p>
+                                    <small>Instrutor Chefe</small>
+                                </div>
+
+                                <div className="badge-block">
+                                    <div className="completion-badge">🏆 100%</div>
+                                </div>
+
+                                <div className="date-block">
+                                    <p className="date-text">Data: {completionDate}</p>
+                                    <small>pyexplorer.firebaseapp.com</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="certificate-controls">
+                <button
+                    onClick={handleDownload}
+                    className="download-btn"
+                    disabled={isGenerating}
+                >
+                    {isGenerating ? 'Gerando PDF...' : '📥 Baixar Certificado (PDF)'}
+                </button>
+            </div>
+        </div>
+    );
+}

@@ -48,6 +48,14 @@ export function Header() {
                                 <span aria-hidden="true">🎮</span> Jogar
                             </Link>
                             <Link
+                                to="/certificate"
+                                className={`header__nav-link ${location.pathname === '/certificate' ? 'header__nav-link--active' : ''}`}
+                            >
+                                <span aria-hidden="true" title="Certificado">📜</span>
+                                <span className="header__nav-text">Certificado</span>
+                            </Link>
+
+                            <Link
                                 to="/rewards"
                                 className={`header__nav-link ${isActive('/rewards') ? 'header__nav-link--active' : ''}`}
                                 aria-current={isActive('/rewards') ? 'page' : undefined}
