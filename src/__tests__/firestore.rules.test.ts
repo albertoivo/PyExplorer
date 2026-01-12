@@ -112,6 +112,39 @@ describe('Firestore security rules', () => {
             }));
         });
 
+        it('should DENY creating progress with invalid status', async () => {
+            const aliceDb = testEnv.authenticatedContext('alice').firestore();
+            await assertFails(setDoc(doc(aliceDb, 'userProgress/alice_q1'), {
+                uid: 'alice',
+                questionId: 'q1',
+                status: 'invalid_status', // Inválido
+                score: 10,
+                attempts: 1
+            }));
+        });
+
+        it('should DENY creating progress with invalid score (too high)', async () => {
+            const aliceDb = testEnv.authenticatedContext('alice').firestore();
+            await assertFails(setDoc(doc(aliceDb, 'userProgress/alice_q1'), {
+                uid: 'alice',
+                questionId: 'q1',
+                status: 'completed',
+                score: 10000, // > 9999
+                attempts: 1
+            }));
+        });
+
+        it('should DENY creating progress with invalid score (negative)', async () => {
+            const aliceDb = testEnv.authenticatedContext('alice').firestore();
+            await assertFails(setDoc(doc(aliceDb, 'userProgress/alice_q1'), {
+                uid: 'alice',
+                questionId: 'q1',
+                status: 'completed',
+                score: -1, // < 0
+                attempts: 1
+            }));
+        });
+
         it('should deny reading another users progress', async () => {
             const bobDb = testEnv.authenticatedContext('bob').firestore();
             await testEnv.withSecurityRulesDisabled(async (context) => {
@@ -181,7 +214,15 @@ describe('Firestore security rules', () => {
             const aliceDb = testEnv.authenticatedContext('alice').firestore();
             await assertSucceeds(setDoc(doc(aliceDb, 'leaderboard/alice'), {
                 name: 'Alice',
-                score: 1000
+                totalScore: 1000
+            }));
+        });
+
+        it('should DENY writing leaderboard entry with excessive score', async () => {
+            const aliceDb = testEnv.authenticatedContext('alice').firestore();
+            await assertFails(setDoc(doc(aliceDb, 'leaderboard/alice'), {
+                name: 'Alice',
+                totalScore: 10000000 // > 9999999
             }));
         });
 
