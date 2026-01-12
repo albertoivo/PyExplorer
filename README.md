@@ -15,6 +15,8 @@ PyExplorer é um jogo educativo desenvolvido em ReactJS para ensinar programaç�
 
 ## ✨ Características
 
+- 🏆 **Sistema de Certificados** - Gere um certificado personalizado em PDF ao concluir a jornada
+- 🔍 **SEO Otimizado** - Meta tags dinâmicas e suporte a redes sociais para compartilhar conquistas
 - 🎮 **Gamificação Avançada** - Mundos, estrelas, conquistas, streak diário, missões e loja de itens
 - 🐍 **Python no navegador** - Execute código Python real usando Pyodide (WebAssembly)
 - 🐢 **Aprendizado Visual** - Desafios com Turtle Graphics para desenhar com código
@@ -164,9 +166,12 @@ firebase deploy --only firestore:rules
 
 O projeto conta com uma suíte de testes robusta utilizando **Vitest**:
 
-- **Smoke Tests**: Verificam integridade crítica dos dados (questões, mundos, gamificação)
-- **Integration Tests**: Testam fluxo de pontuação, achievements e loja
-- **Regression Tests**: Garantem consistência da progressão e lógica de jogo
+O projeto conta com uma suíte de testes robusta utilizando **Vitest** com >360 testes cobrindo:
+
+- **Unit Tests**: Lógica de jogo, geradores de certificado e utilitários
+- **Integration Tests**: Fluxos de pontuação, autenticação e progressão
+- **Smoke Tests**: Verificação crítica de renderização e integridade dos dados
+- **Component Tests**: Validação de UI para componentes complexos (Certificados, Editor)
 
 Para rodar os testes:
 ```bash
