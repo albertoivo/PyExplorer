@@ -33,6 +33,7 @@ describe('BossBattleQuestion', () => {
         stderr: ''
     });
     const mockOnComplete = vi.fn();
+    const mockOnNext = vi.fn();
 
     beforeEach(() => {
         vi.clearAllMocks();
@@ -48,6 +49,7 @@ describe('BossBattleQuestion', () => {
                 question={mockQuestion}
                 onRun={mockOnRun}
                 onComplete={mockOnComplete}
+                onNext={mockOnNext}
                 isExecuting={false}
             />
         );
@@ -62,6 +64,7 @@ describe('BossBattleQuestion', () => {
                 question={mockQuestion}
                 onRun={mockOnRun}
                 onComplete={mockOnComplete}
+                onNext={mockOnNext}
                 isExecuting={false}
             />
         );
@@ -86,6 +89,7 @@ describe('BossBattleQuestion', () => {
                 question={mockQuestion}
                 onRun={mockOnRun}
                 onComplete={mockOnComplete}
+                onNext={mockOnNext}
                 isExecuting={false}
             />
         );
@@ -106,6 +110,7 @@ describe('BossBattleQuestion', () => {
                 question={mockQuestion}
                 onRun={mockOnRun}
                 onComplete={mockOnComplete}
+                onNext={mockOnNext}
                 isExecuting={false}
             />
         );

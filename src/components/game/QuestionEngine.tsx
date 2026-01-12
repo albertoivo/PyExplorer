@@ -192,6 +192,7 @@ export function QuestionEngine({
                             }
                         }}
                         onComplete={(score) => onComplete(true, score)}
+                        onNext={handleNext}
                         isExecuting={isExecuting}
                     />
                 );

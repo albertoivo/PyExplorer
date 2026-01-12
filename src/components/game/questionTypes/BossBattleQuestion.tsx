@@ -7,14 +7,16 @@ interface BossBattleQuestionProps {
     question: QuestionDocument;
     onRun: (code: string) => Promise<PythonExecutionResult>;
     onComplete: (score: number) => void;
+    onNext: () => void;
     isExecuting: boolean;
 }
 
-export function BossBattleQuestion({ question, onRun, onComplete, isExecuting }: BossBattleQuestionProps) {
+export function BossBattleQuestion({ question, onRun, onComplete, onNext, isExecuting }: BossBattleQuestionProps) {
     const [code, setCode] = useState(question.bossMetadata?.initialCode || question.starterCode || '');
     const [timeLeft, setTimeLeft] = useState(question.bossMetadata?.timeLimitSeconds || 60);
     const [isActive, setIsActive] = useState(false); // Só começa quando o usuário clica "Iniciar Batalha"
     const [isGameOver, setIsGameOver] = useState(false);
+    const [hasWon, setHasWon] = useState(false);
     const [feedback, setFeedback] = useState<string | null>(null);
 
     // Efeito para o Timer
@@ -46,10 +48,9 @@ export function BossBattleQuestion({ question, onRun, onComplete, isExecuting }:
         if (!result.hasError && result.allTestsPassed) {
             // Vitória!
             setIsActive(false); // Para o timer
+            setHasWon(true);
             setFeedback(`Incrível! Você derrotou o ${question.bossMetadata?.bossName}!`);
-            setTimeout(() => {
-                onComplete(100); // Pontuação máxima do Boss (pode ajustar depois)
-            }, 2000);
+            onComplete(100); // Pontuação máxima do Boss
         } else {
             // Erro ou falha nos testes
             setFeedback(result.stderr || 'O código rodou, mas o Boss não aceitou a resposta. Verifique os requisitos!');
@@ -137,7 +138,11 @@ export function BossBattleQuestion({ question, onRun, onComplete, isExecuting }:
 
             {/* Controles */}
             <div className="boss-controls">
-                {isGameOver ? (
+                {hasWon ? (
+                    <button className="boss-btn victory" onClick={onNext}>
+                        🎉 Continuar
+                    </button>
+                ) : isGameOver ? (
                     <button className="boss-btn retry" onClick={handleRetail}>
                         🔄 Tentar Novamente
                     </button>
@@ -147,7 +152,7 @@ export function BossBattleQuestion({ question, onRun, onComplete, isExecuting }:
                         onClick={handleRun}
                         disabled={isExecuting}
                     >
-                        {isExecuting ? 'Conjurando...' : feedback?.includes('Incrível') ? 'Vitória!' : '⚔️ Atacar (Rodar)'}
+                        {isExecuting ? 'Conjurando...' : '⚔️ Atacar (Rodar)'}
                     </button>
                 )}
             </div>
