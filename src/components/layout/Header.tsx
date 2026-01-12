@@ -23,8 +23,8 @@ export function Header() {
         <header className="header">
             <div className="header__container">
                 {/* Logo e nome do jogo */}
-                <Link to="/" className="header__logo">
-                    <span className="header__logo-icon">🐍</span>
+                <Link to="/" className="header__logo" aria-label="PyExplorer Página Inicial">
+                    <span className="header__logo-icon" aria-hidden="true">🐍</span>
                     <span className="header__logo-text">PyExplorer</span>
                 </Link>
 
@@ -33,8 +33,9 @@ export function Header() {
                     <Link
                         to="/"
                         className={`header__nav-link ${isActive('/') ? 'header__nav-link--active' : ''}`}
+                        aria-current={isActive('/') ? 'page' : undefined}
                     >
-                        🏠 Início
+                        <span aria-hidden="true">🏠</span> Início
                     </Link>
 
                     {userData && (
@@ -42,20 +43,23 @@ export function Header() {
                             <Link
                                 to="/game"
                                 className={`header__nav-link ${isActive('/game') ? 'header__nav-link--active' : ''}`}
+                                aria-current={isActive('/game') ? 'page' : undefined}
                             >
-                                🎮 Jogar
+                                <span aria-hidden="true">🎮</span> Jogar
                             </Link>
                             <Link
                                 to="/rewards"
                                 className={`header__nav-link ${isActive('/rewards') ? 'header__nav-link--active' : ''}`}
+                                aria-current={isActive('/rewards') ? 'page' : undefined}
                             >
-                                🏆 Recompensas
+                                <span aria-hidden="true">🏆</span> Recompensas
                             </Link>
                             <Link
                                 to="/profile"
                                 className={`header__nav-link ${isActive('/profile') ? 'header__nav-link--active' : ''}`}
+                                aria-current={isActive('/profile') ? 'page' : undefined}
                             >
-                                👤 Perfil
+                                <span aria-hidden="true">👤</span> Perfil
                             </Link>
                         </>
                     )}
@@ -69,8 +73,20 @@ export function Header() {
                         <div className="header__user-info">
                             <div className="header__user-details">
                                 <span className="header__user-name">{userData.displayName}</span>
-                                <span className="header__user-stars" title="Estrelas disponíveis">⭐ {userData.balance || 0}</span>
-                                <span className="header__user-streak" title="Ofensiva diária">🔥 {userData.streak || 0}</span>
+                                <span
+                                    className="header__user-stars"
+                                    title="Estrelas disponíveis"
+                                    aria-label={`Estrelas disponíveis: ${userData.balance || 0}`}
+                                >
+                                    <span aria-hidden="true">⭐</span> {userData.balance || 0}
+                                </span>
+                                <span
+                                    className="header__user-streak"
+                                    title="Ofensiva diária"
+                                    aria-label={`Ofensiva diária: ${userData.streak || 0} dias`}
+                                >
+                                    <span aria-hidden="true">🔥</span> {userData.streak || 0}
+                                </span>
                                 {isGuest && <span className="header__user-guest">(Convidado)</span>}
                             </div>
                             <button onClick={handleLogout} className="header__logout-btn">
