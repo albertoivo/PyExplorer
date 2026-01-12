@@ -90,6 +90,10 @@ export default defineConfig({
         ]
       },
       workbox: {
+        // Skip waiting para aplicar updates imediatamente
+        skipWaiting: true,
+        clientsClaim: true,
+
         // Cache de recursos estáticos
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
 
@@ -155,11 +159,26 @@ export default defineConfig({
               },
               networkTimeoutSeconds: 10
             }
+          },
+          {
+            // Cache para Firebase Auth (iframe.js tem cache curto do servidor)
+            urlPattern: /^https:\/\/.*\.firebaseapp\.com\/.*/i,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'firebase-auth-cache',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 // 1 dia
+              },
+              cacheableResponse: {
+                statuses: [0, 200]
+              }
+            }
           }
         ]
       },
       devOptions: {
-        enabled: true
+        enabled: false // Desabilitar em dev para não poluir
       }
     })
   ],
