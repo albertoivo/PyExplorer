@@ -167,17 +167,20 @@
 
 .world-card__boss-badge {
     position: absolute;
-    top: -10px;
-    right: -10px;
+    top: 12px;
+    right: 12px;
     background-color: #e53e3e;
     color: white;
-    padding: 0.25rem 0.5rem;
-    border-radius: 12px;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
     font-size: 0.75rem;
-    font-weight: bold;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     animation: pulse 1s infinite;
     z-index: 10;
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .world-card__name {
@@ -314,15 +317,19 @@
 /* Badge de tutorial novo */
 .world-card__tutorial-badge {
     position: absolute;
-    top: 1rem;
-    left: 1rem;
+    top: 14px;
+    left: 56px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: #fff;
-    padding: 0.3rem 0.6rem;
-    border-radius: 8px;
-    font-size: 0.75rem;
-    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     animation: glow 2s ease infinite;
+    z-index: 5;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 @keyframes glow {
