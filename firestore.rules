@@ -77,9 +77,14 @@ service cloud.firestore {
         isAdmin()
       );
       
-      // Escrita: Valida que o UID interno do documento pertence ao usuário
+      // Escrita: Valida que o UID interno do documento pertence ao usuário e os dados são válidos
       allow write: if isAuthenticated() && (
-        request.resource.data.uid == request.auth.uid ||
+        (request.resource.data.uid == request.auth.uid &&
+         // Valida status se presente
+         (!('status' in request.resource.data) || request.resource.data.status in ['not_started', 'in_progress', 'completed']) &&
+         // Valida score se presente (0 a 9999)
+         (!('score' in request.resource.data) || isValidNumber(request.resource.data.score, 0, 9999))
+        ) ||
         isAdmin()
       );
     }
@@ -91,7 +96,8 @@ service cloud.firestore {
       allow read: if isAuthenticated();
       
       // Escrita apenas pelo próprio usuário (para atualizar seu score)
-      allow write: if isOwner(userId);
+      allow write: if isOwner(userId) &&
+        (!('totalScore' in request.resource.data) || isValidNumber(request.resource.data.totalScore, 0, 9999999));
     }
   }
 }
