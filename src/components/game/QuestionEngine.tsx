@@ -103,7 +103,7 @@ export function QuestionEngine({
         }
     }, [revealedHints, saveUsedHints, userData, updateUserData]);
 
-    const handleAnswer = (correct: boolean) => {
+    const handleAnswer = useCallback((correct: boolean) => {
         setIsCorrect(correct);
         setShowResult(true);
         setShowHints(false);
@@ -127,22 +127,40 @@ export function QuestionEngine({
             score = Math.max(1, score - Math.floor(hintsCost / 2));
         }
         onComplete(correct, score);
-    };
+    }, [setIsCorrect, setShowResult, setShowHints, mascotReact, question, onComplete, hintsCost]);
 
-    const handleRetry = () => {
+    const handleRetry = useCallback(() => {
         setShowResult(false);
         setIsCorrect(false);
         onRetry?.();
-    };
+    }, [onRetry]);
 
-    const handleNext = () => {
+    const handleNext = useCallback(() => {
         setShowResult(false);
         setIsCorrect(false);
         setShowHints(false);
         setRevealedHints([]);
         setHintsCost(0);
         onNext();
-    };
+    }, [onNext]);
+
+    const handleBossRun = useCallback(async (code: string) => {
+        // Executa o código usando Pyodide
+        try {
+            return await runPython(code, question.tests);
+        } catch (error) {
+            return {
+                stdout: '',
+                stderr: String(error),
+                hasError: true,
+                allTestsPassed: false
+            };
+        }
+    }, [runPython, question.tests]);
+
+    const handleBossComplete = useCallback((score: number) => {
+        onComplete(true, score);
+    }, [onComplete]);
 
     const renderQuestion = () => {
         const commonProps = {
@@ -178,20 +196,8 @@ export function QuestionEngine({
                 return (
                     <BossBattleQuestion
                         question={question}
-                        onRun={async (code) => {
-                            // Executa o código usando Pyodide
-                            try {
-                                return await runPython(code, question.tests);
-                            } catch (error) {
-                                return {
-                                    stdout: '',
-                                    stderr: String(error),
-                                    hasError: true,
-                                    allTestsPassed: false
-                                };
-                            }
-                        }}
-                        onComplete={(score) => onComplete(true, score)}
+                        onRun={handleBossRun}
+                        onComplete={handleBossComplete}
                         onNext={handleNext}
                         isExecuting={isExecuting}
                     />

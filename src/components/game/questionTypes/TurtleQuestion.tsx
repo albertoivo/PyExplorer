@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import type { QuestionDocument } from '../../../types/question';
 import { usePyodide } from '../../../hooks/usePyodide';
 import PythonEditor from '../../editor/PythonEditor';
@@ -16,7 +16,7 @@ interface TurtleQuestionProps {
     showResult?: boolean;
 }
 
-export function TurtleQuestion({
+export const TurtleQuestion = memo(function TurtleQuestion({
     question,
     onAnswer,
     disabled = false,
@@ -177,6 +177,6 @@ export function TurtleQuestion({
             )}
         </div>
     );
-}
+});
 
 export default TurtleQuestion;

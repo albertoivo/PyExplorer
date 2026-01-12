@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import Editor from '@monaco-editor/react';
 import type { QuestionDocument, PythonExecutionResult } from '../../../types/question';
 import './BossBattleQuestion.css';
@@ -11,7 +11,7 @@ interface BossBattleQuestionProps {
     isExecuting: boolean;
 }
 
-export function BossBattleQuestion({ question, onRun, onComplete, onNext, isExecuting }: BossBattleQuestionProps) {
+export const BossBattleQuestion = memo(function BossBattleQuestion({ question, onRun, onComplete, onNext, isExecuting }: BossBattleQuestionProps) {
     const [code, setCode] = useState(question.bossMetadata?.initialCode || question.starterCode || '');
     const [timeLeft, setTimeLeft] = useState(question.bossMetadata?.timeLimitSeconds || 60);
     const [isActive, setIsActive] = useState(false); // Só começa quando o usuário clica "Iniciar Batalha"
@@ -158,5 +158,5 @@ export function BossBattleQuestion({ question, onRun, onComplete, onNext, isExec
             </div>
         </div>
     );
-}
+});
 
