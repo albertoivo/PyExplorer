@@ -62,10 +62,24 @@ service cloud.firestore {
     // PROGRESSO - Documentos no formato uid_questionId
     // ============================================
     match /userProgress/{progressId} {
-      // Leitura e Escrita baseada no UID interno do documento
-      allow read, write: if isAuthenticated() && (
-        (resource != null && resource.data.uid == request.auth.uid) || 
-        (request.resource != null && request.resource.data.uid == request.auth.uid) ||
+      // Função auxiliar para extrair UID do progressId (formato: uid_questionId)
+      function extractUidFromProgressId(pId) {
+        return pId.split('_')[0];
+      }
+      
+      // Leitura: Permite se:
+      // 1. O UID do usuário está no início do progressId (para getDoc individual)
+      // 2. Ou o campo uid do documento pertence ao usuário (para queries com where)
+      // 3. Ou é admin
+      allow read: if isAuthenticated() && (
+        extractUidFromProgressId(progressId) == request.auth.uid ||
+        (resource != null && resource.data.uid == request.auth.uid) ||
+        isAdmin()
+      );
+      
+      // Escrita: Valida que o UID interno do documento pertence ao usuário
+      allow write: if isAuthenticated() && (
+        request.resource.data.uid == request.auth.uid ||
         isAdmin()
       );
     }

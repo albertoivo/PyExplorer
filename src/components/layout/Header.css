@@ -93,6 +93,11 @@
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
 }
 
+/* Fix for profile icon contrast when active */
+.header__nav-link--active span[aria-hidden="true"] {
+  filter: grayscale(100%) brightness(200%);
+}
+
 /* Área do usuário */
 .header__user {
   display: flex;

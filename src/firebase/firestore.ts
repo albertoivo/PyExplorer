@@ -103,14 +103,19 @@ const LEADERBOARD_COLLECTION = 'leaderboard';
  */
 async function updateLeaderboard(userData: UserData): Promise<void> {
     const docRef = doc(db, LEADERBOARD_COLLECTION, userData.uid);
-    // Salva apenas dados seguros/públicos
-    await setDoc(docRef, {
-        uid: userData.uid,
-        displayName: userData.displayName,
-        avatar: userData.avatar,
-        totalScore: userData.totalScore,
-        updatedAt: Timestamp.now(),
-    }, { merge: true });
+    try {
+        // Salva apenas dados seguros/públicos
+        await setDoc(docRef, {
+            uid: userData.uid,
+            displayName: userData.displayName,
+            avatar: userData.avatar,
+            totalScore: userData.totalScore,
+            updatedAt: Timestamp.now(),
+        }, { merge: true });
+    } catch (err) {
+        console.error('[DEBUG] FALHOU em updateLeaderboard:', err);
+        throw err;
+    }
 }
 
 /**
@@ -161,10 +166,15 @@ export async function updateUserScore(uid: string, additionalScore: number): Pro
         const newScore = user.totalScore + additionalScore;
         const docRef = doc(db, USERS_COLLECTION, uid);
 
-        await updateDoc(docRef, {
-            totalScore: newScore,
-            updatedAt: Timestamp.now(),
-        });
+        try {
+            await updateDoc(docRef, {
+                totalScore: newScore,
+                updatedAt: Timestamp.now(),
+            });
+        } catch (err) {
+            console.error('[DEBUG] FALHOU ao atualizar users:', err);
+            throw err;
+        }
 
         // Atualiza leaderboard com o novo score
         await updateLeaderboard({
@@ -210,10 +220,27 @@ function getProgressDocId(uid: string, questionId: string): string {
 export async function saveProgress(progress: UserProgress): Promise<void> {
     const docId = getProgressDocId(progress.uid, progress.questionId);
     const docRef = doc(db, PROGRESS_COLLECTION, docId);
-    await setDoc(docRef, {
-        ...progress,
-        lastAttemptAt: progress.lastAttemptAt ? Timestamp.fromDate(progress.lastAttemptAt) : null,
-    }, { merge: true });
+    try {
+        // Filtra campos undefined pois Firestore não aceita undefined
+        const dataToSave = {
+            uid: progress.uid,
+            questionId: progress.questionId,
+            status: progress.status,
+            score: progress.score,
+            attempts: progress.attempts,
+            lastAttemptAt: progress.lastAttemptAt ? Timestamp.fromDate(progress.lastAttemptAt) : null,
+        };
+
+        // Só inclui userAnswer se não for undefined
+        if (progress.userAnswer !== undefined) {
+            (dataToSave as Record<string, unknown>).userAnswer = progress.userAnswer;
+        }
+
+        await setDoc(docRef, dataToSave, { merge: true });
+    } catch (err) {
+        console.error('[DEBUG] FALHOU em saveProgress:', err);
+        throw err;
+    }
 }
 
 /**

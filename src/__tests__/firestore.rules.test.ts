@@ -125,6 +125,75 @@ describe('Firestore security rules', () => {
         });
     });
 
+    // --- GAMIFICATION COLLECTION ---
+    describe('gamification collection', () => {
+        it('should allow owner to read their gamification data', async () => {
+            const aliceDb = testEnv.authenticatedContext('alice').firestore();
+            await testEnv.withSecurityRulesDisabled(async (context) => {
+                await setDoc(doc(context.firestore(), 'gamification/alice'), {
+                    xp: 100,
+                    level: 2
+                });
+            });
+            await assertSucceeds(getDoc(doc(aliceDb, 'gamification/alice')));
+        });
+
+        it('should allow owner to write their gamification data', async () => {
+            const aliceDb = testEnv.authenticatedContext('alice').firestore();
+            await assertSucceeds(setDoc(doc(aliceDb, 'gamification/alice'), {
+                xp: 150,
+                level: 3
+            }));
+        });
+
+        it('should deny non-owner from reading gamification data', async () => {
+            const bobDb = testEnv.authenticatedContext('bob').firestore();
+            await testEnv.withSecurityRulesDisabled(async (context) => {
+                await setDoc(doc(context.firestore(), 'gamification/alice'), {
+                    xp: 100
+                });
+            });
+            await assertFails(getDoc(doc(bobDb, 'gamification/alice')));
+        });
+
+        it('should deny non-owner from writing gamification data', async () => {
+            const bobDb = testEnv.authenticatedContext('bob').firestore();
+            await assertFails(setDoc(doc(bobDb, 'gamification/alice'), {
+                xp: 0
+            }));
+        });
+    });
+
+    // --- LEADERBOARD COLLECTION ---
+    describe('leaderboard collection', () => {
+        it('should allow keys authenticated user to read any leaderboard entry', async () => {
+            const aliceDb = testEnv.authenticatedContext('alice').firestore();
+            await testEnv.withSecurityRulesDisabled(async (context) => {
+                await setDoc(doc(context.firestore(), 'leaderboard/bob'), {
+                    name: 'Bob',
+                    score: 500
+                });
+            });
+            await assertSucceeds(getDoc(doc(aliceDb, 'leaderboard/bob')));
+        });
+
+        it('should allow owner to write their leaderboard entry', async () => {
+            const aliceDb = testEnv.authenticatedContext('alice').firestore();
+            await assertSucceeds(setDoc(doc(aliceDb, 'leaderboard/alice'), {
+                name: 'Alice',
+                score: 1000
+            }));
+        });
+
+        it('should deny non-owner from writing to another users leaderboard entry', async () => {
+            const bobDb = testEnv.authenticatedContext('bob').firestore();
+            await assertFails(setDoc(doc(bobDb, 'leaderboard/alice'), {
+                name: 'Hacked',
+                score: 9999
+            }));
+        });
+    });
+
     // --- LEGACY DATA REPRODUCTION ---
     describe('legacy data issues', () => {
         it('should ALLOW update if an extra field exists in DB (robustness fix)', async () => {
