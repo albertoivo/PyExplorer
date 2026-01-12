@@ -61,6 +61,22 @@ export function AboutPage() {
                     </p>
                 </div>
 
+                <div className="about-support">
+                    <h3>Gosta do PyExplorer? 💜</h3>
+                    <p>
+                        Seu apoio nos ajuda a manter os servidores online e criar novos conteúdos gratuitos.
+                    </p>
+                    <div className="sponsors-iframe-container">
+                        <iframe
+                            src="https://github.com/sponsors/albertoivo/card"
+                            title="Sponsor albertoivo"
+                            height="225"
+                            width="600"
+                            style={{ border: 0 }}
+                        ></iframe>
+                    </div>
+                </div>
+
                 <div className="about-cta">
                     <h2>Faça Parte dessa História</h2>
                     <p>Milhares de crianças já escreveram sua primeira linha de código conosco.</p>
