@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 import { AuthProvider } from './context/AuthContext';
-import { PyodideProvider } from './context/PyodideContext';
 import { MascotProvider, useMascotContext } from './context/MascotContext';
 
 // Layout (carregado imediatamente - pequenos)
@@ -24,12 +23,26 @@ import { HomePage } from './pages/HomePage';
 // ===========================================
 const LoginPage = lazy(() => import('./pages/LoginPage').then(m => ({ default: m.LoginPage })));
 const RegisterPage = lazy(() => import('./pages/RegisterPage').then(m => ({ default: m.RegisterPage })));
-const GamePage = lazy(() => import('./pages/GamePage').then(m => ({ default: m.GamePage })));
 const ProfilePage = lazy(() => import('./pages/ProfilePage').then(m => ({ default: m.ProfilePage })));
 const GamificationPage = lazy(() => import('./pages/GamificationPage').then(m => ({ default: m.GamificationPage })));
 const LearnPage = lazy(() => import('./pages/LearnPage').then(m => ({ default: m.LearnPage })));
 const ArticlePage = lazy(() => import('./pages/ArticlePage').then(m => ({ default: m.ArticlePage })));
 const AboutPage = lazy(() => import('./pages/AboutPage').then(m => ({ default: m.AboutPage })));
+
+// GamePage com Pyodide - lazy loaded separadamente para reduzir bundle inicial
+const GamePageWithPyodide = lazy(() =>
+  import('./pages/GamePage').then(async (m) => {
+    // Pyodide só é importado quando GamePage é acessado
+    const { PyodideProvider } = await import('./context/PyodideContext');
+    return {
+      default: () => (
+        <PyodideProvider>
+          <m.GamePage />
+        </PyodideProvider>
+      )
+    };
+  })
+);
 
 import './App.css';
 
@@ -70,57 +83,55 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <PyodideProvider>
-          <MascotProvider>
-            <div className="app">
-              <Header />
-              <main className="app__main">
-                <Suspense fallback={<PageLoader />}>
-                  <Routes>
-                    {/* Páginas públicas */}
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="/register" element={<RegisterPage />} />
-                    <Route path="/learn" element={<LearnPage />} />
-                    <Route path="/learn/:slug" element={<ArticlePage />} />
-                    <Route path="/about" element={<AboutPage />} />
+        <MascotProvider>
+          <div className="app">
+            <Header />
+            <main className="app__main">
+              <Suspense fallback={<PageLoader />}>
+                <Routes>
+                  {/* Páginas públicas */}
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/login" element={<LoginPage />} />
+                  <Route path="/register" element={<RegisterPage />} />
+                  <Route path="/learn" element={<LearnPage />} />
+                  <Route path="/learn/:slug" element={<ArticlePage />} />
+                  <Route path="/about" element={<AboutPage />} />
 
-                    {/* Páginas protegidas (requerem login ou modo convidado) */}
-                    <Route
-                      path="/game"
-                      element={
-                        <ProtectedRoute>
-                          <GamePage />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/profile"
-                      element={
-                        <ProtectedRoute>
-                          <ProfilePage />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/rewards"
-                      element={
-                        <ProtectedRoute>
-                          <GamificationPage />
-                        </ProtectedRoute>
-                      }
-                    />
-                  </Routes>
-                </Suspense>
-              </main>
-              <Footer />
-              <OfflineIndicator />
+                  {/* Páginas protegidas (requerem login ou modo convidado) */}
+                  <Route
+                    path="/game"
+                    element={
+                      <ProtectedRoute>
+                        <GamePageWithPyodide />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/profile"
+                    element={
+                      <ProtectedRoute>
+                        <ProfilePage />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/rewards"
+                    element={
+                      <ProtectedRoute>
+                        <GamificationPage />
+                      </ProtectedRoute>
+                    }
+                  />
+                </Routes>
+              </Suspense>
+            </main>
+            <Footer />
+            <OfflineIndicator />
 
-              {/* Mascote global */}
-              <GlobalMascot />
-            </div>
-          </MascotProvider>
-        </PyodideProvider>
+            {/* Mascote global */}
+            <GlobalMascot />
+          </div>
+        </MascotProvider>
       </AuthProvider>
     </Router>
   );
@@ -128,3 +139,4 @@ function App() {
 
 export { App };
 export default App;
+
