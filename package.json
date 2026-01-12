@@ -12,6 +12,7 @@
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:rules": "vitest run src/__tests__/firestore.rules.test.ts",
+    "sitemap": "node scripts/generate-sitemap.cjs",
     "prepare": "husky"
   },
   "dependencies": {
