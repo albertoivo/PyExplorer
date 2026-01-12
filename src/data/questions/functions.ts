@@ -210,6 +210,24 @@ desenhar_quadrado(100)  # corpo da casa
         solutionCode: 'def desenhar_quadrado(lado):\n    for i in range(4):\n        turtle.forward(lado)\n        turtle.left(90)\n\ndesenhar_quadrado(100)',
         explanationKidFriendly: 'Funções são ótimas para desenhar! Crie uma função que desenha um quadrado e reutilize para a casa e janelas! 🏠',
         points: 30,
+    },
+    {
+        id: 'func_8',
+        type: 'multiple_choice',
+        world: 'functions',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Variável Secreta',
+        prompt: 'Posso usar uma variável que criei DENTRO de uma função, FORA dela?',
+        options: [
+            'Não, ela é local e "morre" quando a função acaba',
+            'Sim, ela fica disponível para sempre',
+            'Sim, mas só se usar a senha correta',
+            'Depende do nome da variável',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'O que acontece na função, fica na função! Variáveis criadas lá dentro são "locais" e ninguém de fora consegue ver. É um segredo! 🤫',
+        points: 15,
     }
 ];
 

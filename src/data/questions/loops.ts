@@ -204,6 +204,24 @@ for i in range(___):
         ],
         explanationKidFriendly: 'Para contar para trás, precisamos diminuir o número! n = n - 1 faz o número descer a cada volta. 5, 4, 3... 🚀',
         points: 20,
+    },
+    {
+        id: 'loop_8',
+        type: 'multiple_choice',
+        world: 'loops',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Começando do 5',
+        prompt: 'Quais números o comando `range(5, 8)` gera?',
+        options: [
+            '5, 6, 7',
+            '5, 6, 7, 8',
+            '0, 1, 2, 3, 4, 5',
+            '6, 7, 8',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'range(inicio, fim) começa no primeiro número e para ANTES do último. range(5, 8) gera 5, 6 e 7. O 8 não entra! 🏁',
+        points: 15,
     }
 ];
 

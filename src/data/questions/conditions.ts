@@ -223,6 +223,22 @@ for i in range(4):
         solutionCode: 'for i in range(4):\n    if i % 2 == 0:\n        turtle.pencolor("blue")\n    else:\n        turtle.pencolor("red")\n    turtle.forward(100)\n    turtle.right(90)',
         explanationKidFriendly: 'Use if/else para escolher cores! Se i for par (i % 2 == 0), use azul. Se não (else), use vermelho! 🎨',
         points: 30,
+    },
+    {
+        id: 'dec_8',
+        type: 'fill_code',
+        world: 'conditions',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Sinal de Trânsito',
+        prompt: 'Complete com elif para o sinal amarelo:',
+        starterCode: 'cor = "amarelo"\nif cor == "verde":\n    print("Siga")\n___ cor == "amarelo":\n    print("Atenção")',
+        solutionTemplate: 'elif cor == "amarelo":',
+        tests: [
+            { input: null, expectedOutput: 'Atenção' },
+        ],
+        explanationKidFriendly: 'elif serve para testar outra condição se a primeira falhar! "Se for verde, siga. SENÃO SE for amarelo, atenção!". 🚦',
+        points: 15,
     }
 ];
 

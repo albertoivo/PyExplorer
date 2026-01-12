@@ -174,6 +174,22 @@ export const stringsQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'Usamos [0:3] para pegar do começo (0) até antes do 3. P(0), y(1), t(2). O h(3) fica de fora! ✂️',
         points: 15,
+    },
+    {
+        id: 'strings_8',
+        type: 'fill_code',
+        world: 'strings',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Frase Mágica',
+        prompt: 'Use f-string para colocar a idade no texto:',
+        starterCode: 'idade = 12\nprint(f"Eu tenho ___ anos")',
+        solutionTemplate: 'print(f"Eu tenho {idade} anos")',
+        tests: [
+            { input: null, expectedOutput: 'Eu tenho 12 anos' },
+        ],
+        explanationKidFriendly: 'F-string é mágica! Basta colocar a variável entre chaves { } que o Python troca pelo valor. Não esqueça do f antes das aspas! 🎩',
+        points: 20,
     }
 ];
 

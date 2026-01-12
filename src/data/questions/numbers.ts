@@ -154,6 +154,24 @@ export const numbersQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'Multiplicação primeiro! 3 * 4 = 12. Depois: 2 + 12 - 1 = 13. Lembre: * e / vêm antes de + e -! 📐',
         points: 20,
+    },
+    {
+        id: 'num_8',
+        type: 'multiple_choice',
+        world: 'numbers',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Divisão Inteira',
+        prompt: 'O que o operador // faz em Python?',
+        options: [
+            'Divide e joga fora a parte decimal',
+            'Divide e mantém a vírgula',
+            'Calcula a porcentagem',
+            'Multiplica por 2',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'O // é a "divisão inteira"! Ele divide e só pega a parte inteira do número, ignorando o que vem depois da vírgula. 7 // 2 = 3 (e não 3.5)! ✂️',
+        points: 15,
     }
 ];
 
