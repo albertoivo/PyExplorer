@@ -153,6 +153,9 @@
 .features {
     padding: 6rem 2rem;
     background: linear-gradient(180deg, transparent 0%, rgba(15, 52, 96, 0.2) 100%);
+    /* Optimize rendering for offscreen content */
+    content-visibility: auto;
+    contain-intrinsic-size: auto 600px;
 }
 
 .features__title {
@@ -214,10 +217,13 @@
 }
 
 @keyframes twinkle {
-    0%, 100% {
+
+    0%,
+    100% {
         opacity: 1;
         transform: scale(1);
     }
+
     50% {
         opacity: 0.5;
         transform: scale(0.8);
@@ -231,6 +237,9 @@
 .worlds-preview {
     padding: 6rem 2rem;
     text-align: center;
+    /* Optimize rendering for offscreen content */
+    content-visibility: auto;
+    contain-intrinsic-size: auto 300px;
 }
 
 .worlds-preview__title {
@@ -287,6 +296,9 @@
     padding: 6rem 2rem;
     text-align: center;
     background: linear-gradient(180deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    /* Optimize rendering for offscreen content */
+    content-visibility: auto;
+    contain-intrinsic-size: auto 350px;
 }
 
 .cta__content {

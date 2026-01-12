@@ -95,6 +95,8 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Reduce layout thrashing */
+  text-rendering: optimizeSpeed;
 }
 
 /* Scrollbar personalizada */
