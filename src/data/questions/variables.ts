@@ -210,5 +210,21 @@ export const variablesQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'type() revela o tipo! type(10) diz "int", type("oi") diz "str". É como perguntar: "Que tipo de coisa você é?" 🔍',
         points: 20,
+    },
+    {
+        id: 'var_8',
+        type: 'fill_code',
+        world: 'variables',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Texto para Decimal',
+        prompt: 'Converta o texto "3.5" para um número decimal (float):',
+        starterCode: 'texto = "3.5"\nnumero = ___(texto)\nprint(numero + 0.5)',
+        solutionTemplate: 'numero = float(texto)',
+        tests: [
+            { input: null, expectedOutput: '4.0' },
+        ],
+        explanationKidFriendly: 'Para converter texto com ponto em número, usamos float()! int() daria erro porque não entende o ponto. float("3.5") vira o número 3.5! 🌊',
+        points: 20,
     }
 ];

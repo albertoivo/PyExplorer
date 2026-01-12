@@ -182,6 +182,22 @@ export const listsQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'append() cola o item no final da lista! Agora "leite" faz parte das compras! 🛒',
         points: 15,
+    },
+    {
+        id: 'list_8',
+        type: 'fill_code',
+        world: 'lists',
+        difficulty: 'easy',
+        ageMin: 10,
+        title: 'Quantas cores?',
+        prompt: 'Use `len` para descobrir quantas cores tem na lista:',
+        starterCode: 'cores = ["azul", "verde", "rosa"]\nprint(___(cores))',
+        solutionTemplate: 'print(len(cores))',
+        tests: [
+            { input: null, expectedOutput: '3' },
+        ],
+        explanationKidFriendly: 'len() conta quantos itens tem na lista! É como contar nos dedos: um, dois, três cores! 🎨',
+        points: 10,
     }
 ];
 

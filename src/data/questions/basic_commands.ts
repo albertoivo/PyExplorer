@@ -184,6 +184,24 @@ export const basicCommandsQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'Primeiro guardamos a conta em uma variável, depois usamos print para mostrar! Lembre: multiplicação vem antes da soma! 🧮',
         points: 25,
+    },
+    {
+        id: 'basic_8',
+        type: 'multiple_choice',
+        world: 'basic_commands',
+        difficulty: 'medium',
+        ageMin: 9,
+        title: 'Misturando Aspas',
+        prompt: 'Posso usar aspas simples DENTRO de aspas duplas?',
+        options: [
+            'Sim, funciona perfeitamente!',
+            'Não, dá erro',
+            'Só se for número',
+            'O Python apaga o texto',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'Sim! Se você começou com aspas duplas, pode usar aspas simples dentro do texto (e vice-versa). Exemplo: print("O gato fez \'miau\'") 😺',
+        points: 15,
     }
 ];
 
