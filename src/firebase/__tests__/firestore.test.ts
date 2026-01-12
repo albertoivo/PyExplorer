@@ -5,7 +5,12 @@ import {
     getGamification,
     saveProgress,
     getProgress,
-    updateProgressBatch
+    updateProgressBatch,
+    getQuestion,
+    getQuestions,
+    getQuestionsByWorld,
+    getUser,
+    unlockWorld
 } from '../firestore';
 import {
     doc,
@@ -47,7 +52,7 @@ vi.mock('firebase/firestore', () => {
 
     return {
         collection: vi.fn(),
-        doc: vi.fn(),
+        doc: vi.fn().mockReturnValue({ id: 'mock-doc-ref' }),
         getDoc: vi.fn(),
         getDocs: vi.fn(),
         setDoc: vi.fn(),
@@ -228,6 +233,124 @@ describe('Firestore Service Core Logic', () => {
             expect(batchMock.update).toHaveBeenCalledTimes(1);
 
             expect(batchMock.commit).toHaveBeenCalled();
+        });
+    });
+
+    describe('Data Retrieval', () => {
+        it('getQuestion should return question if exists', async () => {
+            const { getDoc } = await import('firebase/firestore');
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (getDoc as any).mockResolvedValue({
+                exists: () => true,
+                id: 'q1',
+                data: () => ({ title: 'Test Question' })
+            });
+
+            const result = await getQuestion('q1');
+            expect(result).not.toBeNull();
+            expect(result?.id).toBe('q1');
+            expect(result?.title).toBe('Test Question');
+        });
+
+        it('getQuestion should return null if not exists', async () => {
+            const { getDoc } = await import('firebase/firestore');
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (getDoc as any).mockResolvedValue({
+                exists: () => false
+            });
+
+            const result = await getQuestion('q1');
+            expect(result).toBeNull();
+        });
+
+        it('getQuestions should apply filters correctly', async () => {
+            const { getDocs, where, orderBy, limit } = await import('firebase/firestore');
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (getDocs as any).mockResolvedValue({
+                docs: [
+                    { id: 'q1', data: () => ({ title: 'Q1', difficulty: 'easy' }) }
+                ]
+            });
+
+            await getQuestions({
+                world: 'functions',
+                difficulty: 'easy',
+                limitCount: 5
+            });
+
+            expect(where).toHaveBeenCalledWith('world', '==', 'functions');
+            expect(where).toHaveBeenCalledWith('difficulty', '==', 'easy');
+            expect(orderBy).toHaveBeenCalledWith('difficulty');
+            expect(limit).toHaveBeenCalledWith(5);
+        });
+
+        it('getQuestionsByWorld should call getQuestions with world filter', async () => {
+            const { getDocs, where } = await import('firebase/firestore');
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (getDocs as any).mockResolvedValue({ docs: [] });
+
+            await getQuestionsByWorld('loops');
+
+            expect(where).toHaveBeenCalledWith('world', '==', 'loops');
+        });
+    });
+
+    describe('User Management', () => {
+        it('getUser should parse dates correctly', async () => {
+            const { getDoc, Timestamp } = await import('firebase/firestore');
+            const now = new Date();
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (getDoc as any).mockResolvedValue({
+                exists: () => true,
+                id: 'u1',
+                data: () => ({
+                    uid: 'u1',
+                    createdAt: Timestamp.fromDate(now),
+                    updatedAt: Timestamp.fromDate(now)
+                })
+            });
+
+            const result = await getUser('u1');
+            expect(result?.createdAt).toBeInstanceOf(Date);
+            expect(result?.createdAt.getTime()).toBe(Math.floor(now.getTime() / 1000) * 1000); // Mock truncates ms
+        });
+
+        it('unlockWorld should add world to user data if not present', async () => {
+            const { getDoc, updateDoc } = await import('firebase/firestore');
+            // User exists and does NOT have the world
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (getDoc as any).mockResolvedValue({
+                exists: () => true,
+                id: 'u1',
+                data: () => ({
+                    unlockedWorlds: ['basic_commands']
+                })
+            });
+
+            await unlockWorld('u1', 'loops');
+
+            expect(updateDoc).toHaveBeenCalledWith(
+                expect.anything(),
+                expect.objectContaining({
+                    unlockedWorlds: ['basic_commands', 'loops']
+                })
+            );
+        });
+
+        it('unlockWorld should NOT update if world already unlocked', async () => {
+            const { getDoc, updateDoc } = await import('firebase/firestore');
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (getDoc as any).mockResolvedValue({
+                exists: () => true,
+                id: 'u1',
+                data: () => ({
+                    unlockedWorlds: ['basic_commands', 'loops']
+                })
+            });
+
+            await unlockWorld('u1', 'loops');
+
+            expect(updateDoc).not.toHaveBeenCalled();
         });
     });
 });
