@@ -9,7 +9,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'robots.txt'],
+      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'robots.txt', 'sitemap.xml'],
       manifest: {
         name: 'PyExplorer - Aprenda Python Brincando',
         short_name: 'PyExplorer',
@@ -93,6 +93,7 @@ export default defineConfig({
         // Skip waiting para aplicar updates imediatamente
         skipWaiting: true,
         clientsClaim: true,
+        navigateFallbackDenylist: [/^\/sitemap.xml$/, /^\/robots.txt$/],
 
         // Cache de recursos estáticos
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
