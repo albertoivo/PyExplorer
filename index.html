@@ -16,6 +16,7 @@
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="googlebot" content="index, follow" />
   <meta name="google-site-verification" content="g84BssOqRSKNSYv8e3WTNaAJ0YD1XHZMAN8grc5QSFQ" />
+  <meta name="google-site-verification" content="auOZCdtHq9mb7idjx-airLoyzR0xZ3DiUAOeq1XT_ns" />
 
   <!-- URL Canônica -->
   <link rel="canonical" href="https://pyexplorer-cd32d.web.app/" />
@@ -116,7 +117,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-  
+
   <!-- Firebase preconnects - breaks critical request chain -->
   <link rel="preconnect" href="https://pyexplorer-cd32d.firebaseapp.com" />
   <link rel="preconnect" href="https://identitytoolkit.googleapis.com" />
@@ -217,12 +218,12 @@
       setTimeout(function () {
         var loadingScreen = document.getElementById('loading-screen');
         if (loadingScreen && !window.reactMounted) {
-            // Apenas remove se o React não tiver sinalizado que montou
-            // Se o React falhar totalmente, removemos para mostrar erro (se houver) ou apenas liberar a tela
-            loadingScreen.style.opacity = '0';
-            setTimeout(function() {
-              loadingScreen.remove();
-            }, 300);
+          // Apenas remove se o React não tiver sinalizado que montou
+          // Se o React falhar totalmente, removemos para mostrar erro (se houver) ou apenas liberar a tela
+          loadingScreen.style.opacity = '0';
+          setTimeout(function () {
+            loadingScreen.remove();
+          }, 300);
         }
       }, 3000);
     });
