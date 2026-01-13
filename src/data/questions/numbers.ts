@@ -188,7 +188,7 @@ export const numbersQuestions: QuestionDocument[] = [
             // Testing random is tricky, so we rely on syntax check here or mocking later.
             // For now, standard output check isn't strictly deterministic but Pyodide handles prints.
             // We expect the code to run without error.
-            { input: null, expectedOutput: null }
+            { input: null, expectedOutput: 'regex:^\\d+$' }
         ],
         explanationKidFriendly: 'import random traz superpoderes de sorteio! randint(1, 10) escolhe um número surpresa entre 1 e 10. 🎲',
         points: 20,

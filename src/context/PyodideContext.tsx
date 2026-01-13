@@ -234,6 +234,37 @@ json.dumps(_test_result) if not isinstance(_test_result, (int, float, bool, str,
                 const outputLines = stdoutText.trim().split('\n').map(line => line.trim()).filter(line => line);
 
                 for (const test of tests) {
+                    // Se expectedOutput é null, apenas verifica se não houve erro (implicitamente passed=true aqui)
+                    if (test.expectedOutput === null) {
+                        testResults.push({
+                            passed: true,
+                            input: test.input,
+                            expectedOutput: null,
+                            actualOutput: outputLines,
+                        });
+                        continue;
+                    }
+
+                    // Verifica se expectedOutput é uma string de regex
+                    if (
+                        typeof test.expectedOutput === 'string' &&
+                        test.expectedOutput.startsWith('regex:')
+                    ) {
+                        const regexPattern = test.expectedOutput.replace('regex:', '');
+                        const regex = new RegExp(regexPattern);
+                        // Verifica se ALGUMA linha da saída corresponde ao regex
+                        const passed = outputLines.some(line => regex.test(line));
+
+                        testResults.push({
+                            passed,
+                            input: test.input,
+                            expectedOutput: test.expectedOutput,
+                            actualOutput: outputLines,
+                        });
+                        if (!passed) allTestsPassed = false;
+                        continue;
+                    }
+
                     // expectedOutput pode ser array de linhas ou string única
                     const expectedLines = Array.isArray(test.expectedOutput)
                         ? test.expectedOutput.map(String)
