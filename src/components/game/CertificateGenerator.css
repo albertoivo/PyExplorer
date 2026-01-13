@@ -19,7 +19,7 @@
     background-color: #fdfbf7;
     /* Paper color */
     color: #1a1a2e;
-    padding: 2rem;
+    padding: 1rem;
     position: relative;
     width: 800px;
     /* Fixed width for consistent PDF output */
@@ -34,7 +34,7 @@
     border: 4px double #d4af37;
     /* Gold border */
     height: 100%;
-    padding: 2rem;
+    padding: 4.5rem 2rem 4rem 2rem;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -54,7 +54,7 @@
 .certificate-header h1 {
     font-size: 3rem;
     color: #1a1a2e;
-    margin: 0.5rem 0;
+    margin: 0;
     font-family: 'Cinzel', serif;
     /* Elegant font */
     text-transform: uppercase;
@@ -64,7 +64,7 @@
 .certificate-icon {
     font-size: 3rem;
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0;
 }
 
 .certificate-subtitle {
@@ -75,11 +75,11 @@
     border-bottom: 2px solid #d4af37;
     display: inline-block;
     padding-bottom: 0.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem;
 }
 
 .certificate-body {
-    margin: 2rem 0;
+    margin: 0.5rem 0;
 }
 
 .certificate-text {
@@ -91,7 +91,7 @@
 .student-name {
     font-size: 3.5rem;
     color: #d4af37;
-    margin: 1rem 0;
+    margin: 0;
     font-family: 'Great Vibes', cursive;
     /* Script font */
 }
@@ -99,7 +99,7 @@
 .course-title {
     font-size: 2rem;
     color: #1a1a2e;
-    margin: 1rem 0;
+    margin: 0;
     font-weight: bold;
 }
 
@@ -108,18 +108,12 @@
     justify-content: space-between;
     align-items: flex-end;
     margin-top: auto;
-    padding-top: 2rem;
+    padding-top: 0;
 }
 
 .signature-block,
 .date-block {
     flex: 1;
-}
-
-.signature-line {
-    border-bottom: 1px solid #1a1a2e;
-    width: 150px;
-    margin: 0 auto 0.5rem;
 }
 
 .signature-block p,

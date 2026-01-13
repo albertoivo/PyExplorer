@@ -92,7 +92,7 @@ jobs:
     
     environment:
       name: production
-      url: https://pyexplorer-cd32d.firebaseapp.com
+      url: https://pyexplorer.com.br
 
     steps:
       - name: 📥 Checkout repository
@@ -119,7 +119,7 @@ jobs:
           echo "## 🚀 Deployment Successful!" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Environment:** Production" >> $GITHUB_STEP_SUMMARY
-          echo "**URL:** https://pyexplorer-cd32d.firebaseapp.com" >> $GITHUB_STEP_SUMMARY
+          echo "**URL:** https://pyexplorer.com.br" >> $GITHUB_STEP_SUMMARY
           echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
           echo "**Deployed at:** $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
 
@@ -169,8 +169,8 @@ jobs:
         uses: treosh/lighthouse-ci-action@v12
         with:
           urls: |
-            https://pyexplorer-cd32d.firebaseapp.com/
-            https://pyexplorer-cd32d.firebaseapp.com/game
+            https://pyexplorer.com.br/
+            https://pyexplorer.com.br/game
           uploadArtifacts: true
           temporaryPublicStorage: true
 

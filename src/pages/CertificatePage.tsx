@@ -4,7 +4,6 @@ import { useQuestionsFirestore } from '../hooks/useQuestionsFirestore';
 import { useProgress } from '../hooks/useProgress';
 import { CertificateGenerator } from '../components/game/CertificateGenerator';
 import { SEO } from '../components/common/SEO';
-import { Footer } from '../components/layout/Footer';
 import './CertificatePage.css';
 
 export function CertificatePage() {
@@ -69,7 +68,6 @@ export function CertificatePage() {
                     <p>Continue sua jornada para desbloquear seu diploma oficial.</p>
                     <button onClick={() => navigate('/game')} className="btn-primary">Continuar Jogando</button>
                 </div>
-                <Footer />
             </div>
         );
     }
@@ -106,7 +104,6 @@ export function CertificatePage() {
                     completionDate={completionDate}
                 />
             </div>
-            <Footer />
         </div>
     );
 }

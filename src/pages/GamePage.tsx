@@ -1,4 +1,6 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import confetti from 'canvas-confetti';
 import type { World, QuestionDocument, UserProgress } from '../types/question';
 import { WorldMap } from '../components/game/WorldMap';
 import { QuestionEngine } from '../components/game/QuestionEngine';
@@ -17,6 +19,7 @@ type GameView = 'world-map' | 'world-questions' | 'playing' | 'reviewing';
  * Página principal do jogo
  */
 export function GamePage() {
+    const navigate = useNavigate();
     const [view, setView] = useState<GameView>('world-map');
     const [selectedWorld, setSelectedWorld] = useState<World | null>(null);
     const [currentQuestion, setCurrentQuestion] = useState<QuestionDocument | null>(null);
@@ -147,8 +150,43 @@ export function GamePage() {
     };
 
     /**
-     * Vai para a próxima questão ou volta para a lista
+     * Toca um som de celebração usando AudioContext (sem arquivos externos)
      */
+    const playSuccessSound = () => {
+        try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+            if (!AudioContext) return;
+
+            const ctx = new AudioContext();
+            const oscillators = [
+                { freq: 523.25, type: 'sine', start: 0, dur: 0.2 }, // C5
+                { freq: 659.25, type: 'sine', start: 0.1, dur: 0.2 }, // E5
+                { freq: 783.99, type: 'sine', start: 0.2, dur: 0.4 }, // G5
+                { freq: 1046.50, type: 'sine', start: 0.3, dur: 0.6 } // C6
+            ];
+
+            oscillators.forEach(({ freq, type, start, dur }) => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+
+                osc.type = type as OscillatorType;
+                osc.frequency.setValueAtTime(freq, ctx.currentTime);
+
+                gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + dur);
+
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                osc.start(ctx.currentTime + start);
+                osc.stop(ctx.currentTime + start + dur);
+            });
+        } catch (e) {
+            console.error('Audio play failed', e);
+        }
+    };
+
     /**
      * Vai para a próxima questão não resolvida ou volta para a lista
      */
@@ -174,15 +212,43 @@ export function GamePage() {
             questionStartTime.current = Date.now();
         } else {
             // Terminou todas as questões do mundo (ou todas as próximas já estavam feitas)
-            // Verifica conquistas de mundo
+            // Se está num mundo e acabou de terminar tudo
             if (selectedWorld) {
                 const progress = worldProgress.get(selectedWorld);
+                // Se completou agora (ou já estava completo)
                 if (progress && progress.completed === progress.total) {
-                    // Mundo completo! Verifica conquistas
+
+                    // CELEBRAÇÃO DE FIM DE MUNDO 🎉
+                    playSuccessSound();
+                    confetti({
+                        particleCount: 150,
+                        spread: 70,
+                        origin: { y: 0.6 },
+                        colors: ['#FFD700', '#FF4500', '#00BFFF', '#32CD32']
+                    });
+
+                    // Verifica conquistas de mundo
                     const totalWorldsCompleted = Array.from(worldProgress.values())
                         .filter(p => p.completed === p.total && p.total > 0).length;
 
                     checkWorldAchievements(totalWorldsCompleted, isPerfectRun);
+
+                    // VERIFICA SE TERMINOU O JOGO INTEIRO 🏆
+                    const totalWorlds = worldProgress.size; // Total de mundos com questões
+                    // Se o número de mundos completados for igual ao total de mundos com conteúdo
+                    // Nota: worldProgress só tem mundos com questões
+                    if (totalWorldsCompleted === totalWorlds) {
+                        setTimeout(() => {
+                            // Modal nativo simples por enquanto, ou navegação direta
+                            const goCert = window.confirm(
+                                'PARABÉNS! VOCÊ ZERO O JOGO! 🏆🐍\n\nTodas as questões foram completadas.\n\nDeseja ir para a página do seu CERTIFICADO agora?'
+                            );
+                            if (goCert) {
+                                navigate('/certificate');
+                                return;
+                            }
+                        }, 1000);
+                    }
                 }
             }
 

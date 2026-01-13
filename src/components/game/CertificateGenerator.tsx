@@ -70,7 +70,6 @@ export function CertificateGenerator({ studentName, completionDate }: Certificat
 
                             <div className="certificate-footer">
                                 <div className="signature-block">
-                                    <div className="signature-line"></div>
                                     <p>Mestre Py</p>
                                     <small>Instrutor Chefe</small>
                                 </div>
