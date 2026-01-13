@@ -241,6 +241,22 @@ export const stringsQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'strip() limpa a bagunça! Ele tira os espaços vazios que ficam sobrando no começo e no final do texto. ✨',
         points: 15,
+    },
+    {
+        id: 'strings_9',
+        type: 'fill_code',
+        world: 'strings',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Cortando o Meio',
+        prompt: 'Pegue as letras "yth" da palavra "Python":',
+        starterCode: 'texto = "Python"\nparte = texto[1:___]\nprint(parte)',
+        solutionTemplate: 'parte = texto[1:4]',
+        tests: [
+            { input: null, expectedOutput: 'yth' },
+        ],
+        explanationKidFriendly: 'Queremos do índice 1 ("y") até o 3 ("h"). Mas o fatiamento para ANTES do fim, então usamos [1:4]! 🍰',
+        points: 20,
     }
 ];
 

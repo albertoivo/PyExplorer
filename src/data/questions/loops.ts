@@ -222,6 +222,24 @@ for i in range(___):
         answerIndex: 0,
         explanationKidFriendly: 'range(inicio, fim) começa no primeiro número e para ANTES do último. range(5, 8) gera 5, 6 e 7. O 8 não entra! 🏁',
         points: 15,
+    },
+    {
+        id: 'loop_9',
+        type: 'multiple_choice',
+        world: 'loops',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Pulando Números',
+        prompt: 'O que o código `range(0, 10, 2)` faz?',
+        options: [
+            'Conta de 0 a 10 pulando de 2 em 2',
+            'Conta de 0 a 2 dez vezes',
+            'Conta de 2 a 10',
+            'Dá erro',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'O terceiro número no range é o "passo"! range(0, 10, 2) gera 0, 2, 4, 6, 8. Ele vai pulando de 2 em 2! 🐇',
+        points: 15,
     }
 ];
 

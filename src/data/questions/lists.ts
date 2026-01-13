@@ -233,6 +233,24 @@ export const listsQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: '`in` significa "dentro" ou "em". Para cada fruta NA lista de frutas, mostre a fruta! 🍎🍐',
         points: 20,
+    },
+    {
+        id: 'list_9',
+        type: 'multiple_choice',
+        world: 'lists',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Removendo o Primeiro',
+        prompt: 'Como removemos o PRIMEIRO item de uma lista chamada `cores`?',
+        options: [
+            'cores.pop(0)',
+            'cores.pop()',
+            'cores.remove(0)',
+            'cores.delete(0)',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'O pop() sem número tira o último. Mas se você disser o índice, ele tira aquele específico! pop(0) tira o item da posição 0 (o primeiro). 1️⃣',
+        points: 15,
     }
 ];
 
