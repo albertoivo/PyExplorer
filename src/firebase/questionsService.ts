@@ -60,34 +60,30 @@ export async function autoSyncQuestions(): Promise<{ synced: boolean; count: num
 
         // Busca questões existentes
         const existingDocs = await getDocs(collection(db, QUESTIONS_COLLECTION));
-        const firestoreIds = new Set(existingDocs.docs.map(d => d.id));
 
-        // Verifica questões que precisam ser adicionadas
-        const toAdd = ALL_QUESTIONS.filter(q => !firestoreIds.has(q.id));
 
-        // Verifica questões que precisam ser removidas (estão no Firestore mas não no código)
+        // Questões que precisam ser removidas (estão no Firestore mas não no código)
         const toRemove = existingDocs.docs.filter(d => !localIds.has(d.id));
 
-        // Se não há diferenças, não faz nada
-        if (toAdd.length === 0 && toRemove.length === 0) {
-            console.log(`✅ Questões sincronizadas (${localCount} questões)`);
-            return { synced: false, count: localCount, message: 'Já sincronizado' };
-        }
+        // Simplificação: Sempre atualiza TODAS as questões locais para garantir que mudanças de conteúdo
+        // sejam refletidas (ex: mudança no enunciado ou testes).
+        // Isso cobre tanto ADIÇÃO quanto ATUALIZAÇÃO.
+        const toUpsert = ALL_QUESTIONS;
 
-        console.log(`🔄 Sincronizando: +${toAdd.length} novas, -${toRemove.length} removidas`);
+        console.log(`🔄 Sincronizando: ${toUpsert.length} questões para atualizar/inserir, -${toRemove.length} removidas`);
 
         // Usa batch para operações em lote (limite de 500 por batch)
         const BATCH_SIZE = 450; // Margem de segurança
 
-        // Processa em batches se necessário
-        for (let i = 0; i < toAdd.length; i += BATCH_SIZE) {
+        // Processa upserts em batches
+        for (let i = 0; i < toUpsert.length; i += BATCH_SIZE) {
             const batch = writeBatch(db);
-            const chunk = toAdd.slice(i, i + BATCH_SIZE);
+            const chunk = toUpsert.slice(i, i + BATCH_SIZE);
 
             for (const question of chunk) {
                 const docRef = doc(db, QUESTIONS_COLLECTION, question.id);
                 const sanitizedData = sanitizeForFirestore(question);
-                batch.set(docRef, sanitizedData);
+                batch.set(docRef, sanitizedData); // Sobrescreve dados
             }
 
             await batch.commit();
@@ -105,7 +101,7 @@ export async function autoSyncQuestions(): Promise<{ synced: boolean; count: num
             await batch.commit();
         }
 
-        const message = `Sincronizado: ${toAdd.length > 0 ? `+${toAdd.length} adicionadas` : ''} ${toRemove.length > 0 ? `-${toRemove.length} removidas` : ''}`.trim();
+        const message = `Sincronizado: ${toUpsert.length} atualizadas/verificadas, ${toRemove.length > 0 ? `-${toRemove.length} removidas` : ''}`.trim();
         console.log(`✅ ${message}`);
 
         return { synced: true, count: localCount, message };

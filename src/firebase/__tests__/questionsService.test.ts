@@ -64,7 +64,7 @@ describe('questionsService', () => {
         });
 
         it('should return local questions fallback if firestore is empty', async () => {
-             (getDocs as any).mockResolvedValue({
+            (getDocs as any).mockResolvedValue({
                 empty: true,
                 docs: []
             });
@@ -74,10 +74,10 @@ describe('questionsService', () => {
         });
 
         it('should return local questions fallback if firestore fails', async () => {
-             (getDocs as any).mockRejectedValue(new Error('Network error'));
+            (getDocs as any).mockRejectedValue(new Error('Network error'));
 
-             const questions = await fetchAllQuestions();
-             expect(questions).toHaveLength(2);
+            const questions = await fetchAllQuestions();
+            expect(questions).toHaveLength(2);
         });
     });
 
@@ -103,15 +103,22 @@ describe('questionsService', () => {
 
             expect(result.synced).toBe(true);
 
-            // Should add q2
-            expect(batchMock.set).toHaveBeenCalledTimes(1);
+            // Should upsert ALL local questions (q1 and q2)
+            expect(batchMock.set).toHaveBeenCalledTimes(2);
             // Should delete qOld
             expect(batchMock.delete).toHaveBeenCalledTimes(1);
 
-            expect(batchMock.commit).toHaveBeenCalledTimes(2); // One for adds, one for deletes (separate loops in implementation)
+            expect(batchMock.commit).toHaveBeenCalledTimes(2); // One for upserts, one for deletes
         });
 
-        it('should do nothing if already synced', async () => {
+        it('should upsert all questions even if IDs match', async () => {
+            const batchMock = {
+                set: vi.fn(),
+                delete: vi.fn(),
+                commit: vi.fn().mockResolvedValue(undefined)
+            };
+            (writeBatch as any).mockReturnValue(batchMock);
+
             // Firestore has q1 and q2
             (getDocs as any).mockResolvedValue({
                 docs: [
@@ -122,15 +129,17 @@ describe('questionsService', () => {
 
             const result = await autoSyncQuestions();
 
-            expect(result.synced).toBe(false);
-            expect(writeBatch).not.toHaveBeenCalled();
+            expect(result.synced).toBe(true);
+            // Should still upsert both q1 and q2 to ensure content sync
+            expect(batchMock.set).toHaveBeenCalledTimes(2);
+            expect(batchMock.commit).toHaveBeenCalledTimes(1); // Only upserts, no deletes
         });
     });
 
     describe('helper functions', () => {
         it('seedQuestions calls autoSync', async () => {
             // Mock autoSync implicitly by mocking getDocs to return empty (needs full seed)
-             const batchMock = {
+            const batchMock = {
                 set: vi.fn(),
                 delete: vi.fn(),
                 commit: vi.fn().mockResolvedValue(undefined)
@@ -144,7 +153,7 @@ describe('questionsService', () => {
         });
 
         it('forceSeedQuestions deletes all and inserts all', async () => {
-             const batchMock = {
+            const batchMock = {
                 set: vi.fn(),
                 delete: vi.fn(),
                 commit: vi.fn().mockResolvedValue(undefined)
@@ -164,7 +173,7 @@ describe('questionsService', () => {
         });
 
         it('addQuestion serializes and sets doc', async () => {
-            const q = { id: 'new', title: 'New', tests: [{ input: [1,2], output: 3 }] };
+            const q = { id: 'new', title: 'New', tests: [{ input: [1, 2], output: 3 }] };
             await addQuestion(q as any);
 
             expect(setDoc).toHaveBeenCalledWith(
@@ -181,7 +190,7 @@ describe('questionsService', () => {
             );
         });
 
-         it('updateQuestion serializes and updates doc', async () => {
+        it('updateQuestion serializes and updates doc', async () => {
             const q = { id: 'update', title: 'Update' };
             await updateQuestion(q as any);
 

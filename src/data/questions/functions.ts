@@ -192,24 +192,23 @@ export const functionsQuestions: QuestionDocument[] = [
         id: 'turtle_house',
         type: 'turtle_challenge',
         world: 'functions',
-        difficulty: 'hard',
-        ageMin: 11,
-        title: 'Desenhe uma Casa',
-        prompt: 'Crie uma função `desenhar_quadrado(lado)` e use para desenhar uma casa (quadrado + telhado triangular).',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Desenhando um Círculo',
+        prompt: 'Vamos criar uma função para desenhar um círculo! Use o comando turtle.circle(raio).',
         starterCode: `import turtle
 
-# Crie a função desenhar_quadrado
-def desenhar_quadrado(lado):
-    for i in range(___):
-        turtle.forward(___)
-        turtle.left(90)
+def desenhar_circulo(raio):
+    # Complete o código abaixo para desenhar um círculo
+    # Dica: use turtle.circle(raio)
+    turtle.___(___)
 
-# Use a função para desenhar a casa
-desenhar_quadrado(100)  # corpo da casa
+# Chama a função para desenhar um círculo de raio 50
+desenhar_circulo(50)
 `,
-        solutionCode: 'def desenhar_quadrado(lado):\n    for i in range(4):\n        turtle.forward(lado)\n        turtle.left(90)\n\ndesenhar_quadrado(100)',
-        explanationKidFriendly: 'Funções são ótimas para desenhar! Crie uma função que desenha um quadrado e reutilize para a casa e janelas! 🏠',
-        points: 30,
+        solutionCode: 'def desenhar_circulo(raio):\n    turtle.circle(raio)\n\ndesenhar_circulo(50)',
+        explanationKidFriendly: 'O comando turtle.circle(50) desenha um círculo perfeito com tamanho 50! Funções facilitam desenhar várias formas iguais! 🔵',
+        points: 20,
     },
     {
         id: 'func_8',

@@ -149,15 +149,31 @@ export function GamePage() {
     /**
      * Vai para a próxima questão ou volta para a lista
      */
+    /**
+     * Vai para a próxima questão não resolvida ou volta para a lista
+     */
     const handleNext = () => {
-        const nextIndex = currentQuestionIndex + 1;
-        if (nextIndex < worldQuestions.length) {
+        let nextIndex = currentQuestionIndex + 1;
+        let foundUnresolved = false;
+
+        // Procura a próxima questão que NÃO está completa
+        while (nextIndex < worldQuestions.length) {
+            const nextQ = worldQuestions[nextIndex];
+            const progress = getQuestionProgress(nextQ.id);
+            if (progress?.status !== 'completed') {
+                foundUnresolved = true;
+                break;
+            }
+            nextIndex++;
+        }
+
+        if (foundUnresolved) {
             setCurrentQuestion(worldQuestions[nextIndex]);
             setCurrentQuestionIndex(nextIndex);
             // Reinicia o timer para a próxima questão
             questionStartTime.current = Date.now();
         } else {
-            // Terminou todas as questões do mundo
+            // Terminou todas as questões do mundo (ou todas as próximas já estavam feitas)
             // Verifica conquistas de mundo
             if (selectedWorld) {
                 const progress = worldProgress.get(selectedWorld);
