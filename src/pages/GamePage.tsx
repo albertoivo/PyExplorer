@@ -280,18 +280,41 @@ export function GamePage() {
                     </div>
 
                     <div className="world-questions__list">
-                        {worldQuestions.map((question, index) => {
-                            const progress = getQuestionProgress(question.id);
-                            return (
-                                <QuestionCard
-                                    key={question.id}
-                                    question={question}
-                                    index={index}
-                                    status={progress?.status || 'not_started'}
-                                    onClick={() => handleStartQuestion(question)}
-                                />
-                            );
-                        })}
+                        {worldQuestions
+                            .sort((a, b) => {
+                                // Boss battle sempre pro final
+                                if (a.type === 'boss_battle' && b.type !== 'boss_battle') return 1;
+                                if (a.type !== 'boss_battle' && b.type === 'boss_battle') return -1;
+                                // Mantém ordem original (por id ou ordem do array)
+                                return 0;
+                            })
+                            .map((question, index, allQuestions) => {
+                                const progress = getQuestionProgress(question.id);
+                                let isLocked = false;
+
+                                // Lógica de bloqueio do Boss
+                                if (question.type === 'boss_battle') {
+                                    const otherQuestions = allQuestions.filter(q => q.type !== 'boss_battle');
+                                    const allOthersCompleted = otherQuestions.every(q => {
+                                        const p = getQuestionProgress(q.id);
+                                        return p?.status === 'completed';
+                                    });
+                                    if (!allOthersCompleted) {
+                                        isLocked = true;
+                                    }
+                                }
+
+                                return (
+                                    <QuestionCard
+                                        key={question.id}
+                                        question={question}
+                                        index={index}
+                                        status={progress?.status || 'not_started'}
+                                        locked={isLocked}
+                                        onClick={() => handleStartQuestion(question)}
+                                    />
+                                );
+                            })}
                     </div>
 
                     {worldQuestions.length === 0 && (

@@ -92,8 +92,8 @@ export const dictionariesQuestions: QuestionDocument[] = [
         starterCode: 'def pegar_idade(pessoa):\n    # seu código aqui\n    pass',
         functionName: 'pegar_idade',
         tests: [
-            { input: [{ nome: 'Ana', idade: 12 }], expectedOutput: 12 },
-            { input: [{ nome: 'Pedro', idade: 9 }], expectedOutput: 9 },
+            { input: { nome: 'Ana', idade: 12 }, expectedOutput: 12 },
+            { input: { nome: 'Pedro', idade: 9 }, expectedOutput: 9 },
         ],
         explanationKidFriendly: 'Use pessoa["idade"] para pegar a idade do dicionário e return para devolver! 🎂',
         points: 25,

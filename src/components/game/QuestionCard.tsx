@@ -5,13 +5,14 @@ interface QuestionCardProps {
     question: QuestionDocument;
     index: number;
     status: 'not_started' | 'in_progress' | 'completed';
+    locked?: boolean;
     onClick: () => void;
 }
 
 /**
  * Card de questão na lista de questões de um mundo
  */
-export function QuestionCard({ question, index, status, onClick }: QuestionCardProps) {
+export function QuestionCard({ question, index, status, locked, onClick }: QuestionCardProps) {
     const getTypeIcon = () => {
         switch (question.type) {
             case 'multiple_choice': return '🎯';
@@ -19,6 +20,7 @@ export function QuestionCard({ question, index, status, onClick }: QuestionCardP
             case 'fill_code': return '✏️';
             case 'partial_function': return '🧩';
             case 'full_function': return '💻';
+            case 'boss_battle': return '👹';
             default: return '❓';
         }
     };
@@ -30,11 +32,13 @@ export function QuestionCard({ question, index, status, onClick }: QuestionCardP
             case 'fill_code': return 'Complete';
             case 'partial_function': return 'Função Parcial';
             case 'full_function': return 'Função';
+            case 'boss_battle': return 'Chefe Final';
             default: return 'Questão';
         }
     };
 
     const getStatusIcon = () => {
+        if (locked) return '🔒';
         switch (status) {
             case 'completed': return '✓';
             case 'in_progress': return '⋯';
@@ -44,10 +48,11 @@ export function QuestionCard({ question, index, status, onClick }: QuestionCardP
 
     return (
         <button
-            className={`question-card question-card--${status}`}
-            onClick={onClick}
+            className={`question-card question-card--${status} ${locked ? 'question-card--locked' : ''}`}
+            onClick={locked ? undefined : onClick}
+            disabled={locked}
         >
-            <div className={`question-card__status question-card__status--${status}`}>
+            <div className={`question-card__status question-card__status--${locked ? 'locked' : status}`}>
                 {getStatusIcon()}
             </div>
 

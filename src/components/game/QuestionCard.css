@@ -151,3 +151,32 @@
         display: none;
     }
 }
+
+/* Locked State */
+.question-card--locked {
+    background: rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.05);
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.question-card--locked:hover {
+    transform: none;
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+.question-card__status--locked {
+    background: rgba(255, 255, 255, 0.05);
+    color: #4a5568;
+}
+
+.question-card--locked .question-card__title,
+.question-card--locked .question-card__preview,
+.question-card--locked .question-card__type {
+    color: #4a5568;
+}
+
+.question-card--locked .question-card__type {
+    background: rgba(255, 255, 255, 0.02);
+}
