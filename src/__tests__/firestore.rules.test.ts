@@ -83,10 +83,7 @@ describe('Firestore security rules', () => {
         });
 
         it('should allow admin write access to questions', async () => {
-            const adminDb = testEnv.authenticatedContext('admin', {
-                email: 'albertoivo@gmail.com',
-                email_verified: true
-            }).firestore();
+            const adminDb = testEnv.authenticatedContext('admin', { email: 'albertoivo@gmail.com' }).firestore();
             await assertSucceeds(setDoc(doc(adminDb, 'questions/q1'), { title: 'Admin Question' }));
         });
     });
