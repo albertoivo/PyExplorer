@@ -1,0 +1,63 @@
+# =============================================================================
+# PyExplorer - Dependabot Auto-Merge
+# =============================================================================
+# Este workflow faz auto-merge de PRs do Dependabot quando:
+# - É uma atualização minor ou patch
+# - Todos os checks (lint, build, testes) passam
+# - Major updates ficam para revisão manual
+# =============================================================================
+
+name: Dependabot Auto-Merge
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  dependabot-auto-merge:
+    name: 🤖 Auto-Merge Dependabot PRs
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
+    
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🔍 Fetch Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🟢 Enable auto-merge for minor/patch updates
+        if: steps.metadata.outputs.update-type == 'version-update:semver-minor' || steps.metadata.outputs.update-type == 'version-update:semver-patch'
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🟡 Comment on major updates
+        if: steps.metadata.outputs.update-type == 'version-update:semver-major'
+        run: |
+          gh pr comment "$PR_URL" --body "⚠️ **Major update detectada!**
+          
+          Esta atualização pode conter breaking changes. Por favor, revise manualmente antes de fazer merge.
+          
+          **Pacote:** ${{ steps.metadata.outputs.dependency-names }}
+          **Tipo:** ${{ steps.metadata.outputs.update-type }}"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📊 Summary
+        run: |
+          echo "## 🤖 Dependabot Auto-Merge" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Pacote:** ${{ steps.metadata.outputs.dependency-names }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Tipo de update:** ${{ steps.metadata.outputs.update-type }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Versão anterior:** ${{ steps.metadata.outputs.previous-version }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Nova versão:** ${{ steps.metadata.outputs.new-version }}" >> $GITHUB_STEP_SUMMARY
