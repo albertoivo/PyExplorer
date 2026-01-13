@@ -20,6 +20,10 @@ describe('PyodideContext', () => {
             runPythonAsync: vi.fn().mockResolvedValue(undefined),
             globals: { get: vi.fn(), set: vi.fn() },
             loadPackage: vi.fn().mockResolvedValue(undefined),
+            FS: {
+                writeFile: vi.fn(),
+                readFile: vi.fn().mockReturnValue(''),
+            },
         };
 
         // Mock window.loadPyodide

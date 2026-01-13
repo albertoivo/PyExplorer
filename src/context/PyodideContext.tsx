@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useCallback } from 'react';
 import type { ReactNode } from 'react';
 import type { TestCase, TestResult, PythonExecutionResult } from '../types/question';
+import { TURTLE_PYTHON_SHIM } from '../components/game/turtle/turtle-python-shim';
 
 /**
  * Interface para o contexto do Pyodide
@@ -38,12 +39,25 @@ interface PyodideInterface {
         set: (name: string, value: unknown) => void;
     };
     loadPackage: (packages: string[]) => Promise<void>;
+    FS: {
+        writeFile: (path: string, data: string, options?: { encoding?: string }) => void;
+        readFile: (path: string, options?: { encoding?: string }) => string;
+    };
 }
 
 // Declaração global para loadPyodide
 declare global {
     interface Window {
         loadPyodide: (config?: { indexURL?: string }) => Promise<PyodideInterface>;
+        // Turtle globals
+        turtle_reset: () => void;
+        turtle_forward: (d: number) => void;
+        turtle_right: (a: number) => void;
+        turtle_penup: () => void;
+        turtle_pendown: () => void;
+        turtle_color: (c: string) => void;
+        turtle_width: (w: number) => void;
+        turtle_speed: (s: number) => void;
     }
 }
 
@@ -124,6 +138,23 @@ _capture = CaptureOutput()
         `);
 
             setLoadingProgress(100);
+
+            // Garente que as funções globais do Turtle existam (como no-ops se não houver canvas)
+            // Isso evita erro se "import turtle" for usado fora de uma questão visual
+            const noOp = () => { };
+            window.turtle_reset = window.turtle_reset || noOp;
+            window.turtle_forward = window.turtle_forward || noOp;
+            window.turtle_right = window.turtle_right || noOp;
+            window.turtle_penup = window.turtle_penup || noOp;
+            window.turtle_pendown = window.turtle_pendown || noOp;
+            window.turtle_color = window.turtle_color || noOp;
+            window.turtle_width = window.turtle_width || noOp;
+            window.turtle_speed = window.turtle_speed || noOp;
+
+            // Cria o módulo 'turtle' no sistema de arquivos do Pyodide
+            // Isso permite que "import turtle" funcione em qualquer lugar
+            pyodideInstance.FS.writeFile('turtle.py', TURTLE_PYTHON_SHIM);
+
             setPyodide(pyodideInstance);
             setReady(true);
             setLoading(false);

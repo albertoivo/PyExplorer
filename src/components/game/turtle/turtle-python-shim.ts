@@ -70,6 +70,12 @@ class Turtle:
     def speed(self, s):
         self.speed_val = s
         js.turtle_speed(float(s))
+
+    def pencolor(self, color_name):
+        self.color(color_name)
+
+    def fillcolor(self, color_name):
+        self.color(color_name)
         
     def circle(self, radius, extent=360):
         # Aproximação de círculo usando passos pequenos
@@ -103,6 +109,8 @@ def color(c): _default_turtle.color(c)
 def width(w): _default_turtle.width(w)
 def speed(s): _default_turtle.speed(s)
 def circle(r, e=360): _default_turtle.circle(r, e)
+def pencolor(c): _default_turtle.pencolor(c)
+def fillcolor(c): _default_turtle.fillcolor(c)
 
 # Aliases em português para crianças
 def frente(d): forward(d)
