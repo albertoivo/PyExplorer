@@ -3,9 +3,24 @@
 
 User-agent: *
 Allow: /
+Disallow: /profile
+Disallow: /certificate
 
 # Sitemap
 Sitemap: https://pyexplorer.com.br/sitemap.xml
 
-# Cache-control hints for crawlers
-Crawl-delay: 1
+# Bloquear crawlers de IA
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
