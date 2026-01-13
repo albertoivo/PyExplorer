@@ -133,6 +133,25 @@ export function WorldMap({ onSelectWorld, worldProgress }: WorldMapProps) {
     const [activeStory, setActiveStory] = useState<StoryEpisode | null>(null);
     const [pendingWorldNavigation, setPendingWorldNavigation] = useState<World | null>(null);
 
+    // Estado local para dados do localStorage (evita leituras síncronas no render)
+    const [viewedTutorials, setViewedTutorials] = useState<World[]>(() => {
+        try {
+            const viewed = localStorage.getItem(VIEWED_TUTORIALS_KEY);
+            return viewed ? JSON.parse(viewed) : [];
+        } catch {
+            return [];
+        }
+    });
+
+    const [viewedStories, setViewedStories] = useState<string[]>(() => {
+        try {
+            const viewed = localStorage.getItem(VIEWED_STORIES_KEY);
+            return viewed ? JSON.parse(viewed) : [];
+        } catch {
+            return [];
+        }
+    });
+
     const isWorldUnlocked = useCallback((world: WorldInfo): boolean => {
         // O primeiro mundo está sempre desbloqueado
         if (!world.requiredScore) return true;
@@ -156,55 +175,37 @@ export function WorldMap({ onSelectWorld, worldProgress }: WorldMapProps) {
 
     // Verifica se já viu o tutorial desse mundo
     const hasViewedTutorial = useCallback((worldId: World): boolean => {
-        try {
-            const viewed = localStorage.getItem(VIEWED_TUTORIALS_KEY);
-            if (viewed) {
-                const list: World[] = JSON.parse(viewed);
-                return list.includes(worldId);
-            }
-        } catch {
-            // Ignora erros
-        }
-        return false;
-    }, []);
+        return viewedTutorials.includes(worldId);
+    }, [viewedTutorials]);
 
     // Marca tutorial como visto
     const markTutorialViewed = useCallback((worldId: World) => {
-        try {
-            const viewed = localStorage.getItem(VIEWED_TUTORIALS_KEY);
-            const list: World[] = viewed ? JSON.parse(viewed) : [];
-            if (!list.includes(worldId)) {
-                list.push(worldId);
-                localStorage.setItem(VIEWED_TUTORIALS_KEY, JSON.stringify(list));
-            }
-        } catch {
-            // Ignora erros
-        }
+        setViewedTutorials(prev => {
+            if (prev.includes(worldId)) return prev;
+            const newList = [...prev, worldId];
+            try {
+                localStorage.setItem(VIEWED_TUTORIALS_KEY, JSON.stringify(newList));
+            } catch { /* ignore */ }
+            return newList;
+        });
     }, []);
 
     // Check if story is viewed
     const hasViewedStory = useCallback((worldId: string, type: 'intro' | 'outro'): boolean => {
-        try {
-            const viewed = localStorage.getItem(VIEWED_STORIES_KEY);
-            if (viewed) {
-                const list: string[] = JSON.parse(viewed);
-                return list.includes(`${worldId}_${type}`);
-            }
-        } catch { /* ignore */ }
-        return false;
-    }, []);
+        return viewedStories.includes(`${worldId}_${type}`);
+    }, [viewedStories]);
 
     // Mark story as viewed
     const markStoryViewed = useCallback((worldId: string, type: 'intro' | 'outro') => {
-        try {
-            const viewed = localStorage.getItem(VIEWED_STORIES_KEY);
-            const list: string[] = viewed ? JSON.parse(viewed) : [];
-            const key = `${worldId}_${type}`;
-            if (!list.includes(key)) {
-                list.push(key);
-                localStorage.setItem(VIEWED_STORIES_KEY, JSON.stringify(list));
-            }
-        } catch { /* ignore */ }
+        const key = `${worldId}_${type}`;
+        setViewedStories(prev => {
+            if (prev.includes(key)) return prev;
+            const newList = [...prev, key];
+            try {
+                localStorage.setItem(VIEWED_STORIES_KEY, JSON.stringify(newList));
+            } catch { /* ignore */ }
+            return newList;
+        });
     }, []);
 
     // Handler when completing a story
