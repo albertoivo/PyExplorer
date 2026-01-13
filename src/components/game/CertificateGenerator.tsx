@@ -81,7 +81,7 @@ export function CertificateGenerator({ studentName, completionDate }: Certificat
 
                                 <div className="date-block">
                                     <p className="date-text">Data: {completionDate}</p>
-                                    <small>pyexplorer.com.br</small>
+                                    <small>pyexplorer.firebaseapp.com</small>
                                 </div>
                             </div>
                         </div>
