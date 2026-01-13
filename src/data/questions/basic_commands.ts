@@ -202,6 +202,18 @@ export const basicCommandsQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'Sim! Se você começou com aspas duplas, pode usar aspas simples dentro do texto (e vice-versa). Exemplo: print("O gato fez \'miau\'") 😺',
         points: 15,
+    },
+    {
+        id: 'basic_9',
+        type: 'true_false',
+        world: 'basic_commands',
+        difficulty: 'easy',
+        ageMin: 8,
+        title: 'Comentário na Linha',
+        prompt: 'Posso colocar um comentário na mesma linha do código? Ex: print("Oi") # Isso é um oi',
+        correctBool: true,
+        explanationKidFriendly: 'Sim! O Python lê o código até encontrar o #. Tudo que vem DEPOIS do # ele ignora. Assim você pode explicar o código ali mesmo! 📝',
+        points: 10,
     }
 ];
 

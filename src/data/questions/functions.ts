@@ -228,6 +228,22 @@ desenhar_quadrado(100)  # corpo da casa
         answerIndex: 0,
         explanationKidFriendly: 'O que acontece na função, fica na função! Variáveis criadas lá dentro são "locais" e ninguém de fora consegue ver. É um segredo! 🤫',
         points: 15,
+    },
+    {
+        id: 'func_9',
+        type: 'fill_code',
+        world: 'functions',
+        difficulty: 'medium',
+        ageMin: 11,
+        title: 'Área do Retângulo',
+        prompt: 'Complete a função que calcula a área (largura vezes altura):',
+        starterCode: 'def area(largura, altura):\n    return largura ___ altura\nprint(area(5, 3))',
+        solutionTemplate: 'def area(largura, altura):\n    return largura * altura\nprint(area(5, 3))',
+        tests: [
+            { input: null, expectedOutput: '15' },
+        ],
+        explanationKidFriendly: 'Funções podem receber vários valores! Para a área, precisamos da largura E da altura. Multiplicamos os dois e pronto! 🟦',
+        points: 20,
     }
 ];
 

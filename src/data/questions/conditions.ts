@@ -239,6 +239,22 @@ for i in range(4):
         ],
         explanationKidFriendly: 'elif serve para testar outra condição se a primeira falhar! "Se for verde, siga. SENÃO SE for amarelo, atenção!". 🚦',
         points: 15,
+    },
+    {
+        id: 'dec_9',
+        type: 'fill_code',
+        world: 'conditions',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Montanha Russa',
+        prompt: 'Para entrar no brinquedo, precisa ter altura > 1.20 E idade >= 10:',
+        starterCode: 'altura = 1.30\nidade = 11\nif altura > 1.20 ___ idade >= 10:\n    print("Pode entrar!")',
+        solutionTemplate: 'if altura > 1.20 and idade >= 10:',
+        tests: [
+            { input: null, expectedOutput: 'Pode entrar!' },
+        ],
+        explanationKidFriendly: 'Quando precisamos de DUAS coisas ao mesmo tempo, usamos o "and"! Altura ok E Idade ok = Diversão! 🎢',
+        points: 20,
     }
 ];
 

@@ -226,5 +226,17 @@ export const variablesQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'Para converter texto com ponto em número, usamos float()! int() daria erro porque não entende o ponto. float("3.5") vira o número 3.5! 🌊',
         points: 20,
+    },
+    {
+        id: 'var_9',
+        type: 'true_false',
+        world: 'variables',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Int Arredonda?',
+        prompt: 'Se eu fizer int(3.9), o Python arredonda para 4?',
+        correctBool: false,
+        explanationKidFriendly: 'Não! O int() é como uma tesoura: ele CORTA a parte decimal. 3.9 vira 3, e 3.1 vira 3 também. Ele não arredonda! ✂️',
+        points: 15,
     }
 ];

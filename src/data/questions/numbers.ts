@@ -205,6 +205,22 @@ export const numbersQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'A biblioteca `math` tem tudo de matemática! math.pi, math.sqrt (raiz quadrada) e muito mais. 🤓',
         points: 15,
+    },
+    {
+        id: 'num_9',
+        type: 'fill_code',
+        world: 'numbers',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Sobras de Pizza',
+        prompt: 'Temos 7 fatias de pizza para 3 pessoas. Quantas fatias sobram? Use %:',
+        starterCode: 'fatias = 7\npessoas = 3\nsobras = fatias ___ pessoas\nprint(sobras)',
+        solutionTemplate: 'sobras = fatias % pessoas',
+        tests: [
+            { input: null, expectedOutput: '1' },
+        ],
+        explanationKidFriendly: '7 dividido por 3 dá 2 fatias para cada um, e SOBRA 1. O operador % nos dá essa sobra! 🍕',
+        points: 15,
     }
 ];
 
