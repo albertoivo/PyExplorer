@@ -296,10 +296,20 @@ json.dumps(_test_result) if not isinstance(_test_result, (int, float, bool, str,
                         continue;
                     }
 
-                    // expectedOutput pode ser array de linhas ou string única
-                    const expectedLines = Array.isArray(test.expectedOutput)
-                        ? test.expectedOutput.map(String)
-                        : [String(test.expectedOutput)];
+                    // expectedOutput pode ser array de linhas ou string única (que pode conter \n)
+                    let expectedLines: string[];
+
+                    if (Array.isArray(test.expectedOutput)) {
+                        expectedLines = test.expectedOutput.map(String);
+                    } else if (typeof test.expectedOutput === 'string') {
+                        // Se for string, divide por quebra de linha e limpa espaços extras
+                        expectedLines = test.expectedOutput
+                            .split('\n')
+                            .map(line => line.trim())
+                            .filter(line => line.length > 0);
+                    } else {
+                        expectedLines = [String(test.expectedOutput)];
+                    }
 
                     // Verifica se todas as linhas esperadas estão presentes na saída
                     // Comparação flexível: cada linha esperada deve aparecer na saída

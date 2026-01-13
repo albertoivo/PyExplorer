@@ -173,4 +173,32 @@ describe('PyodideContext', () => {
         expect(output?.testResults![0].passed).toBe(true);
         expect(output?.allTestsPassed).toBe(true);
     });
+
+    it('validates multiline stdout', async () => {
+        const { result } = renderHook(() => usePyodide(), { wrapper });
+
+        await act(async () => {
+            await result.current.loadPyodide();
+        });
+        await waitFor(() => expect(result.current.ready).toBe(true));
+
+        // Mock setup for stdout test
+        mockPyodideInstance.runPythonAsync
+            .mockResolvedValueOnce(undefined) // reset
+            .mockResolvedValueOnce(undefined) // user code
+            .mockResolvedValueOnce('Line 1\nLine 2') // stdout
+            .mockResolvedValueOnce('') // stderr
+            .mockResolvedValueOnce(undefined); // restore
+
+        const tests = [{ input: null, expectedOutput: "Line 1\nLine 2" }];
+
+        let output: PythonExecutionResult | undefined;
+        await act(async () => {
+            output = await result.current.runPython('print("Line 1\\nLine 2")', tests);
+        });
+
+        expect(output?.testResults).toBeDefined();
+        expect(output?.testResults![0].passed).toBe(true);
+        expect(output?.allTestsPassed).toBe(true);
+    });
 });
