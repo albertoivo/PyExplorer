@@ -5,6 +5,8 @@ import {
     onAuthStateChanged,
     sendPasswordResetEmail,
     updateProfile,
+    GoogleAuthProvider,
+    signInWithPopup,
 } from 'firebase/auth';
 import type { User, UserCredential } from 'firebase/auth';
 import { auth } from './firebaseConfig';
@@ -42,6 +44,15 @@ export async function signIn(
     password: string
 ): Promise<UserCredential> {
     return signInWithEmailAndPassword(auth, email, password);
+}
+
+/**
+ * Faz login com Google
+ * @returns Promise com as credenciais do usuário
+ */
+export async function signInWithGoogle(): Promise<UserCredential> {
+    const provider = new GoogleAuthProvider();
+    return signInWithPopup(auth, provider);
 }
 
 /**

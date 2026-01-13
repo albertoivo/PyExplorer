@@ -172,6 +172,26 @@
     border-color: #667eea;
 }
 
+.auth-btn--google {
+    background: #ffffff;
+    color: #444;
+    font-family: 'Roboto', sans-serif;
+    margin-bottom: 1rem;
+    position: relative;
+    border: none;
+}
+
+.auth-btn--google:hover {
+    background: #f1f1f1;
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.auth-btn--google:disabled {
+    opacity: 0.7;
+    transform: none;
+}
+
 /* Divisor */
 .auth-divider {
     display: flex;

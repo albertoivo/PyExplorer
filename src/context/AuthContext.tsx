@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import type { User } from 'firebase/auth';
-import { subscribeToAuthChanges, signIn, signUp, logOut, resetPassword } from '../firebase/auth';
+import { subscribeToAuthChanges, signIn, signUp, logOut, resetPassword, signInWithGoogle } from '../firebase/auth';
 import { saveUser, getUser } from '../firebase/firestore';
 import type { UserData, World } from '../types/question';
 import { calculateStreak } from '../utils/gamificationUtils';
@@ -22,6 +22,8 @@ interface AuthContextType {
     error: string | null;
     /** Função de login */
     login: (email: string, password: string) => Promise<void>;
+    /** Função de login com Google */
+    loginWithGoogle: () => Promise<void>;
     /** Função de cadastro */
     register: (email: string, password: string, displayName: string) => Promise<void>;
     /** Função de logout */
@@ -136,6 +138,52 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
         return () => unsubscribe();
     }, []);
+
+    /**
+     * Faz login com Google
+     */
+    const loginWithGoogle = async () => {
+        setError(null);
+        setLoading(true);
+        try {
+            const credential = await signInWithGoogle();
+            const firebaseUser = credential.user;
+
+            // Verifica se o usuário já tem dados no Firestore
+            const existingData = await getUser(firebaseUser.uid);
+
+            if (!existingData) {
+                // Se não tiver, cria um novo registro (fluxo de cadastro)
+                const newUserData: UserData = {
+                    uid: firebaseUser.uid,
+                    displayName: firebaseUser.displayName || 'Explorador',
+                    email: firebaseUser.email || '',
+                    avatar: 'default_avatar',
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                    totalScore: 0,
+                    balance: 0,
+                    unlockedWorlds: ['basic_commands' as World],
+                    streak: 1,
+                    lastActiveDate: new Date().toISOString().split('T')[0],
+                    inventory: [],
+                    equippedAvatar: 'default',
+                };
+
+                await saveUser(newUserData);
+                setUserData(newUserData);
+            } else {
+                // Se já tiver, apenas atualiza o estado local
+                setUserData(existingData);
+            }
+        } catch (err) {
+            const message = err instanceof Error ? err.message : 'Erro ao entrar com Google';
+            setError(translateFirebaseError(message));
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    };
 
     /**
      * Faz login com email e senha
@@ -299,6 +347,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         clearError,
         refreshUserData,
         updateUserData,
+        loginWithGoogle,
     };
 
     return (
