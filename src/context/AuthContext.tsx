@@ -5,6 +5,7 @@ import { subscribeToAuthChanges, signIn, signUp, logOut, resetPassword, signInWi
 import { saveUser, getUser } from '../firebase/firestore';
 import type { UserData, World } from '../types/question';
 import { calculateStreak } from '../utils/gamificationUtils';
+import { env } from '../config/env';
 
 /**
  * Interface do contexto de autenticação
@@ -140,6 +141,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }, []);
 
     /**
+     * Verifica e impõe a URL correta do ambiente
+     */
+    useEffect(() => {
+        // Em produção, se estiver no domínio web.app, redirecionar para o domínio customizado
+        if (env.IS_PROD && window.location.hostname.includes('web.app')) {
+            window.location.href = env.APP_URL;
+        }
+    }, []);
+
+    /**
      * Faz login com Google
      */
     const loginWithGoogle = async () => {
@@ -176,6 +187,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 // Se já tiver, apenas atualiza o estado local
                 setUserData(existingData);
             }
+
+            // Garante que estamos na URL correta
+            if (window.location.origin !== new URL(env.APP_URL).origin) {
+                window.location.href = env.APP_URL;
+            }
+
         } catch (err) {
             const message = err instanceof Error ? err.message : 'Erro ao entrar com Google';
             setError(translateFirebaseError(message));
