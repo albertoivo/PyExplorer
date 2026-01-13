@@ -117,7 +117,7 @@ export const stringsQuestions: QuestionDocument[] = [
         ageMin: 10,
         title: 'Separando por Vírgula',
         prompt: 'Complete para separar as frutas:',
-        starterCode: 'texto = "maçã,banana,uva"\nfrutas = texto.___(".")\nprint(frutas)',
+        starterCode: 'texto = "maçã,banana,uva"\nfrutas = texto.___(",")\nprint(frutas)',
         solutionTemplate: 'texto.split(",")',
         tests: [
             { input: null, expectedOutput: "['maçã', 'banana', 'uva']" },

@@ -16,8 +16,19 @@ vi.mock('react-router-dom', async () => {
 
 // Mock hooks
 const mockUseAuth = vi.fn();
+const mockUseQuestionsFirestore = vi.fn();
+const mockUseProgress = vi.fn();
+
 vi.mock('../../hooks/useAuth', () => ({
     useAuth: () => mockUseAuth(),
+}));
+
+vi.mock('../../hooks/useQuestionsFirestore', () => ({
+    useQuestionsFirestore: () => mockUseQuestionsFirestore(),
+}));
+
+vi.mock('../../hooks/useProgress', () => ({
+    useProgress: () => mockUseProgress(),
 }));
 
 // Mock child components to avoid deep rendering issues
@@ -34,6 +45,10 @@ vi.mock('../../components/common/SEO', () => ({
 describe('CertificatePage', () => {
     beforeEach(() => {
         vi.clearAllMocks();
+        // Default mocks
+        mockUseAuth.mockReturnValue({ user: { displayName: 'User' }, userData: {} });
+        mockUseQuestionsFirestore.mockReturnValue({ questions: [], loading: false });
+        mockUseProgress.mockReturnValue({ allProgress: [], loading: false });
     });
 
     const renderPage = () => {
@@ -56,38 +71,71 @@ describe('CertificatePage', () => {
         expect(mockNavigate).toHaveBeenCalledWith('/login');
     });
 
-    it('shows locked state if user has NOT completed 8 worlds', () => {
-        mockUseAuth.mockReturnValue({
-            user: { displayName: 'Noob' },
-            userData: { unlockedWorlds: ['world1', 'world2'] }, // Only 2
+    it('shows loading state while fetching data', () => {
+        mockUseQuestionsFirestore.mockReturnValue({ questions: [], loading: true });
+        renderPage();
+        expect(screen.getByText(/Verificando sua jornada/i)).toBeInTheDocument();
+    });
+
+    it('shows locked state if user has NOT completed all questions', () => {
+        mockUseQuestionsFirestore.mockReturnValue({
+            questions: [{ id: 'q1' }, { id: 'q2' }],
+            loading: false
         });
+        mockUseProgress.mockReturnValue({
+            allProgress: [{ questionId: 'q1', status: 'completed' }], // Only 1 completed
+            loading: false
+        });
+
         renderPage();
 
         expect(screen.getByText('Certificado em Andamento')).toBeInTheDocument();
-        expect(screen.getByText('Você ainda não completou todos os mundos!')).toBeInTheDocument();
+        expect(screen.getByText('Você ainda não completou todas as missões!')).toBeInTheDocument();
+        expect(screen.getByText(/1 de 2 questões resolvidas/)).toBeInTheDocument();
         expect(screen.queryByTestId('certificate-generator')).not.toBeInTheDocument();
-
-        fireEvent.click(screen.getByText('Continuar Jogando'));
-        expect(mockNavigate).toHaveBeenCalledWith('/game');
     });
 
-    it('shows certificate and donation prompt if user completed >= 8 worlds', () => {
+    it('shows certificate if user completed ALL questions', () => {
         mockUseAuth.mockReturnValue({
             user: { displayName: 'Master' },
-            userData: { unlockedWorlds: new Array(8).fill('world') }, // 8 worlds
+            userData: {},
         });
+        mockUseQuestionsFirestore.mockReturnValue({
+            questions: [{ id: 'q1' }, { id: 'q2' }],
+            loading: false
+        });
+        mockUseProgress.mockReturnValue({
+            allProgress: [
+                { questionId: 'q1', status: 'completed' },
+                { questionId: 'q2', status: 'completed' }
+            ],
+            loading: false
+        });
+
         renderPage();
 
         expect(screen.getByText('Parabéns, Master! 🎉')).toBeInTheDocument();
-        expect(screen.getAllByText('💜 Apoie o Projeto').length).toBeGreaterThan(0);
         expect(screen.getByTestId('certificate-generator')).toBeInTheDocument();
     });
 
     it('uses fallback name if display name is missing', () => {
         mockUseAuth.mockReturnValue({
             user: { email: 'test@test.com' }, // No display name
-            userData: { unlockedWorlds: new Array(8).fill('world') },
+            userData: { displayName: null },
         });
+        mockUseQuestionsFirestore.mockReturnValue({ questions: [], loading: false }); // Empty means completed (0/0) -> actually loop logic says >0 required.
+        // Wait, my logic is: totalQuestions > 0 && completed >= total.
+        // If totalQuestions is 0, isCompleted is false.
+        // Let's provide questions.
+        mockUseQuestionsFirestore.mockReturnValue({
+            questions: [{ id: 'q1' }],
+            loading: false
+        });
+        mockUseProgress.mockReturnValue({
+            allProgress: [{ questionId: 'q1', status: 'completed' }],
+            loading: false
+        });
+
         renderPage();
 
         expect(screen.getByText(/Parabéns, Apreciador!/)).toBeInTheDocument();

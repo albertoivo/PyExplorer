@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { useQuestionsFirestore } from '../hooks/useQuestionsFirestore';
+import { useProgress } from '../hooks/useProgress';
 import { CertificateGenerator } from '../components/game/CertificateGenerator';
 import { SEO } from '../components/common/SEO';
 import { Footer } from '../components/layout/Footer';
@@ -9,10 +11,21 @@ export function CertificatePage() {
     const { userData, user } = useAuth();
     const navigate = useNavigate();
 
-    // Mock completion logic (You should replace with real logic: all worlds unlocked + completed)
-    // For now we check if totalScore > 0 to allow testing, but realistically should be stricter.
-    // Let's assume 1000 points is roughly "finished" or checking unlockedWorlds length.
-    const isCompleted = (userData?.unlockedWorlds?.length ?? 0) >= 8; // Assuming 8 worlds
+    const { questions, loading: questionsLoading } = useQuestionsFirestore();
+    const { allProgress, loading: progressLoading } = useProgress();
+
+    // Check if user entered directly or via navigation
+    const isLoading = questionsLoading || progressLoading;
+
+    // Calculate completion dynamically
+    const totalQuestions = questions.length;
+    const completedQuestions = questions.filter(q =>
+        allProgress.some(p => p.questionId === q.id && p.status === 'completed')
+    ).length;
+
+    // Is completed if we have questions and all are completed
+    // (Optional: tolerate 1 or 2 missing if we want strictness, but "Certificate" usually implies 100%)
+    const isCompleted = totalQuestions > 0 && completedQuestions >= totalQuestions;
 
     // Fallback name
     const studentName = userData?.displayName || user?.displayName || "Apreciador de Python";
@@ -30,14 +43,29 @@ export function CertificatePage() {
         );
     }
 
+    if (isLoading) {
+        return (
+            <div className="certificate-page-container">
+                <div className="certificate-loading">
+                    <p>Verificando sua jornada... 🐍</p>
+                </div>
+            </div>
+        );
+    }
+
     if (!isCompleted) {
+        const progressPercent = totalQuestions > 0 ? Math.round((completedQuestions / totalQuestions) * 100) : 0;
+
         return (
             <div className="certificate-page-container">
                 <SEO title="Certificado Bloqueado" />
                 <div className="certificate-locked">
                     <span className="locked-icon">🎓</span>
                     <h2>Certificado em Andamento</h2>
-                    <p>Você ainda não completou todos os mundos!</p>
+                    <p>Você ainda não completou todas as missões!</p>
+                    <div className="progress-summary">
+                        <p>{completedQuestions} de {totalQuestions} questões resolvidas ({progressPercent}%)</p>
+                    </div>
                     <p>Continue sua jornada para desbloquear seu diploma oficial.</p>
                     <button onClick={() => navigate('/game')} className="btn-primary">Continuar Jogando</button>
                 </div>
