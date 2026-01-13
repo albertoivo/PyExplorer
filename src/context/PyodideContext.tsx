@@ -117,7 +117,18 @@ export function PyodideProvider({ children }: PyodideProviderProps) {
             // Configura stdout e stderr capturáveis
             await pyodideInstance.runPythonAsync(`
 import sys
+import js
 from io import StringIO
+
+# Shim para input() usar window.prompt do navegador
+def input_shim(prompt=""):
+    print(prompt, end="")  # Imprime o prompt no stdout para logs/testes
+    result = js.prompt(prompt)
+    if result is None:
+        return ""  # Retorna string vazia se cancelar
+    return str(result)
+
+__builtins__.input = input_shim
 
 class CaptureOutput:
     def __init__(self):

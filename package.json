@@ -11,7 +11,7 @@
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "test:rules": "vitest run -c vitest.rules.config.ts",
+    "test:rules": "firebase emulators:exec --project pyexplorer-test 'vitest run -c vitest.rules.config.ts'",
     "sitemap": "node scripts/generate-sitemap.cjs",
     "prepare": "husky"
   },

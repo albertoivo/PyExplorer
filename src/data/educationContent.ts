@@ -628,8 +628,8 @@ export const WORLD_TUTORIALS: WorldTutorial[] = [
             },
             {
                 icon: '📏',
-                title: 'float() - Números com Vírgula',
-                content: 'Para números decimais (como 1.75), use float() ao invés de int().',
+                title: 'float() - Números com Ponto',
+                content: 'Para números decimais (como 1.75), use float(). IMPORTANTE: Em Python, usamos PONTO (.) e não vírgula para decimais!',
                 code: 'altura = float(input("Altura: "))\nprint("Sua altura é", altura)',
                 output: 'Altura: 1.65\nSua altura é 1.65',
                 animation: 'slideUp',
