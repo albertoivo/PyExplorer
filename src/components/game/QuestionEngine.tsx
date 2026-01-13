@@ -172,29 +172,30 @@ export function QuestionEngine({
 
         switch (question.type) {
             case 'multiple_choice':
-                return <MultipleChoiceQuestion {...commonProps} />;
+                return <MultipleChoiceQuestion key={question.id} {...commonProps} />;
 
             case 'true_false':
-                return <TrueFalseQuestion {...commonProps} />;
+                return <TrueFalseQuestion key={question.id} {...commonProps} />;
 
             case 'fill_code':
-                return <FillCodeQuestion {...commonProps} />;
+                return <FillCodeQuestion key={question.id} {...commonProps} />;
 
             case 'partial_function':
-                return <PartialFunctionQuestion {...commonProps} />;
+                return <PartialFunctionQuestion key={question.id} {...commonProps} />;
 
             case 'full_function':
-                return <FullFunctionQuestion {...commonProps} />;
+                return <FullFunctionQuestion key={question.id} {...commonProps} />;
 
             case 'parsons_problem':
-                return <ParsonsQuestion {...commonProps} />;
+                return <ParsonsQuestion key={question.id} {...commonProps} />;
 
             case 'turtle_challenge':
-                return <TurtleQuestion {...commonProps} />;
+                return <TurtleQuestion key={question.id} {...commonProps} />;
 
             case 'boss_battle':
                 return (
                     <BossBattleQuestion
+                        key={question.id}
                         question={question}
                         onRun={handleBossRun}
                         onComplete={handleBossComplete}
