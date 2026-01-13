@@ -5,7 +5,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://pyexplorer-cd32d.firebaseapp.com/sitemap.xml
+Sitemap: https://pyexplorer.com.br/sitemap.xml
 
 # Cache-control hints for crawlers
 Crawl-delay: 1
