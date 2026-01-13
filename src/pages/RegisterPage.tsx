@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import './AuthPages.css';
@@ -14,8 +14,14 @@ export function RegisterPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [localError, setLocalError] = useState<string | null>(null);
 
-    const { register, enterAsGuest, error, clearError } = useAuth();
+    const { register, enterAsGuest, error, clearError, user } = useAuth();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (user) {
+            navigate('/game', { replace: true });
+        }
+    }, [user, navigate]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

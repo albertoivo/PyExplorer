@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import './AuthPages.css';
@@ -10,12 +10,18 @@ export function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const { login, enterAsGuest, error, clearError } = useAuth();
+    const { login, enterAsGuest, error, clearError, user } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
 
     const from = (location.state as { from?: Location })?.from?.pathname || '/game';
     const requireLogin = (location.state as { requireLogin?: boolean })?.requireLogin;
+
+    useEffect(() => {
+        if (user) {
+            navigate(from, { replace: true });
+        }
+    }, [user, navigate, from]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
