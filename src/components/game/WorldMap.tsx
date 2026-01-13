@@ -83,6 +83,30 @@ const WORLDS: WorldInfo[] = [
         color: '#fbd38d',
         requiredScore: 320,
     },
+    {
+        id: 'user_input',
+        name: 'Templo do Oráculo',
+        description: 'Aprenda a conversar com o usuário!',
+        icon: '🔮',
+        color: '#d69e2e',
+        requiredScore: 380,
+    },
+    {
+        id: 'dictionaries',
+        name: 'Biblioteca Secreta',
+        description: 'Guarde segredos em dicionários!',
+        icon: '📚',
+        color: '#9b2c2c',
+        requiredScore: 440,
+    },
+    {
+        id: 'error_handling',
+        name: 'Fortaleza dos Bugs',
+        description: 'Proteja seu código contra erros!',
+        icon: '🛡️',
+        color: '#4a5568',
+        requiredScore: 500,
+    },
 ];
 
 // Chave para guardar tutoriais vistos
