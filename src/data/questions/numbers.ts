@@ -172,6 +172,39 @@ export const numbersQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'O // é a "divisão inteira"! Ele divide e só pega a parte inteira do número, ignorando o que vem depois da vírgula. 7 // 2 = 3 (e não 3.5)! ✂️',
         points: 15,
+    },
+    // MODULES GAPS
+    {
+        id: 'num_random_1',
+        type: 'fill_code',
+        world: 'numbers',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Sorteio Aleatório',
+        prompt: 'Precisamos do "random" para sortear números. Complete o código:',
+        starterCode: 'import ___\nnumero = random.randint(1, 10)\nprint(numero)',
+        solutionTemplate: 'import random',
+        tests: [
+            // Testing random is tricky, so we rely on syntax check here or mocking later.
+            // For now, standard output check isn't strictly deterministic but Pyodide handles prints.
+            // We expect the code to run without error.
+            { input: null, expectedOutput: null }
+        ],
+        explanationKidFriendly: 'import random traz superpoderes de sorteio! randint(1, 10) escolhe um número surpresa entre 1 e 10. 🎲',
+        points: 20,
+    },
+    {
+        id: 'num_math_1',
+        type: 'multiple_choice',
+        world: 'numbers',
+        difficulty: 'medium',
+        ageMin: 11,
+        title: 'Matemática Avançada',
+        prompt: 'Para usar Pi (3.14...) e Raiz Quadrada, qual biblioteca importamos?',
+        options: ['import math', 'import calc', 'import numbers', 'import school'],
+        answerIndex: 0,
+        explanationKidFriendly: 'A biblioteca `math` tem tudo de matemática! math.pi, math.sqrt (raiz quadrada) e muito mais. 🤓',
+        points: 15,
     }
 ];
 

@@ -190,6 +190,57 @@ export const stringsQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'F-string é mágica! Basta colocar a variável entre chaves { } que o Python troca pelo valor. Não esqueça do f antes das aspas! 🎩',
         points: 20,
+    },
+    // STRING METHODS GAPS
+    {
+        id: 'strings_lower',
+        type: 'fill_code',
+        world: 'strings',
+        difficulty: 'easy',
+        ageMin: 10,
+        title: 'Texto Minúsculo',
+        prompt: 'Se upper() grita, lower() sussurra! Complete para deixar o texto em minúsculas:',
+        starterCode: 'texto = "PYTHON"\nprint(texto.___())',
+        solutionTemplate: 'print(texto.lower())',
+        tests: [
+            { input: null, expectedOutput: 'python' },
+        ],
+        explanationKidFriendly: 'lower() transforma tudo em letras pequenas (minúsculas). Ótimo para quando não queremos gritar! 🤫',
+        points: 15,
+    },
+    {
+        id: 'strings_replace',
+        type: 'fill_code',
+        world: 'strings',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Trocando Palavras',
+        prompt: 'Use replace() para trocar "Gato" por "Cachorro":',
+        starterCode: 'frase = "Gato é legal"\nnova_frase = frase.___("Gato", "Cachorro")\nprint(nova_frase)',
+        solutionTemplate: 'nova_frase = frase.replace("Gato", "Cachorro")',
+        tests: [
+            { input: null, expectedOutput: 'Cachorro é legal' },
+        ],
+        explanationKidFriendly: 'replace("velho", "novo") procura a palavra antiga e troca pela nova! É como editar um texto automaticamente. 🔄',
+        points: 20,
+    },
+    {
+        id: 'strings_strip',
+        type: 'multiple_choice',
+        world: 'strings',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Limpando Espaços',
+        prompt: 'O que o método strip() faz?',
+        options: [
+            'Remove espaços do começo e do fim',
+            'Remove todos os espaços do texto',
+            'Remove as letras s, t, r, i, p',
+            'Apaga o texto',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'strip() limpa a bagunça! Ele tira os espaços vazios que ficam sobrando no começo e no final do texto. ✨',
+        points: 15,
     }
 ];
 

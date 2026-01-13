@@ -198,6 +198,41 @@ export const listsQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'len() conta quantos itens tem na lista! É como contar nos dedos: um, dois, três cores! 🎨',
         points: 10,
+    },
+    // ITERATION GAPS
+    {
+        id: 'list_iter_1',
+        type: 'multiple_choice',
+        world: 'lists',
+        difficulty: 'easy',
+        ageMin: 10,
+        title: 'Passeando pela Lista',
+        prompt: 'Qual loop é melhor para passar por cada item de uma lista?',
+        options: [
+            'for item in lista:',
+            'if item in lista:',
+            'loop lista:',
+            'repeat lista:',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'Usamos `for item in lista` para visitar cada item, um por um! É como uma chamada na sala de aula. 📢',
+        points: 10,
+    },
+    {
+        id: 'list_iter_2',
+        type: 'fill_code',
+        world: 'lists',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Mostrando as Frutas',
+        prompt: 'Complete o loop para mostrar cada fruta da lista:',
+        starterCode: 'frutas = ["Maçã", "Pera"]\nfor fruta ___ frutas:\n    print(fruta)',
+        solutionTemplate: 'for fruta in frutas:',
+        tests: [
+            { input: null, expectedOutput: 'Maçã\nPera' },
+        ],
+        explanationKidFriendly: '`in` significa "dentro" ou "em". Para cada fruta NA lista de frutas, mostre a fruta! 🍎🍐',
+        points: 20,
     }
 ];
 
