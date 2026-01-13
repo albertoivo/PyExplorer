@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import type { QuestionDocument } from '../../types/question';
 import type { UserProgress } from '../../types/question';
 import './CompletedQuestionModal.css';
@@ -21,16 +22,44 @@ export function CompletedQuestionModal({
     onRedo,
     onClose,
 }: CompletedQuestionModalProps) {
+    const closeBtnRef = useRef<HTMLButtonElement>(null);
+
+    // Gerenciamento de foco e tecla Esc
+    useEffect(() => {
+        // Foca no botão de fechar ao abrir
+        closeBtnRef.current?.focus();
+
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                onClose();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [onClose]);
+
     return (
         <div className="completed-modal-overlay" onClick={onClose}>
-            <div className="completed-modal" onClick={e => e.stopPropagation()}>
-                <button className="completed-modal__close" onClick={onClose}>
+            <div
+                className="completed-modal"
+                onClick={e => e.stopPropagation()}
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="completed-modal-title"
+            >
+                <button
+                    ref={closeBtnRef}
+                    className="completed-modal__close"
+                    onClick={onClose}
+                    aria-label="Fechar modal"
+                >
                     ✕
                 </button>
 
-                <div className="completed-modal__badge">✓</div>
+                <div className="completed-modal__badge" aria-hidden="true">✓</div>
 
-                <h2 className="completed-modal__title">
+                <h2 id="completed-modal-title" className="completed-modal__title">
                     Questão Concluída!
                 </h2>
 
@@ -40,12 +69,12 @@ export function CompletedQuestionModal({
 
                 <div className="completed-modal__stats">
                     <div className="completed-modal__stat">
-                        <span className="completed-modal__stat-icon">⭐</span>
+                        <span className="completed-modal__stat-icon" aria-hidden="true">⭐</span>
                         <span className="completed-modal__stat-value">{progress.score}</span>
                         <span className="completed-modal__stat-label">pontos</span>
                     </div>
                     <div className="completed-modal__stat">
-                        <span className="completed-modal__stat-icon">🔄</span>
+                        <span className="completed-modal__stat-icon" aria-hidden="true">🔄</span>
                         <span className="completed-modal__stat-value">{progress.attempts}</span>
                         <span className="completed-modal__stat-label">tentativas</span>
                     </div>
@@ -58,7 +87,7 @@ export function CompletedQuestionModal({
                         disabled={!progress.userAnswer}
                         title={!progress.userAnswer ? 'Resposta não disponível' : undefined}
                     >
-                        <span className="completed-modal__btn-icon">📖</span>
+                        <span className="completed-modal__btn-icon" aria-hidden="true">📖</span>
                         Ver minha resposta
                     </button>
 
@@ -66,7 +95,7 @@ export function CompletedQuestionModal({
                         className="completed-modal__btn completed-modal__btn--redo"
                         onClick={onRedo}
                     >
-                        <span className="completed-modal__btn-icon">🔄</span>
+                        <span className="completed-modal__btn-icon" aria-hidden="true">🔄</span>
                         Refazer (para praticar)
                     </button>
                 </div>
