@@ -14,6 +14,7 @@ Quero apresentar a vocês o **PyExplorer**! 🎉
 - **🐍 Python de Verdade:** Não é apenas blocos de montar. As crianças escrevem código Python real desde o começo, mas com desafios visuais e práticos (tem até desafios de desenho com Turtle!).
 - **🏆 Conquistas e Certificados:** Ao completar a jornada, o aluno recebe um certificado personalizado para mostrar para todo mundo.
 - **📱 Funciona em Qualquer Lugar:** Seja no computador, tablet ou celular. O PyExplorer é leve e funciona até offline depois de carregar!
+- **📅 Desafios Diários:** Todo dia tem coisa nova! Adicionamos novas questões diariamente para manter o desafio sempre fresco e emocionante.
 
 ## A Melhor Parte? É Grátis! 💸
 

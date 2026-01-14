@@ -22,6 +22,7 @@ PyExplorer é um jogo educativo desenvolvido em ReactJS para ensinar programaç�
 - 🐢 **Aprendizado Visual** - Desafios com Turtle Graphics para desenhar com código
 - 🧩 **7 Tipos de Questões** - Múltipla escolha, V/F, complete código, funções, Parsons problems e desafios visuais
 - 🌍 **8 Mundos Temáticos** - Sequência pedagógica otimizada para iniciantes
+- 📅 **Desafios Diários** - Novas questões adicionadas diariamente
 - 📱 **PWA & Offline** - Instale como app e jogue mesmo sem internet
 - ⚡ **Alta Performance** - Carregamento otimizado com lazy loading e cache inteligente
 - 👤 **Modo Convidado** - Experimente sem cadastro com salvamento local
