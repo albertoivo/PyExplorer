@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { SEO } from '../components/common/SEO';
+import { WORLDS } from '../data/worlds';
 import './HomePage.css';
 
 /**
@@ -63,7 +64,7 @@ export function HomePage() {
                     </article>
 
                     <article className="feature-card">
-                        <h3 className="feature-card__title" data-icon="🌍">7 Mundos para Explorar</h3>
+                        <h3 className="feature-card__title" data-icon="🌍">11 Mundos para Explorar</h3>
                         <p className="feature-card__description">Desbloqueie novos mundos conforme avança!</p>
                     </article>
 
@@ -94,22 +95,16 @@ export function HomePage() {
                 <h2 className="worlds-preview__title">Mundos do PyExplorer</h2>
 
                 <div className="worlds-preview__list">
-                    <div className="world-preview">
-                        <span className="world-preview__icon">🚀</span>
-                        <span className="world-preview__name">Primeiros Passos</span>
-                    </div>
-                    <div className="world-preview world-preview--locked">
-                        <span className="world-preview__icon">📦</span>
-                        <span className="world-preview__name">Variáveis</span>
-                    </div>
-                    <div className="world-preview world-preview--locked">
-                        <span className="world-preview__icon">🔀</span>
-                        <span className="world-preview__name">Decisões</span>
-                    </div>
-                    <div className="world-preview world-preview--locked">
-                        <span className="world-preview__icon">🔄</span>
-                        <span className="world-preview__name">Repetição</span>
-                    </div>
+                    {WORLDS.map((world, index) => (
+                        <div
+                            key={world.id}
+                            className={`world-preview ${index > 0 ? 'world-preview--locked' : ''}`}
+                            title={world.description}
+                        >
+                            <span className="world-preview__icon">{world.icon}</span>
+                            <span className="world-preview__name">{world.name}</span>
+                        </div>
+                    ))}
                 </div>
             </section>
 
