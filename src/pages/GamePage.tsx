@@ -51,17 +51,26 @@ export function GamePage() {
     const worldProgress = useMemo(() => {
         const progress = new Map<World, { completed: number; total: number }>();
 
-        const worldGroups = allQuestions.reduce((acc, q) => {
-            if (!acc[q.world]) acc[q.world] = [];
-            acc[q.world].push(q.id);
-            return acc;
-        }, {} as Record<string, string[]>);
+        // Otimização: Cria um Set para busca rápida de questões completadas (O(1))
+        // em vez de usar find() dentro do loop (O(N))
+        const completedQuestionIds = new Set(
+            allProgress
+                .filter(p => p.status === 'completed')
+                .map(p => p.questionId)
+        );
 
-        for (const [world, questionIds] of Object.entries(worldGroups)) {
-            const completed = questionIds.filter(qId =>
-                allProgress.find(p => p.questionId === qId && p.status === 'completed')
-            ).length;
-            progress.set(world as World, { completed, total: questionIds.length });
+        // Itera sobre as questões uma única vez para agrupar e contar
+        for (const q of allQuestions) {
+            if (!progress.has(q.world)) {
+                progress.set(q.world, { completed: 0, total: 0 });
+            }
+
+            const worldStats = progress.get(q.world)!;
+            worldStats.total++;
+
+            if (completedQuestionIds.has(q.id)) {
+                worldStats.completed++;
+            }
         }
 
         return progress;
