@@ -4,6 +4,8 @@ import { getAuth } from 'firebase/auth';
 import type { Auth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import type { Firestore } from 'firebase/firestore';
+import { getAnalytics } from 'firebase/analytics';
+import type { Analytics } from 'firebase/analytics';
 
 /**
  * Configuração do Firebase
@@ -22,21 +24,24 @@ const firebaseConfig = {
     storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'pyexplorer-cd32d.firebasestorage.app',
     messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '762952995670',
     appId: import.meta.env.VITE_FIREBASE_APP_ID || '1:762952995670:web:a709c16c4e0fe43c8cbcf7',
+    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || 'G-ZF147K9F7V',
 };
 
 // Inicializa o Firebase
 let app: FirebaseApp;
 let auth: Auth;
 let db: Firestore;
+let analytics: Analytics;
 
 try {
     app = initializeApp(firebaseConfig);
     auth = getAuth(app);
     db = getFirestore(app);
+    analytics = getAnalytics(app);
 } catch (error) {
     console.error('Erro ao inicializar Firebase:', error);
     throw error;
 }
 
-export { app, auth, db };
+export { app, auth, db, analytics };
 export default app;
