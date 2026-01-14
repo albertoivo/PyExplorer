@@ -1,6 +1,8 @@
 # 🐍 PyExplorer
 
 > Aprenda Python de forma divertida e interativa!
+>
+> **Acesse agora: [pyexplorer.com.br](https://pyexplorer.com.br)**
 
 [![CI/CD](https://github.com/albertoivo/PyExplorer/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/albertoivo/PyExplorer/actions/workflows/ci-cd.yml)
 [![Security](https://github.com/albertoivo/PyExplorer/actions/workflows/security.yml/badge.svg)](https://github.com/albertoivo/PyExplorer/actions/workflows/security.yml)
@@ -21,7 +23,8 @@ PyExplorer é um jogo educativo desenvolvido em ReactJS para ensinar programaç�
 - 🐍 **Python no navegador** - Execute código Python real usando Pyodide (WebAssembly)
 - 🐢 **Aprendizado Visual** - Desafios com Turtle Graphics para desenhar com código
 - 🧩 **7 Tipos de Questões** - Múltipla escolha, V/F, complete código, funções, Parsons problems e desafios visuais
-- 🌍 **8 Mundos Temáticos** - Sequência pedagógica otimizada para iniciantes
+- 🌍 **11 Mundos Temáticos** - Sequência pedagógica otimizada para iniciantes
+- 📖 **Modo História** - Acompanhe uma narrativa envolvente enquanto aprende
 - 📱 **PWA & Offline** - Instale como app e jogue mesmo sem internet
 - ⚡ **Alta Performance** - Carregamento otimizado com lazy loading e cache inteligente
 - 👤 **Modo Convidado** - Experimente sem cadastro com salvamento local
@@ -118,13 +121,16 @@ src/
 ## 🌍 Mundos disponíveis
 
 1. 🚀 **Primeiros Passos** - Comandos básicos (print, comentários)
-2. 📦 **Variáveis** - Criação e uso de variáveis
-3. 🔢 **Números Mágicos** - Operações matemáticas e tipos numéricos
-4. 🔀 **Decisões** - if, else, elif
-5. 🔄 **Repetição** - for, while, range
-6. ✨ **Funções** - Criação e uso de funções
-7. 📜 **Listas** - Manipulação de listas
-8. 📝 **Strings** - Trabalho com textos
+2. 📦 **Mundo das Variáveis** - Criação e uso de variáveis e tipos
+3. 🔢 **Números Mágicos** - Operações matemáticas e operadores
+4. 🔀 **Terra das Decisões** - Estruturas condicionais (if, else, elif)
+5. 🔄 **Ilha da Repetição** - Laços de repetição (for, while, range)
+6. ✨ **Vale das Funções** - Definição de funções, parâmetros e retorno
+7. 📜 **Floresta das Listas** - Criação e manipulação de listas
+8. 📝 **Reino das Palavras** - Manipulação de strings e f-strings
+9. 🔮 **Templo do Oráculo** - Interação com usuário (input) e conversão de tipos
+10. 📚 **Biblioteca Secreta** - Dicionários e pares chave-valor
+11. 🛡️ **Fortaleza dos Bugs** - Tratamento de erros e exceções (try/except)
 
 ## 🔥 Configuração do Firebase
 
