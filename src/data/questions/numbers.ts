@@ -221,6 +221,22 @@ export const numbersQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: '7 dividido por 3 dá 2 fatias para cada um, e SOBRA 1. O operador % nos dá essa sobra! 🍕',
         points: 15,
+    },
+    {
+        id: 'num_10',
+        type: 'fill_code',
+        world: 'numbers',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Calculando o Troco',
+        prompt: 'Você pagou 10 e custou 7. Quanto sobrou? Complete com subtração:',
+        starterCode: 'pago = 10\npreco = 7\ntroco = pago ___ preco\nprint(troco)',
+        solutionTemplate: 'troco = pago - preco',
+        tests: [
+            { input: null, expectedOutput: '3' },
+        ],
+        explanationKidFriendly: 'Para saber quanto sobrou, fazemos uma conta de menos (subtração) usando o sinal -! 10 - 7 = 3. 💸',
+        points: 10,
     }
 ];
 
