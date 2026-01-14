@@ -25,3 +25,9 @@ coverage
 *.sw?
 dev-dist
 SITEMAP_AGENT_PROMPT.md
+
+# Security: Ignore environment files
+.env
+.env.development
+.env.production
+.env.test
