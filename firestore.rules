@@ -27,7 +27,9 @@ service cloud.firestore {
     }
     // Função para verificar se é admin
     function isAdmin() {
-      return isAuthenticated() && request.auth.token.email == 'albertoivo@gmail.com';
+      return isAuthenticated() &&
+             request.auth.token.email == 'albertoivo@gmail.com' &&
+             request.auth.token.email_verified == true;
     }
     
     // ============================================
