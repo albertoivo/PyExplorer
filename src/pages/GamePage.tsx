@@ -142,10 +142,20 @@ export function GamePage() {
         }
 
         if (currentQuestion) {
+            const previousProgress = getQuestionProgress(currentQuestion.id);
+            const wasCompleted = previousProgress?.status === 'completed';
+            const existingScore = previousProgress?.score || 0;
+            const starsEarned = (passed && !wasCompleted && score > existingScore)
+                ? score - existingScore
+                : 0;
+
             await recordAttempt(currentQuestion.id, passed, score);
 
             // Registra no sistema de gamificação com tempo de resposta
-            recordQuestionCompleted(passed, score, responseTimeSeconds);
+            recordQuestionCompleted(passed, score, responseTimeSeconds, {
+                worldId: currentQuestion.world,
+                starsEarned
+            });
         }
     };
 

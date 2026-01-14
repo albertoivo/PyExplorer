@@ -667,8 +667,14 @@ export function useGamification() {
      * @param passed - Se a resposta foi correta
      * @param xpEarned - XP ganho (padrão: 10)
      * @param responseTimeSeconds - Tempo de resposta em segundos (opcional)
+     * @param options - Opções adicionais (mundo, estrelas)
      */
-    const recordQuestionCompleted = useCallback((passed: boolean, xpEarned: number = 10, responseTimeSeconds?: number) => {
+    const recordQuestionCompleted = useCallback((
+        passed: boolean,
+        xpEarned: number = 10,
+        responseTimeSeconds?: number,
+        options?: { worldId?: string, starsEarned?: number }
+    ) => {
         recordDailyActivity();
         addXP(xpEarned);
 
@@ -708,8 +714,55 @@ export function useGamification() {
                 }
             }
 
+            // ATUALIZA MISSÕES
+            const allMissionsDef = [...dailyMissions, ...weeklyMissions];
+            const updatedMissions = prev.activeMissions.map(userMission => {
+                // Se já está completa e não reivindicada (ou reivindicada), não atualiza mais
+                if (userMission.status !== 'active') return userMission;
+
+                const missionDef = allMissionsDef.find(m => m.id === userMission.missionId);
+                if (!missionDef) return userMission;
+
+                let newProgress = userMission.progress;
+
+                switch (missionDef.objectiveType) {
+                    case 'complete_questions':
+                        // Se requer mundo específico, verifica
+                        if (missionDef.targetWorld && missionDef.targetWorld !== options?.worldId) {
+                            break;
+                        }
+                        // Incrementa progresso
+                        newProgress += 1;
+                        break;
+
+                    case 'correct_streak':
+                        // Usa o novo streak calculado
+                        newProgress = newConsecutive;
+                        break;
+
+                    case 'earn_stars':
+                        if (options?.starsEarned && options.starsEarned > 0) {
+                            newProgress += options.starsEarned;
+                        }
+                        break;
+
+                    // 'complete_world' e 'login_streak' são tratados separadamente ou já foram tratados
+                }
+
+                // Verifica se completou
+                const isCompleted = newProgress >= missionDef.targetValue;
+
+                return {
+                    ...userMission,
+                    progress: newProgress,
+                    status: isCompleted ? 'completed' as const : 'active' as const,
+                    completedAt: isCompleted ? new Date() : undefined
+                };
+            });
+
             const updated = {
                 ...prev,
+                activeMissions: updatedMissions,
                 stats: {
                     ...prev.stats,
                     totalQuestionsCompleted: prev.stats.totalQuestionsCompleted + 1,
@@ -732,7 +785,7 @@ export function useGamification() {
 
             return updated;
         });
-    }, [recordDailyActivity, addXP, saveGamification, checkQuestionAchievements, checkTimeAchievements, checkSpeedAchievement, checkWeekendAchievements]);
+    }, [recordDailyActivity, addXP, saveGamification, checkQuestionAchievements, checkTimeAchievements, checkSpeedAchievement, checkWeekendAchievements, dailyMissions, weeklyMissions]);
 
     // ============================================
     // INICIALIZAÇÃO
