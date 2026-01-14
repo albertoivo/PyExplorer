@@ -11,7 +11,7 @@ describe('Sitemap Integrity', () => {
 
   it('should have the correct Base URL', () => {
     const content = fs.readFileSync(sitemapPath, 'utf-8');
-    expect(content).toContain('https://pyexplorer.com.br');
+    expect(content).toContain('https://pyexplorer-cd32d.web.app');
     expect(content).not.toContain('https://pyexplorer-cd32d.firebaseapp.com');
   });
 
@@ -30,7 +30,7 @@ describe('Sitemap Integrity', () => {
     ];
 
     expectedRoutes.forEach(route => {
-      expect(content).toContain(`<loc>https://pyexplorer.com.br${route}</loc>`);
+      expect(content).toContain(`<loc>https://pyexplorer-cd32d.web.app${route}</loc>`);
     });
   });
 

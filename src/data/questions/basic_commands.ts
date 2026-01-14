@@ -214,6 +214,24 @@ export const basicCommandsQuestions: QuestionDocument[] = [
         correctBool: true,
         explanationKidFriendly: 'Sim! O Python lê o código até encontrar o #. Tudo que vem DEPOIS do # ele ignora. Assim você pode explicar o código ali mesmo! 📝',
         points: 10,
+    },
+    {
+        id: 'basic_10',
+        type: 'multiple_choice',
+        world: 'basic_commands',
+        difficulty: 'easy',
+        ageMin: 8,
+        title: 'Juntando com Vírgula',
+        prompt: 'O que acontece se usarmos vírgula no print? Ex: print("Oi", "Mundo")',
+        options: [
+            'Imprime com um espaço entre eles',
+            'Dá erro',
+            'Imprime grudado (OiMundo)',
+            'Imprime em linhas diferentes',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'A vírgula no print separa as coisas e adiciona um espaço automático! É super útil para juntar textos e números. 🤝',
+        points: 10,
     }
 ];
 

@@ -240,6 +240,24 @@ for i in range(___):
         answerIndex: 0,
         explanationKidFriendly: 'O terceiro número no range é o "passo"! range(0, 10, 2) gera 0, 2, 4, 6, 8. Ele vai pulando de 2 em 2! 🐇',
         points: 15,
+    },
+    {
+        id: 'loop_10',
+        type: 'multiple_choice',
+        world: 'loops',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Quando o While Para?',
+        prompt: 'Um loop `while x < 5:` vai parar quando...',
+        options: [
+            'x for igual ou maior que 5',
+            'x for menor que 5',
+            'Nunca para',
+            'Imediatamente',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'O while continua ENQUANTO x < 5. Assim que x chega em 5 (ou passa), a condição vira Falsa e o loop para! 🛑',
+        points: 15,
     }
 ];
 

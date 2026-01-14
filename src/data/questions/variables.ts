@@ -238,5 +238,23 @@ export const variablesQuestions: QuestionDocument[] = [
         correctBool: false,
         explanationKidFriendly: 'Não! O int() é como uma tesoura: ele CORTA a parte decimal. 3.9 vira 3, e 3.1 vira 3 também. Ele não arredonda! ✂️',
         points: 15,
+    },
+    {
+        id: 'var_10',
+        type: 'multiple_choice',
+        world: 'variables',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Identificando Floats',
+        prompt: 'Qual destes valores é um float (número decimal)?',
+        options: [
+            '10.5',
+            '"10.5"',
+            '10',
+            '[10, 5]',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'Floats são números com ponto! "10.5" é texto (tem aspas) e 10 é inteiro. O único float verdadeiro é 10.5! 🎈',
+        points: 15,
     }
 ];

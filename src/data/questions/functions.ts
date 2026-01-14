@@ -243,6 +243,18 @@ desenhar_circulo(50)
         ],
         explanationKidFriendly: 'Funções podem receber vários valores! Para a área, precisamos da largura E da altura. Multiplicamos os dois e pronto! 🟦',
         points: 20,
+    },
+    {
+        id: 'func_10',
+        type: 'true_false',
+        world: 'functions',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Parâmetro Fantasma',
+        prompt: 'O parâmetro de uma função existe fora dela? Ex: def func(nome): ... print(nome)',
+        correctBool: false,
+        explanationKidFriendly: 'Não! Os parâmetros são como variáveis locais. Eles só existem dentro da função. Fora dela, o Python não sabe quem eles são! 👻',
+        points: 15,
     }
 ];
 
