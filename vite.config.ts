@@ -214,5 +214,13 @@ export default defineConfig({
     minify: 'esbuild',
     // Target modern browsers for smaller bundles
     target: 'es2020'
+  },
+  server: {
+    port: 5173,
+    strictPort: true
+  },
+  preview: {
+    port: 5173,
+    strictPort: true
   }
 })

@@ -6,8 +6,9 @@ import { getFirestore } from 'firebase/firestore';
 import type { Firestore } from 'firebase/firestore';
 import { getAnalytics } from 'firebase/analytics';
 import type { Analytics } from 'firebase/analytics';
-import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
-import type { AppCheck } from 'firebase/app-check';
+// App Check temporariamente desabilitado - ver TODO abaixo
+// import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
+// import type { AppCheck } from 'firebase/app-check';
 
 /**
  * Configuração do Firebase
@@ -31,14 +32,15 @@ const firebaseConfig = {
 
 // Chave do site reCAPTCHA v3 (100% gratuito, sem limites)
 // Criar em: https://www.google.com/recaptcha/admin
-const RECAPTCHA_V3_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY || '6LegrkosAAAAAGq37czqV7DtO_DLJWGuV1D0D8sh';
+// Chave reCAPTCHA v3 - desabilitado temporariamente
+// const RECAPTCHA_V3_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY || '6LegrkosAAAAAGq37czqV7DtO_DLJWGuV1D0D8sh';
 
 // Inicializa o Firebase
 let app: FirebaseApp;
 let auth: Auth;
 let db: Firestore;
 let analytics: Analytics;
-let appCheck: AppCheck | null = null;
+// let appCheck: AppCheck | null = null;
 
 try {
     app = initializeApp(firebaseConfig);
@@ -46,26 +48,29 @@ try {
     db = getFirestore(app);
     analytics = getAnalytics(app);
 
-    // Inicializa App Check com reCAPTCHA v3 (gratuito)
-    if (RECAPTCHA_V3_SITE_KEY) {
-        // Habilita debug token em desenvolvimento para testes locais
-        if (import.meta.env.DEV) {
-            // @ts-expect-error - Debug token global para desenvolvimento
-            self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
-        }
-
-        appCheck = initializeAppCheck(app, {
-            provider: new ReCaptchaV3Provider(RECAPTCHA_V3_SITE_KEY),
-            isTokenAutoRefreshEnabled: true,
-        });
-        console.log('✅ Firebase App Check inicializado com sucesso');
-    } else if (import.meta.env.PROD) {
-        console.warn('⚠️ App Check não configurado: VITE_RECAPTCHA_SITE_KEY não definida');
-    }
+    // TODO: App Check temporariamente desabilitado - precisa configurar corretamente no Firebase Console
+    // Para habilitar App Check:
+    // 1. Configure reCAPTCHA v3 em: https://www.google.com/recaptcha/admin
+    //    - Adicione seus domínios (localhost, pyexplorer.app.br, etc.)
+    // 2. No Firebase Console > App Check:
+    //    - Registre o app com a chave reCAPTCHA
+    //    - Configure o enforcement gradualmente (não enforce imediatamente)
+    // 3. Teste localmente antes de habilitar em produção
+    //
+    // if (RECAPTCHA_V3_SITE_KEY) {
+    //     if (import.meta.env.DEV) {
+    //         self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+    //     }
+    //     appCheck = initializeAppCheck(app, {
+    //         provider: new ReCaptchaV3Provider(RECAPTCHA_V3_SITE_KEY),
+    //         isTokenAutoRefreshEnabled: true,
+    //     });
+    // }
+    console.log('⚠️ App Check desabilitado temporariamente');
 } catch (error) {
     console.error('Erro ao inicializar Firebase:', error);
     throw error;
 }
 
-export { app, auth, db, analytics, appCheck };
+export { app, auth, db, analytics };
 export default app;
