@@ -255,6 +255,18 @@ for i in range(4):
         ],
         explanationKidFriendly: 'Quando precisamos de DUAS coisas ao mesmo tempo, usamos o "and"! Altura ok E Idade ok = Diversão! 🎢',
         points: 20,
+    },
+    {
+        id: 'dec_10',
+        type: 'true_false',
+        world: 'conditions',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Menor que',
+        prompt: 'A expressão 5 < 10 é Verdadeira (True)?',
+        correctBool: true,
+        explanationKidFriendly: 'Sim! O símbolo < significa "menor que". 5 é menor que 10, então a resposta é True! ✅',
+        points: 10,
     }
 ];
 

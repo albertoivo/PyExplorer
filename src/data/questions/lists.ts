@@ -251,6 +251,24 @@ export const listsQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'O pop() sem número tira o último. Mas se você disser o índice, ele tira aquele específico! pop(0) tira o item da posição 0 (o primeiro). 1️⃣',
         points: 15,
+    },
+    {
+        id: 'list_10',
+        type: 'multiple_choice',
+        world: 'lists',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Ordem Inversa',
+        prompt: 'Como ordenamos uma lista do maior para o menor?',
+        options: [
+            'lista.sort(reverse=True)',
+            'lista.sort()',
+            'lista.reverse()',
+            'lista.order("desc")',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'sort() organiza do menor para o maior. Para inverter (maior para o menor), usamos a opção reverse=True! 🔄',
+        points: 15,
     }
 ];
 

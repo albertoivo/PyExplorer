@@ -257,6 +257,22 @@ export const stringsQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'Queremos do índice 1 ("y") até o 3 ("h"). Mas o fatiamento para ANTES do fim, então usamos [1:4]! 🍰',
         points: 20,
+    },
+    {
+        id: 'strings_10',
+        type: 'fill_code',
+        world: 'strings',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'F-string Dupla',
+        prompt: 'Complete a f-string com nome e idade:',
+        starterCode: 'nome = "Ana"\nidade = 9\nprint(f"Eu sou {___} e tenho {___} anos")',
+        solutionTemplate: 'print(f"Eu sou {nome} e tenho {idade} anos")',
+        tests: [
+            { input: null, expectedOutput: 'Eu sou Ana e tenho 9 anos' },
+        ],
+        explanationKidFriendly: 'Você pode colocar quantas variáveis quiser numa f-string! É só usar chaves {} para cada uma. Mágica em dobro! ✨✨',
+        points: 20,
     }
 ];
 
