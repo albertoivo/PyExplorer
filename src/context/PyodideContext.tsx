@@ -307,6 +307,21 @@ json.dumps(_test_result) if not isinstance(_test_result, (int, float, bool, str,
                         continue;
                     }
 
+                    // Verifica se expectedOutput é um número (contagem de linhas mínima)
+                    if (typeof test.expectedOutput === 'number') {
+                        const expectedLineCount = test.expectedOutput;
+                        const passed = outputLines.length >= expectedLineCount;
+
+                        testResults.push({
+                            passed,
+                            input: test.input,
+                            expectedOutput: `Pelo menos ${expectedLineCount} linha(s)`,
+                            actualOutput: `${outputLines.length} linha(s): ${outputLines.join(', ')}`,
+                        });
+                        if (!passed) allTestsPassed = false;
+                        continue;
+                    }
+
                     // expectedOutput pode ser array de linhas ou string única (que pode conter \n)
                     let expectedLines: string[];
 

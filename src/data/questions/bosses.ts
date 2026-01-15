@@ -8,18 +8,18 @@ export const BOSS_QUESTIONS: QuestionDocument[] = [
         difficulty: 'hard',
         ageMin: 8,
         title: 'O Guardião do Portal',
-        prompt: 'Para escapar deste mundo, você precisa provar que domina o `print`! O Guardião exige que você o cumprimente corretamente e diga sua idade.',
+        prompt: 'Use dois comandos print() para me cumprimentar e dizer sua idade! Exemplo: "Olá!" e "Tenho 9 anos"',
         explanationKidFriendly: 'O Guardião do Portal protege a saída. Ele só deixa passar quem sabe falar a língua dele (Python)!',
         bossMetadata: {
             bossName: 'Guardião Printus',
             bossAvatar: '🗿',
             timeLimitSeconds: 60,
-            initialCode: '# Cumprimente o guardião\n'
+            initialCode: '# Escreva dois prints aqui:\n# print("sua saudação")\n# print("sua idade")\n\n'
         },
         tests: [
             {
                 input: null,
-                expectedOutput: ['Olá Guardião', 'Tenho 10 anos']
+                expectedOutput: 2
             }
         ],
         solutionTemplate: `print("Olá Guardião")\nprint("Tenho 10 anos")`

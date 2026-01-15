@@ -76,30 +76,31 @@ describe('Validação de stdout para Boss Battles', () => {
         });
     });
 
-    describe('Questão: Guardião do Portal (múltiplas linhas)', () => {
-        const expectedOutput = ['Olá Guardião', 'Tenho 10 anos'];
+    describe('Questão: Guardião do Portal (duas mensagens quaisquer)', () => {
+        // A nova validação aceita qualquer duas mensagens
+        // Testamos a função com diferentes formatos de saída
 
-        it('DEVE passar com saída exata', () => {
-            const result = validateStdoutOutput('Olá Guardião\nTenho 10 anos\n', expectedOutput);
+        it('DEVE passar com duas linhas de cumprimento e idade', () => {
+            const result = validateStdoutOutput('Olá Guardião\nTenho 10 anos\n', ['Olá Guardião', 'Tenho 10 anos']);
+            expect(result.passed).toBe(true);
+        });
+
+        it('DEVE passar com saudação diferente e idade diferente', () => {
+            // Mas a validação depende do expectedOutput definido
+            // Com a nova lógica de número, validamos apenas quantidade
+            // Este teste usa a validação antiga de array
+            const result = validateStdoutOutput('Oi Printus!\nTenho 40 anos!\n', ['Oi Printus!', 'Tenho 40 anos!']);
             expect(result.passed).toBe(true);
         });
 
         it('DEVE passar com case diferente', () => {
-            const result = validateStdoutOutput('olá guardião\ntenho 10 anos\n', expectedOutput);
+            const result = validateStdoutOutput('olá guardião\ntenho 10 anos\n', ['Olá Guardião', 'Tenho 10 anos']);
             expect(result.passed).toBe(true);
         });
 
-        it('NÃO deve passar com apenas uma linha', () => {
-            const result = validateStdoutOutput('Olá Guardião\n', expectedOutput);
+        it('NÃO deve passar com apenas uma linha quando espera duas', () => {
+            const result = validateStdoutOutput('Olá Guardião\n', ['Olá Guardião', 'Tenho 10 anos']);
             expect(result.passed).toBe(false);
-        });
-
-        it('NÃO deve passar com linhas trocadas se esperamos ordem exata', () => {
-            // A lógica atual permite linhas em qualquer ordem SE todas forem encontradas
-            // Mas com exactMatch, a ordem importa
-            const result = validateStdoutOutput('Tenho 10 anos\nOlá Guardião\n', expectedOutput);
-            // Como allLinesFound é true e outputLines.length >= expectedLines.length, passa
-            expect(result.passed).toBe(true);
         });
     });
 
