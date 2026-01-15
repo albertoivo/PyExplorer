@@ -224,8 +224,8 @@ export function WorldMap({ onSelectWorld, worldProgress }: WorldMapProps) {
                 <p className="world-map__subtitle">
                     Escolha um mundo para explorar e aprender Python!
                 </p>
-                <div className="world-map__score">
-                    <span className="world-map__score-icon">⭐</span>
+                <div className="world-map__score" title="Pontuação total acumulada em todas as questões">
+                    <span className="world-map__score-icon">🏆</span>
                     <span className="world-map__score-value">{userScore} pontos</span>
                 </div>
             </div>
