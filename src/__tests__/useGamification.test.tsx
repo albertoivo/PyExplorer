@@ -421,6 +421,34 @@ describe('useGamification', () => {
         expect(result.current.unlockedAchievements.some(a => a.id === 'magnate')).toBe(true);
     });
 
+    it('should unlock magnate automatically when balance is high enough (useEffect trigger)', async () => {
+        // Setup user with high balance
+        vi.spyOn(useAuthModule, 'useAuth').mockReturnValue({
+            userData: { ...mockUserData, balance: 2000 },
+            isGuest: false,
+            updateUserData: vi.fn(),
+            refreshUserData: vi.fn(),
+            user: { uid: 'test-uid' } as any,
+            loading: false,
+            error: null,
+            login: vi.fn(),
+            register: vi.fn(),
+            logout: vi.fn(),
+            sendPasswordReset: vi.fn(),
+            enterAsGuest: vi.fn(),
+            clearError: vi.fn(),
+            loginWithGoogle: vi.fn(),
+        });
+
+        const { result } = renderHook(() => useGamification());
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
+        // Should be unlocked immediately due to useEffect
+        await waitFor(() => {
+            expect(result.current.unlockedAchievements.some(a => a.id === 'magnate')).toBe(true);
+        });
+    });
+
     it('should unlock mastery achievements', async () => {
         const { result } = renderHook(() => useGamification());
         await waitFor(() => expect(result.current.loading).toBe(false));

@@ -427,6 +427,13 @@ export function useGamification() {
         if (balance >= 1000) unlockAchievement('magnate');
     }, [unlockAchievement]);
 
+    // Verifica conquistas de loja/saldo sempre que inventário ou saldo mudarem
+    useEffect(() => {
+        if (!loading && userData) {
+            checkShopAchievements(gamification.inventory, userData.balance || 0);
+        }
+    }, [loading, userData?.balance, gamification.inventory, checkShopAchievements, userData]);
+
     /**
      * Verifica conquistas de Maestria e Endgame
      */
@@ -686,6 +693,10 @@ export function useGamification() {
                 },
             };
             saveGamification(updated);
+
+            // Verifica conquistas de loja após compra (redundante com useEffect mas garante feedback imediato se necessário)
+            checkShopAchievements(updated.inventory, userData.balance || 0);
+
             return updated;
         });
 
