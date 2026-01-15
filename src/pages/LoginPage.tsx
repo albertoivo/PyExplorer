@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import './AuthPages.css';
@@ -14,11 +14,16 @@ export function LoginPage() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const from = (location.state as { from?: Location })?.from?.pathname || '/game';
+    // Memoize 'from' to prevent recalculation on every render
+    const from = useMemo(() => {
+        return (location.state as { from?: Location })?.from?.pathname || '/game';
+    }, [location.state]);
+
     const requireLogin = (location.state as { requireLogin?: boolean })?.requireLogin;
 
     useEffect(() => {
         if (user) {
+            console.log('LoginPage: User detected, redirecting to:', from);
             navigate(from, { replace: true });
         }
     }, [user, navigate, from]);
@@ -30,7 +35,7 @@ export function LoginPage() {
 
         try {
             await login(email, password);
-            navigate(from, { replace: true });
+            // Redirect is handled by useEffect when user state changes
         } catch {
             // Erro já é tratado pelo contexto
         } finally {

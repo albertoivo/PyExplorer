@@ -47,17 +47,33 @@ service cloud.firestore {
       // Simplificado: Se é o dono ou admin, pode ler
       allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
       
-      // Escrita: Permite se for o dono ou admin. 
-      // Removida validação estrita de campos para evitar erros de permissão por Schema mismatch
-      // A integridade é mantida pelo frontend e pelo check de allowedKeys se necessário no futuro
-      allow create, update: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+      // Escrita: Permite se for o dono ou admin com validação de campos numéricos críticos
+      // Permite campos extras para compatibilidade com dados legados
+      allow create, update: if isAuthenticated() && (request.auth.uid == userId || isAdmin()) &&
+        // Valida totalScore se presente (0 a 9.999.999)
+        (!('totalScore' in request.resource.data) || isValidNumber(request.resource.data.totalScore, 0, 9999999)) &&
+        // Valida balance se presente (0 a 9.999.999)
+        (!('balance' in request.resource.data) || isValidNumber(request.resource.data.balance, 0, 9999999)) &&
+        // Valida streak se presente (0 a 365 dias)
+        (!('streak' in request.resource.data) || isValidNumber(request.resource.data.streak, 0, 365));
     }
 
     // ============================================
     // GAMIFICAÇÃO - Cada usuário só acessa seu progresso
     // ============================================
     match /gamification/{userId} {
-      allow read, write: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+      allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+      
+      // Escrita com validação de limites para prevenir cheating
+      allow write: if isAuthenticated() && (request.auth.uid == userId || isAdmin()) &&
+        // Valida level se presente (0 a 100)
+        (!('level' in request.resource.data) || isValidNumber(request.resource.data.level, 0, 100)) &&
+        // Valida streak se presente (0 a 365 dias)
+        (!('streak' in request.resource.data) || isValidNumber(request.resource.data.streak, 0, 365)) &&
+        // Valida totalXP se presente (0 a 9.999.999)
+        (!('totalXP' in request.resource.data) || isValidNumber(request.resource.data.totalXP, 0, 9999999)) &&
+        // Valida xp se presente (0 a 9.999.999)
+        (!('xp' in request.resource.data) || isValidNumber(request.resource.data.xp, 0, 9999999));
     }
     
     // ============================================
@@ -85,7 +101,9 @@ service cloud.firestore {
          // Valida status se presente
          (!('status' in request.resource.data) || request.resource.data.status in ['not_started', 'in_progress', 'completed']) &&
          // Valida score se presente (0 a 9999)
-         (!('score' in request.resource.data) || isValidNumber(request.resource.data.score, 0, 9999))
+         (!('score' in request.resource.data) || isValidNumber(request.resource.data.score, 0, 9999)) &&
+         // Valida attempts se presente (0 a 9999)
+         (!('attempts' in request.resource.data) || isValidNumber(request.resource.data.attempts, 0, 9999))
         ) ||
         isAdmin()
       );

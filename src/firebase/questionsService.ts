@@ -106,9 +106,16 @@ export async function autoSyncQuestions(): Promise<{ synced: boolean; count: num
 
         return { synced: true, count: localCount, message };
     } catch (error) {
-        const message = error instanceof Error ? error.message : 'Erro desconhecido';
-        console.error('❌ Erro ao sincronizar:', message);
-        return { synced: false, count: 0, message: `Erro: ${message}` };
+        const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido';
+
+        // Se for erro de permissão, silencia - usuário não é admin e isso é esperado
+        if (errorMessage.includes('permission') || errorMessage.includes('Permission')) {
+            console.log('ℹ️ Sync skipped: usuário não tem permissão de escrita (apenas admin pode sincronizar questões)');
+            return { synced: false, count: ALL_QUESTIONS.length, message: 'Usando questões locais' };
+        }
+
+        console.error('❌ Erro ao sincronizar:', errorMessage);
+        return { synced: false, count: 0, message: `Erro: ${errorMessage}` };
     }
 }
 
