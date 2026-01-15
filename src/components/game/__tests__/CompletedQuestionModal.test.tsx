@@ -8,23 +8,22 @@ describe('CompletedQuestionModal', () => {
         id: 'test_q1',
         title: 'Test Question',
         prompt: 'Test Prompt',
-        // content attribute removed
         type: 'multiple_choice',
-        world: 'basic_commands', // Valid world
+        world: 'basic_commands',
         difficulty: 'easy',
         options: ['A', 'B'],
         answerIndex: 0,
         ageMin: 8,
-        explanationKidFriendly: 'Test Explanation', // Added required field
+        explanationKidFriendly: 'Test Explanation',
     };
 
     const mockProgress: UserProgress = {
-        uid: 'test_user', // Correct field name is uid not userId
+        uid: 'test_user',
         questionId: 'test_q1',
-        status: 'completed', // Status replaces passed boolean
+        status: 'completed',
         score: 100,
         attempts: 2,
-        // userAnswer: 'A', // userAnswer might not be in UserProgress interface depending on definition, let's keep it safe
+        userAnswer: 'A',
         lastAttemptAt: new Date(),
     };
 
