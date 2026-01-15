@@ -94,11 +94,16 @@ export function useGamification() {
     const [newAchievements, setNewAchievements] = useState<Achievement[]>([]);
     const [showLevelUp, setShowLevelUp] = useState<LevelInfo | null>(null);
 
-    // Carrega dados de gamificação
+    const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
+
+    // Carrega dados de gamificação APENAS UMA VEZ no mount
     useEffect(() => {
-        loadGamification();
+        if (!hasLoadedOnce) {
+            loadGamification();
+            setHasLoadedOnce(true);
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userData, isGuest]);
+    }, [hasLoadedOnce]); // Não inclui loadGamification para evitar hoisting error
 
     /**
      * Carrega dados de gamificação do storage
@@ -148,16 +153,18 @@ export function useGamification() {
      * Salva dados de gamificação
      */
     const saveGamification = useCallback((data: UserGamification) => {
+        console.log('💾 saveGamification chamado. totalCompleted:', data.stats.totalQuestionsCompleted);
         try {
             if (isGuest) {
                 localStorage.setItem(GUEST_GAMIFICATION_KEY, JSON.stringify(data));
             } else if (userData) {
                 // Salva localmente
                 localStorage.setItem(`gamification_${userData.uid}`, JSON.stringify(data));
+                console.log('💾 Salvo no localStorage. Salvando no Firestore...');
 
                 // Salva no Firestore
                 saveGamificationData(userData.uid, data).catch(err => {
-                    console.error('Erro ao salvar gamificação no Firestore:', err);
+                    console.error('❌ Erro ao salvar gamificação no Firestore:', err);
                 });
             }
         } catch (error) {
@@ -748,6 +755,11 @@ export function useGamification() {
         }
 
         setGamification(prev => {
+            console.log('📊 recordQuestionCompleted chamado. Stats atuais:', {
+                totalCompleted: prev.stats.totalQuestionsCompleted,
+                consecutiveCorrect: prev.stats.consecutiveCorrect
+            });
+
             // Calcula novo streak de acertos consecutivos
             const newConsecutive = passed ? (prev.stats.consecutiveCorrect || 0) + 1 : 0;
             const newBestConsecutive = Math.max(prev.stats.bestConsecutiveCorrect || 0, newConsecutive);
@@ -835,6 +847,11 @@ export function useGamification() {
                 },
             };
             saveGamification(updated);
+
+            console.log('✅ Stats ATUALIZADOS:', {
+                totalCompleted: updated.stats.totalQuestionsCompleted,
+                consecutiveCorrect: updated.stats.consecutiveCorrect
+            });
 
             // Verifica conquistas de questões e acertos consecutivos
             checkQuestionAchievements(updated.stats.totalQuestionsCompleted, newConsecutive);
