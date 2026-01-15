@@ -256,5 +256,23 @@ export const variablesQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'Floats são números com ponto! "10.5" é texto (tem aspas) e 10 é inteiro. O único float verdadeiro é 10.5! 🎈',
         points: 15,
+    },
+    {
+        id: 'var_11',
+        type: 'multiple_choice',
+        world: 'variables',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Verdadeiro ou Falso?',
+        prompt: 'Qual tipo de variável guarda apenas `True` (Verdadeiro) ou `False` (Falso)?',
+        options: [
+            'bool (Booleano)',
+            'int (Inteiro)',
+            'str (String)',
+            'float (Decimal)',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'O tipo `bool` (Booleano) só tem dois valores: `True` ou `False`. É usado para lógica e decisões! 🚦',
+        points: 10,
     }
 ];

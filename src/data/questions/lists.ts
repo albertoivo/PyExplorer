@@ -269,6 +269,22 @@ export const listsQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'sort() organiza do menor para o maior. Para inverter (maior para o menor), usamos a opção reverse=True! 🔄',
         points: 15,
+    },
+    {
+        id: 'list_11',
+        type: 'fill_code',
+        world: 'lists',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Somando a Lista',
+        prompt: 'Use `sum()` para somar todos os números da lista:',
+        starterCode: 'numeros = [10, 20, 30]\ntotal = ___(numeros)\nprint(total)',
+        solutionTemplate: 'total = sum(numeros)',
+        tests: [
+            { input: null, expectedOutput: '60' },
+        ],
+        explanationKidFriendly: '`sum()` é uma função mágica que soma tudo que tem na lista! 10 + 20 + 30 = 60. Super rápido! ➕',
+        points: 15,
     }
 ];
 

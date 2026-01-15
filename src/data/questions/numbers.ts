@@ -237,6 +237,22 @@ export const numbersQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'Para saber quanto sobrou, fazemos uma conta de menos (subtração) usando o sinal -! 10 - 7 = 3. 💸',
         points: 10,
+    },
+    {
+        id: 'num_11',
+        type: 'fill_code',
+        world: 'numbers',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Arredondando Números',
+        prompt: 'Use `round()` para arredondar 3.7 para o número inteiro mais próximo:',
+        starterCode: 'numero = 3.7\nprint(___(numero))',
+        solutionTemplate: 'print(round(numero))',
+        tests: [
+            { input: null, expectedOutput: '4' },
+        ],
+        explanationKidFriendly: '`round()` arredonda o número! 3.7 está mais perto de 4, então vira 4. Se fosse 3.2, viraria 3! 🔵',
+        points: 15,
     }
 ];
 
