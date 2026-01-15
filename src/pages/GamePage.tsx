@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useRef } from 'react';
+import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import confetti from 'canvas-confetti';
 import type { World, QuestionDocument, UserProgress } from '../types/question';
@@ -14,6 +14,27 @@ import { SEO } from '../components/common/SEO';
 import './GamePage.css';
 
 type GameView = 'world-map' | 'world-questions' | 'playing' | 'reviewing';
+
+/**
+ * Obtém o nome amigável do mundo
+ */
+const getWorldName = (world: World): string => {
+    const names: Record<World, string> = {
+        basic_commands: 'Primeiros Passos',
+        numbers: 'Números Mágicos',
+        variables: 'Mundo das Variáveis',
+        conditions: 'Terra das Decisões',
+        decisions: 'Terra das Decisões',
+        loops: 'Ilha da Repetição',
+        functions: 'Vale das Funções',
+        lists: 'Floresta das Listas',
+        strings: 'Reino das Palavras',
+        user_input: 'Conversando com o Usuário',
+        dictionaries: 'Agenda Mágica',
+        error_handling: 'Caçando Bugs',
+    };
+    return names[world] || world;
+};
 
 /**
  * Página principal do jogo
@@ -77,101 +98,9 @@ export function GamePage() {
     }, [allProgress, allQuestions]);
 
     /**
-     * Seleciona um mundo para ver suas questões
-     */
-    const handleSelectWorld = (world: World) => {
-        const questions = getQuestionsByWorld(world);
-        setSelectedWorld(world);
-        setWorldQuestions(questions);
-        setView('world-questions');
-        // Reset perfect run state when entering a world
-        setIsPerfectRun(true);
-    };
-
-
-    /**
-     * Começa a jogar uma questão
-     * Se a questão já foi completada, mostra modal com opções
-     */
-    const handleStartQuestion = (question: QuestionDocument) => {
-        const progress = getQuestionProgress(question.id);
-        const index = worldQuestions.findIndex(q => q.id === question.id);
-
-        setCurrentQuestion(question);
-        setCurrentQuestionIndex(index);
-
-        // Se questão já foi completada, mostra modal com opções
-        if (progress?.status === 'completed') {
-            setCompletedQuestionProgress(progress);
-            setShowCompletedModal(true);
-        } else {
-            // Questão nova ou em progresso - vai direto para jogar
-            setView('playing');
-            // Inicia o timer para a questão
-            // eslint-disable-next-line react-hooks/purity
-            questionStartTime.current = Date.now();
-        }
-    };
-
-    /**
-     * Usuário escolheu "Ver minha resposta" no modal
-     */
-    const handleViewAnswer = () => {
-        setShowCompletedModal(false);
-        setView('reviewing');
-    };
-
-    /**
-     * Usuário escolheu "Refazer" no modal (modo prática, sem pontos)
-     */
-    const handleRedoQuestion = () => {
-        setShowCompletedModal(false);
-        setView('playing');
-        questionStartTime.current = Date.now();
-    };
-
-    /**
-     * Fecha o modal de questão completada
-     */
-    const handleCloseCompletedModal = () => {
-        setShowCompletedModal(false);
-        setCurrentQuestion(null);
-        setCompletedQuestionProgress(null);
-    };
-
-    /**
-     * Callback quando uma questão é completada
-     */
-    const handleQuestionComplete = async (passed: boolean, score: number) => {
-        // Calcula tempo de resposta em segundos
-        const responseTimeSeconds = (Date.now() - questionStartTime.current) / 1000;
-
-        if (!passed) {
-            setIsPerfectRun(false);
-        }
-
-        if (currentQuestion) {
-            const previousProgress = getQuestionProgress(currentQuestion.id);
-            const wasCompleted = previousProgress?.status === 'completed';
-            const existingScore = previousProgress?.score || 0;
-            const starsEarned = (passed && !wasCompleted && score > existingScore)
-                ? score - existingScore
-                : 0;
-
-            await recordAttempt(currentQuestion.id, passed, score);
-
-            // Registra no sistema de gamificação com tempo de resposta
-            recordQuestionCompleted(passed, score, responseTimeSeconds, {
-                worldId: currentQuestion.world,
-                starsEarned
-            });
-        }
-    };
-
-    /**
      * Toca um som de celebração usando AudioContext (sem arquivos externos)
      */
-    const playSuccessSound = () => {
+    const playSuccessSound = useCallback(() => {
         try {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
@@ -204,12 +133,104 @@ export function GamePage() {
         } catch (e) {
             console.error('Audio play failed', e);
         }
-    };
+    }, []);
+
+    /**
+     * Seleciona um mundo para ver suas questões
+     */
+    const handleSelectWorld = useCallback((world: World) => {
+        const questions = getQuestionsByWorld(world);
+        setSelectedWorld(world);
+        setWorldQuestions(questions);
+        setView('world-questions');
+        // Reset perfect run state when entering a world
+        setIsPerfectRun(true);
+    }, [getQuestionsByWorld]);
+
+
+    /**
+     * Começa a jogar uma questão
+     * Se a questão já foi completada, mostra modal com opções
+     */
+    const handleStartQuestion = useCallback((question: QuestionDocument) => {
+        const progress = getQuestionProgress(question.id);
+        const index = worldQuestions.findIndex(q => q.id === question.id);
+
+        setCurrentQuestion(question);
+        setCurrentQuestionIndex(index);
+
+        // Se questão já foi completada, mostra modal com opções
+        if (progress?.status === 'completed') {
+            setCompletedQuestionProgress(progress);
+            setShowCompletedModal(true);
+        } else {
+            // Questão nova ou em progresso - vai direto para jogar
+            setView('playing');
+            // Inicia o timer para a questão
+            // eslint-disable-next-line react-hooks/purity
+            questionStartTime.current = Date.now();
+        }
+    }, [getQuestionProgress, worldQuestions]);
+
+    /**
+     * Usuário escolheu "Ver minha resposta" no modal
+     */
+    const handleViewAnswer = useCallback(() => {
+        setShowCompletedModal(false);
+        setView('reviewing');
+    }, []);
+
+    /**
+     * Usuário escolheu "Refazer" no modal (modo prática, sem pontos)
+     */
+    const handleRedoQuestion = useCallback(() => {
+        setShowCompletedModal(false);
+        setView('playing');
+        questionStartTime.current = Date.now();
+    }, []);
+
+    /**
+     * Fecha o modal de questão completada
+     */
+    const handleCloseCompletedModal = useCallback(() => {
+        setShowCompletedModal(false);
+        setCurrentQuestion(null);
+        setCompletedQuestionProgress(null);
+    }, []);
+
+    /**
+     * Callback quando uma questão é completada
+     */
+    const handleQuestionComplete = useCallback(async (passed: boolean, score: number) => {
+        // Calcula tempo de resposta em segundos
+        const responseTimeSeconds = (Date.now() - questionStartTime.current) / 1000;
+
+        if (!passed) {
+            setIsPerfectRun(false);
+        }
+
+        if (currentQuestion) {
+            const previousProgress = getQuestionProgress(currentQuestion.id);
+            const wasCompleted = previousProgress?.status === 'completed';
+            const existingScore = previousProgress?.score || 0;
+            const starsEarned = (passed && !wasCompleted && score > existingScore)
+                ? score - existingScore
+                : 0;
+
+            await recordAttempt(currentQuestion.id, passed, score);
+
+            // Registra no sistema de gamificação com tempo de resposta
+            recordQuestionCompleted(passed, score, responseTimeSeconds, {
+                worldId: currentQuestion.world,
+                starsEarned
+            });
+        }
+    }, [currentQuestion, getQuestionProgress, recordAttempt, recordQuestionCompleted]);
 
     /**
      * Vai para a próxima questão não resolvida ou volta para a lista
      */
-    const handleNext = () => {
+    const handleNext = useCallback(() => {
         let nextIndex = currentQuestionIndex + 1;
         let foundUnresolved = false;
 
@@ -274,45 +295,34 @@ export function GamePage() {
             setView('world-questions');
             setCurrentQuestion(null);
         }
-    };
+    }, [
+        currentQuestionIndex,
+        worldQuestions,
+        getQuestionProgress,
+        selectedWorld,
+        worldProgress,
+        playSuccessSound,
+        checkWorldAchievements,
+        isPerfectRun,
+        navigate
+    ]);
 
     /**
      * Volta para a lista de questões do mundo
      */
-    const handleBackToQuestions = () => {
+    const handleBackToQuestions = useCallback(() => {
         setView('world-questions');
         setCurrentQuestion(null);
-    };
+    }, []);
 
     /**
      * Volta para o mapa de mundos
      */
-    const handleBackToMap = () => {
+    const handleBackToMap = useCallback(() => {
         setView('world-map');
         setSelectedWorld(null);
         setWorldQuestions([]);
-    };
-
-    /**
-     * Obtém o nome amigável do mundo
-     */
-    const getWorldName = (world: World): string => {
-        const names: Record<World, string> = {
-            basic_commands: 'Primeiros Passos',
-            numbers: 'Números Mágicos',
-            variables: 'Mundo das Variáveis',
-            conditions: 'Terra das Decisões',
-            decisions: 'Terra das Decisões',
-            loops: 'Ilha da Repetição',
-            functions: 'Vale das Funções',
-            lists: 'Floresta das Listas',
-            strings: 'Reino das Palavras',
-            user_input: 'Conversando com o Usuário',
-            dictionaries: 'Agenda Mágica',
-            error_handling: 'Caçando Bugs',
-        };
-        return names[world] || world;
-    };
+    }, []);
 
     // Mostra loading do Pyodide ou questões
     if (!ready || questionsLoading) {
