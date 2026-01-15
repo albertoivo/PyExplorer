@@ -80,6 +80,7 @@ describe('useGamification', () => {
             sendPasswordReset: vi.fn(),
             enterAsGuest: vi.fn(),
             clearError: vi.fn(),
+            loginWithGoogle: vi.fn(),
         });
 
         // Setup default mock for Firestore getGamification
@@ -127,6 +128,7 @@ describe('useGamification', () => {
             sendPasswordReset: vi.fn(),
             enterAsGuest: vi.fn(),
             clearError: vi.fn(),
+            loginWithGoogle: vi.fn(),
         });
 
         const { result } = renderHook(() => useGamification());
@@ -252,7 +254,7 @@ describe('useGamification', () => {
         const def = allMissions.find(m => m.id === mission.missionId);
 
         if (def) {
-             act(() => {
+            act(() => {
                 result.current.updateMissionProgress(mission.missionId, def.targetValue);
             });
 

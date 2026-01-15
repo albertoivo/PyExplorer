@@ -7,22 +7,25 @@ describe('CompletedQuestionModal', () => {
     const mockQuestion: QuestionDocument = {
         id: 'test_q1',
         title: 'Test Question',
-        content: 'Test Content',
+        prompt: 'Test Prompt',
+        // content attribute removed
         type: 'multiple_choice',
-        worldId: 'test_world',
+        world: 'basic_commands', // Valid world
         difficulty: 'easy',
-        order: 1,
         options: ['A', 'B'],
-        correctAnswer: 'A',
+        answerIndex: 0,
+        ageMin: 8,
+        explanationKidFriendly: 'Test Explanation', // Added required field
     };
 
     const mockProgress: UserProgress = {
+        uid: 'test_user', // Correct field name is uid not userId
         questionId: 'test_q1',
-        passed: true,
+        status: 'completed', // Status replaces passed boolean
         score: 100,
         attempts: 2,
-        userAnswer: 'A',
-        timestamp: Date.now(),
+        // userAnswer: 'A', // userAnswer might not be in UserProgress interface depending on definition, let's keep it safe
+        lastAttemptAt: new Date(),
     };
 
     const mockHandlers = {
