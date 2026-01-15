@@ -138,6 +138,27 @@ export function LoginPage() {
                     <span>ou</span>
                 </div>
 
+                <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
+                    <button
+                        type="button"
+                        onClick={() => {
+                            const emailInput = document.getElementById('email') as HTMLInputElement;
+                            if (emailInput && emailInput.value) {
+                                import('../firebase/auth').then(({ resetPassword }) => {
+                                    resetPassword(emailInput.value)
+                                        .then(() => alert(`Email de redefinição enviado para ${emailInput.value}!`))
+                                        .catch(err => alert('Erro: ' + err.message));
+                                });
+                            } else {
+                                alert('Digite seu email no campo acima para redefinir a senha.');
+                            }
+                        }}
+                        style={{ background: 'none', border: 'none', color: '#666', cursor: 'pointer', textDecoration: 'underline', fontSize: '0.9rem' }}
+                    >
+                        Esqueci minha senha
+                    </button>
+                </div>
+
                 <button
                     className="auth-btn auth-btn--guest"
                     onClick={handleGuestMode}

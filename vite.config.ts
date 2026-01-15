@@ -93,7 +93,7 @@ export default defineConfig({
         // Skip waiting para aplicar updates imediatamente
         skipWaiting: true,
         clientsClaim: true,
-        navigateFallbackDenylist: [/^\/sitemap.xml$/, /^\/robots.txt$/],
+        navigateFallbackDenylist: [/^\/sitemap.xml$/, /^\/robots.txt$/, /^\/__\//],
 
         // Cache de recursos estáticos
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
