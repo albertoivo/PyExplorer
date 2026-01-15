@@ -273,6 +273,18 @@ export const stringsQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'Você pode colocar quantas variáveis quiser numa f-string! É só usar chaves {} para cada uma. Mágica em dobro! ✨✨',
         points: 20,
+    },
+    {
+        id: 'strings_11',
+        type: 'true_false',
+        world: 'strings',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Título Bonito',
+        prompt: 'O método `.title()` deixa a primeira letra de cada palavra maiúscula.',
+        correctBool: true,
+        explanationKidFriendly: 'Sim! `title()` deixa o texto chique! "o rato roeu" vira "O Rato Roeu". Ótimo para nomes e títulos! 🎩',
+        points: 10,
     }
 ];
 

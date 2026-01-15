@@ -267,6 +267,24 @@ for i in range(4):
         correctBool: true,
         explanationKidFriendly: 'Sim! O símbolo < significa "menor que". 5 é menor que 10, então a resposta é True! ✅',
         points: 10,
+    },
+    {
+        id: 'dec_11',
+        type: 'multiple_choice',
+        world: 'conditions',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Se NÃO for verdade',
+        prompt: 'O que o código `if not chovendo:` faz?',
+        options: [
+            'Executa se NÃO estiver chovendo',
+            'Executa se ESTIVER chovendo',
+            'Dá erro',
+            'Para a chuva',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: '`not` inverte a condição! Se `chovendo` for Falso (não está chovendo), `not chovendo` vira Verdadeiro e o código roda! ☀️',
+        points: 15,
     }
 ];
 

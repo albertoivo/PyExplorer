@@ -255,6 +255,24 @@ desenhar_circulo(50)
         correctBool: false,
         explanationKidFriendly: 'Não! Os parâmetros são como variáveis locais. Eles só existem dentro da função. Fora dela, o Python não sabe quem eles são! 👻',
         points: 15,
+    },
+    {
+        id: 'func_11',
+        type: 'multiple_choice',
+        world: 'functions',
+        difficulty: 'easy',
+        ageMin: 10,
+        title: 'Return vs Print',
+        prompt: 'Qual a diferença entre `return` e `print` numa função?',
+        options: [
+            'Return devolve o valor para o programa, Print só mostra na tela',
+            'São a mesma coisa',
+            'Print devolve o valor',
+            'Return mostra na tela',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: '`print` só mostra na tela (útil para humanos). `return` entrega o dado para o programa usar em outras contas! 📦',
+        points: 10,
     }
 ];
 

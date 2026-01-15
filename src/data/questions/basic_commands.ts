@@ -232,6 +232,24 @@ export const basicCommandsQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'A vírgula no print separa as coisas e adiciona um espaço automático! É super útil para juntar textos e números. 🤝',
         points: 10,
+    },
+    {
+        id: 'basic_11',
+        type: 'multiple_choice',
+        world: 'basic_commands',
+        difficulty: 'easy',
+        ageMin: 8,
+        title: 'Maiúscula ou Minúscula?',
+        prompt: 'O comando `Print("Olá")` (com P maiúsculo) funciona?',
+        options: [
+            'Não, dá erro',
+            'Sim, funciona normal',
+            'Funciona, mas fica lento',
+            'Depende do computador',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'Python é "case sensitive" (sensível a maiúsculas)! `print` deve ser sempre tudo minúsculo. `Print` ou `PRINT` não funcionam! 🚫',
+        points: 10,
     }
 ];
 

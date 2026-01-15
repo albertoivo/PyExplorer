@@ -258,6 +258,22 @@ for i in range(___):
         answerIndex: 0,
         explanationKidFriendly: 'O while continua ENQUANTO x < 5. Assim que x chega em 5 (ou passa), a condição vira Falsa e o loop para! 🛑',
         points: 15,
+    },
+    {
+        id: 'loop_11',
+        type: 'fill_code',
+        world: 'loops',
+        difficulty: 'medium',
+        ageMin: 11,
+        title: 'Contagem Regressiva com For',
+        prompt: 'Complete o range para contar de 10 até 1 (diminuindo de 1 em 1):',
+        starterCode: 'for i in range(10, 0, ___):\n    print(i)',
+        solutionTemplate: 'for i in range(10, 0, -1):',
+        tests: [
+            { input: null, expectedOutput: '10\n9\n8\n7\n6\n5\n4\n3\n2\n1' },
+        ],
+        explanationKidFriendly: 'O terceiro número do range é o passo! -1 faz ele andar para trás. 10, 9, 8... até 1! 🚀',
+        points: 20,
     }
 ];
 
