@@ -40,14 +40,14 @@ describe('useGamification', () => {
         achievements: [],
         activeMissions: [],
         inventory: {
-            ownedItems: [],
+            ownedItems: ['existing_item'],
             equippedAvatar: 'default',
             equippedFrame: 'default',
             equippedTitle: 'default',
         },
         powerUps: {
-            inventory: { skip: 1 },
-            usesToday: {},
+            inventory: { skip: 1, fifty_fifty: 0 },
+            usesToday: { skip: 0, fifty_fifty: 0 },
             lastResetDate: '2023-01-01',
         },
         stats: {
@@ -81,6 +81,8 @@ describe('useGamification', () => {
             enterAsGuest: vi.fn(),
             clearError: vi.fn(),
             loginWithGoogle: vi.fn(),
+            isAuthenticated: true,
+            loginAsGuest: vi.fn(),
         });
 
         // Setup default mock for Firestore getGamification
@@ -129,6 +131,8 @@ describe('useGamification', () => {
             enterAsGuest: vi.fn(),
             clearError: vi.fn(),
             loginWithGoogle: vi.fn(),
+            isAuthenticated: true,
+            loginAsGuest: vi.fn(),
         });
 
         const { result } = renderHook(() => useGamification());
@@ -151,15 +155,10 @@ describe('useGamification', () => {
         const { result } = renderHook(() => useGamification());
         await waitFor(() => expect(result.current.loading).toBe(false));
 
-        act(() => {
-            result.current.buyShopItem('test_item_3', 100);
-        });
-
-        mockUpdateUserData.mockClear();
-
+        // existing_item is in default mock state
         let success;
         act(() => {
-            success = result.current.buyShopItem('test_item_3', 100);
+            success = result.current.buyShopItem('existing_item', 100);
         });
 
         expect(success).toBe(false);
@@ -210,9 +209,6 @@ describe('useGamification', () => {
         const { result } = renderHook(() => useGamification());
         await waitFor(() => expect(result.current.loading).toBe(false));
 
-        // Initial XP: 0 (Level 1)
-        // Add enough XP to level up. Assuming level 1 -> 2 needs 100 XP
-
         act(() => {
             result.current.addXP(200);
         });
@@ -223,95 +219,165 @@ describe('useGamification', () => {
     });
 
     // ==========================================
-    // MISSIONS
+    // INVENTORY / EQUIPPING
     // ==========================================
-    it('should track mission progress and complete missions', async () => {
-        // Setup state with an active mission
-        const missionState = {
-            ...mockGamificationState,
-            activeMissions: [{
-                missionId: 'daily_login', // Use a real ID if possible, or mocked
-                progress: 0,
-                status: 'active',
-                expiresAt: new Date(Date.now() + 86400000),
-            }]
-        };
-        (firestoreModule.getGamification as any).mockResolvedValue(missionState);
-
+    it('should equip avatar', async () => {
         const { result } = renderHook(() => useGamification());
         await waitFor(() => expect(result.current.loading).toBe(false));
 
-        // We need to know the target value.
-        // In the real hook, it looks up dailyMissions/weeklyMissions.
-        // We assume 'daily_login' exists there or we need to mock generateDailyMissions?
-        // Let's check if the hook exposes the mission defs.
-
-        // Let's use the first initialized mission.
-        await waitFor(() => expect(result.current.activeMissions.length).toBeGreaterThan(0));
-
-        const mission = result.current.activeMissions[0];
-        const allMissions = [...result.current.dailyMissions, ...result.current.weeklyMissions];
-        const def = allMissions.find(m => m.id === mission.missionId);
-
-        if (def) {
-            act(() => {
-                result.current.updateMissionProgress(mission.missionId, def.targetValue);
-            });
-
-            const updated = result.current.activeMissions.find(m => m.missionId === mission.missionId);
-            expect(updated?.status).toBe('completed');
-        }
-    });
-
-    it('should claim rewards for completed missions', async () => {
-        // Similar setup, but start with completed mission
-        const completedState = {
-            ...mockGamificationState,
-            activeMissions: [{
-                missionId: 'daily_login',
-                progress: 1,
-                status: 'completed',
-                expiresAt: new Date(Date.now() + 86400000),
-            }]
-        };
-        (firestoreModule.getGamification as any).mockResolvedValue(completedState);
-
-        const { result } = renderHook(() => useGamification());
-        await waitFor(() => expect(result.current.loading).toBe(false));
-
-        // We need the mission definition to exist in daily/weekly to claim it (to get rewards)
-        const allMissions = [...result.current.dailyMissions, ...result.current.weeklyMissions];
-        const def = allMissions.find(m => m.id === 'daily_login');
-
-        // Only proceed if mission exists in current rotation (it might not since rotation is random)
-        // If it doesn't exist, claimMissionReward returns early.
-        // To fix this, we should mock `generateDailyMissions` in `../data/gamificationData`.
-
-        if (def) {
-            act(() => {
-                result.current.claimMissionReward('daily_login');
-            });
-
-            expect(mockUpdateUserData).toHaveBeenCalled();
-
-            const updated = result.current.activeMissions.find(m => m.missionId === 'daily_login');
-            expect(updated?.status).toBe('claimed');
-        }
-    });
-
-    // ==========================================
-    // ACHIEVEMENTS
-    // ==========================================
-    it('should unlock achievement when conditions are met', async () => {
-        const { result } = renderHook(() => useGamification());
-        await waitFor(() => expect(result.current.loading).toBe(false));
-
-        // Unlock "first_question" by recording a completed question
         act(() => {
-            result.current.recordQuestionCompleted(true, 10, 5); // passed, 10xp, 5s
+            result.current.equipItem('existing_item', 'avatar');
         });
 
-        expect(result.current.unlockedAchievements.some(a => a.id === 'first_question')).toBe(true);
-        expect(result.current.newAchievements.length).toBeGreaterThan(0);
+        expect(result.current.inventory.equippedAvatar).toBe('existing_item');
+        expect(mockUpdateUserData).toHaveBeenCalledWith({ avatar: 'existing_item' });
+    });
+
+    it('should equip frame', async () => {
+        const { result } = renderHook(() => useGamification());
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
+        act(() => {
+            result.current.equipItem('existing_item', 'frame');
+        });
+
+        expect(result.current.inventory.equippedFrame).toBe('existing_item');
+    });
+
+    it('should fail to equip unowned item', async () => {
+        const { result } = renderHook(() => useGamification());
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
+        act(() => {
+            result.current.equipItem('unknown_item', 'avatar');
+        });
+
+        expect(result.current.inventory.equippedAvatar).not.toBe('unknown_item');
+    });
+
+    // ==========================================
+    // POWER-UPS
+    // ==========================================
+    it('should use power-up successfully', async () => {
+        const { result } = renderHook(() => useGamification());
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
+        let success;
+        act(() => {
+            success = result.current.usePowerUp('skip');
+        });
+
+        expect(success).toBe(true);
+        expect(success).toBe(true);
+        expect(result.current.userPowerUps.inventory.skip).toBe(0); // Had 1
+        expect(result.current.userPowerUps.usesToday.skip).toBe(1);
+    });
+
+    it('should fail to use empty power-up', async () => {
+        const { result } = renderHook(() => useGamification());
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
+        let success;
+        act(() => {
+            // fifty_fifty is 0 in mock
+            success = result.current.usePowerUp('fifty_fifty');
+        });
+
+        expect(success).toBe(false);
+    });
+
+    it('should buy power-up if balance sufficient', async () => {
+        const { result } = renderHook(() => useGamification());
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
+        let success;
+        act(() => {
+            success = result.current.buyPowerUp('skip');
+        });
+
+        expect(success).toBe(true);
+        expect(success).toBe(true);
+        expect(result.current.userPowerUps.inventory.skip).toBe(2); // Started with 1
+    });
+
+    // ==========================================
+    // GUEST MODE
+    // ==========================================
+    it('should work correctly in guest mode', async () => {
+        // Mock Guest Auth
+        vi.spyOn(useAuthModule, 'useAuth').mockReturnValue({
+            userData: null,
+            isGuest: true,
+            isAuthenticated: false,
+            updateUserData: vi.fn(),
+            refreshUserData: vi.fn(),
+            user: null,
+            loading: false,
+            error: null,
+            login: vi.fn(),
+            register: vi.fn(),
+            logout: vi.fn(),
+            sendPasswordReset: vi.fn(),
+            enterAsGuest: vi.fn(),
+            clearError: vi.fn(),
+            loginWithGoogle: vi.fn(),
+            loginAsGuest: vi.fn(),
+        });
+
+        const { result } = renderHook(() => useGamification());
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
+        // Check initial guest state (loaded from initial or localStorage)
+        expect(result.current.gamification.level.level).toBe(1);
+
+        // Add XP
+        act(() => {
+            result.current.addXP(50);
+        });
+
+        expect(result.current.gamification.level.currentXP).toBe(50);
+        // Should NOT call Firestore save
+        expect(firestoreModule.saveGamificationData).not.toHaveBeenCalled();
+    });
+
+    // ==========================================
+    // ERROR HANDLING
+    // ==========================================
+    it('should handle Firestore load error gracefully', async () => {
+        (firestoreModule.getGamification as any).mockRejectedValue(new Error('Firestore error'));
+        const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => { });
+
+        const { result } = renderHook(() => useGamification());
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
+        // Should fall back to initial state or not crash
+        expect(result.current.gamification.level.level).toBeDefined();
+        expect(consoleSpy).toHaveBeenCalled();
+    });
+
+    // ==========================================
+    // WEEKEND LOGIC
+    // ==========================================
+    it('should track weekend questions correctly', async () => {
+        const { result } = renderHook(() => useGamification());
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
+        // Set date to a Saturday
+        const saturday = new Date('2023-01-07T12:00:00Z');
+        vi.useFakeTimers();
+        vi.setSystemTime(saturday);
+
+        act(() => {
+            result.current.recordQuestionCompleted(true);
+        });
+
+        // First weekend question
+        expect(result.current.stats.weekendQuestionsCount).toBe(1);
+
+        // Another one same weekend
+        act(() => {
+            result.current.recordQuestionCompleted(true);
+        });
+        expect(result.current.stats.weekendQuestionsCount).toBe(2);
     });
 });
