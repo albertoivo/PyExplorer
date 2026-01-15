@@ -14,6 +14,8 @@ const CATEGORY_LABELS: Record<AchievementCategory, { name: string; icon: string 
     mastery: { name: 'Maestria', icon: '⭐' },
     social: { name: 'Social', icon: '👥' },
     special: { name: 'Especial', icon: '🎁' },
+    boss: { name: 'Chefões', icon: '⚔️' },
+    collection: { name: 'Coleção', icon: '💎' },
 };
 
 const RARITY_COLORS: Record<AchievementRarity, string> = {
