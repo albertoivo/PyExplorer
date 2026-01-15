@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, memo } from 'react';
 import type { World } from '../../types/question';
 import { useAuth } from '../../hooks/useAuth';
 import { TutorialModal, FlashcardDeck } from '../education';
@@ -22,7 +22,7 @@ interface WorldMapProps {
 /**
  * Mapa de mundos do jogo
  */
-export function WorldMap({ onSelectWorld, worldProgress }: WorldMapProps) {
+export const WorldMap = memo(function WorldMap({ onSelectWorld, worldProgress }: WorldMapProps) {
     const { userData } = useAuth();
     const userScore = userData?.totalScore || 0;
     const unlockedWorlds = useMemo(() => userData?.unlockedWorlds || ['basic_commands'], [userData?.unlockedWorlds]);
@@ -297,6 +297,6 @@ export function WorldMap({ onSelectWorld, worldProgress }: WorldMapProps) {
             )}
         </div>
     );
-}
+});
 
 export default WorldMap;
