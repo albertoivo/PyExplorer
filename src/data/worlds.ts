@@ -11,6 +11,7 @@ export interface WorldInfo {
 
 // Definição dos mundos do jogo
 // Ordem pedagógica correta: básico → variáveis → números → decisões → repetições → funções → listas → strings
+// requiredScore = 95% dos pontos acumulados dos mundos anteriores (Estimativa alta performance: 55 pts/questão)
 export const WORLDS: WorldInfo[] = [
     {
         id: 'basic_commands',
@@ -18,6 +19,7 @@ export const WORLDS: WorldInfo[] = [
         description: 'Aprenda a dar os primeiros comandos em Python!',
         icon: '🚀',
         color: '#00d9ff',
+        // Sempre desbloqueado
     },
     {
         id: 'variables',
@@ -25,7 +27,7 @@ export const WORLDS: WorldInfo[] = [
         description: 'Guarde informações em caixinhas mágicas!',
         icon: '📦',
         color: '#667eea',
-        requiredScore: 30,
+        requiredScore: 836, // 95% de 880 (16 questões × 55pts)
     },
     {
         id: 'numbers',
@@ -33,7 +35,7 @@ export const WORLDS: WorldInfo[] = [
         description: 'Faça cálculos incríveis como um mago da matemática!',
         icon: '🔢',
         color: '#9f7aea',
-        requiredScore: 60,
+        requiredScore: 1776, // 95% de 1870 (acumulado W1+W2)
     },
     {
         id: 'conditions',
@@ -41,7 +43,7 @@ export const WORLDS: WorldInfo[] = [
         description: 'Faça escolhas e crie caminhos diferentes!',
         icon: '🔀',
         color: '#f093fb',
-        requiredScore: 100,
+        requiredScore: 2665, // 95% de 2805 (acumulado W1..W3)
     },
     {
         id: 'loops',
@@ -49,7 +51,7 @@ export const WORLDS: WorldInfo[] = [
         description: 'Repita comandos como um feiticeiro!',
         icon: '🔄',
         color: '#48bb78',
-        requiredScore: 150,
+        requiredScore: 3657, // 95% de 3850 (acumulado W1..W4)
     },
     {
         id: 'functions',
@@ -57,7 +59,7 @@ export const WORLDS: WorldInfo[] = [
         description: 'Crie suas próprias magias reutilizáveis!',
         icon: '✨',
         color: '#ed8936',
-        requiredScore: 200,
+        requiredScore: 4598, // 95% de 4840 (acumulado W1..W5)
     },
     {
         id: 'lists',
@@ -65,7 +67,7 @@ export const WORLDS: WorldInfo[] = [
         description: 'Organize muitas coisas numa única lista!',
         icon: '📜',
         color: '#fc8181',
-        requiredScore: 260,
+        requiredScore: 5486, // 95% de 5775 (acumulado W1..W6)
     },
     {
         id: 'strings',
@@ -73,7 +75,7 @@ export const WORLDS: WorldInfo[] = [
         description: 'Manipule textos e crie histórias!',
         icon: '📝',
         color: '#fbd38d',
-        requiredScore: 320,
+        requiredScore: 6479, // 95% de 6820 (acumulado W1..W7)
     },
     {
         id: 'user_input',
@@ -81,7 +83,7 @@ export const WORLDS: WorldInfo[] = [
         description: 'Aprenda a conversar com o usuário!',
         icon: '🔮',
         color: '#d69e2e',
-        requiredScore: 380,
+        requiredScore: 7471, // 95% de 7865 (acumulado W1..W8)
     },
     {
         id: 'dictionaries',
@@ -89,7 +91,7 @@ export const WORLDS: WorldInfo[] = [
         description: 'Guarde segredos em dicionários!',
         icon: '📚',
         color: '#9b2c2c',
-        requiredScore: 440,
+        requiredScore: 7994, // 95% de 8415 (acumulado W1..W9)
     },
     {
         id: 'error_handling',
@@ -97,6 +99,6 @@ export const WORLDS: WorldInfo[] = [
         description: 'Proteja seu código contra erros!',
         icon: '🛡️',
         color: '#4a5568',
-        requiredScore: 500,
+        requiredScore: 8464, // 95% de 8910 (acumulado W1..W10)
     },
 ];
