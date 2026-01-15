@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useGamification } from '../hooks/useGamification';
 import { useAuth } from '../hooks/useAuth';
+import { SHOP_ITEMS } from '../data/gamificationData';
 import {
     LevelBadge,
     StreakDisplay,
@@ -67,7 +68,35 @@ export function GamificationPage() {
             <header className="gamification-page__header">
                 <div className="gamification-page__user">
                     <div className="gamification-page__avatar">
-                        {inventory.equippedAvatar === 'avatar_snake_green' ? '🐍' : '🎮'}
+                        {(() => {
+                            const equippedId = inventory.equippedAvatar || 'avatar_snake_green';
+                            const equippedFrameId = inventory.equippedFrame;
+                            const item = SHOP_ITEMS.find(i => i.id === equippedId);
+                            const frameItem = equippedFrameId ? SHOP_ITEMS.find(i => i.id === equippedFrameId) : null;
+                            const avatarIcon = item?.icon || '🐍';
+
+                            if (frameItem?.color) {
+                                const borderColor = frameItem.color === 'rainbow'
+                                    ? 'linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet)'
+                                    : frameItem.color;
+                                return (
+                                    <span style={{
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        width: '100px',
+                                        height: '100px',
+                                        borderRadius: '50%',
+                                        border: frameItem.color === 'rainbow' ? '4px solid transparent' : `4px solid ${borderColor}`,
+                                        background: frameItem.color === 'rainbow' ? borderColor : 'transparent',
+                                        backgroundClip: frameItem.color === 'rainbow' ? 'padding-box' : undefined,
+                                    }}>
+                                        <span style={{ fontSize: '60px', lineHeight: 1 }}>{avatarIcon}</span>
+                                    </span>
+                                );
+                            }
+                            return avatarIcon;
+                        })()}
                     </div>
                     <div className="gamification-page__user-info">
                         <h1 className="gamification-page__name">{userData?.displayName || 'Jogador'}</h1>
@@ -174,10 +203,17 @@ export function GamificationPage() {
                 )}
 
                 {activeTab === 'achievements' && (
-                    <AchievementGrid
-                        achievements={achievements}
-                        unlockedIds={unlockedAchievements.map(a => a.id)}
-                    />
+                    <>
+                        {console.log('🏆 Achievements data:', {
+                            total: achievements.length,
+                            unlocked: unlockedAchievements.length,
+                            unlockedIds: unlockedAchievements.map(a => a.id)
+                        })}
+                        <AchievementGrid
+                            achievements={achievements}
+                            unlockedIds={unlockedAchievements.map(a => a.id)}
+                        />
+                    </>
                 )}
 
                 {activeTab === 'missions' && (
@@ -201,7 +237,8 @@ export function GamificationPage() {
 
                 {activeTab === 'ranking' && (
                     <Leaderboard
-                        currentUser={userData || null}
+                        entries={[]} // Todo: Fetch real leaderboard entries
+                        currentUserId={userData?.uid}
                     />
                 )}
             </main>

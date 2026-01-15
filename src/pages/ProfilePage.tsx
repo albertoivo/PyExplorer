@@ -4,8 +4,6 @@ import { useGamification } from '../hooks/useGamification';
 import { useQuestionsFirestore } from '../hooks/useQuestionsFirestore';
 import { WorldProgressBar } from '../components/game/feedback/ProgressBar';
 import { DataSeeder } from '../components/education/DataSeeder';
-import './ProfilePage.css';
-
 import { SHOP_ITEMS } from '../data/gamificationData';
 import './ProfilePage.css';
 
@@ -27,7 +25,7 @@ const WORLDS_INFO = [
 export function ProfilePage() {
     const { userData, isGuest } = useAuth();
     const { stats, allProgress } = useProgress();
-    const { achievements, unlockedAchievements } = useGamification();
+    const { achievements, unlockedAchievements, gamification, recalculateAllAchievements } = useGamification();
     const { getQuestionsByWorld } = useQuestionsFirestore();
 
     if (!userData) {
@@ -42,8 +40,10 @@ export function ProfilePage() {
     }
 
     // Encontra o item do avatar atual
-    const currentAvatarItem = SHOP_ITEMS.find(a => a.id === userData.avatar && a.type === 'avatar');
-    // Fallback: se não achar, procura um default ou usa o primeiro da lista
+    const currentAvatarId = gamification?.inventory?.equippedAvatar || userData.avatar;
+    const currentFrameId = gamification?.inventory?.equippedFrame;
+    const currentAvatarItem = SHOP_ITEMS.find(a => a.id === currentAvatarId && a.type === 'avatar');
+    const currentFrameItem = currentFrameId ? SHOP_ITEMS.find(f => f.id === currentFrameId) : null;
     const displayAvatar = currentAvatarItem || SHOP_ITEMS.find(a => a.id === 'avatar_snake_green') || { icon: '🧑‍💻', name: 'Programador' };
 
     // Calcula progresso por mundo usando o total real de questões
@@ -71,11 +71,29 @@ export function ProfilePage() {
                 {/* Card do Perfil */}
                 <div className="profile-card">
                     <div className="profile-card__avatar">
-                        <span className="profile-card__avatar-emoji">{displayAvatar.icon}</span>
+                        {currentFrameItem?.color ? (
+                            <span style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                width: '100px',
+                                height: '100px',
+                                borderRadius: '50%',
+                                border: currentFrameItem.color === 'rainbow' ? '4px solid transparent' : `4px solid ${currentFrameItem.color}`,
+                                background: currentFrameItem.color === 'rainbow'
+                                    ? 'linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet)'
+                                    : 'transparent',
+                                backgroundClip: currentFrameItem.color === 'rainbow' ? 'padding-box' : undefined,
+                            }}>
+                                <span className="profile-card__avatar-emoji" style={{ fontSize: '60px', lineHeight: 1 }}>{displayAvatar.icon}</span>
+                            </span>
+                        ) : (
+                            <span className="profile-card__avatar-emoji">{displayAvatar.icon}</span>
+                        )}
                         <span className="profile-card__avatar-name">{displayAvatar.name}</span>
                     </div>
 
-                    <h1 className="profile-card__name">{userData.displayName}</h1>
+                    <h2 className="profile-card__name">{userData.displayName}</h2>
 
                     {isGuest && (
                         <span className="profile-card__guest-badge">
@@ -88,7 +106,7 @@ export function ProfilePage() {
                         <div className="profile-card__level-progress">
                             <div
                                 className="profile-card__level-bar"
-                                style={{ width: `${((100 - pointsForNextLevel) / 100) * 100}%` }}
+                                style={{ width: `${((100 - pointsForNextLevel) / 100) * 100}% ` }}
                             />
                         </div>
                         <span className="profile-card__level-text">
@@ -138,7 +156,7 @@ export function ProfilePage() {
                             if (achievement.hidden && !isUnlocked) return null;
 
                             return (
-                                <div key={achievement.id} className={`achievement ${isUnlocked ? 'achievement--unlocked' : ''}`}>
+                                <div key={achievement.id} className={`achievement ${isUnlocked ? 'achievement--unlocked' : ''} `}>
                                     <span className="achievement__icon">{achievement.icon}</span>
                                     <span className="achievement__name">{achievement.name}</span>
                                     <span className="achievement__desc">{achievement.description}</span>
@@ -164,7 +182,29 @@ export function ProfilePage() {
                 )}
 
                 {/* Ferramentas de Desenvolvedor */}
-                {isAdmin && <DataSeeder />}
+                {isAdmin && (
+                    <>
+                        <button
+                            onClick={() => {
+                                console.log('🔘 Botão Recalcular clicado!');
+                                recalculateAllAchievements();
+                            }}
+                            style={{
+                                marginBottom: '20px',
+                                padding: '10px 20px',
+                                backgroundColor: '#667eea',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '8px',
+                                cursor: 'pointer',
+                                fontWeight: 'bold'
+                            }}
+                        >
+                            🔄 Recalcular Conquistas (Admin)
+                        </button>
+                        <DataSeeder />
+                    </>
+                )}
             </div>
         </div>
     );

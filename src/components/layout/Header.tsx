@@ -1,5 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
+import { useGamification } from '../../hooks/useGamification';
+import { SHOP_ITEMS } from '../../data/gamificationData';
 import './Header.css';
 
 /**
@@ -7,6 +9,7 @@ import './Header.css';
  */
 export function Header() {
     const { userData, isGuest, logout, loading } = useAuth();
+    const { gamification } = useGamification(); // Para ter o avatar atualizado em tempo real
     const location = useLocation();
 
     const handleLogout = async () => {
@@ -24,7 +27,40 @@ export function Header() {
             <div className="header__container">
                 {/* Logo e nome do jogo */}
                 <Link to="/" className="header__logo" aria-label="PyExplorer Página Inicial">
-                    <span className="header__logo-icon" aria-hidden="true">🐍</span>
+                    <span className="header__logo-icon" aria-hidden="true">
+                        {(() => {
+                            if (!userData && !isGuest) return '🐍';
+                            const equippedAvatarId = gamification?.inventory?.equippedAvatar || userData?.avatar || 'avatar_snake_green';
+                            const equippedFrameId = gamification?.inventory?.equippedFrame;
+                            const avatarItem = SHOP_ITEMS.find(i => i.id === equippedAvatarId);
+                            const frameItem = equippedFrameId ? SHOP_ITEMS.find(i => i.id === equippedFrameId) : null;
+                            const avatarIcon = avatarItem?.icon || '🐍';
+
+                            // Se tem moldura, envolve com borda
+                            if (frameItem?.color) {
+                                const borderColor = frameItem.color === 'rainbow'
+                                    ? 'linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet)'
+                                    : frameItem.color;
+                                return (
+                                    <span style={{
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        width: '40px',
+                                        height: '40px',
+                                        padding: '3px',
+                                        borderRadius: '50%',
+                                        border: frameItem.color === 'rainbow' ? '3px solid transparent' : `3px solid ${borderColor}`,
+                                        background: frameItem.color === 'rainbow' ? borderColor : 'transparent',
+                                        backgroundClip: frameItem.color === 'rainbow' ? 'padding-box' : undefined,
+                                    }}>
+                                        <span style={{ fontSize: '24px', lineHeight: 1 }}>{avatarIcon}</span>
+                                    </span>
+                                );
+                            }
+                            return avatarIcon;
+                        })()}
+                    </span>
                     <span className="header__logo-text">PyExplorer</span>
                 </Link>
 

@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import type { User } from 'firebase/auth';
+import { resetLoginRedirectFlag } from '../pages/LoginPage';
 import { subscribeToAuthChanges, signIn, signUp, logOut, resetPassword, signInWithGoogle } from '../firebase/auth';
 import { saveUser, getUser } from '../firebase/firestore';
 import type { UserData, World } from '../types/question';
@@ -270,6 +271,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
             } else {
                 await logOut();
             }
+            // Reseta flag de redirect para permitir novo login
+            resetLoginRedirectFlag();
         } catch (err) {
             const message = err instanceof Error ? err.message : 'Erro ao sair';
             setError(message);

@@ -427,13 +427,6 @@ export function useGamification() {
         if (balance >= 1000) unlockAchievement('magnate');
     }, [unlockAchievement]);
 
-    // Verifica conquistas de loja/saldo sempre que inventário ou saldo mudarem
-    useEffect(() => {
-        if (!loading && userData) {
-            checkShopAchievements(gamification.inventory, userData.balance || 0);
-        }
-    }, [loading, userData?.balance, gamification.inventory, checkShopAchievements, userData]);
-
     /**
      * Verifica conquistas de Maestria e Endgame
      */
@@ -445,21 +438,12 @@ export function useGamification() {
         if (stats.perfectWorlds >= 3) unlockAchievement('supreme_perfectionist');
 
         // Velocidade da Luz: 5 questões seguidas < 20s
-        // Precisa ser rastreado. Vou assumir que quem chama passa essa info ou add ao state.
-        // Simplify: Vou checar fora ou adicionar ao state 'consecutiveFastAnswers'.
-        // Como o state já tem 'consecutiveCorrect', vou sugerir adicionar um state local ou derivado.
-        // Por hora, deixo parametrizado.
         if (consecutiveSpeed && consecutiveSpeed >= 5) unlockAchievement('light_speed');
 
         // Poliglota Python
-        // Vou assumir que o último mundo tem ID 'advanced_concepts' ou similar.
-        // Ajustar conforme worlds.ts.
-        if (lastWorldCompleted === 'advanced_concepts' || lastWorldCompleted === 'world_5') { // ajustado para world_5 (ultimo)
+        if (lastWorldCompleted === 'advanced_concepts' || lastWorldCompleted === 'world_5') {
             unlockAchievement('python_polyglot');
         }
-
-        // Imparável e Ano do Código (Streak)
-        // Isso já é checado em checkStreakAchievements, só expandir lá.
     }, [unlockAchievement]);
 
     /**
@@ -707,7 +691,12 @@ export function useGamification() {
      * Equipa um item
      */
     const equipItem = useCallback((itemId: string, type: 'avatar' | 'frame' | 'title') => {
-        if (!gamification.inventory.ownedItems.includes(itemId)) return;
+        console.log('🔧 equipItem chamado:', { itemId, type, owned: gamification.inventory.ownedItems.includes(itemId) });
+
+        if (!gamification.inventory.ownedItems.includes(itemId)) {
+            console.warn('❌ Item não está na lista de itens possuídos');
+            return;
+        }
 
         // Se for avatar, atualiza também o perfil do usuário
         if (type === 'avatar' && userData) {
@@ -724,6 +713,7 @@ export function useGamification() {
                     ...(type === 'title' && { equippedTitle: itemId }),
                 },
             };
+            console.log('✅ Salvando gamification com novo item equipado:', { type, itemId, inventory: updated.inventory });
             saveGamification(updated);
             return updated;
         });
@@ -868,6 +858,54 @@ export function useGamification() {
         }
     }, [loading, initializeMissions]);
 
+    /**
+     * Força recalcula todas as conquistas baseado no progresso atual (Admin tool)
+     */
+    const recalculateAllAchievements = useCallback(() => {
+        if (!userData) {
+            console.warn('⚠️ Não é possível recalcular conquistas sem usuário logado');
+            return;
+        }
+
+        console.log('🔄 Recalculando TODAS as conquistas...');
+
+        // Questões
+        console.log('📊 Stats:', {
+            totalCompleted: gamification.stats.totalQuestionsCompleted,
+            consecutiveCorrect: gamification.stats.consecutiveCorrect,
+            balance: userData.balance,
+            ownedItems: gamification.inventory.ownedItems.length,
+            currentStreak: gamification.streak.currentStreak
+        });
+
+        checkQuestionAchievements(
+            gamification.stats.totalQuestionsCompleted,
+            gamification.stats.consecutiveCorrect
+        );
+
+        // Loja/Saldo
+        checkShopAchievements(gamification.inventory, userData.balance || 0);
+
+        // Streak
+        checkStreakAchievements(gamification.streak.currentStreak);
+
+        // Maestria
+        checkMasteryAchievements(gamification.stats);
+
+        console.log('✅ Recálculo completo!');
+    }, [userData, gamification, checkQuestionAchievements, checkShopAchievements, checkStreakAchievements, checkMasteryAchievements]);
+
+    // Auto-recalcula conquistas uma vez ao carregar a página
+    const [hasAutoRecalculated, setHasAutoRecalculated] = useState(false);
+
+    useEffect(() => {
+        if (loading || !userData || hasAutoRecalculated) return;
+
+        console.log('🔄 Auto-recalculando conquistas...');
+        recalculateAllAchievements();
+        setHasAutoRecalculated(true);
+    }, [loading, userData, hasAutoRecalculated, recalculateAllAchievements]);
+
     // ============================================
     // RETORNO DO HOOK
     // ============================================
@@ -927,5 +965,8 @@ export function useGamification() {
 
         // Reload
         reload: loadGamification,
+
+        // Admin tools
+        recalculateAllAchievements,
     };
 }

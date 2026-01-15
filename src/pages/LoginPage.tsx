@@ -1,7 +1,15 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import './AuthPages.css';
+
+// Variável global para rastrear se já redirecionou (persiste entre remontagens do componente)
+let hasRedirectedAfterLogin = false;
+
+// Função para resetar o redirect (chamada no logout)
+export function resetLoginRedirectFlag() {
+    hasRedirectedAfterLogin = false;
+}
 
 /**
  * Página de login
@@ -14,19 +22,17 @@ export function LoginPage() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Memoize 'from' to prevent recalculation on every render
-    const from = useMemo(() => {
-        return (location.state as { from?: Location })?.from?.pathname || '/game';
-    }, [location.state]);
-
     const requireLogin = (location.state as { requireLogin?: boolean })?.requireLogin;
 
+    // Redireciona quando usuário logar (usa variável global para evitar loops)
     useEffect(() => {
-        if (user) {
-            console.log('LoginPage: User detected, redirecting to:', from);
-            navigate(from, { replace: true });
+        if (user && !hasRedirectedAfterLogin) {
+            const destination = (location.state as { from?: Location })?.from?.pathname || '/game';
+            console.log('User logged in, redirecting to:', destination);
+            hasRedirectedAfterLogin = true;
+            navigate(destination, { replace: true });
         }
-    }, [user, navigate, from]);
+    }, [user, navigate, location.state]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -35,7 +41,7 @@ export function LoginPage() {
 
         try {
             await login(email, password);
-            // Redirect is handled by useEffect when user state changes
+            // Redirect será feito pelo useEffect quando user state mudar
         } catch {
             // Erro já é tratado pelo contexto
         } finally {
