@@ -81,8 +81,6 @@ describe('useGamification', () => {
             enterAsGuest: vi.fn(),
             clearError: vi.fn(),
             loginWithGoogle: vi.fn(),
-            isAuthenticated: true,
-            loginAsGuest: vi.fn(),
         });
 
         // Setup default mock for Firestore getGamification
@@ -131,8 +129,6 @@ describe('useGamification', () => {
             enterAsGuest: vi.fn(),
             clearError: vi.fn(),
             loginWithGoogle: vi.fn(),
-            isAuthenticated: true,
-            loginAsGuest: vi.fn(),
         });
 
         const { result } = renderHook(() => useGamification());
@@ -308,7 +304,6 @@ describe('useGamification', () => {
         vi.spyOn(useAuthModule, 'useAuth').mockReturnValue({
             userData: null,
             isGuest: true,
-            isAuthenticated: false,
             updateUserData: vi.fn(),
             refreshUserData: vi.fn(),
             user: null,
@@ -321,7 +316,6 @@ describe('useGamification', () => {
             enterAsGuest: vi.fn(),
             clearError: vi.fn(),
             loginWithGoogle: vi.fn(),
-            loginAsGuest: vi.fn(),
         });
 
         const { result } = renderHook(() => useGamification());
@@ -379,5 +373,75 @@ describe('useGamification', () => {
             result.current.recordQuestionCompleted(true);
         });
         expect(result.current.stats.weekendQuestionsCount).toBe(2);
+    });
+
+    // ==========================================
+    // NEW ACHIEVEMENTS (BOSS, SHOP_STATS, MASTERY)
+    // ==========================================
+    it('should unlock boss achievements', async () => {
+        const { result } = renderHook(() => useGamification());
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
+        // Giant Slayer (1 Boss)
+        act(() => {
+            result.current.checkBossAchievements(1, false);
+        });
+        expect(result.current.unlockedAchievements.some(a => a.id === 'giant_slayer')).toBe(true);
+
+        // Legend Hunter (3 Bosses)
+        act(() => {
+            result.current.checkBossAchievements(3, false);
+        });
+        expect(result.current.unlockedAchievements.some(a => a.id === 'legend_hunter')).toBe(true);
+
+        // Untouchable (First Try)
+        act(() => {
+            result.current.checkBossAchievements(1, true);
+        });
+        expect(result.current.unlockedAchievements.some(a => a.id === 'untouchable')).toBe(true);
+    });
+
+    it('should unlock shop collector achievements', async () => {
+        const { result } = renderHook(() => useGamification());
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
+        const mockInventory = {
+            ...result.current.inventory,
+            ownedItems: ['avatar_1', 'avatar_2', 'avatar_3', 'frame_1'],
+        };
+        const mockBalance = 1500;
+
+        act(() => {
+            result.current.checkShopAchievements(mockInventory, mockBalance);
+        });
+
+        // Fashionista (3 avatars)
+        expect(result.current.unlockedAchievements.some(a => a.id === 'fashionista')).toBe(true);
+        // Magnate (1000 balance)
+        expect(result.current.unlockedAchievements.some(a => a.id === 'magnate')).toBe(true);
+    });
+
+    it('should unlock mastery achievements', async () => {
+        const { result } = renderHook(() => useGamification());
+        await waitFor(() => expect(result.current.loading).toBe(false));
+
+        const mockStats = {
+            ...result.current.stats,
+            totalQuestionsCompleted: 300,
+            perfectWorlds: 3,
+        };
+
+        act(() => {
+            result.current.checkMasteryAchievements(mockStats, 'world_5', 5);
+        });
+
+        // Living Encyclopedia (250 questions)
+        expect(result.current.unlockedAchievements.some(a => a.id === 'living_encyclopedia')).toBe(true);
+        // Supreme Perfectionist (3 perfect worlds)
+        expect(result.current.unlockedAchievements.some(a => a.id === 'supreme_perfectionist')).toBe(true);
+        // Light Speed (5 consecutive speed)
+        expect(result.current.unlockedAchievements.some(a => a.id === 'light_speed')).toBe(true);
+        // Python Polyglot (Last World)
+        expect(result.current.unlockedAchievements.some(a => a.id === 'python_polyglot')).toBe(true);
     });
 });

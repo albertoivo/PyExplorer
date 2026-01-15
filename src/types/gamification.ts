@@ -11,7 +11,9 @@ export type AchievementCategory =
     | 'streak'        // Consistência
     | 'mastery'       // Maestria
     | 'social'        // Social
-    | 'special';      // Especial
+    | 'special'       // Especial
+    | 'boss'          // Bosses
+    | 'collection';   // Coleção
 
 export type AchievementRarity = 'common' | 'rare' | 'epic' | 'legendary';
 

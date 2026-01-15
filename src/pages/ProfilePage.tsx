@@ -1,5 +1,6 @@
 import { useAuth } from '../hooks/useAuth';
 import { useProgress } from '../hooks/useProgress';
+import { useGamification } from '../hooks/useGamification';
 import { useQuestionsFirestore } from '../hooks/useQuestionsFirestore';
 import { WorldProgressBar } from '../components/game/feedback/ProgressBar';
 import { DataSeeder } from '../components/education/DataSeeder';
@@ -26,6 +27,7 @@ const WORLDS_INFO = [
 export function ProfilePage() {
     const { userData, isGuest } = useAuth();
     const { stats, allProgress } = useProgress();
+    const { achievements, unlockedAchievements } = useGamification();
     const { getQuestionsByWorld } = useQuestionsFirestore();
 
     if (!userData) {
@@ -59,6 +61,9 @@ export function ProfilePage() {
     // Calcula nível do jogador
     const level = Math.floor(userData.totalScore / 100) + 1;
     const pointsForNextLevel = (level * 100) - userData.totalScore;
+
+    // Ferramentas de Desenvolvedor (Apenas admin)
+    const isAdmin = userData.email === 'albertoivo@gmail.com';
 
     return (
         <div className="profile-page">
@@ -123,40 +128,24 @@ export function ProfilePage() {
                     </div>
                 </div>
 
-                {/* Conquistas */}
+                {/* Conquistas (Dinâmico) */}
                 <div className="profile-section">
                     <h2 className="profile-section__title">🏆 Conquistas</h2>
                     <div className="profile-achievements">
-                        <div className={`achievement ${stats.completed >= 1 ? 'achievement--unlocked' : ''}`}>
-                            <span className="achievement__icon">🎯</span>
-                            <span className="achievement__name">Primeira Resposta</span>
-                            <span className="achievement__desc">Complete sua primeira questão</span>
-                        </div>
-                        <div className={`achievement ${stats.completed >= 5 ? 'achievement--unlocked' : ''}`}>
-                            <span className="achievement__icon">🌟</span>
-                            <span className="achievement__name">Estrela Nascente</span>
-                            <span className="achievement__desc">Complete 5 questões</span>
-                        </div>
-                        <div className={`achievement ${stats.completed >= 10 ? 'achievement--unlocked' : ''}`}>
-                            <span className="achievement__icon">🔥</span>
-                            <span className="achievement__name">Em Chamas</span>
-                            <span className="achievement__desc">Complete 10 questões</span>
-                        </div>
-                        <div className={`achievement ${userData.totalScore >= 100 ? 'achievement--unlocked' : ''}`}>
-                            <span className="achievement__icon">💯</span>
-                            <span className="achievement__name">Centenário</span>
-                            <span className="achievement__desc">Alcance 100 pontos</span>
-                        </div>
-                        <div className={`achievement ${level >= 5 ? 'achievement--unlocked' : ''}`}>
-                            <span className="achievement__icon">🚀</span>
-                            <span className="achievement__name">Decolando</span>
-                            <span className="achievement__desc">Alcance o nível 5</span>
-                        </div>
-                        <div className={`achievement`}>
-                            <span className="achievement__icon">👑</span>
-                            <span className="achievement__name">Mestre Python</span>
-                            <span className="achievement__desc">Complete todos os mundos</span>
-                        </div>
+                        {achievements.map((achievement) => {
+                            const isUnlocked = unlockedAchievements.some(u => u.id === achievement.id);
+                            // Se estiver oculta e bloqueada, não mostra
+                            if (achievement.hidden && !isUnlocked) return null;
+
+                            return (
+                                <div key={achievement.id} className={`achievement ${isUnlocked ? 'achievement--unlocked' : ''}`}>
+                                    <span className="achievement__icon">{achievement.icon}</span>
+                                    <span className="achievement__name">{achievement.name}</span>
+                                    <span className="achievement__desc">{achievement.description}</span>
+                                    {isUnlocked && <span className="achievement__check">✅</span>}
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
 
@@ -174,9 +163,8 @@ export function ProfilePage() {
                     </div>
                 )}
 
-
                 {/* Ferramentas de Desenvolvedor */}
-                <DataSeeder />
+                {isAdmin && <DataSeeder />}
             </div>
         </div>
     );

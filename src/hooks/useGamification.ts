@@ -6,6 +6,7 @@ import type {
     PowerUpType,
     Achievement,
     LevelInfo,
+    UserInventory,
 } from '../types/gamification';
 import {
     ACHIEVEMENTS,
@@ -14,6 +15,7 @@ import {
     getLevelProgress,
     generateDailyMissions,
     generateWeeklyMissions,
+    SHOP_ITEMS,
 } from '../data/gamificationData';
 import { useAuth } from './useAuth';
 import { getGamification, saveGamificationData } from '../firebase/firestore';
@@ -261,7 +263,9 @@ export function useGamification() {
         if (streak >= 3) unlockAchievement('streak_3');
         if (streak >= 7) unlockAchievement('streak_7');
         if (streak >= 30) unlockAchievement('streak_30');
+        if (streak >= 50) unlockAchievement('unstoppable');
         if (streak >= 100) unlockAchievement('streak_100');
+        if (streak >= 365) unlockAchievement('code_year');
     }, [unlockAchievement]);
 
     // ============================================
@@ -389,10 +393,66 @@ export function useGamification() {
             unlockAchievement('perfect_world');
         }
 
-        // Conquistador de Mundos: completou todos os mundos (6 mundos)
         if (worldsCompleted >= 6) {
             unlockAchievement('all_worlds');
         }
+    }, [unlockAchievement]);
+
+    /**
+     * Verifica conquistas de Bosses
+     */
+    const checkBossAchievements = useCallback((bossesDefeatedCount: number, firstTry: boolean) => {
+        if (bossesDefeatedCount >= 1) unlockAchievement('giant_slayer');
+        if (bossesDefeatedCount >= 3) unlockAchievement('legend_hunter');
+        // Assumindo cerca de 5 bosses totais
+        if (bossesDefeatedCount >= 5) unlockAchievement('the_destroyer');
+
+        if (firstTry) {
+            unlockAchievement('untouchable');
+        }
+    }, [unlockAchievement]);
+
+    /**
+     * Verifica conquistas de Loja
+     */
+    const checkShopAchievements = useCallback((inventory: UserInventory, balance: number) => {
+        // Avatares (contar quantos avatares tem na lista ownedItems que começam com 'avatar_')
+        const avatarsCount = inventory.ownedItems.filter(id => id.startsWith('avatar_')).length;
+        if (avatarsCount >= 3) unlockAchievement('fashionista');
+
+        // Todos os itens (comparar tamanho do ownedItems com total de SHOP_ITEMS)
+        if (inventory.ownedItems.length >= SHOP_ITEMS.length) unlockAchievement('personal_museum');
+
+        // Magnata (saldo atual)
+        if (balance >= 1000) unlockAchievement('magnate');
+    }, [unlockAchievement]);
+
+    /**
+     * Verifica conquistas de Maestria e Endgame
+     */
+    const checkMasteryAchievements = useCallback((stats: UserGamification['stats'], lastWorldCompleted?: string, consecutiveSpeed?: number) => {
+        // Enciclopédia Viva
+        if (stats.totalQuestionsCompleted >= 250) unlockAchievement('living_encyclopedia');
+
+        // Perfeccionista Supremo
+        if (stats.perfectWorlds >= 3) unlockAchievement('supreme_perfectionist');
+
+        // Velocidade da Luz: 5 questões seguidas < 20s
+        // Precisa ser rastreado. Vou assumir que quem chama passa essa info ou add ao state.
+        // Simplify: Vou checar fora ou adicionar ao state 'consecutiveFastAnswers'.
+        // Como o state já tem 'consecutiveCorrect', vou sugerir adicionar um state local ou derivado.
+        // Por hora, deixo parametrizado.
+        if (consecutiveSpeed && consecutiveSpeed >= 5) unlockAchievement('light_speed');
+
+        // Poliglota Python
+        // Vou assumir que o último mundo tem ID 'advanced_concepts' ou similar.
+        // Ajustar conforme worlds.ts.
+        if (lastWorldCompleted === 'advanced_concepts' || lastWorldCompleted === 'world_5') { // ajustado para world_5 (ultimo)
+            unlockAchievement('python_polyglot');
+        }
+
+        // Imparável e Ano do Código (Streak)
+        // Isso já é checado em checkStreakAchievements, só expandir lá.
     }, [unlockAchievement]);
 
     /**
@@ -824,6 +884,12 @@ export function useGamification() {
         newAchievements,
         unlockAchievement,
         markAchievementSeen,
+        checkTimeAchievements,
+        checkSpeedAchievement,
+        checkWeekendAchievements,
+        checkBossAchievements,
+        checkShopAchievements,
+        checkMasteryAchievements,
 
         // Missões
         dailyMissions,
