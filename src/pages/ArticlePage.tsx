@@ -105,9 +105,10 @@ export function ArticlePage() {
  * Renderiza conteúdo Markdown simples
  */
 function MarkdownContent({ content }: { content: string }) {
-    // Primeiro, processa tabelas separadamente
-    let processedContent = content;
+    // Sanitize input to prevent XSS
+    let processedContent = escapeHtml(content);
 
+    // Primeiro, processa tabelas separadamente
     // Encontra e converte tabelas markdown
     const tableRegex = /(\|.+\|[\r\n]+\|[-:| ]+\|[\r\n]+(?:\|.+\|[\r\n]*)+)/gm;
     processedContent = processedContent.replace(tableRegex, (tableBlock) => {
@@ -187,4 +188,13 @@ function getCategoryLabel(category: Article['category']): string {
         parents: '👪 Para Pais'
     }
     return labels[category]
+}
+
+function escapeHtml(text: string): string {
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
