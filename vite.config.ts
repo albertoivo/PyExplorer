@@ -215,6 +215,10 @@ export default defineConfig({
     // Target modern browsers for smaller bundles
     target: 'es2020'
   },
+  // Remove console.* and debugger in production builds
+  esbuild: {
+    drop: process.env.NODE_ENV === 'production' ? ['console', 'debugger'] : [],
+  },
   server: {
     port: 5173,
     strictPort: true
