@@ -83,7 +83,8 @@ function resolveComponentPath(componentName, appContent) {
     if (match) return match[1];
 
     // Check lazy import
-    const lazyRegex = new RegExp(`const\\s+${componentName}\\s*=\\s*lazy\\([^)]*import\\(['"]([^'"]+)['"]\\)`);
+    // Update to support arrow functions with newlines: lazy(() => import(...))
+    const lazyRegex = new RegExp(`const\\s+${componentName}\\s*=\\s*lazy\\([\\s\\S]*?import\\(['"]([^'"]+)['"]\\)`);
     match = lazyRegex.exec(appContent);
     if (match) return match[1];
 
