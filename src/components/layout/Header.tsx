@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import { useGamification } from '../../hooks/useGamification';
+import { useGamification } from '../../context/GamificationContext';
 import { SHOP_ITEMS } from '../../data/gamificationData';
 import './Header.css';
 

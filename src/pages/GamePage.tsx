@@ -9,7 +9,7 @@ import { CompletedQuestionModal } from '../components/game/CompletedQuestionModa
 import { useProgress } from '../hooks/useProgress';
 import { usePyodide } from '../hooks/usePyodide';
 import { useQuestionsFirestore } from '../hooks/useQuestionsFirestore';
-import { useGamification } from '../hooks/useGamification';
+import { useGamification } from '../context/GamificationContext';
 import { SEO } from '../components/common/SEO';
 import './GamePage.css';
 

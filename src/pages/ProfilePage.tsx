@@ -1,6 +1,6 @@
 import { useAuth } from '../hooks/useAuth';
 import { useProgress } from '../hooks/useProgress';
-import { useGamification } from '../hooks/useGamification';
+import { useGamification } from '../context/GamificationContext';
 import { useQuestionsFirestore } from '../hooks/useQuestionsFirestore';
 import { WorldProgressBar } from '../components/game/feedback/ProgressBar';
 import { DataSeeder } from '../components/education/DataSeeder';

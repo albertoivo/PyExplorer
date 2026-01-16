@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useGamification } from '../hooks/useGamification';
+import { useGamification } from '../context/GamificationContext';
 import { useAuth } from '../hooks/useAuth';
 import { SHOP_ITEMS } from '../data/gamificationData';
 import {
