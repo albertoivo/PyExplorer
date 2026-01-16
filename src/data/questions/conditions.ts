@@ -285,6 +285,22 @@ for i in range(4):
         answerIndex: 0,
         explanationKidFriendly: '`not` inverte a condição! Se `chovendo` for Falso (não está chovendo), `not chovendo` vira Verdadeiro e o código roda! ☀️',
         points: 15,
+    },
+    {
+        id: 'dec_12',
+        type: 'fill_code',
+        world: 'conditions',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Fim de Semana',
+        prompt: 'Complete para verificar se é Sábado OU Domingo:',
+        starterCode: 'dia = "Domingo"\nif dia == "Sábado" ___ dia == "Domingo":\n    print("Descanso!")',
+        solutionTemplate: 'if dia == "Sábado" or dia == "Domingo":',
+        tests: [
+            { input: null, expectedOutput: 'Descanso!' },
+        ],
+        explanationKidFriendly: 'O operador `or` (ou) deixa você escolher! Se for Sábado OU se for Domingo, a condição é verdadeira. Basta um deles ser verdade! 🏖️',
+        points: 20,
     }
 ];
 

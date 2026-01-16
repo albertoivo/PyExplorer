@@ -250,6 +250,24 @@ export const basicCommandsQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'Python é "case sensitive" (sensível a maiúsculas)! `print` deve ser sempre tudo minúsculo. `Print` ou `PRINT` não funcionam! 🚫',
         points: 10,
+    },
+    {
+        id: 'basic_12',
+        type: 'multiple_choice',
+        world: 'basic_commands',
+        difficulty: 'easy',
+        ageMin: 8,
+        title: 'Aspas Vazias',
+        prompt: 'O que o código `print("")` mostra na tela?',
+        options: [
+            'Uma linha em branco',
+            'O texto ""',
+            'Dá erro',
+            'A palavra print',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'Se não colocarmos nada entre aspas, o Python mostra uma linha vazia! É como pular uma linha no caderno. 📖',
+        points: 10,
     }
 ];
 

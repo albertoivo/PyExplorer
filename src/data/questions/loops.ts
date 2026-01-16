@@ -274,6 +274,24 @@ for i in range(___):
         ],
         explanationKidFriendly: 'O terceiro número do range é o passo! -1 faz ele andar para trás. 10, 9, 8... até 1! 🚀',
         points: 20,
+    },
+    {
+        id: 'loop_12',
+        type: 'multiple_choice',
+        world: 'loops',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Parando a Contagem',
+        prompt: 'Se eu usar `break` quando o número for 3, o que acontece com o loop que ia até 10?',
+        options: [
+            'O loop para imediatamente no 3',
+            'O loop pula o 3 e continua',
+            'O loop vai até o fim mas não mostra o 3',
+            'O loop reinicia',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'O `break` quebra o loop na hora! Se chegou no 3 e encontrou o break, ele para tudo e sai. Não chega nem no 4! 🛑',
+        points: 15,
     }
 ];
 

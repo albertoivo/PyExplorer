@@ -138,5 +138,23 @@ export const errorHandlingQuestions: QuestionDocument[] = [
         answerIndex: 2,
         explanationKidFriendly: 'Python não sabe somar texto com número! Ele fica confuso e dá TypeError (Erro de Tipo). Use str(5) para consertar! 😵‍💫',
         points: 15,
+    },
+    {
+        id: 'error_8',
+        type: 'multiple_choice',
+        world: 'error_handling',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Variável Fantasma',
+        prompt: 'O que acontece se eu tentar usar `print(x)` mas a variável `x` não existe?',
+        options: [
+            'Erro: NameError',
+            'Imprime nada',
+            'Imprime 0',
+            'Erro: SyntaxError',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'Se a variável não existe, o Python não sabe quem ela é! Ele grita `NameError` (Erro de Nome). Você precisa criar a variável antes de usar! 👻',
+        points: 15,
     }
 ];

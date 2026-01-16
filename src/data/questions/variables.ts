@@ -274,5 +274,23 @@ export const variablesQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'O tipo `bool` (Booleano) só tem dois valores: `True` ou `False`. É usado para lógica e decisões! 🚦',
         points: 10,
+    },
+    {
+        id: 'var_12',
+        type: 'multiple_choice',
+        world: 'variables',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Espaços no Nome',
+        prompt: 'Posso criar uma variável chamada `meu nome` (com espaço)?',
+        options: [
+            'Não, espaços são proibidos em nomes de variáveis',
+            'Sim, funciona normal',
+            'Sim, mas precisa ser tudo maiúsculo',
+            'Só se usar aspas',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'Nomes de variáveis NÃO podem ter espaços! Use o sublinhado `_` para separar palavras, assim: `meu_nome`. É a regra do Python! 🚫',
+        points: 10,
     }
 ];

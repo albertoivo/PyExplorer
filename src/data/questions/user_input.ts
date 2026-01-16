@@ -139,5 +139,21 @@ export const userInputQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'Não podemos somar texto com número! Use str(10) para transformar o 10 em texto, aí o Python deixa juntar! 📝',
         points: 15,
+    },
+    {
+        id: 'input_9',
+        type: 'fill_code',
+        world: 'user_input',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Input Decimal',
+        prompt: 'Complete para converter a nota digitada (ex: "8.5") em número decimal:',
+        starterCode: 'nota_txt = input("Nota: ")\nnota = ___(nota_txt)\nprint(nota)',
+        solutionTemplate: 'nota = float(nota_txt)',
+        tests: [
+            { input: '8.5', expectedOutput: '8.5' },
+        ],
+        explanationKidFriendly: 'Números com ponto (decimais) são chamados de `float`! Use `float()` para converter texto em número com vírgula. 🌊',
+        points: 20,
     }
 ];

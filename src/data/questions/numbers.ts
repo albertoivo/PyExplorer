@@ -253,6 +253,22 @@ export const numbersQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: '`round()` arredonda o número! 3.7 está mais perto de 4, então vira 4. Se fosse 3.2, viraria 3! 🔵',
         points: 15,
+    },
+    {
+        id: 'num_12',
+        type: 'fill_code',
+        world: 'numbers',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Divisão de Inteiros',
+        prompt: 'Use // para descobrir quantas vezes o 3 cabe no 10 (divisão inteira):',
+        starterCode: 'resultado = 10 ___ 3\nprint(resultado)',
+        solutionTemplate: 'resultado = 10 // 3',
+        tests: [
+            { input: null, expectedOutput: '3' },
+        ],
+        explanationKidFriendly: 'A divisão inteira // ignora o resto! 10 dividido por 3 dá 3 (e sobra 1). O // só quer saber do 3! 📦',
+        points: 15,
     }
 ];
 

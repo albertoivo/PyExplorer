@@ -285,6 +285,22 @@ export const stringsQuestions: QuestionDocument[] = [
         correctBool: true,
         explanationKidFriendly: 'Sim! `title()` deixa o texto chique! "o rato roeu" vira "O Rato Roeu". Ótimo para nomes e títulos! 🎩',
         points: 10,
+    },
+    {
+        id: 'strings_12',
+        type: 'fill_code',
+        world: 'strings',
+        difficulty: 'hard',
+        ageMin: 11,
+        title: 'Invertendo Texto',
+        prompt: 'Use fatiamento para inverter a palavra "Roma" (de trás para frente):',
+        starterCode: 'texto = "Roma"\nprint(texto[___])',
+        solutionTemplate: 'print(texto[::-1])',
+        tests: [
+            { input: null, expectedOutput: 'amoR' },
+        ],
+        explanationKidFriendly: 'Usando `[::-1]`, dizemos ao Python para andar do começo ao fim, mas com passo -1 (para trás). Isso inverte o texto! Roma vira amoR! 🔄',
+        points: 25,
     }
 ];
 

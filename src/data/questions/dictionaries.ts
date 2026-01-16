@@ -132,5 +132,21 @@ export const dictionariesQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'Para mudar um valor, é só usar a chave e o sinal de igual! É como apagar o que estava escrito na agenda e escrever o novo valor. ✏️',
         points: 15,
+    },
+    {
+        id: 'dict_8',
+        type: 'fill_code',
+        world: 'dictionaries',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Apagando Item',
+        prompt: 'Use `pop` para remover a chave "cor" do dicionário:',
+        starterCode: 'carro = {"marca": "Fiat", "cor": "Azul"}\ncarro.___("cor")\nprint(carro)',
+        solutionTemplate: 'carro.pop("cor")',
+        tests: [
+            { input: null, expectedOutput: "{'marca': 'Fiat'}" },
+        ],
+        explanationKidFriendly: 'O método `pop("chave")` remove o item do dicionário! É como arrancar uma página da agenda. A chave e o valor somem! 🗑️',
+        points: 20,
     }
 ];

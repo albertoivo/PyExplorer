@@ -273,6 +273,22 @@ desenhar_circulo(50)
         answerIndex: 0,
         explanationKidFriendly: '`print` só mostra na tela (útil para humanos). `return` entrega o dado para o programa usar em outras contas! 📦',
         points: 10,
+    },
+    {
+        id: 'func_12',
+        type: 'fill_code',
+        world: 'functions',
+        difficulty: 'medium',
+        ageMin: 11,
+        title: 'Valor Padrão',
+        prompt: 'Defina "Visitante" como valor padrão para o nome:',
+        starterCode: 'def dar_oi(nome___"Visitante"):\n    print(f"Oi, {nome}!")\ndar_oi()',
+        solutionTemplate: 'def dar_oi(nome="Visitante"):',
+        tests: [
+            { input: null, expectedOutput: 'Oi, Visitante!' },
+        ],
+        explanationKidFriendly: 'Ao colocar `nome="Visitante"`, criamos um valor padrão! Se a função for chamada sem nada, ela usa "Visitante". É o nosso plano B! 🅱️',
+        points: 20,
     }
 ];
 

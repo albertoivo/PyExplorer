@@ -285,6 +285,24 @@ export const listsQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: '`sum()` é uma função mágica que soma tudo que tem na lista! 10 + 20 + 30 = 60. Super rápido! ➕',
         points: 15,
+    },
+    {
+        id: 'list_12',
+        type: 'multiple_choice',
+        world: 'lists',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'O Último Item',
+        prompt: 'Qual índice mágico pega sempre o ÚLTIMO item da lista?',
+        options: [
+            '-1',
+            '0',
+            '100',
+            'last()',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'Em Python, o índice -1 dá a volta e pega o último item! -2 pega o penúltimo, e assim por diante. É um atalho super útil! ↩️',
+        points: 15,
     }
 ];
 
