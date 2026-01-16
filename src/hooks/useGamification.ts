@@ -60,7 +60,7 @@ function getInitialGamification(): UserGamification {
 const GUEST_GAMIFICATION_KEY = 'pyexplorer_guest_gamification';
 
 export function useGamification() {
-    const { userData, isGuest } = useAuth();
+    const { userData, isGuest, updateUserData } = useAuth();
     const [gamification, setGamification] = useState<UserGamification>(getInitialGamification);
     const [loading, setLoading] = useState(true);
     const [newAchievements, setNewAchievements] = useState<Achievement[]>([]);
@@ -281,10 +281,64 @@ export function useGamification() {
         checkWorldAchievements,
         recalculateAllAchievements,
 
+        // Shop functions
+        buyShopItem: useCallback((itemId: string, price: number): boolean => {
+            if (!userData) return false;
+
+            // Verificar se já possui o item
+            if (gamification.inventory.ownedItems.includes(itemId)) {
+                return false;
+            }
+
+            // Verificar se tem estrelas suficientes
+            if ((userData.balance || 0) < price) {
+                return false;
+            }
+
+            // Atualizar inventário
+            const updatedGamification = {
+                ...gamification,
+                inventory: {
+                    ...gamification.inventory,
+                    ownedItems: [...gamification.inventory.ownedItems, itemId],
+                },
+            };
+
+            setGamification(updatedGamification);
+            saveGamification(updatedGamification);
+
+            // Atualizar saldo no userData (deduzir estrelas)
+            updateUserData({ balance: (userData.balance || 0) - price });
+
+            return true;
+        }, [userData, gamification, saveGamification, updateUserData]),
+
+        equipItem: useCallback((itemId: string, type: 'avatar' | 'frame' | 'title') => {
+            const updatedInventory = { ...gamification.inventory };
+
+            switch (type) {
+                case 'avatar':
+                    updatedInventory.equippedAvatar = itemId;
+                    break;
+                case 'frame':
+                    updatedInventory.equippedFrame = itemId;
+                    break;
+                case 'title':
+                    updatedInventory.equippedTitle = itemId;
+                    break;
+            }
+
+            const updatedGamification = {
+                ...gamification,
+                inventory: updatedInventory,
+            };
+
+            setGamification(updatedGamification);
+            saveGamification(updatedGamification);
+        }, [gamification, saveGamification]),
+
         // Stubs
         markAchievementSeen: () => { },
-        equipItem: () => { },
-        buyShopItem: () => false, // Returns boolean to match expected signature
         claimMissionReward: () => { },
         dismissLevelUp: () => { },
         userPowerUps: gamification.powerUps,
