@@ -230,5 +230,7 @@ export interface UserGamification {
         totalPlayTime: number; // em minutos
         worldsCompleted: number;
         perfectWorlds: number; // mundos com 100% sem errar
+        bossesDefeated: number;
+        consecutiveFastAnswers: number; // For "Light Speed" achievement
     };
 }

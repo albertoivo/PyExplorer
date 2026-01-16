@@ -2,8 +2,10 @@ import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import confetti from 'canvas-confetti';
 import type { World, QuestionDocument, UserProgress } from '../types/question';
+import type { PowerUpType } from '../types/gamification';
 import { WorldMap } from '../components/game/WorldMap';
 import { QuestionEngine } from '../components/game/QuestionEngine';
+import { PowerUpBarCompact } from '../components/gamification';
 import { QuestionCard } from '../components/game/QuestionCard';
 import { CompletedQuestionModal } from '../components/game/CompletedQuestionModal';
 import { useProgress } from '../hooks/useProgress';
@@ -54,7 +56,9 @@ export function GamePage() {
     const { allProgress, recordAttempt, getQuestionProgress } = useProgress();
     const { loading: pyodideLoading, loadingProgress, loadPyodide, ready } = usePyodide();
     const { questions: allQuestions, loading: questionsLoading, getQuestionsByWorld } = useQuestionsFirestore();
-    const { recordQuestionCompleted, checkWorldAchievements } = useGamification();
+    const { recordQuestionCompleted, checkWorldAchievements, userPowerUps, usePowerUp: consumePowerUp } = useGamification();
+
+    const [activePowerUp, setActivePowerUp] = useState<PowerUpType | null>(null);
 
     // Timer para medir tempo de resposta (inicializa com 0, será setado quando iniciar questão)
     const questionStartTime = useRef<number>(0);
@@ -200,22 +204,37 @@ export function GamePage() {
         const responseTimeSeconds = (Date.now() - questionStartTime.current) / 1000;
 
         if (currentQuestion) {
+            // Aplica Power-Up de Double Stars
+            let finalScore = score;
+            if (passed && activePowerUp === 'double_stars') {
+                finalScore *= 2;
+            }
+
             const previousProgress = getQuestionProgress(currentQuestion.id);
             const wasCompleted = previousProgress?.status === 'completed';
             const existingScore = previousProgress?.score || 0;
-            const starsEarned = (passed && !wasCompleted && score > existingScore)
-                ? score - existingScore
+            const starsEarned = (passed && !wasCompleted && finalScore > existingScore)
+                ? finalScore - existingScore
                 : 0;
 
-            await recordAttempt(currentQuestion.id, passed, score);
+            await recordAttempt(currentQuestion.id, passed, finalScore);
 
             // Registra no sistema de gamificação com tempo de resposta
-            recordQuestionCompleted(passed, score, responseTimeSeconds, {
+            recordQuestionCompleted(passed, finalScore, responseTimeSeconds, {
                 worldId: currentQuestion.world,
-                starsEarned
+                starsEarned,
+                isBoss: currentQuestion.type === 'boss_battle'
             });
+
+            // Consumir/Resetar power-up se foi usado com sucesso (para double_stars)
+            // Para outros (shield?), talvez resetar nas falhas?
+            // Shield é passivo. Se falhar, usa shield. Mas shield em useGamification?
+            // Aqui só lidamos com activePowerUp 'double_stars' por enquanto.
+            if (activePowerUp) {
+                setActivePowerUp(null);
+            }
         }
-    }, [currentQuestion, getQuestionProgress, recordAttempt, recordQuestionCompleted]);
+    }, [currentQuestion, getQuestionProgress, recordAttempt, recordQuestionCompleted, activePowerUp]);
 
     /**
      * Vai para a próxima questão não resolvida ou volta para a lista
@@ -261,7 +280,19 @@ export function GamePage() {
                     const totalWorldsCompleted = Array.from(worldProgress.values())
                         .filter(p => p.completed === p.total && p.total > 0).length;
 
-                    checkWorldAchievements();
+                    // Calcular erros no mundo
+                    const mistakes = worldQuestions.reduce((acc, q) => {
+                        const qProgress = getQuestionProgress(q.id);
+                        const attemptCount = qProgress?.attempts || 0;
+                        return acc + Math.max(0, attemptCount - 1); // tentativas > 1 significa erro
+                    }, 0);
+
+                    checkWorldAchievements(
+                        selectedWorld,
+                        progress.completed,
+                        progress.total,
+                        mistakes
+                    );
 
                     // VERIFICA SE TERMINOU O JOGO INTEIRO 🏆
                     const totalWorlds = worldProgress.size; // Total de mundos com questões
@@ -312,6 +343,29 @@ export function GamePage() {
         setSelectedWorld(null);
         setWorldQuestions([]);
     }, []);
+
+    /**
+     * Usa um power-up
+     */
+    const handleUsePowerUp = useCallback((type: PowerUpType): boolean => {
+        // Lógica de efeitos imediatos (Skip)
+        if (type === 'skip') {
+            if (consumePowerUp('skip')) {
+                handleNext();
+                return true;
+            }
+            return false;
+        }
+
+        // Outros power-ups (ativam estado)
+        if (activePowerUp === type) return false; // Já ativo
+
+        if (consumePowerUp(type)) {
+            setActivePowerUp(type);
+            return true;
+        }
+        return false;
+    }, [activePowerUp, handleNext, consumePowerUp]);
 
     // Mostra loading do Pyodide ou questões
     if (!ready || questionsLoading) {
@@ -423,10 +477,20 @@ export function GamePage() {
                         </div>
                     </div>
 
+                    <div className="question-play__powerups">
+                        <PowerUpBarCompact
+                            userPowerUps={userPowerUps}
+                            onUsePowerUp={handleUsePowerUp}
+                            activePowerUp={activePowerUp}
+                        />
+                    </div>
+
                     <QuestionEngine
+                        key={currentQuestion.id}
                         question={currentQuestion}
                         onComplete={handleQuestionComplete}
                         onNext={handleNext}
+                        activePowerUp={activePowerUp || undefined}
                     />
                 </div>
             )}
@@ -444,6 +508,7 @@ export function GamePage() {
                     </div>
 
                     <QuestionEngine
+                        key={currentQuestion.id}
                         question={currentQuestion}
                         onComplete={handleQuestionComplete}
                         onNext={handleBackToQuestions}

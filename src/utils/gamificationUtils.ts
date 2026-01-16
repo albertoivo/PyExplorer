@@ -4,6 +4,7 @@
 
 interface StreakResult {
     streak: number;
+    longestStreak: number;
     lastActiveDate: string;
     shouldUpdate: boolean;
 }
@@ -11,20 +12,24 @@ interface StreakResult {
 /**
  * Calcula a nova ofensiva (streak) baseada na data da última atividade
  * @param currentStreak Ofensiva atual
+ * @param currentLongestStreak Maior ofensiva atual
  * @param lastActiveDateStr Data da última atividade (YYYY-MM-DD)
  * @param todayDateStr Data de hoje (YYYY-MM-DD) - opcional, usa hoje se não passar
  */
 export function calculateStreak(
     currentStreak: number,
+    currentLongestStreak: number = 0,
     lastActiveDateStr: string | null | undefined,
     todayDateStr?: string
 ): StreakResult {
     const today = todayDateStr || new Date().toISOString().split('T')[0];
+    const safeLongest = Math.max(currentLongestStreak, currentStreak);
 
     // Se não tem data anterior, é o primeiro dia
     if (!lastActiveDateStr) {
         return {
             streak: 1,
+            longestStreak: Math.max(safeLongest, 1),
             lastActiveDate: today,
             shouldUpdate: true
         };
@@ -34,6 +39,7 @@ export function calculateStreak(
     if (lastActiveDateStr === today) {
         return {
             streak: currentStreak,
+            longestStreak: safeLongest,
             lastActiveDate: today,
             shouldUpdate: false
         };
@@ -52,8 +58,10 @@ export function calculateStreak(
 
     if (diffDays === 1) {
         // Foi ontem: incrementa streak
+        const newStreak = currentStreak + 1;
         return {
-            streak: currentStreak + 1,
+            streak: newStreak,
+            longestStreak: Math.max(safeLongest, newStreak),
             lastActiveDate: today,
             shouldUpdate: true
         };
@@ -61,6 +69,7 @@ export function calculateStreak(
         // Passou mais de um dia: reseta para 1
         return {
             streak: 1,
+            longestStreak: safeLongest, // Mantém o recorde
             lastActiveDate: today,
             shouldUpdate: true
         };
@@ -69,6 +78,7 @@ export function calculateStreak(
     // Default (caso estranho de data futura ou erro): mantém
     return {
         streak: currentStreak,
+        longestStreak: safeLongest,
         lastActiveDate: today,
         shouldUpdate: false
     };

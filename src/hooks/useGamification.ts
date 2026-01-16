@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import type {
     UserGamification,
-    UserAchievement,
     Achievement,
     Mission,
+    PowerUpType,
+    LevelInfo,
 } from '../types/gamification';
 import {
     ACHIEVEMENTS,
@@ -12,46 +13,19 @@ import {
 } from '../data/gamificationData';
 import { useAuth } from './useAuth';
 import { getGamification, saveGamificationData } from '../firebase/firestore';
-
-// ============================================
-// ESTADO INICIAL
-// ============================================
-
-function getInitialGamification(): UserGamification {
-    return {
-        level: { level: 1, currentXP: 0, totalXP: 0 },
-        streak: {
-            currentStreak: 0,
-            longestStreak: 0,
-            lastActivityDate: '',
-            activityHistory: [],
-        },
-        achievements: [],
-        activeMissions: [],
-        inventory: {
-            ownedItems: ['avatar_snake_green', 'frame_basic', 'title_newbie'],
-            equippedAvatar: 'avatar_snake_green',
-            equippedFrame: 'frame_basic',
-            equippedTitle: 'title_newbie',
-        },
-        powerUps: {
-            inventory: { skip: 1, fifty_fifty: 2, extra_hint: 2, double_stars: 1, shield: 0 },
-            usesToday: { skip: 0, fifty_fifty: 0, extra_hint: 0, double_stars: 0, shield: 0 },
-            lastResetDate: new Date().toISOString().split('T')[0],
-        },
-        stats: {
-            totalQuestionsCompleted: 0,
-            totalCorrectAnswers: 0,
-            consecutiveCorrect: 0,
-            bestConsecutiveCorrect: 0,
-            weekendQuestionsCount: 0,
-            lastWeekendDate: '',
-            totalPlayTime: 0,
-            worldsCompleted: 0,
-            perfectWorlds: 0,
-        },
-    };
-}
+import {
+    getInitialGamification,
+    checkDailyReset,
+    buyShopItemLogic,
+    equipItemLogic,
+    consumePowerUpLogic,
+    buyPowerUpLogic,
+    claimMissionRewardLogic,
+    recordQuestionLogic,
+    checkAchievementsLogic,
+    unlockAchievementLogic,
+    markAchievementSeenLogic
+} from '../utils/gamificationState';
 
 // ============================================
 // HOOK
@@ -64,10 +38,62 @@ export function useGamification() {
     const [gamification, setGamification] = useState<UserGamification>(getInitialGamification);
     const [loading, setLoading] = useState(true);
     const [newAchievements, setNewAchievements] = useState<Achievement[]>([]);
+    const [showLevelUp, setShowLevelUp] = useState<LevelInfo | null>(null);
+
+    const safeAddAchievement = useCallback((achievement: Achievement) => {
+        setNewAchievements(prev => {
+            if (prev.some(a => a.id === achievement.id)) return prev;
+            return [...prev, achievement];
+        });
+    }, []);
 
     // ============================================
     // LOAD/SAVE
     // ============================================
+
+    const saveGamification = useCallback((data: UserGamification) => {
+        if (!data || !data.level || !data.stats) return;
+
+        // Prevent wiping XP check
+        if (data.level.totalXP === 0 && gamification.level.totalXP > 0) return;
+
+        if (isGuest) {
+            localStorage.setItem(GUEST_GAMIFICATION_KEY, JSON.stringify(data));
+        } else if (userData) {
+            localStorage.setItem(`gamification_${userData.uid}`, JSON.stringify(data));
+            saveGamificationData(userData.uid, data).catch(console.error);
+        }
+    }, [userData, isGuest, gamification.level.totalXP]);
+
+
+
+    const runAchievementChecks = useCallback((currentState: UserGamification, currentBalance: number) => {
+        const unlockedIds = checkAchievementsLogic(currentState, currentBalance);
+
+        // Process new unlocks
+        let finalState = currentState;
+        let hasChanges = false;
+
+        unlockedIds.forEach(id => {
+            const result = unlockAchievementLogic(finalState, id);
+            if (result.success) {
+                finalState = result.newState;
+                hasChanges = true;
+                const achievement = ACHIEVEMENTS.find(a => a.id === id);
+                if (achievement) safeAddAchievement(achievement);
+                console.log(`🏆 Achievement unlocked: ${achievement?.name}`);
+            }
+        });
+
+        if (hasChanges) {
+            setGamification(finalState);
+            saveGamification(finalState);
+            // Sync with UserData if XP changed
+            if (finalState.level.totalXP !== currentState.level.totalXP) {
+                updateUserData({ totalScore: finalState.level.totalXP });
+            }
+        }
+    }, [saveGamification, safeAddAchievement, updateUserData]);
 
     const loadGamification = useCallback(async () => {
         console.log('📥 Loading gamification data...');
@@ -76,18 +102,31 @@ export function useGamification() {
             if (isGuest) {
                 const stored = localStorage.getItem(GUEST_GAMIFICATION_KEY);
                 if (stored) {
-                    setGamification(JSON.parse(stored));
+                    let data = JSON.parse(stored);
+                    const resetted = checkDailyReset(data);
+                    if (resetted) {
+                        data = resetted;
+                        localStorage.setItem(GUEST_GAMIFICATION_KEY, JSON.stringify(data));
+                    }
+                    setGamification(data);
                 }
             } else if (userData) {
                 const remoteData = await getGamification(userData.uid);
                 if (remoteData) {
-                    console.log('✅ Loaded from Firestore:', {
-                        achievements: remoteData.achievements.length,
-                        totalCompleted: remoteData.stats.totalQuestionsCompleted
-                    });
-                    setGamification(remoteData);
+                    let finalData = remoteData;
+                    const resetted = checkDailyReset(remoteData);
+                    if (resetted) {
+                        finalData = resetted;
+                        await saveGamificationData(userData.uid, finalData);
+                    }
+                    setGamification(finalData);
+                    setTimeout(() => runAchievementChecks(finalData, userData.balance || 0), 100);
                 } else {
-                    console.log('⚠️ No data in Firestore, using initial state');
+                    // New user or no data: Start FRESH
+                    console.log('✨ New user detected, initializing gamification...');
+                    const initial = getInitialGamification();
+                    setGamification(initial);
+                    await saveGamificationData(userData.uid, initial);
                 }
             }
         } catch (error) {
@@ -95,155 +134,155 @@ export function useGamification() {
         } finally {
             setLoading(false);
         }
-    }, [userData, isGuest]);
-
-    const saveGamification = useCallback((data: UserGamification) => {
-        // PROTEÇÃO: Nunca salvar dados vazios ou inválidos
-        if (!data || !data.level || !data.stats) {
-            console.error('❌ Tentativa de salvar dados inválidos bloqueada!');
-            return;
-        }
-
-        // PROTEÇÃO: Nunca salvar se XP = 0 E já existe progresso
-        if (data.level.totalXP === 0 && gamification.level.totalXP > 0) {
-            console.error('❌ Bloqueado: tentativa de zerar XP existente!');
-            return;
-        }
-
-        console.log('💾 Saving gamification:', {
-            achievements: data.achievements.length,
-            totalXP: data.level.totalXP,
-            totalCompleted: data.stats.totalQuestionsCompleted
-        });
-
-        if (isGuest) {
-            localStorage.setItem(GUEST_GAMIFICATION_KEY, JSON.stringify(data));
-        } else if (userData) {
-            localStorage.setItem(`gamification_${userData.uid}`, JSON.stringify(data));
-            saveGamificationData(userData.uid, data).catch(err => {
-                console.error('❌ Error saving to Firestore:', err);
-            });
-        }
-    }, [userData, isGuest, gamification.level.totalXP]);
+    }, [userData, isGuest, runAchievementChecks]);
 
     // Load when user data is available
     useEffect(() => {
         if (userData || isGuest) {
             loadGamification();
         }
-    }, [userData?.uid, isGuest, loadGamification]);
+    }, [userData, isGuest, loadGamification]);
+
 
     // ============================================
-    // ACHIEVEMENTS
-    // ============================================
-
-    const unlockAchievement = useCallback((achievementId: string) => {
-        const achievement = ACHIEVEMENTS.find(a => a.id === achievementId);
-        if (!achievement) return;
-
-        setGamification(prev => {
-            // Check if already unlocked
-            if (prev.achievements.some(ua => ua.achievementId === achievementId)) {
-                return prev;
-            }
-
-            const userAchievement: UserAchievement = {
-                achievementId,
-                unlockedAt: new Date(),
-                seen: false,
-            };
-
-            const updated = {
-                ...prev,
-                achievements: [...prev.achievements, userAchievement],
-            };
-
-            console.log(`🏆 Achievement unlocked: ${achievement.name}`);
-            saveGamification(updated);
-            setNewAchievements(p => [...p, achievement]);
-
-            return updated;
-        });
-    }, [saveGamification]);
-
-    const checkQuestionAchievements = useCallback((totalCompleted: number, consecutiveCorrect: number) => {
-        if (totalCompleted >= 1) unlockAchievement('first_question');
-        if (totalCompleted >= 10) unlockAchievement('persistent');
-        if (totalCompleted >= 50) unlockAchievement('dedicated');
-        if (totalCompleted >= 100) unlockAchievement('centurion');
-        if (consecutiveCorrect >= 5) unlockAchievement('perfect_5');
-        if (consecutiveCorrect >= 10) unlockAchievement('perfect_10');
-    }, [unlockAchievement]);
-
-    // ============================================
-    // RECORD QUESTION COMPLETED
+    // ACTIONS
     // ============================================
 
     const recordQuestionCompleted = useCallback((
         passed: boolean,
         xpEarned: number = 10,
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        _responseTimeSeconds?: number,
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        _options?: { worldId?: string, starsEarned?: number }
+        responseTimeSeconds?: number,
+        options?: { worldId?: string, starsEarned?: number, isBoss?: boolean }
     ) => {
-        setGamification(prev => {
-            const newConsecutive = passed ? (prev.stats.consecutiveCorrect || 0) + 1 : 0;
-            const newBestConsecutive = Math.max(prev.stats.bestConsecutiveCorrect || 0, newConsecutive);
+        const { newState, levelUp, starsEarned } = recordQuestionLogic(
+            gamification,
+            passed,
+            xpEarned,
+            { ...options, responseTimeSeconds }
+        );
 
-            const updated = {
-                ...prev,
-                level: {
-                    ...prev.level,
-                    currentXP: prev.level.currentXP + xpEarned,
-                    totalXP: prev.level.totalXP + xpEarned,
-                },
-                stats: {
-                    ...prev.stats,
-                    totalQuestionsCompleted: prev.stats.totalQuestionsCompleted + 1,
-                    totalCorrectAnswers: passed ? prev.stats.totalCorrectAnswers + 1 : prev.stats.totalCorrectAnswers,
-                    consecutiveCorrect: newConsecutive,
-                    bestConsecutiveCorrect: newBestConsecutive,
-                },
-            };
-
-            console.log('📝 Question completed:', {
-                totalCompleted: updated.stats.totalQuestionsCompleted,
-                consecutiveCorrect: updated.stats.consecutiveCorrect
+        if (starsEarned > 0) {
+            updateUserData({
+                balance: (userData?.balance || 0) + starsEarned,
+                totalScore: newState.level.totalXP // Sync Score with XP
             });
+        } else {
+            // Even if no stars, update XP/Score
+            updateUserData({ totalScore: newState.level.totalXP });
+        }
 
-            saveGamification(updated);
-            checkQuestionAchievements(updated.stats.totalQuestionsCompleted, newConsecutive);
+        if (levelUp) {
+            console.log(`🎉 Level Up! ${levelUp.level}`);
+            setShowLevelUp(levelUp);
+        }
 
-            return updated;
+        // Check achievements with NEW state
+        const newBalance = (userData?.balance || 0) + starsEarned;
+
+        const unlockedIds = checkAchievementsLogic(newState, newBalance);
+        let finalState = newState;
+
+        unlockedIds.forEach(id => {
+            const result = unlockAchievementLogic(finalState, id);
+            if (result.success) {
+                finalState = result.newState;
+                const achievement = ACHIEVEMENTS.find(a => a.id === id);
+                if (achievement) safeAddAchievement(achievement);
+            }
         });
-    }, [saveGamification, checkQuestionAchievements]);
+
+        setGamification(finalState);
+        saveGamification(finalState);
+    }, [gamification, userData, updateUserData, saveGamification, safeAddAchievement]);
 
     // ============================================
-    // COMPUTED VALUES
+    // STUB FUNCTIONS (Compatibility)
+    // ============================================
+
+    const checkWorldAchievements = useCallback((worldId?: string, questionsCompleted?: number, totalQuestions?: number, mistakes: number = 0) => {
+        let currentState = gamification;
+        let hasUpdates = false;
+
+        if (worldId && questionsCompleted !== undefined && totalQuestions !== undefined) {
+            if (questionsCompleted === totalQuestions) {
+                // Manually duplicate logic from unlockAchievement to compose state updates
+                // Or just trust the final state?
+                // We need to sequence these updates. 
+                // Best is to mutate a temp state object or chain function calls.
+                // Since update logic is simple, I'll allow chained updates.
+
+                // 1. First World
+                const r1 = unlockAchievementLogic(currentState, 'first_world');
+                if (r1.success) {
+                    currentState = r1.newState;
+                    hasUpdates = true;
+                    // Note: safeAddAchievement is side effect, can call immediately
+                    const a = ACHIEVEMENTS.find(x => x.id === 'first_world');
+                    if (a) safeAddAchievement(a);
+                }
+
+                // 2. Perfect World
+                if (mistakes === 0) {
+                    const r2 = unlockAchievementLogic(currentState, 'perfect_world');
+                    if (r2.success) {
+                        currentState = r2.newState;
+                        hasUpdates = true;
+                        const a = ACHIEVEMENTS.find(x => x.id === 'perfect_world');
+                        if (a) safeAddAchievement(a);
+                    }
+                }
+
+                // 3. Stats update
+                currentState = {
+                    ...currentState,
+                    stats: {
+                        ...currentState.stats,
+                        worldsCompleted: currentState.stats.worldsCompleted + 1,
+                        perfectWorlds: mistakes === 0 ? currentState.stats.perfectWorlds + 1 : currentState.stats.perfectWorlds,
+                    }
+                };
+                hasUpdates = true;
+            }
+        }
+
+        // Also check global stats
+        if (currentState.stats.worldsCompleted >= 1) {
+            const r3 = unlockAchievementLogic(currentState, 'world_master');
+            if (r3.success) {
+                currentState = r3.newState;
+                hasUpdates = true;
+                const a = ACHIEVEMENTS.find(x => x.id === 'world_master');
+                if (a) safeAddAchievement(a);
+            }
+        }
+        if (currentState.stats.worldsCompleted >= 5) {
+            const r4 = unlockAchievementLogic(currentState, 'world_champion');
+            if (r4.success) {
+                currentState = r4.newState;
+                hasUpdates = true;
+                const a = ACHIEVEMENTS.find(x => x.id === 'world_champion');
+                if (a) safeAddAchievement(a);
+            }
+        }
+
+        if (hasUpdates) {
+            setGamification(currentState);
+            saveGamification(currentState);
+        }
+    }, [gamification, saveGamification, safeAddAchievement]);
+
+    // ============================================
+    // RETURN
     // ============================================
 
     const currentLevel = useMemo(() => getLevelFromXP(gamification.level.totalXP), [gamification.level.totalXP]);
     const levelProgress = useMemo(() => getLevelProgress(gamification.level.totalXP), [gamification.level.totalXP]);
-
     const achievements = useMemo(() => ACHIEVEMENTS, []);
     const unlockedAchievements = useMemo(() => {
         return gamification.achievements
             .map(ua => ACHIEVEMENTS.find(a => a.id === ua.achievementId))
             .filter(Boolean) as Achievement[];
     }, [gamification.achievements]);
-
-    // ============================================
-    // STUB FUNCTIONS (to maintain compatibility)
-    // ============================================
-
-    const checkWorldAchievements = useCallback(() => {
-        // Stub - implement later if needed
-    }, []);
-
-    // ============================================
-    // RETURN
-    // ============================================
 
     return {
         // State
@@ -253,30 +292,17 @@ export function useGamification() {
         levelProgress,
         streak: {
             currentStreak: userData?.streak || 0,
-            longestStreak: userData?.streak || 0, // TODO: Add separate field for longestStreak in userData
+            longestStreak: userData?.longestStreak || userData?.streak || 0,
             lastActivityDate: userData?.lastActiveDate || '',
-            activityHistory: (() => {
-                // Gera histórico de atividades baseado no streak atual
-                const history: string[] = [];
-                const currentStreak = userData?.streak || 0;
-                const today = new Date();
-
-                // Adiciona os últimos N dias baseado no streak
-                for (let i = 0; i < currentStreak; i++) {
-                    const date = new Date(today);
-                    date.setDate(date.getDate() - i);
-                    history.push(date.toISOString().split('T')[0]);
-                }
-
-                return history;
-            })(),
+            activityHistory: gamification?.streak?.activityHistory || [],
         },
-        activeMissions: gamification.activeMissions,
-        inventory: gamification.inventory,
-        powerUps: gamification.powerUps,
+        activeMissions: gamification?.activeMissions || [],
+        inventory: gamification?.inventory,
+        powerUps: gamification?.powerUps,
+
 
         // UI State
-        showLevelUp: null,
+        showLevelUp,
         dailyMissions: [] as Mission[],
         weeklyMissions: [] as Mission[],
 
@@ -289,81 +315,94 @@ export function useGamification() {
         recordQuestionCompleted,
         checkWorldAchievements,
 
-        // Shop functions
-        buyShopItem: useCallback((itemId: string, price: number): boolean => {
-            if (!userData) return false;
+        buyShopItem: useCallback((itemId: string, price: number) => {
+            const result = buyShopItemLogic(gamification, itemId, price, userData?.balance || 0);
+            if (result.success) {
+                let finalState = result.newState;
+                // Check Fashionista/Personal Museum
+                const unlockedIds = checkAchievementsLogic(finalState, (userData?.balance || 0) - price);
+                unlockedIds.forEach(id => {
+                    const r = unlockAchievementLogic(finalState, id);
+                    if (r.success) {
+                        finalState = r.newState;
+                        const a = ACHIEVEMENTS.find(x => x.id === id);
+                        if (a) safeAddAchievement(a);
+                    }
+                });
 
-            // Usar setter funcional para evitar stale state
-            let success = false;
-
-            setGamification(prev => {
-                // Verificar se já possui o item (com estado atual)
-                if (prev.inventory.ownedItems.includes(itemId)) {
-                    return prev; // Não modifica estado
-                }
-
-                // Verificar se tem estrelas suficientes
-                if ((userData.balance || 0) < price) {
-                    return prev; // Não modifica estado
-                }
-
-                // Marcar como sucesso
-                success = true;
-
-                // Atualizar inventário
-                const updatedGamification = {
-                    ...prev,
-                    inventory: {
-                        ...prev.inventory,
-                        ownedItems: [...prev.inventory.ownedItems, itemId],
-                    },
-                };
-
-                saveGamification(updatedGamification);
-                return updatedGamification;
-            });
-
-            // Atualizar saldo no userData apenas se sucesso
-            if (success) {
-                updateUserData({ balance: (userData.balance || 0) - price });
+                setGamification(finalState);
+                saveGamification(finalState);
+                updateUserData({ balance: (userData?.balance || 0) - price });
+                return true;
             }
-
-            return success;
-        }, [userData, saveGamification, updateUserData]),
+            return false;
+        }, [gamification, userData, saveGamification, updateUserData, safeAddAchievement]),
 
         equipItem: useCallback((itemId: string, type: 'avatar' | 'frame' | 'title') => {
-            // Usar setter funcional para evitar stale state
-            setGamification(prev => {
-                const updatedInventory = { ...prev.inventory };
+            const newState = equipItemLogic(gamification, itemId, type);
+            setGamification(newState);
+            saveGamification(newState);
+        }, [gamification, saveGamification]),
 
-                switch (type) {
-                    case 'avatar':
-                        updatedInventory.equippedAvatar = itemId;
-                        break;
-                    case 'frame':
-                        updatedInventory.equippedFrame = itemId;
-                        break;
-                    case 'title':
-                        updatedInventory.equippedTitle = itemId;
-                        break;
-                }
+        markAchievementSeen: useCallback((achievementId: string) => {
+            const newState = markAchievementSeenLogic(gamification, achievementId);
+            setGamification(newState);
+            saveGamification(newState);
+            setNewAchievements(prev => prev.filter(a => a.id !== achievementId));
+        }, [gamification, saveGamification]),
 
-                const updatedGamification = {
-                    ...prev,
-                    inventory: updatedInventory,
-                };
+        claimMissionReward: useCallback((missionId: string) => {
+            const { success, newState, rewards, levelUp } = claimMissionRewardLogic(gamification, missionId);
+            if (success) {
+                updateUserData({
+                    balance: (userData?.balance || 0) + rewards.stars,
+                    totalScore: newState.level.totalXP
+                });
 
-                saveGamification(updatedGamification);
-                return updatedGamification;
-            });
-        }, [saveGamification]),
+                // Check Achievements (Magnata)
+                const newBalance = (userData?.balance || 0) + rewards.stars;
+                const unlockedIds = checkAchievementsLogic(newState, newBalance);
+                let finalState = newState;
+                unlockedIds.forEach(id => {
+                    const r = unlockAchievementLogic(finalState, id);
+                    if (r.success) {
+                        finalState = r.newState;
+                        const a = ACHIEVEMENTS.find(x => x.id === id);
+                        if (a) safeAddAchievement(a);
+                    }
+                });
 
-        // Stubs
-        markAchievementSeen: () => { },
-        claimMissionReward: () => { },
-        dismissLevelUp: () => { },
+                if (levelUp) setShowLevelUp(levelUp);
+                setGamification(finalState);
+                saveGamification(finalState);
+            }
+        }, [gamification, userData, updateUserData, saveGamification, safeAddAchievement]),
+
+        dismissLevelUp: useCallback(() => setShowLevelUp(null), []),
+
         userPowerUps: gamification.powerUps,
-        usePowerUp: () => false, // Returns boolean to match expected signature
-        buyPowerUp: () => false, // Returns boolean to match expected signature
+
+        usePowerUp: useCallback((powerUpType: PowerUpType) => {
+            const result = consumePowerUpLogic(gamification, powerUpType);
+            if (result.success) {
+                setGamification(result.newState);
+                console.log(`✅ Power-up usado: ${powerUpType}`);
+                saveGamification(result.newState);
+                return true;
+            }
+            return false;
+        }, [gamification, saveGamification]),
+
+        buyPowerUp: useCallback((powerUpType: PowerUpType, price: number) => {
+            const result = buyPowerUpLogic(gamification, powerUpType, price, userData?.balance || 0);
+            if (result.success) {
+                setGamification(result.newState);
+                console.log(`✅ Power-up comprado: ${powerUpType}`);
+                saveGamification(result.newState);
+                updateUserData({ balance: (userData?.balance || 0) - price });
+                return true;
+            }
+            return false;
+        }, [gamification, userData, updateUserData, saveGamification]),
     };
 }

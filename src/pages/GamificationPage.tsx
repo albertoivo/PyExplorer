@@ -9,7 +9,6 @@ import {
     MissionList,
     AvatarShop,
     PowerUpBar,
-    GamificationToastContainer,
     Leaderboard,
 } from '../components/gamification';
 import './GamificationPage.css';
@@ -26,8 +25,6 @@ export function GamificationPage() {
         streak,
         achievements,
         unlockedAchievements,
-        newAchievements,
-        markAchievementSeen,
         dailyMissions,
         weeklyMissions,
         activeMissions,
@@ -38,8 +35,6 @@ export function GamificationPage() {
         userPowerUps,
         usePowerUp,
         buyPowerUp,
-        showLevelUp,
-        dismissLevelUp,
         gamification,
     } = useGamification();
 
@@ -56,13 +51,6 @@ export function GamificationPage() {
 
     return (
         <div className="gamification-page">
-            {/* Toast de notificações */}
-            <GamificationToastContainer
-                achievements={newAchievements}
-                levelUp={showLevelUp}
-                onDismissAchievement={markAchievementSeen}
-                onDismissLevelUp={dismissLevelUp}
-            />
 
             {/* Header com nível e stats */}
             <header className="gamification-page__header">

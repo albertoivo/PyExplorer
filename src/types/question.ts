@@ -188,6 +188,8 @@ export interface UserData {
   unlockedWorlds: World[];
   /** Ofensiva atual (dias seguidos) */
   streak: number;
+  /** Maior ofensiva já alcançada */
+  longestStreak?: number;
   /** Data da última atividade para cálculo de streak */
   lastActiveDate: string;
   /** Start of Phase 2 logic */

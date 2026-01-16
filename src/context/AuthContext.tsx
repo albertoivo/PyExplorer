@@ -95,11 +95,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
                         // Lógica de Streak (Ofensiva)
                         const streakResult = calculateStreak(
                             data.streak || 0,
+                            data.longestStreak || 0,
                             data.lastActiveDate
                         );
 
                         if (streakResult.shouldUpdate) {
                             data.streak = streakResult.streak;
+                            data.longestStreak = streakResult.longestStreak;
                             data.lastActiveDate = streakResult.lastActiveDate;
                             await saveUser(data);
                         }
@@ -119,11 +121,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
                     // Lógica de Streak para convidado
                     const streakResult = calculateStreak(
                         data.streak || 0,
+                        data.longestStreak || 0,
                         data.lastActiveDate
                     );
 
                     if (streakResult.shouldUpdate) {
                         data.streak = streakResult.streak;
+                        data.longestStreak = streakResult.longestStreak;
                         data.lastActiveDate = streakResult.lastActiveDate;
                         localStorage.setItem(GUEST_KEY, JSON.stringify(data));
                     }

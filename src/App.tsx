@@ -3,7 +3,8 @@ import { HelmetProvider } from 'react-helmet-async';
 import { Suspense, lazy } from 'react';
 import { AuthProvider } from './context/AuthContext';
 import { MascotProvider, useMascotContext } from './context/MascotContext';
-import { GamificationProvider } from './context/GamificationContext';
+import { GamificationProvider, useGamification } from './context/GamificationContext';
+import { GamificationToastContainer } from './components/gamification';
 
 // Layout (carregado imediatamente - pequenos)
 import { Header } from './components/layout/Header';
@@ -81,6 +82,22 @@ function GlobalMascot() {
 }
 
 /**
+ * Componente que exibe notificações globais de gamificação
+ */
+function GlobalToasts() {
+  const { newAchievements, showLevelUp, markAchievementSeen, dismissLevelUp } = useGamification();
+
+  return (
+    <GamificationToastContainer
+      achievements={newAchievements}
+      levelUp={showLevelUp}
+      onDismissAchievement={markAchievementSeen}
+      onDismissLevelUp={dismissLevelUp}
+    />
+  );
+}
+
+/**
  * Componente principal da aplicação PyExplorer
  * Um jogo educativo para ensinar Python para crianças
  */
@@ -136,8 +153,11 @@ function App() {
                 <Footer />
                 <OfflineIndicator />
 
+
                 {/* Mascote global */}
                 <GlobalMascot />
+                {/* Notificações globais */}
+                <GlobalToasts />
               </div>
             </MascotProvider>
           </GamificationProvider>

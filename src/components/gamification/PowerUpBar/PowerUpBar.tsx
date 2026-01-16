@@ -6,7 +6,7 @@ interface PowerUpBarProps {
     userPowerUps: UserPowerUps;
     userStars: number;
     onUsePowerUp: (type: PowerUpType) => boolean;
-    onBuyPowerUp: (type: PowerUpType) => boolean;
+    onBuyPowerUp: (type: PowerUpType, price: number) => boolean;
     activePowerUp?: PowerUpType | null;
 }
 
@@ -81,7 +81,7 @@ export function PowerUpBar({
                                 ) : (
                                     <button
                                         className="powerup-item__buy-btn"
-                                        onClick={() => onBuyPowerUp(powerUp.id)}
+                                        onClick={() => onBuyPowerUp(powerUp.id, powerUp.price)}
                                         disabled={!canBuyNow}
                                         title={`Comprar por ${powerUp.price} estrelas`}
                                         aria-label={`Comprar ${powerUp.name} por ${powerUp.price} estrelas`}
