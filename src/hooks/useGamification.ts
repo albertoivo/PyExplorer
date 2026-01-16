@@ -242,7 +242,12 @@ export function useGamification() {
         loading,
         currentLevel,
         levelProgress,
-        streak: gamification.streak,
+        streak: {
+            currentStreak: userData?.streak || 0,
+            longestStreak: userData?.streak || 0, // TODO: Add separate field for longestStreak in userData
+            lastActivityDate: userData?.lastActiveDate || '',
+            activityHistory: [], // TODO: Implement activity history if needed
+        },
         activeMissions: gamification.activeMissions,
         inventory: gamification.inventory,
         powerUps: gamification.powerUps,
