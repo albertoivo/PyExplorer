@@ -233,6 +233,51 @@ export function useGamification() {
         checkQuestionAchievements(stats.totalQuestionsCompleted, stats.consecutiveCorrect);
     }, [gamification.stats, checkQuestionAchievements]);
 
+    /**
+     * Reconstrói TODOS os dados de gamificação baseado nas estatísticas atuais
+     * Útil para recuperar XP e nível perdidos
+     */
+    const rebuildFromProgress = useCallback(() => {
+        try {
+            console.log('🔧 Reconstruindo XP e nível baseado em estatísticas...');
+
+            const { totalQuestionsCompleted, totalCorrectAnswers } = gamification.stats;
+
+            // Calcular XP total: 20 XP por questão correta
+            const totalXP = totalCorrectAnswers * 20;
+
+            console.log(`📊 Questões completadas: ${totalQuestionsCompleted}`);
+            console.log(`✅ Respostas corretas: ${totalCorrectAnswers}`);
+            console.log(`✨ XP Total calculado: ${totalXP}`);
+
+            // Atualizar XP
+            setGamification(prev => {
+                const updated: UserGamification = {
+                    ...prev,
+                    level: {
+                        ...prev.level,
+                        totalXP,
+                        currentXP: totalXP,
+                    },
+                };
+
+                saveGamification(updated);
+                console.log('✅ XP e nível reconstruídos!');
+
+                return updated;
+            });
+
+            // Recalcular conquistas
+            setTimeout(() => {
+                recalculateAllAchievements();
+                console.log('🏆 Conquistas recalculadas!');
+            }, 500);
+
+        } catch (error) {
+            console.error('❌ Erro ao reconstruir:', error);
+        }
+    }, [gamification.stats, saveGamification, recalculateAllAchievements]);
+
     // ============================================
     // RETURN
     // ============================================
@@ -350,6 +395,9 @@ export function useGamification() {
                 return updatedGamification;
             });
         }, [saveGamification]),
+
+        // Recovery function
+        rebuildFromProgress,
 
         // Stubs
         markAchievementSeen: () => { },

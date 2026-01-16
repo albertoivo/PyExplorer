@@ -25,7 +25,7 @@ const WORLDS_INFO = [
 export function ProfilePage() {
     const { userData, isGuest } = useAuth();
     const { stats, allProgress } = useProgress();
-    const { achievements, unlockedAchievements, gamification, recalculateAllAchievements, currentLevel, levelProgress } = useGamification();
+    const { achievements, unlockedAchievements, gamification, recalculateAllAchievements, currentLevel, levelProgress, rebuildFromProgress } = useGamification();
     const { getQuestionsByWorld } = useQuestionsFirestore();
 
     if (!userData) {
@@ -201,6 +201,25 @@ export function ProfilePage() {
                             }}
                         >
                             🔄 Recalcular Conquistas (Admin)
+                        </button>
+                        <button
+                            onClick={() => {
+                                console.log('🚑 Recuperação Completa iniciada!');
+                                rebuildFromProgress();
+                            }}
+                            style={{
+                                marginBottom: '20px',
+                                marginLeft: '10px',
+                                padding: '10px 20px',
+                                backgroundColor: '#f56565',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '8px',
+                                cursor: 'pointer',
+                                fontWeight: 'bold'
+                            }}
+                        >
+                            🚑 Recuperar XP e Nível
                         </button>
                         <DataSeeder />
                     </>
