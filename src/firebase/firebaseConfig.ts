@@ -10,41 +10,28 @@ import type { Analytics } from 'firebase/analytics';
 /**
  * Configuração do Firebase
  * 
- * As credenciais são carregadas via variáveis de ambiente (.env).
- * Para configurar:
- * 1. Copie o arquivo .env.example para .env
- * 2. Preencha com os dados do seu projeto Firebase
+ * NOTA DE SEGURANÇA:
+ * Idealmente, estas chaves devem vir de variáveis de ambiente (VITE_FIREBASE_*)
+ * configuradas no .env (local) e nos Secrets do GitHub Actions (produção).
+ *
+ * Os valores hardcoded abaixo servem como FALLBACK TEMPORÁRIO para garantir
+ * que a aplicação não quebre em produção caso os Secrets não estejam configurados.
+ *
+ * TODO: Remover os valores hardcoded após confirmar a configuração dos Secrets no GitHub.
  */
 const firebaseConfig = {
-    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-    appId: import.meta.env.VITE_FIREBASE_APP_ID,
-    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY || 'AIzaSyBjrrWJRsxAqzmbjp7MBQgD5vhC0Ch6l_Q',
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'pyexplorer-cd32d.firebaseapp.com',
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'pyexplorer-cd32d',
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'pyexplorer-cd32d.firebasestorage.app',
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '762952995670',
+    appId: import.meta.env.VITE_FIREBASE_APP_ID || '1:762952995670:web:a709c16c4e0fe43c8cbcf7',
+    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || 'G-ZF147K9F7V',
 };
 
-// Validação de configuração
-const requiredKeys = [
-    'apiKey',
-    'authDomain',
-    'projectId',
-    'storageBucket',
-    'messagingSenderId',
-    'appId'
-];
-
-const missingKeys = requiredKeys.filter(key => !firebaseConfig[key as keyof typeof firebaseConfig]);
-
-if (missingKeys.length > 0) {
-    // Em desenvolvimento, lançamos erro para alertar o desenvolvedor
-    // Em produção, isso pode causar tela branca, mas é melhor que falhar silenciosamente ou usar credenciais erradas
-    const errorMessage = `Erro de Configuração: Faltam variáveis de ambiente do Firebase: ${missingKeys.join(', ')}`;
-    console.error(errorMessage);
-    if (import.meta.env.DEV) {
-        throw new Error(errorMessage);
-    }
+// Validação (Apenas Log, não trava o app pois temos fallbacks)
+if (!import.meta.env.VITE_FIREBASE_API_KEY) {
+    console.warn('⚠️ Firebase rodando com credenciais de fallback. Configure as variáveis de ambiente para maior segurança.');
 }
 
 // Inicializa o Firebase
