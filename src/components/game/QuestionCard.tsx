@@ -9,33 +9,39 @@ interface QuestionCardProps {
     onClick: () => void;
 }
 
+const TYPE_ICONS: Record<string, string> = {
+    multiple_choice: '🎯',
+    true_false: '⚡',
+    fill_code: '✏️',
+    partial_function: '🧩',
+    full_function: '💻',
+    boss_battle: '👹',
+    default: '❓'
+};
+
+const TYPE_LABELS: Record<string, string> = {
+    multiple_choice: 'Escolha',
+    true_false: 'V ou F',
+    fill_code: 'Complete',
+    partial_function: 'Função Parcial',
+    full_function: 'Função',
+    boss_battle: 'Chefe Final',
+    default: 'Questão'
+};
+
+const DIFFICULTY_TEXT: Record<string, string> = {
+    easy: 'Fácil',
+    medium: 'Médio',
+    hard: 'Difícil'
+};
+
 /**
  * Card de questão na lista de questões de um mundo
  */
 export function QuestionCard({ question, index, status, locked, onClick }: QuestionCardProps) {
-    const getTypeIcon = () => {
-        switch (question.type) {
-            case 'multiple_choice': return '🎯';
-            case 'true_false': return '⚡';
-            case 'fill_code': return '✏️';
-            case 'partial_function': return '🧩';
-            case 'full_function': return '💻';
-            case 'boss_battle': return '👹';
-            default: return '❓';
-        }
-    };
-
-    const getTypeLabel = () => {
-        switch (question.type) {
-            case 'multiple_choice': return 'Escolha';
-            case 'true_false': return 'V ou F';
-            case 'fill_code': return 'Complete';
-            case 'partial_function': return 'Função Parcial';
-            case 'full_function': return 'Função';
-            case 'boss_battle': return 'Chefe Final';
-            default: return 'Questão';
-        }
-    };
+    const typeIcon = TYPE_ICONS[question.type] || TYPE_ICONS.default;
+    const typeLabel = TYPE_LABELS[question.type] || TYPE_LABELS.default;
+    const difficultyText = DIFFICULTY_TEXT[question.difficulty] || '';
 
     const getStatusIcon = () => {
         if (locked) return '🔒';
@@ -46,22 +52,38 @@ export function QuestionCard({ question, index, status, locked, onClick }: Quest
         }
     };
 
+    const getStatusText = () => {
+        if (locked) return 'Bloqueada';
+        switch (status) {
+            case 'completed': return 'Completada';
+            case 'in_progress': return 'Em progresso';
+            default: return 'Disponível';
+        }
+    };
+
     return (
         <button
             className={`question-card question-card--${status} ${locked ? 'question-card--locked' : ''}`}
             onClick={locked ? undefined : onClick}
             disabled={locked}
+            aria-label={`Questão ${index + 1}: ${question.title}. Tipo: ${typeLabel}. Dificuldade: ${difficultyText}. Status: ${getStatusText()}.`}
         >
-            <div className={`question-card__status question-card__status--${locked ? 'locked' : status}`}>
+            <div
+                className={`question-card__status question-card__status--${locked ? 'locked' : status}`}
+                aria-hidden="true"
+            >
                 {getStatusIcon()}
             </div>
 
             <div className="question-card__content">
                 <div className="question-card__header">
-                    <span className="question-card__type">
-                        {getTypeIcon()} {getTypeLabel()}
+                    <span className="question-card__type" aria-hidden="true">
+                        {typeIcon} {typeLabel}
                     </span>
-                    <span className={`question-card__difficulty question-card__difficulty--${question.difficulty}`}>
+                    <span
+                        className={`question-card__difficulty question-card__difficulty--${question.difficulty}`}
+                        aria-hidden="true"
+                    >
                         {question.difficulty === 'easy' && '⭐'}
                         {question.difficulty === 'medium' && '⭐⭐'}
                         {question.difficulty === 'hard' && '⭐⭐⭐'}
@@ -70,13 +92,13 @@ export function QuestionCard({ question, index, status, locked, onClick }: Quest
 
                 <h4 className="question-card__title">{question.title}</h4>
 
-                <p className="question-card__preview">
+                <p className="question-card__preview" aria-hidden="true">
                     {question.prompt.slice(0, 80)}
                     {question.prompt.length > 80 ? '...' : ''}
                 </p>
             </div>
 
-            <div className="question-card__arrow">→</div>
+            <div className="question-card__arrow" aria-hidden="true">→</div>
         </button>
     );
 }
