@@ -98,8 +98,21 @@ export function useGamification() {
     }, [userData, isGuest]);
 
     const saveGamification = useCallback((data: UserGamification) => {
+        // PROTEÇÃO: Nunca salvar dados vazios ou inválidos
+        if (!data || !data.level || !data.stats) {
+            console.error('❌ Tentativa de salvar dados inválidos bloqueada!');
+            return;
+        }
+
+        // PROTEÇÃO: Nunca salvar se XP = 0 E já existe progresso
+        if (data.level.totalXP === 0 && gamification.level.totalXP > 0) {
+            console.error('❌ Bloqueado: tentativa de zerar XP existente!');
+            return;
+        }
+
         console.log('💾 Saving gamification:', {
             achievements: data.achievements.length,
+            totalXP: data.level.totalXP,
             totalCompleted: data.stats.totalQuestionsCompleted
         });
 
@@ -111,7 +124,7 @@ export function useGamification() {
                 console.error('❌ Error saving to Firestore:', err);
             });
         }
-    }, [userData, isGuest]);
+    }, [userData, isGuest, gamification.level.totalXP]);
 
     // Load when user data is available
     useEffect(() => {
@@ -233,51 +246,6 @@ export function useGamification() {
         checkQuestionAchievements(stats.totalQuestionsCompleted, stats.consecutiveCorrect);
     }, [gamification.stats, checkQuestionAchievements]);
 
-    /**
-     * Reconstrói TODOS os dados de gamificação baseado nas estatísticas atuais
-     * Útil para recuperar XP e nível perdidos
-     */
-    const rebuildFromProgress = useCallback(() => {
-        try {
-            console.log('🔧 Reconstruindo XP e nível baseado em estatísticas...');
-
-            const { totalQuestionsCompleted, totalCorrectAnswers } = gamification.stats;
-
-            // Calcular XP total: 20 XP por questão correta
-            const totalXP = totalCorrectAnswers * 20;
-
-            console.log(`📊 Questões completadas: ${totalQuestionsCompleted}`);
-            console.log(`✅ Respostas corretas: ${totalCorrectAnswers}`);
-            console.log(`✨ XP Total calculado: ${totalXP}`);
-
-            // Atualizar XP
-            setGamification(prev => {
-                const updated: UserGamification = {
-                    ...prev,
-                    level: {
-                        ...prev.level,
-                        totalXP,
-                        currentXP: totalXP,
-                    },
-                };
-
-                saveGamification(updated);
-                console.log('✅ XP e nível reconstruídos!');
-
-                return updated;
-            });
-
-            // Recalcular conquistas
-            setTimeout(() => {
-                recalculateAllAchievements();
-                console.log('🏆 Conquistas recalculadas!');
-            }, 500);
-
-        } catch (error) {
-            console.error('❌ Erro ao reconstruir:', error);
-        }
-    }, [gamification.stats, saveGamification, recalculateAllAchievements]);
-
     // ============================================
     // RETURN
     // ============================================
@@ -395,9 +363,6 @@ export function useGamification() {
                 return updatedGamification;
             });
         }, [saveGamification]),
-
-        // Recovery function
-        rebuildFromProgress,
 
         // Stubs
         markAchievementSeen: () => { },
