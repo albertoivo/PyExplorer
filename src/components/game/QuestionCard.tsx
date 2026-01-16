@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import type { QuestionDocument } from '../../types/question';
 import './QuestionCard.css';
 
@@ -6,60 +7,64 @@ interface QuestionCardProps {
     index: number;
     status: 'not_started' | 'in_progress' | 'completed';
     locked?: boolean;
-    onClick: () => void;
+    onClick: (question: QuestionDocument) => void;
 }
+
+const TYPE_ICONS: Record<string, string> = {
+    multiple_choice: '🎯',
+    true_false: '⚡',
+    fill_code: '✏️',
+    partial_function: '🧩',
+    full_function: '💻',
+    boss_battle: '👹',
+};
+
+const TYPE_LABELS: Record<string, string> = {
+    multiple_choice: 'Escolha',
+    true_false: 'V ou F',
+    fill_code: 'Complete',
+    partial_function: 'Função Parcial',
+    full_function: 'Função',
+    boss_battle: 'Chefe Final',
+};
+
+const getStatusIcon = (status: string, locked?: boolean, index?: number) => {
+    if (locked) return '🔒';
+    switch (status) {
+        case 'completed': return '✓';
+        case 'in_progress': return '⋯';
+        default: return index !== undefined ? index + 1 : '';
+    }
+};
 
 /**
  * Card de questão na lista de questões de um mundo
  */
-export function QuestionCard({ question, index, status, locked, onClick }: QuestionCardProps) {
-    const getTypeIcon = () => {
-        switch (question.type) {
-            case 'multiple_choice': return '🎯';
-            case 'true_false': return '⚡';
-            case 'fill_code': return '✏️';
-            case 'partial_function': return '🧩';
-            case 'full_function': return '💻';
-            case 'boss_battle': return '👹';
-            default: return '❓';
-        }
-    };
+export const QuestionCard = memo(function QuestionCard({ question, index, status, locked, onClick }: QuestionCardProps) {
+    const typeIcon = TYPE_ICONS[question.type] || '❓';
+    const typeLabel = TYPE_LABELS[question.type] || 'Questão';
+    const statusIcon = getStatusIcon(status, locked, index);
 
-    const getTypeLabel = () => {
-        switch (question.type) {
-            case 'multiple_choice': return 'Escolha';
-            case 'true_false': return 'V ou F';
-            case 'fill_code': return 'Complete';
-            case 'partial_function': return 'Função Parcial';
-            case 'full_function': return 'Função';
-            case 'boss_battle': return 'Chefe Final';
-            default: return 'Questão';
-        }
-    };
-
-    const getStatusIcon = () => {
-        if (locked) return '🔒';
-        switch (status) {
-            case 'completed': return '✓';
-            case 'in_progress': return '⋯';
-            default: return index + 1;
+    const handleClick = () => {
+        if (!locked) {
+            onClick(question);
         }
     };
 
     return (
         <button
             className={`question-card question-card--${status} ${locked ? 'question-card--locked' : ''}`}
-            onClick={locked ? undefined : onClick}
+            onClick={handleClick}
             disabled={locked}
         >
             <div className={`question-card__status question-card__status--${locked ? 'locked' : status}`}>
-                {getStatusIcon()}
+                {statusIcon}
             </div>
 
             <div className="question-card__content">
                 <div className="question-card__header">
                     <span className="question-card__type">
-                        {getTypeIcon()} {getTypeLabel()}
+                        {typeIcon} {typeLabel}
                     </span>
                     <span className={`question-card__difficulty question-card__difficulty--${question.difficulty}`}>
                         {question.difficulty === 'easy' && '⭐'}
@@ -79,6 +84,6 @@ export function QuestionCard({ question, index, status, locked, onClick }: Quest
             <div className="question-card__arrow">→</div>
         </button>
     );
-}
+});
 
 export default QuestionCard;
