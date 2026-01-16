@@ -324,28 +324,31 @@ export function useGamification() {
         }, [userData, saveGamification, updateUserData]),
 
         equipItem: useCallback((itemId: string, type: 'avatar' | 'frame' | 'title') => {
-            const updatedInventory = { ...gamification.inventory };
+            // Usar setter funcional para evitar stale state
+            setGamification(prev => {
+                const updatedInventory = { ...prev.inventory };
 
-            switch (type) {
-                case 'avatar':
-                    updatedInventory.equippedAvatar = itemId;
-                    break;
-                case 'frame':
-                    updatedInventory.equippedFrame = itemId;
-                    break;
-                case 'title':
-                    updatedInventory.equippedTitle = itemId;
-                    break;
-            }
+                switch (type) {
+                    case 'avatar':
+                        updatedInventory.equippedAvatar = itemId;
+                        break;
+                    case 'frame':
+                        updatedInventory.equippedFrame = itemId;
+                        break;
+                    case 'title':
+                        updatedInventory.equippedTitle = itemId;
+                        break;
+                }
 
-            const updatedGamification = {
-                ...gamification,
-                inventory: updatedInventory,
-            };
+                const updatedGamification = {
+                    ...prev,
+                    inventory: updatedInventory,
+                };
 
-            setGamification(updatedGamification);
-            saveGamification(updatedGamification);
-        }, [gamification, saveGamification]),
+                saveGamification(updatedGamification);
+                return updatedGamification;
+            });
+        }, [saveGamification]),
 
         // Stubs
         markAchievementSeen: () => { },
