@@ -47,9 +47,6 @@ export function GamePage() {
     const [worldQuestions, setWorldQuestions] = useState<QuestionDocument[]>([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
-    // Track mistakes in current session for perfect run achievement
-    const [isPerfectRun, setIsPerfectRun] = useState(true);
-
     // Modal para questões já completadas
     const [showCompletedModal, setShowCompletedModal] = useState(false);
     const [completedQuestionProgress, setCompletedQuestionProgress] = useState<UserProgress | null>(null);
@@ -143,8 +140,6 @@ export function GamePage() {
         setSelectedWorld(world);
         setWorldQuestions(questions);
         setView('world-questions');
-        // Reset perfect run state when entering a world
-        setIsPerfectRun(true);
     }, [getQuestionsByWorld]);
 
 
@@ -167,7 +162,6 @@ export function GamePage() {
             // Questão nova ou em progresso - vai direto para jogar
             setView('playing');
             // Inicia o timer para a questão
-            // eslint-disable-next-line react-hooks/purity
             questionStartTime.current = Date.now();
         }
     }, [getQuestionProgress, worldQuestions]);
@@ -204,10 +198,6 @@ export function GamePage() {
     const handleQuestionComplete = useCallback(async (passed: boolean, score: number) => {
         // Calcula tempo de resposta em segundos
         const responseTimeSeconds = (Date.now() - questionStartTime.current) / 1000;
-
-        if (!passed) {
-            setIsPerfectRun(false);
-        }
 
         if (currentQuestion) {
             const previousProgress = getQuestionProgress(currentQuestion.id);
@@ -271,7 +261,7 @@ export function GamePage() {
                     const totalWorldsCompleted = Array.from(worldProgress.values())
                         .filter(p => p.completed === p.total && p.total > 0).length;
 
-                    checkWorldAchievements(totalWorldsCompleted, isPerfectRun);
+                    checkWorldAchievements();
 
                     // VERIFICA SE TERMINOU O JOGO INTEIRO 🏆
                     const totalWorlds = worldProgress.size; // Total de mundos com questões
@@ -303,7 +293,6 @@ export function GamePage() {
         worldProgress,
         playSuccessSound,
         checkWorldAchievements,
-        isPerfectRun,
         navigate
     ]);
 

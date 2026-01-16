@@ -3,6 +3,7 @@ import type {
     UserGamification,
     UserAchievement,
     Achievement,
+    Mission,
 } from '../types/gamification';
 import {
     ACHIEVEMENTS,
@@ -248,8 +249,8 @@ export function useGamification() {
 
         // UI State
         showLevelUp: null,
-        dailyMissions: [],
-        weeklyMissions: [],
+        dailyMissions: [] as Mission[],
+        weeklyMissions: [] as Mission[],
 
         // Achievements
         achievements,
@@ -264,11 +265,11 @@ export function useGamification() {
         // Stubs
         markAchievementSeen: () => { },
         equipItem: () => { },
-        buyShopItem: () => { },
+        buyShopItem: () => false, // Returns boolean to match expected signature
         claimMissionReward: () => { },
         dismissLevelUp: () => { },
         userPowerUps: gamification.powerUps,
-        usePowerUp: () => { },
-        buyPowerUp: () => { },
+        usePowerUp: () => false, // Returns boolean to match expected signature
+        buyPowerUp: () => false, // Returns boolean to match expected signature
     };
 }
