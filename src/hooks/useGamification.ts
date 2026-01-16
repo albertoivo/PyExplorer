@@ -285,33 +285,43 @@ export function useGamification() {
         buyShopItem: useCallback((itemId: string, price: number): boolean => {
             if (!userData) return false;
 
-            // Verificar se já possui o item
-            if (gamification.inventory.ownedItems.includes(itemId)) {
-                return false;
+            // Usar setter funcional para evitar stale state
+            let success = false;
+
+            setGamification(prev => {
+                // Verificar se já possui o item (com estado atual)
+                if (prev.inventory.ownedItems.includes(itemId)) {
+                    return prev; // Não modifica estado
+                }
+
+                // Verificar se tem estrelas suficientes
+                if ((userData.balance || 0) < price) {
+                    return prev; // Não modifica estado
+                }
+
+                // Marcar como sucesso
+                success = true;
+
+                // Atualizar inventário
+                const updatedGamification = {
+                    ...prev,
+                    inventory: {
+                        ...prev.inventory,
+                        ownedItems: [...prev.inventory.ownedItems, itemId],
+                    },
+                };
+
+                saveGamification(updatedGamification);
+                return updatedGamification;
+            });
+
+            // Atualizar saldo no userData apenas se sucesso
+            if (success) {
+                updateUserData({ balance: (userData.balance || 0) - price });
             }
 
-            // Verificar se tem estrelas suficientes
-            if ((userData.balance || 0) < price) {
-                return false;
-            }
-
-            // Atualizar inventário
-            const updatedGamification = {
-                ...gamification,
-                inventory: {
-                    ...gamification.inventory,
-                    ownedItems: [...gamification.inventory.ownedItems, itemId],
-                },
-            };
-
-            setGamification(updatedGamification);
-            saveGamification(updatedGamification);
-
-            // Atualizar saldo no userData (deduzir estrelas)
-            updateUserData({ balance: (userData.balance || 0) - price });
-
-            return true;
-        }, [userData, gamification, saveGamification, updateUserData]),
+            return success;
+        }, [userData, saveGamification, updateUserData]),
 
         equipItem: useCallback((itemId: string, type: 'avatar' | 'frame' | 'title') => {
             const updatedInventory = { ...gamification.inventory };
