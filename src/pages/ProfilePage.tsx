@@ -25,7 +25,7 @@ const WORLDS_INFO = [
 export function ProfilePage() {
     const { userData, isGuest } = useAuth();
     const { stats, allProgress } = useProgress();
-    const { achievements, unlockedAchievements, gamification, recalculateAllAchievements, currentLevel, levelProgress } = useGamification();
+    const { achievements, unlockedAchievements, gamification, currentLevel, levelProgress } = useGamification();
     const { getQuestionsByWorld } = useQuestionsFirestore();
 
     if (!userData) {
@@ -183,27 +183,7 @@ export function ProfilePage() {
 
                 {/* Ferramentas de Desenvolvedor */}
                 {isAdmin && (
-                    <>
-                        <button
-                            onClick={() => {
-                                console.log('🔘 Botão Recalcular clicado!');
-                                recalculateAllAchievements();
-                            }}
-                            style={{
-                                marginBottom: '20px',
-                                padding: '10px 20px',
-                                backgroundColor: '#667eea',
-                                color: 'white',
-                                border: 'none',
-                                borderRadius: '8px',
-                                cursor: 'pointer',
-                                fontWeight: 'bold'
-                            }}
-                        >
-                            🔄 Recalcular Conquistas (Admin)
-                        </button>
-                        <DataSeeder />
-                    </>
+                    <DataSeeder />
                 )}
             </div>
         </div>

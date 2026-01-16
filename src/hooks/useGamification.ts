@@ -241,11 +241,6 @@ export function useGamification() {
         // Stub - implement later if needed
     }, []);
 
-    const recalculateAllAchievements = useCallback(() => {
-        const stats = gamification.stats;
-        checkQuestionAchievements(stats.totalQuestionsCompleted, stats.consecutiveCorrect);
-    }, [gamification.stats, checkQuestionAchievements]);
-
     // ============================================
     // RETURN
     // ============================================
@@ -293,7 +288,6 @@ export function useGamification() {
         // Actions
         recordQuestionCompleted,
         checkWorldAchievements,
-        recalculateAllAchievements,
 
         // Shop functions
         buyShopItem: useCallback((itemId: string, price: number): boolean => {
