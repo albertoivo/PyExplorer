@@ -246,7 +246,21 @@ export function useGamification() {
             currentStreak: userData?.streak || 0,
             longestStreak: userData?.streak || 0, // TODO: Add separate field for longestStreak in userData
             lastActivityDate: userData?.lastActiveDate || '',
-            activityHistory: [], // TODO: Implement activity history if needed
+            activityHistory: (() => {
+                // Gera histórico de atividades baseado no streak atual
+                const history: string[] = [];
+                const currentStreak = userData?.streak || 0;
+                const today = new Date();
+
+                // Adiciona os últimos N dias baseado no streak
+                for (let i = 0; i < currentStreak; i++) {
+                    const date = new Date(today);
+                    date.setDate(date.getDate() - i);
+                    history.push(date.toISOString().split('T')[0]);
+                }
+
+                return history;
+            })(),
         },
         activeMissions: gamification.activeMissions,
         inventory: gamification.inventory,
