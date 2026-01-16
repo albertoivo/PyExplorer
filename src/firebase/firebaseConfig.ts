@@ -10,22 +10,42 @@ import type { Analytics } from 'firebase/analytics';
 /**
  * Configuração do Firebase
  * 
- * IMPORTANTE: Substitua os valores abaixo pelas suas credenciais do Firebase.
- * Você pode encontrar essas informações no Console do Firebase:
- * 1. Acesse https://console.firebase.google.com/
- * 2. Selecione seu projeto (ou crie um novo)
- * 3. Vá em Configurações do Projeto > Geral
- * 4. Role até "Seus apps" e copie as configurações
+ * As credenciais são carregadas via variáveis de ambiente (.env).
+ * Para configurar:
+ * 1. Copie o arquivo .env.example para .env
+ * 2. Preencha com os dados do seu projeto Firebase
  */
 const firebaseConfig = {
-    apiKey: import.meta.env.VITE_FIREBASE_API_KEY || 'AIzaSyBjrrWJRsxAqzmbjp7MBQgD5vhC0Ch6l_Q',
-    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'pyexplorer-cd32d.firebaseapp.com',
-    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'pyexplorer-cd32d',
-    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'pyexplorer-cd32d.firebasestorage.app',
-    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '762952995670',
-    appId: import.meta.env.VITE_FIREBASE_APP_ID || '1:762952995670:web:a709c16c4e0fe43c8cbcf7',
-    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || 'G-ZF147K9F7V',
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID,
+    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
+
+// Validação de configuração
+const requiredKeys = [
+    'apiKey',
+    'authDomain',
+    'projectId',
+    'storageBucket',
+    'messagingSenderId',
+    'appId'
+];
+
+const missingKeys = requiredKeys.filter(key => !firebaseConfig[key as keyof typeof firebaseConfig]);
+
+if (missingKeys.length > 0) {
+    // Em desenvolvimento, lançamos erro para alertar o desenvolvedor
+    // Em produção, isso pode causar tela branca, mas é melhor que falhar silenciosamente ou usar credenciais erradas
+    const errorMessage = `Erro de Configuração: Faltam variáveis de ambiente do Firebase: ${missingKeys.join(', ')}`;
+    console.error(errorMessage);
+    if (import.meta.env.DEV) {
+        throw new Error(errorMessage);
+    }
+}
 
 // Inicializa o Firebase
 let app: FirebaseApp;
