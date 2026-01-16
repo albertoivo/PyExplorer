@@ -25,7 +25,7 @@ const WORLDS_INFO = [
 export function ProfilePage() {
     const { userData, isGuest } = useAuth();
     const { stats, allProgress } = useProgress();
-    const { achievements, unlockedAchievements, gamification, recalculateAllAchievements } = useGamification();
+    const { achievements, unlockedAchievements, gamification, recalculateAllAchievements, currentLevel, levelProgress } = useGamification();
     const { getQuestionsByWorld } = useQuestionsFirestore();
 
     if (!userData) {
@@ -58,9 +58,7 @@ export function ProfilePage() {
         };
     };
 
-    // Calcula nível do jogador
-    const level = Math.floor(userData.totalScore / 100) + 1;
-    const pointsForNextLevel = (level * 100) - userData.totalScore;
+    // Nível do jogador vem do useGamification (baseado em XP, não em estrelas)
 
     // Ferramentas de Desenvolvedor (Apenas admin)
     const isAdmin = userData.email === 'albertoivo@gmail.com';
@@ -102,15 +100,17 @@ export function ProfilePage() {
                     )}
 
                     <div className="profile-card__level">
-                        <span className="profile-card__level-badge">Nível {level}</span>
+                        <span className="profile-card__level-badge">Nível {currentLevel.level} - {currentLevel.name}</span>
                         <div className="profile-card__level-progress">
                             <div
                                 className="profile-card__level-bar"
-                                style={{ width: `${((100 - pointsForNextLevel) / 100) * 100}% ` }}
+                                style={{ width: `${levelProgress}%` }}
                             />
                         </div>
                         <span className="profile-card__level-text">
-                            {pointsForNextLevel} pontos para o próximo nível
+                            {currentLevel.maxXP === Infinity
+                                ? 'Nível máximo!'
+                                : `${currentLevel.maxXP - gamification.level.totalXP} XP para o próximo nível`}
                         </span>
                     </div>
 
