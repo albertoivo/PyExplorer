@@ -86,13 +86,13 @@ describe('Firestore security rules', () => {
             }));
         });
 
-        it('should DENY creating user with streak > 365', async () => {
+        it('should DENY creating user with streak > 9999', async () => {
             const aliceDb = testEnv.authenticatedContext('alice').firestore();
             await assertFails(setDoc(doc(aliceDb, 'users/alice'), {
                 uid: 'alice',
                 displayName: 'Alice',
                 email: 'alice@example.com',
-                streak: 400
+                streak: 10000
             }));
         });
 
@@ -104,7 +104,34 @@ describe('Firestore security rules', () => {
                 email: 'alice@example.com',
                 totalScore: 9999999,
                 balance: 1000,
-                streak: 365
+                streak: 9999
+            }));
+        });
+
+        it('should DENY creating user with displayName > 50 chars', async () => {
+            const aliceDb = testEnv.authenticatedContext('alice').firestore();
+            await assertFails(setDoc(doc(aliceDb, 'users/alice'), {
+                uid: 'alice',
+                displayName: 'A'.repeat(51),
+                email: 'alice@example.com'
+            }));
+        });
+
+        it('should ALLOW creating user with valid unlockedWorlds list', async () => {
+            const aliceDb = testEnv.authenticatedContext('alice').firestore();
+            await assertSucceeds(setDoc(doc(aliceDb, 'users/alice'), {
+                uid: 'alice',
+                displayName: 'Alice',
+                unlockedWorlds: ['world1', 'world2']
+            }));
+        });
+
+        it('should DENY creating user with invalid unlockedWorlds type', async () => {
+            const aliceDb = testEnv.authenticatedContext('alice').firestore();
+            await assertFails(setDoc(doc(aliceDb, 'users/alice'), {
+                uid: 'alice',
+                displayName: 'Alice',
+                unlockedWorlds: 'not a list'
             }));
         });
     });
@@ -227,82 +254,84 @@ describe('Firestore security rules', () => {
 
     // --- GAMIFICATION COLLECTION ---
     describe('gamification collection', () => {
+        // Objeto válido padrão para testes
+        const validGamification = {
+            level: { level: 3, currentXP: 50, totalXP: 150 },
+            streak: { currentStreak: 5 }
+        };
+
         it('should allow owner to read their gamification data', async () => {
             const aliceDb = testEnv.authenticatedContext('alice').firestore();
             await testEnv.withSecurityRulesDisabled(async (context) => {
-                await setDoc(doc(context.firestore(), 'gamification/alice'), {
-                    xp: 100,
-                    level: 2
-                });
+                await setDoc(doc(context.firestore(), 'gamification/alice'), validGamification);
             });
             await assertSucceeds(getDoc(doc(aliceDb, 'gamification/alice')));
         });
 
-        it('should allow owner to write their gamification data', async () => {
+        it('should allow owner to write their gamification data with correct structure', async () => {
             const aliceDb = testEnv.authenticatedContext('alice').firestore();
-            await assertSucceeds(setDoc(doc(aliceDb, 'gamification/alice'), {
-                xp: 150,
-                level: 3
-            }));
+            await assertSucceeds(setDoc(doc(aliceDb, 'gamification/alice'), validGamification));
         });
 
         it('should deny non-owner from reading gamification data', async () => {
             const bobDb = testEnv.authenticatedContext('bob').firestore();
             await testEnv.withSecurityRulesDisabled(async (context) => {
-                await setDoc(doc(context.firestore(), 'gamification/alice'), {
-                    xp: 100
-                });
+                await setDoc(doc(context.firestore(), 'gamification/alice'), validGamification);
             });
             await assertFails(getDoc(doc(bobDb, 'gamification/alice')));
         });
 
         it('should deny non-owner from writing gamification data', async () => {
             const bobDb = testEnv.authenticatedContext('bob').firestore();
-            await assertFails(setDoc(doc(bobDb, 'gamification/alice'), {
-                xp: 0
+            await assertFails(setDoc(doc(bobDb, 'gamification/alice'), validGamification));
+        });
+
+        it('should DENY writing gamification with level.level > 100', async () => {
+            const aliceDb = testEnv.authenticatedContext('alice').firestore();
+            await assertFails(setDoc(doc(aliceDb, 'gamification/alice'), {
+                ...validGamification,
+                level: { ...validGamification.level, level: 101 }
             }));
         });
 
-        it('should DENY writing gamification with level > 100', async () => {
+        it('should DENY writing gamification with streak.currentStreak > 9999', async () => {
             const aliceDb = testEnv.authenticatedContext('alice').firestore();
             await assertFails(setDoc(doc(aliceDb, 'gamification/alice'), {
-                level: 101,
-                xp: 100
+                ...validGamification,
+                streak: { currentStreak: 10000 }
             }));
         });
 
-        it('should DENY writing gamification with streak > 365', async () => {
+        it('should DENY writing gamification with level.totalXP > 9999999', async () => {
             const aliceDb = testEnv.authenticatedContext('alice').firestore();
             await assertFails(setDoc(doc(aliceDb, 'gamification/alice'), {
-                level: 5,
-                streak: 400
+                ...validGamification,
+                level: { ...validGamification.level, totalXP: 10000000 }
             }));
         });
 
-        it('should DENY writing gamification with totalXP > 9999999', async () => {
+        it('should DENY writing gamification with negative values in level', async () => {
             const aliceDb = testEnv.authenticatedContext('alice').firestore();
             await assertFails(setDoc(doc(aliceDb, 'gamification/alice'), {
-                level: 5,
-                totalXP: 10000000
-            }));
-        });
-
-        it('should DENY writing gamification with negative values', async () => {
-            const aliceDb = testEnv.authenticatedContext('alice').firestore();
-            await assertFails(setDoc(doc(aliceDb, 'gamification/alice'), {
-                level: -1,
-                xp: 100
+                ...validGamification,
+                level: { ...validGamification.level, level: -1 }
             }));
         });
 
         it('should ALLOW writing gamification with valid numeric limits', async () => {
             const aliceDb = testEnv.authenticatedContext('alice').firestore();
             await assertSucceeds(setDoc(doc(aliceDb, 'gamification/alice'), {
-                level: 100,
-                streak: 365,
-                totalXP: 9999999,
-                xp: 5000
+                level: { level: 100, currentXP: 9999999, totalXP: 9999999 },
+                streak: { currentStreak: 9999 }
             }));
+        });
+
+        it('should DENY writing gamification with wrong root type (number instead of object)', async () => {
+             const aliceDb = testEnv.authenticatedContext('alice').firestore();
+             await assertFails(setDoc(doc(aliceDb, 'gamification/alice'), {
+                 level: 5, // Old structure (Number)
+                 streak: 10
+             }));
         });
     });
 
