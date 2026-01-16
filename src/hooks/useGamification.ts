@@ -113,11 +113,12 @@ export function useGamification() {
         }
     }, [userData, isGuest]);
 
-    // Load once on mount - no dependencies to avoid re-running
+    // Load when user data is available
     useEffect(() => {
-        loadGamification();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []); // Empty deps - only run on mount
+        if (userData || isGuest) {
+            loadGamification();
+        }
+    }, [userData?.uid, isGuest, loadGamification]);
 
     // ============================================
     // ACHIEVEMENTS
