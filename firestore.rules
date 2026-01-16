@@ -50,12 +50,16 @@ service cloud.firestore {
       // Escrita: Permite se for o dono ou admin com validação de campos numéricos críticos
       // Permite campos extras para compatibilidade com dados legados
       allow create, update: if isAuthenticated() && (request.auth.uid == userId || isAdmin()) &&
+        // Valida displayName (string, max 50 chars)
+        (!('displayName' in request.resource.data) || isValidString(request.resource.data.displayName, 50)) &&
         // Valida totalScore se presente (0 a 9.999.999)
         (!('totalScore' in request.resource.data) || isValidNumber(request.resource.data.totalScore, 0, 9999999)) &&
         // Valida balance se presente (0 a 9.999.999)
         (!('balance' in request.resource.data) || isValidNumber(request.resource.data.balance, 0, 9999999)) &&
-        // Valida streak se presente (0 a 365 dias)
-        (!('streak' in request.resource.data) || isValidNumber(request.resource.data.streak, 0, 365));
+        // Valida streak se presente (0 a 9999 dias - aumentado para suportar uso longo prazo)
+        (!('streak' in request.resource.data) || isValidNumber(request.resource.data.streak, 0, 9999)) &&
+        // Valida unlockedWorlds (deve ser lista)
+        (!('unlockedWorlds' in request.resource.data) || request.resource.data.unlockedWorlds is list);
     }
 
     // ============================================
@@ -66,14 +70,18 @@ service cloud.firestore {
       
       // Escrita com validação de limites para prevenir cheating
       allow write: if isAuthenticated() && (request.auth.uid == userId || isAdmin()) &&
-        // Valida level se presente (0 a 100)
-        (!('level' in request.resource.data) || isValidNumber(request.resource.data.level, 0, 100)) &&
-        // Valida streak se presente (0 a 365 dias)
-        (!('streak' in request.resource.data) || isValidNumber(request.resource.data.streak, 0, 365)) &&
-        // Valida totalXP se presente (0 a 9.999.999)
-        (!('totalXP' in request.resource.data) || isValidNumber(request.resource.data.totalXP, 0, 9999999)) &&
-        // Valida xp se presente (0 a 9.999.999)
-        (!('xp' in request.resource.data) || isValidNumber(request.resource.data.xp, 0, 9999999));
+        // Valida level como objeto (Map)
+        (!('level' in request.resource.data) || (
+           request.resource.data.level is map &&
+           (!('level' in request.resource.data.level) || isValidNumber(request.resource.data.level.level, 0, 100)) &&
+           (!('totalXP' in request.resource.data.level) || isValidNumber(request.resource.data.level.totalXP, 0, 9999999)) &&
+           (!('currentXP' in request.resource.data.level) || isValidNumber(request.resource.data.level.currentXP, 0, 9999999))
+        )) &&
+        // Valida streak como objeto (Map)
+        (!('streak' in request.resource.data) || (
+           request.resource.data.streak is map &&
+           (!('currentStreak' in request.resource.data.streak) || isValidNumber(request.resource.data.streak.currentStreak, 0, 9999))
+        ));
     }
     
     // ============================================
