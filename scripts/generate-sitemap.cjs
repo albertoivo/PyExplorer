@@ -91,10 +91,25 @@ function resolveComponentPath(componentName, appContent) {
     return null;
 }
 
+function parseExistingSitemap() {
+    if (!fs.existsSync(TARGET_FILE)) return {};
+    const content = fs.readFileSync(TARGET_FILE, 'utf-8');
+    const urlRegex = /<loc>(.*?)<\/loc>[\s\S]*?<lastmod>(.*?)<\/lastmod>/g;
+    const urls = {};
+    let match;
+    while ((match = urlRegex.exec(content)) !== null) {
+        urls[match[1].trim()] = match[2].trim();
+    }
+    return urls;
+}
+
 function generateSitemap() {
     const appContent = fs.readFileSync(APP_FILE, 'utf-8');
     const detectedRoutes = parseRoutesAndComponents();
     const urls = [];
+    const oldUrls = parseExistingSitemap();
+
+    console.log('--- Sitemap Diff ---');
 
     // 1. Process Detected Routes
     for (const route of detectedRoutes) {
@@ -119,9 +134,17 @@ function generateSitemap() {
         }
 
         const rule = RULES[route.path] || RULES['default'];
+        const loc = `${BASE_URL}${route.path}`;
+
+        // Check Diff
+        if (!oldUrls[loc]) {
+            console.log(`[New Page Found] ${loc}`);
+        } else if (oldUrls[loc] !== lastmod) {
+            console.log(`[Content Updated] ${loc} (${oldUrls[loc]} -> ${lastmod})`);
+        }
 
         urls.push({
-            loc: `${BASE_URL}${route.path}`,
+            loc,
             lastmod,
             changefreq: rule.changefreq,
             priority: rule.priority
@@ -134,13 +157,32 @@ function generateSitemap() {
     const articleRule = RULES['/learn/:slug'];
 
     for (const slug of slugs) {
+        const loc = `${BASE_URL}/learn/${slug}`;
+
+        // Check Diff
+        if (!oldUrls[loc]) {
+            console.log(`[New Page Found] ${loc}`);
+        } else if (oldUrls[loc] !== articleLastMod) {
+             console.log(`[Content Updated] ${loc} (${oldUrls[loc]} -> ${articleLastMod})`);
+        }
+
         urls.push({
-            loc: `${BASE_URL}/learn/${slug}`,
+            loc,
             lastmod: articleLastMod,
             changefreq: articleRule.changefreq,
             priority: articleRule.priority
         });
     }
+
+    // Check Removed Pages
+    const newLocs = new Set(urls.map(u => u.loc));
+    for (const oldLoc of Object.keys(oldUrls)) {
+        if (!newLocs.has(oldLoc)) {
+            console.log(`[Page Removed] ${oldLoc}`);
+        }
+    }
+
+    console.log('--------------------');
 
     // 3. Generate XML
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
