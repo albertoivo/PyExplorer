@@ -9,6 +9,7 @@ import {
     ACHIEVEMENTS,
     getLevelFromXP,
     getLevelProgress,
+    ENDGAME_MISSIONS,
 } from '../data/gamificationData';
 import { useAuth } from './useAuth';
 import { getGamification, saveGamificationData } from '../firebase/firestore';
@@ -81,13 +82,12 @@ export function useGamification() {
 
 
 
-    const runAchievementChecks = useCallback((currentState: UserGamification, currentBalance: number) => {
-        const unlockedIds = checkAchievementsLogic(currentState, currentBalance);
-
-        // Process new unlocks
+    const runGamificationChecks = useCallback((currentState: UserGamification, currentBalance: number) => {
         let finalState = currentState;
         let hasChanges = false;
 
+        // 1. Check Achievements
+        const unlockedIds = checkAchievementsLogic(finalState, currentBalance);
         unlockedIds.forEach(id => {
             const result = unlockAchievementLogic(finalState, id);
             if (result.success) {
@@ -98,6 +98,34 @@ export function useGamification() {
                 console.log(`🏆 Achievement unlocked: ${achievement?.name}`);
             }
         });
+
+        // 2. Check Endgame Missions Unlock
+        if (finalState.stats.worldsCompleted >= 1) {
+            const hasEndgameMissions = finalState.activeMissions.some(m => m.missionId.startsWith('endgame_'));
+            if (!hasEndgameMissions) {
+                const newMissions = ENDGAME_MISSIONS.map((m, idx) => ({
+                    ...m,
+                    id: `endgame_${m.objectiveType}_${idx}`
+                }));
+
+                const newActiveMissions = [
+                    ...finalState.activeMissions,
+                    ...newMissions.map(m => ({
+                        missionId: m.id,
+                        progress: 0,
+                        status: 'active' as const,
+                        expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 days
+                    }))
+                ];
+
+                finalState = {
+                    ...finalState,
+                    activeMissions: newActiveMissions
+                };
+                hasChanges = true;
+                console.log('🔓 Endgame missions unlocked!');
+            }
+        }
 
         if (hasChanges) {
             setGamification(finalState);
@@ -159,9 +187,9 @@ export function useGamification() {
                         // CRITICAL: Ensure we are still talking about the same user
                         // If userDataRef.current changed, it means user switched -> ABORT
                         if (userDataRef.current?.uid === currentUserData.uid) {
-                            runAchievementChecks(finalData, currentUserData.balance || 0);
+                            runGamificationChecks(finalData, currentUserData.balance || 0);
                         } else {
-                            console.log('🛑 Aborting runAchievementChecks: User switched from', currentUserData.uid, 'to', userDataRef.current?.uid);
+                            console.log('🛑 Aborting runGamificationChecks: User switched from', currentUserData.uid, 'to', userDataRef.current?.uid);
                         }
                     }, 100);
                 } else {
@@ -177,7 +205,7 @@ export function useGamification() {
         } finally {
             setLoading(false);
         }
-    }, [isGuest, runAchievementChecks]);
+    }, [isGuest, runGamificationChecks]);
 
     // Load when user data is available (only once per user session)
     const hasLoadedRef = useRef<string | null>(null);
@@ -198,7 +226,7 @@ export function useGamification() {
         passed: boolean,
         xpEarned: number = 10,
         responseTimeSeconds?: number,
-        options?: { worldId?: string, starsEarned?: number, isBoss?: boolean }
+        options?: { worldId?: string, starsEarned?: number, isBoss?: boolean, previousStars?: number }
     ) => {
         const { newState, levelUp, starsEarned } = recordQuestionLogic(
             gamification,
@@ -334,6 +362,34 @@ export function useGamification() {
                 hasUpdates = true;
                 const a = ACHIEVEMENTS.find(x => x.id === 'world_master');
                 if (a) safeAddAchievement(a);
+            }
+
+            // --- ENDGAME MISSIONS UNLOCK LOGIC ---
+            // If user completed at least 1 world, ensure they have Endgame Missions available
+            // We duplicate logic here for immediate feedback, or ideally delegate to runGamificationChecks?
+            // Since we can't call hook from hook easily without useEffect loop, we keep logic here.
+            const hasEndgameMissions = currentState.activeMissions.some(m => m.missionId.startsWith('endgame_'));
+            if (!hasEndgameMissions) {
+                 const newMissions = ENDGAME_MISSIONS.map((m, idx) => ({
+                     ...m,
+                     id: `endgame_${m.objectiveType}_${idx}`
+                 }));
+
+                 const newActiveMissions = [
+                     ...currentState.activeMissions,
+                     ...newMissions.map(m => ({
+                         missionId: m.id,
+                         progress: 0,
+                         status: 'active' as const,
+                         expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 days
+                     }))
+                 ];
+
+                 currentState = {
+                     ...currentState,
+                     activeMissions: newActiveMissions
+                 };
+                 hasUpdates = true;
             }
         }
         if (currentState.stats.worldsCompleted >= 5) {

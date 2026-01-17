@@ -511,6 +511,40 @@ export const WEEKLY_MISSIONS: Omit<Mission, 'id'>[] = [
     },
 ];
 
+export const ENDGAME_MISSIONS: Omit<Mission, 'id'>[] = [
+    {
+        type: 'endgame',
+        title: 'Speedrun',
+        description: 'Refaça 3 questões em menos de 45s cada',
+        icon: '⚡',
+        objectiveType: 'speedrun',
+        targetValue: 3,
+        timeLimit: 45,
+        starsReward: 100,
+        xpReward: 300,
+    },
+    {
+        type: 'endgame',
+        title: 'Gabarito',
+        description: 'Melhore seu desempenho em 3 questões antigas',
+        icon: '📈',
+        objectiveType: 'improve_stars',
+        targetValue: 3,
+        starsReward: 120,
+        xpReward: 400,
+    },
+    {
+        type: 'endgame',
+        title: 'Mestre da Sintaxe',
+        description: 'Responda 5 questões seguidas sem erros',
+        icon: '🎓',
+        objectiveType: 'syntax_master',
+        targetValue: 5,
+        starsReward: 150,
+        xpReward: 500,
+    },
+];
+
 // ============================================
 // POWER-UPS
 // ============================================

@@ -8,6 +8,7 @@ import {
     getLevelFromXP,
     generateDailyMissions,
     generateWeeklyMissions,
+    ENDGAME_MISSIONS,
     SHOP_ITEMS
 } from '../data/gamificationData';
 import { calculateStreak } from './gamificationUtils';
@@ -259,8 +260,17 @@ export function claimMissionRewardLogic(
     const today = new Date();
     const daily = generateDailyMissions(today);
     const weekly = generateWeeklyMissions(today);
-    const allMissions = [...daily, ...weekly];
-    const missionDef = allMissions.find(m => m.id === missionId);
+    const allMissions = [...daily, ...weekly, ...ENDGAME_MISSIONS];
+    // For endgame missions, the ID might be constructed (e.g. endgame_speedrun_0)
+    // We need to find the definition either by exact match or by prefix for static endgame definitions
+    // Note: ENDGAME_MISSIONS do not have 'id' property in definitions, so we cast to any or handle specifically
+    let missionDef = allMissions.find(m => 'id' in m && m.id === missionId);
+
+    // If not found, try to find in ENDGAME_MISSIONS by title matching (since we construct IDs dynamically)
+    if (!missionDef) {
+        // Find endgame mission definition by checking if the missionId (from user state) matches the constructed pattern
+        missionDef = ENDGAME_MISSIONS.find(m => missionId.startsWith(`endgame_${m.objectiveType}`)) as any;
+    }
 
     if (!missionDef) {
         return { success: false, newState: state, rewards: { xp: 0, stars: 0 }, levelUp: null };
@@ -374,12 +384,22 @@ export function recordQuestionLogic(
     state: UserGamification,
     passed: boolean,
     xpEarned: number,
-    options?: { worldId?: string, starsEarned?: number, isBoss?: boolean, responseTimeSeconds?: number }
+    options?: {
+        worldId?: string,
+        starsEarned?: number,
+        isBoss?: boolean,
+        responseTimeSeconds?: number,
+        previousStars?: number
+    }
 ): { newState: UserGamification, levelUp: LevelInfo | null, starsEarned: number } {
     const newConsecutive = passed ? (state.stats.consecutiveCorrect || 0) + 1 : 0;
     const newBestConsecutive = Math.max(state.stats.bestConsecutiveCorrect || 0, newConsecutive);
     const isBoss = options?.isBoss || false;
     const responseTime = options?.responseTimeSeconds || 999;
+    // previousStars is used (or will be used) to calculate improvement context if needed,
+    // but effectively starsEarned > 0 already signals improvement.
+    // We keep previousStars in options for potential future logic, but we don't need currentStars var.
+    // const previousStars = options?.previousStars || 0;
 
     // Fast Answer Logic (< 20s)
     let newConsecutiveFast = (state.stats.consecutiveFastAnswers || 0);
@@ -431,6 +451,123 @@ export function recordQuestionLogic(
             consecutiveFastAnswers: newConsecutiveFast
         },
     };
+
+    // --- MISSION PROGRESS UPDATES ---
+    // We update active missions based on the event
+    const starsEarned = options?.starsEarned || 0;
+
+    newState.activeMissions = newState.activeMissions.map(mission => {
+        if (mission.status !== 'active') return mission;
+
+        // Find definition to know objective type
+        const daily = generateDailyMissions(new Date());
+        const weekly = generateWeeklyMissions(new Date());
+
+        // Try to find in daily/weekly first (they have IDs)
+        let def = [...daily, ...weekly].find(m => m.id === mission.missionId);
+
+        // If not found, check endgame missions
+        if (!def && mission.missionId.startsWith('endgame_')) {
+             // Extract type from ID: endgame_speedrun_...
+             const typePart = mission.missionId.split('_')[1]; // speedrun, improve, syntax
+             // Cast definition to 'any' or compatible type since it lacks ID
+             const found = ENDGAME_MISSIONS.find(m => m.objectiveType === typePart || (typePart === 'improve' && m.objectiveType === 'improve_stars') || (typePart === 'syntax' && m.objectiveType === 'syntax_master'));
+             if (found) {
+                 def = { ...found, id: mission.missionId } as any;
+             }
+        }
+
+        if (!def) return mission;
+
+        let newProgress = mission.progress;
+        let shouldUpdate = false;
+
+        // Check if mission targets a specific world
+        if (def.targetWorld && def.targetWorld !== options?.worldId) {
+            return mission;
+        }
+
+        switch (def.objectiveType) {
+            case 'speedrun':
+                // Check if passed AND time is within limit
+                if (passed && def.timeLimit && responseTime <= def.timeLimit) {
+                    newProgress += 1;
+                    shouldUpdate = true;
+                }
+                break;
+            case 'improve_stars':
+                // Check if user earned new stars on an old question (improvement)
+                // We rely on starsEarned > 0.
+                // Note: starsEarned is calculated in GamePage as (newScore - oldScore).
+                // If it is > 0, it means improvement.
+                if (passed && starsEarned > 0) {
+                    newProgress += 1;
+                    shouldUpdate = true;
+                }
+                break;
+            case 'syntax_master':
+                // "5 questions in a row without errors"
+                // If passed, increment. If failed, reset to 0.
+                if (passed) {
+                    newProgress += 1;
+                } else {
+                    newProgress = 0;
+                }
+                shouldUpdate = true;
+                break;
+
+            // Existing logic fallback (simplified here, assuming existing logic handles standard types elsewhere or we add them here)
+            // The original code didn't update mission progress inside recordQuestionLogic,
+            // it likely did it in useGamification or not at all?
+            // Wait, looking at original code, I don't see mission progress update in recordQuestionLogic!
+            // It seems mission progress was NOT being updated in recordQuestionLogic in the original file I read.
+            // Let me re-read recordQuestionLogic carefully.
+            // ...
+            // You are correct. The original recordQuestionLogic ONLY updated stats/level/streak.
+            // It did NOT update activeMissions.
+            // This means mission logic was missing or handled elsewhere?
+            // Checking useGamification... "recordQuestionCompleted" calls "recordQuestionLogic".
+            // It seems the original code might have been incomplete regarding mission updates?
+            // Or maybe "activeMissions" are updated via a separate function I missed?
+            // No, useGamification just sets the state returned by recordQuestionLogic.
+            // So I MUST implement mission update logic here for the new types (and old types if missing).
+
+            case 'complete_questions':
+                if (passed) {
+                    newProgress += 1;
+                    shouldUpdate = true;
+                }
+                break;
+            case 'correct_streak':
+                 if (passed) {
+                     // Check global streak
+                     if (newConsecutive >= def.targetValue) {
+                         newProgress = def.targetValue;
+                         shouldUpdate = true;
+                     }
+                 }
+                 break;
+             case 'earn_stars':
+                 if (starsEarned > 0) {
+                     newProgress += starsEarned;
+                     shouldUpdate = true;
+                 }
+                 break;
+        }
+
+        if (shouldUpdate) {
+            // Cap at target
+            const cappedProgress = Math.min(newProgress, def.targetValue);
+            return {
+                ...mission,
+                progress: cappedProgress,
+                status: cappedProgress >= def.targetValue ? 'completed' : 'active',
+                completedAt: cappedProgress >= def.targetValue ? new Date() : undefined
+            };
+        }
+
+        return mission;
+    });
 
     return {
         newState,
