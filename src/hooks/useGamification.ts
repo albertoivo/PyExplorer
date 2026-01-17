@@ -54,6 +54,7 @@ export function useGamification() {
     const [loading, setLoading] = useState(true);
     const [newAchievements, setNewAchievements] = useState<Achievement[]>([]);
     const [showLevelUp, setShowLevelUp] = useState<LevelInfo | null>(null);
+    const [missionNotification, setMissionNotification] = useState<{ title: string, rewards: { stars: number, xp: number } } | null>(null);
 
     const safeAddAchievement = useCallback((achievement: Achievement) => {
         setNewAchievements(prev => {
@@ -266,39 +267,72 @@ export function useGamification() {
         });
 
         // Update Missions Progress
+        // Now returns rewards and levelUp if auto-claimed
         let missionsState = finalState;
+        let totalMissionStars = 0;
+        let totalMissionXP = 0;
+        let missionLevelUp: LevelInfo | null = null;
+
+        const processMissionUpdate = (result: ReturnType<typeof updateMissionProgress>) => {
+            missionsState = result.newState;
+            if (result.completedMissions.length > 0) {
+                totalMissionStars += result.rewards.stars;
+                totalMissionXP += result.rewards.xp;
+                if (result.levelUp) missionLevelUp = result.levelUp;
+
+                result.completedMissions.forEach(m => {
+                    console.log(`✅ Mission Completed (Auto-Claimed): ${m}`);
+                    // Trigger notification (last one wins or queue? simplifying to last one for now)
+                    setMissionNotification({
+                        title: m,
+                        rewards: { stars: result.rewards.stars, xp: result.rewards.xp }
+                    });
+                });
+            }
+        };
 
         // 1. Complete Questions
-        let mResult = updateMissionProgress(missionsState, 'complete_questions', 1, { worldId: options?.worldId });
-        missionsState = mResult.newState;
-        mResult.completedMissions.forEach(m => console.log(`✅ Mission Completed: ${m}`));
+        processMissionUpdate(updateMissionProgress(missionsState, 'complete_questions', 1, { worldId: options?.worldId }));
 
-        // 2. Correct Streak (pass the current streak as amount)
+        // 2. Correct Streak
         if (passed) {
-            mResult = updateMissionProgress(missionsState, 'correct_streak', missionsState.stats.consecutiveCorrect);
-            missionsState = mResult.newState;
-            mResult.completedMissions.forEach(m => console.log(`✅ Mission Completed: ${m}`));
+            processMissionUpdate(updateMissionProgress(missionsState, 'correct_streak', missionsState.stats.consecutiveCorrect));
         }
 
         // 3. Earn Stars
         if (starsEarned > 0) {
-            mResult = updateMissionProgress(missionsState, 'earn_stars', starsEarned);
-            missionsState = mResult.newState;
-            mResult.completedMissions.forEach(m => console.log(`✅ Mission Completed: ${m}`));
+            processMissionUpdate(updateMissionProgress(missionsState, 'earn_stars', starsEarned));
         }
 
-        // 4. Complete World
+        // Apply Mission Rewards to UserData (Balance/XP)
+        if (totalMissionStars > 0 || totalMissionXP > 0) {
+            console.log(`🎁 Mission Rewards Applied: ${totalMissionStars} Stars, ${totalMissionXP} XP`);
+            // We need to fetch latest balance/score again or trust accumulation
+            // The previous updateUserData call was async but we have local calc.
+            // We can chain the updates or do a second update.
+            // Ideally we do ONE update. But refactoring the whole function is risky.
+            // We'll calculate the DELTA from *after* the question rewards.
 
-        // Check if world was just completed?
-        // Simple check: if question completed implies world completed logic?
-        // We can check if `stats.worldsCompleted` changed? Difficult without diff.
-        // Or just trigger 'complete_world' event if we know it happened details.
-        // For now, let's rely on world completion being rare.
-        // We can check if `checkWorldAchievements` was triggered? 
-        // Actually, `checkWorldAchievements` is a separate call in QuestionEngine.
-        // So we should add mission update THERE too or make recordQuestion handle it more smartly.
-        // But `recordQuestion` doesn't know if World is finished.
-        // Let's leave 'complete_world' for `checkWorldAchievements`.
+            // Question rewards were already added to userData via updateUserData call above.
+            // We need to add mission rewards ON TOP.
+            updateUserData({
+                balance: (userData?.balance || 0) + starsEarned + totalMissionStars,
+                totalScore: (userData?.totalScore || 0) + xpEarned + totalMissionXP
+                // Note: totalScore in userData should match gamification.totalXP? 
+                // We should probably sync from `missionsState.level.totalXP` which includes mission XP.
+                // MissionsState has the updated XP from missions.
+                // But question XP was added to `newState`.
+                // `missionsState` starts from `newState`.
+                // So `missionsState.level.totalXP` should have QuestionXP + MissionXP.
+            });
+
+            // Sync score strictly to state
+            updateUserData({ totalScore: missionsState.level.totalXP });
+        }
+
+        if (missionLevelUp) {
+            setShowLevelUp(missionLevelUp);
+        }
 
         setGamification(missionsState);
         saveGamification(missionsState);
@@ -406,10 +440,26 @@ export function useGamification() {
         if (worldId && questionsCompleted === totalQuestions) {
             // Trigger Mission Update for World Completion
             const mResult = updateMissionProgress(currentState, 'complete_world', 1, { worldId });
+            // Handle Auto-Claim
             if (mResult.completedMissions.length > 0) {
                 currentState = mResult.newState;
                 hasUpdates = true;
-                mResult.completedMissions.forEach(m => console.log(`✅ Mission Completed: ${m}`));
+
+                // Update User Data
+                updateUserData({
+                    balance: (userData?.balance || 0) + mResult.rewards.stars,
+                    totalScore: currentState.level.totalXP
+                });
+
+                if (mResult.levelUp) setShowLevelUp(mResult.levelUp);
+
+                mResult.completedMissions.forEach(m => {
+                    console.log(`✅ Mission Completed (Auto-Claimed): ${m}`);
+                    setMissionNotification({
+                        title: m,
+                        rewards: { stars: mResult.rewards.stars, xp: mResult.rewards.xp }
+                    });
+                });
             }
         }
 
@@ -559,5 +609,8 @@ export function useGamification() {
             }
             return false;
         }, [gamification, userData, updateUserData, saveGamification]),
+
+        missionNotification,
+        dismissMissionNotification: useCallback(() => setMissionNotification(null), []),
     };
 }

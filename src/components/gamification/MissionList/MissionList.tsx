@@ -7,13 +7,13 @@ interface MissionListProps {
     dailyMissions: Mission[];
     weeklyMissions: Mission[];
     userMissions: UserMission[];
-    onClaim: (missionId: string) => void;
+
 }
 
 /**
  * Lista de missões diárias e semanais
  */
-export function MissionList({ dailyMissions, weeklyMissions, userMissions, onClaim }: MissionListProps) {
+export function MissionList({ dailyMissions, weeklyMissions, userMissions }: MissionListProps) {
     const getUserMission = (missionId: string) => userMissions.find(m => m.missionId === missionId);
 
     // Identify active endgame missions from userMissions that start with 'endgame_'
@@ -96,18 +96,13 @@ export function MissionList({ dailyMissions, weeklyMissions, userMissions, onCla
                     </span>
                 </div>
 
-                {isCompleted && !isClaimed && (
-                    <button
-                        className="mission-card__claim-btn"
-                        onClick={() => onClaim(mission.id)}
-                    >
-                        🎁 Resgatar!
-                    </button>
-                )}
-
-                {isClaimed && (
+                {/* Auto-Claimed: Just show badge or nothing if we want to keep it clean. 
+                   User requested "já devia resgatar automaticamente".
+                   So if it's claimed (which happens immediately), show Resgatado.
+                */}
+                {(isCompleted || isClaimed) && (
                     <div className="mission-card__claimed-badge">
-                        ✅ Resgatado
+                        ✅ Completada!
                     </div>
                 )}
             </div>

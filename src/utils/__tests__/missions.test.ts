@@ -146,7 +146,7 @@ describe('Missions Logic', () => {
             const updatedMission = updateRes.newState.activeMissions.find(m => m.missionId === targetId);
 
             expect(updatedMission?.progress).toBe(targetVal);
-            expect(updatedMission?.status).toBe('completed');
+            expect(updatedMission?.status).toBe('claimed');
             expect(updatedMission?.completedAt).toBeDefined();
             expect(updateRes.completedMissions).toContain(targetMission.title);
         });

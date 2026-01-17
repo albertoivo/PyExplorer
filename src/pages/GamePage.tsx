@@ -56,9 +56,20 @@ export function GamePage() {
     const { allProgress, recordAttempt, getQuestionProgress } = useProgress();
     const { loading: pyodideLoading, loadingProgress, loadPyodide, ready } = usePyodide();
     const { questions: allQuestions, loading: questionsLoading, getQuestionsByWorld } = useQuestionsFirestore();
-    const { recordQuestionCompleted, checkWorldAchievements, userPowerUps, usePowerUp: consumePowerUp } = useGamification();
+    const { recordQuestionCompleted, checkWorldAchievements, userPowerUps, usePowerUp: consumePowerUp, missionNotification, dismissMissionNotification } = useGamification();
 
     const [activePowerUp, setActivePowerUp] = useState<PowerUpType | null>(null);
+
+    // Mission Notification Timer
+    useEffect(() => {
+        if (missionNotification) {
+            // Play sound?
+            const timer = setTimeout(() => {
+                dismissMissionNotification();
+            }, 4000);
+            return () => clearTimeout(timer);
+        }
+    }, [missionNotification, dismissMissionNotification]);
 
     // Timer para medir tempo de resposta (inicializa com 0, será setado quando iniciar questão)
     const questionStartTime = useRef<number>(0);
@@ -550,7 +561,27 @@ export function GamePage() {
                     onClose={handleCloseCompletedModal}
                 />
             )}
-        </div>
+
+
+            {/* Mission Notification Overlay */}
+            {
+                missionNotification && (
+                    <div className="mission-notification">
+                        <div className="mission-notification__content">
+                            <div className="mission-notification__icon">🎯</div>
+                            <div className="mission-notification__text">
+                                <h3>Missão Cumprida!</h3>
+                                <p>{missionNotification.title}</p>
+                                <div className="mission-notification__rewards">
+                                    {missionNotification.rewards.stars > 0 && <span>⭐ +{missionNotification.rewards.stars}</span>}
+                                    {missionNotification.rewards.xp > 0 && <span>✨ +{missionNotification.rewards.xp} XP</span>}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
+        </div >
     );
 }
 

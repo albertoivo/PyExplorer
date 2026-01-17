@@ -28,7 +28,6 @@ export function GamificationPage() {
         dailyMissions,
         weeklyMissions,
         activeMissions,
-        claimMissionReward,
         inventory,
         buyShopItem,
         equipItem,
@@ -209,7 +208,6 @@ export function GamificationPage() {
                         dailyMissions={dailyMissions}
                         weeklyMissions={weeklyMissions}
                         userMissions={activeMissions}
-                        onClaim={claimMissionReward}
                     />
                 )}
 

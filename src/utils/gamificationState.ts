@@ -347,18 +347,27 @@ export function updateMissionProgress(
     eventType: 'complete_questions' | 'correct_streak' | 'complete_world' | 'earn_stars' | 'login_streak',
     amount: number = 1,
     metadata?: { worldId?: string }
-): { newState: UserGamification, completedMissions: string[] } {
+): { newState: UserGamification, completedMissions: string[], rewards: { stars: number, xp: number }, levelUp: LevelInfo | null } {
     const completedMissions: string[] = [];
+    let totalStars = 0;
+    let totalXP = 0;
 
     // Need full mission definitions to check targets
     const today = new Date();
-    const allMissions = [...generateDailyMissions(today), ...generateWeeklyMissions(today)];
+    const daily = generateDailyMissions(today);
+    const weekly = generateWeeklyMissions(today);
+    // Include Endgame missions for lookup
+    const allMissions = [...daily, ...weekly, ...ENDGAME_MISSIONS];
 
     const newActiveMissions = state.activeMissions.map(userMission => {
         if (userMission.status !== 'active') return userMission;
 
-        const missionDef = allMissions.find(m => m.id === userMission.missionId);
-        if (!missionDef) return userMission; // Should not happen
+        // Smart Lookup (duplicate logic from claimMissionRewardLogic)
+        let missionDef = allMissions.find(m => 'id' in m && m.id === userMission.missionId);
+        if (!missionDef) {
+            missionDef = ENDGAME_MISSIONS.find(m => userMission.missionId.startsWith(`endgame_${m.objectiveType}`)) as Mission;
+        }
+        if (!missionDef) return userMission;
 
         // Check availability/objective match
         if (missionDef.objectiveType !== eventType) return userMission;
@@ -369,27 +378,22 @@ export function updateMissionProgress(
         }
 
         let newProgress = userMission.progress;
-
         if (eventType === 'correct_streak') {
-            // For streaks, we update to the CURRENT streak value, not defined by 'amount'
-            // Unless 'amount' IS the streak value passed from caller.
-            // Let's assume caller passes the current streak as 'amount'.
             newProgress = amount;
         } else {
-            // For others, we accumulate
             newProgress += amount;
         }
 
-        // Cap progress at target? Or allow over? Usually cap for UI bar.
-        // But if streak triggers, it might go over. 
-        // Let's just check completion condition.
-
         if (newProgress >= missionDef.targetValue) {
+            // AUTO-CLAIM LOGIC
             completedMissions.push(missionDef.title);
+            totalStars += missionDef.starsReward;
+            totalXP += missionDef.xpReward;
+
             return {
                 ...userMission,
-                progress: newProgress,
-                status: 'completed' as const,
+                progress: newProgress, // Keep the progress value at or above target
+                status: 'claimed' as const, // AUTO-CLAIMED
                 completedAt: new Date()
             };
         }
@@ -400,12 +404,33 @@ export function updateMissionProgress(
         };
     });
 
-    // Check if any change occurred
+    // If rewards exist, update state Level/XP
+    let finalState = { ...state, activeMissions: newActiveMissions };
+    let levelUp: LevelInfo | null = null;
+
+    if (totalXP > 0) {
+        const oldLevelInfo = getLevelFromXP(finalState.level.totalXP);
+        const newTotalXP = finalState.level.totalXP + totalXP;
+        const newLevelInfo = getLevelFromXP(newTotalXP);
+        levelUp = newLevelInfo.level > oldLevelInfo.level ? newLevelInfo : null;
+
+        finalState = {
+            ...finalState,
+            level: {
+                ...finalState.level,
+                totalXP: newTotalXP,
+                currentXP: newTotalXP - newLevelInfo.minXP
+            }
+        };
+    }
+
     const hasChanges = JSON.stringify(newActiveMissions) !== JSON.stringify(state.activeMissions);
 
     return {
-        newState: hasChanges ? { ...state, activeMissions: newActiveMissions } : state,
-        completedMissions
+        newState: hasChanges ? finalState : state,
+        completedMissions,
+        rewards: { stars: totalStars, xp: totalXP },
+        levelUp
     };
 }
 
