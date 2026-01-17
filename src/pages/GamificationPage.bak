@@ -94,9 +94,9 @@ export function GamificationPage() {
 
                 <div className="gamification-page__stats">
                     <div className="gamification-page__stat">
-                        <span className="gamification-page__stat-icon">⚡</span>
+                        <span className="gamification-page__stat-icon">⭐</span>
                         <span className="gamification-page__stat-value">{userData?.totalScore || 0}</span>
-                        <span className="gamification-page__stat-label">Pontos</span>
+                        <span className="gamification-page__stat-label">Estrelas</span>
                     </div>
                     <div className="gamification-page__stat">
                         <span className="gamification-page__stat-icon">🏆</span>

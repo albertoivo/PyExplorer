@@ -116,7 +116,7 @@ export function ProfilePage() {
 
                     <div className="profile-card__stats">
                         <div className="stat-item">
-                            <span className="stat-item__value">⚡ {userData.totalScore}</span>
+                            <span className="stat-item__value">⭐ {userData.totalScore}</span>
                             <span className="stat-item__label">Pontos</span>
                         </div>
                         <div className="stat-item">
