@@ -108,6 +108,18 @@ export function useGamification() {
         }
     }, [saveGamification, safeAddAchievement, updateUserData]);
 
+    // Ref to track pending achievement checks
+    const achievementCheckTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+    // Clear timeout on unmount or user change
+    useEffect(() => {
+        return () => {
+            if (achievementCheckTimeoutRef.current) {
+                clearTimeout(achievementCheckTimeoutRef.current);
+            }
+        };
+    }, []);
+
     const loadGamification = useCallback(async () => {
         console.log('📥 Loading gamification data...');
         setLoading(true);
@@ -135,7 +147,22 @@ export function useGamification() {
                         await saveGamificationData(currentUserData.uid, finalData);
                     }
                     setGamification(finalData);
-                    setTimeout(() => runAchievementChecks(finalData, currentUserData.balance || 0), 100);
+
+                    // Clear any existing timeout
+                    if (achievementCheckTimeoutRef.current) {
+                        clearTimeout(achievementCheckTimeoutRef.current);
+                    }
+
+                    // Schedule new check with SAFETY GUARD (zombie check)
+                    achievementCheckTimeoutRef.current = setTimeout(() => {
+                        // CRITICAL: Ensure we are still talking about the same user
+                        // If userDataRef.current changed, it means user switched -> ABORT
+                        if (userDataRef.current?.uid === currentUserData.uid) {
+                            runAchievementChecks(finalData, currentUserData.balance || 0);
+                        } else {
+                            console.log('🛑 Aborting runAchievementChecks: User switched from', currentUserData.uid, 'to', userDataRef.current?.uid);
+                        }
+                    }, 100);
                 } else {
                     // New user or no data: Start FRESH
                     console.log('✨ New user detected, initializing gamification...');

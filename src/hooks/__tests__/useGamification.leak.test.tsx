@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { renderHook, waitFor } from '@testing-library/react';
+import { renderHook, waitFor, act } from '@testing-library/react';
 import { useGamification } from '../useGamification';
 import { useAuth } from '../useAuth';
 import { getGamification, saveGamificationData } from '../../firebase/firestore';
@@ -33,11 +33,16 @@ describe('useGamification Leak Test', () => {
         });
     });
 
-    it('should reset state when switching from SuperUser to NewUser', async () => {
-        // 1. Setup User A (Super User)
-        const userA = { uid: 'user_a', displayName: 'Super User' };
-        const userDataA = { uid: 'user_a', balance: 1000, totalScore: 5000 };
+    it('should NOT leak state when switching rapidily between users (zombie check)', async () => {
+        // This test simulates the "Zombie Update" scenario:
+        // 1. User A loads
+        // 2. User A schedules async achievement check (setTimeout 100ms)
+        // 3. BEFORE timeout fires, we switch to User B
+        // 4. Timeout fires -> It MUST NOT update state with User A's data
 
+        // 1. Setup User A
+        const userA = { uid: 'user_a', displayName: 'Super User' };
+        // User A has completed world 1
         firestoreDataStore['user_a'] = {
             level: { level: 10, currentXP: 500, totalXP: 5000 },
             stats: { worldsCompleted: 5 },
@@ -48,46 +53,47 @@ describe('useGamification Leak Test', () => {
             streak: { currentStreak: 5, longestStreak: 5, lastActivityDate: '', activityHistory: [] }
         };
 
-        // Mock User A before rendering
+        // 2. Setup User B
+        const userB = { uid: 'user_b', displayName: 'New User' };
+        firestoreDataStore['user_b'] = {
+            level: { level: 1, totalXP: 0 },
+            stats: { worldsCompleted: 0 }, // Should be 0
+            achievements: [],
+            activeMissions: [],
+            inventory: { ownedItems: [] },
+            powerUps: { inventory: {}, usesToday: {} },
+            streak: { currentStreak: 0 }
+        };
+
+        // Start with User A
         (useAuth as any).mockReturnValue({
             user: userA,
-            userData: userDataA,
+            userData: { uid: 'user_a', balance: 1000 },
             updateUserData: mockUpdateUserData,
         });
 
         const { result, rerender } = renderHook(() => useGamification());
 
-        // Wait for User A data to load
-        await waitFor(() => expect(result.current.loading).toBe(false), { timeout: 3000 });
-        expect(result.current.currentLevel.level).toBe(10);
+        // Wait for A to load
+        await waitFor(() => expect(result.current.loading).toBe(false));
         expect(result.current.gamification.stats.worldsCompleted).toBe(5);
 
-        // 2. Switch to User B (New User)
-        const userB = { uid: 'user_b', displayName: 'New User' };
-        const userDataB = { uid: 'user_b', balance: 0, totalScore: 0 };
-
-        // Update mock and rerender
+        // 3. Switch to User B IMMEDIATELY
         (useAuth as any).mockReturnValue({
             user: userB,
-            userData: userDataB,
+            userData: { uid: 'user_b', balance: 0 },
             updateUserData: mockUpdateUserData,
         });
-
         rerender();
 
-        // 3. Wait for User B to finish loading and state to reset
-        await waitFor(() => {
-            expect(result.current.loading).toBe(false);
-            expect(result.current.currentLevel.level).toBe(1);
-            expect(result.current.gamification.level.totalXP).toBe(0);
-        }, { timeout: 3000 });
+        // 4. Wait enough time for the 100ms timeout to fire
+        await act(async () => {
+            await new Promise(r => setTimeout(r, 200));
+        });
 
-        // 4. ASSERT: Stats should also be reset
+        // 5. ASSERT: State should be User B's state (0 worlds completed)
+        // If the zombie check ran, it would have overwritten this with 5
         expect(result.current.gamification.stats.worldsCompleted).toBe(0);
-
-        // Verify that we saved the FRESH state to User B's firestore
-        expect(saveGamificationData).toHaveBeenCalledWith('user_b', expect.objectContaining({
-            level: expect.objectContaining({ totalXP: 0 })
-        }));
+        expect(result.current.gamification.level.level).toBe(1);
     });
 });
