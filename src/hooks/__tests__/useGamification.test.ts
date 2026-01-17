@@ -70,10 +70,157 @@ describe('useGamification Hook', () => {
         await waitFor(() => expect(result.current.loading).toBe(false));
 
         expect(result.current.currentLevel.level).toBe(1);
-        // Inventory object has ownedItems array
         expect(result.current.inventory.ownedItems.length).toBeGreaterThan(0);
         expect(result.current.streak.currentStreak).toBe(5);
         expect(result.current.streak.longestStreak).toBe(10);
+    });
+
+    describe('Question Progress (recordQuestionCompleted)', () => {
+        it('should update XP and stats when a question is passed', async () => {
+            const { result } = renderHook(() => useGamification());
+            await waitFor(() => expect(result.current.loading).toBe(false));
+
+            const initialXP = result.current.gamification.level.totalXP;
+
+            await act(async () => {
+                result.current.recordQuestionCompleted(true, 50, 10, { starsEarned: 5 });
+            });
+
+            // Verify User Data Update (Side Effect)
+            expect(mockUpdateUserData).toHaveBeenCalledWith(expect.objectContaining({
+                balance: 105, // 100 + 5
+                totalScore: initialXP + 50
+            }));
+
+            // Verify Persistence (Side Effect)
+            // This implicitly verifies state was calculated correctly even if result.current is lagging in test env
+            expect(saveGamificationData).toHaveBeenCalledWith(
+                mockUser.uid,
+                expect.objectContaining({
+                    level: expect.objectContaining({ totalXP: initialXP + 50 }),
+                    stats: expect.objectContaining({
+                        totalQuestionsCompleted: 1,
+                        totalCorrectAnswers: 1
+                    })
+                })
+            );
+        });
+
+        it('should handle level up correctly', async () => {
+            const { result } = renderHook(() => useGamification());
+            await waitFor(() => expect(result.current.loading).toBe(false));
+
+            await act(async () => {
+                // Give enough XP to definitely level up
+                result.current.recordQuestionCompleted(true, 5000, 10);
+            });
+
+            expect(result.current.showLevelUp).not.toBeNull();
+            expect(result.current.showLevelUp?.level).toBeGreaterThan(1);
+        });
+
+        it('should not gain XP if question failed', async () => {
+             const { result } = renderHook(() => useGamification());
+            await waitFor(() => expect(result.current.loading).toBe(false));
+
+            await act(async () => {
+                result.current.recordQuestionCompleted(false, 50, 10);
+            });
+
+            // Verify Persistence (Side Effect)
+             expect(saveGamificationData).toHaveBeenCalledWith(
+                 mockUser.uid,
+                 expect.objectContaining({
+                     stats: expect.objectContaining({
+                         totalQuestionsCompleted: 1,
+                         totalCorrectAnswers: 0
+                     })
+                 })
+             );
+        });
+    });
+
+    describe('Missions (claimMissionReward)', () => {
+         it('should claim reward for a completed mission', async () => {
+             const today = new Date().toISOString().split('T')[0];
+             // Construct dynamic mission ID
+             const missionId = `daily_${today}_0`;
+
+             const mockMission = {
+                 missionId: missionId,
+                 id: missionId,
+                 type: 'daily',
+                 target: 3,
+                 progress: 3,
+                 completed: false,
+                 status: 'active',
+                 rewards: { stars: 20, xp: 100 },
+                 description: 'Test'
+             };
+
+             (getGamification as any).mockResolvedValue(getFullMockData({
+                 activeMissions: [mockMission]
+             }));
+
+             const { result } = renderHook(() => useGamification());
+             await waitFor(() => expect(result.current.loading).toBe(false));
+
+             // Should initialize with the mission
+             await waitFor(() => expect(result.current.activeMissions[0].missionId).toBe(missionId));
+
+             await act(async () => {
+                 result.current.claimMissionReward(missionId);
+             });
+
+             // Check updateUserData for rewards.
+             expect(mockUpdateUserData).toHaveBeenCalled();
+         });
+    });
+
+    describe('Inventory & Shop', () => {
+        it('should equip an item', async () => {
+            const { result } = renderHook(() => useGamification());
+            await waitFor(() => expect(result.current.loading).toBe(false));
+
+            await act(async () => {
+                result.current.equipItem('new_avatar_id', 'avatar');
+            });
+
+            expect(result.current.gamification.inventory.equippedAvatar).toBe('new_avatar_id');
+            expect(saveGamificationData).toHaveBeenCalled();
+        });
+
+        it('should buy a shop item if affordable', async () => {
+            const { result } = renderHook(() => useGamification());
+            await waitFor(() => expect(result.current.loading).toBe(false));
+
+            const price = 50;
+            // Balance is 100
+            let success = false;
+            await act(async () => {
+                 success = result.current.buyShopItem('cool_hat', price);
+            });
+
+            expect(success).toBe(true);
+            expect(result.current.gamification.inventory.ownedItems).toContain('cool_hat');
+            expect(mockUpdateUserData).toHaveBeenCalledWith(expect.objectContaining({
+                balance: 50
+            }));
+        });
+
+        it('should fail to buy shop item if too expensive', async () => {
+            const { result } = renderHook(() => useGamification());
+            await waitFor(() => expect(result.current.loading).toBe(false));
+
+            const price = 150; // Balance 100
+             let success = false;
+            await act(async () => {
+                 success = result.current.buyShopItem('expensive_hat', price);
+            });
+
+            expect(success).toBe(false);
+            expect(result.current.gamification.inventory.ownedItems).not.toContain('expensive_hat');
+        });
     });
 
     describe('PowerUps', () => {
