@@ -111,7 +111,7 @@ export interface UserInventory {
 // MISSÕES DIÁRIAS/SEMANAIS
 // ============================================
 
-export type MissionType = 'daily' | 'weekly';
+export type MissionType = 'daily' | 'weekly' | 'endgame';
 export type MissionStatus = 'active' | 'completed' | 'claimed';
 
 export interface Mission {
@@ -121,7 +121,7 @@ export interface Mission {
     description: string;
     icon: string;
     /** Tipo de objetivo */
-    objectiveType: 'complete_questions' | 'correct_streak' | 'complete_world' | 'earn_stars' | 'login_streak';
+    objectiveType: 'complete_questions' | 'correct_streak' | 'complete_world' | 'earn_stars' | 'login_streak' | 'speedrun' | 'improve_stars' | 'syntax_master';
     /** Valor alvo (ex: completar 5 questões) */
     targetValue: number;
     /** Recompensa em estrelas */
@@ -130,6 +130,8 @@ export interface Mission {
     xpReward: number;
     /** Mundo específico (opcional) */
     targetWorld?: string;
+    /** Tempo limite em segundos (para Speedrun) */
+    timeLimit?: number;
 }
 
 export interface UserMission {

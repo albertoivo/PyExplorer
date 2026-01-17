@@ -242,7 +242,8 @@ export function GamePage() {
             recordQuestionCompleted(passed, finalScore, responseTimeSeconds, {
                 worldId: currentQuestion.world,
                 starsEarned,
-                isBoss: currentQuestion.type === 'boss_battle'
+                isBoss: currentQuestion.type === 'boss_battle',
+                previousStars: previousProgress?.stars || 0
             });
 
             // Consumir/Resetar power-up se foi usado com sucesso (para double_stars)
