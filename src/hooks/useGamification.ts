@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import type {
     UserGamification,
     Achievement,
@@ -36,6 +36,13 @@ const GUEST_GAMIFICATION_KEY = 'pyexplorer_guest_gamification';
 export function useGamification() {
     const { userData, isGuest, updateUserData } = useAuth();
     const [gamification, setGamification] = useState<UserGamification>(getInitialGamification);
+
+    // Ref to always have latest gamification state (avoids stale closures in callbacks)
+    const gamificationRef = useRef(gamification);
+    useEffect(() => {
+        gamificationRef.current = gamification;
+    }, [gamification]);
+
     const [loading, setLoading] = useState(true);
     const [newAchievements, setNewAchievements] = useState<Achievement[]>([]);
     const [showLevelUp, setShowLevelUp] = useState<LevelInfo | null>(null);
@@ -134,14 +141,17 @@ export function useGamification() {
         } finally {
             setLoading(false);
         }
-    }, [userData, isGuest, runAchievementChecks]);
+    }, [userData?.uid, isGuest, runAchievementChecks]);
 
-    // Load when user data is available
+    // Load when user data is available (only once per user session)
+    const hasLoadedRef = useRef<string | null>(null);
     useEffect(() => {
-        if (userData || isGuest) {
+        const userId = userData?.uid || (isGuest ? 'guest' : null);
+        if (userId && hasLoadedRef.current !== userId) {
+            hasLoadedRef.current = userId;
             loadGamification();
         }
-    }, [userData, isGuest, loadGamification]);
+    }, [userData?.uid, isGuest, loadGamification]);
 
 
     // ============================================
@@ -339,10 +349,12 @@ export function useGamification() {
         }, [gamification, userData, saveGamification, updateUserData, safeAddAchievement]),
 
         equipItem: useCallback((itemId: string, type: 'avatar' | 'frame' | 'title') => {
-            const newState = equipItemLogic(gamification, itemId, type);
+            // Use ref to get latest state (avoids stale closure from setTimeout in AvatarShop)
+            const currentState = gamificationRef.current;
+            const newState = equipItemLogic(currentState, itemId, type);
             setGamification(newState);
             saveGamification(newState);
-        }, [gamification, saveGamification]),
+        }, [saveGamification]),
 
         markAchievementSeen: useCallback((achievementId: string) => {
             const newState = markAchievementSeenLogic(gamification, achievementId);
