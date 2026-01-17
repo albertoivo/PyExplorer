@@ -285,6 +285,24 @@ export const listsQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: '`sum()` é uma função mágica que soma tudo que tem na lista! 10 + 20 + 30 = 60. Super rápido! ➕',
         points: 15,
+    },
+    {
+        id: 'list_12',
+        type: 'multiple_choice',
+        world: 'lists',
+        difficulty: 'easy',
+        ageMin: 10,
+        title: 'Adicionando Cores',
+        prompt: 'Qual comando adiciona a cor "Roxo" no final da lista `cores`?',
+        options: [
+            'cores.append("Roxo")',
+            'cores.add("Roxo")',
+            'cores.insert("Roxo")',
+            'cores.push("Roxo")',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'append("Roxo") adiciona o item no final da lista. É como colocar mais um vagão no trem! 🚂',
+        points: 10,
     }
 ];
 

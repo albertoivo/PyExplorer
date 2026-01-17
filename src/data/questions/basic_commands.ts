@@ -250,6 +250,24 @@ export const basicCommandsQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'Python é "case sensitive" (sensível a maiúsculas)! `print` deve ser sempre tudo minúsculo. `Print` ou `PRINT` não funcionam! 🚫',
         points: 10,
+    },
+    {
+        id: 'basic_12',
+        type: 'multiple_choice',
+        world: 'basic_commands',
+        difficulty: 'medium',
+        ageMin: 9,
+        title: 'Aspas dentro de Aspas',
+        prompt: 'Qual destas opções funciona sem dar erro?',
+        options: [
+            'print("Ela disse \'Oi\'")',
+            'print(\'Ela disse "Oi"\')',
+            'As duas opções acima',
+            'Nenhuma das opções',
+        ],
+        answerIndex: 2,
+        explanationKidFriendly: 'As duas funcionam! O segredo é misturar: se usar aspas duplas fora, use aspas simples dentro (e vice-versa). Assim o Python não se confunde! 🎭',
+        points: 15,
     }
 ];
 

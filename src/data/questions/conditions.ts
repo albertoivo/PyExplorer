@@ -285,6 +285,24 @@ for i in range(4):
         answerIndex: 0,
         explanationKidFriendly: '`not` inverte a condição! Se `chovendo` for Falso (não está chovendo), `not chovendo` vira Verdadeiro e o código roda! ☀️',
         points: 15,
+    },
+    {
+        id: 'dec_12',
+        type: 'multiple_choice',
+        world: 'conditions',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Final de Semana',
+        prompt: 'Qual código verifica corretamente se é Sábado OU Domingo?',
+        options: [
+            'if dia == "Sábado" or dia == "Domingo":',
+            'if dia == "Sábado" and dia == "Domingo":',
+            'if dia = "Sábado" or "Domingo":',
+            'if dia == "Sábado" | "Domingo":',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'Usamos `or` para dizer "ou"! O computador verifica: É sábado? OU É domingo? Se um dos dois for verdade, você pode descansar! 🎮',
+        points: 15,
     }
 ];
 

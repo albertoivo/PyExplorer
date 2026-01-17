@@ -132,5 +132,23 @@ export const dictionariesQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'Para mudar um valor, é só usar a chave e o sinal de igual! É como apagar o que estava escrito na agenda e escrever o novo valor. ✏️',
         points: 15,
+    },
+    {
+        id: 'dict_8',
+        type: 'multiple_choice',
+        world: 'dictionaries',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Chave Perdida',
+        prompt: 'O que acontece se tentarmos acessar uma chave que NÃO existe no dicionário?',
+        options: [
+            'Erro: KeyError',
+            'Retorna Zero',
+            'Retorna Vazio',
+            'Cria a chave automaticamente',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'Se a chave não existe, o Python não encontra e dá um grito: KeyError! É como procurar um nome na agenda que não está lá. 📢',
+        points: 15,
     }
 ];
