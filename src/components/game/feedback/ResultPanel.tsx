@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import './ResultPanel.css';
 
 interface ResultPanelProps {
@@ -34,10 +34,25 @@ export function ResultPanel({
     showExplanation = true,
 }: ResultPanelProps) {
     const [showingExplanation, setShowingExplanation] = React.useState(false);
+    const panelRef = useRef<HTMLDivElement>(null);
+
+    // Foca no painel quando ele aparece para garantir acessibilidade
+    useEffect(() => {
+        if (panelRef.current) {
+            panelRef.current.focus();
+        }
+    }, []);
 
     return (
-        <div className={`result-panel ${success ? 'result-panel--success' : 'result-panel--error'}`}>
-            <div className="result-panel__icon">
+        <div
+            ref={panelRef}
+            tabIndex={-1}
+            role="alert"
+            aria-label={success ? "Resultado: Sucesso" : "Resultado: Tente novamente"}
+            className={`result-panel ${success ? 'result-panel--success' : 'result-panel--error'}`}
+            style={{ outline: 'none' }} // Remove outline visual mas mantém foco programático
+        >
+            <div className="result-panel__icon" aria-hidden="true">
                 {success ? '🎉' : '💪'}
             </div>
 
@@ -49,7 +64,7 @@ export function ResultPanel({
 
             {success && points !== undefined && points > 0 && (
                 <div className="result-panel__points">
-                    <span className="result-panel__points-icon">⭐</span>
+                    <span className="result-panel__points-icon" aria-hidden="true">⭐</span>
                     <span className="result-panel__points-value">+{points} pontos</span>
                 </div>
             )}
@@ -59,6 +74,7 @@ export function ResultPanel({
                     <button
                         className="result-panel__explanation-toggle"
                         onClick={() => setShowingExplanation(!showingExplanation)}
+                        aria-expanded={showingExplanation}
                     >
                         💡 {showingExplanation ? 'Ocultar explicação' : 'Ver explicação'}
                     </button>
@@ -85,9 +101,9 @@ export function ResultPanel({
                 )}
             </div>
 
-            {/* Confetes para sucesso */}
+            {/* Confetes para sucesso - puramente decorativo */}
             {success && (
-                <div className="result-panel__confetti">
+                <div className="result-panel__confetti" aria-hidden="true">
                     {[...Array(12)].map((_, i) => (
                         <span key={i} className="confetti" style={{ '--delay': `${i * 0.1}s` } as React.CSSProperties}>
                             {['🌟', '✨', '🎊', '🎈', '💫'][i % 5]}
