@@ -274,6 +274,22 @@ for i in range(___):
         ],
         explanationKidFriendly: 'O terceiro número do range é o passo! -1 faz ele andar para trás. 10, 9, 8... até 1! 🚀',
         points: 20,
+    },
+    {
+        id: 'loop_12',
+        type: 'fill_code',
+        world: 'loops',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Energia do Jogo',
+        prompt: 'Repita o jogo enquanto a energia for maior que 0:',
+        starterCode: 'energia = 10\nwhile energia ___ 0:\n    print("Jogando...")\n    energia = energia - 1',
+        solutionTemplate: 'while energia > 0:',
+        tests: [
+            { input: null, expectedOutput: 'Jogando...\nJogando...\nJogando...\nJogando...\nJogando...\nJogando...\nJogando...\nJogando...\nJogando...\nJogando...' },
+        ],
+        explanationKidFriendly: 'O loop continua enquanto (while) a condição for verdadeira. energia > 0 significa que ainda tem energia para jogar! 🔋',
+        points: 20,
     }
 ];
 

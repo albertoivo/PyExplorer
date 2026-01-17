@@ -139,5 +139,23 @@ export const userInputQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'Não podemos somar texto com número! Use str(10) para transformar o 10 em texto, aí o Python deixa juntar! 📝',
         points: 15,
+    },
+    {
+        id: 'input_9',
+        type: 'multiple_choice',
+        world: 'user_input',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Preço do Brinquedo',
+        prompt: 'O brinquedo custa 25.50. Qual função converte o texto "25.50" para número?',
+        options: [
+            'float("25.50")',
+            'int("25.50")',
+            'str("25.50")',
+            'money("25.50")',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'Como tem centavos (ponto decimal), usamos `float()`! Se usarmos `int()`, o Python reclama porque não sabe o que fazer com o ponto. 💸',
+        points: 15,
     }
 ];

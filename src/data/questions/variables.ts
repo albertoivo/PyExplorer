@@ -274,5 +274,21 @@ export const variablesQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'O tipo `bool` (Booleano) só tem dois valores: `True` ou `False`. É usado para lógica e decisões! 🚦',
         points: 10,
+    },
+    {
+        id: 'var_12',
+        type: 'fill_code',
+        world: 'variables',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Atualizando Pontos',
+        prompt: 'Você ganhou mais pontos! Atualize a variável `pontos` para 50:',
+        starterCode: 'pontos = 20\npontos = ___\nprint(pontos)',
+        solutionTemplate: 'pontos = 50',
+        tests: [
+            { input: null, expectedOutput: '50' },
+        ],
+        explanationKidFriendly: 'Variáveis podem mudar de valor! Primeiro era 20, depois mudamos para 50. O valor antigo é jogado fora e o novo assume o lugar! 🔄',
+        points: 15,
     }
 ];

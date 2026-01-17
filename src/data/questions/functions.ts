@@ -273,6 +273,18 @@ desenhar_circulo(50)
         answerIndex: 0,
         explanationKidFriendly: '`print` só mostra na tela (útil para humanos). `return` entrega o dado para o programa usar em outras contas! 📦',
         points: 10,
+    },
+    {
+        id: 'func_12',
+        type: 'true_false',
+        world: 'functions',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Segredo da Função',
+        prompt: 'Se eu criar uma variável dentro de uma função, posso usar ela fora da função?',
+        correctBool: false,
+        explanationKidFriendly: 'Não! Variáveis criadas dentro da função são "locais". Elas ficam presas lá dentro e o resto do programa não consegue vê-las. É como um diário secreto! 🔒',
+        points: 10,
     }
 ];
 

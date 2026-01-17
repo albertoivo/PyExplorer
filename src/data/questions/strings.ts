@@ -285,6 +285,22 @@ export const stringsQuestions: QuestionDocument[] = [
         correctBool: true,
         explanationKidFriendly: 'Sim! `title()` deixa o texto chique! "o rato roeu" vira "O Rato Roeu". Ótimo para nomes e títulos! 🎩',
         points: 10,
+    },
+    {
+        id: 'strings_12',
+        type: 'fill_code',
+        world: 'strings',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'A Última Letra',
+        prompt: 'Use índice negativo para pegar a última letra da palavra:',
+        starterCode: 'palavra = "Abacaxi"\nprint(palavra[___])',
+        solutionTemplate: 'print(palavra[-1])',
+        tests: [
+            { input: null, expectedOutput: 'i' },
+        ],
+        explanationKidFriendly: 'Índices negativos contam de trás para frente! -1 é o último item, -2 é o penúltimo... É um atalho super útil! 🔙',
+        points: 15,
     }
 ];
 

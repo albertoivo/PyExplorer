@@ -253,6 +253,22 @@ export const numbersQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: '`round()` arredonda o número! 3.7 está mais perto de 4, então vira 4. Se fosse 3.2, viraria 3! 🔵',
         points: 15,
+    },
+    {
+        id: 'num_12',
+        type: 'fill_code',
+        world: 'numbers',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Quadrado Mágico',
+        prompt: 'Calcule 5 elevado ao quadrado (potência de 2) usando **:',
+        starterCode: 'numero = 5\nquadrado = numero ___ 2\nprint(quadrado)',
+        solutionTemplate: 'quadrado = numero ** 2',
+        tests: [
+            { input: null, expectedOutput: '25' },
+        ],
+        explanationKidFriendly: 'Usamos ** para potência! 5 ** 2 é o mesmo que 5 vezes 5. O resultado é 25! 🚀',
+        points: 15,
     }
 ];
 
