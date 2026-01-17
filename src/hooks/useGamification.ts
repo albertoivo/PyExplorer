@@ -348,6 +348,7 @@ export function useGamification() {
                         ...currentState.stats,
                         worldsCompleted: currentState.stats.worldsCompleted + 1,
                         perfectWorlds: mistakes === 0 ? currentState.stats.perfectWorlds + 1 : currentState.stats.perfectWorlds,
+                        completedWorldIds: [...(currentState.stats.completedWorldIds || []), worldId],
                     }
                 };
                 hasUpdates = true;
@@ -370,26 +371,26 @@ export function useGamification() {
             // Since we can't call hook from hook easily without useEffect loop, we keep logic here.
             const hasEndgameMissions = currentState.activeMissions.some(m => m.missionId.startsWith('endgame_'));
             if (!hasEndgameMissions) {
-                 const newMissions = ENDGAME_MISSIONS.map((m, idx) => ({
-                     ...m,
-                     id: `endgame_${m.objectiveType}_${idx}`
-                 }));
+                const newMissions = ENDGAME_MISSIONS.map((m, idx) => ({
+                    ...m,
+                    id: `endgame_${m.objectiveType}_${idx}`
+                }));
 
-                 const newActiveMissions = [
-                     ...currentState.activeMissions,
-                     ...newMissions.map(m => ({
-                         missionId: m.id,
-                         progress: 0,
-                         status: 'active' as const,
-                         expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 days
-                     }))
-                 ];
+                const newActiveMissions = [
+                    ...currentState.activeMissions,
+                    ...newMissions.map(m => ({
+                        missionId: m.id,
+                        progress: 0,
+                        status: 'active' as const,
+                        expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 days
+                    }))
+                ];
 
-                 currentState = {
-                     ...currentState,
-                     activeMissions: newActiveMissions
-                 };
-                 hasUpdates = true;
+                currentState = {
+                    ...currentState,
+                    activeMissions: newActiveMissions
+                };
+                hasUpdates = true;
             }
         }
         if (currentState.stats.worldsCompleted >= 5) {

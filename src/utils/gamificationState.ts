@@ -52,6 +52,7 @@ export function getInitialGamification(): UserGamification {
             perfectWorlds: 0,
             bossesDefeated: 0,
             consecutiveFastAnswers: 0,
+            completedWorldIds: [],
         },
     };
 }
@@ -84,15 +85,47 @@ export function checkDailyAndWeeklyReset(data: UserGamification): UserGamificati
         return m.missionId.includes(todayStr);
     });
 
+    const completedWorlds = newState.stats.completedWorldIds || [];
+
+    // Helper to process mission replacement
+    const processMissions = (missions: Mission[]) => {
+        return missions.map(m => {
+            if (m.targetWorld && completedWorlds.includes(m.targetWorld)) {
+                // Smart Replacement: Review Mode
+                return {
+                    progress: 0,
+                    status: 'active' as const,
+                    expiresAt: new Date(today.setHours(23, 59, 59, 999)),
+                    // We flag it as a 'review' mission in metadata if needed, 
+                    // or just rely on the UI rendering the title from hydration?
+                    // Wait, hydration uses the ID to fetch static definition from DATA.
+                    // If we want to change Title/Description, we can't do it just by ID unless we have dynamic hydration.
+                    // HydrateMissions fetches from generateDailyMissions again.
+                    // So we must modify generateDailyMissions? NO, that breaks determinism.
+
+                    // Option B: Store the modified title/description in the UserMission object?
+                    // UserMission currently has { missionId, progress, status, ... }.
+                    // It does NOT have title/description.
+
+                    // Solution: We need a special 'meta' field in UserMission or a special ID suffix.
+                    // Let's use ID suffix: `_review`.
+                    // And update hydrateMissions to handle `_review` suffix.
+                    missionId: m.id + '_review'
+                };
+            }
+            return {
+                missionId: m.id,
+                progress: 0,
+                status: 'active' as const,
+                expiresAt: new Date(today.setHours(23, 59, 59, 999))
+            };
+        });
+    };
+
     if (validDailyMissions.length === 0) {
         console.log('📅 Generating new Daily Missions...');
         const newDailies = generateDailyMissions(today);
-        const userDailies = newDailies.map(m => ({
-            missionId: m.id,
-            progress: 0,
-            status: 'active' as const,
-            expiresAt: new Date(today.setHours(23, 59, 59, 999))
-        }));
+        const userDailies = processMissions(newDailies);
 
         // Remove old dailies and add new ones
         newState.activeMissions = [
@@ -103,12 +136,10 @@ export function checkDailyAndWeeklyReset(data: UserGamification): UserGamificati
     }
 
     // 3. Check Weekly Missions
-    // Weekly missions restart on Mondays or if list is empty/expired
-    // Helper to get Monday of current week
     const getMonday = (d: Date) => {
         d = new Date(d);
         const day = d.getDay(),
-            diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+            diff = d.getDate() - day + (day == 0 ? -6 : 1);
         const monday = new Date(d.setDate(diff));
         return monday.toISOString().split('T')[0];
     };
@@ -121,12 +152,14 @@ export function checkDailyAndWeeklyReset(data: UserGamification): UserGamificati
     if (validWeeklyMissions.length === 0) {
         console.log('📅 Generating new Weekly Missions...');
         const newWeeklies = generateWeeklyMissions(today);
-        const userWeeklies = newWeeklies.map(m => ({
-            missionId: m.id,
-            progress: 0,
-            status: 'active' as const,
-            expiresAt: new Date(new Date().setDate(new Date().getDate() + 7)) // Rough expiry
-        }));
+        // Reuse process logic but adjust expiry
+        const userWeeklies = newWeeklies.map(m => {
+            const base = processMissions([m])[0]; // reuse logic regarding ID modification
+            return {
+                ...base,
+                expiresAt: new Date(new Date().setDate(new Date().getDate() + 7))
+            };
+        });
 
         // Remove old weeklies and add new ones
         newState.activeMissions = [
@@ -269,7 +302,7 @@ export function claimMissionRewardLogic(
     // If not found, try to find in ENDGAME_MISSIONS by title matching (since we construct IDs dynamically)
     if (!missionDef) {
         // Find endgame mission definition by checking if the missionId (from user state) matches the constructed pattern
-        missionDef = ENDGAME_MISSIONS.find(m => missionId.startsWith(`endgame_${m.objectiveType}`)) as any;
+        missionDef = ENDGAME_MISSIONS.find(m => missionId.startsWith(`endgame_${m.objectiveType}`)) as Mission;
     }
 
     if (!missionDef) {
@@ -468,13 +501,13 @@ export function recordQuestionLogic(
 
         // If not found, check endgame missions
         if (!def && mission.missionId.startsWith('endgame_')) {
-             // Extract type from ID: endgame_speedrun_...
-             const typePart = mission.missionId.split('_')[1]; // speedrun, improve, syntax
-             // Cast definition to 'any' or compatible type since it lacks ID
-             const found = ENDGAME_MISSIONS.find(m => m.objectiveType === typePart || (typePart === 'improve' && m.objectiveType === 'improve_stars') || (typePart === 'syntax' && m.objectiveType === 'syntax_master'));
-             if (found) {
-                 def = { ...found, id: mission.missionId } as any;
-             }
+            // Extract type from ID: endgame_speedrun_...
+            const typePart = mission.missionId.split('_')[1]; // speedrun, improve, syntax
+            // Cast definition to 'any' or compatible type since it lacks ID
+            const found = ENDGAME_MISSIONS.find(m => m.objectiveType === typePart || (typePart === 'improve' && m.objectiveType === 'improve_stars') || (typePart === 'syntax' && m.objectiveType === 'syntax_master'));
+            if (found) {
+                def = { ...found, id: mission.missionId } as Mission;
+            }
         }
 
         if (!def) return mission;
@@ -539,20 +572,20 @@ export function recordQuestionLogic(
                 }
                 break;
             case 'correct_streak':
-                 if (passed) {
-                     // Check global streak
-                     if (newConsecutive >= def.targetValue) {
-                         newProgress = def.targetValue;
-                         shouldUpdate = true;
-                     }
-                 }
-                 break;
-             case 'earn_stars':
-                 if (starsEarned > 0) {
-                     newProgress += starsEarned;
-                     shouldUpdate = true;
-                 }
-                 break;
+                if (passed) {
+                    // Check global streak
+                    if (newConsecutive >= def.targetValue) {
+                        newProgress = def.targetValue;
+                        shouldUpdate = true;
+                    }
+                }
+                break;
+            case 'earn_stars':
+                if (starsEarned > 0) {
+                    newProgress += starsEarned;
+                    shouldUpdate = true;
+                }
+                break;
         }
 
         if (shouldUpdate) {
@@ -672,28 +705,60 @@ export function markAchievementSeenLogic(state: UserGamification, achievementId:
     };
 }
 
+
+
+function processHydration(mission: Mission, originalId: string): Mission {
+    if (originalId.endsWith('_review')) {
+        return {
+            ...mission,
+            id: originalId,
+            title: `Revisão: ${mission.title}`,
+            description: mission.description.replace('Complete', 'Refaça').replace('Acerte', 'Refaça') + ' (Prática)',
+            icon: '🔄' // Update icon to show it's a review
+        };
+    }
+    return mission;
+}
+
 export function hydrateMissions(activeMissions: UserGamification['activeMissions']): { daily: Mission[], weekly: Mission[] } {
     const daily: Mission[] = [];
     const weekly: Mission[] = [];
 
     activeMissions.forEach(um => {
-        if (um.missionId.startsWith('daily_')) {
-            const parts = um.missionId.split('_'); // daily, date, index
+        let baseId = um.missionId;
+        const isReview = um.missionId.endsWith('_review');
+        if (isReview) {
+            baseId = um.missionId.replace('_review', '');
+        }
+
+        if (baseId.startsWith('daily_')) {
+            const parts = baseId.split('_'); // daily, date, index
             if (parts.length === 3) {
                 const dateStr = parts[1];
-                // We trust the ID format 'YYYY-MM-DD'.
                 const reconstructed = generateDailyMissions(new Date(dateStr + 'T12:00:00'));
-                const found = reconstructed.find(r => r.id === um.missionId);
-                if (found) daily.push(found);
+                const found = reconstructed.find(r => r.id === baseId);
+                if (found) daily.push(isReview ? processHydration(found, um.missionId) : found);
             }
-        } else if (um.missionId.startsWith('weekly_')) {
-            const parts = um.missionId.split('_');
+        } else if (baseId.startsWith('weekly_')) {
+            const parts = baseId.split('_');
             if (parts.length === 3) {
                 const dateStr = parts[1];
-                // Weekly uses weekOf.
                 const reconstructed = generateWeeklyMissions(new Date(dateStr + 'T12:00:00'));
-                const found = reconstructed.find(r => r.id === um.missionId);
-                if (found) weekly.push(found);
+                const found = reconstructed.find(r => r.id === baseId);
+                if (found) weekly.push(isReview ? processHydration(found, um.missionId) : found);
+            }
+        } else if (baseId.startsWith('endgame_')) {
+            // Handle endgame hydration if needed (already static basically)
+            // But we need to match the specific endgame mission
+            // const typePart = baseId.split('_')[1];
+            const found = ENDGAME_MISSIONS.find(m => baseId.startsWith(`endgame_${m.objectiveType}`));
+            if (found) {
+                const hydrated = { ...found, id: um.missionId } as Mission; // Cast needed as ENDGAME lacks ID
+                daily.push(hydrated); // Endgame usually shown in daily or separate list? The UI splits daily/weekly.
+                // Ideally endgame is its own category. But for now put in Daily or Weekly based on... choice.
+                // Actually the UI currently only shows Daily/Weekly props.
+                // We might need to add 'endgame' prop to UI later.
+                // For now, let's just push to daily to ensure visibility.
             }
         }
     });

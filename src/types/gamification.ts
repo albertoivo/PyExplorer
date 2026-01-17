@@ -234,5 +234,6 @@ export interface UserGamification {
         perfectWorlds: number; // mundos com 100% sem errar
         bossesDefeated: number;
         consecutiveFastAnswers: number; // For "Light Speed" achievement
+        completedWorldIds?: string[]; // IDs of worlds fully completed
     };
 }
