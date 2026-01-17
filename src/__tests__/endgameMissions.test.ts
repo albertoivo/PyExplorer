@@ -25,11 +25,12 @@ describe('Endgame Missions Logic', () => {
         },
     };
 
-    const createMission = (type: 'speedrun' | 'improve_stars' | 'syntax_master', index: number = 0): UserMission => ({
+    const createMission = (type: 'speedrun' | 'improve_stars' | 'syntax_master', index: number = 0, overrides?: Partial<UserMission>): UserMission => ({
         missionId: `endgame_${type}_${index}`,
         progress: 0,
         status: 'active',
         expiresAt: new Date(),
+        ...overrides
     });
 
     describe('Speedrun Mission', () => {
@@ -57,6 +58,20 @@ describe('Endgame Missions Logic', () => {
             // Limit is 45s
             const { newState } = recordQuestionLogic(state, true, 10, {
                 responseTimeSeconds: 50
+            });
+
+            const mission = newState.activeMissions.find(m => m.missionId.startsWith('endgame_speedrun'));
+            expect(mission?.progress).toBe(0);
+        });
+
+        it('should NOT increment if response time is missing (fallback to 999s)', () => {
+            const state = {
+                ...initialState,
+                activeMissions: [createMission('speedrun')],
+            };
+
+            const { newState } = recordQuestionLogic(state, true, 10, {
+                // no responseTimeSeconds
             });
 
             const mission = newState.activeMissions.find(m => m.missionId.startsWith('endgame_speedrun'));
@@ -122,6 +137,89 @@ describe('Endgame Missions Logic', () => {
 
             const mission = newState.activeMissions.find(m => m.missionId.startsWith('endgame_syntax'));
             expect(mission?.progress).toBe(0);
+        });
+    });
+
+    describe('Edge Cases & Robustness', () => {
+        it('should ignore missions that are not active', () => {
+            const state = {
+                ...initialState,
+                activeMissions: [createMission('speedrun', 0, { status: 'completed', progress: 3 })],
+            };
+
+            const { newState } = recordQuestionLogic(state, true, 10, { responseTimeSeconds: 5 });
+
+            const mission = newState.activeMissions[0];
+            expect(mission.progress).toBe(3); // Should not change
+            expect(mission.status).toBe('completed');
+        });
+
+        it('should handle mission definitions that are not found', () => {
+            const state = {
+                ...initialState,
+                activeMissions: [{
+                    missionId: 'endgame_unknown_999',
+                    progress: 0,
+                    status: 'active',
+                    expiresAt: new Date()
+                } as UserMission],
+            };
+
+            // Should not crash
+            const { newState } = recordQuestionLogic(state, true, 10);
+
+            const mission = newState.activeMissions.find(m => m.missionId === 'endgame_unknown_999');
+            expect(mission?.progress).toBe(0); // No change
+        });
+
+        it('should respect target world restrictions if applicable', () => {
+            // Mock a mission with a target world (none of current endgame missions have one, but logic supports it)
+            // We can't easily mock the data file here without module mocking,
+            // but we can verify the logic branch if we had a mission with targetWorld.
+            // Since we rely on real data, we can test that passing a DIFFERENT world doesn't break things
+            // for non-restricted missions.
+
+            const state = {
+                ...initialState,
+                activeMissions: [createMission('speedrun')],
+            };
+
+            const { newState } = recordQuestionLogic(state, true, 10, {
+                worldId: 'variables',
+                responseTimeSeconds: 10
+            });
+
+            const mission = newState.activeMissions[0];
+            expect(mission.progress).toBe(1); // Should still progress as Speedrun has no targetWorld
+        });
+
+        it('should cap progress at target value and mark completed', () => {
+            const state = {
+                ...initialState,
+                activeMissions: [createMission('speedrun')],
+            };
+
+            // Speedrun target is 3. Let's simulate 3 steps.
+            let currentState = state;
+
+            // 1
+            currentState = recordQuestionLogic(currentState, true, 10, { responseTimeSeconds: 10 }).newState;
+            expect(currentState.activeMissions[0].progress).toBe(1);
+            expect(currentState.activeMissions[0].status).toBe('active');
+
+            // 2
+            currentState = recordQuestionLogic(currentState, true, 10, { responseTimeSeconds: 10 }).newState;
+            expect(currentState.activeMissions[0].progress).toBe(2);
+
+            // 3
+            currentState = recordQuestionLogic(currentState, true, 10, { responseTimeSeconds: 10 }).newState;
+            expect(currentState.activeMissions[0].progress).toBe(3);
+            expect(currentState.activeMissions[0].status).toBe('completed');
+            expect(currentState.activeMissions[0].completedAt).toBeDefined();
+
+            // 4 (Overfill)
+            currentState = recordQuestionLogic(currentState, true, 10, { responseTimeSeconds: 10 }).newState;
+            expect(currentState.activeMissions[0].progress).toBe(3); // Capped
         });
     });
 });
