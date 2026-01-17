@@ -25,6 +25,7 @@ describe('CompletedQuestionModal', () => {
         attempts: 2,
         userAnswer: 'A',
         lastAttemptAt: new Date(),
+        stars: 3,
     };
 
     const mockHandlers = {

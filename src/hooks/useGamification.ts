@@ -43,6 +43,12 @@ export function useGamification() {
         gamificationRef.current = gamification;
     }, [gamification]);
 
+    // Ref to always have latest userData (avoids stale closures in loadGamification)
+    const userDataRef = useRef(userData);
+    useEffect(() => {
+        userDataRef.current = userData;
+    }, [userData]);
+
     const [loading, setLoading] = useState(true);
     const [newAchievements, setNewAchievements] = useState<Achievement[]>([]);
     const [showLevelUp, setShowLevelUp] = useState<LevelInfo | null>(null);
@@ -106,6 +112,8 @@ export function useGamification() {
         console.log('📥 Loading gamification data...');
         setLoading(true);
         try {
+            const currentUserData = userDataRef.current;
+
             if (isGuest) {
                 const stored = localStorage.getItem(GUEST_GAMIFICATION_KEY);
                 if (stored) {
@@ -117,23 +125,23 @@ export function useGamification() {
                     }
                     setGamification(data);
                 }
-            } else if (userData) {
-                const remoteData = await getGamification(userData.uid);
+            } else if (currentUserData) {
+                const remoteData = await getGamification(currentUserData.uid);
                 if (remoteData) {
                     let finalData = remoteData;
                     const resetted = checkDailyReset(remoteData);
                     if (resetted) {
                         finalData = resetted;
-                        await saveGamificationData(userData.uid, finalData);
+                        await saveGamificationData(currentUserData.uid, finalData);
                     }
                     setGamification(finalData);
-                    setTimeout(() => runAchievementChecks(finalData, userData.balance || 0), 100);
+                    setTimeout(() => runAchievementChecks(finalData, currentUserData.balance || 0), 100);
                 } else {
                     // New user or no data: Start FRESH
                     console.log('✨ New user detected, initializing gamification...');
                     const initial = getInitialGamification();
                     setGamification(initial);
-                    await saveGamificationData(userData.uid, initial);
+                    await saveGamificationData(currentUserData.uid, initial);
                 }
             }
         } catch (error) {
@@ -141,7 +149,7 @@ export function useGamification() {
         } finally {
             setLoading(false);
         }
-    }, [userData?.uid, isGuest, runAchievementChecks]);
+    }, [isGuest, runAchievementChecks]);
 
     // Load when user data is available (only once per user session)
     const hasLoadedRef = useRef<string | null>(null);
