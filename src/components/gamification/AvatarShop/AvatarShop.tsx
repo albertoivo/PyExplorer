@@ -73,7 +73,7 @@ export function AvatarShop({ userStars, userLevel, inventory, onBuy, onEquip }: 
             <div className="avatar-shop__header">
                 <h2 className="avatar-shop__title">🛒 Loja</h2>
                 <div className="avatar-shop__balance">
-                    <span className="avatar-shop__balance-icon">⭐</span>
+                    <span className="avatar-shop__balance-icon">💎</span>
                     <span className="avatar-shop__balance-value">{userStars}</span>
                 </div>
             </div>
@@ -130,7 +130,7 @@ export function AvatarShop({ userStars, userLevel, inventory, onBuy, onEquip }: 
                                     )}
 
                                     <div className="shop-item__price">
-                                        <span className="shop-item__price-icon">⭐</span>
+                                        <span className="shop-item__price-icon">💎</span>
                                         <span className={`shop-item__price-value ${!affordable ? 'shop-item__price-value--expensive' : ''}`}>
                                             {item.price === 0 ? 'Grátis' : item.price}
                                         </span>

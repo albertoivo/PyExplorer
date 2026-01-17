@@ -148,7 +148,7 @@ export function ProfilePage() {
 
                 {/* Conquistas (Dinâmico) */}
                 <div className="profile-section">
-                    <h2 className="profile-section__title">🏆 Conquistas</h2>
+                    <h2 className="profile-section__title">🏅 Conquistas</h2>
                     <div className="profile-achievements">
                         {achievements.map((achievement) => {
                             const isUnlocked = unlockedAchievements.some(u => u.id === achievement.id);

@@ -119,10 +119,10 @@ export function Header() {
                                 <span className="header__user-name">{userData.displayName}</span>
                                 <span
                                     className="header__user-stars"
-                                    title="Estrelas disponíveis"
-                                    aria-label={`Estrelas disponíveis: ${userData.balance || 0}`}
+                                    title="Diamantes disponíveis"
+                                    aria-label={`Diamantes disponíveis: ${userData.balance || 0}`}
                                 >
-                                    <span aria-hidden="true">⭐</span> {userData.balance || 0}
+                                    <span aria-hidden="true">💎</span> {userData.balance || 0}
                                 </span>
                                 <span
                                     className="header__user-streak"

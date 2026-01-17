@@ -43,10 +43,10 @@ export function GamificationPage() {
 
     const tabs: { id: GamificationTab; name: string; icon: string }[] = [
         { id: 'overview', name: 'Visão Geral', icon: '📊' },
-        { id: 'achievements', name: 'Conquistas', icon: '🏆' },
+        { id: 'achievements', name: 'Conquistas', icon: '🏅' },
         { id: 'missions', name: 'Missões', icon: '📋' },
         { id: 'shop', name: 'Loja', icon: '🛒' },
-        { id: 'ranking', name: 'Ranking', icon: '🏅' },
+        { id: 'ranking', name: 'Ranking', icon: '👑' },
     ];
 
     return (
@@ -99,7 +99,7 @@ export function GamificationPage() {
                         <span className="gamification-page__stat-label">Pontos</span>
                     </div>
                     <div className="gamification-page__stat">
-                        <span className="gamification-page__stat-icon">🏆</span>
+                        <span className="gamification-page__stat-icon">🏅</span>
                         <span className="gamification-page__stat-value">{unlockedAchievements.length}</span>
                         <span className="gamification-page__stat-label">Conquistas</span>
                     </div>
@@ -171,7 +171,7 @@ export function GamificationPage() {
                         </div>
 
                         <div className="gamification-page__section">
-                            <h3 className="gamification-page__section-title">🏆 Últimas Conquistas</h3>
+                            <h3 className="gamification-page__section-title">🏅 Últimas Conquistas</h3>
                             <div className="gamification-page__recent-achievements">
                                 {unlockedAchievements.slice(0, 4).map(achievement => (
                                     <div key={achievement.id} className="recent-achievement">
