@@ -154,10 +154,14 @@ export interface UserProgress {
   questionId: string;
   /** Status do progresso */
   status: ProgressStatus;
-  /** Número de pontos/estrelas ganhos */
+  /** Número de pontos/estrelas ganhos (legacy: score numérico) */
   score: number;
+  /** Rating de estrelas (0-3) baseado em desempenho */
+  stars: 0 | 1 | 2 | 3;
   /** Número de tentativas */
   attempts: number;
+  /** Melhor tempo de resposta em segundos */
+  bestTimeSeconds?: number;
   /** Timestamp da última tentativa */
   lastAttemptAt: Date | null;
   /** Resposta do usuário na última tentativa bem-sucedida */

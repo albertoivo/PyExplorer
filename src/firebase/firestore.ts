@@ -292,13 +292,17 @@ export async function getUserProgress(uid: string): Promise<UserProgress[]> {
  * @param passed - Se a tentativa foi bem-sucedida
  * @param score - Pontuação obtida (se passou)
  * @param userAnswer - Resposta do usuário (código, índice, booleano, etc.)
+ * @param stars - Rating de estrelas (0-3)
+ * @param bestTimeSeconds - Melhor tempo de resposta
  */
 export async function updateProgress(
     uid: string,
     questionId: string,
     passed: boolean,
     score: number = 0,
-    userAnswer?: unknown
+    userAnswer?: unknown,
+    stars?: 0 | 1 | 2 | 3,
+    bestTimeSeconds?: number
 ): Promise<void> {
     const existing = await getProgress(uid, questionId);
 
@@ -311,7 +315,9 @@ export async function updateProgress(
         questionId,
         status: newStatus,
         score: newScore,
+        stars: stars ?? existing?.stars ?? 0,
         attempts: newAttempts,
+        bestTimeSeconds: bestTimeSeconds ?? existing?.bestTimeSeconds,
         lastAttemptAt: new Date(),
         // Salva resposta apenas se passou, senão preserva a anterior
         userAnswer: passed && userAnswer !== undefined

@@ -6,6 +6,7 @@ interface QuestionCardProps {
     question: QuestionDocument;
     index: number;
     status: 'not_started' | 'in_progress' | 'completed';
+    stars?: 0 | 1 | 2 | 3;
     locked?: boolean;
     onClick: (question: QuestionDocument) => void;
 }
@@ -38,9 +39,36 @@ const getStatusIcon = (status: string, locked?: boolean, index?: number) => {
 };
 
 /**
+ * Renderiza estrelas ganhas (filled) vs potenciais (empty)
+ */
+const StarsDisplay = ({ stars, status }: { stars: number; status: string }) => {
+    // Se não completou, mostra estrelas vazias
+    if (status !== 'completed') {
+        return (
+            <span className="question-card__stars question-card__stars--potential">
+                <span className="star star--empty">☆</span>
+                <span className="star star--empty">☆</span>
+                <span className="star star--empty">☆</span>
+            </span>
+        );
+    }
+
+    // Se completou, mostra estrelas ganhas
+    return (
+        <span className="question-card__stars question-card__stars--earned">
+            {[1, 2, 3].map(i => (
+                <span key={i} className={`star ${i <= stars ? 'star--filled' : 'star--empty'}`}>
+                    {i <= stars ? '★' : '☆'}
+                </span>
+            ))}
+        </span>
+    );
+};
+
+/**
  * Card de questão na lista de questões de um mundo
  */
-export const QuestionCard = memo(function QuestionCard({ question, index, status, locked, onClick }: QuestionCardProps) {
+export const QuestionCard = memo(function QuestionCard({ question, index, status, stars = 0, locked, onClick }: QuestionCardProps) {
     const typeIcon = TYPE_ICONS[question.type] || '❓';
     const typeLabel = TYPE_LABELS[question.type] || 'Questão';
     const statusIcon = getStatusIcon(status, locked, index);
@@ -66,11 +94,7 @@ export const QuestionCard = memo(function QuestionCard({ question, index, status
                     <span className="question-card__type">
                         {typeIcon} {typeLabel}
                     </span>
-                    <span className={`question-card__difficulty question-card__difficulty--${question.difficulty}`}>
-                        {question.difficulty === 'easy' && '⭐'}
-                        {question.difficulty === 'medium' && '⭐⭐'}
-                        {question.difficulty === 'hard' && '⭐⭐⭐'}
-                    </span>
+                    <StarsDisplay stars={stars} status={status} />
                 </div>
 
                 <h4 className="question-card__title">{question.title}</h4>

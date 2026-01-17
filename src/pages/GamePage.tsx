@@ -228,7 +228,15 @@ export function GamePage() {
                 ? finalScore - existingScore
                 : 0;
 
-            await recordAttempt(currentQuestion.id, passed, finalScore);
+            // Passa difficulty e responseTimeSeconds para calcular estrelas (1-3)
+            await recordAttempt(
+                currentQuestion.id,
+                passed,
+                finalScore,
+                undefined, // userAnswer será salvo pelo QuestionEngine
+                currentQuestion.difficulty,
+                responseTimeSeconds
+            );
 
             // Registra no sistema de gamificação com tempo de resposta
             recordQuestionCompleted(passed, finalScore, responseTimeSeconds, {
@@ -451,6 +459,7 @@ export function GamePage() {
                                     question={question}
                                     index={index}
                                     status={progress?.status || 'not_started'}
+                                    stars={progress?.stars || 0}
                                     locked={isLocked}
                                     onClick={handleStartQuestion}
                                 />

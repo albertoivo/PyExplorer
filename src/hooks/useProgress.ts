@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { UserProgress, ProgressStatus, UserAnswer } from '../types/question';
+import type { UserProgress, ProgressStatus, UserAnswer, Difficulty } from '../types/question';
 import { getUserProgress, updateProgress } from '../firebase/firestore';
 import { useAuth } from './useAuth';
+import { calculateStars, mergeStars, type StarRating } from '../utils/starCalculation';
 
 /**
  * Hook para gerenciar progresso do usuário
@@ -67,19 +68,23 @@ export function useProgress() {
      * @param passed - Se acertou
      * @param score - Pontuação potencial
      * @param userAnswer - Resposta do usuário (código, índice, booleano, etc.)
+     * @param difficulty - Dificuldade da questão (para cálculo de estrelas)
+     * @param responseTimeSeconds - Tempo de resposta em segundos
      */
     const recordAttempt = useCallback(async (
         questionId: string,
         passed: boolean,
         score: number = 0,
-        userAnswer?: UserAnswer
+        userAnswer?: UserAnswer,
+        difficulty?: Difficulty,
+        responseTimeSeconds?: number
     ): Promise<void> => {
         if (!userData) {
             console.warn('recordAttempt: sem userData, ignorando');
             return;
         }
 
-        console.log('recordAttempt:', { questionId, passed, score, isGuest, userAnswer });
+        console.log('recordAttempt:', { questionId, passed, score, isGuest, userAnswer, difficulty, responseTimeSeconds });
 
         try {
             // Calcula o novo progresso
@@ -98,12 +103,30 @@ export function useProgress() {
                 console.log('Questão já completada anteriormente - sem pontos adicionais (modo prática)');
             }
 
+            // Calcula estrelas (0-3) baseado em tentativas e tempo
+            let newStars: StarRating = existing?.stars || 0;
+            let bestTime = existing?.bestTimeSeconds;
+
+            if (passed && difficulty && responseTimeSeconds !== undefined) {
+                const earnedStars = calculateStars(passed, newAttempts, responseTimeSeconds, difficulty);
+                newStars = mergeStars(existing?.stars || 0, earnedStars);
+
+                // Atualiza melhor tempo se for menor
+                if (!bestTime || responseTimeSeconds < bestTime) {
+                    bestTime = responseTimeSeconds;
+                }
+
+                console.log('⭐ Estrelas calculadas:', { attempts: newAttempts, time: responseTimeSeconds, difficulty, earned: earnedStars, total: newStars });
+            }
+
             const newProgress: UserProgress = {
                 uid: userData.uid,
                 questionId,
                 status: newStatus,
                 score: newScore,
+                stars: newStars,
                 attempts: newAttempts,
+                bestTimeSeconds: bestTime,
                 lastAttemptAt: new Date(),
                 // Salva a resposta do usuário apenas se passou
                 userAnswer: passed && userAnswer !== undefined ? userAnswer : existing?.userAnswer,
@@ -128,7 +151,7 @@ export function useProgress() {
                 console.log('Progresso salvo no localStorage');
             } else {
                 // Salva no Firestore para usuários autenticados
-                await updateProgress(userData.uid, questionId, passed, score, userAnswer);
+                await updateProgress(userData.uid, questionId, passed, score, userAnswer, newStars, bestTime);
                 console.log('Progresso salvo no Firestore');
 
                 // Recarrega dados do usuário para garantir sincronização

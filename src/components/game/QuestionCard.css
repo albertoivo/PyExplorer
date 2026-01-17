@@ -95,6 +95,35 @@
     color: #fc8181;
 }
 
+/* Stars Display */
+.question-card__stars {
+    display: flex;
+    gap: 2px;
+    font-size: 1rem;
+}
+
+.question-card__stars--potential {
+    opacity: 0.5;
+}
+
+.question-card__stars--earned {
+    opacity: 1;
+}
+
+.star {
+    transition: all 0.2s ease;
+}
+
+.star--filled {
+    color: #FFD700;
+    text-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
+}
+
+.star--empty {
+    color: #4a4a6a;
+    opacity: 0.6;
+}
+
 .question-card__title {
     font-size: 1.05rem;
     font-weight: 700;
