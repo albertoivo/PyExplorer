@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import type {
     UserGamification,
     Achievement,
-    Mission,
     PowerUpType,
     LevelInfo,
 } from '../types/gamification';
@@ -15,7 +14,7 @@ import { useAuth } from './useAuth';
 import { getGamification, saveGamificationData } from '../firebase/firestore';
 import {
     getInitialGamification,
-    checkDailyReset,
+    checkDailyAndWeeklyReset,
     buyShopItemLogic,
     equipItemLogic,
     consumePowerUpLogic,
@@ -24,7 +23,9 @@ import {
     recordQuestionLogic,
     checkAchievementsLogic,
     unlockAchievementLogic,
-    markAchievementSeenLogic
+    markAchievementSeenLogic,
+    updateMissionProgress,
+    hydrateMissions
 } from '../utils/gamificationState';
 
 // ============================================
@@ -130,7 +131,7 @@ export function useGamification() {
                 const stored = localStorage.getItem(GUEST_GAMIFICATION_KEY);
                 if (stored) {
                     let data = JSON.parse(stored);
-                    const resetted = checkDailyReset(data);
+                    const resetted = checkDailyAndWeeklyReset(data);
                     if (resetted) {
                         data = resetted;
                         localStorage.setItem(GUEST_GAMIFICATION_KEY, JSON.stringify(data));
@@ -141,7 +142,7 @@ export function useGamification() {
                 const remoteData = await getGamification(currentUserData.uid);
                 if (remoteData) {
                     let finalData = remoteData;
-                    const resetted = checkDailyReset(remoteData);
+                    const resetted = checkDailyAndWeeklyReset(remoteData);
                     if (resetted) {
                         finalData = resetted;
                         await saveGamificationData(currentUserData.uid, finalData);
@@ -236,8 +237,43 @@ export function useGamification() {
             }
         });
 
-        setGamification(finalState);
-        saveGamification(finalState);
+        // Update Missions Progress
+        let missionsState = finalState;
+
+        // 1. Complete Questions
+        let mResult = updateMissionProgress(missionsState, 'complete_questions', 1, { worldId: options?.worldId });
+        missionsState = mResult.newState;
+        mResult.completedMissions.forEach(m => console.log(`✅ Mission Completed: ${m}`));
+
+        // 2. Correct Streak (pass the current streak as amount)
+        if (passed) {
+            mResult = updateMissionProgress(missionsState, 'correct_streak', missionsState.stats.consecutiveCorrect);
+            missionsState = mResult.newState;
+            mResult.completedMissions.forEach(m => console.log(`✅ Mission Completed: ${m}`));
+        }
+
+        // 3. Earn Stars
+        if (starsEarned > 0) {
+            mResult = updateMissionProgress(missionsState, 'earn_stars', starsEarned);
+            missionsState = mResult.newState;
+            mResult.completedMissions.forEach(m => console.log(`✅ Mission Completed: ${m}`));
+        }
+
+        // 4. Complete World
+
+        // Check if world was just completed?
+        // Simple check: if question completed implies world completed logic?
+        // We can check if `stats.worldsCompleted` changed? Difficult without diff.
+        // Or just trigger 'complete_world' event if we know it happened details.
+        // For now, let's rely on world completion being rare.
+        // We can check if `checkWorldAchievements` was triggered? 
+        // Actually, `checkWorldAchievements` is a separate call in QuestionEngine.
+        // So we should add mission update THERE too or make recordQuestion handle it more smartly.
+        // But `recordQuestion` doesn't know if World is finished.
+        // Let's leave 'complete_world' for `checkWorldAchievements`.
+
+        setGamification(missionsState);
+        saveGamification(missionsState);
     }, [gamification, userData, updateUserData, saveGamification, safeAddAchievement]);
 
     // ============================================
@@ -310,6 +346,16 @@ export function useGamification() {
             }
         }
 
+        if (worldId && questionsCompleted === totalQuestions) {
+            // Trigger Mission Update for World Completion
+            const mResult = updateMissionProgress(currentState, 'complete_world', 1, { worldId });
+            if (mResult.completedMissions.length > 0) {
+                currentState = mResult.newState;
+                hasUpdates = true;
+                mResult.completedMissions.forEach(m => console.log(`✅ Mission Completed: ${m}`));
+            }
+        }
+
         if (hasUpdates) {
             setGamification(currentState);
             saveGamification(currentState);
@@ -328,6 +374,11 @@ export function useGamification() {
             .map(ua => ACHIEVEMENTS.find(a => a.id === ua.achievementId))
             .filter(Boolean) as Achievement[];
     }, [gamification.achievements]);
+
+    // Hydrate missions (memoized)
+    const { daily: dailyMissions, weekly: weeklyMissions } = useMemo(() => {
+        return hydrateMissions(gamification.activeMissions || []);
+    }, [gamification.activeMissions]);
 
     return {
         // State
@@ -348,8 +399,8 @@ export function useGamification() {
 
         // UI State
         showLevelUp,
-        dailyMissions: [] as Mission[],
-        weeklyMissions: [] as Mission[],
+        dailyMissions,
+        weeklyMissions,
 
         // Achievements
         achievements,

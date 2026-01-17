@@ -11,6 +11,7 @@ import {
     SHOP_ITEMS
 } from '../data/gamificationData';
 import { calculateStreak } from './gamificationUtils';
+import type { Mission } from '../types/gamification';
 
 // ============================================
 // INITIAL STATE & HELPERS
@@ -54,22 +55,87 @@ export function getInitialGamification(): UserGamification {
     };
 }
 
-export function checkDailyReset(data: UserGamification): UserGamification | null {
-    const today = new Date().toISOString().split('T')[0];
+export function checkDailyAndWeeklyReset(data: UserGamification): UserGamification | null {
+    const today = new Date();
+    const todayStr = today.toISOString().split('T')[0];
     const lastReset = data.powerUps?.lastResetDate;
 
-    if (lastReset !== today) {
+    const newState = { ...data };
+    let hasChanges = false;
+
+    // 1. Reset PowerUps Daily
+    if (lastReset !== todayStr) {
         console.log('🔄 Resetting daily power-up limits...');
-        return {
-            ...data,
-            powerUps: {
-                ...data.powerUps,
-                usesToday: { skip: 0, fifty_fifty: 0, extra_hint: 0, double_stars: 0, shield: 0 },
-                lastResetDate: today
-            }
+        newState.powerUps = {
+            ...newState.powerUps,
+            usesToday: { skip: 0, fifty_fifty: 0, extra_hint: 0, double_stars: 0, shield: 0 },
+            lastResetDate: todayStr
         };
+        hasChanges = true;
     }
-    return null;
+
+    // 2. Check Daily Missions
+    // Filter existing daily missions that are still valid (created today)
+    const validDailyMissions = newState.activeMissions.filter(m => {
+        if (m.status === 'claimed') return false; // Remove claimed from previous days? Or keep history?
+        // Actually, daily missions expire at end of day. So we should restart if they are from yesterday.
+        // Let's assume ID format 'daily_YYYY-MM-DD_index' tells us the date.
+        return m.missionId.includes(todayStr);
+    });
+
+    if (validDailyMissions.length === 0) {
+        console.log('📅 Generating new Daily Missions...');
+        const newDailies = generateDailyMissions(today);
+        const userDailies = newDailies.map(m => ({
+            missionId: m.id,
+            progress: 0,
+            status: 'active' as const,
+            expiresAt: new Date(today.setHours(23, 59, 59, 999))
+        }));
+
+        // Remove old dailies and add new ones
+        newState.activeMissions = [
+            ...newState.activeMissions.filter(m => !m.missionId.startsWith('daily_')),
+            ...userDailies
+        ];
+        hasChanges = true;
+    }
+
+    // 3. Check Weekly Missions
+    // Weekly missions restart on Mondays or if list is empty/expired
+    // Helper to get Monday of current week
+    const getMonday = (d: Date) => {
+        d = new Date(d);
+        const day = d.getDay(),
+            diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+        const monday = new Date(d.setDate(diff));
+        return monday.toISOString().split('T')[0];
+    };
+    const currentWeekMonday = getMonday(today);
+
+    const validWeeklyMissions = newState.activeMissions.filter(m => {
+        return m.missionId.startsWith(`weekly_${currentWeekMonday}`);
+    });
+
+    if (validWeeklyMissions.length === 0) {
+        console.log('📅 Generating new Weekly Missions...');
+        const newWeeklies = generateWeeklyMissions(today);
+        const userWeeklies = newWeeklies.map(m => ({
+            missionId: m.id,
+            progress: 0,
+            status: 'active' as const,
+            expiresAt: new Date(new Date().setDate(new Date().getDate() + 7)) // Rough expiry
+        }));
+
+        // Remove old weeklies and add new ones
+        newState.activeMissions = [
+            ...newState.activeMissions.filter(m => !m.missionId.startsWith('weekly_')),
+            ...userWeeklies
+        ];
+        hasChanges = true;
+    }
+
+    return hasChanges ? newState : null;
 }
 
 // ============================================
@@ -230,6 +296,73 @@ export function claimMissionRewardLogic(
         newState,
         rewards: { xp: xpReward, stars: starsReward },
         levelUp
+    };
+}
+
+export function updateMissionProgress(
+    state: UserGamification,
+    eventType: 'complete_questions' | 'correct_streak' | 'complete_world' | 'earn_stars' | 'login_streak',
+    amount: number = 1,
+    metadata?: { worldId?: string }
+): { newState: UserGamification, completedMissions: string[] } {
+    const completedMissions: string[] = [];
+
+    // Need full mission definitions to check targets
+    const today = new Date();
+    const allMissions = [...generateDailyMissions(today), ...generateWeeklyMissions(today)];
+
+    const newActiveMissions = state.activeMissions.map(userMission => {
+        if (userMission.status !== 'active') return userMission;
+
+        const missionDef = allMissions.find(m => m.id === userMission.missionId);
+        if (!missionDef) return userMission; // Should not happen
+
+        // Check availability/objective match
+        if (missionDef.objectiveType !== eventType) return userMission;
+
+        // Special checks
+        if (missionDef.targetWorld && missionDef.targetWorld !== metadata?.worldId) {
+            return userMission;
+        }
+
+        let newProgress = userMission.progress;
+
+        if (eventType === 'correct_streak') {
+            // For streaks, we update to the CURRENT streak value, not defined by 'amount'
+            // Unless 'amount' IS the streak value passed from caller.
+            // Let's assume caller passes the current streak as 'amount'.
+            newProgress = amount;
+        } else {
+            // For others, we accumulate
+            newProgress += amount;
+        }
+
+        // Cap progress at target? Or allow over? Usually cap for UI bar.
+        // But if streak triggers, it might go over. 
+        // Let's just check completion condition.
+
+        if (newProgress >= missionDef.targetValue) {
+            completedMissions.push(missionDef.title);
+            return {
+                ...userMission,
+                progress: newProgress,
+                status: 'completed' as const,
+                completedAt: new Date()
+            };
+        }
+
+        return {
+            ...userMission,
+            progress: newProgress
+        };
+    });
+
+    // Check if any change occurred
+    const hasChanges = JSON.stringify(newActiveMissions) !== JSON.stringify(state.activeMissions);
+
+    return {
+        newState: hasChanges ? { ...state, activeMissions: newActiveMissions } : state,
+        completedMissions
     };
 }
 
@@ -400,4 +533,33 @@ export function markAchievementSeenLogic(state: UserGamification, achievementId:
                 : a
         ),
     };
+}
+
+export function hydrateMissions(activeMissions: UserGamification['activeMissions']): { daily: Mission[], weekly: Mission[] } {
+    const daily: Mission[] = [];
+    const weekly: Mission[] = [];
+
+    activeMissions.forEach(um => {
+        if (um.missionId.startsWith('daily_')) {
+            const parts = um.missionId.split('_'); // daily, date, index
+            if (parts.length === 3) {
+                const dateStr = parts[1];
+                // We trust the ID format 'YYYY-MM-DD'.
+                const reconstructed = generateDailyMissions(new Date(dateStr + 'T12:00:00'));
+                const found = reconstructed.find(r => r.id === um.missionId);
+                if (found) daily.push(found);
+            }
+        } else if (um.missionId.startsWith('weekly_')) {
+            const parts = um.missionId.split('_');
+            if (parts.length === 3) {
+                const dateStr = parts[1];
+                // Weekly uses weekOf.
+                const reconstructed = generateWeeklyMissions(new Date(dateStr + 'T12:00:00'));
+                const found = reconstructed.find(r => r.id === um.missionId);
+                if (found) weekly.push(found);
+            }
+        }
+    });
+
+    return { daily, weekly };
 }

@@ -302,3 +302,30 @@ Este documento reúne ideias inspiradas nos principais jogos e plataformas educa
 - [Scratch](https://scratch.mit.edu) - Criação sem competição
 - [Khan Academy Kids](https://learn.khanacademy.org) - Aprendizado progressivo
 - [Minecraft Education](https://education.minecraft.net) - Criatividade + aprendizado
+
+---
+
+## 🔁 12. Endgame & Replayability (Para quem já zerou)
+
+Para manter o engajamento de jogadores que já completaram todos os mundos:
+
+### 12.1 Missões de Revisão e Performance
+Em vez de "Completar novas questões", as missões mudam o foco para **qualidade** e **velocidade**:
+- **Speedrun**: "Refaça 3 questões do Mundo 1 em menos de 45s cada".
+- **Gabarito**: "Obtenha 3 estrelas em 2 questões antigas onde você tinha menos".
+- **Mestre da Sintaxe**: "Responda 5 questões seguidas sem nenhum erro de sintaxe".
+
+### 12.2 "Desafio Diário" (Daily Challenge)
+- Um botão especial no menu principal que gera **3 questões aleatórias** do banco de dados (de mundos já desbloqueados).
+- completá-las dá uma recompensa única diária (XP + Gemas).
+- Resolve o problema de "qual questão eu faço agora?".
+
+### 12.3 Modo "Prestige" (New Game+)
+- Ao completar tudo, o jogador pode "Ascender".
+- Reseta o progresso dos mundos (questões voltam a ficar não-resolvidas), O Nível e Itens são mantidos.
+- Ganha um badge exclusivo "Prestige 1" ao lado do nome.
+- **Incentivo**: Rejogar toda a jornada com uma nova "cor" de interface ou multiplicador de XP.
+
+### 12.4 Missões "Comunitárias" (Simuladas)
+- "Ajudante do Mestre": "O Mestre Python precisa de ajuda! Resolva 10 bugs (questões) para consertar o servidor".
+- Cria uma narrativa de "trabalho contínuo" pós-formatura.
