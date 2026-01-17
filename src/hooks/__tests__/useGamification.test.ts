@@ -120,7 +120,7 @@ describe('useGamification Hook', () => {
         });
 
         it('should not gain XP if question failed', async () => {
-             const { result } = renderHook(() => useGamification());
+            const { result } = renderHook(() => useGamification());
             await waitFor(() => expect(result.current.loading).toBe(false));
 
             await act(async () => {
@@ -128,53 +128,53 @@ describe('useGamification Hook', () => {
             });
 
             // Verify Persistence (Side Effect)
-             expect(saveGamificationData).toHaveBeenCalledWith(
-                 mockUser.uid,
-                 expect.objectContaining({
-                     stats: expect.objectContaining({
-                         totalQuestionsCompleted: 1,
-                         totalCorrectAnswers: 0
-                     })
-                 })
-             );
+            expect(saveGamificationData).toHaveBeenCalledWith(
+                mockUser.uid,
+                expect.objectContaining({
+                    stats: expect.objectContaining({
+                        totalQuestionsCompleted: 1,
+                        totalCorrectAnswers: 0
+                    })
+                })
+            );
         });
     });
 
     describe('Missions (claimMissionReward)', () => {
-         it('should claim reward for a completed mission', async () => {
-             const today = new Date().toISOString().split('T')[0];
-             // Construct dynamic mission ID
-             const missionId = `daily_${today}_0`;
+        it('should claim reward for a completed mission', async () => {
+            const today = new Date().toISOString().split('T')[0];
+            // Construct dynamic mission ID
+            const missionId = `daily_${today}_0`;
 
-             const mockMission = {
-                 missionId: missionId,
-                 id: missionId,
-                 type: 'daily',
-                 target: 3,
-                 progress: 3,
-                 completed: false,
-                 status: 'active',
-                 rewards: { stars: 20, xp: 100 },
-                 description: 'Test'
-             };
+            const mockMission = {
+                missionId: missionId,
+                id: missionId,
+                type: 'daily',
+                target: 3,
+                progress: 3,
+                completed: false,
+                status: 'active',
+                rewards: { stars: 20, xp: 100 },
+                description: 'Test'
+            };
 
-             (getGamification as any).mockResolvedValue(getFullMockData({
-                 activeMissions: [mockMission]
-             }));
+            (getGamification as any).mockResolvedValue(getFullMockData({
+                activeMissions: [mockMission]
+            }));
 
-             const { result } = renderHook(() => useGamification());
-             await waitFor(() => expect(result.current.loading).toBe(false));
+            const { result } = renderHook(() => useGamification());
+            await waitFor(() => expect(result.current.loading).toBe(false));
 
-             // Should initialize with the mission
-             await waitFor(() => expect(result.current.activeMissions[0].missionId).toBe(missionId));
+            // Should initialize with the mission
+            await waitFor(() => expect(result.current.activeMissions[0].missionId).toBe(missionId));
 
-             await act(async () => {
-                 result.current.claimMissionReward(missionId);
-             });
+            await act(async () => {
+                result.current.claimMissionReward(missionId);
+            });
 
-             // Check updateUserData for rewards.
-             expect(mockUpdateUserData).toHaveBeenCalled();
-         });
+            // Check updateUserData for rewards.
+            expect(mockUpdateUserData).toHaveBeenCalled();
+        });
     });
 
     describe('Inventory & Shop', () => {
@@ -198,7 +198,7 @@ describe('useGamification Hook', () => {
             // Balance is 100
             let success = false;
             await act(async () => {
-                 success = result.current.buyShopItem('cool_hat', price);
+                success = result.current.buyShopItem('cool_hat', price);
             });
 
             expect(success).toBe(true);
@@ -213,13 +213,41 @@ describe('useGamification Hook', () => {
             await waitFor(() => expect(result.current.loading).toBe(false));
 
             const price = 150; // Balance 100
-             let success = false;
+            let success = false;
             await act(async () => {
-                 success = result.current.buyShopItem('expensive_hat', price);
+                success = result.current.buyShopItem('expensive_hat', price);
             });
 
             expect(success).toBe(false);
             expect(result.current.gamification.inventory.ownedItems).not.toContain('expensive_hat');
+        });
+
+        it('should preserve inventory when equipItem is called after buyShopItem (regression test)', async () => {
+            // This test covers the stale closure bug where equipItem would overwrite
+            // the inventory with old data when called shortly after buyShopItem
+            const { result } = renderHook(() => useGamification());
+            await waitFor(() => expect(result.current.loading).toBe(false));
+
+            const initialOwnedCount = result.current.gamification.inventory.ownedItems.length;
+
+            // Step 1: Buy item
+            let buySuccess = false;
+            await act(async () => {
+                buySuccess = result.current.buyShopItem('new_item_123', 50);
+            });
+            expect(buySuccess).toBe(true);
+            expect(result.current.gamification.inventory.ownedItems).toContain('new_item_123');
+            expect(result.current.gamification.inventory.ownedItems.length).toBe(initialOwnedCount + 1);
+
+            // Step 2: Equip item (simulating what AvatarShop does in setTimeout)
+            await act(async () => {
+                result.current.equipItem('new_item_123', 'avatar');
+            });
+
+            // Step 3: Verify inventory is STILL correct (not reverted)
+            expect(result.current.gamification.inventory.ownedItems).toContain('new_item_123');
+            expect(result.current.gamification.inventory.ownedItems.length).toBe(initialOwnedCount + 1);
+            expect(result.current.gamification.inventory.equippedAvatar).toBe('new_item_123');
         });
     });
 
