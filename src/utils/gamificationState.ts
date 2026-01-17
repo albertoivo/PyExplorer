@@ -197,11 +197,13 @@ export function claimMissionRewardLogic(
     const allMissions = [...daily, ...weekly, ...ENDGAME_MISSIONS];
     // For endgame missions, the ID might be constructed (e.g. endgame_speedrun_0)
     // We need to find the definition either by exact match or by prefix for static endgame definitions
-    let missionDef = allMissions.find(m => m.id === missionId);
+    // Note: ENDGAME_MISSIONS do not have 'id' property in definitions, so we cast to any or handle specifically
+    let missionDef = allMissions.find(m => 'id' in m && m.id === missionId);
 
     // If not found, try to find in ENDGAME_MISSIONS by title matching (since we construct IDs dynamically)
     if (!missionDef) {
-        missionDef = ENDGAME_MISSIONS.find(m => missionId.startsWith(`endgame_${m.objectiveType}`));
+        // Find endgame mission definition by checking if the missionId (from user state) matches the constructed pattern
+        missionDef = ENDGAME_MISSIONS.find(m => missionId.startsWith(`endgame_${m.objectiveType}`)) as any;
     }
 
     if (!missionDef) {
@@ -325,14 +327,21 @@ export function recordQuestionLogic(
         if (mission.status !== 'active') return mission;
 
         // Find definition to know objective type
-        const allMissions = [...generateDailyMissions(new Date()), ...generateWeeklyMissions(new Date()), ...ENDGAME_MISSIONS];
-        // For endgame, we might need a better lookup if IDs are dynamic, but let's try finding by matching parts
-        let def = allMissions.find(m => m.id === mission.missionId);
+        const daily = generateDailyMissions(new Date());
+        const weekly = generateWeeklyMissions(new Date());
 
+        // Try to find in daily/weekly first (they have IDs)
+        let def = [...daily, ...weekly].find(m => m.id === mission.missionId);
+
+        // If not found, check endgame missions
         if (!def && mission.missionId.startsWith('endgame_')) {
              // Extract type from ID: endgame_speedrun_...
              const typePart = mission.missionId.split('_')[1]; // speedrun, improve, syntax
-             def = ENDGAME_MISSIONS.find(m => m.objectiveType === typePart || (typePart === 'improve' && m.objectiveType === 'improve_stars') || (typePart === 'syntax' && m.objectiveType === 'syntax_master'));
+             // Cast definition to 'any' or compatible type since it lacks ID
+             const found = ENDGAME_MISSIONS.find(m => m.objectiveType === typePart || (typePart === 'improve' && m.objectiveType === 'improve_stars') || (typePart === 'syntax' && m.objectiveType === 'syntax_master'));
+             if (found) {
+                 def = { ...found, id: mission.missionId } as any;
+             }
         }
 
         if (!def) return mission;

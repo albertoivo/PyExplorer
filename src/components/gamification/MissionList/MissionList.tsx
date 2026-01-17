@@ -39,11 +39,11 @@ export function MissionList({ dailyMissions, weeklyMissions, userMissions, onCla
             title: 'Desafio Secreto',
             description: 'Complete este desafio especial',
             icon: '❓',
-            objectiveType: 'speedrun', // fallback
+            objectiveType: 'speedrun' as const, // Explicit const assertion
             targetValue: 1,
             starsReward: 0,
             xpReward: 0
-        };
+        } as Mission; // Explicit cast to Mission to satisfy interface
     }).filter(m => m.title !== 'Desafio Secreto'); // Optional: filter out fallbacks if desired
 
     const renderMission = (mission: Mission) => {
