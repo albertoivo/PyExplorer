@@ -29,6 +29,12 @@ const TYPE_LABELS: Record<string, string> = {
     boss_battle: 'Chefe Final',
 };
 
+const STATUS_LABELS: Record<string, string> = {
+    not_started: 'Não iniciado',
+    in_progress: 'Em progresso',
+    completed: 'Completo',
+};
+
 const getStatusIcon = (status: string, locked?: boolean, index?: number) => {
     if (locked) return '🔒';
     switch (status) {
@@ -42,22 +48,32 @@ const getStatusIcon = (status: string, locked?: boolean, index?: number) => {
  * Renderiza estrelas ganhas (filled) vs potenciais (empty)
  */
 const StarsDisplay = ({ stars, status }: { stars: number; status: string }) => {
+    const label = status !== 'completed' ? '0 de 3 estrelas' : `${stars} de 3 estrelas`;
+
     // Se não completou, mostra estrelas vazias
     if (status !== 'completed') {
         return (
-            <span className="question-card__stars question-card__stars--potential">
-                <span className="star star--empty">☆</span>
-                <span className="star star--empty">☆</span>
-                <span className="star star--empty">☆</span>
+            <span
+                className="question-card__stars question-card__stars--potential"
+                role="img"
+                aria-label={label}
+            >
+                <span className="star star--empty" aria-hidden="true">☆</span>
+                <span className="star star--empty" aria-hidden="true">☆</span>
+                <span className="star star--empty" aria-hidden="true">☆</span>
             </span>
         );
     }
 
     // Se completou, mostra estrelas ganhas
     return (
-        <span className="question-card__stars question-card__stars--earned">
+        <span
+            className="question-card__stars question-card__stars--earned"
+            role="img"
+            aria-label={label}
+        >
             {[1, 2, 3].map(i => (
-                <span key={i} className={`star ${i <= stars ? 'star--filled' : 'star--empty'}`}>
+                <span key={i} className={`star ${i <= stars ? 'star--filled' : 'star--empty'}`} aria-hidden="true">
                     {i <= stars ? '★' : '☆'}
                 </span>
             ))}
@@ -79,20 +95,26 @@ export const QuestionCard = memo(function QuestionCard({ question, index, status
         }
     };
 
+    // Construct comprehensive aria-label for the entire card button
+    const statusLabel = locked ? 'Bloqueado' : (STATUS_LABELS[status] || 'Status desconhecido');
+    const scoreLabel = status === 'completed' ? `${stars} de 3 estrelas` : '0 de 3 estrelas';
+    const ariaLabel = `Questão ${index + 1}: ${question.title}. ${statusLabel}. ${!locked ? scoreLabel + '.' : ''} Tipo: ${typeLabel}.`;
+
     return (
         <button
             className={`question-card question-card--${status} ${locked ? 'question-card--locked' : ''}`}
             onClick={handleClick}
             disabled={locked}
+            aria-label={ariaLabel}
         >
-            <div className={`question-card__status question-card__status--${locked ? 'locked' : status}`}>
+            <div className={`question-card__status question-card__status--${locked ? 'locked' : status}`} aria-hidden="true">
                 {statusIcon}
             </div>
 
             <div className="question-card__content">
                 <div className="question-card__header">
                     <span className="question-card__type">
-                        {typeIcon} {typeLabel}
+                        <span aria-hidden="true">{typeIcon}</span> {typeLabel}
                     </span>
                     <StarsDisplay stars={stars} status={status} />
                 </div>
@@ -105,7 +127,7 @@ export const QuestionCard = memo(function QuestionCard({ question, index, status
                 </p>
             </div>
 
-            <div className="question-card__arrow">→</div>
+            <div className="question-card__arrow" aria-hidden="true">→</div>
         </button>
     );
 });
