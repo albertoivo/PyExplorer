@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { SEO } from '../components/common/SEO';
 import './AuthPages.css';
 
 // Variável global para rastrear se já redirecionou (persiste entre remontagens do componente)
@@ -64,6 +65,10 @@ export function LoginPage() {
 
     return (
         <div className="auth-page">
+            <SEO
+                title="Entrar"
+                description="Faça login no PyExplorer para continuar sua aventura de aprender Python jogando!"
+            />
             <div className="auth-card">
                 <div className="auth-card__header">
                     <div className="auth-card__icon">🐍</div>

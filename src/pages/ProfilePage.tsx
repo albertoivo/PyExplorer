@@ -4,6 +4,7 @@ import { useGamification } from '../context/GamificationContext';
 import { useQuestionsFirestore } from '../hooks/useQuestionsFirestore';
 import { WorldProgressBar } from '../components/game/feedback/ProgressBar';
 import { DataSeeder } from '../components/education/DataSeeder';
+import { SEO } from '../components/common/SEO';
 import { SHOP_ITEMS } from '../data/gamificationData';
 import './ProfilePage.css';
 
@@ -65,6 +66,10 @@ export function ProfilePage() {
 
     return (
         <div className="profile-page">
+            <SEO
+                title="Meu Perfil"
+                description="Veja seu progresso, conquistas e estatísticas no PyExplorer!"
+            />
             <div className="profile-container">
                 {/* Card do Perfil */}
                 <div className="profile-card">

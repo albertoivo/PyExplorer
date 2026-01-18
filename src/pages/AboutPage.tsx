@@ -3,11 +3,16 @@
  * Conta a história, missão e valores do PyExplorer
  */
 import { Link } from 'react-router-dom'
+import { SEO } from '../components/common/SEO'
 import './AboutPage.css'
 
 export function AboutPage() {
     return (
         <div className="about-page">
+            <SEO
+                title="Sobre o PyExplorer"
+                description="Conheça a história do PyExplorer: um jogo gratuito feito no Brasil para ensinar Python para crianças."
+            />
             <header className="about-hero">
                 <h1>Sobre o PyExplorer</h1>
                 <p>Nossa missão é democratizar o ensino de programação para crianças no Brasil 🇧🇷</p>

@@ -11,27 +11,33 @@ describe('Sitemap Integrity', () => {
 
   it('should have the correct Base URL', () => {
     const content = fs.readFileSync(sitemapPath, 'utf-8');
-    expect(content).toContain('https://pyexplorer-cd32d.web.app');
+    expect(content).toContain('https://pyexplorer.com.br');
+    expect(content).not.toContain('https://pyexplorer-cd32d.web.app');
     expect(content).not.toContain('https://pyexplorer-cd32d.firebaseapp.com');
   });
 
   it('should include key static routes', () => {
     const content = fs.readFileSync(sitemapPath, 'utf-8');
+    // Note: /profile and /certificate are protected pages (blocked in robots.txt)
     const expectedRoutes = [
       '/',
       '/login',
       '/register',
       '/learn',
-      '/certificate',
       '/about',
       '/game',
-      '/profile',
       '/rewards'
     ];
 
     expectedRoutes.forEach(route => {
-      expect(content).toContain(`<loc>https://pyexplorer-cd32d.web.app${route}</loc>`);
+      expect(content).toContain(`<loc>https://pyexplorer.com.br${route}</loc>`);
     });
+  });
+
+  it('should NOT include protected pages blocked by robots.txt', () => {
+    const content = fs.readFileSync(sitemapPath, 'utf-8');
+    expect(content).not.toContain('<loc>https://pyexplorer.com.br/profile</loc>');
+    expect(content).not.toContain('<loc>https://pyexplorer.com.br/certificate</loc>');
   });
 
   it('should include dynamic article routes', () => {

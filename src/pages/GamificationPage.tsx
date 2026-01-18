@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useGamification } from '../context/GamificationContext';
 import { useAuth } from '../hooks/useAuth';
 import { SHOP_ITEMS } from '../data/gamificationData';
+import { SEO } from '../components/common/SEO';
 import {
     LevelBadge,
     StreakDisplay,
@@ -50,6 +51,10 @@ export function GamificationPage() {
 
     return (
         <div className="gamification-page">
+            <SEO
+                title="Recompensas"
+                description="Conquistas, missões diárias, loja de avatares e ranking do PyExplorer!"
+            />
 
             {/* Header com nível e stats */}
             <header className="gamification-page__header">
@@ -190,17 +195,10 @@ export function GamificationPage() {
                 )}
 
                 {activeTab === 'achievements' && (
-                    <>
-                        {console.log('🏆 Achievements data:', {
-                            total: achievements.length,
-                            unlocked: unlockedAchievements.length,
-                            unlockedIds: unlockedAchievements.map(a => a.id)
-                        })}
-                        <AchievementGrid
-                            achievements={achievements}
-                            unlockedIds={unlockedAchievements.map(a => a.id)}
-                        />
-                    </>
+                    <AchievementGrid
+                        achievements={achievements}
+                        unlockedIds={unlockedAchievements.map(a => a.id)}
+                    />
                 )}
 
                 {activeTab === 'missions' && (

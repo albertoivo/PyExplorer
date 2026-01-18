@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { SEO } from '../components/common/SEO';
 import './AuthPages.css';
 
 /**
@@ -66,6 +67,10 @@ export function RegisterPage() {
 
     return (
         <div className="auth-page">
+            <SEO
+                title="Criar Conta Grátis"
+                description="Crie sua conta gratuita no PyExplorer e comece sua aventura de aprender Python jogando!"
+            />
             <div className="auth-card">
                 <div className="auth-card__header">
                     <div className="auth-card__icon">🎮</div>
