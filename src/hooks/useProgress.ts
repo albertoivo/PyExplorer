@@ -20,7 +20,8 @@ export function useProgress() {
      * Carrega todo o progresso do usuário
      */
     const loadAllProgress = useCallback(async () => {
-        if (!userData) {
+        // Se não tem usuário e não é convidado, não carrega nada
+        if (!userData && !isGuest) {
             setAllProgress([]);
             return;
         }
@@ -39,8 +40,10 @@ export function useProgress() {
                 }
             } else {
                 // Carrega do Firestore para usuários autenticados
-                const data = await getUserProgress(userData.uid);
-                setAllProgress(data);
+                if (userData) {
+                    const data = await getUserProgress(userData.uid);
+                    setAllProgress(data);
+                }
             }
         } catch (err) {
             const message = err instanceof Error ? err.message : 'Erro ao carregar progresso';
@@ -87,12 +90,9 @@ export function useProgress() {
         difficulty?: Difficulty,
         responseTimeSeconds?: number
     ): Promise<void> => {
-        if (!userData) {
-            console.warn('recordAttempt: sem userData, ignorando');
+        if (!userData && !isGuest) {
             return;
         }
-
-        console.log('recordAttempt:', { questionId, passed, score, isGuest, userAnswer, difficulty, responseTimeSeconds });
 
         try {
             // Calcula o novo progresso
@@ -107,10 +107,6 @@ export function useProgress() {
                 ? newScore - (existing?.score || 0)
                 : 0;
 
-            if (wasAlreadyCompleted && passed) {
-                console.log('Questão já completada anteriormente - sem pontos adicionais (modo prática)');
-            }
-
             // Calcula estrelas (0-3) baseado em tentativas e tempo
             let newStars: StarRating = existing?.stars || 0;
             let bestTime = existing?.bestTimeSeconds;
@@ -123,12 +119,10 @@ export function useProgress() {
                 if (!bestTime || responseTimeSeconds < bestTime) {
                     bestTime = responseTimeSeconds;
                 }
-
-                console.log('⭐ Estrelas calculadas:', { attempts: newAttempts, time: responseTimeSeconds, difficulty, earned: earnedStars, total: newStars });
             }
 
             const newProgress: UserProgress = {
-                uid: userData.uid,
+                uid: userData?.uid || 'guest',
                 questionId,
                 status: newStatus,
                 score: newScore,
@@ -146,34 +140,36 @@ export function useProgress() {
             setAllProgress(updatedProgress);
 
             // Atualiza o score total na UI imediatamente
-            if (additionalScore > 0) {
+            // Só atualiza score se tiver usuário
+            if (additionalScore > 0 && userData) {
                 const newTotalScore = (userData.totalScore || 0) + additionalScore;
                 const newBalance = (userData.balance || 0) + additionalScore;
-                console.log('Atualizando totalScore/balance:', { old: userData.totalScore, new: newTotalScore, balance: newBalance });
                 await updateUserData({ totalScore: newTotalScore, balance: newBalance });
             }
 
             if (isGuest) {
                 // Salva no localStorage para convidados
                 localStorage.setItem(GUEST_PROGRESS_KEY, JSON.stringify(updatedProgress));
-                console.log('Progresso salvo no localStorage');
             } else {
-                // Salva no Firestore para usuários autenticados
-                await updateProgress(userData.uid, questionId, passed, score, userAnswer, newStars, bestTime);
-                console.log('Progresso salvo no Firestore');
+                if (userData) {
+                    // Salva no Firestore para usuários autenticados
+                    await updateProgress(userData.uid, questionId, passed, score, userAnswer, newStars, bestTime);
 
-                // Recarrega dados do usuário para garantir sincronização
-                await refreshUserData();
+                    // Recarrega dados do usuário para garantir sincronização
+                    await refreshUserData();
 
-                // Recarrega progresso do Firestore para garantir sincronização completa
-                await loadAllProgress();
+                    // Recarrega progresso do Firestore para garantir sincronização completa
+                    await loadAllProgress();
+                }
             }
         } catch (err) {
-            const message = err instanceof Error ? err.message : 'Erro ao salvar progresso';
-            setError(message);
             console.error('Erro ao salvar progresso:', err);
             // Em caso de erro, recarrega para ter o estado correto
             await loadAllProgress();
+
+            // Define o erro DEPOIS de recarregar (pois loadAllProgress limpa o erro)
+            const message = err instanceof Error ? err.message : 'Erro ao salvar progresso';
+            setError(message);
         }
     }, [userData, isGuest, allProgress, loadAllProgress, updateUserData, refreshUserData]);
 
