@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import type { UserProgress, ProgressStatus, UserAnswer, Difficulty } from '../types/question';
 import { getUserProgress, updateProgress } from '../firebase/firestore';
 import { useAuth } from './useAuth';
@@ -56,11 +56,19 @@ export function useProgress() {
     }, [loadAllProgress]);
 
     /**
+     * Optimization: Map for O(1) access to progress by ID.
+     * Replaces O(N) linear search that occurred inside render loops.
+     */
+    const progressMap = useMemo(() => {
+        return new Map(allProgress.map(p => [p.questionId, p]));
+    }, [allProgress]);
+
+    /**
      * Obtém o progresso de uma questão específica
      */
     const getQuestionProgress = useCallback((questionId: string): UserProgress | null => {
-        return allProgress.find(p => p.questionId === questionId) || null;
-    }, [allProgress]);
+        return progressMap.get(questionId) || null;
+    }, [progressMap]);
 
     /**
      * Atualiza o progresso de uma questão (após tentativa)
