@@ -227,6 +227,7 @@ firebase deploy --only hosting
 |------|-------|
 | **Alberto Ivo Vieira** | 🚀 Lead Developer |
 | **Isaac Andrade** | 🧪 Quality Assurance (QA) |
+| **Hugo Thomaz** | 🧪 Quality Assurance (QA) |
 
 ## 📄 Licença
 
