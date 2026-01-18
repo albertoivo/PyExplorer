@@ -268,6 +268,23 @@ export const basicCommandsQuestions: QuestionDocument[] = [
         answerIndex: 2,
         explanationKidFriendly: 'As duas funcionam! O segredo é misturar: se usar aspas duplas fora, use aspas simples dentro (e vice-versa). Assim o Python não se confunde! 🎭',
         points: 15,
+    },
+    {
+        id: 'basic_13',
+        type: 'multiple_choice',
+        world: 'basic_commands',
+        difficulty: 'easy',
+        ageMin: 8,
+        title: 'Código Invisível',
+        prompt: 'Qual destas linhas o Python vai IGNORAR completamente?',
+        options: [
+            'print("Olá")',
+            '# print("Olá")',
+            'print("# Olá")',
+            'print("Olá") #',
+        ],
+        answerIndex: 1,
+        explanationKidFriendly: 'O Python ignora tudo que começa com #! Para ele, essa linha não existe. É perfeita para deixar recados! 👻',
+        points: 10,
     }
 ];
-

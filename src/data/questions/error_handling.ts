@@ -156,5 +156,23 @@ export const errorHandlingQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'O Python vai dizer: "Quem é x? Eu não conheço!". Isso gera um NameError porque o nome não foi definido. 👻',
         points: 10,
+    },
+    {
+        id: 'error_9',
+        type: 'multiple_choice',
+        world: 'error_handling',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Fora da Lista',
+        prompt: 'Se a lista tem 3 itens, o que acontece se tentarmos acessar o índice 10?',
+        options: [
+            'IndexError',
+            'NameError',
+            'ZeroDivisionError',
+            'Retorna vazio',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'IndexError! O Python tentou buscar o item 10, mas a lista acabou antes. É como tentar ler a página 100 de um livro de 10 páginas! 📖',
+        points: 15,
     }
 ];

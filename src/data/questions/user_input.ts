@@ -157,5 +157,23 @@ export const userInputQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'Como tem centavos (ponto decimal), usamos `float()`! Se usarmos `int()`, o Python reclama porque não sabe o que fazer com o ponto. 💸',
         points: 15,
+    },
+    {
+        id: 'input_10',
+        type: 'multiple_choice',
+        world: 'user_input',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Peso com Ponto',
+        prompt: 'Se o usuário digitar "35.5" (peso), qual conversão devemos usar?',
+        options: [
+            'float()',
+            'int()',
+            'str()',
+            'list()',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'Como tem ponto (casa decimal), é um número float! Se fosse inteiro, usaríamos int(). ⚖️',
+        points: 15,
     }
 ];

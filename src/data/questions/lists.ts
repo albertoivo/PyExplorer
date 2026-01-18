@@ -303,6 +303,23 @@ export const listsQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'append("Roxo") adiciona o item no final da lista. É como colocar mais um vagão no trem! 🚂',
         points: 10,
+    },
+    {
+        id: 'list_13',
+        type: 'multiple_choice',
+        world: 'lists',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Pegando o Meio',
+        prompt: 'Temos `nums = [0, 1, 2, 3, 4]`. O que `nums[2:4]` pega?',
+        options: [
+            '[2, 3]',
+            '[2, 3, 4]',
+            '[1, 2]',
+            '[3, 4]',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'Pega do índice 2 (número 2) até ANTES do índice 4 (número 4). Então pega 2 e 3! O 4 fica de fora! 🍰',
+        points: 15,
     }
 ];
-

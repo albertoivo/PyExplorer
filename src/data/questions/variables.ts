@@ -290,5 +290,23 @@ export const variablesQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'Variáveis podem mudar de valor! Primeiro era 20, depois mudamos para 50. O valor antigo é jogado fora e o novo assume o lugar! 🔄',
         points: 15,
+    },
+    {
+        id: 'var_13',
+        type: 'multiple_choice',
+        world: 'variables',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Somando Textos?',
+        prompt: 'O que acontece se fizermos: "1" + "1"?',
+        options: [
+            '2 (Número)',
+            '"11" (Texto)',
+            'Erro',
+            '"2" (Texto)',
+        ],
+        answerIndex: 1,
+        explanationKidFriendly: 'Quando usamos aspas, são textos! Somar textos é juntar eles. Então "1" com "1" vira "11"! 🚂',
+        points: 10,
     }
 ];
