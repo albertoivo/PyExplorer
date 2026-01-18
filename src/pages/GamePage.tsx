@@ -60,6 +60,14 @@ export function GamePage() {
 
     const [activePowerUp, setActivePowerUp] = useState<PowerUpType | null>(null);
 
+    // Otimização: Manter referência estável para getQuestionProgress
+    // para evitar que handleStartQuestion mude a cada atualização de progresso (ex: completar uma questão),
+    // o que causaria re-render de TODOS os QuestionCard na lista (O(N) re-renders).
+    const getQuestionProgressRef = useRef(getQuestionProgress);
+    useEffect(() => {
+        getQuestionProgressRef.current = getQuestionProgress;
+    }, [getQuestionProgress]);
+
     // Mission Notification Timer
     useEffect(() => {
         if (missionNotification) {
@@ -174,7 +182,9 @@ export function GamePage() {
      * Se a questão já foi completada, mostra modal com opções
      */
     const handleStartQuestion = useCallback((question: QuestionDocument) => {
-        const progress = getQuestionProgress(question.id);
+        // Usa ref para buscar progresso sem adicionar getQuestionProgress nas dependências
+        // Isso mantém a função estável e evita re-render dos QuestionCard memoizados
+        const progress = getQuestionProgressRef.current(question.id);
         const index = worldQuestions.findIndex(q => q.id === question.id);
 
         setCurrentQuestion(question);
@@ -190,7 +200,7 @@ export function GamePage() {
             // Inicia o timer para a questão
             questionStartTime.current = Date.now();
         }
-    }, [getQuestionProgress, worldQuestions]);
+    }, [worldQuestions]);
 
     /**
      * Usuário escolheu "Ver minha resposta" no modal
