@@ -136,17 +136,17 @@ export function checkDailyAndWeeklyReset(data: UserGamification): UserGamificati
     }
 
     // 3. Check Weekly Missions
-    const getMonday = (d: Date) => {
-        d = new Date(d);
-        const day = d.getDay(),
-            diff = d.getDate() - day + (day == 0 ? -6 : 1);
-        const monday = new Date(d.setDate(diff));
-        return monday.toISOString().split('T')[0];
+    const getSunday = (d: Date) => {
+        const dateCopy = new Date(d);
+        const day = dateCopy.getDay();
+        const diff = dateCopy.getDate() - day;
+        dateCopy.setDate(diff);
+        return dateCopy.toISOString().split('T')[0];
     };
-    const currentWeekMonday = getMonday(today);
+    const currentWeekSunday = getSunday(today);
 
     const validWeeklyMissions = newState.activeMissions.filter(m => {
-        return m.missionId.startsWith(`weekly_${currentWeekMonday}`);
+        return m.missionId.startsWith(`weekly_${currentWeekSunday}`);
     });
 
     if (validWeeklyMissions.length === 0) {
