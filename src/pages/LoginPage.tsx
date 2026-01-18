@@ -50,7 +50,11 @@ export function LoginPage() {
 
         try {
             await login(email, password);
-            // Redirect será feito pelo useEffect quando user state mudar
+            // Use window.location.href for reliable redirect (navigate() doesn't work due to async state timing)
+            const destination = (location.state as { from?: Location })?.from?.pathname || '/game';
+            console.log('Login successful, redirecting to:', destination);
+            hasRedirectedAfterLogin = true;
+            window.location.href = destination;
         } catch {
             // Erro já é tratado pelo contexto
         } finally {
