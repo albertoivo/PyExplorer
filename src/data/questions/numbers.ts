@@ -269,6 +269,21 @@ export const numbersQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'Usamos ** para potência! 5 ** 2 é o mesmo que 5 vezes 5. O resultado é 25! 🚀',
         points: 15,
+    },
+    {
+        id: 'num_13',
+        type: 'fill_code',
+        world: 'numbers',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Divisão de Inteiros',
+        prompt: 'Quantas vezes o 2 cabe no 9? Use // para descobrir:',
+        starterCode: 'print(9 ___ 2)',
+        solutionTemplate: 'print(9 // 2)',
+        tests: [
+            { input: null, expectedOutput: '4' },
+        ],
+        explanationKidFriendly: '9 // 2 é a divisão inteira! O 2 cabe 4 vezes no 9 (2, 4, 6, 8). O resto (1) é jogado fora! 📦',
+        points: 15,
     }
 ];
-

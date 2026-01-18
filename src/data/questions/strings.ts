@@ -81,7 +81,7 @@ export const stringsQuestions: QuestionDocument[] = [
         difficulty: 'medium',
         ageMin: 10,
         title: 'F-string Mágica',
-        prompt: 'Use uma f-string para colocar o nome no texto:',
+        prompt: 'Use uma f-string para colocar a idade no texto:',
         starterCode: 'nome = "Leo"\nprint(___"Olá, {nome}")',
         solutionTemplate: 'nome = "Leo"\nprint(f"Olá, {nome}")',
         tests: [
@@ -301,6 +301,21 @@ export const stringsQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'Índices negativos contam de trás para frente! -1 é o último item, -2 é o penúltimo... É um atalho super útil! 🔙',
         points: 15,
+    },
+    {
+        id: 'strings_13',
+        type: 'fill_code',
+        world: 'strings',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Separando Datas',
+        prompt: 'Separe o dia, mês e ano cortando nas barras (/):',
+        starterCode: 'data = "25/12/2023"\npartes = data.___("/")\nprint(partes)',
+        solutionTemplate: 'partes = data.split("/")',
+        tests: [
+            { input: null, expectedOutput: "['25', '12', '2023']" },
+        ],
+        explanationKidFriendly: 'split("/") corta o texto onde tiver barra! Assim separamos as partes da data. 📅',
+        points: 20,
     }
 ];
-

@@ -290,6 +290,21 @@ for i in range(___):
         ],
         explanationKidFriendly: 'O loop continua enquanto (while) a condição for verdadeira. energia > 0 significa que ainda tem energia para jogar! 🔋',
         points: 20,
+    },
+    {
+        id: 'loop_13',
+        type: 'fill_code',
+        world: 'loops',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Achou, Parou!',
+        prompt: 'Pare o loop assim que encontrar o "Tesouro":',
+        starterCode: 'lista = ["Pedra", "Tesouro", "Pedra"]\nfor item in lista:\n    print(item)\n    if item == "Tesouro":\n        ___',
+        solutionTemplate: 'break',
+        tests: [
+            { input: null, expectedOutput: 'Pedra\nTesouro' },
+        ],
+        explanationKidFriendly: 'Achamos o tesouro! O comando break para o loop na hora, para não precisarmos procurar mais. 💎',
+        points: 20,
     }
 ];
-

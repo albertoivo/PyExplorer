@@ -241,7 +241,7 @@ desenhar_circulo(50)
         tests: [
             { input: null, expectedOutput: '15' },
         ],
-        explanationKidFriendly: 'Funções podem receber vários valores! Para a área, precisamos da largura E da altura. Multiplicamos os dois e pronto! 🟦',
+        explanationKidFriendly: 'Funções podem receber várias informações! Para a área, precisamos da largura E da altura. Multiplicamos os dois e pronto! 🟦',
         points: 20,
     },
     {
@@ -285,6 +285,23 @@ desenhar_circulo(50)
         correctBool: false,
         explanationKidFriendly: 'Não! Variáveis criadas dentro da função são "locais". Elas ficam presas lá dentro e o resto do programa não consegue vê-las. É como um diário secreto! 🔒',
         points: 10,
+    },
+    {
+        id: 'func_13',
+        type: 'multiple_choice',
+        world: 'functions',
+        difficulty: 'easy',
+        ageMin: 10,
+        title: 'Esqueci o Argumento',
+        prompt: 'Se `def oi(nome="Mundo"):`, o que acontece se eu chamar só `oi()`?',
+        options: [
+            'Dá erro',
+            'Usa "Mundo" como nome',
+            'Usa "oi" como nome',
+            'Não mostra nada',
+        ],
+        answerIndex: 1,
+        explanationKidFriendly: 'Como definimos um valor padrão ("Mundo"), o Python usa ele quando esquecemos de passar o nome! É nosso plano B! 🛡️',
+        points: 10,
     }
 ];
-

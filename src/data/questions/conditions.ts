@@ -303,6 +303,21 @@ for i in range(4):
         answerIndex: 0,
         explanationKidFriendly: 'Usamos `or` para dizer "ou"! O computador verifica: É sábado? OU É domingo? Se um dos dois for verdade, você pode descansar! 🎮',
         points: 15,
+    },
+    {
+        id: 'dec_13',
+        type: 'fill_code',
+        world: 'conditions',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Terceira Opção',
+        prompt: 'Se não for 1 nem 2, verifique se é 3 usando elif:',
+        starterCode: 'n = 3\nif n == 1:\n    print("Um")\nelif n == 2:\n    print("Dois")\n___ n == 3:\n    print("Três")',
+        solutionTemplate: 'elif n == 3:',
+        tests: [
+            { input: null, expectedOutput: 'Três' },
+        ],
+        explanationKidFriendly: 'elif salva o dia! Ele verifica a próxima opção se as anteriores falharam. "Se não for 1, nem 2... e se for 3?" 🤔',
+        points: 15,
     }
 ];
-

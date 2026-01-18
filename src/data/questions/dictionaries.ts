@@ -150,5 +150,23 @@ export const dictionariesQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'Se a chave não existe, o Python não encontra e dá um grito: KeyError! É como procurar um nome na agenda que não está lá. 📢',
         points: 15,
+    },
+    {
+        id: 'dict_9',
+        type: 'multiple_choice',
+        world: 'dictionaries',
+        difficulty: 'easy',
+        ageMin: 10,
+        title: 'Chaves e Valores',
+        prompt: 'Em `{"cor": "azul"}`, o que é a "cor"?',
+        options: [
+            'A Chave (Key)',
+            'O Valor (Value)',
+            'O Índice',
+            'A Lista',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'A "cor" é a CHAVE (nome da informação) e "azul" é o VALOR (a informação em si). A chave abre o valor! 🔑',
+        points: 10,
     }
 ];
