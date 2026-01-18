@@ -2,6 +2,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { LoginPage } from './LoginPage';
 import { useAuth } from '../hooks/useAuth';
 import { MemoryRouter } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 
 // Mock do hook useAuth
@@ -27,9 +28,11 @@ describe('LoginPage', () => {
 
     const renderLoginPage = () => {
         return render(
-            <MemoryRouter>
-                <LoginPage />
-            </MemoryRouter>
+            <HelmetProvider>
+                <MemoryRouter>
+                    <LoginPage />
+                </MemoryRouter>
+            </HelmetProvider>
         );
     };
 
