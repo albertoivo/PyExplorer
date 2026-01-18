@@ -123,7 +123,8 @@ service cloud.firestore {
       
       // Escrita: Valida que o UID interno do documento pertence ao usuário e os dados são válidos
       allow write: if isAuthenticated() && (
-        (request.resource.data.uid == request.auth.uid &&
+        (extractUidFromProgressId(progressId) == request.auth.uid &&
+         request.resource.data.uid == request.auth.uid &&
          // Valida status se presente
          (!('status' in request.resource.data) || request.resource.data.status in ['not_started', 'in_progress', 'completed']) &&
          // Valida score se presente (0 a 9999)
