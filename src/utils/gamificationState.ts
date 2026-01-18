@@ -89,13 +89,17 @@ export function checkDailyAndWeeklyReset(data: UserGamification): UserGamificati
 
     // Helper to process mission replacement
     const processMissions = (missions: Mission[]) => {
+        // Create end-of-day timestamp WITHOUT mutating the outer 'today' variable
+        const endOfDay = new Date(today);
+        endOfDay.setHours(23, 59, 59, 999);
+
         return missions.map(m => {
             if (m.targetWorld && completedWorlds.includes(m.targetWorld)) {
                 // Smart Replacement: Review Mode
                 return {
                     progress: 0,
                     status: 'active' as const,
-                    expiresAt: new Date(today.setHours(23, 59, 59, 999)),
+                    expiresAt: new Date(endOfDay),
                     // We flag it as a 'review' mission in metadata if needed, 
                     // or just rely on the UI rendering the title from hydration?
                     // Wait, hydration uses the ID to fetch static definition from DATA.
@@ -117,7 +121,7 @@ export function checkDailyAndWeeklyReset(data: UserGamification): UserGamificati
                 missionId: m.id,
                 progress: 0,
                 status: 'active' as const,
-                expiresAt: new Date(today.setHours(23, 59, 59, 999))
+                expiresAt: new Date(endOfDay)
             };
         });
     };
