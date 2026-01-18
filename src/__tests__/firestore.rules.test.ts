@@ -184,6 +184,19 @@ describe('Firestore security rules', () => {
             }));
         });
 
+        it('should DENY writing to a progress ID that does not match the user UID (IDOR)', async () => {
+            const aliceDb = testEnv.authenticatedContext('alice').firestore();
+            // Alice tries to overwrite Bob's progress (ID starts with bob_)
+            // but puts her own UID in the data to satisfy the content check
+            await assertFails(setDoc(doc(aliceDb, 'userProgress/bob_q1'), {
+                uid: 'alice',
+                questionId: 'q1',
+                status: 'completed',
+                score: 10,
+                attempts: 1
+            }));
+        });
+
         it('should DENY creating progress with invalid status', async () => {
             const aliceDb = testEnv.authenticatedContext('alice').firestore();
             await assertFails(setDoc(doc(aliceDb, 'userProgress/alice_q1'), {
