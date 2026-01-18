@@ -25,6 +25,14 @@ export function LoginPage() {
 
     const requireLogin = (location.state as { requireLogin?: boolean })?.requireLogin;
 
+    // Reset the redirect flag when arriving at login page without a user
+    // This ensures redirect works on every new login session
+    useEffect(() => {
+        if (!user) {
+            hasRedirectedAfterLogin = false;
+        }
+    }, [user]);
+
     // Redireciona quando usuário logar (usa variável global para evitar loops)
     useEffect(() => {
         if (user && !hasRedirectedAfterLogin) {

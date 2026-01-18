@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { LoginPage } from './LoginPage';
+import { LoginPage, resetLoginRedirectFlag } from './LoginPage';
 import { useAuth } from '../hooks/useAuth';
 import { MemoryRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
@@ -38,6 +38,8 @@ describe('LoginPage', () => {
 
     beforeEach(() => {
         vi.clearAllMocks();
+        // Reset the global redirect flag to ensure tests are isolated
+        resetLoginRedirectFlag();
         // Setup padrão do mock useAuth
         (useAuth as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
             login: mockLogin,
@@ -119,5 +121,116 @@ describe('LoginPage', () => {
 
         expect(mockEnterAsGuest).toHaveBeenCalled();
         expect(mockNavigate).toHaveBeenCalledWith('/game', { replace: true });
+    });
+
+    describe('Redirect Behavior', () => {
+        it('deve redirecionar para /game quando usuário faz login', async () => {
+            // Start with no user
+            const { rerender } = render(
+                <HelmetProvider>
+                    <MemoryRouter>
+                        <LoginPage />
+                    </MemoryRouter>
+                </HelmetProvider>
+            );
+
+            // User state was null, now changes to logged in
+            (useAuth as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
+                login: mockLogin,
+                loginWithGoogle: mockLoginWithGoogle,
+                enterAsGuest: mockEnterAsGuest,
+                clearError: mockClearError,
+                error: null,
+                user: { uid: 'test-user-123', displayName: 'Test User' },
+            });
+
+            rerender(
+                <HelmetProvider>
+                    <MemoryRouter>
+                        <LoginPage />
+                    </MemoryRouter>
+                </HelmetProvider>
+            );
+
+            await waitFor(() => {
+                expect(mockNavigate).toHaveBeenCalledWith('/game', { replace: true });
+            });
+        });
+
+        it('deve redirecionar para página anterior quando definida em location.state', async () => {
+            // Start with no user
+            const { rerender } = render(
+                <HelmetProvider>
+                    <MemoryRouter initialEntries={[{ pathname: '/login', state: { from: { pathname: '/profile' } } }]}>
+                        <LoginPage />
+                    </MemoryRouter>
+                </HelmetProvider>
+            );
+
+            // User logs in
+            (useAuth as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
+                login: mockLogin,
+                loginWithGoogle: mockLoginWithGoogle,
+                enterAsGuest: mockEnterAsGuest,
+                clearError: mockClearError,
+                error: null,
+                user: { uid: 'test-user-123', displayName: 'Test User' },
+            });
+
+            rerender(
+                <HelmetProvider>
+                    <MemoryRouter initialEntries={[{ pathname: '/login', state: { from: { pathname: '/profile' } } }]}>
+                        <LoginPage />
+                    </MemoryRouter>
+                </HelmetProvider>
+            );
+
+            await waitFor(() => {
+                expect(mockNavigate).toHaveBeenCalledWith('/profile', { replace: true });
+            });
+        });
+
+        it('não deve redirecionar se já redirecionou (evita loop)', async () => {
+            // User already logged in (simulate arriving at /login with user already present)
+            (useAuth as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
+                login: mockLogin,
+                loginWithGoogle: mockLoginWithGoogle,
+                enterAsGuest: mockEnterAsGuest,
+                clearError: mockClearError,
+                error: null,
+                user: { uid: 'test-user-123', displayName: 'Test User' },
+            });
+
+            render(
+                <HelmetProvider>
+                    <MemoryRouter>
+                        <LoginPage />
+                    </MemoryRouter>
+                </HelmetProvider>
+            );
+
+            // First call will happen
+            await waitFor(() => {
+                expect(mockNavigate).toHaveBeenCalled();
+            });
+
+            const callCount = mockNavigate.mock.calls.length;
+
+            // Remount the component (simulating navigation back to /login)
+            // But user is still logged in - should NOT redirect again due to flag
+            render(
+                <HelmetProvider>
+                    <MemoryRouter>
+                        <LoginPage />
+                    </MemoryRouter>
+                </HelmetProvider>
+            );
+
+            // Wait a tick
+            await new Promise(r => setTimeout(r, 100));
+
+            // Call count should NOT have increased (flag prevents re-redirect)
+            expect(mockNavigate.mock.calls.length).toBe(callCount);
+        });
     });
 });
