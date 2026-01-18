@@ -81,6 +81,24 @@ service cloud.firestore {
         (!('streak' in request.resource.data) || (
            request.resource.data.streak is map &&
            (!('currentStreak' in request.resource.data.streak) || isValidNumber(request.resource.data.streak.currentStreak, 0, 9999))
+        )) &&
+        // Valida achievements (Lista)
+        (!('achievements' in request.resource.data) || request.resource.data.achievements is list) &&
+        // Valida activeMissions (Lista)
+        (!('activeMissions' in request.resource.data) || request.resource.data.activeMissions is list) &&
+        // Valida inventory (Map)
+        (!('inventory' in request.resource.data) || (
+            request.resource.data.inventory is map &&
+            (!('ownedItems' in request.resource.data.inventory) || request.resource.data.inventory.ownedItems is list) &&
+            (!('equippedAvatar' in request.resource.data.inventory) || request.resource.data.inventory.equippedAvatar is string)
+        )) &&
+        // Valida powerUps (Map)
+        (!('powerUps' in request.resource.data) || request.resource.data.powerUps is map) &&
+        // Valida stats (Map com campos numéricos)
+        (!('stats' in request.resource.data) || (
+            request.resource.data.stats is map &&
+            (!('totalQuestionsCompleted' in request.resource.data.stats) || isValidNumber(request.resource.data.stats.totalQuestionsCompleted, 0, 999999)) &&
+            (!('totalCorrectAnswers' in request.resource.data.stats) || isValidNumber(request.resource.data.stats.totalCorrectAnswers, 0, 999999))
         ));
     }
     
