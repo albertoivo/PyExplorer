@@ -123,7 +123,7 @@ describe('MascotContext', () => {
         const { result } = renderHook(() => useMascotContext(), { wrapper });
 
         act(() => {
-            result.current.setMood('sad', 'Bad day');
+            result.current.setMood('confused', 'Bad day');
             result.current.hide();
         });
 
