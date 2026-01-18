@@ -229,31 +229,39 @@ export function useGamification() {
         responseTimeSeconds?: number,
         options?: { worldId?: string, starsEarned?: number, isBoss?: boolean, previousStars?: number }
     ) => {
-        const { newState, levelUp, starsEarned } = recordQuestionLogic(
+        const {
+            newState,
+            levelUp,
+            starsEarned,
+            missionRewards,
+            completedMissionTitles
+        } = recordQuestionLogic(
             gamification,
             passed,
             xpEarned,
             { ...options, responseTimeSeconds }
         );
 
-        if (starsEarned > 0) {
+        // 1. Calculate Total Balance Update (Question + Missions)
+        const totalStarsToAdd = starsEarned + (missionRewards?.stars || 0);
+
+        // 2. Update UserData ONLY ONCE
+        // Total Score is already calculated in newState.level.totalXP (includes question + mission XP)
+        if (totalStarsToAdd > 0 || newState.level.totalXP !== gamification.level.totalXP) {
             updateUserData({
-                balance: (userData?.balance || 0) + starsEarned,
-                totalScore: newState.level.totalXP // Sync Score with XP
+                balance: (userData?.balance || 0) + totalStarsToAdd,
+                totalScore: newState.level.totalXP
             });
-        } else {
-            // Even if no stars, update XP/Score
-            updateUserData({ totalScore: newState.level.totalXP });
         }
 
+        // 3. Handle Level Up
         if (levelUp) {
             console.log(`🎉 Level Up! ${levelUp.level}`);
             setShowLevelUp(levelUp);
         }
 
-        // Check achievements with NEW state
-        const newBalance = (userData?.balance || 0) + starsEarned;
-
+        // 4. Check Achievements with NEW state and balance
+        const newBalance = (userData?.balance || 0) + totalStarsToAdd;
         const unlockedIds = checkAchievementsLogic(newState, newBalance);
         let finalState = newState;
 
@@ -266,76 +274,19 @@ export function useGamification() {
             }
         });
 
-        // Update Missions Progress
-        // Now returns rewards and levelUp if auto-claimed
-        let missionsState = finalState;
-        let totalMissionStars = 0;
-        let totalMissionXP = 0;
-        let missionLevelUp: LevelInfo | null = null;
-
-        const processMissionUpdate = (result: ReturnType<typeof updateMissionProgress>) => {
-            missionsState = result.newState;
-            if (result.completedMissions.length > 0) {
-                totalMissionStars += result.rewards.stars;
-                totalMissionXP += result.rewards.xp;
-                if (result.levelUp) missionLevelUp = result.levelUp;
-
-                result.completedMissions.forEach(m => {
-                    console.log(`✅ Mission Completed (Auto-Claimed): ${m}`);
-                    // Trigger notification (last one wins or queue? simplifying to last one for now)
-                    setMissionNotification({
-                        title: m,
-                        rewards: { stars: result.rewards.stars, xp: result.rewards.xp }
-                    });
+        // 5. Handle Mission Notifications (Auto-Claimed)
+        if (completedMissionTitles && completedMissionTitles.length > 0) {
+            completedMissionTitles.forEach(title => {
+                console.log(`✅ Mission Completed (Auto-Claimed): ${title}`);
+                setMissionNotification({
+                    title,
+                    rewards: missionRewards // Note: This shows AGGREGATE rewards if multiple complete at once.
                 });
-            }
-        };
-
-        // 1. Complete Questions
-        processMissionUpdate(updateMissionProgress(missionsState, 'complete_questions', 1, { worldId: options?.worldId }));
-
-        // 2. Correct Streak
-        if (passed) {
-            processMissionUpdate(updateMissionProgress(missionsState, 'correct_streak', missionsState.stats.consecutiveCorrect));
-        }
-
-        // 3. Earn Stars
-        if (starsEarned > 0) {
-            processMissionUpdate(updateMissionProgress(missionsState, 'earn_stars', starsEarned));
-        }
-
-        // Apply Mission Rewards to UserData (Balance/XP)
-        if (totalMissionStars > 0 || totalMissionXP > 0) {
-            console.log(`🎁 Mission Rewards Applied: ${totalMissionStars} Stars, ${totalMissionXP} XP`);
-            // We need to fetch latest balance/score again or trust accumulation
-            // The previous updateUserData call was async but we have local calc.
-            // We can chain the updates or do a second update.
-            // Ideally we do ONE update. But refactoring the whole function is risky.
-            // We'll calculate the DELTA from *after* the question rewards.
-
-            // Question rewards were already added to userData via updateUserData call above.
-            // We need to add mission rewards ON TOP.
-            updateUserData({
-                balance: (userData?.balance || 0) + starsEarned + totalMissionStars,
-                totalScore: (userData?.totalScore || 0) + xpEarned + totalMissionXP
-                // Note: totalScore in userData should match gamification.totalXP? 
-                // We should probably sync from `missionsState.level.totalXP` which includes mission XP.
-                // MissionsState has the updated XP from missions.
-                // But question XP was added to `newState`.
-                // `missionsState` starts from `newState`.
-                // So `missionsState.level.totalXP` should have QuestionXP + MissionXP.
             });
-
-            // Sync score strictly to state
-            updateUserData({ totalScore: missionsState.level.totalXP });
         }
 
-        if (missionLevelUp) {
-            setShowLevelUp(missionLevelUp);
-        }
-
-        setGamification(missionsState);
-        saveGamification(missionsState);
+        setGamification(finalState);
+        saveGamification(finalState);
     }, [gamification, userData, updateUserData, saveGamification, safeAddAchievement]);
 
     // ============================================

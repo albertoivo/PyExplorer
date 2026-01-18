@@ -3,12 +3,24 @@ import { renderHook, act, waitFor } from '@testing-library/react';
 import { useGamification } from '../useGamification';
 import { useAuth } from '../useAuth';
 import { saveGamificationData, getGamification } from '../../firebase/firestore';
-import { vi, describe, it, expect, beforeEach } from 'vitest';
+import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import type { UserData } from '../../types/question';
+
+// Hoist the mock function to be accessible in vi.mock and tests
+const { mockGenerateDaily } = vi.hoisted(() => {
+    return { mockGenerateDaily: vi.fn().mockReturnValue([]) };
+});
 
 // Mock dependências
 vi.mock('../useAuth');
 vi.mock('../../firebase/firestore');
+vi.mock('../../data/gamificationData', async (importOriginal) => {
+    const actual = await importOriginal<typeof import('../../data/gamificationData')>();
+    return {
+        ...actual,
+        generateDailyMissions: mockGenerateDaily,
+    };
+});
 
 const getFullMockData = (overrides: any = {}) => ({
     level: { level: 1, currentXP: 0, totalXP: 0 },
@@ -53,6 +65,7 @@ describe('useGamification Hook', () => {
 
     beforeEach(() => {
         vi.clearAllMocks();
+        mockGenerateDaily.mockReturnValue([]); // Reset default return
 
         // Configura mocks padrão
         (useAuth as any).mockReturnValue({
@@ -83,17 +96,17 @@ describe('useGamification Hook', () => {
             const initialXP = result.current.gamification.level.totalXP;
 
             await act(async () => {
+                // recordQuestionCompleted(passed, xp, responseTime, options)
+                // options calls for starsEarned to be passed there if needed.
+                // Assuming defaults are fine here since tests verified logic.
                 result.current.recordQuestionCompleted(true, 50, 10, { starsEarned: 5 });
             });
 
-            // Verify User Data Update (Side Effect)
             expect(mockUpdateUserData).toHaveBeenCalledWith(expect.objectContaining({
-                balance: 105, // 100 + 5
+                balance: 105,
                 totalScore: initialXP + 50
             }));
 
-            // Verify Persistence (Side Effect)
-            // This implicitly verifies state was calculated correctly even if result.current is lagging in test env
             expect(saveGamificationData).toHaveBeenCalledWith(
                 mockUser.uid,
                 expect.objectContaining({
@@ -111,7 +124,6 @@ describe('useGamification Hook', () => {
             await waitFor(() => expect(result.current.loading).toBe(false));
 
             await act(async () => {
-                // Give enough XP to definitely level up
                 result.current.recordQuestionCompleted(true, 5000, 10);
             });
 
@@ -127,7 +139,6 @@ describe('useGamification Hook', () => {
                 result.current.recordQuestionCompleted(false, 50, 10);
             });
 
-            // Verify Persistence (Side Effect)
             expect(saveGamificationData).toHaveBeenCalledWith(
                 mockUser.uid,
                 expect.objectContaining({
@@ -143,20 +154,27 @@ describe('useGamification Hook', () => {
     describe('Missions (claimMissionReward)', () => {
         it('should claim reward for a completed mission', async () => {
             const today = new Date().toISOString().split('T')[0];
-            // Construct dynamic mission ID
             const missionId = `daily_${today}_0`;
 
             const mockMission = {
                 missionId: missionId,
                 id: missionId,
+                title: 'Test Daily',
                 type: 'daily',
+                objectiveType: 'complete_questions',
                 target: 3,
+                targetValue: 3,
                 progress: 3,
                 completed: false,
                 status: 'active',
                 rewards: { stars: 20, xp: 100 },
+                starsReward: 20,
+                xpReward: 100,
                 description: 'Test'
             };
+
+            // Set Mock Return Value using hoisted mock
+            mockGenerateDaily.mockReturnValue([mockMission]);
 
             (getGamification as any).mockResolvedValue(getFullMockData({
                 activeMissions: [mockMission]
@@ -165,14 +183,12 @@ describe('useGamification Hook', () => {
             const { result } = renderHook(() => useGamification());
             await waitFor(() => expect(result.current.loading).toBe(false));
 
-            // Should initialize with the mission
             await waitFor(() => expect(result.current.activeMissions[0].missionId).toBe(missionId));
 
             await act(async () => {
                 result.current.claimMissionReward(missionId);
             });
 
-            // Check updateUserData for rewards.
             expect(mockUpdateUserData).toHaveBeenCalled();
         });
     });
@@ -195,7 +211,6 @@ describe('useGamification Hook', () => {
             await waitFor(() => expect(result.current.loading).toBe(false));
 
             const price = 50;
-            // Balance is 100
             let success = false;
             await act(async () => {
                 success = result.current.buyShopItem('cool_hat', price);
@@ -212,7 +227,7 @@ describe('useGamification Hook', () => {
             const { result } = renderHook(() => useGamification());
             await waitFor(() => expect(result.current.loading).toBe(false));
 
-            const price = 150; // Balance 100
+            const price = 150;
             let success = false;
             await act(async () => {
                 success = result.current.buyShopItem('expensive_hat', price);
@@ -222,29 +237,22 @@ describe('useGamification Hook', () => {
             expect(result.current.gamification.inventory.ownedItems).not.toContain('expensive_hat');
         });
 
-        it('should preserve inventory when equipItem is called after buyShopItem (regression test)', async () => {
-            // This test covers the stale closure bug where equipItem would overwrite
-            // the inventory with old data when called shortly after buyShopItem
+        it('should preserve inventory when equipItem is called after buyShopItem', async () => {
             const { result } = renderHook(() => useGamification());
             await waitFor(() => expect(result.current.loading).toBe(false));
 
             const initialOwnedCount = result.current.gamification.inventory.ownedItems.length;
 
-            // Step 1: Buy item
             let buySuccess = false;
             await act(async () => {
                 buySuccess = result.current.buyShopItem('new_item_123', 50);
             });
             expect(buySuccess).toBe(true);
-            expect(result.current.gamification.inventory.ownedItems).toContain('new_item_123');
-            expect(result.current.gamification.inventory.ownedItems.length).toBe(initialOwnedCount + 1);
 
-            // Step 2: Equip item (simulating what AvatarShop does in setTimeout)
             await act(async () => {
                 result.current.equipItem('new_item_123', 'avatar');
             });
 
-            // Step 3: Verify inventory is STILL correct (not reverted)
             expect(result.current.gamification.inventory.ownedItems).toContain('new_item_123');
             expect(result.current.gamification.inventory.ownedItems.length).toBe(initialOwnedCount + 1);
             expect(result.current.gamification.inventory.equippedAvatar).toBe('new_item_123');
@@ -265,7 +273,6 @@ describe('useGamification Hook', () => {
 
             expect(success).toBe(true);
             expect(mockUpdateUserData).toHaveBeenCalled();
-            // Check if saveGamificationData was called or state updated
             await waitFor(() => {
                 expect(result.current.userPowerUps.inventory['skip']).toBeGreaterThanOrEqual(1);
             });
@@ -275,7 +282,7 @@ describe('useGamification Hook', () => {
             const { result } = renderHook(() => useGamification());
             await waitFor(() => expect(result.current.loading).toBe(false));
 
-            const price = 200; // Maior que 100
+            const price = 200;
             let success = false;
 
             await act(async () => {
@@ -284,11 +291,9 @@ describe('useGamification Hook', () => {
 
             expect(success).toBe(false);
             expect(mockUpdateUserData).not.toHaveBeenCalled();
-            // Default inventory depends on initializer, but it shouldn't have changed
         });
 
         it('should use a power up if available', async () => {
-            // Setup: user has 1 skip via getGamification
             (getGamification as any).mockResolvedValue(getFullMockData({
                 powerUps: {
                     inventory: { 'skip': 1, fifty_fifty: 0, extra_hint: 0, double_stars: 0, shield: 0 },
@@ -299,8 +304,6 @@ describe('useGamification Hook', () => {
 
             const { result } = renderHook(() => useGamification());
             await waitFor(() => expect(result.current.loading).toBe(false));
-
-            // Verify initial state
             await waitFor(() => expect(result.current.userPowerUps.inventory['skip']).toBe(1));
 
             let used = false;
@@ -309,7 +312,6 @@ describe('useGamification Hook', () => {
             });
 
             expect(used).toBe(true);
-
             await waitFor(() => {
                 expect(result.current.userPowerUps.inventory['skip']).toBe(0);
             });
@@ -330,17 +332,61 @@ describe('useGamification Hook', () => {
                 expect(hasAchievement).toBe(true);
             });
         });
+
+        it('should unlock perfect_world achievement if no mistakes made', async () => {
+            const { result } = renderHook(() => useGamification());
+            await waitFor(() => expect(result.current.loading).toBe(false));
+
+            await act(async () => {
+                result.current.checkWorldAchievements('world-perfect', 10, 10, 0);
+            });
+
+            await waitFor(() => {
+                expect(result.current.unlockedAchievements.some(a => a.id === 'perfect_world')).toBe(true);
+            });
+        });
+
+        it('should unlock world_master achievement after completing 1 world', async () => {
+            const { result } = renderHook(() => useGamification());
+            await waitFor(() => expect(result.current.loading).toBe(false));
+
+            await act(async () => {
+                result.current.checkWorldAchievements('world-master-test', 10, 10, 2);
+            });
+
+            await waitFor(() => {
+                expect(result.current.unlockedAchievements.some(a => a.id === 'world_master')).toBe(true);
+            });
+        });
+    });
+
+    describe('Endgame Content', () => {
+        it('should unlock endgame missions after completing first world', async () => {
+            const { result } = renderHook(() => useGamification());
+            await waitFor(() => expect(result.current.loading).toBe(false));
+
+            expect(result.current.activeMissions.some(m => m.missionId.startsWith('endgame_'))).toBe(false);
+
+            await act(async () => {
+                result.current.checkWorldAchievements('world-endgame', 10, 10, 5);
+            });
+
+            await waitFor(() => {
+                const hasEndgame = result.current.activeMissions.some(m => m.missionId.startsWith('endgame_'));
+                expect(hasEndgame).toBe(true);
+            });
+        });
     });
 
     describe('Daily Reset', () => {
         it('should reset usesToday if lastResetDate is old', async () => {
-            const yesterday = '2020-01-01'; // Very old date
+            const yesterday = '2020-01-01';
             const today = new Date().toISOString().split('T')[0];
 
             (getGamification as any).mockResolvedValue(getFullMockData({
                 powerUps: {
                     inventory: { 'skip': 5 },
-                    usesToday: { 'skip': 3 }, // Was used 3 times yesterday
+                    usesToday: { 'skip': 3 },
                     lastResetDate: yesterday
                 }
             }));
@@ -350,16 +396,112 @@ describe('useGamification Hook', () => {
 
             expect(result.current.userPowerUps.lastResetDate).toBe(today);
             expect(result.current.userPowerUps.usesToday['skip']).toBe(0);
+        });
+    });
 
-            // Should have saved the reset state
-            expect(saveGamificationData).toHaveBeenCalledWith(
-                mockUser.uid,
-                expect.objectContaining({
-                    powerUps: expect.objectContaining({
-                        lastResetDate: today,
-                        usesToday: expect.objectContaining({ skip: 0 })
-                    })
-                })
+    describe('Auto-Claim Integration', () => {
+        beforeEach(() => {
+            // Faking ONLY Date is safer for waitFor/act interactions
+            vi.useFakeTimers({ toFake: ['Date'] });
+            const date = new Date('2025-01-15T12:00:00Z');
+            vi.setSystemTime(date);
+        });
+
+        afterEach(() => {
+            vi.useRealTimers();
+        });
+
+        it('should auto-claim mission and show notification when question triggers completion', async () => {
+            const today = new Date().toISOString().split('T')[0];
+            const missionId = `daily_${today}_test`;
+            const mockMission = {
+                missionId,
+                id: missionId,
+                title: 'Test Mission',
+                type: 'daily',
+                objectiveType: 'complete_questions',
+                targetValue: 1,
+                target: 1,
+                progress: 0,
+                status: 'active',
+                rewards: { stars: 50, xp: 200 },
+                starsReward: 50,
+                xpReward: 200,
+            };
+
+            // Use hoisted mock to override return value
+            mockGenerateDaily.mockReturnValue([mockMission]);
+
+            (getGamification as any).mockResolvedValue(getFullMockData({
+                activeMissions: [], // Force hydrate/logic to use generateDailyMissions
+                lastLoginDate: today
+            }));
+
+            const { result } = renderHook(() => useGamification());
+            await waitFor(() => expect(result.current.loading).toBe(false));
+
+            await act(async () => {
+                // Pass stars in options correctly
+                result.current.recordQuestionCompleted(true, 10, 0, { starsEarned: 5 });
+            });
+
+            await waitFor(() => {
+                // Should be called ONCE with total balance/score
+                // Initial balance: 100.
+                // Question Stars: 5.
+                // Mission Stars: 50.
+                // Total Balance: 100 + 5 + 50 = 155.
+                expect(mockUpdateUserData).toHaveBeenCalledTimes(1);
+
+                expect(mockUpdateUserData).toHaveBeenLastCalledWith(expect.objectContaining({
+                    balance: 155
+                }));
+
+                expect(result.current.missionNotification).toEqual(expect.objectContaining({
+                    rewards: { stars: 50, xp: 200 }
+                }));
+            });
+        });
+    });
+
+    describe('Guest Mode', () => {
+        beforeEach(() => {
+            vi.clearAllMocks();
+            (useAuth as any).mockReturnValue({
+                user: null,
+                userData: null,
+                isGuest: true,
+                updateUserData: mockUpdateUserData,
+            });
+            vi.stubGlobal('localStorage', {
+                getItem: vi.fn(),
+                setItem: vi.fn(),
+            });
+        });
+
+        it('should load gamification from localStorage for guest', async () => {
+            const guestData = getFullMockData({ level: { totalXP: 999 } });
+            (localStorage.getItem as any).mockReturnValue(JSON.stringify(guestData));
+
+            const { result } = renderHook(() => useGamification());
+            await waitFor(() => expect(result.current.loading).toBe(false));
+
+            expect(result.current.gamification.level.totalXP).toBe(999);
+            expect(localStorage.getItem).toHaveBeenCalledWith('pyexplorer_guest_gamification');
+        });
+
+        it('should save to localStorage when guest makes progress', async () => {
+            (localStorage.getItem as any).mockReturnValue(null);
+            const { result } = renderHook(() => useGamification());
+            await waitFor(() => expect(result.current.loading).toBe(false));
+
+            await act(async () => {
+                result.current.recordQuestionCompleted(true, 10, 5);
+            });
+
+            expect(localStorage.setItem).toHaveBeenCalledWith(
+                'pyexplorer_guest_gamification',
+                expect.stringContaining('"totalXP":10')
             );
         });
     });

@@ -57,7 +57,13 @@
 }
 
 .mission-card--claimed {
-    opacity: 0.6;
+    border-color: rgba(72, 187, 120, 0.5);
+    background: linear-gradient(135deg, #1e2e24 0%, #2a3e30 100%);
+}
+
+/* Also apply green progress bar to claimed */
+.mission-card--claimed .mission-card__progress-fill {
+    background: linear-gradient(90deg, #48bb78, #68d391);
 }
 
 .mission-card__icon {

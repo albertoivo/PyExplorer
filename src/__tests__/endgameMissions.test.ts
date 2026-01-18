@@ -211,10 +211,10 @@ describe('Endgame Missions Logic', () => {
             currentState = recordQuestionLogic(currentState, true, 10, { responseTimeSeconds: 10 }).newState;
             expect(currentState.activeMissions[0].progress).toBe(2);
 
-            // 3
+            // 3 (Auto-Claimed now)
             currentState = recordQuestionLogic(currentState, true, 10, { responseTimeSeconds: 10 }).newState;
             expect(currentState.activeMissions[0].progress).toBe(3);
-            expect(currentState.activeMissions[0].status).toBe('completed');
+            expect(currentState.activeMissions[0].status).toBe('claimed'); // Auto-claim sets to 'claimed' directly
             expect(currentState.activeMissions[0].completedAt).toBeDefined();
 
             // 4 (Overfill)

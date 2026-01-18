@@ -72,6 +72,29 @@ export const ACHIEVEMENTS: Achievement[] = [
         starsReward: 200,
         condition: 'Completar todos os mundos do jogo',
     },
+    {
+        id: 'world_master',
+        name: 'Mestre dos Mundos',
+        description: 'Complete 1 mundo',
+        icon: '🌍',
+        category: 'learning',
+        rarity: 'rare',
+        xpReward: 300,
+        starsReward: 50,
+        condition: 'Completar 1 mundo',
+    },
+    {
+        id: 'world_champion',
+        name: 'Campeão Global',
+        description: 'Complete 5 mundos',
+        icon: '🪐',
+        category: 'learning',
+        rarity: 'epic',
+        xpReward: 1000,
+        starsReward: 100,
+        condition: 'Completar 5 mundos',
+    },
+
 
     // === CATEGORIA: STREAK (Consistência) ===
     {

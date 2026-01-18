@@ -368,6 +368,7 @@ export function updateMissionProgress(
 
         // Smart Lookup (duplicate logic from claimMissionRewardLogic)
         let missionDef = allMissions.find(m => 'id' in m && m.id === userMission.missionId);
+
         if (!missionDef) {
             missionDef = ENDGAME_MISSIONS.find(m => userMission.missionId.startsWith(`endgame_${m.objectiveType}`)) as Mission;
         }
@@ -453,7 +454,13 @@ export function recordQuestionLogic(
         responseTimeSeconds?: number,
         previousStars?: number
     }
-): { newState: UserGamification, levelUp: LevelInfo | null, starsEarned: number } {
+): {
+    newState: UserGamification,
+    levelUp: LevelInfo | null,
+    starsEarned: number,
+    missionRewards: { stars: number, xp: number },
+    completedMissionTitles: string[]
+} {
     const newConsecutive = passed ? (state.stats.consecutiveCorrect || 0) + 1 : 0;
     const newBestConsecutive = Math.max(state.stats.bestConsecutiveCorrect || 0, newConsecutive);
     const isBoss = options?.isBoss || false;
@@ -517,6 +524,9 @@ export function recordQuestionLogic(
     // --- MISSION PROGRESS UPDATES ---
     // We update active missions based on the event
     const starsEarned = options?.starsEarned || 0;
+    const completedMissions: string[] = [];
+    let missionXP = 0;
+    let missionStars = 0;
 
     newState.activeMissions = newState.activeMissions.map(mission => {
         if (mission.status !== 'active') return mission;
@@ -620,21 +630,62 @@ export function recordQuestionLogic(
         if (shouldUpdate) {
             // Cap at target
             const cappedProgress = Math.min(newProgress, def.targetValue);
+            const isCompleted = cappedProgress >= def.targetValue;
+
+            if (isCompleted) {
+                // AUTO-CLAIM
+                completedMissions.push(def.title);
+                missionStars += def.starsReward;
+                missionXP += def.xpReward;
+            }
+
             return {
                 ...mission,
                 progress: cappedProgress,
-                status: cappedProgress >= def.targetValue ? 'completed' : 'active',
-                completedAt: cappedProgress >= def.targetValue ? new Date() : undefined
+                status: isCompleted ? 'claimed' as const : 'active',
+                completedAt: isCompleted ? new Date() : undefined
             };
         }
 
         return mission;
     });
 
+    // Add Mission Rewards to State (Level/XP)
+    let finalLevelState = newState.level;
+    let finalLevelUp = levelUp;
+
+    if (missionXP > 0) {
+        const afterMissionTotalXP = finalLevelState.totalXP + missionXP;
+        const afterMissionLevelInfo = getLevelFromXP(afterMissionTotalXP);
+        // Check for level up from mission XP (if wasn't already leveled up, or leveled up AGAIN?)
+        // Simple approach: Recalculate level up based on final XP vs INITIAL state XP logic?
+        // Let's just update the level state.
+
+        finalLevelState = {
+            ...finalLevelState,
+            totalXP: afterMissionTotalXP,
+            currentXP: afterMissionTotalXP - afterMissionLevelInfo.minXP
+        };
+
+        // If we leveled up from question, we stay leveled up.
+        // If we didn't, we might level up now.
+        if (!finalLevelUp && afterMissionLevelInfo.level > getLevelFromXP(state.level.totalXP).level) {
+            finalLevelUp = afterMissionLevelInfo;
+        } else if (finalLevelUp && afterMissionLevelInfo.level > finalLevelUp.level) {
+            finalLevelUp = afterMissionLevelInfo; // Leveled up even more?
+        }
+    }
+
     return {
-        newState,
-        levelUp,
-        starsEarned: options?.starsEarned || 0,
+        newState: {
+            ...newState,
+            level: finalLevelState,
+            activeMissions: newState.activeMissions
+        },
+        levelUp: finalLevelUp,
+        starsEarned: (options?.starsEarned || 0),
+        missionRewards: { stars: missionStars, xp: missionXP },
+        completedMissionTitles: completedMissions
     };
 }
 
