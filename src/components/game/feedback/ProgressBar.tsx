@@ -44,7 +44,14 @@ export function ProgressBar({
                 </div>
             )}
 
-            <div className="progress-bar__track">
+            <div
+                className="progress-bar__track"
+                role="progressbar"
+                aria-valuenow={current}
+                aria-valuemin={0}
+                aria-valuemax={max}
+                aria-label={label || (showPercentage ? `${Math.round(percentage)}%` : 'Progresso')}
+            >
                 <div
                     className={`progress-bar__fill progress-bar__fill--${variant} ${animated ? 'progress-bar__fill--animated' : ''}`}
                     style={{ width: `${percentage}%` }}
@@ -79,7 +86,7 @@ export function WorldProgressBar({
 
     return (
         <div className={`world-progress ${isComplete ? 'world-progress--complete' : ''}`}>
-            <div className="world-progress__icon">{worldIcon}</div>
+            <div className="world-progress__icon" aria-hidden="true">{worldIcon}</div>
             <div className="world-progress__content">
                 <div className="world-progress__header">
                     <span className="world-progress__name">{worldName}</span>
@@ -88,14 +95,21 @@ export function WorldProgressBar({
                         {isComplete && ' ✓'}
                     </span>
                 </div>
-                <div className="world-progress__track">
+                <div
+                    className="world-progress__track"
+                    role="progressbar"
+                    aria-valuenow={completed}
+                    aria-valuemin={0}
+                    aria-valuemax={total}
+                    aria-label={`Progresso em ${worldName}`}
+                >
                     <div
                         className={`world-progress__fill ${isComplete ? 'world-progress__fill--complete' : ''}`}
                         style={{ width: `${percentage}%` }}
                     />
                 </div>
             </div>
-            {isComplete && <div className="world-progress__badge">🏆</div>}
+            {isComplete && <div className="world-progress__badge" aria-hidden="true">🏆</div>}
         </div>
     );
 }
