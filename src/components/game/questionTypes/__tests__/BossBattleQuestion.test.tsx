@@ -20,7 +20,6 @@ const mockQuestion: QuestionDocument = {
     title: 'Boss Fight',
     prompt: 'Defeat the boss by summing 1+1',
     difficulty: 'hard',
-    xpReward: 100,
     tags: [],
     bossMetadata: {
         bossName: 'Bug Lord',

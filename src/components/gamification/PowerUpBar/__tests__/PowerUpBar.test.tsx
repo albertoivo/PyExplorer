@@ -15,7 +15,7 @@ vi.mock('../../../../data/gamificationData', () => ({
             maxPerDay: 2,
         },
         {
-            id: 'hint',
+            id: 'extra_hint',
             name: 'Dica',
             description: 'Dica extra',
             icon: '💡',
@@ -28,14 +28,14 @@ vi.mock('../../../../data/gamificationData', () => ({
 const mockUserPowerUps: UserPowerUps = {
     inventory: {
         skip: 1, // Has 1
-        hint: 0, // Has 0
+        extra_hint: 0, // Has 0
         fifty_fifty: 0,
         double_stars: 0,
         shield: 0
     },
     usesToday: {
         skip: 0,
-        hint: 0,
+        extra_hint: 0,
         fifty_fifty: 0,
         double_stars: 0,
         shield: 0
@@ -113,7 +113,7 @@ describe('PowerUpBar', () => {
         );
 
         fireEvent.click(screen.getByLabelText('Comprar Dica por 20 estrelas'));
-        expect(mockOnBuy).toHaveBeenCalledWith('hint', 20);
+        expect(mockOnBuy).toHaveBeenCalledWith('extra_hint', 20);
     });
 
     it('disables BUY button if insufficient stars', () => {

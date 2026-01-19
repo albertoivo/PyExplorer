@@ -11,7 +11,6 @@ const mockQuestion: QuestionDocument = {
     difficulty: 'easy',
     options: ['3', '4', '5', '6'],
     answerIndex: 1, // '4'
-    xpReward: 10,
     tags: []
 };
 

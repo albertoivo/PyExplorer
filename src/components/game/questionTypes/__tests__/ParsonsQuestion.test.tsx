@@ -14,7 +14,7 @@ vi.mock('../../../../hooks/usePyodide', () => ({
 
 const mockQuestion: QuestionDocument = {
     id: 'p1',
-    type: 'parsons',
+    type: 'drag_and_drop', // Correct type for Parsons
     title: 'Sort Numbers',
     prompt: 'Sort the list',
     difficulty: 'medium',
@@ -24,7 +24,6 @@ const mockQuestion: QuestionDocument = {
         '    return L'
     ],
     tests: [{ input: [3,1,2], expectedOutput: [1,2,3] }],
-    xpReward: 20,
     tags: []
 };
 
@@ -126,8 +125,7 @@ describe('ParsonsQuestion', () => {
         // Assume blocks are in some random order (shuffled).
         // Let's find specific blocks and set their indentation to verify code construction.
 
-        const defBlock = screen.getByText('def sort_list(L):').closest('.parsons-block');
-        // Indent it 0 (default)
+        // defBlock defaults to 0 indentation
 
         const sortBlock = screen.getByText('L.sort()').closest('.parsons-block');
         // Indent it 1

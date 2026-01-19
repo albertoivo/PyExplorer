@@ -10,7 +10,6 @@ const mockQuestion: QuestionDocument = {
     prompt: 'Python is a programming language.',
     difficulty: 'easy',
     correctBool: true,
-    xpReward: 10,
     tags: []
 };
 
