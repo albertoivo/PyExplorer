@@ -175,5 +175,21 @@ export const userInputQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'Como tem ponto (casa decimal), é um número float! Se fosse inteiro, usaríamos int(). ⚖️',
         points: 15,
+    },
+    {
+        id: 'input_11',
+        type: 'fill_code',
+        world: 'user_input',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Calculadora de Dobro',
+        prompt: 'Complete para converter o texto em número antes de multiplicar:',
+        starterCode: 'texto = input("Digite um número: ")\nnum = ___(texto)\nprint(num * 2)',
+        solutionTemplate: 'num = int(texto)',
+        tests: [
+            { input: null, expectedOutput: 'Digite um número:' },
+        ],
+        explanationKidFriendly: 'O input vem como texto! Precisamos converter para `int` (inteiro) antes de multiplicar, senão o Python repete o texto! ✖️',
+        points: 20,
     }
 ];

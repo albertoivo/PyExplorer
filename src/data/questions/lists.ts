@@ -321,5 +321,23 @@ export const listsQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'Pega do índice 2 (número 2) até ANTES do índice 4 (número 4). Então pega 2 e 3! O 4 fica de fora! 🍰',
         points: 15,
+    },
+    {
+        id: 'list_14',
+        type: 'multiple_choice',
+        world: 'lists',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Estourando Balões',
+        prompt: 'Temos `baloes = ["vermelho", "azul"]`. O que `baloes.pop()` faz?',
+        options: [
+            'Remove "azul"',
+            'Remove "vermelho"',
+            'Remove tudo',
+            'Não faz nada',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: '`pop()` estoura (remove) o ÚLTIMO item da lista. Tchau, balão azul! 🎈',
+        points: 15,
     }
 ];

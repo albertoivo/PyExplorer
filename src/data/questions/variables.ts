@@ -308,5 +308,21 @@ export const variablesQuestions: QuestionDocument[] = [
         answerIndex: 1,
         explanationKidFriendly: 'Quando usamos aspas, são textos! Somar textos é juntar eles. Então "1" com "1" vira "11"! 🚂',
         points: 10,
+    },
+    {
+        id: 'var_14',
+        type: 'fill_code',
+        world: 'variables',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Subindo de Nível',
+        prompt: 'Você passou de nível! Complete para aumentar o nível em 1:',
+        starterCode: 'nivel = 5\nnivel = nivel ___ 1\nprint(nivel)',
+        solutionTemplate: 'nivel = nivel + 1',
+        tests: [
+            { input: null, expectedOutput: '6' },
+        ],
+        explanationKidFriendly: 'Para atualizar uma variável, usamos o valor antigo dela! `nivel = nivel + 1` pega o 5, soma 1 e guarda o 6. 🆙',
+        points: 15,
     }
 ];

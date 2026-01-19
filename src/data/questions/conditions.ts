@@ -319,5 +319,23 @@ for i in range(4):
         ],
         explanationKidFriendly: 'elif salva o dia! Ele verifica a próxima opção se as anteriores falharam. "Se não for 1, nem 2... e se for 3?" 🤔',
         points: 15,
+    },
+    {
+        id: 'dec_14',
+        type: 'multiple_choice',
+        world: 'conditions',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Dia de Sol',
+        prompt: 'Se NÃO estiver chovendo, vou à praia. Qual código faz isso?',
+        options: [
+            'if not chovendo:',
+            'if chovendo:',
+            'if no chovendo:',
+            'if chovendo == True:',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: '`not` inverte a lógica! Se `chovendo` é Falso (não está), `not chovendo` vira Verdadeiro e vamos à praia! 🏖️',
+        points: 10,
     }
 ];

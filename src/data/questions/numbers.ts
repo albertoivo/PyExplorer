@@ -285,5 +285,19 @@ export const numbersQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: '9 // 2 é a divisão inteira! O 2 cabe 4 vezes no 9 (2, 4, 6, 8). O resto (1) é jogado fora! 📦',
         points: 15,
+    },
+    {
+        id: 'num_14',
+        type: 'multiple_choice',
+        world: 'numbers',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Dividindo Balas',
+        prompt: 'Temos 11 balas para 4 crianças. Quantas cada uma ganha (sem quebrar)? Use //',
+        starterCode: 'print(11 // 4)',
+        options: ['2', '2.75', '3', '4'],
+        answerIndex: 0,
+        explanationKidFriendly: '11 // 4 dá 2. A divisão inteira joga fora o resto (3 balas sobram). Ninguém ganha bala quebrada! 🍬',
+        points: 10,
     }
 ];

@@ -306,5 +306,21 @@ for i in range(___):
         ],
         explanationKidFriendly: 'Achamos o tesouro! O comando break para o loop na hora, para não precisarmos procurar mais. 💎',
         points: 20,
+    },
+    {
+        id: 'loop_14',
+        type: 'fill_code',
+        world: 'loops',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Pular o Zero',
+        prompt: 'Dividir por zero dá erro! Complete para PULAR o print quando x for 0:',
+        starterCode: 'for x in range(-2, 3):\n    if x == 0:\n        ___\n    print(10 / x)',
+        solutionTemplate: 'continue',
+        tests: [
+            { input: null, expectedOutput: '-5.0\n-10.0\n10.0\n5.0' },
+        ],
+        explanationKidFriendly: 'Usamos `continue` para pular essa volta e proteger nosso código. Quando x é 0, pulamos o print e o erro! 🛡️',
+        points: 20,
     }
 ];

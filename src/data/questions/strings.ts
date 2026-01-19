@@ -317,5 +317,21 @@ export const stringsQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'split("/") corta o texto onde tiver barra! Assim separamos as partes da data. 📅',
         points: 20,
+    },
+    {
+        id: 'strings_14',
+        type: 'fill_code',
+        world: 'strings',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Trem de Palavras',
+        prompt: 'Junte a lista `["piu", "i"]` com "-" para fazer um trem:',
+        starterCode: 'vagoes = ["piu", "i"]\ntrem = "-".___(vagoes)\nprint(trem)',
+        solutionTemplate: 'trem = "-".join(vagoes)',
+        tests: [
+            { input: null, expectedOutput: 'piu-i' },
+        ],
+        explanationKidFriendly: '`join` é a cola! Ele usa o traço "-" para colar os vagões e virar "piu-i". Piuííí! 🚂',
+        points: 20,
     }
 ];
