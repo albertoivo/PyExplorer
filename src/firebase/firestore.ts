@@ -228,6 +228,8 @@ export async function saveProgress(progress: UserProgress): Promise<void> {
             status: progress.status,
             score: progress.score,
             attempts: progress.attempts,
+            stars: progress.stars,
+            bestTimeSeconds: progress.bestTimeSeconds,
             lastAttemptAt: progress.lastAttemptAt ? Timestamp.fromDate(progress.lastAttemptAt) : null,
         };
 

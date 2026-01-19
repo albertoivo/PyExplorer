@@ -188,6 +188,25 @@ describe('Firestore Service Core Logic', () => {
             expect(result?.questionId).toBe('q1');
             expect(result?.lastAttemptAt).toBeInstanceOf(Date);
         });
+
+        it('saveProgress should save stars and bestTimeSeconds', async () => {
+            const extendedProgress = {
+                ...mockProgress,
+                stars: 3,
+                bestTimeSeconds: 45
+            };
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            await saveProgress(extendedProgress as any);
+
+            expect(doc).toHaveBeenCalledWith(expect.anything(), 'userProgress', 'user123_q1');
+
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const setDocCalls = (setDoc as any).mock.calls;
+            const dataArg = setDocCalls[setDocCalls.length - 1][1];
+
+            expect(dataArg.stars).toBe(3);
+            expect(dataArg.bestTimeSeconds).toBe(45);
+        });
     });
 
     describe('Batch Operations', () => {

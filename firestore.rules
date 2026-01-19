@@ -130,7 +130,9 @@ service cloud.firestore {
          // Valida score se presente (0 a 9999)
          (!('score' in request.resource.data) || isValidNumber(request.resource.data.score, 0, 9999)) &&
          // Valida attempts se presente (0 a 9999)
-         (!('attempts' in request.resource.data) || isValidNumber(request.resource.data.attempts, 0, 9999))
+         (!('attempts' in request.resource.data) || isValidNumber(request.resource.data.attempts, 0, 9999)) &&
+         // Valida stars se presente (0 a 3)
+         (!('stars' in request.resource.data) || isValidNumber(request.resource.data.stars, 0, 3))
         ) ||
         isAdmin()
       );

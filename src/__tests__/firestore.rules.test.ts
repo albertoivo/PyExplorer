@@ -263,6 +263,39 @@ describe('Firestore security rules', () => {
                 attempts: 10000 // > 9999
             }));
         });
+
+        it('should ALLOW creating progress with valid stars (0-3)', async () => {
+            const aliceDb = testEnv.authenticatedContext('alice').firestore();
+            await assertSucceeds(setDoc(doc(aliceDb, 'userProgress/alice_q1'), {
+                uid: 'alice',
+                questionId: 'q1',
+                status: 'completed',
+                score: 10,
+                stars: 3 // Válido
+            }));
+        });
+
+        it('should DENY creating progress with invalid stars (negative)', async () => {
+            const aliceDb = testEnv.authenticatedContext('alice').firestore();
+            await assertFails(setDoc(doc(aliceDb, 'userProgress/alice_q1'), {
+                uid: 'alice',
+                questionId: 'q1',
+                status: 'completed',
+                score: 10,
+                stars: -1 // Inválido
+            }));
+        });
+
+        it('should DENY creating progress with invalid stars (too high)', async () => {
+            const aliceDb = testEnv.authenticatedContext('alice').firestore();
+            await assertFails(setDoc(doc(aliceDb, 'userProgress/alice_q1'), {
+                uid: 'alice',
+                questionId: 'q1',
+                status: 'completed',
+                score: 10,
+                stars: 4 // Inválido (> 3)
+            }));
+        });
     });
 
     // --- GAMIFICATION COLLECTION ---
