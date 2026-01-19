@@ -5,10 +5,6 @@ import { PyodideProvider, usePyodide } from '../PyodideContext';
 import type { PythonExecutionResult } from '../../types/question';
 
 // Mock pyodide load script
-// We need to intercept the script loading or mock window.loadPyodide immediately if logic checks for script tag.
-// The code checks `document.querySelector('script[src*="pyodide"]')` and if not found, appends it.
-// Then waits for window.loadPyodide.
-
 describe('PyodideContext', () => {
     let mockPyodideInstance: any;
 
@@ -93,14 +89,6 @@ describe('PyodideContext', () => {
 
         await waitFor(() => expect(result.current.ready).toBe(true));
 
-        // Setup mock return for stdout capture
-        // runPythonAsync is called multiple times:
-        // 1. Reset capture
-        // 2. User code
-        // 3. Get stdout
-        // 4. Get stderr
-        // 5. Restore stdout
-
         mockPyodideInstance.runPythonAsync
             .mockResolvedValueOnce(undefined) // reset
             .mockResolvedValueOnce(undefined) // user code
@@ -146,21 +134,13 @@ describe('PyodideContext', () => {
         });
         await waitFor(() => expect(result.current.ready).toBe(true));
 
-        // Mock setup for tests
-        // 1. Reset
-        // 2. User code
-        // 3. Stdout
-        // 4. Stderr
-        // 5. Restore
-        // 6. Test call
-
         mockPyodideInstance.runPythonAsync
             .mockResolvedValueOnce(undefined)
             .mockResolvedValueOnce(undefined)
             .mockResolvedValueOnce('')
             .mockResolvedValueOnce('')
             .mockResolvedValueOnce(undefined)
-            .mockResolvedValueOnce(4); // Test result (sum(2,2) -> 4)
+            .mockResolvedValueOnce(4); // Test result
 
         const tests = [{ input: [2, 2], expectedOutput: 4 }];
 
@@ -182,7 +162,6 @@ describe('PyodideContext', () => {
         });
         await waitFor(() => expect(result.current.ready).toBe(true));
 
-        // Mock setup for stdout test
         mockPyodideInstance.runPythonAsync
             .mockResolvedValueOnce(undefined) // reset
             .mockResolvedValueOnce(undefined) // user code
@@ -200,5 +179,154 @@ describe('PyodideContext', () => {
         expect(output?.testResults).toBeDefined();
         expect(output?.testResults![0].passed).toBe(true);
         expect(output?.allTestsPassed).toBe(true);
+    });
+
+    describe('Output Validation Strategies', () => {
+        it('validates using REGEX', async () => {
+            const { result } = renderHook(() => usePyodide(), { wrapper });
+            await act(async () => { await result.current.loadPyodide(); });
+            await waitFor(() => expect(result.current.ready).toBe(true));
+
+            mockPyodideInstance.runPythonAsync
+                .mockResolvedValueOnce(undefined)
+                .mockResolvedValueOnce(undefined)
+                .mockResolvedValueOnce('The answer is 42') // stdout
+                .mockResolvedValueOnce('')
+                .mockResolvedValueOnce(undefined);
+
+            const tests = [{ input: null, expectedOutput: "regex:answer is \\d+" }];
+
+            let output: PythonExecutionResult | undefined;
+            await act(async () => {
+                output = await result.current.runPython('print("The answer is 42")', tests);
+            });
+
+            expect(output?.testResults![0].passed).toBe(true);
+        });
+
+        it('validates Line Count', async () => {
+            const { result } = renderHook(() => usePyodide(), { wrapper });
+            await act(async () => { await result.current.loadPyodide(); });
+            await waitFor(() => expect(result.current.ready).toBe(true));
+
+            mockPyodideInstance.runPythonAsync
+                .mockResolvedValueOnce(undefined)
+                .mockResolvedValueOnce(undefined)
+                .mockResolvedValueOnce('1\n2\n3') // stdout
+                .mockResolvedValueOnce('')
+                .mockResolvedValueOnce(undefined);
+
+            const tests = [{ input: null, expectedOutput: 3 }]; // Expect at least 3 lines
+
+            let output: PythonExecutionResult | undefined;
+            await act(async () => {
+                output = await result.current.runPython('...', tests);
+            });
+
+            expect(output?.testResults![0].passed).toBe(true);
+            expect(output?.testResults![0].expectedOutput).toContain('Pelo menos 3');
+        });
+
+        it('handles execution error within a test case', async () => {
+            const { result } = renderHook(() => usePyodide(), { wrapper });
+            await act(async () => { await result.current.loadPyodide(); });
+            await waitFor(() => expect(result.current.ready).toBe(true));
+
+            mockPyodideInstance.runPythonAsync
+                .mockResolvedValueOnce(undefined)
+                .mockResolvedValueOnce(undefined)
+                .mockResolvedValueOnce('')
+                .mockResolvedValueOnce('')
+                .mockResolvedValueOnce(undefined)
+                .mockRejectedValueOnce(new Error('ZeroDivisionError')); // Test execution fails
+
+            const tests = [{ input: [1], expectedOutput: 1 }];
+
+            let output: PythonExecutionResult | undefined;
+            await act(async () => {
+                output = await result.current.runPython('def f(x): return 1/0', tests, 'f');
+            });
+
+            expect(output?.testResults![0].passed).toBe(false);
+            expect(output?.testResults![0].error).toContain('ZeroDivisionError');
+            expect(output?.allTestsPassed).toBe(false);
+        });
+
+        it('validates Floating Point with tolerance', async () => {
+            const { result } = renderHook(() => usePyodide(), { wrapper });
+            await act(async () => { await result.current.loadPyodide(); });
+            await waitFor(() => expect(result.current.ready).toBe(true));
+
+            mockPyodideInstance.runPythonAsync
+                .mockResolvedValueOnce(undefined)
+                .mockResolvedValueOnce(undefined)
+                .mockResolvedValueOnce('')
+                .mockResolvedValueOnce('')
+                .mockResolvedValueOnce(undefined)
+                .mockResolvedValueOnce(3.14159265359); // Actual
+
+            // Expected is close enough
+            const tests = [{ input: [], expectedOutput: 3.14159 }];
+
+            let output: PythonExecutionResult | undefined;
+            await act(async () => {
+                output = await result.current.runPython('def pi(): return 3.14159265359', tests, 'pi');
+            });
+
+            expect(output?.testResults![0].passed).toBe(true);
+        });
+
+        it('compares objects/arrays via JSON', async () => {
+            const { result } = renderHook(() => usePyodide(), { wrapper });
+            await act(async () => { await result.current.loadPyodide(); });
+            await waitFor(() => expect(result.current.ready).toBe(true));
+
+            mockPyodideInstance.runPythonAsync
+                .mockResolvedValueOnce(undefined)
+                .mockResolvedValueOnce(undefined)
+                .mockResolvedValueOnce('')
+                .mockResolvedValueOnce('')
+                .mockResolvedValueOnce(undefined)
+                .mockResolvedValueOnce({ a: 1, b: 2 }); // Actual object
+
+            const tests = [{ input: [], expectedOutput: { a: 1, b: 2 } }];
+
+            let output: PythonExecutionResult | undefined;
+            await act(async () => {
+                output = await result.current.runPython('def obj(): return {"a":1, "b":2}', tests, 'obj');
+            });
+
+            expect(output?.testResults![0].passed).toBe(true);
+        });
+    });
+
+    describe('Error Formatting', () => {
+        it('translates friendly error messages', async () => {
+            const { result } = renderHook(() => usePyodide(), { wrapper });
+            await act(async () => { await result.current.loadPyodide(); });
+            await waitFor(() => expect(result.current.ready).toBe(true));
+
+            const errorCases = [
+                { raw: "NameError: name 'x' is not defined", expected: 'Ops! O nome "x" não foi criado ainda' },
+                { raw: "IndentationError: unexpected indent", expected: 'Erro de Espaçamento' },
+                { raw: "TypeError: unsupported operand type", expected: 'Erro de Tipo' },
+                { raw: "ZeroDivisionError: division by zero", expected: 'Não podemos dividir por zero' },
+                { raw: "IndexError: list index out of range", expected: 'Erro de Índice' },
+            ];
+
+            for (const { raw, expected } of errorCases) {
+                mockPyodideInstance.runPythonAsync
+                    .mockResolvedValueOnce(undefined)
+                    .mockRejectedValueOnce(new Error(raw));
+
+                let output: PythonExecutionResult | undefined;
+                await act(async () => {
+                    output = await result.current.runPython('bad code');
+                });
+
+                expect(output?.hasError).toBe(true);
+                expect(output?.stderr).toContain(expected);
+            }
+        });
     });
 });

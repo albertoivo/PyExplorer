@@ -77,7 +77,7 @@ export const BossBattleQuestion = memo(function BossBattleQuestion({ question, o
         return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     };
 
-    if (!isActive && !isGameOver && timeLeft === (question.bossMetadata?.timeLimitSeconds || 60)) {
+    if (!isActive && !isGameOver && !hasWon && timeLeft === (question.bossMetadata?.timeLimitSeconds || 60)) {
         return (
             <div className="boss-intro">
                 <div className="boss-avatar-large">{question.bossMetadata?.bossAvatar || '👹'}</div>
