@@ -19,8 +19,10 @@ describe('Sitemap Integrity', () => {
   it('should include key static routes', () => {
     const content = fs.readFileSync(sitemapPath, 'utf-8');
     // Note: /profile and /certificate are protected pages (blocked in robots.txt)
+    // Homepage is tested separately since it doesn't have a trailing path
+    expect(content).toContain('<loc>https://pyexplorer.com.br</loc>');
+
     const expectedRoutes = [
-      '/',
       '/login',
       '/register',
       '/learn',

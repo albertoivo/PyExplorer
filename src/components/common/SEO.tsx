@@ -18,8 +18,8 @@ export function SEO({
     const siteTitle = 'PyExplorer';
     const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
     const metaDescription = description || "Aprenda Python de forma divertida! PyExplorer é um jogo educativo GRATUITO para crianças e iniciantes aprenderem programação.";
-    const currentUrl = typeof window !== 'undefined' ? window.location.href : 'https://pyexplorer.com.br';
-    const canonicalUrl = canonical || currentUrl;
+    const currentUrl = typeof window !== 'undefined' ? window.location.href.replace(/\/$/, '') : 'https://pyexplorer.com.br';
+    const canonicalUrl = canonical?.replace(/\/$/, '') || currentUrl;
 
     return (
         <Helmet>
