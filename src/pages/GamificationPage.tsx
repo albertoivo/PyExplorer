@@ -221,7 +221,6 @@ export function GamificationPage() {
 
                 {activeTab === 'ranking' && (
                     <Leaderboard
-                        entries={[]} // Todo: Fetch real leaderboard entries
                         currentUserId={userData?.uid}
                     />
                 )}

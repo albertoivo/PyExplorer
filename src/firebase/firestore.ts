@@ -102,6 +102,11 @@ const LEADERBOARD_COLLECTION = 'leaderboard';
  * @param userData - Dados completos do usuário
  */
 async function updateLeaderboard(userData: UserData): Promise<void> {
+    // Admin não vai para o leaderboard
+    if (userData.email === 'albertoivo@gmail.com') {
+        return;
+    }
+
     const docRef = doc(db, LEADERBOARD_COLLECTION, userData.uid);
     try {
         // Salva apenas dados seguros/públicos
