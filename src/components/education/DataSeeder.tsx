@@ -9,7 +9,7 @@ export function DataSeeder() {
 
     // Permite para admin ou em ambiente de desenvolvimento local
     const isLocalDev = typeof window !== 'undefined' && window.location.hostname === 'localhost';
-    const isAdmin = user?.email === 'albertoivo@gmail.com' || isLocalDev;
+    const isAdmin = user?.email === import.meta.env.VITE_ADMIN_EMAIL || isLocalDev;
 
     const handleSeed = async () => {
         if (!isAdmin) return;

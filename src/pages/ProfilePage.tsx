@@ -62,7 +62,7 @@ export function ProfilePage() {
     // Nível do jogador vem do useGamification (baseado em XP, não em estrelas)
 
     // Ferramentas de Desenvolvedor (Apenas admin)
-    const isAdmin = userData.email === 'albertoivo@gmail.com';
+    const isAdmin = userData.email === import.meta.env.VITE_ADMIN_EMAIL;
 
     return (
         <div className="profile-page">

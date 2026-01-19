@@ -7,3 +7,8 @@
 **Vulnerability:** Users could overwrite any `userProgress` document (e.g., another user's progress) by simply including their own `uid` in the payload, as the security rule only checked the payload `uid` against `auth.uid` but ignored the document ID.
 **Learning:** Checking `request.resource.data.uid == request.auth.uid` is insufficient if the document ID itself targets another user's resource.
 **Prevention:** Always enforce that the Document ID matches the User ID (or a deterministic derivation) in `allow write` rules when the collection is keyed by user-specific identifiers.
+
+## 2026-01-26 - Hardcoded Admin Email
+**Vulnerability:** The admin email address was hardcoded in multiple files (`ProfilePage.tsx`, `DataSeeder.tsx`), exposing privileged account information in the source code.
+**Learning:** Hardcoding sensitive identifiers (like admin emails) in the frontend code makes them visible to anyone inspecting the bundle, and makes rotation/changing them difficult.
+**Prevention:** Use environment variables (e.g., `VITE_ADMIN_EMAIL`) for configuration values that may change or should be somewhat abstracted.
