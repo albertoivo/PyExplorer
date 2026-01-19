@@ -12,7 +12,7 @@ describe('isBossUnlocked', () => {
         prompt: 'Prompt',
         difficulty: 'easy',
         order: 1
-    } as QuestionDocument);
+    } as unknown as QuestionDocument);
 
     // Helper to create mock progress
     const createProgress = (id: string, status: 'completed' | 'in_progress' | 'not_started'): UserProgress => ({

@@ -1,4 +1,4 @@
-import { QuestionDocument, UserProgress } from '../types/question';
+import type { QuestionDocument, UserProgress } from '../types/question';
 
 /**
  * Checks if the Boss Battle should be unlocked.
