@@ -14,6 +14,17 @@ export function HomePage() {
     const { currentLevel, levelProgress, streak } = useGamification();
     const { stats: progressStats } = useProgress();
 
+    // Preload Pyodide script on hover for faster game start
+    // Uses direct script injection since HomePage is outside PyodideProvider
+    const handlePreload = () => {
+        if (!document.querySelector('script[src*="pyodide"]')) {
+            const link = document.createElement('link');
+            link.rel = 'prefetch';
+            link.href = 'https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js';
+            document.head.appendChild(link);
+        }
+    };
+
     return (
         <div className="home-page">
             <SEO
@@ -36,7 +47,7 @@ export function HomePage() {
 
                     <div className="hero__actions">
                         {userData ? (
-                            <Link to="/game" className="hero__btn hero__btn--primary">
+                            <Link to="/game" className="hero__btn hero__btn--primary" onMouseEnter={handlePreload} onFocus={handlePreload}>
                                 🚀 Continuar Aventura
                             </Link>
                         ) : (
@@ -124,7 +135,7 @@ export function HomePage() {
                     </div>
 
                     <div className="user-progress__cta">
-                        <Link to="/game" className="hero__btn hero__btn--primary">
+                        <Link to="/game" className="hero__btn hero__btn--primary" onMouseEnter={handlePreload} onFocus={handlePreload}>
                             🎮 Jogar Agora
                         </Link>
                         <Link to="/profile" className="hero__btn hero__btn--secondary">
