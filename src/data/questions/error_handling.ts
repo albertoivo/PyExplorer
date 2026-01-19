@@ -174,5 +174,23 @@ export const errorHandlingQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'IndexError! O Python tentou buscar o item 10, mas a lista acabou antes. É como tentar ler a página 100 de um livro de 10 páginas! 📖',
         points: 15,
+    },
+    {
+        id: 'error_10',
+        type: 'multiple_choice',
+        world: 'error_handling',
+        difficulty: 'easy',
+        ageMin: 10,
+        title: 'Sem Problemas',
+        prompt: 'Se o código no `try` NÃO der erro, o que acontece com o `except`?',
+        options: [
+            'É ignorado (não roda)',
+            'É executado também',
+            'Dá erro',
+            'Repete o código',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'O `except` só trabalha se houver problemas! Se tudo der certo no `try`, o Python pula o `except`. Folga merecida! 🏖️',
+        points: 10,
     }
 ];

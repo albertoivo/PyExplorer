@@ -168,5 +168,24 @@ export const dictionariesQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'A "cor" é a CHAVE (nome da informação) e "azul" é o VALOR (a informação em si). A chave abre o valor! 🔑',
         points: 10,
+    },
+    {
+        id: 'dict_10',
+        type: 'multiple_choice',
+        world: 'dictionaries',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Tem na Mochila?',
+        prompt: 'Como verificamos se a chave "mapa" existe na mochila?',
+        starterCode: 'mochila = {"água": 1, "corda": 2}',
+        options: [
+            '"mapa" in mochila',
+            'mochila.has("mapa")',
+            '"mapa" == mochila',
+            'check("mapa")',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'Usamos `in` para perguntar se uma chave existe no dicionário! É como olhar dentro da mochila para ver se o mapa está lá. 🎒',
+        points: 15,
     }
 ];

@@ -286,5 +286,23 @@ export const basicCommandsQuestions: QuestionDocument[] = [
         answerIndex: 1,
         explanationKidFriendly: 'O Python ignora tudo que começa com #! Para ele, essa linha não existe. É perfeita para deixar recados! 👻',
         points: 10,
+    },
+    {
+        id: 'basic_14',
+        type: 'multiple_choice',
+        world: 'basic_commands',
+        difficulty: 'easy',
+        ageMin: 8,
+        title: 'Aspas Mágicas',
+        prompt: 'Qual comando está ERRADO por causa das aspas?',
+        options: [
+            'print("Oi")',
+            'print(\'Oi\')',
+            'print("Oi\')',
+            'print("d\'agua")',
+        ],
+        answerIndex: 2,
+        explanationKidFriendly: 'As aspas precisam ser iguais no começo e no fim! Se começou com aspas duplas, termine com aspas duplas. Não pode misturar! 🎭',
+        points: 10,
     }
 ];
