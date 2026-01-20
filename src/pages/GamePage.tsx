@@ -12,6 +12,7 @@ import { useProgress } from '../hooks/useProgress';
 import { usePyodide } from '../hooks/usePyodide';
 import { useQuestionsFirestore } from '../hooks/useQuestionsFirestore';
 import { useGamification } from '../context/GamificationContext';
+import { isBossUnlocked } from '../utils/gameLogic';
 import { SEO } from '../components/common/SEO';
 import './GamePage.css';
 
@@ -127,6 +128,12 @@ export function GamePage() {
 
         return progress;
     }, [allProgress, allQuestions]);
+
+    // Otimização: Calcula se o boss deve ser desbloqueado uma única vez por render/atualização
+    // Evita loop O(N^2) dentro do render da lista
+    const bossBattleUnlocked = useMemo(() => {
+        return isBossUnlocked(worldQuestions, getQuestionProgress);
+    }, [worldQuestions, getQuestionProgress]);
 
     /**
      * Toca um som de celebração usando AudioContext (sem arquivos externos)
@@ -459,18 +466,13 @@ export function GamePage() {
                     </div>
 
                     <div className="world-questions__list">
-                        {sortedQuestions.map((question, index, allQuestions) => {
+                        {sortedQuestions.map((question, index) => {
                             const progress = getQuestionProgress(question.id);
                             let isLocked = false;
 
                             // Lógica de bloqueio do Boss
                             if (question.type === 'boss_battle') {
-                                const otherQuestions = allQuestions.filter(q => q.type !== 'boss_battle');
-                                const allOthersCompleted = otherQuestions.every(q => {
-                                    const p = getQuestionProgress(q.id);
-                                    return p?.status === 'completed';
-                                });
-                                if (!allOthersCompleted) {
+                                if (!bossBattleUnlocked) {
                                     isLocked = true;
                                 }
                             }
