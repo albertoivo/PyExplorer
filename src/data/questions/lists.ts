@@ -339,5 +339,21 @@ export const listsQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: '`pop()` estoura (remove) o ÚLTIMO item da lista. Tchau, balão azul! 🎈',
         points: 15,
+    },
+    {
+        id: 'list_15',
+        type: 'fill_code',
+        world: 'lists',
+        difficulty: 'easy',
+        ageMin: 10,
+        title: 'Lista Crescendo',
+        prompt: 'A lista tinha 3 itens e adicionamos mais um. Quantos tem agora?',
+        starterCode: 'lista = [1, 2, 3]\nlista.append(4)\nprint(___(lista))',
+        solutionTemplate: 'print(len(lista))',
+        tests: [
+            { input: null, expectedOutput: '4' },
+        ],
+        explanationKidFriendly: 'Quando adicionamos um item, o tamanho (len) da lista aumenta! 3 + 1 = 4. O `len()` sempre conta tudo atualizado! 📏',
+        points: 10,
     }
 ];

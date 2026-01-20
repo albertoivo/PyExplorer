@@ -304,5 +304,23 @@ export const basicCommandsQuestions: QuestionDocument[] = [
         answerIndex: 2,
         explanationKidFriendly: 'As aspas precisam ser iguais no começo e no fim! Se começou com aspas duplas, termine com aspas duplas. Não pode misturar! 🎭',
         points: 10,
+    },
+    {
+        id: 'basic_15',
+        type: 'multiple_choice',
+        world: 'basic_commands',
+        difficulty: 'easy',
+        ageMin: 8,
+        title: 'Comentário Secreto',
+        prompt: 'Qual destas linhas é um segredo que o Python NÃO vai contar para ninguém?',
+        options: [
+            'print("Segredo")',
+            '# Segredo',
+            '"Segredo"',
+            'segredo = True',
+        ],
+        answerIndex: 1,
+        explanationKidFriendly: 'A linha que começa com # é um comentário! O Python finge que não viu e não mostra nada. É o esconderijo perfeito! 🤫',
+        points: 10,
     }
 ];

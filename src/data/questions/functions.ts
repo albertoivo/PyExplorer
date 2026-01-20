@@ -319,5 +319,21 @@ desenhar_circulo(50)
         ],
         explanationKidFriendly: 'Funções podem ter vários ingredientes (parâmetros)! Separe eles com vírgula para usar todos na receita. 🍰',
         points: 20,
+    },
+    {
+        id: 'func_15',
+        type: 'fill_code',
+        world: 'functions',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Guardando o Resultado',
+        prompt: 'A função `somar` devolve o resultado. Complete para guardar o valor na variável `total`:',
+        starterCode: 'def somar(a, b):\n    return a + b\n\ntotal = ___(10, 20)\nprint(total)',
+        solutionTemplate: 'total = somar(10, 20)',
+        tests: [
+            { input: null, expectedOutput: '30' },
+        ],
+        explanationKidFriendly: 'Quando a função tem `return`, ela vira o valor! `somar(10, 20)` vira 30, e podemos guardar isso na variável `total`. 📦',
+        points: 20,
     }
 ];

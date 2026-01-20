@@ -322,5 +322,23 @@ for i in range(___):
         ],
         explanationKidFriendly: 'Usamos `continue` para pular essa volta e proteger nosso código. Quando x é 0, pulamos o print e o erro! 🛡️',
         points: 20,
+    },
+    {
+        id: 'loop_15',
+        type: 'multiple_choice',
+        world: 'loops',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Fugindo do Loop',
+        prompt: 'Estou preso num loop infinito! `while True:`... Qual comando me tira daqui?',
+        options: [
+            'break',
+            'continue',
+            'pass',
+            'escape',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'O comando `break` (quebrar) é a saída de emergência! Ele quebra o loop e continua o programa. Ufa! 🏃‍♂️',
+        points: 15,
     }
 ];

@@ -337,5 +337,23 @@ for i in range(4):
         answerIndex: 0,
         explanationKidFriendly: '`not` inverte a lógica! Se `chovendo` é Falso (não está), `not chovendo` vira Verdadeiro e vamos à praia! 🏖️',
         points: 10,
+    },
+    {
+        id: 'dec_15',
+        type: 'multiple_choice',
+        world: 'conditions',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Senha e Usuário',
+        prompt: 'Para entrar, preciso de usuário CORRETO "E" senha CORRETA. Qual comando uso?',
+        options: [
+            'if user and password:',
+            'if user or password:',
+            'if user not password:',
+            'if user + password:',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'Para segurança máxima, usamos `and`! As duas coisas precisam estar certas ao mesmo tempo. Se uma falhar, ninguém entra! 🔐',
+        points: 15,
     }
 ];

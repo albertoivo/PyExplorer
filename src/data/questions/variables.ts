@@ -324,5 +324,23 @@ export const variablesQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'Para atualizar uma variável, usamos o valor antigo dela! `nivel = nivel + 1` pega o 5, soma 1 e guarda o 6. 🆙',
         points: 15,
+    },
+    {
+        id: 'var_15',
+        type: 'multiple_choice',
+        world: 'variables',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Quem sou eu?',
+        prompt: 'Se eu fizer `x = 10.5`, o que `type(x)` vai responder?',
+        options: [
+            'int',
+            'float',
+            'str',
+            'bool',
+        ],
+        answerIndex: 1,
+        explanationKidFriendly: 'Como 10.5 tem ponto, é um número decimal! Em Python, chamamos números com ponto de `float`. 🎈',
+        points: 10,
     }
 ];

@@ -333,5 +333,21 @@ export const stringsQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: '`join` é a cola! Ele usa o traço "-" para colar os vagões e virar "piu-i". Piuííí! 🚂',
         points: 20,
+    },
+    {
+        id: 'strings_15',
+        type: 'fill_code',
+        world: 'strings',
+        difficulty: 'easy',
+        ageMin: 10,
+        title: 'Tamanho do Nome',
+        prompt: 'Quantas letras tem o nome "Ana"? Use `len()` para descobrir:',
+        starterCode: 'nome = "Ana"\nprint(___(nome))',
+        solutionTemplate: 'print(len(nome))',
+        tests: [
+            { input: null, expectedOutput: '3' },
+        ],
+        explanationKidFriendly: '`len()` conta as letras! "Ana" tem 3 letras. Espaços também contam se existirem! 📏',
+        points: 10,
     }
 ];

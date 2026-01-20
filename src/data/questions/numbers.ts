@@ -299,5 +299,21 @@ export const numbersQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: '11 // 4 dá 2. A divisão inteira joga fora o resto (3 balas sobram). Ninguém ganha bala quebrada! 🍬',
         points: 10,
+    },
+    {
+        id: 'num_15',
+        type: 'fill_code',
+        world: 'numbers',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Perdendo Vidas',
+        prompt: 'No jogo, você perdeu 3 vidas! Complete a conta para saber quantas restam:',
+        starterCode: 'vidas = 10\nrestante = vidas ___ 3\nprint(restante)',
+        solutionTemplate: 'restante = vidas - 3',
+        tests: [
+            { input: null, expectedOutput: '7' },
+        ],
+        explanationKidFriendly: 'Para tirar vidas, usamos a subtração (conta de menos)! O sinal é o tracinho -. 10 - 3 = 7 vidas. Cuidado! 💔',
+        points: 10,
     }
 ];
