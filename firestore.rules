@@ -31,6 +31,15 @@ service cloud.firestore {
       return data.keys().toSet().hasOnly(fields);
     }
 
+    // Valida apenas os campos alterados (para updates em docs com dados legados)
+    function validateChanges(allowedFields) {
+       return (resource == null)
+         // Create: valida o documento inteiro
+         ? hasOnly(request.resource.data, allowedFields)
+         // Update: valida apenas as chaves alteradas
+         : request.resource.data.diff(resource.data).affectedKeys().hasOnly(allowedFields);
+    }
+
     // Função para verificar se é admin
     function isAdmin() {
       return isAuthenticated() &&
@@ -55,7 +64,7 @@ service cloud.firestore {
       
       // Escrita: Permite se for o dono ou admin com validação de campos numéricos críticos
       allow create, update: if isAuthenticated() && (request.auth.uid == userId || isAdmin()) &&
-        hasOnly(request.resource.data, ['uid', 'displayName', 'avatar', 'email', 'createdAt', 'updatedAt', 'totalScore', 'balance', 'unlockedWorlds', 'streak', 'longestStreak', 'lastActiveDate', 'inventory', 'equippedAvatar']) &&
+        validateChanges(['uid', 'displayName', 'avatar', 'email', 'createdAt', 'updatedAt', 'totalScore', 'balance', 'unlockedWorlds', 'streak', 'longestStreak', 'lastActiveDate', 'inventory', 'equippedAvatar']) &&
         // Valida displayName (string, max 50 chars)
         (!('displayName' in request.resource.data) || isValidString(request.resource.data.displayName, 50)) &&
         // Valida totalScore se presente (0 a 9.999.999)
@@ -76,7 +85,7 @@ service cloud.firestore {
       
       // Escrita com validação de limites para prevenir cheating
       allow write: if isAuthenticated() && (request.auth.uid == userId || isAdmin()) &&
-        hasOnly(request.resource.data, ['level', 'streak', 'achievements', 'activeMissions', 'inventory', 'powerUps', 'stats', 'updatedAt']) &&
+        validateChanges(['level', 'streak', 'achievements', 'activeMissions', 'inventory', 'powerUps', 'stats', 'updatedAt']) &&
         // Valida level como objeto (Map)
         (!('level' in request.resource.data) || (
            request.resource.data.level is map &&
@@ -91,10 +100,16 @@ service cloud.firestore {
            hasOnly(request.resource.data.streak, ['currentStreak', 'longestStreak', 'lastActivityDate', 'activityHistory']) &&
            (!('currentStreak' in request.resource.data.streak) || isValidNumber(request.resource.data.streak.currentStreak, 0, 9999))
         )) &&
-        // Valida achievements (Lista)
-        (!('achievements' in request.resource.data) || request.resource.data.achievements is list) &&
+        // Valida achievements (Lista) - Validação profunda de itens não é possível em Rules, limitamos tamanho
+        (!('achievements' in request.resource.data) || (
+            request.resource.data.achievements is list &&
+            request.resource.data.achievements.size() <= 1000
+        )) &&
         // Valida activeMissions (Lista)
-        (!('activeMissions' in request.resource.data) || request.resource.data.activeMissions is list) &&
+        (!('activeMissions' in request.resource.data) || (
+            request.resource.data.activeMissions is list &&
+            request.resource.data.activeMissions.size() <= 50
+        )) &&
         // Valida inventory (Map)
         (!('inventory' in request.resource.data) || (
             request.resource.data.inventory is map &&
@@ -139,7 +154,7 @@ service cloud.firestore {
       allow write: if isAuthenticated() && (
         (extractUidFromProgressId(progressId) == request.auth.uid &&
          request.resource.data.uid == request.auth.uid &&
-         hasOnly(request.resource.data, ['uid', 'questionId', 'status', 'score', 'stars', 'attempts', 'bestTimeSeconds', 'lastAttemptAt', 'userAnswer']) &&
+         validateChanges(['uid', 'questionId', 'status', 'score', 'stars', 'attempts', 'bestTimeSeconds', 'lastAttemptAt', 'userAnswer']) &&
          // Valida status se presente
          (!('status' in request.resource.data) || request.resource.data.status in ['not_started', 'in_progress', 'completed']) &&
          // Valida score se presente (0 a 9999)

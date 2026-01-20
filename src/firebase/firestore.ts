@@ -129,11 +129,26 @@ async function updateLeaderboard(userData: UserData): Promise<void> {
  */
 export async function saveUser(userData: UserData): Promise<void> {
     const docRef = doc(db, USERS_COLLECTION, userData.uid);
-    await setDoc(docRef, {
-        ...userData,
+
+    // Filtra apenas campos permitidos para garantir conformidade com as Regras de Segurança
+    const safeData = {
+        uid: userData.uid,
+        displayName: userData.displayName,
+        avatar: userData.avatar,
+        email: userData.email,
+        totalScore: userData.totalScore,
+        balance: userData.balance,
+        unlockedWorlds: userData.unlockedWorlds,
+        streak: userData.streak,
+        longestStreak: userData.longestStreak,
+        lastActiveDate: userData.lastActiveDate,
+        inventory: userData.inventory,
+        equippedAvatar: userData.equippedAvatar,
         createdAt: Timestamp.fromDate(userData.createdAt),
         updatedAt: Timestamp.fromDate(userData.updatedAt),
-    }, { merge: true });
+    };
+
+    await setDoc(docRef, safeData, { merge: true });
 
     // Sincroniza com leaderboard
     await updateLeaderboard(userData);
@@ -431,9 +446,13 @@ const GAMIFICATION_COLLECTION = 'gamification';
 export async function saveGamificationData(uid: string, data: UserGamification): Promise<void> {
     const docRef = doc(db, GAMIFICATION_COLLECTION, uid);
 
-    // Converte datas para Timestamp do Firestore
+    // Converte datas para Timestamp do Firestore e filtra campos
     const firestoreData = {
-        ...data,
+        level: data.level,
+        streak: data.streak,
+        inventory: data.inventory,
+        powerUps: data.powerUps,
+        stats: data.stats,
         achievements: data.achievements.map(a => ({
             ...a,
             unlockedAt: Timestamp.fromDate(a.unlockedAt),
