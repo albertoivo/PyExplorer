@@ -361,12 +361,12 @@
     cursor: pointer;
 }
 
-/* Icon via data attribute - eliminates extra DOM elements */
-.feature-card__title[data-icon]::before {
-    content: attr(data-icon);
+/* New Icon class - replaces pseudo-element */
+.feature-card__icon {
     display: block;
     font-size: 3rem;
     margin-bottom: 1rem;
+    /* Optional: animation or specific styles can go here */
 }
 
 .feature-card__title {
