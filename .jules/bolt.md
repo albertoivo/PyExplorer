@@ -9,3 +9,7 @@
 ## 2025-01-17 - O(N^2) Render Bottleneck in List Components
 **Learning:** Frequent lookups in large lists (like `getQuestionProgress` inside a map of questions) caused O(N^2) complexity during render.
 **Action:** Always pre-calculate lookups into a Map or Set (O(1)) using `useMemo` before iterating over lists for rendering.
+
+## 2026-01-20 - Lazy Initialization of Expensive State
+**Learning:** Initializing React state with synchronous I/O (like `localStorage.getItem` and `JSON.parse`) inside the render loop causes performance degradation on every re-render.
+**Action:** Always use lazy initialization `useState(() => expensiveComputation())` for state that depends on expensive synchronous operations.
