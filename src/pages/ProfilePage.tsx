@@ -6,19 +6,8 @@ import { WorldProgressBar } from '../components/game/feedback/ProgressBar';
 import { DataSeeder } from '../components/education/DataSeeder';
 import { SEO } from '../components/common/SEO';
 import { SHOP_ITEMS } from '../data/gamificationData';
+import { WORLDS } from '../data/worlds';
 import './ProfilePage.css';
-
-// Mundos para exibir progresso (mantido local por enquanto ou mover para gamificationData)
-const WORLDS_INFO = [
-    { id: 'basic_commands', name: 'Primeiros Passos', icon: '🚀' },
-    { id: 'variables', name: 'Variáveis', icon: '📦' },
-    { id: 'numbers', name: 'Números Mágicos', icon: '🔢' },
-    { id: 'conditions', name: 'Terra das Decisões', icon: '🔀' },
-    { id: 'loops', name: 'Ilha da Repetição', icon: '🔄' },
-    { id: 'functions', name: 'Vale das Funções', icon: '✨' },
-    { id: 'lists', name: 'Floresta das Listas', icon: '📜' },
-    { id: 'strings', name: 'Reino das Palavras', icon: '📝' },
-];
 
 /**
  * Página de perfil do usuário
@@ -139,7 +128,7 @@ export function ProfilePage() {
                 <div className="profile-section">
                     <h2 className="profile-section__title">🌍 Progresso nos Mundos</h2>
                     <div className="profile-worlds">
-                        {WORLDS_INFO.map(world => (
+                        {WORLDS.map(world => (
                             <WorldProgressBar
                                 key={world.id}
                                 worldName={world.name}
