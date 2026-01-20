@@ -61,8 +61,7 @@ describe('Firestore security rules', () => {
             await assertSucceeds(setDoc(doc(aliceDb, 'users/alice'), {
                 uid: 'alice',
                 displayName: 'Alice',
-                email: 'alice@example.com',
-                extraField: 'any value is fine now'
+                email: 'alice@example.com'
             }));
         });
 
@@ -419,9 +418,9 @@ describe('Firestore security rules', () => {
         });
     });
 
-    // --- LEGACY DATA REPRODUCTION ---
-    describe('legacy data issues', () => {
-        it('should ALLOW update if an extra field exists in DB (robustness fix)', async () => {
+    // --- STRICT SCHEMA ENFORCEMENT ---
+    describe('strict schema enforcement', () => {
+        it('should DENY update if an extra field exists in DB (must clean data)', async () => {
             const aliceDb = testEnv.authenticatedContext('alice').firestore();
 
             // Simular dado legado no DB (que tem um campo extra não permitido)
@@ -434,43 +433,29 @@ describe('Firestore security rules', () => {
                 });
             });
 
-            // Tentar atualizar um campo válido (ex: balance) usando updateDoc
-            // Agora deve FUNCIONAR porque usamos diff().affectedKeys()
-            await assertSucceeds(updateDoc(doc(aliceDb, 'users/alice'), {
+            // Deve FALHAR pois o resultado final ainda teria 'legacyField'
+            await assertFails(updateDoc(doc(aliceDb, 'users/alice'), {
                 balance: 100,
                 updatedAt: new Date()
             }));
-
-            // Agora deve FUNCIONAR se tentarmos ADICIONAR ou MODIFICAR um campo não permitido
-            // (pois removemos a validação estrita para garantir robustez)
-            await assertSucceeds(updateDoc(doc(aliceDb, 'users/alice'), {
-                forbiddenField: 'not allowed'
-            }));
         });
 
-        it('should ALLOW update if an extra field exists in DB and in request (permissive mode)', async () => {
+        it('should DENY adding a forbidden field', async () => {
             const aliceDb = testEnv.authenticatedContext('alice').firestore();
 
-            // Simular dado legado no DB
+            // Setup valid user
             await testEnv.withSecurityRulesDisabled(async (context) => {
                 await setDoc(doc(context.firestore(), 'users/alice'), {
                     uid: 'alice',
                     displayName: 'Alice',
-                    email: 'alice@example.com',
-                    legacyField: 'old stuff'
+                    email: 'alice@example.com'
                 });
             });
 
-            const fullDataWithLegacy = {
-                uid: 'alice',
-                displayName: 'Alice Updated',
-                email: 'alice@example.com',
-                legacyField: 'old stuff',
-                updatedAt: new Date()
-            };
-
-            // Agora deve FUNCIONAR com as novas regras simplificadas
-            await assertSucceeds(setDoc(doc(aliceDb, 'users/alice'), fullDataWithLegacy, { merge: true }));
+            // Deve FALHAR ao tentar adicionar campo proibido
+            await assertFails(updateDoc(doc(aliceDb, 'users/alice'), {
+                forbiddenField: 'not allowed'
+            }));
         });
     });
 });
