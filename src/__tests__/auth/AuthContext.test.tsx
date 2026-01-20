@@ -23,17 +23,17 @@ describe('AuthContext', () => {
         // Setup LocalStorage Mock
         localStorageStore = {};
 
-        vi.mocked(localStorage.getItem).mockImplementation((key) => {
-            return localStorageStore[key] || null;
-        });
-        vi.mocked(localStorage.setItem).mockImplementation((key, value) => {
-            localStorageStore[key] = value;
-        });
-        vi.mocked(localStorage.removeItem).mockImplementation((key) => {
-            delete localStorageStore[key];
-        });
-        vi.mocked(localStorage.clear).mockImplementation(() => {
-            localStorageStore = {};
+        vi.stubGlobal('localStorage', {
+            getItem: vi.fn((key: string) => localStorageStore[key] || null),
+            setItem: vi.fn((key: string, value: string) => {
+                localStorageStore[key] = value;
+            }),
+            removeItem: vi.fn((key: string) => {
+                delete localStorageStore[key];
+            }),
+            clear: vi.fn(() => {
+                localStorageStore = {};
+            }),
         });
     });
 
