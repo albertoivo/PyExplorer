@@ -81,11 +81,11 @@ export function HomePage() {
                     <div className="user-progress__grid">
                         {/* Level Card */}
                         <div className="progress-card progress-card--level">
-                            <span className="progress-card__icon">{currentLevel.icon}</span>
+                            <span className="progress-card__icon" aria-hidden="true">{currentLevel.icon}</span>
                             <div className="progress-card__content">
                                 <span className="progress-card__label">Nível {currentLevel.level}</span>
                                 <span className="progress-card__value">{currentLevel.name}</span>
-                                <div className="xp-bar">
+                                <div className="xp-bar" role="progressbar" aria-valuenow={Math.round(levelProgress)} aria-valuemin={0} aria-valuemax={100} aria-label="Progresso do nível">
                                     <div
                                         className="xp-bar__fill"
                                         style={{ width: `${levelProgress}%` }}
@@ -99,7 +99,7 @@ export function HomePage() {
 
                         {/* Streak Card */}
                         <div className="progress-card progress-card--streak">
-                            <span className="progress-card__icon">🔥</span>
+                            <span className="progress-card__icon" aria-hidden="true">🔥</span>
                             <div className="progress-card__content">
                                 <span className="progress-card__label">Ofensiva</span>
                                 <span className="progress-card__value">{streak.currentStreak} dias</span>
@@ -111,7 +111,7 @@ export function HomePage() {
 
                         {/* Stars Card */}
                         <div className="progress-card progress-card--stars">
-                            <span className="progress-card__icon">⭐</span>
+                            <span className="progress-card__icon" aria-hidden="true">⭐</span>
                             <div className="progress-card__content">
                                 <span className="progress-card__label">Estrelas</span>
                                 <span className="progress-card__value">{userData.balance || 0}</span>
@@ -123,7 +123,7 @@ export function HomePage() {
 
                         {/* Questions Card */}
                         <div className="progress-card progress-card--questions">
-                            <span className="progress-card__icon">✅</span>
+                            <span className="progress-card__icon" aria-hidden="true">✅</span>
                             <div className="progress-card__content">
                                 <span className="progress-card__label">Questões</span>
                                 <span className="progress-card__value">{progressStats.completed}</span>
@@ -151,32 +151,38 @@ export function HomePage() {
 
                 <div className="features__grid">
                     <article className="feature-card">
-                        <h3 className="feature-card__title" data-icon="🎯">Questões Interativas</h3>
+                        <div className="feature-card__icon" aria-hidden="true">🎯</div>
+                        <h3 className="feature-card__title">Questões Interativas</h3>
                         <p className="feature-card__description">Múltipla escolha, verdadeiro/falso, complete o código e mais!</p>
                     </article>
 
                     <article className="feature-card">
-                        <h3 className="feature-card__title" data-icon="🌍">11 Mundos para Explorar</h3>
+                        <div className="feature-card__icon" aria-hidden="true">🌍</div>
+                        <h3 className="feature-card__title">11 Mundos para Explorar</h3>
                         <p className="feature-card__description">Desbloqueie novos mundos conforme avança!</p>
                     </article>
 
                     <article className="feature-card">
-                        <h3 className="feature-card__title" data-icon="💻">Python no Navegador</h3>
+                        <div className="feature-card__icon" aria-hidden="true">💻</div>
+                        <h3 className="feature-card__title">Python no Navegador</h3>
                         <p className="feature-card__description">Execute código Python de verdade sem instalar nada!</p>
                     </article>
 
                     <article className="feature-card">
-                        <h3 className="feature-card__title" data-icon="⭐">Ganhe Estrelas</h3>
+                        <div className="feature-card__icon" aria-hidden="true">⭐</div>
+                        <h3 className="feature-card__title">Ganhe Estrelas</h3>
                         <p className="feature-card__description">Complete desafios e acumule pontos!</p>
                     </article>
 
                     <article className="feature-card">
-                        <h3 className="feature-card__title" data-icon="📚">Aprenda Jogando</h3>
+                        <div className="feature-card__icon" aria-hidden="true">📚</div>
+                        <h3 className="feature-card__title">Aprenda Jogando</h3>
                         <p className="feature-card__description">Conceitos explicados de forma simples e divertida!</p>
                     </article>
 
                     <article className="feature-card">
-                        <h3 className="feature-card__title" data-icon="🔒">Seguro para Crianças</h3>
+                        <div className="feature-card__icon" aria-hidden="true">🔒</div>
+                        <h3 className="feature-card__title">Seguro para Crianças</h3>
                         <p className="feature-card__description">Ambiente seguro para todas as idades!</p>
                     </article>
                 </div>
@@ -193,7 +199,7 @@ export function HomePage() {
                             className={`world-preview ${index > 0 ? 'world-preview--locked' : ''}`}
                             title={world.description}
                         >
-                            <span className="world-preview__icon">{world.icon}</span>
+                            <span className="world-preview__icon" aria-hidden="true">{world.icon}</span>
                             <span className="world-preview__name">{world.name}</span>
                         </div>
                     ))}
@@ -209,17 +215,20 @@ export function HomePage() {
 
                 <div className="features__grid">
                     <Link to="/learn/o-que-e-python" className="feature-card feature-card--link">
-                        <h3 className="feature-card__title" data-icon="🐍">O que é Python?</h3>
+                        <div className="feature-card__icon" aria-hidden="true">🐍</div>
+                        <h3 className="feature-card__title">O que é Python?</h3>
                         <p className="feature-card__description">Entenda por que essa é a melhor linguagem para começar.</p>
                     </Link>
 
                     <Link to="/learn/python-para-criancas" className="feature-card feature-card--link">
-                        <h3 className="feature-card__title" data-icon="👨‍👩‍👧‍👦">Guia para Pais</h3>
+                        <div className="feature-card__icon" aria-hidden="true">👨‍👩‍👧‍👦</div>
+                        <h3 className="feature-card__title">Guia para Pais</h3>
                         <p className="feature-card__description">Como ajudar seu filho a aprender programação.</p>
                     </Link>
 
                     <Link to="/learn/primeiros-passos-python" className="feature-card feature-card--link">
-                        <h3 className="feature-card__title" data-icon="👣">Primeiros Passos</h3>
+                        <div className="feature-card__icon" aria-hidden="true">👣</div>
+                        <h3 className="feature-card__title">Primeiros Passos</h3>
                         <p className="feature-card__description">Seu primeiro tutorial prático de Python.</p>
                     </Link>
                 </div>
