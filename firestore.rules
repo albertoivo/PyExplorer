@@ -25,6 +25,12 @@ service cloud.firestore {
     function isValidNumber(field, min, max) {
       return field is number && field >= min && field <= max;
     }
+
+    // Valida se o objeto tem APENAS os campos permitidos
+    function hasOnly(data, fields) {
+      return data.keys().toSet().hasOnly(fields);
+    }
+
     // Função para verificar se é admin
     function isAdmin() {
       return isAuthenticated() &&
@@ -48,8 +54,8 @@ service cloud.firestore {
       allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
       
       // Escrita: Permite se for o dono ou admin com validação de campos numéricos críticos
-      // Permite campos extras para compatibilidade com dados legados
       allow create, update: if isAuthenticated() && (request.auth.uid == userId || isAdmin()) &&
+        hasOnly(request.resource.data, ['uid', 'displayName', 'avatar', 'email', 'createdAt', 'updatedAt', 'totalScore', 'balance', 'unlockedWorlds', 'streak', 'longestStreak', 'lastActiveDate', 'inventory', 'equippedAvatar']) &&
         // Valida displayName (string, max 50 chars)
         (!('displayName' in request.resource.data) || isValidString(request.resource.data.displayName, 50)) &&
         // Valida totalScore se presente (0 a 9.999.999)
@@ -70,9 +76,11 @@ service cloud.firestore {
       
       // Escrita com validação de limites para prevenir cheating
       allow write: if isAuthenticated() && (request.auth.uid == userId || isAdmin()) &&
+        hasOnly(request.resource.data, ['level', 'streak', 'achievements', 'activeMissions', 'inventory', 'powerUps', 'stats', 'updatedAt']) &&
         // Valida level como objeto (Map)
         (!('level' in request.resource.data) || (
            request.resource.data.level is map &&
+           hasOnly(request.resource.data.level, ['level', 'currentXP', 'totalXP']) &&
            (!('level' in request.resource.data.level) || isValidNumber(request.resource.data.level.level, 0, 100)) &&
            (!('totalXP' in request.resource.data.level) || isValidNumber(request.resource.data.level.totalXP, 0, 9999999)) &&
            (!('currentXP' in request.resource.data.level) || isValidNumber(request.resource.data.level.currentXP, 0, 9999999))
@@ -80,6 +88,7 @@ service cloud.firestore {
         // Valida streak como objeto (Map)
         (!('streak' in request.resource.data) || (
            request.resource.data.streak is map &&
+           hasOnly(request.resource.data.streak, ['currentStreak', 'longestStreak', 'lastActivityDate', 'activityHistory']) &&
            (!('currentStreak' in request.resource.data.streak) || isValidNumber(request.resource.data.streak.currentStreak, 0, 9999))
         )) &&
         // Valida achievements (Lista)
@@ -89,14 +98,19 @@ service cloud.firestore {
         // Valida inventory (Map)
         (!('inventory' in request.resource.data) || (
             request.resource.data.inventory is map &&
+            hasOnly(request.resource.data.inventory, ['ownedItems', 'equippedAvatar', 'equippedFrame', 'equippedTitle']) &&
             (!('ownedItems' in request.resource.data.inventory) || request.resource.data.inventory.ownedItems is list) &&
             (!('equippedAvatar' in request.resource.data.inventory) || request.resource.data.inventory.equippedAvatar is string)
         )) &&
         // Valida powerUps (Map)
-        (!('powerUps' in request.resource.data) || request.resource.data.powerUps is map) &&
+        (!('powerUps' in request.resource.data) || (
+            request.resource.data.powerUps is map &&
+            hasOnly(request.resource.data.powerUps, ['inventory', 'usesToday', 'lastResetDate'])
+        )) &&
         // Valida stats (Map com campos numéricos)
         (!('stats' in request.resource.data) || (
             request.resource.data.stats is map &&
+            hasOnly(request.resource.data.stats, ['totalQuestionsCompleted', 'totalCorrectAnswers', 'consecutiveCorrect', 'bestConsecutiveCorrect', 'weekendQuestionsCount', 'lastWeekendDate', 'totalPlayTime', 'worldsCompleted', 'perfectWorlds', 'bossesDefeated', 'consecutiveFastAnswers', 'completedWorldIds']) &&
             (!('totalQuestionsCompleted' in request.resource.data.stats) || isValidNumber(request.resource.data.stats.totalQuestionsCompleted, 0, 999999)) &&
             (!('totalCorrectAnswers' in request.resource.data.stats) || isValidNumber(request.resource.data.stats.totalCorrectAnswers, 0, 999999))
         ));
@@ -125,6 +139,7 @@ service cloud.firestore {
       allow write: if isAuthenticated() && (
         (extractUidFromProgressId(progressId) == request.auth.uid &&
          request.resource.data.uid == request.auth.uid &&
+         hasOnly(request.resource.data, ['uid', 'questionId', 'status', 'score', 'stars', 'attempts', 'bestTimeSeconds', 'lastAttemptAt', 'userAnswer']) &&
          // Valida status se presente
          (!('status' in request.resource.data) || request.resource.data.status in ['not_started', 'in_progress', 'completed']) &&
          // Valida score se presente (0 a 9999)
