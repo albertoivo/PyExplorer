@@ -1,14 +1,14 @@
-import { basicCommandsQuestions } from './basic_commands';
-import { variablesQuestions } from './variables';
-import { numbersQuestions } from './numbers';
-import { conditionsQuestions } from './conditions';
-import { loopsQuestions } from './loops';
-import { functionsQuestions } from './functions';
-import { listsQuestions } from './lists';
-import { stringsQuestions } from './strings';
-import { userInputQuestions } from './user_input';
-import { dictionariesQuestions } from './dictionaries';
-import { errorHandlingQuestions } from './error_handling';
+import { basicCommandsQuestions } from './basic_commands.ts';
+import { variablesQuestions } from './variables.ts';
+import { numbersQuestions } from './numbers.ts';
+import { conditionsQuestions } from './conditions.ts';
+import { loopsQuestions } from './loops.ts';
+import { functionsQuestions } from './functions.ts';
+import { listsQuestions } from './lists.ts';
+import { stringsQuestions } from './strings.ts';
+import { userInputQuestions } from './user_input.ts';
+import { dictionariesQuestions } from './dictionaries.ts';
+import { errorHandlingQuestions } from './error_handling.ts';
 import { BOSS_QUESTIONS } from './bosses';
 import type { QuestionDocument } from '../../types/question';
 
