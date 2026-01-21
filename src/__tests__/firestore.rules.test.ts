@@ -386,8 +386,8 @@ describe('Firestore security rules', () => {
             const aliceDb = testEnv.authenticatedContext('alice').firestore();
             await testEnv.withSecurityRulesDisabled(async (context) => {
                 await setDoc(doc(context.firestore(), 'leaderboard/bob'), {
-                    name: 'Bob',
-                    score: 500
+                    displayName: 'Bob',
+                    totalScore: 500
                 });
             });
             await assertSucceeds(getDoc(doc(aliceDb, 'leaderboard/bob')));
@@ -396,7 +396,7 @@ describe('Firestore security rules', () => {
         it('should allow owner to write their leaderboard entry', async () => {
             const aliceDb = testEnv.authenticatedContext('alice').firestore();
             await assertSucceeds(setDoc(doc(aliceDb, 'leaderboard/alice'), {
-                name: 'Alice',
+                displayName: 'Alice',
                 totalScore: 1000
             }));
         });
@@ -404,7 +404,7 @@ describe('Firestore security rules', () => {
         it('should DENY writing leaderboard entry with excessive score', async () => {
             const aliceDb = testEnv.authenticatedContext('alice').firestore();
             await assertFails(setDoc(doc(aliceDb, 'leaderboard/alice'), {
-                name: 'Alice',
+                displayName: 'Alice',
                 totalScore: 10000000 // > 9999999
             }));
         });
@@ -412,8 +412,25 @@ describe('Firestore security rules', () => {
         it('should deny non-owner from writing to another users leaderboard entry', async () => {
             const bobDb = testEnv.authenticatedContext('bob').firestore();
             await assertFails(setDoc(doc(bobDb, 'leaderboard/alice'), {
-                name: 'Hacked',
-                score: 9999
+                displayName: 'Hacked',
+                totalScore: 9999
+            }));
+        });
+
+        it('should DENY writing leaderboard entry with forbidden fields', async () => {
+            const aliceDb = testEnv.authenticatedContext('alice').firestore();
+            await assertFails(setDoc(doc(aliceDb, 'leaderboard/alice'), {
+                displayName: 'Alice',
+                totalScore: 1000,
+                junkField: 'hack'
+            }));
+        });
+
+        it('should DENY writing leaderboard entry with displayName too long', async () => {
+            const aliceDb = testEnv.authenticatedContext('alice').firestore();
+            await assertFails(setDoc(doc(aliceDb, 'leaderboard/alice'), {
+                displayName: 'A'.repeat(51),
+                totalScore: 1000
             }));
         });
     });
