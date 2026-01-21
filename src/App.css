@@ -8,6 +8,25 @@
   min-height: 100vh;
 }
 
+.skip-to-content {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: var(--color-primary);
+  color: var(--bg-dark);
+  padding: 0.5rem 1rem;
+  z-index: 2000;
+  text-decoration: none;
+  font-weight: bold;
+  transition: top 0.2s ease;
+  border-bottom-right-radius: 8px;
+}
+
+.skip-to-content:focus {
+  top: 0;
+  outline: 2px solid var(--text-primary);
+}
+
 .app__main {
   flex: 1;
   display: flex;
