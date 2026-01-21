@@ -299,5 +299,21 @@ export const numbersQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: '11 // 4 dá 2. A divisão inteira joga fora o resto (3 balas sobram). Ninguém ganha bala quebrada! 🍬',
         points: 10,
+    },
+    {
+        id: 'num_15',
+        type: 'fill_code',
+        world: 'numbers',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Maçãs Comidas',
+        prompt: 'Você tinha 10 maçãs e comeu 3. Quantas sobraram? Use a subtração:',
+        starterCode: 'total = 10\ncomidas = 3\nsobraram = total ___ comidas\nprint(sobraram)',
+        solutionTemplate: 'sobraram = total - comidas',
+        tests: [
+            { input: null, expectedOutput: '7' },
+        ],
+        explanationKidFriendly: 'Subtração é tirar uma quantidade da outra. O sinal de menos (-) faz essa mágica! 10 - 3 = 7. 🍎',
+        points: 10,
     }
 ];

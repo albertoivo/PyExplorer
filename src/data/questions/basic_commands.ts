@@ -304,5 +304,23 @@ export const basicCommandsQuestions: QuestionDocument[] = [
         answerIndex: 2,
         explanationKidFriendly: 'As aspas precisam ser iguais no começo e no fim! Se começou com aspas duplas, termine com aspas duplas. Não pode misturar! 🎭',
         points: 10,
+    },
+    {
+        id: 'basic_15',
+        type: 'multiple_choice',
+        world: 'basic_commands',
+        difficulty: 'easy',
+        ageMin: 8,
+        title: 'Explicação Secreta',
+        prompt: 'Qual destas linhas serve para explicar o código sem o computador executar?',
+        options: [
+            'print("Explicação")',
+            '# Explicação',
+            'explica("Isso faz aquilo")',
+            '// Explicação',
+        ],
+        answerIndex: 1,
+        explanationKidFriendly: 'O símbolo # cria um comentário! É como um bilhete secreto que o computador não lê, mas ajuda os humanos a entenderem o código. 📝',
+        points: 10,
     }
 ];

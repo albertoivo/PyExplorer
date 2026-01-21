@@ -319,5 +319,21 @@ desenhar_circulo(50)
         ],
         explanationKidFriendly: 'Funções podem ter vários ingredientes (parâmetros)! Separe eles com vírgula para usar todos na receita. 🍰',
         points: 20,
+    },
+    {
+        id: 'func_15',
+        type: 'fill_code',
+        world: 'functions',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Herói Padrão',
+        prompt: 'Complete a função para que o herói seja "Guerreiro" se ninguém escolher:',
+        starterCode: 'def criar_heroi(classe___"Guerreiro"):\n    print(f"Novo herói: {classe}")\ncriar_heroi()',
+        solutionTemplate: 'def criar_heroi(classe="Guerreiro"):',
+        tests: [
+            { input: null, expectedOutput: 'Novo herói: Guerreiro' },
+        ],
+        explanationKidFriendly: 'Usamos `=` no parâmetro para dar um valor padrão. Se o jogador não escolher, ele vira Guerreiro automaticamente! ⚔️',
+        points: 20,
     }
 ];

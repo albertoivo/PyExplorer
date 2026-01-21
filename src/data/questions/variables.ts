@@ -324,5 +324,23 @@ export const variablesQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'Para atualizar uma variável, usamos o valor antigo dela! `nivel = nivel + 1` pega o 5, soma 1 e guarda o 6. 🆙',
         points: 15,
+    },
+    {
+        id: 'var_15',
+        type: 'multiple_choice',
+        world: 'variables',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Nome com Espaço?',
+        prompt: 'Qual destes nomes de variável está CORRETO?',
+        options: [
+            'meu nome',
+            'meu-nome',
+            'meu_nome',
+            'meu.nome',
+        ],
+        answerIndex: 2,
+        explanationKidFriendly: 'Variáveis não podem ter espaços! Usamos o sublinhado (_) para separar as palavras. Isso se chama "snake_case" (estilo cobra)! 🐍',
+        points: 15,
     }
 ];

@@ -337,5 +337,21 @@ for i in range(4):
         answerIndex: 0,
         explanationKidFriendly: '`not` inverte a lógica! Se `chovendo` é Falso (não está), `not chovendo` vira Verdadeiro e vamos à praia! 🏖️',
         points: 10,
+    },
+    {
+        id: 'dec_15',
+        type: 'fill_code',
+        world: 'conditions',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Tem na Mochila?',
+        prompt: 'Verifique se a "Corda" está na mochila:',
+        starterCode: 'mochila = ["Mapa", "Corda", "Lanterna"]\nif "Corda" ___ mochila:\n    print("Pode subir!")',
+        solutionTemplate: 'if "Corda" in mochila:',
+        tests: [
+            { input: null, expectedOutput: 'Pode subir!' },
+        ],
+        explanationKidFriendly: 'O comando `in` é como um detetive! Ele procura se o item está dentro da lista. Se achar, retorna Verdadeiro! 🔍',
+        points: 15,
     }
 ];

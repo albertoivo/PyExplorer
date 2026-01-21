@@ -333,5 +333,21 @@ export const stringsQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: '`join` é a cola! Ele usa o traço "-" para colar os vagões e virar "piu-i". Piuííí! 🚂',
         points: 20,
+    },
+    {
+        id: 'strings_15',
+        type: 'fill_code',
+        world: 'strings',
+        difficulty: 'hard',
+        ageMin: 11,
+        title: 'Cortando o Início',
+        prompt: 'Pegue apenas as 2 primeiras letras do nome "Python":',
+        starterCode: 'nome = "Python"\nprint(nome[___])',
+        solutionTemplate: 'print(nome[0:2])',
+        tests: [
+            { input: null, expectedOutput: 'Py' },
+        ],
+        explanationKidFriendly: 'O fatiamento [0:2] pega do índice 0 até ANTES do 2. Ou seja, índices 0 e 1 (P e y). ✂️',
+        points: 20,
     }
 ];

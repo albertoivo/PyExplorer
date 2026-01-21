@@ -339,5 +339,21 @@ export const listsQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: '`pop()` estoura (remove) o ÚLTIMO item da lista. Tchau, balão azul! 🎈',
         points: 15,
+    },
+    {
+        id: 'list_15',
+        type: 'fill_code',
+        world: 'lists',
+        difficulty: 'easy',
+        ageMin: 10,
+        title: 'Contando Convidados',
+        prompt: 'Use `len` para descobrir quantos amigos vieram à festa:',
+        starterCode: 'amigos = ["Ana", "Bia", "Caio", "Duda"]\nprint(___(amigos))',
+        solutionTemplate: 'print(len(amigos))',
+        tests: [
+            { input: null, expectedOutput: '4' },
+        ],
+        explanationKidFriendly: '`len()` conta quantos itens tem na lista. Perfeito para saber quantos convidados temos! 🎉',
+        points: 10,
     }
 ];

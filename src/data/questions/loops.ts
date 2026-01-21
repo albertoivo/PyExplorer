@@ -322,5 +322,21 @@ for i in range(___):
         ],
         explanationKidFriendly: 'Usamos `continue` para pular essa volta e proteger nosso código. Quando x é 0, pulamos o print e o erro! 🛡️',
         points: 20,
+    },
+    {
+        id: 'loop_15',
+        type: 'fill_code',
+        world: 'loops',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Sem Combustível',
+        prompt: 'Pare o loop (o carro) se o combustível acabar (chegar a 0):',
+        starterCode: 'combustivel = 10\nwhile True:\n    print("Andando...")\n    combustivel = combustivel - 1\n    if combustivel == 0:\n        ___',
+        solutionTemplate: 'break',
+        tests: [
+            { input: null, expectedOutput: 'Andando...\nAndando...\nAndando...\nAndando...\nAndando...\nAndando...\nAndando...\nAndando...\nAndando...\nAndando...' },
+        ],
+        explanationKidFriendly: '`break` é o freio! Quando o combustível acaba, precisamos parar o loop imediatamente para o carro não tentar andar sem gasolina. 🛑',
+        points: 20,
     }
 ];
