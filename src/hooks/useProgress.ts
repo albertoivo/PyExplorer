@@ -175,31 +175,34 @@ export function useProgress() {
 
     /**
      * Calcula estatísticas gerais do progresso
+     * Optimization: Memoized to prevent recalculation on every render
      */
-    const stats = {
+    const stats = useMemo(() => ({
         totalQuestions: allProgress.length,
         completed: allProgress.filter(p => p.status === 'completed').length,
         inProgress: allProgress.filter(p => p.status === 'in_progress').length,
         totalScore: allProgress.reduce((sum, p) => sum + p.score, 0),
         totalAttempts: allProgress.reduce((sum, p) => sum + p.attempts, 0),
-    };
+    }), [allProgress]);
 
     /**
      * Obtém progresso por mundo
+     * Optimization: Uses progressMap for O(1) lookup instead of O(N) array search inside loop
      */
     const getWorldStats = useCallback((questionsByWorld: Map<string, string[]>) => {
         const worldStats: Map<string, { completed: number; total: number }> = new Map();
 
         for (const [world, questionIds] of questionsByWorld) {
-            const completed = questionIds.filter(qId =>
-                allProgress.find(p => p.questionId === qId && p.status === 'completed')
-            ).length;
+            const completed = questionIds.filter(qId => {
+                const p = progressMap.get(qId);
+                return p && p.status === 'completed';
+            }).length;
 
             worldStats.set(world, { completed, total: questionIds.length });
         }
 
         return worldStats;
-    }, [allProgress]);
+    }, [progressMap]);
 
     return {
         allProgress,
@@ -217,11 +220,13 @@ export function useProgress() {
  * Hook para progresso de uma questão específica
  */
 export function useQuestionProgress(questionId: string | null) {
-    const { allProgress, recordAttempt, loading } = useProgress();
+    const { recordAttempt, loading, getQuestionProgress } = useProgress();
 
-    const progress = questionId
-        ? allProgress.find(p => p.questionId === questionId) || null
-        : null;
+    // Optimization: Use getQuestionProgress (O(1) Map lookup) instead of array.find (O(N))
+    const progress = useMemo(() =>
+        questionId ? getQuestionProgress(questionId) : null,
+        [questionId, getQuestionProgress]
+    );
 
     const submitAnswer = async (passed: boolean, score: number = 0) => {
         if (!questionId) return;
