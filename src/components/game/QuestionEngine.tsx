@@ -58,12 +58,8 @@ export function QuestionEngine({
     const [showResult, setShowResult] = useState(readOnly);
     const [isCorrect, setIsCorrect] = useState(readOnly);
     const [showHints, setShowHints] = useState(false);
-    const [revealedHints, setRevealedHints] = useState<HintLevel[]>([]);
-    const [hintsCost, setHintsCost] = useState(0);
-
-
-
-    const loadUsedHints = useCallback((): HintLevel[] => {
+    // Otimização: Inicialização preguiçosa para evitar leitura síncrona do localStorage a cada render
+    const [revealedHints, setRevealedHints] = useState<HintLevel[]>(() => {
         try {
             const stored = localStorage.getItem(USED_HINTS_KEY);
             if (stored) {
@@ -74,7 +70,8 @@ export function QuestionEngine({
             // Ignora erros
         }
         return [];
-    }, [question.id]);
+    });
+    const [hintsCost, setHintsCost] = useState(0);
 
     const saveUsedHints = useCallback((hints: HintLevel[]) => {
         try {
@@ -261,7 +258,7 @@ export function QuestionEngine({
                         <ProgressiveHints
                             questionId={question.id}
                             explanation={question.explanationKidFriendly}
-                            revealedHints={revealedHints.length > 0 ? revealedHints : loadUsedHints()}
+                            revealedHints={revealedHints}
                             onHintRevealed={handleHintRevealed}
                         />
                     )}
