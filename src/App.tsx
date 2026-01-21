@@ -109,8 +109,11 @@ function App() {
           <GamificationProvider>
             <MascotProvider>
               <div className="app">
+                <a href="#main-content" className="skip-to-content">
+                  Pular para o conteúdo principal
+                </a>
                 <Header />
-                <main className="app__main">
+                <main id="main-content" className="app__main" tabIndex={-1}>
                   <Suspense fallback={<PageLoader />}>
                     <Routes>
                       {/* Páginas públicas */}
