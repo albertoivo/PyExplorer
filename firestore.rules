@@ -161,6 +161,8 @@ service cloud.firestore {
       
       // Escrita apenas pelo próprio usuário (para atualizar seu score)
       allow write: if isOwner(userId) &&
+        hasOnly(request.resource.data, ['uid', 'displayName', 'avatar', 'totalScore', 'updatedAt']) &&
+        (!('displayName' in request.resource.data) || isValidString(request.resource.data.displayName, 50)) &&
         (!('totalScore' in request.resource.data) || isValidNumber(request.resource.data.totalScore, 0, 9999999));
     }
   }
