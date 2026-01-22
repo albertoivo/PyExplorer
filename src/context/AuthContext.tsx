@@ -5,7 +5,6 @@ import { resetLoginRedirectFlag } from '../pages/LoginPage';
 import { subscribeToAuthChanges, signIn, signUp, logOut, resetPassword, signInWithGoogle } from '../firebase/auth';
 import { saveUser, getUser } from '../firebase/firestore';
 import type { UserData, World } from '../types/question';
-import { calculateStreak } from '../utils/gamificationUtils';
 import { env } from '../config/env';
 
 /**
@@ -79,30 +78,18 @@ export function AuthProvider({ children }: AuthProviderProps) {
                             data.balance = data.totalScore || 0; // Backfill balance with existing score
                             dataChanged = true;
                         }
+
+                        // Deprecated fields backfill (kept for Type safety in memory, but not persisted to users collection)
                         if (!data.inventory) {
                             data.inventory = [];
-                            dataChanged = true;
                         }
                         if (!data.equippedAvatar) {
                             data.equippedAvatar = 'default';
-                            dataChanged = true;
                         }
+
+                        // Streak logic moved to useGamification hook to avoid duplication
 
                         if (dataChanged) {
-                            await saveUser(data);
-                        }
-
-                        // Lógica de Streak (Ofensiva)
-                        const streakResult = calculateStreak(
-                            data.streak || 0,
-                            data.longestStreak || 0,
-                            data.lastActiveDate
-                        );
-
-                        if (streakResult.shouldUpdate) {
-                            data.streak = streakResult.streak;
-                            data.longestStreak = streakResult.longestStreak;
-                            data.lastActiveDate = streakResult.lastActiveDate;
                             await saveUser(data);
                         }
                     }
@@ -117,21 +104,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 if (guestData) {
                     setIsGuest(true);
                     const data = JSON.parse(guestData);
-
-                    // Lógica de Streak para convidado
-                    const streakResult = calculateStreak(
-                        data.streak || 0,
-                        data.longestStreak || 0,
-                        data.lastActiveDate
-                    );
-
-                    if (streakResult.shouldUpdate) {
-                        data.streak = streakResult.streak;
-                        data.longestStreak = streakResult.longestStreak;
-                        data.lastActiveDate = streakResult.lastActiveDate;
-                        localStorage.setItem(GUEST_KEY, JSON.stringify(data));
-                    }
-
                     setUserData(data);
                 } else {
                     setUserData(null);
@@ -181,10 +153,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
                     totalScore: 0,
                     balance: 0,
                     unlockedWorlds: ['basic_commands' as World],
-                    streak: 1,
-                    lastActiveDate: new Date().toISOString().split('T')[0],
-                    inventory: [],
-                    equippedAvatar: 'default',
+                    streak: 1, // Deprecated, but required by type
+                    lastActiveDate: new Date().toISOString().split('T')[0], // Deprecated
+                    inventory: [], // Deprecated
+                    equippedAvatar: 'default', // Deprecated
                 };
 
                 await saveUser(newUserData);
@@ -245,10 +217,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 totalScore: 0,
                 balance: 0,
                 unlockedWorlds: ['basic_commands' as World],
-                streak: 1,
-                lastActiveDate: new Date().toISOString().split('T')[0],
-                inventory: [],
-                equippedAvatar: 'default',
+                streak: 1, // Deprecated
+                lastActiveDate: new Date().toISOString().split('T')[0], // Deprecated
+                inventory: [], // Deprecated
+                equippedAvatar: 'default', // Deprecated
             };
 
             await saveUser(newUserData);

@@ -129,8 +129,14 @@ async function updateLeaderboard(userData: UserData): Promise<void> {
  */
 export async function saveUser(userData: UserData): Promise<void> {
     const docRef = doc(db, USERS_COLLECTION, userData.uid);
+
+    // Critical: Strip deprecated/duplicated fields to avoid schema duplication with UserGamification
+    // These fields are now managed exclusively in the 'gamification' collection
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { streak, longestStreak, lastActiveDate, inventory, equippedAvatar, ...dataToSave } = userData;
+
     await setDoc(docRef, {
-        ...userData,
+        ...dataToSave,
         createdAt: Timestamp.fromDate(userData.createdAt),
         updatedAt: Timestamp.fromDate(userData.updatedAt),
     }, { merge: true });

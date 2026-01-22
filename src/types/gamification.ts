@@ -236,4 +236,7 @@ export interface UserGamification {
         consecutiveFastAnswers: number; // For "Light Speed" achievement
         completedWorldIds?: string[]; // IDs of worlds fully completed
     };
+
+    /** Data da última atualização (Firestore Timestamp) */
+    updatedAt?: Date;
 }
