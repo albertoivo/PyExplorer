@@ -28,6 +28,7 @@ import {
     updateMissionProgress,
     hydrateMissions
 } from '../utils/gamificationState';
+import { calculateStreak } from '../utils/gamificationUtils';
 
 // ============================================
 // HOOK
@@ -165,17 +166,81 @@ export function useGamification() {
                         data = resetted;
                         localStorage.setItem(GUEST_GAMIFICATION_KEY, JSON.stringify(data));
                     }
+
+                    // Streak Logic for Guest
+                    const streakResult = calculateStreak(
+                        data.streak?.currentStreak || 0,
+                        data.streak?.longestStreak || 0,
+                        data.streak?.lastActivityDate
+                    );
+
+                    if (streakResult.shouldUpdate) {
+                         data = {
+                            ...data,
+                            streak: {
+                                currentStreak: streakResult.streak,
+                                longestStreak: streakResult.longestStreak,
+                                lastActivityDate: streakResult.lastActiveDate,
+                                activityHistory: [...(data.streak?.activityHistory || []), streakResult.lastActiveDate]
+                            }
+                        };
+                        localStorage.setItem(GUEST_GAMIFICATION_KEY, JSON.stringify(data));
+                    }
+
                     setGamification(data);
                 }
             } else if (currentUserData) {
                 const remoteData = await getGamification(currentUserData.uid);
                 if (remoteData) {
                     let finalData = remoteData;
+                    let hasUpdates = false;
+
                     const resetted = checkDailyAndWeeklyReset(remoteData);
                     if (resetted) {
                         finalData = resetted;
+                        hasUpdates = true;
+                    }
+
+                    // --- MIGRATION: Sync Legacy Streak from UserData ---
+                    if (currentUserData.streak && (!finalData.streak.currentStreak || currentUserData.streak > finalData.streak.currentStreak)) {
+                        console.log('🔄 Migrating streak from UserData to Gamification');
+                        finalData = {
+                            ...finalData,
+                            streak: {
+                                ...finalData.streak,
+                                currentStreak: currentUserData.streak || 0,
+                                longestStreak: Math.max(currentUserData.longestStreak || 0, finalData.streak.longestStreak),
+                                lastActivityDate: currentUserData.lastActiveDate || finalData.streak.lastActivityDate
+                            }
+                        };
+                        hasUpdates = true;
+                    }
+
+                    // --- STREAK LOGIC ---
+                    const streakResult = calculateStreak(
+                        finalData.streak.currentStreak,
+                        finalData.streak.longestStreak,
+                        finalData.streak.lastActivityDate
+                    );
+
+                    if (streakResult.shouldUpdate) {
+                        console.log('🔥 Updating streak logic in Gamification');
+                        finalData = {
+                            ...finalData,
+                            streak: {
+                                currentStreak: streakResult.streak,
+                                longestStreak: streakResult.longestStreak,
+                                lastActivityDate: streakResult.lastActiveDate,
+                                activityHistory: [...(finalData.streak.activityHistory || []), streakResult.lastActiveDate]
+                            }
+                        };
+                        hasUpdates = true;
+                    }
+
+                    if (hasUpdates) {
                         await saveGamificationData(currentUserData.uid, finalData);
                     }
+
                     setGamification(finalData);
 
                     // Clear any existing timeout
@@ -197,6 +262,18 @@ export function useGamification() {
                     // New user or no data: Start FRESH
                     console.log('✨ New user detected, initializing gamification...');
                     const initial = getInitialGamification();
+
+                    // --- MIGRATION: Sync Legacy Streak from UserData ---
+                    if (currentUserData.streak && currentUserData.streak > 0) {
+                        console.log('🔄 Migrating streak from UserData to New Gamification');
+                        initial.streak = {
+                            ...initial.streak,
+                            currentStreak: currentUserData.streak,
+                            longestStreak: Math.max(currentUserData.longestStreak || 0, initial.streak.longestStreak),
+                            lastActivityDate: currentUserData.lastActiveDate || initial.streak.lastActivityDate
+                        };
+                    }
+
                     setGamification(initial);
                     await saveGamificationData(currentUserData.uid, initial);
                 }
@@ -444,12 +521,7 @@ export function useGamification() {
         loading,
         currentLevel,
         levelProgress,
-        streak: {
-            currentStreak: userData?.streak || 0,
-            longestStreak: userData?.longestStreak || userData?.streak || 0,
-            lastActivityDate: userData?.lastActiveDate || '',
-            activityHistory: gamification?.streak?.activityHistory || [],
-        },
+        streak: gamification.streak, // UPDATED: Source of truth is now gamification
         activeMissions: gamification?.activeMissions || [],
         inventory: gamification?.inventory,
         powerUps: gamification?.powerUps,

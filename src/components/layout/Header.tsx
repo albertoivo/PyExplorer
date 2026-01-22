@@ -22,6 +22,9 @@ export function Header() {
 
     const isActive = (path: string) => location.pathname === path;
 
+    // Prioritize gamification streak (source of truth), fallback to userData (deprecated)
+    const currentStreak = gamification?.streak?.currentStreak || userData?.streak || 0;
+
     return (
         <header className="header">
             <div className="header__container">
@@ -127,9 +130,9 @@ export function Header() {
                                 <span
                                     className="header__user-streak"
                                     title="Ofensiva diária"
-                                    aria-label={`Ofensiva diária: ${userData.streak || 0} dias`}
+                                    aria-label={`Ofensiva diária: ${currentStreak} dias`}
                                 >
-                                    <span aria-hidden="true">🔥</span> {userData.streak || 0}
+                                    <span aria-hidden="true">🔥</span> {currentStreak}
                                 </span>
                                 {isGuest && <span className="header__user-guest">(Convidado)</span>}
                             </div>
