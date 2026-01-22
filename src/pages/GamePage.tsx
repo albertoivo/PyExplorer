@@ -418,17 +418,24 @@ export function GamePage() {
     // Mostra loading do Pyodide ou questões
     if (!ready || questionsLoading) {
         return (
-            <div className="game-page game-page--loading">
+            <div className="game-page game-page--loading" aria-busy="true" aria-live="polite">
                 <div className="pyodide-loading">
-                    <div className="pyodide-loading__icon">🐍</div>
-                    <h2 className="pyodide-loading__title">Preparando o Python...</h2>
-                    <div className="pyodide-loading__bar">
+                    <div className="pyodide-loading__icon" aria-hidden="true">🐍</div>
+                    <h2 className="pyodide-loading__title" id="loading-title">Preparando o Python...</h2>
+                    <div
+                        className="pyodide-loading__bar"
+                        role="progressbar"
+                        aria-valuenow={Math.round(loadingProgress)}
+                        aria-valuemin={0}
+                        aria-valuemax={100}
+                        aria-labelledby="loading-title"
+                    >
                         <div
                             className="pyodide-loading__progress"
                             style={{ width: `${loadingProgress}%` }}
                         />
                     </div>
-                    <p className="pyodide-loading__text">
+                    <p className="pyodide-loading__text" aria-live="polite">
                         {loadingProgress < 30 && 'Carregando bibliotecas...'}
                         {loadingProgress >= 30 && loadingProgress < 80 && 'Inicializando Python...'}
                         {loadingProgress >= 80 && 'Quase pronto!'}
@@ -578,9 +585,9 @@ export function GamePage() {
             {/* Mission Notification Overlay */}
             {
                 missionNotification && (
-                    <div className="mission-notification">
+                    <div className="mission-notification" role="alert" aria-live="assertive">
                         <div className="mission-notification__content">
-                            <div className="mission-notification__icon">🎯</div>
+                            <div className="mission-notification__icon" aria-hidden="true">🎯</div>
                             <div className="mission-notification__text">
                                 <h3>Missão Cumprida!</h3>
                                 <p>{missionNotification.title}</p>
