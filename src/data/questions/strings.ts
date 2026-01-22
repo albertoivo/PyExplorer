@@ -333,5 +333,23 @@ export const stringsQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: '`join` é a cola! Ele usa o traço "-" para colar os vagões e virar "piu-i". Piuííí! 🚂',
         points: 20,
+    },
+    {
+        id: 'strings_15',
+        type: 'multiple_choice',
+        world: 'strings',
+        difficulty: 'medium',
+        ageMin: 9,
+        title: 'Nome no Texto',
+        prompt: 'Complete para dizer "Oi, [nome]!": `nome="Lu"; print(___)`',
+        options: [
+            'f"Oi, {nome}!"',
+            '"Oi, {nome}!"',
+            'f"Oi, nome!"',
+            '"Oi, " nome',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'Não esqueça do `f` antes das aspas! Ele avisa o Python que tem variáveis mágicas `{}` lá dentro. ✨',
+        points: 15,
     }
 ];

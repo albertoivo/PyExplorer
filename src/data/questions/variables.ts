@@ -324,5 +324,23 @@ export const variablesQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'Para atualizar uma variável, usamos o valor antigo dela! `nivel = nivel + 1` pega o 5, soma 1 e guarda o 6. 🆙',
         points: 15,
+    },
+    {
+        id: 'var_15',
+        type: 'multiple_choice',
+        world: 'variables',
+        difficulty: 'medium',
+        ageMin: 9,
+        title: 'Ponto ou Vírgula?',
+        prompt: 'Em Python, como escrevemos o número "dois e meio"?',
+        options: [
+            '2.5',
+            '2,5',
+            '2 e 5',
+            '2:5',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'Python usa o padrão americano: PONTO para decimais! Se usar vírgula, ele acha que são duas coisas diferentes. 🇺🇸',
+        points: 15,
     }
 ];

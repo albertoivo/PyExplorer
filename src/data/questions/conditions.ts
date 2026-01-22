@@ -337,5 +337,23 @@ for i in range(4):
         answerIndex: 0,
         explanationKidFriendly: '`not` inverte a lógica! Se `chovendo` é Falso (não está), `not chovendo` vira Verdadeiro e vamos à praia! 🏖️',
         points: 10,
+    },
+    {
+        id: 'dec_15',
+        type: 'multiple_choice',
+        world: 'conditions',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Senha e Usuário',
+        prompt: 'Para entrar, o usuário precisa ser "admin" E a senha "123". Qual if usamos?',
+        options: [
+            'if user == "admin" and senha == "123":',
+            'if user == "admin" or senha == "123":',
+            'if user == "admin" not senha == "123":',
+            'if user = "admin" and senha = "123":',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'As DUAS coisas precisam ser verdadeiras, então usamos `and` (e). Se errar a senha ou o usuário, não entra! 🔒',
+        points: 15,
     }
 ];

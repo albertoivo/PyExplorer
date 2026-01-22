@@ -339,5 +339,23 @@ export const listsQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: '`pop()` estoura (remove) o ÚLTIMO item da lista. Tchau, balão azul! 🎈',
         points: 15,
+    },
+    {
+        id: 'list_15',
+        type: 'multiple_choice',
+        world: 'lists',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Tamanho da Fila',
+        prompt: 'Tenho `fila = ["Ana", "Bia", "Caio"]`. O que `len(fila)` responde?',
+        options: [
+            '3',
+            '2',
+            '4',
+            '0',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: '`len()` conta quantos itens tem! Ana, Bia e Caio = 3 pessoas na fila. 📏',
+        points: 10,
     }
 ];

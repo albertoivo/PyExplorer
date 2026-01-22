@@ -322,5 +322,23 @@ for i in range(___):
         ],
         explanationKidFriendly: 'Usamos `continue` para pular essa volta e proteger nosso código. Quando x é 0, pulamos o print e o erro! 🛡️',
         points: 20,
+    },
+    {
+        id: 'loop_15',
+        type: 'multiple_choice',
+        world: 'loops',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Fugindo do Loop',
+        prompt: 'Estou num loop infinito! Qual comando eu uso para SAIR dele agora?',
+        options: [
+            'break',
+            'continue',
+            'exit',
+            'out',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: '`break` quebra o loop na hora! É sua saída de emergência. 🏃💨',
+        points: 10,
     }
 ];

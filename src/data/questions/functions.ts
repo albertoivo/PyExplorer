@@ -319,5 +319,23 @@ desenhar_circulo(50)
         ],
         explanationKidFriendly: 'Funções podem ter vários ingredientes (parâmetros)! Separe eles com vírgula para usar todos na receita. 🍰',
         points: 20,
+    },
+    {
+        id: 'func_15',
+        type: 'multiple_choice',
+        world: 'functions',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'O Entregador',
+        prompt: 'Qual a função do comando `return`?',
+        options: [
+            'Devolver um valor para quem chamou a função',
+            'Mostrar o valor na tela',
+            'Parar o programa',
+            'Criar um loop',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'O `return` entrega o resultado da função! Sem ele, a função trabalha mas não te entrega nada. 📦',
+        points: 10,
     }
 ];

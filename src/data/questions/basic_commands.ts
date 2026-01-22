@@ -304,5 +304,23 @@ export const basicCommandsQuestions: QuestionDocument[] = [
         answerIndex: 2,
         explanationKidFriendly: 'As aspas precisam ser iguais no começo e no fim! Se começou com aspas duplas, termine com aspas duplas. Não pode misturar! 🎭',
         points: 10,
+    },
+    {
+        id: 'basic_15',
+        type: 'multiple_choice',
+        world: 'basic_commands',
+        difficulty: 'easy',
+        ageMin: 8,
+        title: 'Comentário Secreto',
+        prompt: 'Qual símbolo eu uso para escrever algo que o computador NÃO vai ler?',
+        options: [
+            '#',
+            '//',
+            '*',
+            '%',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'O # cria um comentário! É como um segredo que o Python não conta pra ninguém (e nem executa). 🤫',
+        points: 10,
     }
 ];

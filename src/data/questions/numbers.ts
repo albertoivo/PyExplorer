@@ -299,5 +299,23 @@ export const numbersQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: '11 // 4 dá 2. A divisão inteira joga fora o resto (3 balas sobram). Ninguém ganha bala quebrada! 🍬',
         points: 10,
+    },
+    {
+        id: 'num_15',
+        type: 'multiple_choice',
+        world: 'numbers',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Perdendo Vidas',
+        prompt: 'Você tinha 5 vidas e perdeu 1. Qual código calcula isso?',
+        options: [
+            'vidas = 5 - 1',
+            'vidas = 5 + 1',
+            'vidas = 5 * 1',
+            'vidas = 5 / 1',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'Perder é subtrair! Usamos o sinal de menos (-) para tirar pontos ou vidas. 💔',
+        points: 10,
     }
 ];
