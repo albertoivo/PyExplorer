@@ -192,5 +192,23 @@ export const errorHandlingQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'O `except` só trabalha se houver problemas! Se tudo der certo no `try`, o Python pula o `except`. Folga merecida! 🏖️',
         points: 10,
+    },
+    {
+        id: 'error_11',
+        type: 'multiple_choice',
+        world: 'error_handling',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'O que acontece?',
+        prompt: 'Se ocorrer um erro e NÃO tivermos um try/except, o que o programa faz?',
+        options: [
+            'Para imediatamente e mostra o erro',
+            'Ignora o erro e continua',
+            'Tenta consertar sozinho',
+            'Reinicia o computador',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'Sem o escudo do try/except, o erro acerta o programa em cheio e ele para na hora! CRASH! 💥',
+        points: 15,
     }
 ];

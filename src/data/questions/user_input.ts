@@ -191,5 +191,21 @@ export const userInputQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'O input vem como texto! Precisamos converter para `int` (inteiro) antes de multiplicar, senão o Python repete o texto! ✖️',
         points: 20,
+    },
+    {
+        id: 'input_12',
+        type: 'fill_code',
+        world: 'user_input',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Dobrando a Idade',
+        prompt: 'Receba a idade e mostre o dobro dela (lembre de converter!):',
+        starterCode: 'idade = input("Idade: ")\ndobro = ___(idade) * 2\nprint(dobro)',
+        solutionTemplate: 'dobro = int(idade) * 2',
+        tests: [
+            { input: ['10'], expectedOutput: '20' }
+        ],
+        explanationKidFriendly: 'O input sempre devolve texto. Para fazer contas, precisamos transformar em número com int()! 🔢',
+        points: 20,
     }
 ];
