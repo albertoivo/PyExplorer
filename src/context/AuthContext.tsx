@@ -79,14 +79,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
                             dataChanged = true;
                         }
 
-                        // Deprecated fields backfill (kept for Type safety in memory, but not persisted to users collection)
-                        if (!data.inventory) {
-                            data.inventory = [];
-                        }
-                        if (!data.equippedAvatar) {
-                            data.equippedAvatar = 'default';
-                        }
-
                         // Streak logic moved to useGamification hook to avoid duplication
 
                         if (dataChanged) {
@@ -153,10 +145,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
                     totalScore: 0,
                     balance: 0,
                     unlockedWorlds: ['basic_commands' as World],
-                    streak: 1, // Deprecated, but required by type
-                    lastActiveDate: new Date().toISOString().split('T')[0], // Deprecated
-                    inventory: [], // Deprecated
-                    equippedAvatar: 'default', // Deprecated
                 };
 
                 await saveUser(newUserData);
@@ -217,10 +205,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 totalScore: 0,
                 balance: 0,
                 unlockedWorlds: ['basic_commands' as World],
-                streak: 1, // Deprecated
-                lastActiveDate: new Date().toISOString().split('T')[0], // Deprecated
-                inventory: [], // Deprecated
-                equippedAvatar: 'default', // Deprecated
             };
 
             await saveUser(newUserData);
@@ -284,10 +268,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
             totalScore: 0,
             balance: 0,
             unlockedWorlds: ['basic_commands' as World],
-            streak: 1,
-            lastActiveDate: new Date().toISOString().split('T')[0],
-            inventory: [],
-            equippedAvatar: 'default',
         };
 
         localStorage.setItem(GUEST_KEY, JSON.stringify(guestData));

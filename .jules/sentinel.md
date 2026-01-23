@@ -7,8 +7,3 @@
 **Vulnerability:** Users could overwrite any `userProgress` document (e.g., another user's progress) by simply including their own `uid` in the payload, as the security rule only checked the payload `uid` against `auth.uid` but ignored the document ID.
 **Learning:** Checking `request.resource.data.uid == request.auth.uid` is insufficient if the document ID itself targets another user's resource.
 **Prevention:** Always enforce that the Document ID matches the User ID (or a deterministic derivation) in `allow write` rules when the collection is keyed by user-specific identifiers.
-
-## 2026-01-22 - Missing Validation for Allowlisted Fields
-**Vulnerability:** The `bestTimeSeconds` field in `userProgress` was allowlisted via `hasOnly` but lacked specific validation logic, allowing invalid types or values (e.g., negative numbers, strings) to be written.
-**Learning:** Using `hasOnly` creates a false sense of security; it only restricts *which* fields exist, not *what* they contain.
-**Prevention:** Every field present in a `hasOnly` list must have a corresponding validation check (e.g., `isValidNumber`, `isValidString`) in the rule condition.

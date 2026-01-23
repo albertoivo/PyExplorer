@@ -7,16 +7,8 @@ import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import type { UserData } from '../../types/question';
 
 // Hoist the mock function to be accessible in vi.mock and tests
-const { mockGenerateDaily, mockShopItems } = vi.hoisted(() => {
-    return {
-        mockGenerateDaily: vi.fn().mockReturnValue([]),
-        mockShopItems: [
-            { id: 'avatar_1', type: 'avatar', name: 'A1', price: 10 },
-            { id: 'avatar_2', type: 'avatar', name: 'A2', price: 10 },
-            { id: 'avatar_3', type: 'avatar', name: 'A3', price: 10 },
-            { id: 'frame_1', type: 'frame', name: 'F1', price: 10 },
-        ]
-    };
+const { mockGenerateDaily } = vi.hoisted(() => {
+    return { mockGenerateDaily: vi.fn().mockReturnValue([]) };
 });
 
 // Mock dependências
@@ -27,7 +19,6 @@ vi.mock('../../data/gamificationData', async (importOriginal) => {
     return {
         ...actual,
         generateDailyMissions: mockGenerateDaily,
-        SHOP_ITEMS: mockShopItems,
     };
 });
 
@@ -66,9 +57,6 @@ describe('useGamification Hook', () => {
     const mockUserData: Partial<UserData> = {
         uid: 'test-user-123',
         balance: 100,
-        inventory: [],
-        streak: 5,
-        longestStreak: 10,
     };
     const mockUpdateUserData = vi.fn();
 
@@ -93,8 +81,8 @@ describe('useGamification Hook', () => {
 
         expect(result.current.currentLevel.level).toBe(1);
         expect(result.current.inventory.ownedItems.length).toBeGreaterThan(0);
-        expect(result.current.streak.currentStreak).toBe(5);
-        expect(result.current.streak.longestStreak).toBe(10);
+        expect(result.current.streak.currentStreak).toBe(0);
+        expect(result.current.streak.longestStreak).toBe(0);
     });
 
     describe('Question Progress (recordQuestionCompleted)', () => {
@@ -383,96 +371,6 @@ describe('useGamification Hook', () => {
             await waitFor(() => {
                 const hasEndgame = result.current.activeMissions.some(m => m.missionId.startsWith('endgame_'));
                 expect(hasEndgame).toBe(true);
-            });
-        });
-    });
-
-    describe('Advanced Achievements', () => {
-        it('should unlock fashionista achievement when buying 3rd avatar', async () => {
-            (getGamification as any).mockResolvedValue(getFullMockData({
-                inventory: {
-                    ownedItems: ['avatar_1', 'avatar_2'], // User has 2 avatars
-                    equippedAvatar: 'avatar_1',
-                }
-            }));
-
-            const { result } = renderHook(() => useGamification());
-            await waitFor(() => expect(result.current.loading).toBe(false));
-
-            await act(async () => {
-                // Buy 3rd avatar ('avatar_3' from mockShopItems)
-                result.current.buyShopItem('avatar_3', 10);
-            });
-
-            await waitFor(() => {
-                const hasFashionista = result.current.unlockedAchievements.some(a => a.id === 'fashionista');
-                expect(hasFashionista).toBe(true);
-            });
-        });
-
-        it('should unlock magnate achievement when balance exceeds 1000 via mission claim', async () => {
-            const missionId = 'daily_test_magnata';
-            const mockMission = {
-                missionId: missionId,
-                id: missionId,
-                title: 'Rich Mission',
-                type: 'daily',
-                objectiveType: 'complete_questions',
-                target: 1,
-                targetValue: 1,
-                progress: 1,
-                completed: false,
-                status: 'active',
-                rewards: { stars: 100, xp: 0 }, // Reward pushes balance over edge
-                starsReward: 100,
-                xpReward: 0,
-            };
-
-            mockGenerateDaily.mockReturnValue([mockMission]);
-
-            // Initial balance 950
-            (useAuth as any).mockReturnValue({
-                user: mockUser,
-                userData: { ...mockUserData, balance: 950 },
-                updateUserData: mockUpdateUserData,
-            });
-
-            (getGamification as any).mockResolvedValue(getFullMockData({
-                activeMissions: [mockMission]
-            }));
-
-            const { result } = renderHook(() => useGamification());
-            await waitFor(() => expect(result.current.loading).toBe(false));
-
-            await act(async () => {
-                result.current.claimMissionReward(missionId);
-            });
-
-            await waitFor(() => {
-                const hasMagnate = result.current.unlockedAchievements.some(a => a.id === 'magnate');
-                expect(hasMagnate).toBe(true);
-            });
-        });
-
-        it('should unlock personal_museum when buying all items', async () => {
-             (getGamification as any).mockResolvedValue(getFullMockData({
-                inventory: {
-                    ownedItems: ['avatar_1', 'avatar_2', 'avatar_3'], // Missing frame_1
-                    equippedAvatar: 'avatar_1',
-                }
-            }));
-
-            const { result } = renderHook(() => useGamification());
-            await waitFor(() => expect(result.current.loading).toBe(false));
-
-            await act(async () => {
-                // Buy last item ('frame_1')
-                result.current.buyShopItem('frame_1', 10);
-            });
-
-            await waitFor(() => {
-                const hasMuseum = result.current.unlockedAchievements.some(a => a.id === 'personal_museum');
-                expect(hasMuseum).toBe(true);
             });
         });
     });

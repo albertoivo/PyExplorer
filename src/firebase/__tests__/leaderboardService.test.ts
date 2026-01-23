@@ -36,11 +36,7 @@ const mockUser = {
     balance: 50,
     createdAt: { toDate: () => new Date() },
     updatedAt: { toDate: () => new Date() },
-    unlockedWorlds: ['basic_commands'],
-    streak: 1,
-    lastActiveDate: new Date().toISOString(),
-    inventory: [],
-    equippedAvatar: 'avatar-url'
+    unlockedWorlds: ['basic_commands']
 };
 
 describe('Leaderboard Security Services', () => {

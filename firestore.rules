@@ -55,15 +55,13 @@ service cloud.firestore {
       
       // Escrita: Permite se for o dono ou admin com validação de campos numéricos críticos
       allow create, update: if isAuthenticated() && (request.auth.uid == userId || isAdmin()) &&
-        hasOnly(request.resource.data, ['uid', 'displayName', 'avatar', 'email', 'createdAt', 'updatedAt', 'totalScore', 'balance', 'unlockedWorlds', 'streak', 'longestStreak', 'lastActiveDate', 'inventory', 'equippedAvatar']) &&
+        hasOnly(request.resource.data, ['uid', 'displayName', 'avatar', 'email', 'createdAt', 'updatedAt', 'totalScore', 'balance', 'unlockedWorlds']) &&
         // Valida displayName (string, max 50 chars)
         (!('displayName' in request.resource.data) || isValidString(request.resource.data.displayName, 50)) &&
         // Valida totalScore se presente (0 a 9.999.999)
         (!('totalScore' in request.resource.data) || isValidNumber(request.resource.data.totalScore, 0, 9999999)) &&
         // Valida balance se presente (0 a 9.999.999)
         (!('balance' in request.resource.data) || isValidNumber(request.resource.data.balance, 0, 9999999)) &&
-        // Valida streak se presente (0 a 9999 dias - aumentado para suportar uso longo prazo)
-        (!('streak' in request.resource.data) || isValidNumber(request.resource.data.streak, 0, 9999)) &&
         // Valida unlockedWorlds (deve ser lista)
         (!('unlockedWorlds' in request.resource.data) || request.resource.data.unlockedWorlds is list);
     }
@@ -148,8 +146,8 @@ service cloud.firestore {
          (!('attempts' in request.resource.data) || isValidNumber(request.resource.data.attempts, 0, 9999)) &&
          // Valida stars se presente (0 a 3)
          (!('stars' in request.resource.data) || isValidNumber(request.resource.data.stars, 0, 3)) &&
-         // Valida bestTimeSeconds se presente (0 a 999999)
-         (!('bestTimeSeconds' in request.resource.data) || isValidNumber(request.resource.data.bestTimeSeconds, 0, 999999))
+         // Valida bestTimeSeconds se presente (0 a 99999)
+         (!('bestTimeSeconds' in request.resource.data) || isValidNumber(request.resource.data.bestTimeSeconds, 0, 99999))
         ) ||
         isAdmin()
       );

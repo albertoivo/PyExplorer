@@ -337,17 +337,5 @@ for i in range(4):
         answerIndex: 0,
         explanationKidFriendly: '`not` inverte a lógica! Se `chovendo` é Falso (não está), `not chovendo` vira Verdadeiro e vamos à praia! 🏖️',
         points: 10,
-    },
-    {
-        id: 'dec_15',
-        type: 'true_false',
-        world: 'conditions',
-        difficulty: 'medium',
-        ageMin: 10,
-        title: 'Texto ou Número?',
-        prompt: 'A comparação `5 == "5"` retorna True (Verdadeiro)?',
-        correctBool: false,
-        explanationKidFriendly: 'Falso! Um é número (int) e o outro é texto (str). Para o Python, eles são coisas diferentes! 🍎 vs 🍊',
-        points: 15,
     }
 ];

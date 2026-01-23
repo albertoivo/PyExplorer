@@ -202,15 +202,17 @@ export function useGamification() {
                     }
 
                     // --- MIGRATION: Sync Legacy Streak from UserData ---
-                    if (currentUserData.streak && (!finalData.streak.currentStreak || currentUserData.streak > finalData.streak.currentStreak)) {
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    const legacyUser = currentUserData as any;
+                    if (legacyUser.streak && (!finalData.streak.currentStreak || legacyUser.streak > finalData.streak.currentStreak)) {
                         console.log('🔄 Migrating streak from UserData to Gamification');
                         finalData = {
                             ...finalData,
                             streak: {
                                 ...finalData.streak,
-                                currentStreak: currentUserData.streak || 0,
-                                longestStreak: Math.max(currentUserData.longestStreak || 0, finalData.streak.longestStreak),
-                                lastActivityDate: currentUserData.lastActiveDate || finalData.streak.lastActivityDate
+                                currentStreak: legacyUser.streak || 0,
+                                longestStreak: Math.max(legacyUser.longestStreak || 0, finalData.streak.longestStreak),
+                                lastActivityDate: legacyUser.lastActiveDate || finalData.streak.lastActivityDate
                             }
                         };
                         hasUpdates = true;
@@ -264,13 +266,15 @@ export function useGamification() {
                     const initial = getInitialGamification();
 
                     // --- MIGRATION: Sync Legacy Streak from UserData ---
-                    if (currentUserData.streak && currentUserData.streak > 0) {
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    const legacyUser = currentUserData as any;
+                    if (legacyUser.streak && legacyUser.streak > 0) {
                         console.log('🔄 Migrating streak from UserData to New Gamification');
                         initial.streak = {
                             ...initial.streak,
-                            currentStreak: currentUserData.streak,
-                            longestStreak: Math.max(currentUserData.longestStreak || 0, initial.streak.longestStreak),
-                            lastActivityDate: currentUserData.lastActiveDate || initial.streak.lastActivityDate
+                            currentStreak: legacyUser.streak,
+                            longestStreak: Math.max(legacyUser.longestStreak || 0, initial.streak.longestStreak),
+                            lastActivityDate: legacyUser.lastActiveDate || initial.streak.lastActivityDate
                         };
                     }
 

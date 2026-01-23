@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { SEO } from '../components/common/SEO';
-import { PasswordInput } from '../components/common/PasswordInput';
 import './AuthPages.css';
 
 // Variável global para rastrear se já redirecionou (persiste entre remontagens do componente)
@@ -141,8 +140,9 @@ export function LoginPage() {
 
                     <div className="form-group">
                         <label htmlFor="password" className="form-label">🔑 Senha</label>
-                        <PasswordInput
+                        <input
                             id="password"
+                            type="password"
                             className="form-input"
                             placeholder="Sua senha secreta"
                             value={password}

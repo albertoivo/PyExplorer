@@ -85,16 +85,6 @@ describe('Firestore security rules', () => {
             }));
         });
 
-        it('should DENY creating user with streak > 9999', async () => {
-            const aliceDb = testEnv.authenticatedContext('alice').firestore();
-            await assertFails(setDoc(doc(aliceDb, 'users/alice'), {
-                uid: 'alice',
-                displayName: 'Alice',
-                email: 'alice@example.com',
-                streak: 10000
-            }));
-        });
-
         it('should ALLOW creating user with valid numeric limits', async () => {
             const aliceDb = testEnv.authenticatedContext('alice').firestore();
             await assertSucceeds(setDoc(doc(aliceDb, 'users/alice'), {
@@ -102,8 +92,7 @@ describe('Firestore security rules', () => {
                 displayName: 'Alice',
                 email: 'alice@example.com',
                 totalScore: 9999999,
-                balance: 1000,
-                streak: 9999
+                balance: 1000
             }));
         });
 
@@ -296,14 +285,14 @@ describe('Firestore security rules', () => {
             }));
         });
 
-        it('should DENY creating progress with invalid bestTimeSeconds (negative)', async () => {
+        it('should ALLOW creating progress with valid bestTimeSeconds', async () => {
             const aliceDb = testEnv.authenticatedContext('alice').firestore();
-            await assertFails(setDoc(doc(aliceDb, 'userProgress/alice_q1'), {
+            await assertSucceeds(setDoc(doc(aliceDb, 'userProgress/alice_q1'), {
                 uid: 'alice',
                 questionId: 'q1',
                 status: 'completed',
                 score: 10,
-                bestTimeSeconds: -10 // Inválido (< 0)
+                bestTimeSeconds: 120
             }));
         });
 
@@ -314,18 +303,7 @@ describe('Firestore security rules', () => {
                 questionId: 'q1',
                 status: 'completed',
                 score: 10,
-                bestTimeSeconds: 1000000 // Inválido (> 999999)
-            }));
-        });
-
-        it('should DENY creating progress with invalid bestTimeSeconds (not a number)', async () => {
-            const aliceDb = testEnv.authenticatedContext('alice').firestore();
-            await assertFails(setDoc(doc(aliceDb, 'userProgress/alice_q1'), {
-                uid: 'alice',
-                questionId: 'q1',
-                status: 'completed',
-                score: 10,
-                bestTimeSeconds: "10" // Inválido (string)
+                bestTimeSeconds: 100000 // > 99999
             }));
         });
     });

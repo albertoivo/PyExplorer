@@ -21,11 +21,7 @@ describe('Schema Validation', () => {
             'totalScore',
             'lastLoginAt',
             'unlockedWorlds',
-            'balance',
-            'inventory',
-            'equippedAvatar',
-            'streak',
-            'lastActiveDate'
+            'balance'
         ]);
 
         // Mock a full UserData object to extract keys
@@ -39,11 +35,7 @@ describe('Schema Validation', () => {
             'updatedAt',
             'totalScore',
             'balance',
-            'unlockedWorlds',
-            'streak',
-            'lastActiveDate',
-            'inventory',
-            'equippedAvatar'
+            'unlockedWorlds'
             // 'lastLoginAt' is optional in some contexts or legacy, but in rules it is allowed
         ];
 

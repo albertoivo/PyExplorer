@@ -91,9 +91,7 @@ describe('useAuth Hook', () => {
         const mockUserData: UserData = {
             uid: '123',
             totalScore: 100,
-            balance: 100,
-            streak: 5,
-            lastActiveDate: '2023-01-01'
+            balance: 100
         } as UserData;
 
         (getUser as unknown as ReturnType<typeof vi.fn>).mockResolvedValue(mockUserData);
@@ -109,6 +107,7 @@ describe('useAuth Hook', () => {
         expect(result.current?.userData).toEqual(mockUserData);
         expect(result.current?.isGuest).toBe(false);
     });
+
 
     it('should handle Google Login (New User)', async () => {
         const mockUser = { uid: 'new-google', displayName: 'Google User', email: 'g@g.com' } as User;

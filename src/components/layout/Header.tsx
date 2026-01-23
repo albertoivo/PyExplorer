@@ -22,8 +22,8 @@ export function Header() {
 
     const isActive = (path: string) => location.pathname === path;
 
-    // Prioritize gamification streak (source of truth), fallback to userData (deprecated)
-    const currentStreak = gamification?.streak?.currentStreak || userData?.streak || 0;
+    // Prioritize gamification streak (source of truth)
+    const currentStreak = gamification?.streak?.currentStreak || 0;
 
     return (
         <header className="header">
@@ -33,7 +33,7 @@ export function Header() {
                     <span className="header__logo-icon" aria-hidden="true">
                         {(() => {
                             if (!userData && !isGuest) return '🐍';
-                            const equippedAvatarId = gamification?.inventory?.equippedAvatar || userData?.avatar || 'avatar_snake_green';
+                            const equippedAvatarId = gamification?.inventory?.equippedAvatar || 'avatar_snake_green';
                             const equippedFrameId = gamification?.inventory?.equippedFrame;
                             const avatarItem = SHOP_ITEMS.find(i => i.id === equippedAvatarId);
                             const frameItem = equippedFrameId ? SHOP_ITEMS.find(i => i.id === equippedFrameId) : null;

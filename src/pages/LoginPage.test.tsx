@@ -56,7 +56,7 @@ describe('LoginPage', () => {
 
         expect(screen.getByText('Entrar no PyExplorer')).toBeInTheDocument();
         expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
-        expect(screen.getByLabelText(/senha/i, { selector: 'input' })).toBeInTheDocument();
+        expect(screen.getByLabelText(/senha/i)).toBeInTheDocument();
         expect(screen.getByRole('button', { name: '🚀 Entrar' })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: 'Entrar com Google' })).toBeInTheDocument();
     });
@@ -65,7 +65,7 @@ describe('LoginPage', () => {
         renderLoginPage();
 
         const emailInput = screen.getByLabelText(/email/i);
-        const passwordInput = screen.getByLabelText(/senha/i, { selector: 'input' });
+        const passwordInput = screen.getByLabelText(/senha/i);
 
         fireEvent.change(emailInput, { target: { value: 'teste@exemplo.com' } });
         fireEvent.change(passwordInput, { target: { value: '123456' } });
@@ -78,7 +78,7 @@ describe('LoginPage', () => {
         renderLoginPage();
 
         fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'teste@exemplo.com' } });
-        fireEvent.change(screen.getByLabelText(/senha/i, { selector: 'input' }), { target: { value: '123456' } });
+        fireEvent.change(screen.getByLabelText(/senha/i), { target: { value: '123456' } });
 
         const loginBtn = screen.getByRole('button', { name: '🚀 Entrar' });
         fireEvent.click(loginBtn);
