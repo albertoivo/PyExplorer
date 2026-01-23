@@ -11,6 +11,7 @@ import {
     limit,
     Timestamp,
     writeBatch,
+    deleteField,
 } from 'firebase/firestore';
 import type { DocumentData, QueryConstraint } from 'firebase/firestore';
 import { db } from './firebaseConfig';
@@ -130,13 +131,14 @@ async function updateLeaderboard(userData: UserData): Promise<void> {
 export async function saveUser(userData: UserData): Promise<void> {
     const docRef = doc(db, USERS_COLLECTION, userData.uid);
 
-    // Critical: Strip deprecated/duplicated fields to avoid schema duplication with UserGamification
-    // These fields are now managed exclusively in the 'gamification' collection
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { streak, longestStreak, lastActiveDate, inventory, equippedAvatar, ...dataToSave } = userData;
-
     await setDoc(docRef, {
-        ...dataToSave,
+        ...userData,
+        // Explicitly delete deprecated fields to satisfy strict hasOnly rules
+        streak: deleteField(),
+        longestStreak: deleteField(),
+        lastActiveDate: deleteField(),
+        inventory: deleteField(),
+        equippedAvatar: deleteField(),
         createdAt: Timestamp.fromDate(userData.createdAt),
         updatedAt: Timestamp.fromDate(userData.updatedAt),
     }, { merge: true });

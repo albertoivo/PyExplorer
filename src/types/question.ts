@@ -190,32 +190,6 @@ export interface UserData {
   balance: number;
   /** Mundos desbloqueados */
   unlockedWorlds: World[];
-  /**
-   * Ofensiva atual (dias seguidos)
-   * @deprecated Use UserGamification.streak.currentStreak. Field removed from persistence.
-   */
-  streak: number;
-  /**
-   * Maior ofensiva já alcançada
-   * @deprecated Use UserGamification.streak.longestStreak. Field removed from persistence.
-   */
-  longestStreak?: number;
-  /**
-   * Data da última atividade para cálculo de streak
-   * @deprecated Use UserGamification.streak.lastActivityDate. Field removed from persistence.
-   */
-  lastActiveDate: string;
-  /** Start of Phase 2 logic */
-  /**
-   * Itens desbloqueados (IDs dos itens)
-   * @deprecated Use UserGamification.inventory.ownedItems. Field removed from persistence.
-   */
-  inventory: string[];
-  /**
-   * Avatar equipado (pode ser URL ou ID de um item)
-   * @deprecated Use UserGamification.inventory.equippedAvatar. Field removed from persistence.
-   */
-  equippedAvatar: string;
 }
 
 /**

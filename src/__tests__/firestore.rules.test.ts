@@ -85,16 +85,6 @@ describe('Firestore security rules', () => {
             }));
         });
 
-        it('should DENY creating user with streak > 9999', async () => {
-            const aliceDb = testEnv.authenticatedContext('alice').firestore();
-            await assertFails(setDoc(doc(aliceDb, 'users/alice'), {
-                uid: 'alice',
-                displayName: 'Alice',
-                email: 'alice@example.com',
-                streak: 10000
-            }));
-        });
-
         it('should ALLOW creating user with valid numeric limits', async () => {
             const aliceDb = testEnv.authenticatedContext('alice').firestore();
             await assertSucceeds(setDoc(doc(aliceDb, 'users/alice'), {
@@ -102,8 +92,7 @@ describe('Firestore security rules', () => {
                 displayName: 'Alice',
                 email: 'alice@example.com',
                 totalScore: 9999999,
-                balance: 1000,
-                streak: 9999
+                balance: 1000
             }));
         });
 
@@ -293,6 +282,28 @@ describe('Firestore security rules', () => {
                 status: 'completed',
                 score: 10,
                 stars: 4 // Inválido (> 3)
+            }));
+        });
+
+        it('should ALLOW creating progress with valid bestTimeSeconds', async () => {
+            const aliceDb = testEnv.authenticatedContext('alice').firestore();
+            await assertSucceeds(setDoc(doc(aliceDb, 'userProgress/alice_q1'), {
+                uid: 'alice',
+                questionId: 'q1',
+                status: 'completed',
+                score: 10,
+                bestTimeSeconds: 120
+            }));
+        });
+
+        it('should DENY creating progress with invalid bestTimeSeconds (too high)', async () => {
+            const aliceDb = testEnv.authenticatedContext('alice').firestore();
+            await assertFails(setDoc(doc(aliceDb, 'userProgress/alice_q1'), {
+                uid: 'alice',
+                questionId: 'q1',
+                status: 'completed',
+                score: 10,
+                bestTimeSeconds: 100000 // > 99999
             }));
         });
     });
