@@ -1,61 +1,55 @@
 # Relatório do Guardião Firebase 🔥
 
-**Data:** 14/10/2023 (Simulada)
+**Data:** 25/10/2023
 **Status:** ⚠️ Atenção
 
 ## Resumo
 
-A análise revelou inconsistências importantes entre os tipos TypeScript e as Security Rules, principalmente na duplicação de esquemas entre `UserData` e `UserGamification` e na falta de validação profunda de tipos em objetos aninhados (Maps) nas regras do Firestore. As coleções de questões e progresso estão, em sua maioria, bem sincronizadas.
+A análise identificou que a maioria das inconsistências críticas foi mitigada pelo código do serviço (que remove campos depreciados) ou por atualizações de tipagem (como `updatedAt` em Gamification). No entanto, as **Firestore Security Rules** permanecem permissivas demais em relação a validações de tipos para campos depreciados e estruturas aninhadas complexas, criando um risco potencial de integridade de dados se acessados por clientes não oficiais.
 
 ## ✅ Verificações Passaram
 
-- **Coleção `questions`:** Tipos TypeScript sincronizados com o serviço; regras de segurança adequadas (Admin Write / Public Read).
-- **Coleção `users`:** Campo `unlockedWorlds` está presente e validado como lista nas regras (ao contrário da suspeita inicial).
-- **Limites:** Validações de tamanho para `displayName`, `streak` e `totalXP` estão coerentes.
-- **Segurança:** Uso correto de `isOwner()` e `isAdmin()` para controle de acesso.
-- **Conversão de Tipos:** Serviços tratam corretamente a conversão `Timestamp` ↔ `Date`.
+- **Coleção `questions`:**
+    - Campos sincronizados entre TypeScript (`QuestionDocument`) e Service (`questionsService.ts`).
+    - Regras de segurança corretas: Leitura pública, Escrita apenas Admin.
+- **Coleção `users`:**
+    - Campo `unlockedWorlds` **está presente** e validado como lista nas regras (contrariando a suspeita inicial de ausência).
+    - Limites de `displayName` (50 chars), `streak` (9999) e `totalXP` (9999999) estão consistentes.
+    - Segurança de acesso (`isOwner`) implementada corretamente.
+- **Coleção `userProgress`:**
+    - Campos e Status (`not_started`, `in_progress`, `completed`) validados.
+    - Limites de Score (9999) e Attempts (9999) adequados.
+- **Tipagem:**
+    - Conversão de datas (`Timestamp` ↔ `Date`) tratada corretamente nos serviços.
+    - `UserGamification` no TypeScript agora inclui `updatedAt`, resolvendo inconsistência anterior.
 
 ## ⚠️ Avisos (Ação Sugerida)
 
-### Falta de Validação de Tipos em `users`
+### Validação Ausente para Campos Depreciados (`users`)
 - **Localização:** `firestore.rules` (match `/users/{userId}`)
-- **Descrição:** Os campos `longestStreak`, `inventory`, `equippedAvatar` e `lastActiveDate` estão na allowlist `hasOnly`, mas não possuem verificações de tipo específicas (ex: `isValidNumber`, `is list`, `is string`).
-- **Impacto:** Permite salvar tipos incorretos (ex: salvar um número em `equippedAvatar` ou string em `longestStreak`).
-- **Sugestão:** Adicionar validações explícitas:
-  ```javascript
-  (!('longestStreak' in request.resource.data) || isValidNumber(request.resource.data.longestStreak, 0, 9999)) &&
-  (!('inventory' in request.resource.data) || request.resource.data.inventory is list)
-  ```
+- **Descrição:** As regras permitem a escrita dos campos `longestStreak`, `inventory`, `equippedAvatar` e `lastActiveDate` (via `hasOnly`), mas **não validam seus tipos**. O serviço `saveUser` remove esses campos antes de salvar, mas as regras ainda os aceitam se enviados diretamente.
+- **Impacto:** Um cliente malicioso ou bug pode salvar dados de tipo incorreto (ex: string em `longestStreak`), sujando o banco.
+- **Sugestão:** Remover esses campos do `hasOnly` nas regras se eles não devem mais ser escritos, ou adicionar validação de tipo (`isValidNumber`, `is string`).
 
-### Inconsistência de Tipo `UserGamification` (`updatedAt`)
-- **Localização:** `src/types/gamification.ts` vs `firestore.rules` vs `src/firebase/firestore.ts`
-- **Descrição:** O serviço `saveGamificationData` injeta `updatedAt` e as regras o exigem/permitem, mas o tipo TypeScript `UserGamification` não possui este campo.
-- **Impacto:** O código TypeScript não consegue acessar `updatedAt` ao ler os dados, gerando erros de tipo se tentado.
-- **Sugestão:** Adicionar `updatedAt: Date;` à interface `UserGamification`.
-
-### Validação Parcial em Objetos Aninhados (`gamification`)
+### Validação Rasa em Objetos Aninhados (`gamification`)
 - **Localização:** `firestore.rules` (match `/gamification/{userId}`)
-- **Descrição:** Objetos como `stats`, `streak`, `inventory` e `powerUps` têm seus campos listados em `hasOnly`, mas muitos valores internos não têm validação de tipo (ex: `totalPlayTime` em stats, `longestStreak` em streak).
-- **Impacto:** Dados corrompidos podem ser salvos dentro dessas estruturas complexas.
-- **Sugestão:** Expandir as regras para validar os tipos dos campos aninhados, não apenas sua presença.
+- **Descrição:** As regras verificam se `achievements` e `activeMissions` são listas, mas **não validam a estrutura dos objetos dentro dessas listas**.
+- **Impacto:** É possível salvar conquistas ou missões com formato inválido (ex: faltando `id` ou `reward`), o que quebraria o frontend ao carregar.
+- **Sugestão:** Devido a limitações do Firestore Rules em iterar listas, a mitigação ideal é garantir validação rigorosa no Cloud Functions ou manter a validação forte no client-side (atual).
 
 ### Campo `bestTimeSeconds` sem Validação (`userProgress`)
 - **Localização:** `firestore.rules` (match `/userProgress/{progressId}`)
-- **Descrição:** O campo está na allowlist mas não tem verificação `isValidNumber`.
-- **Impacto:** Risco menor, mas inconsistente com outros campos métricos.
-- **Sugestão:** Adicionar `isValidNumber(request.resource.data.bestTimeSeconds, 0, 99999)`.
+- **Descrição:** O campo `bestTimeSeconds` é permitido, mas não possui verificação `isValidNumber` como os outros campos métricos (`score`, `stars`).
+- **Impacto:** Risco menor de integridade.
+- **Sugestão:** Adicionar `(!('bestTimeSeconds' in request.resource.data) || isValidNumber(request.resource.data.bestTimeSeconds, 0, 99999))`.
 
 ## ❌ Problemas Críticos
 
 ### Duplicação de Esquema (`UserData` vs `UserGamification`)
 - **Localização:** `src/types/question.ts` vs `src/types/gamification.ts`
-- **Descrição:** Os campos `inventory`, `streak` e `equippedAvatar` existem em ambas as interfaces com estruturas diferentes.
-    - `UserData.inventory`: `string[]` (Lista de IDs)
-    - `UserGamification.inventory`: Objeto `UserInventory` (com `ownedItems`, `equippedFrame`, etc.)
-    - `UserData.streak`: `number`
-    - `UserGamification.streak`: Objeto `UserStreak`
-- **Impacto:** Risco alto de inconsistência de dados. Atualizar o streak na gamificação não atualiza automaticamente o usuário, criando duas verdades no banco.
-- **Correção Necessária:** Unificar a fonte da verdade. Recomenda-se depreciar os campos complexos em `UserData` e usar apenas `UserGamification` para dados de jogo, mantendo `UserData` apenas para perfil básico (auth, display).
+- **Descrição:** Existe uma duplicação conceitual onde `inventory`, `streak` e `equippedAvatar` existem em `UserData` (como primitivos/depreciados) e em `UserGamification` (como objetos complexos).
+- **Impacto:** O serviço `saveUser` explicitamente remove esses campos de `UserData` para evitar sobrescrever dados da gamificação. Isso cria uma "armadilha" de manutenção: se alguém remover a lógica de exclusão no serviço, os dados da gamificação podem ser corrompidos ou desincronizados.
+- **Correção Necessária:** Concluir a migração removendo definitivamente esses campos da interface `UserData` no TypeScript e das `firestore.rules`.
 
 ## 📋 Tabela de Correspondência
 
@@ -63,9 +57,10 @@ A análise revelou inconsistências importantes entre os tipos TypeScript e as S
 |---------|------------------|-------------|--------|
 | users | displayName | displayName | ✅ |
 | users | unlockedWorlds | unlockedWorlds | ✅ (Presente e validado como List) |
-| users | inventory | inventory | ⚠️ (Validado apenas presença, conflito de esquema) |
-| users | longestStreak | longestStreak | ⚠️ (Sem validação numérica) |
+| users | inventory | inventory | ⚠️ (Permitido na Rule, Depreciado no TS) |
+| users | longestStreak | longestStreak | ⚠️ (Permitido sem validação de tipo) |
 | userProgress | score | score | ✅ |
 | userProgress | bestTimeSeconds | bestTimeSeconds | ⚠️ (Sem validação numérica) |
-| gamification | updatedAt | updatedAt | ❌ (Ausente no Tipo TS) |
-| gamification | stats.totalPlayTime | stats.totalPlayTime | ⚠️ (Sem validação numérica) |
+| gamification | updatedAt | updatedAt | ✅ (Presente no TS e Rules) |
+| gamification | achievements | achievements | ⚠️ (Validação rasa de lista) |
+| gamification | stats.completedWorldIds | stats.completedWorldIds | ⚠️ (Sem validação de tipo List) |
