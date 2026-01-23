@@ -295,6 +295,39 @@ describe('Firestore security rules', () => {
                 stars: 4 // Inválido (> 3)
             }));
         });
+
+        it('should DENY creating progress with invalid bestTimeSeconds (negative)', async () => {
+            const aliceDb = testEnv.authenticatedContext('alice').firestore();
+            await assertFails(setDoc(doc(aliceDb, 'userProgress/alice_q1'), {
+                uid: 'alice',
+                questionId: 'q1',
+                status: 'completed',
+                score: 10,
+                bestTimeSeconds: -10 // Inválido (< 0)
+            }));
+        });
+
+        it('should DENY creating progress with invalid bestTimeSeconds (too high)', async () => {
+            const aliceDb = testEnv.authenticatedContext('alice').firestore();
+            await assertFails(setDoc(doc(aliceDb, 'userProgress/alice_q1'), {
+                uid: 'alice',
+                questionId: 'q1',
+                status: 'completed',
+                score: 10,
+                bestTimeSeconds: 1000000 // Inválido (> 999999)
+            }));
+        });
+
+        it('should DENY creating progress with invalid bestTimeSeconds (not a number)', async () => {
+            const aliceDb = testEnv.authenticatedContext('alice').firestore();
+            await assertFails(setDoc(doc(aliceDb, 'userProgress/alice_q1'), {
+                uid: 'alice',
+                questionId: 'q1',
+                status: 'completed',
+                score: 10,
+                bestTimeSeconds: "10" // Inválido (string)
+            }));
+        });
     });
 
     // --- GAMIFICATION COLLECTION ---
