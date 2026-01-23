@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { SEO } from '../components/common/SEO';
+import { PasswordInput } from '../components/common/PasswordInput';
 import './AuthPages.css';
 
 /**
@@ -146,9 +147,8 @@ export function RegisterPage() {
                         <label htmlFor="password" className="form-label">
                             🔑 Crie uma senha secreta
                         </label>
-                        <input
+                        <PasswordInput
                             id="password"
-                            type="password"
                             className="form-input"
                             placeholder="Mínimo 6 caracteres"
                             value={password}
@@ -163,9 +163,8 @@ export function RegisterPage() {
                         <label htmlFor="confirmPassword" className="form-label">
                             🔐 Confirme a senha
                         </label>
-                        <input
+                        <PasswordInput
                             id="confirmPassword"
-                            type="password"
                             className="form-input"
                             placeholder="Digite a senha novamente"
                             value={confirmPassword}
