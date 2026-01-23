@@ -324,21 +324,5 @@ export const variablesQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'Para atualizar uma variável, usamos o valor antigo dela! `nivel = nivel + 1` pega o 5, soma 1 e guarda o 6. 🆙',
         points: 15,
-    },
-    {
-        id: 'var_15',
-        type: 'fill_code',
-        world: 'variables',
-        difficulty: 'medium',
-        ageMin: 10,
-        title: 'Virando Inteiro',
-        prompt: 'Converta o número 3.8 para inteiro:',
-        starterCode: 'num = 3.8\ninteiro = ___(num)\nprint(inteiro)',
-        solutionTemplate: 'inteiro = int(num)',
-        tests: [
-            { input: null, expectedOutput: '3' }
-        ],
-        explanationKidFriendly: 'A função int() transforma qualquer coisa em número inteiro! Se for decimal, ela joga fora a parte da vírgula (não arredonda!). ✂️',
-        points: 20,
     }
 ];

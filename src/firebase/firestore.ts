@@ -522,10 +522,6 @@ export async function getTopUsers(topN: number = 10): Promise<UserData[]> {
             email: '',
             balance: 0,
             unlockedWorlds: [],
-            streak: 0,
-            lastActiveDate: new Date().toISOString(),
-            inventory: [],
-            equippedAvatar: '',
         };
 
         return userData;

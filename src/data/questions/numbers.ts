@@ -299,23 +299,5 @@ export const numbersQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: '11 // 4 dá 2. A divisão inteira joga fora o resto (3 balas sobram). Ninguém ganha bala quebrada! 🍬',
         points: 10,
-    },
-    {
-        id: 'num_15',
-        type: 'multiple_choice',
-        world: 'numbers',
-        difficulty: 'medium',
-        ageMin: 9,
-        title: 'Quem vem primeiro?',
-        prompt: 'Qual é o resultado de 2 + 3 * 4?',
-        options: [
-            '20',
-            '14',
-            '24',
-            '10',
-        ],
-        answerIndex: 1,
-        explanationKidFriendly: 'Multiplicação e divisão vêm antes de soma e subtração! Primeiro fazemos 3 * 4 = 12. Depois 2 + 12 = 14. 🧮',
-        points: 15,
     }
 ];

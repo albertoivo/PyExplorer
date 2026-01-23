@@ -57,9 +57,14 @@ export function useQuestionsFirestore() {
     }, [loadQuestions]);
 
     /**
+     * Filtra questões por mundo
+     */
+    const getQuestionsByWorld = useCallback((world: World): QuestionDocument[] => {
+        return questions.filter(q => q.world === world);
+    }, [questions]);
+
+    /**
      * Agrupa questões por mundo
-     * Optimization: Computed once per questions update (O(N))
-     * Allows O(1) lookups in getQuestionsByWorld
      */
     const questionsByWorld = useMemo(() => {
         const groups = new Map<World, QuestionDocument[]>();
@@ -74,20 +79,11 @@ export function useQuestionsFirestore() {
     }, [questions]);
 
     /**
-     * Filtra questões por mundo
-     * Optimization: Uses Map for O(1) lookup instead of O(N) filter
-     */
-    const getQuestionsByWorld = useCallback((world: World): QuestionDocument[] => {
-        return questionsByWorld.get(world) || [];
-    }, [questionsByWorld]);
-
-    /**
      * Lista de mundos disponíveis
-     * Optimization: Uses Map keys for O(W) instead of iterating all questions O(N)
      */
     const availableWorlds = useMemo(() => {
-        return Array.from(questionsByWorld.keys());
-    }, [questionsByWorld]);
+        return Array.from(new Set(questions.map(q => q.world)));
+    }, [questions]);
 
     return {
         questions,

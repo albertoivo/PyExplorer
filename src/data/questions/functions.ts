@@ -319,23 +319,5 @@ desenhar_circulo(50)
         ],
         explanationKidFriendly: 'Funções podem ter vários ingredientes (parâmetros)! Separe eles com vírgula para usar todos na receita. 🍰',
         points: 20,
-    },
-    {
-        id: 'func_15',
-        type: 'multiple_choice',
-        world: 'functions',
-        difficulty: 'medium',
-        ageMin: 11,
-        title: 'Segredo da Função',
-        prompt: 'Se eu criar uma variável dentro de uma função, posso usá-la fora?',
-        options: [
-            'Não, ela só existe dentro da função',
-            'Sim, ela é global',
-            'Sim, mas só depois de executar',
-            'Depende do nome',
-        ],
-        answerIndex: 0,
-        explanationKidFriendly: 'O que acontece na função, fica na função! Variáveis criadas lá dentro são "locais" e ninguém de fora consegue ver. 🔒',
-        points: 15,
     }
 ];

@@ -187,21 +187,5 @@ export const dictionariesQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'Usamos `in` para perguntar se uma chave existe no dicionário! É como olhar dentro da mochila para ver se o mapa está lá. 🎒',
         points: 15,
-    },
-    {
-        id: 'dict_11',
-        type: 'fill_code',
-        world: 'dictionaries',
-        difficulty: 'medium',
-        ageMin: 10,
-        title: 'Qual a Cor?',
-        prompt: 'Use a chave "cor" para descobrir a cor da fruta:',
-        starterCode: 'fruta = {"nome": "Maçã", "cor": "Vermelha"}\nprint(fruta[___])',
-        solutionTemplate: 'print(fruta["cor"])',
-        tests: [
-            { input: null, expectedOutput: 'Vermelha' }
-        ],
-        explanationKidFriendly: 'Para abrir o cofre do dicionário, usamos a chave certa! `fruta["cor"]` abre a caixinha e mostra "Vermelha". 🗝️',
-        points: 15,
     }
 ];

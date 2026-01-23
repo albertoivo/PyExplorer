@@ -333,21 +333,5 @@ export const stringsQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: '`join` é a cola! Ele usa o traço "-" para colar os vagões e virar "piu-i". Piuííí! 🚂',
         points: 20,
-    },
-    {
-        id: 'strings_15',
-        type: 'fill_code',
-        world: 'strings',
-        difficulty: 'medium',
-        ageMin: 10,
-        title: 'Cortando o Final',
-        prompt: 'Use fatiamento para pegar as 2 últimas letras de "Python":',
-        starterCode: 'texto = "Python"\nfinal = texto[___]\nprint(final)',
-        solutionTemplate: 'final = texto[-2:]',
-        tests: [
-            { input: null, expectedOutput: 'on' },
-        ],
-        explanationKidFriendly: 'Usando números negativos, contamos do fim! [-2:] pega do penúltimo até o final. 🏁',
-        points: 20,
     }
 ];
