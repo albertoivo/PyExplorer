@@ -339,5 +339,23 @@ export const listsQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: '`pop()` estoura (remove) o ÚLTIMO item da lista. Tchau, balão azul! 🎈',
         points: 15,
+    },
+    {
+        id: 'list_15',
+        type: 'multiple_choice',
+        world: 'lists',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Pulando o Primeiro',
+        prompt: 'Como pegamos todos os itens da lista MENOS o primeiro?',
+        options: [
+            'lista[1:]',
+            'lista[0:]',
+            'lista[:1]',
+            'lista[-1]',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'lista[1:] significa "comece no índice 1 (o segundo item) e vá até o final". Assim o primeiro item (índice 0) fica de fora! ⏭️',
+        points: 15,
     }
 ];
