@@ -26,6 +26,21 @@ service cloud.firestore {
       return field is number && field >= min && field <= max;
     }
 
+    // Valida que um campo é timestamp
+    function isValidTimestamp(field) {
+      return field is timestamp;
+    }
+
+    // Valida que um campo é um avatar válido (string, max 500 chars)
+    function isValidAvatar(field) {
+      return field is string && field.size() <= 500;
+    }
+
+    // Valida que um campo é um email válido (string, max 100 chars, contém @)
+    function isValidEmail(field) {
+      return field is string && field.size() <= 100 && field.matches('.*@.*');
+    }
+
     // Valida se o objeto tem APENAS os campos permitidos
     function hasOnly(data, fields) {
       return data.keys().toSet().hasOnly(fields);
@@ -58,6 +73,13 @@ service cloud.firestore {
         hasOnly(request.resource.data, ['uid', 'displayName', 'avatar', 'email', 'createdAt', 'updatedAt', 'totalScore', 'balance', 'unlockedWorlds']) &&
         // Valida displayName (string, max 50 chars)
         (!('displayName' in request.resource.data) || isValidString(request.resource.data.displayName, 50)) &&
+        // Valida avatar
+        (!('avatar' in request.resource.data) || isValidAvatar(request.resource.data.avatar)) &&
+        // Valida email
+        (!('email' in request.resource.data) || isValidEmail(request.resource.data.email)) &&
+        // Valida createdAt e updatedAt
+        (!('createdAt' in request.resource.data) || isValidTimestamp(request.resource.data.createdAt)) &&
+        (!('updatedAt' in request.resource.data) || isValidTimestamp(request.resource.data.updatedAt)) &&
         // Valida totalScore se presente (0 a 9.999.999)
         (!('totalScore' in request.resource.data) || isValidNumber(request.resource.data.totalScore, 0, 9999999)) &&
         // Valida balance se presente (0 a 9.999.999)
@@ -75,6 +97,8 @@ service cloud.firestore {
       // Escrita com validação de limites para prevenir cheating
       allow write: if isAuthenticated() && (request.auth.uid == userId || isAdmin()) &&
         hasOnly(request.resource.data, ['level', 'streak', 'achievements', 'activeMissions', 'inventory', 'powerUps', 'stats', 'updatedAt']) &&
+        // Valida updatedAt
+        (!('updatedAt' in request.resource.data) || isValidTimestamp(request.resource.data.updatedAt)) &&
         // Valida level como objeto (Map)
         (!('level' in request.resource.data) || (
            request.resource.data.level is map &&
@@ -87,7 +111,9 @@ service cloud.firestore {
         (!('streak' in request.resource.data) || (
            request.resource.data.streak is map &&
            hasOnly(request.resource.data.streak, ['currentStreak', 'longestStreak', 'lastActivityDate', 'activityHistory']) &&
-           (!('currentStreak' in request.resource.data.streak) || isValidNumber(request.resource.data.streak.currentStreak, 0, 9999))
+           (!('currentStreak' in request.resource.data.streak) || isValidNumber(request.resource.data.streak.currentStreak, 0, 9999)) &&
+           (!('lastActivityDate' in request.resource.data.streak) || isValidString(request.resource.data.streak.lastActivityDate, 10)) &&
+           (!('activityHistory' in request.resource.data.streak) || request.resource.data.streak.activityHistory is list)
         )) &&
         // Valida achievements (Lista)
         (!('achievements' in request.resource.data) || request.resource.data.achievements is list) &&
@@ -98,19 +124,23 @@ service cloud.firestore {
             request.resource.data.inventory is map &&
             hasOnly(request.resource.data.inventory, ['ownedItems', 'equippedAvatar', 'equippedFrame', 'equippedTitle']) &&
             (!('ownedItems' in request.resource.data.inventory) || request.resource.data.inventory.ownedItems is list) &&
-            (!('equippedAvatar' in request.resource.data.inventory) || request.resource.data.inventory.equippedAvatar is string)
+            (!('equippedAvatar' in request.resource.data.inventory) || isValidString(request.resource.data.inventory.equippedAvatar, 100))
         )) &&
         // Valida powerUps (Map)
         (!('powerUps' in request.resource.data) || (
             request.resource.data.powerUps is map &&
-            hasOnly(request.resource.data.powerUps, ['inventory', 'usesToday', 'lastResetDate'])
+            hasOnly(request.resource.data.powerUps, ['inventory', 'usesToday', 'lastResetDate']) &&
+            (!('lastResetDate' in request.resource.data.powerUps) || isValidString(request.resource.data.powerUps.lastResetDate, 10)) &&
+            (!('inventory' in request.resource.data.powerUps) || request.resource.data.powerUps.inventory is map) &&
+            (!('usesToday' in request.resource.data.powerUps) || request.resource.data.powerUps.usesToday is map)
         )) &&
         // Valida stats (Map com campos numéricos)
         (!('stats' in request.resource.data) || (
             request.resource.data.stats is map &&
             hasOnly(request.resource.data.stats, ['totalQuestionsCompleted', 'totalCorrectAnswers', 'consecutiveCorrect', 'bestConsecutiveCorrect', 'weekendQuestionsCount', 'lastWeekendDate', 'totalPlayTime', 'worldsCompleted', 'perfectWorlds', 'bossesDefeated', 'consecutiveFastAnswers', 'completedWorldIds']) &&
             (!('totalQuestionsCompleted' in request.resource.data.stats) || isValidNumber(request.resource.data.stats.totalQuestionsCompleted, 0, 999999)) &&
-            (!('totalCorrectAnswers' in request.resource.data.stats) || isValidNumber(request.resource.data.stats.totalCorrectAnswers, 0, 999999))
+            (!('totalCorrectAnswers' in request.resource.data.stats) || isValidNumber(request.resource.data.stats.totalCorrectAnswers, 0, 999999)) &&
+            (!('lastWeekendDate' in request.resource.data.stats) || isValidString(request.resource.data.stats.lastWeekendDate, 10))
         ));
     }
     
@@ -163,6 +193,8 @@ service cloud.firestore {
       allow write: if isOwner(userId) &&
         hasOnly(request.resource.data, ['uid', 'displayName', 'avatar', 'totalScore', 'updatedAt']) &&
         (!('displayName' in request.resource.data) || isValidString(request.resource.data.displayName, 50)) &&
+        (!('avatar' in request.resource.data) || isValidAvatar(request.resource.data.avatar)) &&
+        (!('updatedAt' in request.resource.data) || isValidTimestamp(request.resource.data.updatedAt)) &&
         (!('totalScore' in request.resource.data) || isValidNumber(request.resource.data.totalScore, 0, 9999999));
     }
   }
