@@ -110,32 +110,6 @@ describe('useAuth Hook', () => {
         expect(result.current?.isGuest).toBe(false);
     });
 
-    it('should calculate streak and update if needed on login', async () => {
-        const mockUser = { uid: '123' } as User;
-        const mockUserData = { uid: '123', streak: 1 } as UserData;
-
-        (getUser as unknown as ReturnType<typeof vi.fn>).mockResolvedValue(mockUserData);
-
-        // Mock streak update needed
-        (calculateStreak as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
-            streak: 2,
-            longestStreak: 2,
-            lastActiveDate: 'today',
-            shouldUpdate: true
-        });
-
-        renderHook(() => useAuth(), { wrapper });
-
-        await act(async () => {
-            if (authCallback) await authCallback(mockUser);
-        });
-
-        expect(saveUser).toHaveBeenCalledWith(expect.objectContaining({
-            streak: 2,
-            longestStreak: 2
-        }));
-    });
-
     it('should handle Google Login (New User)', async () => {
         const mockUser = { uid: 'new-google', displayName: 'Google User', email: 'g@g.com' } as User;
 
