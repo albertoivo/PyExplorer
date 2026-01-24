@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { useGamification } from '../hooks/useGamification';
-import { useProgress } from '../hooks/useProgress';
+import { UserDashboard } from '../components/dashboard/UserDashboard';
 import { SEO } from '../components/common/SEO';
 import { WORLDS } from '../data/worlds';
 import './HomePage.css';
@@ -11,8 +10,6 @@ import './HomePage.css';
  */
 export function HomePage() {
     const { userData } = useAuth();
-    const { currentLevel, levelProgress, streak } = useGamification();
-    const { stats: progressStats } = useProgress();
 
     // Preload Pyodide script on hover for faster game start
     // Uses direct script injection since HomePage is outside PyodideProvider
@@ -69,81 +66,7 @@ export function HomePage() {
             </section>
 
             {/* User Progress Section - Only for logged-in users */}
-            {userData && (
-                <section className="user-progress">
-                    <div className="user-progress__header">
-                        <h2 className="user-progress__title">
-                            👋 Olá, {userData.displayName}!
-                        </h2>
-                        <p className="user-progress__subtitle">Aqui está seu progresso</p>
-                    </div>
-
-                    <div className="user-progress__grid">
-                        {/* Level Card */}
-                        <div className="progress-card progress-card--level">
-                            <span className="progress-card__icon" aria-hidden="true">{currentLevel.icon}</span>
-                            <div className="progress-card__content">
-                                <span className="progress-card__label">Nível {currentLevel.level}</span>
-                                <span className="progress-card__value">{currentLevel.name}</span>
-                                <div className="xp-bar" role="progressbar" aria-valuenow={Math.round(levelProgress)} aria-valuemin={0} aria-valuemax={100} aria-label="Progresso do nível">
-                                    <div
-                                        className="xp-bar__fill"
-                                        style={{ width: `${levelProgress}%` }}
-                                    />
-                                </div>
-                                <span className="progress-card__detail">
-                                    {Math.round(levelProgress)}% para o próximo nível
-                                </span>
-                            </div>
-                        </div>
-
-                        {/* Streak Card */}
-                        <div className="progress-card progress-card--streak">
-                            <span className="progress-card__icon" aria-hidden="true">🔥</span>
-                            <div className="progress-card__content">
-                                <span className="progress-card__label">Ofensiva</span>
-                                <span className="progress-card__value">{streak.currentStreak} dias</span>
-                                <span className="progress-card__detail">
-                                    Recorde: {streak.longestStreak} dias
-                                </span>
-                            </div>
-                        </div>
-
-                        {/* Stars Card */}
-                        <div className="progress-card progress-card--stars">
-                            <span className="progress-card__icon" aria-hidden="true">⭐</span>
-                            <div className="progress-card__content">
-                                <span className="progress-card__label">Estrelas</span>
-                                <span className="progress-card__value">{userData.balance || 0}</span>
-                                <span className="progress-card__detail">
-                                    Total ganho: {userData.totalScore || 0}
-                                </span>
-                            </div>
-                        </div>
-
-                        {/* Questions Card */}
-                        <div className="progress-card progress-card--questions">
-                            <span className="progress-card__icon" aria-hidden="true">✅</span>
-                            <div className="progress-card__content">
-                                <span className="progress-card__label">Questões</span>
-                                <span className="progress-card__value">{progressStats.completed}</span>
-                                <span className="progress-card__detail">
-                                    completadas
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="user-progress__cta">
-                        <Link to="/game" className="hero__btn hero__btn--primary" onMouseEnter={handlePreload} onFocus={handlePreload}>
-                            🎮 Jogar Agora
-                        </Link>
-                        <Link to="/profile" className="hero__btn hero__btn--secondary">
-                            👤 Meu Perfil
-                        </Link>
-                    </div>
-                </section>
-            )}
+            {userData && <UserDashboard userData={userData} />}
 
             {/* Features Section */}
             <section className="features">
