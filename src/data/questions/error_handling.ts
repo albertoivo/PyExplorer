@@ -192,5 +192,23 @@ export const errorHandlingQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'O `except` só trabalha se houver problemas! Se tudo der certo no `try`, o Python pula o `except`. Folga merecida! 🏖️',
         points: 10,
+    },
+    {
+        id: 'error_11',
+        type: 'multiple_choice',
+        world: 'error_handling',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Esqueci o Parêntese',
+        prompt: 'Qual erro acontece se eu escrever `print("Oi"` sem fechar o parêntese?',
+        options: [
+            'SyntaxError',
+            'NameError',
+            'TypeError',
+            'ValueError',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'Se você escrever algo errado na "gramática" do Python (como esquecer parênteses), ele dá SyntaxError (Erro de Sintaxe)! Ele nem começa a rodar o código. 🛑',
+        points: 15,
     }
 ];

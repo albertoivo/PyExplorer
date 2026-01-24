@@ -187,5 +187,21 @@ export const dictionariesQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'Usamos `in` para perguntar se uma chave existe no dicionário! É como olhar dentro da mochila para ver se o mapa está lá. 🎒',
         points: 15,
+    },
+    {
+        id: 'dict_11',
+        type: 'fill_code',
+        world: 'dictionaries',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Cor do Carro',
+        prompt: 'Mostre o valor da chave "cor":',
+        starterCode: 'carro = {"marca": "Fiat", "cor": "Vermelho"}\nprint(___)',
+        solutionTemplate: 'print(carro["cor"])',
+        tests: [
+            { input: null, expectedOutput: 'Vermelho' },
+        ],
+        explanationKidFriendly: 'Para saber a cor, chamamos o dicionário e colocamos a chave "cor" entre colchetes. É como abrir uma gaveta com etiqueta! 🚗',
+        points: 15,
     }
 ];

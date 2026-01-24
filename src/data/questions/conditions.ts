@@ -337,5 +337,21 @@ for i in range(4):
         answerIndex: 0,
         explanationKidFriendly: '`not` inverte a lógica! Se `chovendo` é Falso (não está), `not chovendo` vira Verdadeiro e vamos à praia! 🏖️',
         points: 10,
+    },
+    {
+        id: 'dec_15',
+        type: 'fill_code',
+        world: 'conditions',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Está na Lista?',
+        prompt: 'Verifique se "uva" está na lista de frutas:',
+        starterCode: 'frutas = ["maçã", "uva"]\nif "uva" ___ frutas:\n    print("Tem uva!")',
+        solutionTemplate: 'if "uva" in frutas:',
+        tests: [
+            { input: null, expectedOutput: 'Tem uva!' },
+        ],
+        explanationKidFriendly: 'Usamos `in` para ver se algo está dentro da lista! É como procurar um brinquedo na caixa. 📦',
+        points: 20,
     }
 ];

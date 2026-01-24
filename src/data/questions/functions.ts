@@ -319,5 +319,21 @@ desenhar_circulo(50)
         ],
         explanationKidFriendly: 'Funções podem ter vários ingredientes (parâmetros)! Separe eles com vírgula para usar todos na receita. 🍰',
         points: 20,
+    },
+    {
+        id: 'func_15',
+        type: 'fill_code',
+        world: 'functions',
+        difficulty: 'medium',
+        ageMin: 11,
+        title: 'Nome Padrão',
+        prompt: 'Defina a função para usar "Visitante" se não passar nome:',
+        starterCode: 'def ola(nome___"Visitante"):\n    print(f"Olá, {nome}")',
+        solutionTemplate: 'def ola(nome="Visitante"):',
+        tests: [
+            { input: null, expectedOutput: 'regex:^$' }
+        ],
+        explanationKidFriendly: 'Podemos dar um valor padrão para o parâmetro! Se ninguém disser o nome, o Python usa "Visitante" automaticamente. 🎁',
+        points: 20,
     }
 ];

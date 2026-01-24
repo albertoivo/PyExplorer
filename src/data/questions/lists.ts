@@ -339,5 +339,21 @@ export const listsQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: '`pop()` estoura (remove) o ÚLTIMO item da lista. Tchau, balão azul! 🎈',
         points: 15,
+    },
+    {
+        id: 'list_15',
+        type: 'fill_code',
+        world: 'lists',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Faxina na Lista',
+        prompt: 'Remova o "lixo" da lista:',
+        starterCode: 'bolsa = ["dinheiro", "lixo", "chave"]\nbolsa.___("lixo")\nprint(bolsa)',
+        solutionTemplate: 'bolsa.remove("lixo")',
+        tests: [
+            { input: null, expectedOutput: "['dinheiro', 'chave']" },
+        ],
+        explanationKidFriendly: 'Usamos `remove` para tirar algo específico da lista. É só dizer o nome do que você quer jogar fora! 🗑️',
+        points: 15,
     }
 ];

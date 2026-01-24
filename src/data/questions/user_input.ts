@@ -191,5 +191,21 @@ export const userInputQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'O input vem como texto! Precisamos converter para `int` (inteiro) antes de multiplicar, senão o Python repete o texto! ✖️',
         points: 20,
+    },
+    {
+        id: 'input_12',
+        type: 'fill_code',
+        world: 'user_input',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Número e Texto',
+        prompt: 'Junte o texto "Nota: " com o número 10:',
+        starterCode: 'nota = 10\nprint("Nota: " + ___(nota))',
+        solutionTemplate: 'print("Nota: " + str(nota))',
+        tests: [
+            { input: null, expectedOutput: 'Nota: 10' },
+        ],
+        explanationKidFriendly: '`str()` transforma o número em texto para que possamos juntar (concatenar) com outro texto. 📝',
+        points: 15,
     }
 ];

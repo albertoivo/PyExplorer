@@ -324,5 +324,23 @@ export const variablesQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'Para atualizar uma variável, usamos o valor antigo dela! `nivel = nivel + 1` pega o 5, soma 1 e guarda o 6. 🆙',
         points: 15,
+    },
+    {
+        id: 'var_15',
+        type: 'multiple_choice',
+        world: 'variables',
+        difficulty: 'medium',
+        ageMin: 9,
+        title: 'Nome Proibido',
+        prompt: 'Qual destes nomes de variável NÃO é permitido em Python?',
+        options: [
+            'minha idade',
+            'minha_idade',
+            'idade2',
+            'Idade',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'Nomes de variáveis não podem ter espaços! Use o "underline" (_) para separar palavras, como em `minha_idade`. Espaço confunde o Python! 🚫',
+        points: 15,
     }
 ];

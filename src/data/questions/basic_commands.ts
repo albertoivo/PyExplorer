@@ -304,5 +304,23 @@ export const basicCommandsQuestions: QuestionDocument[] = [
         answerIndex: 2,
         explanationKidFriendly: 'As aspas precisam ser iguais no começo e no fim! Se começou com aspas duplas, termine com aspas duplas. Não pode misturar! 🎭',
         points: 10,
+    },
+    {
+        id: 'basic_15',
+        type: 'multiple_choice',
+        world: 'basic_commands',
+        difficulty: 'easy',
+        ageMin: 8,
+        title: 'Desativando Código',
+        prompt: 'Se eu colocar um # antes do print, o que acontece?',
+        options: [
+            'O Python ignora essa linha',
+            'O print funciona normalmente',
+            'Dá erro de sintaxe',
+            'O print sai em vermelho',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'Quando colocamos #, a linha vira um comentário! O Python finge que ela não existe. Ótimo para testar ou explicar o código! 🤫',
+        points: 10,
     }
 ];

@@ -333,5 +333,21 @@ export const stringsQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: '`join` é a cola! Ele usa o traço "-" para colar os vagões e virar "piu-i". Piuííí! 🚂',
         points: 20,
+    },
+    {
+        id: 'strings_15',
+        type: 'fill_code',
+        world: 'strings',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Contando Letras',
+        prompt: 'Use `len` para descobrir quantas letras tem a palavra "Python":',
+        starterCode: 'palavra = "Python"\nprint(___(palavra))',
+        solutionTemplate: 'print(len(palavra))',
+        tests: [
+            { input: null, expectedOutput: '6' },
+        ],
+        explanationKidFriendly: '`len` conta os caracteres! "Python" tem 6 letras (P-y-t-h-o-n). Funciona para listas e textos também! 📏',
+        points: 15,
     }
 ];

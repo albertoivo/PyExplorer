@@ -299,5 +299,21 @@ export const numbersQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: '11 // 4 dá 2. A divisão inteira joga fora o resto (3 balas sobram). Ninguém ganha bala quebrada! 🍬',
         points: 10,
+    },
+    {
+        id: 'num_15',
+        type: 'fill_code',
+        world: 'numbers',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Calculando o Troco',
+        prompt: 'Você pagou 50 e a compra custou 20. Quanto sobrou? Complete a subtração:',
+        starterCode: 'pago = 50\ncusto = 20\ntroco = pago ___ custo\nprint(troco)',
+        solutionTemplate: 'troco = pago - custo',
+        tests: [
+            { input: null, expectedOutput: '30' },
+        ],
+        explanationKidFriendly: 'Para calcular o troco, fazemos uma conta de menos (subtração) usando o sinal de menos (-)! 50 - 20 = 30. 💰',
+        points: 10,
     }
 ];

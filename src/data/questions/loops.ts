@@ -322,5 +322,23 @@ for i in range(___):
         ],
         explanationKidFriendly: 'Usamos `continue` para pular essa volta e proteger nosso código. Quando x é 0, pulamos o print e o erro! 🛡️',
         points: 20,
+    },
+    {
+        id: 'loop_15',
+        type: 'multiple_choice',
+        world: 'loops',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Loop Infinito',
+        prompt: 'O que o código `while True: break` faz?',
+        options: [
+            'Entra no loop e para imediatamente',
+            'Roda para sempre (não para)',
+            'Dá erro',
+            'Não faz nada',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: '`while True` criaria um loop infinito (para sempre), MAS o `break` funciona como um freio de emergência! Ele entra e já sai na hora. 🛑',
+        points: 15,
     }
 ];
