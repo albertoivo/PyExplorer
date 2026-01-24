@@ -57,13 +57,6 @@ export function useQuestionsFirestore() {
     }, [loadQuestions]);
 
     /**
-     * Filtra questões por mundo
-     */
-    const getQuestionsByWorld = useCallback((world: World): QuestionDocument[] => {
-        return questions.filter(q => q.world === world);
-    }, [questions]);
-
-    /**
      * Agrupa questões por mundo
      */
     const questionsByWorld = useMemo(() => {
@@ -77,6 +70,14 @@ export function useQuestionsFirestore() {
 
         return groups;
     }, [questions]);
+
+    /**
+     * Filtra questões por mundo
+     * ⚡ O(1) lookup using cached map
+     */
+    const getQuestionsByWorld = useCallback((world: World): QuestionDocument[] => {
+        return questionsByWorld.get(world) || [];
+    }, [questionsByWorld]);
 
     /**
      * Lista de mundos disponíveis

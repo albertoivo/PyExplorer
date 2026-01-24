@@ -1,6 +1,13 @@
 import '@testing-library/jest-dom'
 import { vi } from 'vitest'
 
+// Mock Firebase Analytics to prevent "API key not valid" errors in tests
+vi.mock('firebase/analytics', () => ({
+    getAnalytics: vi.fn(),
+    logEvent: vi.fn(),
+    isSupported: vi.fn().mockResolvedValue(false),
+}));
+
 // Mock localStorage
 const localStorageMock = {
     getItem: vi.fn(),
