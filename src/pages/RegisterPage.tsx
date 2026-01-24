@@ -41,8 +41,8 @@ export function RegisterPage() {
             return;
         }
 
-        if (password.length < 6) {
-            setLocalError('A senha deve ter pelo menos 6 caracteres');
+        if (password.length < 8) {
+            setLocalError('A senha deve ter pelo menos 8 caracteres');
             return;
         }
 
@@ -149,12 +149,12 @@ export function RegisterPage() {
                         </label>
                         <PasswordInput
                             id="password"
-                            placeholder="Mínimo 6 caracteres"
+                            placeholder="Mínimo 8 caracteres"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
                             disabled={isLoading}
-                            minLength={6}
+                            minLength={8}
                         />
                     </div>
 

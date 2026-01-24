@@ -355,7 +355,7 @@ function translateFirebaseError(message: string): string {
         'auth/wrong-password': 'Senha incorreta',
         'auth/invalid-credential': 'Email ou senha incorretos',
         'auth/email-already-in-use': 'Este email já está em uso',
-        'auth/weak-password': 'A senha deve ter pelo menos 6 caracteres',
+        'auth/weak-password': 'A senha deve ter pelo menos 8 caracteres',
         'auth/invalid-email': 'Email inválido',
         'auth/too-many-requests': 'Muitas tentativas. Tente novamente mais tarde',
         'auth/network-request-failed': 'Erro de conexão. Verifique sua internet',
