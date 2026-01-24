@@ -20,6 +20,7 @@ vi.mock('firebase/firestore', () => ({
     where: vi.fn(),
     orderBy: vi.fn(),
     limit: vi.fn(),
+    deleteField: vi.fn(),
     Timestamp: {
         now: () => ({ toDate: () => new Date() }),
         fromDate: (date: Date) => ({ toDate: () => date })
