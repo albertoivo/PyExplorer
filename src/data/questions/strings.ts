@@ -333,5 +333,21 @@ export const stringsQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: '`join` é a cola! Ele usa o traço "-" para colar os vagões e virar "piu-i". Piuííí! 🚂',
         points: 20,
+    },
+    {
+        id: 'strings_15',
+        type: 'fill_code',
+        world: 'strings',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Contando Letras',
+        prompt: 'Use `count()` para contar quantas vezes a letra "a" aparece na palavra:',
+        starterCode: 'frase = "banana"\nprint(frase.___("a"))',
+        solutionTemplate: 'print(frase.count("a"))',
+        tests: [
+            { input: null, expectedOutput: '3' },
+        ],
+        explanationKidFriendly: '`count()` conta quantas vezes algo aparece no texto. Em "banana", a letra "a" aparece 3 vezes! 🔢',
+        points: 20,
     }
 ];

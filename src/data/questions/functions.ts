@@ -319,5 +319,17 @@ desenhar_circulo(50)
         ],
         explanationKidFriendly: 'Funções podem ter vários ingredientes (parâmetros)! Separe eles com vírgula para usar todos na receita. 🍰',
         points: 20,
+    },
+    {
+        id: 'func_15',
+        type: 'true_false',
+        world: 'functions',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Muitos Padrões',
+        prompt: 'Uma função pode ter mais de um parâmetro com valor padrão. Ex: `def func(a=1, b=2):`',
+        correctBool: true,
+        explanationKidFriendly: 'Sim! Você pode ter quantos parâmetros padrão quiser, desde que eles fiquem no final da lista de argumentos. É como ter vários planos B! 🛡️',
+        points: 15,
     }
 ];

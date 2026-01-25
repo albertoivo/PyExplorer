@@ -322,5 +322,23 @@ for i in range(___):
         ],
         explanationKidFriendly: 'Usamos `continue` para pular essa volta e proteger nosso código. Quando x é 0, pulamos o print e o erro! 🛡️',
         points: 20,
+    },
+    {
+        id: 'loop_15',
+        type: 'multiple_choice',
+        world: 'loops',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Pular o 5',
+        prompt: 'Em um loop de 1 a 10, como pular o número 5 mas continuar com os outros?',
+        options: [
+            'if i == 5: continue',
+            'if i == 5: break',
+            'if i == 5: stop',
+            'if i == 5: exit',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: '`continue` diz para o loop: "Pule esta volta e vá para a próxima!". Assim o 5 é ignorado, mas o 6, 7, 8... continuam! ⏭️',
+        points: 15,
     }
 ];

@@ -324,5 +324,23 @@ export const variablesQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'Para atualizar uma variável, usamos o valor antigo dela! `nivel = nivel + 1` pega o 5, soma 1 e guarda o 6. 🆙',
         points: 15,
+    },
+    {
+        id: 'var_15',
+        type: 'multiple_choice',
+        world: 'variables',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Cortando Decimais',
+        prompt: 'O que acontece se fizermos `int(8.9)`?',
+        options: [
+            '8 (Corta a parte decimal)',
+            '9 (Arredonda para cima)',
+            '8.9 (Não muda nada)',
+            'Erro',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'A função `int()` é como uma tesoura: ela corta tudo que vem depois da vírgula! 8.9 vira 8, 8.1 vira 8. Ela não arredonda! ✂️',
+        points: 15,
     }
 ];

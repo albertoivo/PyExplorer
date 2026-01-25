@@ -304,5 +304,21 @@ export const basicCommandsQuestions: QuestionDocument[] = [
         answerIndex: 2,
         explanationKidFriendly: 'As aspas precisam ser iguais no começo e no fim! Se começou com aspas duplas, termine com aspas duplas. Não pode misturar! 🎭',
         points: 10,
+    },
+    {
+        id: 'basic_15',
+        type: 'fill_code',
+        world: 'basic_commands',
+        difficulty: 'easy',
+        ageMin: 8,
+        title: 'Ignorando Código',
+        prompt: 'Complete o código para que a linha seja ignorada pelo Python (comentário):',
+        starterCode: '___ print("Não mostre isso")',
+        solutionTemplate: '# print("Não mostre isso")',
+        tests: [
+            { input: null, expectedOutput: '' },
+        ],
+        explanationKidFriendly: 'O símbolo # faz o Python ignorar tudo que vem depois dele na mesma linha. É assim que fazemos comentários! 🤫',
+        points: 10,
     }
 ];
