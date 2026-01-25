@@ -299,5 +299,21 @@ export const numbersQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: '11 // 4 dá 2. A divisão inteira joga fora o resto (3 balas sobram). Ninguém ganha bala quebrada! 🍬',
         points: 10,
+    },
+    {
+        id: 'num_15',
+        type: 'fill_code',
+        world: 'numbers',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Super Potência',
+        prompt: 'Calcule 2 elevado a 4 (2 * 2 * 2 * 2) usando o operador de potência:',
+        starterCode: 'print(2 ___ 4)',
+        solutionTemplate: 'print(2 ** 4)',
+        tests: [
+            { input: null, expectedOutput: '16' },
+        ],
+        explanationKidFriendly: 'Dois asteriscos (**) significam potência! 2 ** 4 é 2 multiplicado por ele mesmo 4 vezes. 🚀',
+        points: 15,
     }
 ];

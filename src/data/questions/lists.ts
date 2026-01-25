@@ -339,5 +339,21 @@ export const listsQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: '`pop()` estoura (remove) o ÚLTIMO item da lista. Tchau, balão azul! 🎈',
         points: 15,
+    },
+    {
+        id: 'list_15',
+        type: 'fill_code',
+        world: 'lists',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Organizando Pontos',
+        prompt: 'Coloque a lista de pontos em ordem crescente (do menor para o maior):',
+        starterCode: 'pontos = [10, 5, 8]\npontos.___()\nprint(pontos)',
+        solutionTemplate: 'pontos.sort()',
+        tests: [
+            { input: null, expectedOutput: '[5, 8, 10]' },
+        ],
+        explanationKidFriendly: '`sort()` organiza a bagunça! Ele coloca os números em ordem crescente (1, 2, 3) ou as letras em ordem alfabética (A, B, C). 📊',
+        points: 20,
     }
 ];

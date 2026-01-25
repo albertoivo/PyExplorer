@@ -337,5 +337,21 @@ for i in range(4):
         answerIndex: 0,
         explanationKidFriendly: '`not` inverte a lógica! Se `chovendo` é Falso (não está), `not chovendo` vira Verdadeiro e vamos à praia! 🏖️',
         points: 10,
+    },
+    {
+        id: 'dec_15',
+        type: 'fill_code',
+        world: 'conditions',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'No Meio',
+        prompt: 'Verifique se o número é maior que 10 E menor que 20:',
+        starterCode: 'num = 15\nif num > 10 ___ num < 20:\n    print("Está no meio!")',
+        solutionTemplate: 'if num > 10 and num < 20:',
+        tests: [
+            { input: null, expectedOutput: 'Está no meio!' },
+        ],
+        explanationKidFriendly: 'Usamos `and` quando queremos que DUAS coisas sejam verdadeiras ao mesmo tempo. Maior que 10 E menor que 20! 🤝',
+        points: 20,
     }
 ];
