@@ -190,6 +190,8 @@ export interface UserData {
   balance: number;
   /** Mundos desbloqueados */
   unlockedWorlds: World[];
+  /** Data do último login */
+  lastLoginAt?: Date;
 }
 
 /**
