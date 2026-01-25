@@ -1,4 +1,4 @@
-import { useState, useEffect, memo } from 'react';
+import { useState, useEffect, memo, useMemo, useCallback } from 'react';
 import Editor from '@monaco-editor/react';
 import type { QuestionDocument, PythonExecutionResult } from '../../../types/question';
 import './BossBattleQuestion.css';
@@ -23,7 +23,7 @@ export const BossBattleQuestion = memo(function BossBattleQuestion({ question, o
     useEffect(() => {
         let interval: ReturnType<typeof setInterval>;
 
-        if (isActive && timeLeft > 0 && !isGameOver) {
+        if (isActive && !isGameOver) {
             interval = setInterval(() => {
                 setTimeLeft((prev) => {
                     if (prev <= 1) {
@@ -37,7 +37,7 @@ export const BossBattleQuestion = memo(function BossBattleQuestion({ question, o
         }
 
         return () => clearInterval(interval);
-    }, [isActive, timeLeft, isGameOver]);
+    }, [isActive, isGameOver]);
 
     const handleRun = async () => {
         if (!isActive) setIsActive(true); // Garante que o timer tá rodando
@@ -76,6 +76,18 @@ export const BossBattleQuestion = memo(function BossBattleQuestion({ question, o
         const secs = seconds % 60;
         return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     };
+
+    // Otimização: Memoiza opções do editor para evitar re-render no timer
+    const editorOptions = useMemo(() => ({
+        minimap: { enabled: false },
+        fontSize: 16,
+        scrollBeyondLastLine: false,
+        readOnly: isGameOver
+    }), [isGameOver]);
+
+    const handleEditorChange = useCallback((value: string | undefined) => {
+        setCode(value || '');
+    }, []);
 
     if (!isActive && !isGameOver && timeLeft === (question.bossMetadata?.timeLimitSeconds || 60)) {
         return (
@@ -125,14 +137,9 @@ export const BossBattleQuestion = memo(function BossBattleQuestion({ question, o
                     height="300px"
                     defaultLanguage="python"
                     value={code}
-                    onChange={(value) => setCode(value || '')}
+                    onChange={handleEditorChange}
                     theme="vs-dark"
-                    options={{
-                        minimap: { enabled: false },
-                        fontSize: 16,
-                        scrollBeyondLastLine: false,
-                        readOnly: isGameOver
-                    }}
+                    options={editorOptions}
                 />
             </div>
 
