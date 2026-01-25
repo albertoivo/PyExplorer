@@ -59,11 +59,16 @@ export function RegisterPage() {
     };
 
     const handleGuestMode = () => {
-        const guestName = prompt('Digite seu apelido para jogar como convidado:');
-        if (guestName && guestName.trim()) {
-            enterAsGuest(guestName.trim());
-            navigate('/game', { replace: true });
-        }
+        // Gera um nome aleatório divertido para o convidado
+        const adjectives = ['Veloz', 'Esperto', 'Curioso', 'Valente', 'Sábio', 'Alegre'];
+        const nouns = ['Viajante', 'Explorador', 'Aventureiro', 'Cientista', 'Mago', 'Ninja'];
+
+        const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+        const noun = nouns[Math.floor(Math.random() * nouns.length)];
+        const guestName = `${noun} ${adj}`;
+
+        enterAsGuest(guestName);
+        navigate('/game', { replace: true });
     };
 
     return (
