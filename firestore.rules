@@ -70,7 +70,7 @@ service cloud.firestore {
       
       // Escrita: Permite se for o dono ou admin com validação de campos numéricos críticos
       allow create, update: if isAuthenticated() && (request.auth.uid == userId || isAdmin()) &&
-        hasOnly(request.resource.data, ['uid', 'displayName', 'avatar', 'email', 'createdAt', 'updatedAt', 'totalScore', 'balance', 'unlockedWorlds']) &&
+        hasOnly(request.resource.data, ['uid', 'displayName', 'avatar', 'email', 'createdAt', 'updatedAt', 'totalScore', 'balance', 'unlockedWorlds', 'lastLoginAt']) &&
         // Valida displayName (string, max 50 chars)
         (!('displayName' in request.resource.data) || isValidString(request.resource.data.displayName, 50)) &&
         // Valida avatar
@@ -80,6 +80,8 @@ service cloud.firestore {
         // Valida createdAt e updatedAt
         (!('createdAt' in request.resource.data) || isValidTimestamp(request.resource.data.createdAt)) &&
         (!('updatedAt' in request.resource.data) || isValidTimestamp(request.resource.data.updatedAt)) &&
+        // Valida lastLoginAt se presente
+        (!('lastLoginAt' in request.resource.data) || isValidTimestamp(request.resource.data.lastLoginAt)) &&
         // Valida totalScore se presente (0 a 9.999.999)
         (!('totalScore' in request.resource.data) || isValidNumber(request.resource.data.totalScore, 0, 9999999)) &&
         // Valida balance se presente (0 a 9.999.999)

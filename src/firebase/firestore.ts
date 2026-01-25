@@ -141,6 +141,7 @@ export async function saveUser(userData: UserData): Promise<void> {
         equippedAvatar: deleteField(),
         createdAt: Timestamp.fromDate(userData.createdAt),
         updatedAt: Timestamp.fromDate(userData.updatedAt),
+        ...(userData.lastLoginAt ? { lastLoginAt: Timestamp.fromDate(userData.lastLoginAt) } : {}),
     }, { merge: true });
 
     // Sincroniza com leaderboard
@@ -163,6 +164,7 @@ export async function getUser(uid: string): Promise<UserData | null> {
             uid: docSnap.id,
             createdAt: data.createdAt?.toDate() || new Date(),
             updatedAt: data.updatedAt?.toDate() || new Date(),
+            lastLoginAt: data.lastLoginAt?.toDate(),
         } as UserData;
     }
     return null;
