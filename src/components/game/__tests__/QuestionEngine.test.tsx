@@ -1,12 +1,12 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { vi, describe, it, expect, beforeEach, Mock } from 'vitest';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { vi, describe, it, expect, beforeEach, type Mock } from 'vitest';
 import QuestionEngine from '../QuestionEngine';
 import { useAuth } from '../../../hooks/useAuth';
 import { usePyodide } from '../../../context/PyodideContext';
 import { useMascotContext } from '../../../context/MascotContext';
 import { playSound } from '../../../utils/soundEffects';
 import confetti from 'canvas-confetti';
-import { QuestionDocument } from '../../../types/question';
+import type { QuestionDocument } from '../../../types/question';
 
 // Mocks
 vi.mock('../../../hooks/useAuth');
@@ -19,7 +19,7 @@ vi.mock('canvas-confetti', () => ({
 
 // Mock Child Components
 vi.mock('../questionTypes', () => ({
-    MultipleChoiceQuestion: ({ onAnswer }: any) => (
+    MultipleChoiceQuestion: ({ onAnswer }: { onAnswer: (correct: boolean) => void }) => (
         <div data-testid="multiple-choice">
             <button onClick={() => onAnswer(true)}>Correct</button>
             <button onClick={() => onAnswer(false)}>Incorrect</button>
@@ -34,7 +34,7 @@ vi.mock('../questionTypes', () => ({
 }));
 
 vi.mock('../questionTypes/BossBattleQuestion', () => ({
-    BossBattleQuestion: ({ onRun, onComplete }: any) => (
+    BossBattleQuestion: ({ onRun, onComplete }: { onRun: (code: string) => void; onComplete: (score: number) => void }) => (
         <div data-testid="boss-battle">
             <button onClick={() => onRun('print("hello")')}>Run Code</button>
             <button onClick={() => onComplete(100)}>Complete Boss</button>
@@ -43,7 +43,7 @@ vi.mock('../questionTypes/BossBattleQuestion', () => ({
 }));
 
 vi.mock('../feedback/ResultPanel', () => ({
-    ResultPanel: ({ success, points, onNext, onRetry }: any) => (
+    ResultPanel: ({ success, points, onNext, onRetry }: { success: boolean; points?: number; onNext?: () => void; onRetry?: () => void }) => (
         <div data-testid="result-panel">
             {success ? 'Success' : 'Failure'}
             {points !== undefined && ` Points: ${points}`}
@@ -54,7 +54,7 @@ vi.mock('../feedback/ResultPanel', () => ({
 }));
 
 vi.mock('../../education', () => ({
-    ProgressiveHints: ({ onHintRevealed }: any) => (
+    ProgressiveHints: ({ onHintRevealed }: { onHintRevealed: (hintId: string, cost: number) => void }) => (
         <div data-testid="progressive-hints">
             <button onClick={() => onHintRevealed('hint_1', 10)}>Reveal Hint</button>
         </div>
