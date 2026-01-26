@@ -98,6 +98,9 @@ export default defineConfig({
         // Cache de recursos estáticos
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
 
+        // Aumenta o limite de tamanho para caching (Monaco Editor é grande)
+        maximumFileSizeToCacheInBytes: 10 * 1024 * 1024,
+
         // Cache de runtime para diferentes recursos
         runtimeCaching: [
           {
