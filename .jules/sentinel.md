@@ -7,3 +7,8 @@
 **Vulnerability:** Users could overwrite any `userProgress` document (e.g., another user's progress) by simply including their own `uid` in the payload, as the security rule only checked the payload `uid` against `auth.uid` but ignored the document ID.
 **Learning:** Checking `request.resource.data.uid == request.auth.uid` is insufficient if the document ID itself targets another user's resource.
 **Prevention:** Always enforce that the Document ID matches the User ID (or a deterministic derivation) in `allow write` rules when the collection is keyed by user-specific identifiers.
+
+## 2026-01-28 - Implicit Requirement vs Default CSP
+**Vulnerability:** The default Content Security Policy (`default-src 'self'`) blocked legitimate features (GitHub Sponsors iframe) which were only discoverable via specific page tests (`AboutPage.test.tsx`), leading to a broken feature or potential insecure workaround.
+**Learning:** Security controls like CSP must be aligned with application requirements found in tests and code, not just generic best practices. Blindly applying strict defaults can break features.
+**Prevention:** Audit codebase for external resource usage (iframes, scripts) before finalizing CSP headers. Use tests to verify that security controls don't block legitimate functionality.
