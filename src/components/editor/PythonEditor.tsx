@@ -1,3 +1,4 @@
+import { useMemo, useCallback } from 'react';
 import Editor from '@monaco-editor/react';
 import './PythonEditor.css';
 
@@ -25,14 +26,14 @@ export function PythonEditor({
     height = '300px',
     theme = 'dark',
 }: PythonEditorProps) {
-    const handleChange = (value: string | undefined) => {
+    const handleChange = useCallback((value: string | undefined) => {
         if (!disabled && value !== undefined) {
             onChange(value);
         }
-    };
+    }, [disabled, onChange]);
 
     // Configurações do Monaco Editor
-    const editorOptions = {
+    const editorOptions = useMemo(() => ({
         minimap: { enabled: false },
         fontSize: 16,
         fontFamily: "'Fira Code', 'Consolas', 'Monaco', monospace",
@@ -57,7 +58,7 @@ export function PythonEditor({
         suggestOnTriggerCharacters: true,
         parameterHints: { enabled: true },
         bracketPairColorization: { enabled: true },
-    };
+    }), [disabled]);
 
     return (
         <div className={`python-editor ${disabled ? 'python-editor--disabled' : ''}`}>
