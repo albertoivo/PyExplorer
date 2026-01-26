@@ -114,6 +114,7 @@ service cloud.firestore {
            request.resource.data.streak is map &&
            hasOnly(request.resource.data.streak, ['currentStreak', 'longestStreak', 'lastActivityDate', 'activityHistory']) &&
            (!('currentStreak' in request.resource.data.streak) || isValidNumber(request.resource.data.streak.currentStreak, 0, 9999)) &&
+           (!('longestStreak' in request.resource.data.streak) || isValidNumber(request.resource.data.streak.longestStreak, 0, 9999)) &&
            (!('lastActivityDate' in request.resource.data.streak) || isValidString(request.resource.data.streak.lastActivityDate, 10)) &&
            (!('activityHistory' in request.resource.data.streak) || request.resource.data.streak.activityHistory is list)
         )) &&
@@ -126,15 +127,35 @@ service cloud.firestore {
             request.resource.data.inventory is map &&
             hasOnly(request.resource.data.inventory, ['ownedItems', 'equippedAvatar', 'equippedFrame', 'equippedTitle']) &&
             (!('ownedItems' in request.resource.data.inventory) || request.resource.data.inventory.ownedItems is list) &&
-            (!('equippedAvatar' in request.resource.data.inventory) || isValidString(request.resource.data.inventory.equippedAvatar, 100))
+            (!('equippedAvatar' in request.resource.data.inventory) || isValidString(request.resource.data.inventory.equippedAvatar, 100)) &&
+            (!('equippedFrame' in request.resource.data.inventory) || isValidString(request.resource.data.inventory.equippedFrame, 100)) &&
+            (!('equippedTitle' in request.resource.data.inventory) || isValidString(request.resource.data.inventory.equippedTitle, 100))
         )) &&
         // Valida powerUps (Map)
         (!('powerUps' in request.resource.data) || (
             request.resource.data.powerUps is map &&
             hasOnly(request.resource.data.powerUps, ['inventory', 'usesToday', 'lastResetDate']) &&
             (!('lastResetDate' in request.resource.data.powerUps) || isValidString(request.resource.data.powerUps.lastResetDate, 10)) &&
-            (!('inventory' in request.resource.data.powerUps) || request.resource.data.powerUps.inventory is map) &&
-            (!('usesToday' in request.resource.data.powerUps) || request.resource.data.powerUps.usesToday is map)
+            // Valida powerUps.inventory structure
+            (!('inventory' in request.resource.data.powerUps) || (
+              request.resource.data.powerUps.inventory is map &&
+              hasOnly(request.resource.data.powerUps.inventory, ['skip', 'fifty_fifty', 'extra_hint', 'double_stars', 'shield']) &&
+              (!('skip' in request.resource.data.powerUps.inventory) || isValidNumber(request.resource.data.powerUps.inventory.skip, 0, 999)) &&
+              (!('fifty_fifty' in request.resource.data.powerUps.inventory) || isValidNumber(request.resource.data.powerUps.inventory.fifty_fifty, 0, 999)) &&
+              (!('extra_hint' in request.resource.data.powerUps.inventory) || isValidNumber(request.resource.data.powerUps.inventory.extra_hint, 0, 999)) &&
+              (!('double_stars' in request.resource.data.powerUps.inventory) || isValidNumber(request.resource.data.powerUps.inventory.double_stars, 0, 999)) &&
+              (!('shield' in request.resource.data.powerUps.inventory) || isValidNumber(request.resource.data.powerUps.inventory.shield, 0, 999))
+            )) &&
+            // Valida powerUps.usesToday structure
+            (!('usesToday' in request.resource.data.powerUps) || (
+              request.resource.data.powerUps.usesToday is map &&
+              hasOnly(request.resource.data.powerUps.usesToday, ['skip', 'fifty_fifty', 'extra_hint', 'double_stars', 'shield']) &&
+              (!('skip' in request.resource.data.powerUps.usesToday) || isValidNumber(request.resource.data.powerUps.usesToday.skip, 0, 99)) &&
+              (!('fifty_fifty' in request.resource.data.powerUps.usesToday) || isValidNumber(request.resource.data.powerUps.usesToday.fifty_fifty, 0, 99)) &&
+              (!('extra_hint' in request.resource.data.powerUps.usesToday) || isValidNumber(request.resource.data.powerUps.usesToday.extra_hint, 0, 99)) &&
+              (!('double_stars' in request.resource.data.powerUps.usesToday) || isValidNumber(request.resource.data.powerUps.usesToday.double_stars, 0, 99)) &&
+              (!('shield' in request.resource.data.powerUps.usesToday) || isValidNumber(request.resource.data.powerUps.usesToday.shield, 0, 99))
+            ))
         )) &&
         // Valida stats (Map com campos numéricos)
         (!('stats' in request.resource.data) || (
@@ -142,7 +163,8 @@ service cloud.firestore {
             hasOnly(request.resource.data.stats, ['totalQuestionsCompleted', 'totalCorrectAnswers', 'consecutiveCorrect', 'bestConsecutiveCorrect', 'weekendQuestionsCount', 'lastWeekendDate', 'totalPlayTime', 'worldsCompleted', 'perfectWorlds', 'bossesDefeated', 'consecutiveFastAnswers', 'completedWorldIds']) &&
             (!('totalQuestionsCompleted' in request.resource.data.stats) || isValidNumber(request.resource.data.stats.totalQuestionsCompleted, 0, 999999)) &&
             (!('totalCorrectAnswers' in request.resource.data.stats) || isValidNumber(request.resource.data.stats.totalCorrectAnswers, 0, 999999)) &&
-            (!('lastWeekendDate' in request.resource.data.stats) || isValidString(request.resource.data.stats.lastWeekendDate, 10))
+            (!('lastWeekendDate' in request.resource.data.stats) || isValidString(request.resource.data.stats.lastWeekendDate, 10)) &&
+            (!('completedWorldIds' in request.resource.data.stats) || request.resource.data.stats.completedWorldIds is list)
         ));
     }
     
