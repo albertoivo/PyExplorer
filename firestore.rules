@@ -20,6 +20,11 @@ service cloud.firestore {
     function isValidString(field, maxLength) {
       return field is string && field.size() <= maxLength;
     }
+
+    // Valida que um campo é lista com tamanho máximo
+    function isValidList(field, maxSize) {
+      return field is list && field.size() <= maxSize;
+    }
     
     // Valida que um número está dentro de um range
     function isValidNumber(field, min, max) {
@@ -87,7 +92,7 @@ service cloud.firestore {
         // Valida balance se presente (0 a 9.999.999)
         (!('balance' in request.resource.data) || isValidNumber(request.resource.data.balance, 0, 9999999)) &&
         // Valida unlockedWorlds (deve ser lista)
-        (!('unlockedWorlds' in request.resource.data) || request.resource.data.unlockedWorlds is list);
+        (!('unlockedWorlds' in request.resource.data) || isValidList(request.resource.data.unlockedWorlds, 1000));
     }
 
     // ============================================
@@ -116,17 +121,17 @@ service cloud.firestore {
            (!('currentStreak' in request.resource.data.streak) || isValidNumber(request.resource.data.streak.currentStreak, 0, 9999)) &&
            (!('longestStreak' in request.resource.data.streak) || isValidNumber(request.resource.data.streak.longestStreak, 0, 9999)) &&
            (!('lastActivityDate' in request.resource.data.streak) || isValidString(request.resource.data.streak.lastActivityDate, 10)) &&
-           (!('activityHistory' in request.resource.data.streak) || request.resource.data.streak.activityHistory is list)
+           (!('activityHistory' in request.resource.data.streak) || isValidList(request.resource.data.streak.activityHistory, 50))
         )) &&
         // Valida achievements (Lista)
-        (!('achievements' in request.resource.data) || request.resource.data.achievements is list) &&
+        (!('achievements' in request.resource.data) || isValidList(request.resource.data.achievements, 1000)) &&
         // Valida activeMissions (Lista)
-        (!('activeMissions' in request.resource.data) || request.resource.data.activeMissions is list) &&
+        (!('activeMissions' in request.resource.data) || isValidList(request.resource.data.activeMissions, 50)) &&
         // Valida inventory (Map)
         (!('inventory' in request.resource.data) || (
             request.resource.data.inventory is map &&
             hasOnly(request.resource.data.inventory, ['ownedItems', 'equippedAvatar', 'equippedFrame', 'equippedTitle']) &&
-            (!('ownedItems' in request.resource.data.inventory) || request.resource.data.inventory.ownedItems is list) &&
+            (!('ownedItems' in request.resource.data.inventory) || isValidList(request.resource.data.inventory.ownedItems, 1000)) &&
             (!('equippedAvatar' in request.resource.data.inventory) || isValidString(request.resource.data.inventory.equippedAvatar, 100)) &&
             (!('equippedFrame' in request.resource.data.inventory) || isValidString(request.resource.data.inventory.equippedFrame, 100)) &&
             (!('equippedTitle' in request.resource.data.inventory) || isValidString(request.resource.data.inventory.equippedTitle, 100))
@@ -164,7 +169,7 @@ service cloud.firestore {
             (!('totalQuestionsCompleted' in request.resource.data.stats) || isValidNumber(request.resource.data.stats.totalQuestionsCompleted, 0, 999999)) &&
             (!('totalCorrectAnswers' in request.resource.data.stats) || isValidNumber(request.resource.data.stats.totalCorrectAnswers, 0, 999999)) &&
             (!('lastWeekendDate' in request.resource.data.stats) || isValidString(request.resource.data.stats.lastWeekendDate, 10)) &&
-            (!('completedWorldIds' in request.resource.data.stats) || request.resource.data.stats.completedWorldIds is list)
+            (!('completedWorldIds' in request.resource.data.stats) || isValidList(request.resource.data.stats.completedWorldIds, 100))
         ));
     }
     
