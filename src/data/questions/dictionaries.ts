@@ -187,5 +187,21 @@ export const dictionariesQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'Usamos `in` para perguntar se uma chave existe no dicionário! É como olhar dentro da mochila para ver se o mapa está lá. 🎒',
         points: 15,
+    },
+    {
+        id: 'dict_11',
+        type: 'fill_code',
+        world: 'dictionaries',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Preço Novo',
+        prompt: 'A poção ficou mais cara! Mude o preço para 20:',
+        starterCode: 'loja = {"espada": 100, "poção": 10}\nloja["___"] = 20\nprint(loja)',
+        solutionTemplate: 'loja["poção"] = 20',
+        tests: [
+            { input: null, expectedOutput: "{'espada': 100, 'poção': 20}" },
+        ],
+        explanationKidFriendly: 'Dicionários são fáceis de atualizar! Basta usar a chave ["poção"] e dar o novo valor. O valor antigo some e o novo assume! 💰',
+        points: 15,
     }
 ];

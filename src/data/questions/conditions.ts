@@ -353,5 +353,21 @@ for i in range(4):
         ],
         explanationKidFriendly: 'Usamos `and` quando queremos que DUAS coisas sejam verdadeiras ao mesmo tempo. Maior que 10 E menor que 20! 🤝',
         points: 20,
+    },
+    {
+        id: 'dec_16',
+        type: 'fill_code',
+        world: 'conditions',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Item na Mochila',
+        prompt: 'Verifique se "lanterna" está na sua mochila:',
+        starterCode: 'mochila = ["corda", "lanterna", "água"]\nif "lanterna" ___ mochila:\n    print("Tenho lanterna!")',
+        solutionTemplate: 'if "lanterna" in mochila:',
+        tests: [
+            { input: null, expectedOutput: 'Tenho lanterna!' },
+        ],
+        explanationKidFriendly: 'O comando `in` é como um detetive! Ele procura dentro da lista e avisa se encontrou o que você queria. 🔦',
+        points: 15,
     }
 ];
