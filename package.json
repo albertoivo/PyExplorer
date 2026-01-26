@@ -21,11 +21,11 @@
     "firebase": "^12.8.0",
     "html2canvas": "^1.4.1",
     "jspdf": "^4.0.0",
-    "pyodide": "^0.29.0",
+    "pyodide": "^0.29.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-helmet-async": "^2.0.5",
-    "react-router-dom": "^7.11.0"
+    "react-router-dom": "^7.13.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
