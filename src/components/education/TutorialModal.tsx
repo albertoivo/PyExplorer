@@ -1,6 +1,7 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import type { WorldTutorial } from '../../types/education';
 import { getTutorialByWorld } from '../../data/educationContent';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
 import './TutorialModal.css';
 
 interface TutorialModalProps {
@@ -31,6 +32,8 @@ export function TutorialModal({
     const [isAnimating, setIsAnimating] = useState(false);
     const [showCode, setShowCode] = useState(false);
     const [typedCode, setTypedCode] = useState('');
+
+    const modalRef = useRef<HTMLDivElement>(null);
 
     // Carrega tutorial do mundo
     useEffect(() => {
@@ -105,6 +108,8 @@ export function TutorialModal({
         }
     }, [forceWatch, onClose]);
 
+    useFocusTrap(modalRef, isOpen, handleSkip);
+
     if (!isOpen || !tutorial) return null;
 
     const step = tutorial.steps[currentStep];
@@ -119,6 +124,8 @@ export function TutorialModal({
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="tutorial-title"
+                ref={modalRef}
+                tabIndex={-1}
             >
                 {/* Header */}
                 <div className="tutorial-modal__header">
