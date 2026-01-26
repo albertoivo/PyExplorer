@@ -315,5 +315,21 @@ export const numbersQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'Dois asteriscos (**) significam potência! 2 ** 4 é 2 multiplicado por ele mesmo 4 vezes. 🚀',
         points: 15,
+    },
+    {
+        id: 'num_16',
+        type: 'fill_code',
+        world: 'numbers',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Dias da Semana',
+        prompt: 'Se hoje é dia 1 e a semana tem 7 dias, que dia da semana (0-6) será daqui a 10 dias? Use % 7:',
+        starterCode: 'hoje = 1\ndias_passados = 10\nnovo_dia = (hoje + dias_passados) ___ 7\nprint(novo_dia)',
+        solutionTemplate: 'novo_dia = (hoje + dias_passados) % 7',
+        tests: [
+            { input: null, expectedOutput: '4' },
+        ],
+        explanationKidFriendly: 'O % 7 (resto da divisão) é mágico para dias da semana! Ele faz os dias "girarem" e voltarem ao começo sempre que passam de 7. 📅',
+        points: 20,
     }
 ];

@@ -355,5 +355,21 @@ export const listsQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: '`sort()` organiza a bagunça! Ele coloca os números em ordem crescente (1, 2, 3) ou as letras em ordem alfabética (A, B, C). 📊',
         points: 20,
+    },
+    {
+        id: 'list_16',
+        type: 'fill_code',
+        world: 'lists',
+        difficulty: 'easy',
+        ageMin: 10,
+        title: 'Mochila Cheia?',
+        prompt: 'Descubra quantos itens tem na mochila usando `len()`:',
+        starterCode: 'mochila = ["mapa", "bússola", "lanterna"]\nquantidade = ___(mochila)\nprint(quantidade)',
+        solutionTemplate: 'quantidade = len(mochila)',
+        tests: [
+            { input: null, expectedOutput: '3' },
+        ],
+        explanationKidFriendly: '`len()` conta tudo para você! É super útil para saber se a mochila está cheia ou se cabe mais coisa. 🎒',
+        points: 10,
     }
 ];

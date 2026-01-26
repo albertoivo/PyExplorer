@@ -349,5 +349,21 @@ export const stringsQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: '`count()` conta quantas vezes algo aparece no texto. Em "banana", a letra "a" aparece 3 vezes! 🔢',
         points: 20,
+    },
+    {
+        id: 'strings_16',
+        type: 'fill_code',
+        world: 'strings',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Placar do Jogo',
+        prompt: 'Use f-string para mostrar o nome e os pontos:',
+        starterCode: 'jogador = "Mario"\npontos = 100\nprint(f"Jogador: {___}, Pontos: {___}")',
+        solutionTemplate: 'print(f"Jogador: {jogador}, Pontos: {pontos}")',
+        tests: [
+            { input: null, expectedOutput: 'Jogador: Mario, Pontos: 100' },
+        ],
+        explanationKidFriendly: 'Com f-string, você monta frases complexas rapidinho! É só colocar as variáveis nos lugares certos dentro das chaves { }. 🏆',
+        points: 20,
     }
 ];

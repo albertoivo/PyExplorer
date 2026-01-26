@@ -331,5 +331,21 @@ desenhar_circulo(50)
         correctBool: true,
         explanationKidFriendly: 'Sim! Você pode ter quantos parâmetros padrão quiser, desde que eles fiquem no final da lista de argumentos. É como ter vários planos B! 🛡️',
         points: 15,
+    },
+    {
+        id: 'func_16',
+        type: 'fill_code',
+        world: 'functions',
+        difficulty: 'medium',
+        ageMin: 11,
+        title: 'Data Completa',
+        prompt: 'Complete a função que recebe dia, mês e ano:',
+        starterCode: 'def data(dia, mes, ___):\n    print(f"{dia}/{mes}/{ano}")\n\ndata(25, 12, 2023)',
+        solutionTemplate: 'def data(dia, mes, ano):',
+        tests: [
+            { input: null, expectedOutput: '25/12/2023' },
+        ],
+        explanationKidFriendly: 'Funções podem receber quantos dados você quiser! Basta separar por vírgula. Dia, Mês e Ano formam o time completo da data! 📅',
+        points: 20,
     }
 ];

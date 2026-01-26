@@ -191,5 +191,23 @@ export const userInputQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'O input vem como texto! Precisamos converter para `int` (inteiro) antes de multiplicar, senão o Python repete o texto! ✖️',
         points: 20,
+    },
+    {
+        id: 'input_12',
+        type: 'multiple_choice',
+        world: 'user_input',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Senha Numérica',
+        prompt: 'Se sua senha é o número 1234, como transformar ela em texto para verificar?',
+        options: [
+            'str(1234)',
+            'int(1234)',
+            'float(1234)',
+            'text(1234)',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: '`str()` transforma números em texto (string). É útil para comparar senhas ou juntar com outras palavras! 🔐',
+        points: 15,
     }
 ];

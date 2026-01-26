@@ -192,5 +192,21 @@ export const errorHandlingQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'O `except` só trabalha se houver problemas! Se tudo der certo no `try`, o Python pula o `except`. Folga merecida! 🏖️',
         points: 10,
+    },
+    {
+        id: 'error_11',
+        type: 'fill_code',
+        world: 'error_handling',
+        difficulty: 'medium',
+        ageMin: 11,
+        title: 'Lista Curta',
+        prompt: 'Proteja o código caso a lista não tenha o item 10 (IndexError):',
+        starterCode: 'lista = [1, 2, 3]\n___:\n    print(lista[10])\nexcept IndexError:\n    print("Lista muito curta!")',
+        solutionTemplate: 'try:',
+        tests: [
+            { input: null, expectedOutput: 'Lista muito curta!' },
+        ],
+        explanationKidFriendly: '`IndexError` acontece quando tentamos pegar um item que não existe na lista. Com `try/except`, evitamos que o programa quebre! 🛡️',
+        points: 20,
     }
 ];

@@ -340,5 +340,21 @@ for i in range(___):
         answerIndex: 0,
         explanationKidFriendly: '`continue` diz para o loop: "Pule esta volta e vá para a próxima!". Assim o 5 é ignorado, mas o 6, 7, 8... continuam! ⏭️',
         points: 15,
+    },
+    {
+        id: 'loop_16',
+        type: 'fill_code',
+        world: 'loops',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Fugindo do Monstro',
+        prompt: 'Se encontrar o "Monstro", pare o loop imediatamente para fugir!',
+        starterCode: 'caminho = ["Árvore", "Monstro", "Casa"]\nfor coisa in caminho:\n    if coisa == "Monstro":\n        ___\n    print(coisa)',
+        solutionTemplate: 'break',
+        tests: [
+            { input: null, expectedOutput: 'Árvore' },
+        ],
+        explanationKidFriendly: '`break` é o botão de emergência! Assim que vimos o monstro, paramos tudo e fugimos. Ninguém quer enfrentar um monstro sem espada! 🏃💨',
+        points: 20,
     }
 ];
