@@ -6,6 +6,20 @@ import './index.css'
 import './styles/mobile.css'
 import App from './App.tsx'
 
+// Importa os workers do Monaco Editor para funcionamento em produção
+// Isso é necessário para Vite - sem isso o editor fica com "caixa branca"
+import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
+
+// Configura o MonacoEnvironment para usar os workers locais
+// Esta configuração é ESSENCIAL para produção com Vite
+self.MonacoEnvironment = {
+  getWorker() {
+    // Para Python, só precisamos do editor worker básico
+    // (Python não tem IntelliSense nativo no Monaco como JS/TS/CSS/JSON)
+    return new editorWorker()
+  }
+}
+
 // Configura o Monaco Editor para usar a versão local (bundled)
 // Isso evita problemas de carregamento via CDN e "caixa branca"
 loader.config({ monaco });
