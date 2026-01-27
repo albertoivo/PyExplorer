@@ -12,3 +12,8 @@
 **Vulnerability:** The default Content Security Policy (`default-src 'self'`) blocked legitimate features (GitHub Sponsors iframe) which were only discoverable via specific page tests (`AboutPage.test.tsx`), leading to a broken feature or potential insecure workaround.
 **Learning:** Security controls like CSP must be aligned with application requirements found in tests and code, not just generic best practices. Blindly applying strict defaults can break features.
 **Prevention:** Audit codebase for external resource usage (iframes, scripts) before finalizing CSP headers. Use tests to verify that security controls don't block legitimate functionality.
+
+## 2026-02-04 - Username Enumeration via Firebase Errors
+**Vulnerability:** The application was revealing whether a user exists during login/password reset by mapping `auth/user-not-found` to specific messages like "Usuário não encontrado". This allows attackers to enumerate registered emails.
+**Learning:** Default error mapping often prioritizes debugging over security. Authentication errors must be generic to prevent enumeration.
+**Prevention:** Always map `auth/user-not-found` and `auth/wrong-password` to the same generic message (e.g., "Email or password incorrect") and handle password reset flows to blindly return success.

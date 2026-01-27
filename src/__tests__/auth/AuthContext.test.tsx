@@ -181,7 +181,7 @@ describe('AuthContext', () => {
             }
         });
 
-        expect(result.current.error).toBe('Usuário não encontrado');
+        expect(result.current.error).toBe('Email ou senha incorretos');
     });
 
     it('logout clears state', async () => {
