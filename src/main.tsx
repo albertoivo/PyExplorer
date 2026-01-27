@@ -8,7 +8,8 @@ import App from './App.tsx'
 
 // Importa os workers do Monaco Editor para funcionamento em produção
 // Isso é necessário para Vite - sem isso o editor fica com "caixa branca"
-import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
+// Inline para evitar falhas de carregamento de worker em produção/offline
+import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker&inline'
 
 // Configura o MonacoEnvironment para usar os workers locais
 // Esta configuração é ESSENCIAL para produção com Vite
