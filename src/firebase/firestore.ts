@@ -101,7 +101,7 @@ const LEADERBOARD_COLLECTION = 'leaderboard';
 /**
  * Atualiza os dados públicos do usuário no leaderboard
  * @param userData - Dados completos do usuário
- * @param level - Nível opcional do usuário (se disponível)
+ * @param level - Nível opcional do usuário (se disponível). Se não fornecido, busca da gamificação.
  */
 async function updateLeaderboard(userData: UserData, level?: number): Promise<void> {
     // Admin não vai para o leaderboard
@@ -111,17 +111,25 @@ async function updateLeaderboard(userData: UserData, level?: number): Promise<vo
 
     const docRef = doc(db, LEADERBOARD_COLLECTION, userData.uid);
     try {
+        // Se nível não foi fornecido, tenta buscar da gamificação
+        let resolvedLevel = level;
+        if (resolvedLevel === undefined) {
+            try {
+                const gamification = await getGamification(userData.uid);
+                resolvedLevel = gamification?.level?.level ?? 1;
+            } catch {
+                resolvedLevel = 1;
+            }
+        }
+
         const dataToUpdate: Record<string, unknown> = {
             uid: userData.uid,
             displayName: userData.displayName,
             avatar: userData.avatar,
             totalScore: userData.totalScore,
+            level: resolvedLevel,
             updatedAt: Timestamp.now(),
         };
-
-        if (level !== undefined) {
-            dataToUpdate.level = level;
-        }
 
         // Salva apenas dados seguros/públicos
         await setDoc(docRef, dataToUpdate, { merge: true });

@@ -112,7 +112,7 @@ export function Leaderboard({ currentUserId }: LeaderboardProps) {
                                     <span className="podium-card__score-icon">⭐</span>
                                     {entry.totalScore.toLocaleString()}
                                 </div>
-                                <div className="podium-card__level">Nível {entry.level}</div>
+                                {/* <div className="podium-card__level">Nível {entry.level}</div> */}
                             </div>
                         ))}
                     </div>
@@ -129,7 +129,7 @@ export function Leaderboard({ currentUserId }: LeaderboardProps) {
                                     <div className="leaderboard__entry-avatar">{entry.avatar}</div>
                                     <div className="leaderboard__entry-info">
                                         <span className="leaderboard__entry-name">{entry.displayName}</span>
-                                        <span className="leaderboard__entry-level">Nível {entry.level}</span>
+                                        {/* <span className="leaderboard__entry-level">Nível {entry.level}</span> */}
                                     </div>
                                     <div className="leaderboard__entry-score">
                                         <span className="leaderboard__entry-score-icon">⭐</span>
