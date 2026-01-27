@@ -67,7 +67,7 @@ export interface LeaderboardEntry {
     uid: string;
     displayName: string;
     avatar: string;
-    score: number;
+    totalScore: number;
     level: number;
     /** Se é o usuário atual */
     isCurrentUser?: boolean;

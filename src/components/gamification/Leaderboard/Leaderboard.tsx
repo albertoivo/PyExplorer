@@ -36,8 +36,8 @@ export function Leaderboard({ currentUserId }: LeaderboardProps) {
                     uid: user.uid,
                     displayName: user.displayName || 'Jogador',
                     avatar: user.avatar && user.avatar.length < 5 ? user.avatar : '🧑‍💻',
-                    score: user.totalScore || 0,
-                    level: Math.floor((user.totalScore || 0) / 100) + 1,
+                    totalScore: user.totalScore || 0,
+                    level: user.level || 1,
                     isCurrentUser: user.uid === currentUserId,
                 }));
 
@@ -110,7 +110,7 @@ export function Leaderboard({ currentUserId }: LeaderboardProps) {
                                 <div className="podium-card__name">{entry.displayName}</div>
                                 <div className="podium-card__score">
                                     <span className="podium-card__score-icon">⭐</span>
-                                    {entry.score.toLocaleString()}
+                                    {entry.totalScore.toLocaleString()}
                                 </div>
                                 <div className="podium-card__level">Nível {entry.level}</div>
                             </div>
@@ -133,7 +133,7 @@ export function Leaderboard({ currentUserId }: LeaderboardProps) {
                                     </div>
                                     <div className="leaderboard__entry-score">
                                         <span className="leaderboard__entry-score-icon">⭐</span>
-                                        {entry.score.toLocaleString()}
+                                        {entry.totalScore.toLocaleString()}
                                     </div>
                                 </div>
                             ))}
@@ -153,7 +153,7 @@ export function Leaderboard({ currentUserId }: LeaderboardProps) {
                                 </div>
                                 <div className="leaderboard__entry-score">
                                     <span className="leaderboard__entry-score-icon">⭐</span>
-                                    {currentUserEntry.score.toLocaleString()}
+                                    {currentUserEntry.totalScore.toLocaleString()}
                                 </div>
                             </div>
                         </div>
