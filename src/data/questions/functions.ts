@@ -305,22 +305,6 @@ desenhar_circulo(50)
         points: 10,
     },
     {
-        id: 'func_14',
-        type: 'fill_code',
-        world: 'functions',
-        difficulty: 'medium',
-        ageMin: 10,
-        title: 'Receita de Bolo',
-        prompt: 'Complete a função que recebe dois ingredientes (sabor e cobertura):',
-        starterCode: 'def bolo(sabor, ___):\n    print(f"Bolo de {sabor} com {cobertura}")',
-        solutionTemplate: 'def bolo(sabor, cobertura):',
-        tests: [
-            { input: null, expectedOutput: 'regex:^$' } // Just syntax check or simple run
-        ],
-        explanationKidFriendly: 'Funções podem ter vários ingredientes (parâmetros)! Separe eles com vírgula para usar todos na receita. 🍰',
-        points: 20,
-    },
-    {
         id: 'func_15',
         type: 'true_false',
         world: 'functions',
