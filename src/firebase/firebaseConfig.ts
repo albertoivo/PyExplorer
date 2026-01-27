@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase/app';
 import type { FirebaseApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import type { Auth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { initializeFirestore } from 'firebase/firestore';
 import type { Firestore } from 'firebase/firestore';
 import { getAnalytics } from 'firebase/analytics';
 import type { Analytics } from 'firebase/analytics';
@@ -56,7 +56,11 @@ let analytics: Analytics;
 try {
     app = initializeApp(firebaseConfig);
     auth = getAuth(app);
-    db = getFirestore(app);
+    // Usa long polling automaticamente para evitar erros de QUIC/HTTP3 bloqueados em algumas redes
+    db = initializeFirestore(app, {
+        experimentalAutoDetectLongPolling: true,
+        useFetchStreams: false,
+    });
     analytics = getAnalytics(app);
 } catch (error) {
     console.error('Erro ao inicializar Firebase:', error);
