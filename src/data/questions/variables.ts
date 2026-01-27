@@ -342,5 +342,23 @@ export const variablesQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'A função `int()` é como uma tesoura: ela corta tudo que vem depois da vírgula! 8.9 vira 8, 8.1 vira 8. Ela não arredonda! ✂️',
         points: 15,
+    },
+    {
+        id: 'var_16',
+        type: 'multiple_choice',
+        world: 'variables',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'O Sinal de Igual',
+        prompt: 'Em Python, para que serve o sinal `=` (igual)?',
+        options: [
+            'Verificar se é igual',
+            'Guardar valor na variável',
+            'Fazer contas',
+            'Terminar o código',
+        ],
+        answerIndex: 1,
+        explanationKidFriendly: 'Em programação, `=` é o chefe da guarda! Ele pega o valor da direita e GUARDA na variável da esquerda. Para verificar igualdade usamos `==` (dois iguais)! 📦',
+        points: 10,
     }
 ];

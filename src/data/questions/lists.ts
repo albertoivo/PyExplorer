@@ -371,5 +371,21 @@ export const listsQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: '`len()` conta tudo para você! É super útil para saber se a mochila está cheia ou se cabe mais coisa. 🎒',
         points: 10,
+    },
+    {
+        id: 'list_17',
+        type: 'fill_code',
+        world: 'lists',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Fatia da Lista',
+        prompt: 'Complete o código para pegar apenas os dois primeiros itens: "a" e "b".',
+        starterCode: 'lista = ["a", "b", "c", "d"]\nprimeiros = lista[___]\nprint(primeiros)',
+        solutionTemplate: 'primeiros = lista[0:2]',
+        tests: [
+            { input: null, expectedOutput: "['a', 'b']" },
+        ],
+        explanationKidFriendly: 'Usamos `[inicio:fim]` para fatiar! Começamos no 0 e vamos até o 2 (mas o 2 não entra). Assim pegamos os índices 0 e 1! 🍰',
+        points: 20,
     }
 ];

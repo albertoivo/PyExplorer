@@ -331,5 +331,23 @@ export const numbersQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'O % 7 (resto da divisão) é mágico para dias da semana! Ele faz os dias "girarem" e voltarem ao começo sempre que passam de 7. 📅',
         points: 20,
+    },
+    {
+        id: 'num_17',
+        type: 'multiple_choice',
+        world: 'numbers',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Misturando Contas',
+        prompt: 'O que o Python calcula primeiro em `2 + 3 * 4`?',
+        options: [
+            '2 + 3',
+            '3 * 4',
+            'Tudo junto',
+            'A esquerda',
+        ],
+        answerIndex: 1,
+        explanationKidFriendly: 'Python segue as regras da matemática! Multiplicação (*) e divisão (/) vêm antes de soma (+) e subtração (-). Então ele faz 3 * 4 = 12, e depois soma 2! Resultado: 14. 🧮',
+        points: 15,
     }
 ];

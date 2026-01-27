@@ -369,5 +369,17 @@ for i in range(4):
         ],
         explanationKidFriendly: 'O comando `in` é como um detetive! Ele procura dentro da lista e avisa se encontrou o que você queria. 🔦',
         points: 15,
+    },
+    {
+        id: 'dec_17',
+        type: 'true_false',
+        world: 'conditions',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Maior ou Menor?',
+        prompt: 'O código `10 > 5` (10 maior que 5) responde `True` (Verdadeiro)?',
+        correctBool: true,
+        explanationKidFriendly: 'Sim! O sinal `>` pergunta "é maior que?". Como 10 é maior que 5, o Python responde `True` (Sim, é verdade)! ✅',
+        points: 10,
     }
 ];

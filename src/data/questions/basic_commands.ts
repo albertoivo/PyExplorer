@@ -320,5 +320,17 @@ export const basicCommandsQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'O símbolo # faz o Python ignorar tudo que vem depois dele na mesma linha. É assim que fazemos comentários! 🤫',
         points: 10,
+    },
+    {
+        id: 'basic_16',
+        type: 'true_false',
+        world: 'basic_commands',
+        difficulty: 'easy',
+        ageMin: 8,
+        title: 'Texto ou Código?',
+        prompt: 'print("10") mostra o NÚMERO 10 para fazer contas?',
+        correctBool: false,
+        explanationKidFriendly: 'Quando usamos aspas, o Python entende como TEXTO, não número! Então "10" é só um desenho do 10, não serve para somar. 🎨',
+        points: 10,
     }
 ];

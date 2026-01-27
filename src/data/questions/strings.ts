@@ -365,5 +365,23 @@ export const stringsQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'Com f-string, você monta frases complexas rapidinho! É só colocar as variáveis nos lugares certos dentro das chaves { }. 🏆',
         points: 20,
+    },
+    {
+        id: 'strings_17',
+        type: 'multiple_choice',
+        world: 'strings',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Superpoderes da String',
+        prompt: 'O que o método `.upper()` faz com o texto "oi"?',
+        options: [
+            'Transforma em "OI"',
+            'Transforma em "Oi"',
+            'Não faz nada',
+            'Apaga o texto',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'Métodos são superpoderes! O `.upper()` (que vem de UP, cima) faz todas as letras crescerem e virarem MAIÚSCULAS! 🚀',
+        points: 10,
     }
 ];

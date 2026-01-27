@@ -347,5 +347,17 @@ desenhar_circulo(50)
         ],
         explanationKidFriendly: 'Funções podem receber quantos dados você quiser! Basta separar por vírgula. Dia, Mês e Ano formam o time completo da data! 📅',
         points: 20,
+    },
+    {
+        id: 'func_17',
+        type: 'true_false',
+        world: 'functions',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Variável Secreta',
+        prompt: 'Se eu criar uma variável DENTRO de uma função, posso usar ela fora da função?',
+        correctBool: false,
+        explanationKidFriendly: 'Não! Variáveis criadas dentro da função são "locais", ou seja, só existem lá dentro. Quando a função acaba, elas desaparecem! É como um segredo da função. 🤫',
+        points: 10,
     }
 ];

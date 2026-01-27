@@ -356,5 +356,23 @@ for i in range(___):
         ],
         explanationKidFriendly: '`break` é o botão de emergência! Assim que vimos o monstro, paramos tudo e fugimos. Ninguém quer enfrentar um monstro sem espada! 🏃💨',
         points: 20,
+    },
+    {
+        id: 'loop_17',
+        type: 'multiple_choice',
+        world: 'loops',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'O Segredo do Range',
+        prompt: 'Quais números `range(3)` gera?',
+        options: [
+            '1, 2, 3',
+            '0, 1, 2, 3',
+            '0, 1, 2',
+            '1, 2',
+        ],
+        answerIndex: 2,
+        explanationKidFriendly: 'O `range` sempre começa do 0 (se você não disser o contrário) e PARA antes do número final. Então `range(3)` faz 0, 1 e 2. São 3 números, mas o 3 não entra! 🏁',
+        points: 15,
     }
 ];
