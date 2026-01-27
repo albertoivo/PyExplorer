@@ -198,11 +198,15 @@ export async function updateUserScore(uid: string, additionalScore: number): Pro
             throw err;
         }
 
-        // Atualiza leaderboard com o novo score
+        // Busca o nível atual da gamificação para sincronizar com o leaderboard
+        const gamification = await getGamification(uid);
+        const currentLevel = gamification?.level?.level || 1;
+
+        // Atualiza leaderboard com o novo score e nível
         await updateLeaderboard({
             ...user,
             totalScore: newScore
-        });
+        }, currentLevel);
     }
 }
 
@@ -504,18 +508,24 @@ export async function saveGamificationData(uid: string, data: UserGamification):
 
     await setDoc(docRef, firestoreData, { merge: true });
 
-    // Tenta atualizar o nível no leaderboard se possível
-    // Precisamos de dados do usuário para chamar updateLeaderboard
-    // Como não temos aqui, fazemos um update parcial direto no leaderboard se o documento existir
+    // Sincroniza o nível no leaderboard
+    // Busca dados do usuário para garantir que o leaderboard tenha todos os campos
     try {
-        const leaderboardRef = doc(db, LEADERBOARD_COLLECTION, uid);
-        await setDoc(leaderboardRef, {
-            level: data.level.level,
-            updatedAt: Timestamp.now(),
-        }, { merge: true });
+        const user = await getUser(uid);
+        if (user) {
+            // Se o usuário existe, atualiza o leaderboard com todos os dados
+            await updateLeaderboard(user, data.level.level);
+        } else {
+            // Fallback: apenas atualiza o nível se não conseguir buscar o usuário
+            const leaderboardRef = doc(db, LEADERBOARD_COLLECTION, uid);
+            await setDoc(leaderboardRef, {
+                level: data.level.level,
+                updatedAt: Timestamp.now(),
+            }, { merge: true });
+        }
     } catch (err) {
         console.warn('Erro ao sincronizar nível no leaderboard:', err);
-        // Não falha o saveGamification se o leaderboard falhar (pode não existir ainda)
+        // Não falha o saveGamification se o leaderboard falhar
     }
 }
 
