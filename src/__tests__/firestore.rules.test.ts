@@ -144,7 +144,14 @@ describe('Firestore security rules', () => {
                 email: 'albertoivo@gmail.com',
                 email_verified: true
             }).firestore();
-            await assertSucceeds(setDoc(doc(adminDb, 'questions/q1'), { title: 'Admin Question' }));
+            await assertSucceeds(setDoc(doc(adminDb, 'questions/q1'), {
+                title: 'Admin Question',
+                type: 'multiple_choice',
+                world: 'basic_commands',
+                difficulty: 'easy',
+                prompt: 'Test prompt for admin question',
+                explanationKidFriendly: 'This is a kid-friendly explanation'
+            }));
         });
     });
 
