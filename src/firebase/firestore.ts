@@ -138,8 +138,11 @@ async function updateLeaderboard(userData: UserData, level?: number): Promise<vo
 export async function saveUser(userData: UserData): Promise<void> {
     const docRef = doc(db, USERS_COLLECTION, userData.uid);
 
+    // Remove campos opcionais indefinidos antes de salvar (Firestore não aceita undefined)
+    const { lastLoginAt, ...safeUserData } = userData;
+
     await setDoc(docRef, {
-        ...userData,
+        ...safeUserData,
         // Explicitly delete deprecated fields to satisfy strict hasOnly rules
         streak: deleteField(),
         longestStreak: deleteField(),
@@ -148,7 +151,7 @@ export async function saveUser(userData: UserData): Promise<void> {
         equippedAvatar: deleteField(),
         createdAt: Timestamp.fromDate(userData.createdAt),
         updatedAt: Timestamp.fromDate(userData.updatedAt),
-        ...(userData.lastLoginAt ? { lastLoginAt: Timestamp.fromDate(userData.lastLoginAt) } : {}),
+        ...(lastLoginAt ? { lastLoginAt: Timestamp.fromDate(lastLoginAt) } : {}),
     }, { merge: true });
 
     // Sincroniza com leaderboard
@@ -248,20 +251,24 @@ export async function saveProgress(progress: UserProgress): Promise<void> {
     const docRef = doc(db, PROGRESS_COLLECTION, docId);
     try {
         // Filtra campos undefined pois Firestore não aceita undefined
-        const dataToSave = {
+        const dataToSave: Record<string, unknown> = {
             uid: progress.uid,
             questionId: progress.questionId,
             status: progress.status,
             score: progress.score,
             attempts: progress.attempts,
             stars: progress.stars,
-            bestTimeSeconds: progress.bestTimeSeconds,
             lastAttemptAt: progress.lastAttemptAt ? Timestamp.fromDate(progress.lastAttemptAt) : null,
         };
 
+        // Inclui apenas se houver valor definido
+        if (progress.bestTimeSeconds !== undefined) {
+            dataToSave.bestTimeSeconds = progress.bestTimeSeconds;
+        }
+
         // Só inclui userAnswer se não for undefined
         if (progress.userAnswer !== undefined) {
-            (dataToSave as Record<string, unknown>).userAnswer = progress.userAnswer;
+            dataToSave.userAnswer = progress.userAnswer;
         }
 
         await setDoc(docRef, dataToSave, { merge: true });
