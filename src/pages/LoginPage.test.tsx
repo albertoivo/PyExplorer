@@ -25,6 +25,7 @@ describe('LoginPage', () => {
     const mockLoginWithGoogle = vi.fn();
     const mockEnterAsGuest = vi.fn();
     const mockClearError = vi.fn();
+    const mockSendPasswordReset = vi.fn();
 
     const renderLoginPage = () => {
         return render(
@@ -46,6 +47,7 @@ describe('LoginPage', () => {
             loginWithGoogle: mockLoginWithGoogle,
             enterAsGuest: mockEnterAsGuest,
             clearError: mockClearError,
+            sendPasswordReset: mockSendPasswordReset,
             error: null,
             user: null,
         });
@@ -94,6 +96,7 @@ describe('LoginPage', () => {
             loginWithGoogle: mockLoginWithGoogle,
             enterAsGuest: mockEnterAsGuest,
             clearError: mockClearError,
+            sendPasswordReset: mockSendPasswordReset,
             error: 'Email ou senha incorretos',
             user: null,
         });
@@ -123,6 +126,33 @@ describe('LoginPage', () => {
         expect(mockNavigate).toHaveBeenCalledWith('/game', { replace: true });
     });
 
+    it('deve enviar email de redefinição de senha ao clicar em Esqueci minha senha', async () => {
+        renderLoginPage();
+
+        const emailInput = screen.getByLabelText(/email/i);
+        fireEvent.change(emailInput, { target: { value: 'teste@exemplo.com' } });
+
+        const forgotBtn = screen.getByText('Esqueci minha senha');
+        fireEvent.click(forgotBtn);
+
+        await waitFor(() => {
+            expect(mockSendPasswordReset).toHaveBeenCalledWith('teste@exemplo.com');
+            expect(screen.getByText(/email de redefinição enviado/i)).toBeInTheDocument();
+        });
+    });
+
+    it('deve exibir erro se tentar redefinir senha sem email', async () => {
+        renderLoginPage();
+
+        const forgotBtn = screen.getByText('Esqueci minha senha');
+        fireEvent.click(forgotBtn);
+
+        await waitFor(() => {
+            expect(mockSendPasswordReset).not.toHaveBeenCalled();
+            expect(screen.getByText(/Digite seu email no campo acima para redefinir a senha/)).toBeInTheDocument();
+        });
+    });
+
     describe('Redirect Behavior', () => {
         it('deve redirecionar para /game quando usuário faz login', async () => {
             // Start with no user
@@ -140,6 +170,7 @@ describe('LoginPage', () => {
                 loginWithGoogle: mockLoginWithGoogle,
                 enterAsGuest: mockEnterAsGuest,
                 clearError: mockClearError,
+                sendPasswordReset: mockSendPasswordReset,
                 error: null,
                 user: { uid: 'test-user-123', displayName: 'Test User' },
             });
@@ -173,6 +204,7 @@ describe('LoginPage', () => {
                 loginWithGoogle: mockLoginWithGoogle,
                 enterAsGuest: mockEnterAsGuest,
                 clearError: mockClearError,
+                sendPasswordReset: mockSendPasswordReset,
                 error: null,
                 user: { uid: 'test-user-123', displayName: 'Test User' },
             });
@@ -197,6 +229,7 @@ describe('LoginPage', () => {
                 loginWithGoogle: mockLoginWithGoogle,
                 enterAsGuest: mockEnterAsGuest,
                 clearError: mockClearError,
+                sendPasswordReset: mockSendPasswordReset,
                 error: null,
                 user: { uid: 'test-user-123', displayName: 'Test User' },
             });

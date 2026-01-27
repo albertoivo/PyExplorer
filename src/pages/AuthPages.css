@@ -192,6 +192,22 @@
     transform: none;
 }
 
+.auth-btn--forgot-password {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    padding: 0;
+    transition: color 0.3s ease;
+}
+
+.auth-btn--forgot-password:hover {
+    color: #a0aec0;
+}
+
 /* Divisor */
 .auth-divider {
     display: flex;
