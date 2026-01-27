@@ -20,7 +20,9 @@ export function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const { login, enterAsGuest, loginWithGoogle, error, clearError, user } = useAuth();
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const [localError, setLocalError] = useState<string | null>(null);
+    const { login, enterAsGuest, loginWithGoogle, sendPasswordReset, error, clearError, user } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -47,6 +49,8 @@ export function LoginPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         clearError();
+        setLocalError(null);
+        setSuccessMessage(null);
         setIsLoading(true);
 
         try {
@@ -97,9 +101,15 @@ export function LoginPage() {
                     </div>
                 )}
 
-                {error && (
+                {(error || localError) && (
                     <div className="auth-alert auth-alert--error">
-                        ❌ {error}
+                        ❌ {error || localError}
+                    </div>
+                )}
+
+                {successMessage && (
+                    <div className="auth-alert auth-alert--success">
+                        ✅ {successMessage}
                     </div>
                 )}
 
@@ -168,19 +178,24 @@ export function LoginPage() {
                 <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
                     <button
                         type="button"
-                        onClick={() => {
-                            const emailInput = document.getElementById('email') as HTMLInputElement;
-                            if (emailInput && emailInput.value) {
-                                import('../firebase/auth').then(({ resetPassword }) => {
-                                    resetPassword(emailInput.value)
-                                        .then(() => alert(`Email de redefinição enviado para ${emailInput.value}!`))
-                                        .catch(err => alert('Erro: ' + err.message));
-                                });
-                            } else {
-                                alert('Digite seu email no campo acima para redefinir a senha.');
+                        onClick={async () => {
+                            clearError();
+                            setLocalError(null);
+                            setSuccessMessage(null);
+
+                            if (!email) {
+                                setLocalError('Digite seu email no campo acima para redefinir a senha.');
+                                return;
+                            }
+
+                            try {
+                                await sendPasswordReset(email);
+                                setSuccessMessage(`Email de redefinição enviado para ${email}!`);
+                            } catch {
+                                // Erro já tratado pelo context (setError)
                             }
                         }}
-                        style={{ background: 'none', border: 'none', color: '#666', cursor: 'pointer', textDecoration: 'underline', fontSize: '0.9rem' }}
+                        className="auth-btn--forgot-password"
                     >
                         Esqueci minha senha
                     </button>
