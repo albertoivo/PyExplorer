@@ -576,28 +576,57 @@ export async function getTopUsers(topN: number = 10): Promise<(UserData & { leve
     );
     const querySnapshot = await getDocs(q);
 
-    return querySnapshot.docs.map(docSnap => {
+    // Mapeia os dados básicos do leaderboard
+    const leaderboardUsers: (UserData & { level?: number })[] = querySnapshot.docs.map(docSnap => {
         const data = docSnap.data() as DocumentData;
-
-        // Mapeia explicitamente para garantir que o TS reconheça os campos
-        const userData: UserData & { level?: number } = {
+        return {
             uid: docSnap.id,
             displayName: data.displayName || 'Jogador',
             avatar: data.avatar || '🧑‍💻',
             totalScore: typeof data.totalScore === 'number' ? data.totalScore : 0,
             level: typeof data.level === 'number' ? data.level : undefined,
-
-            // Campos de data
             updatedAt: data.updatedAt?.toDate() || new Date(),
-            createdAt: new Date(), // Leaderboard não precisa saber a data real de criação
-
-            // Campos dummy para satisfazer a interface UserData (não usados no Leaderboard)
+            createdAt: new Date(),
             email: '',
             balance: 0,
-            unlockedWorlds: [],
+            unlockedWorlds: [] as World[],
         };
-
-        return userData;
     });
+
+    // Para usuários sem nível ou com nível 1, busca da coleção gamification
+    const usersNeedingLevel = leaderboardUsers.filter(u => !u.level || u.level <= 1);
+    
+    if (usersNeedingLevel.length > 0) {
+        // Busca os níveis da coleção gamification em paralelo
+        const levelPromises = usersNeedingLevel.map(async (user) => {
+            try {
+                const gamificationDoc = await getDoc(doc(db, GAMIFICATION_COLLECTION, user.uid));
+                if (gamificationDoc.exists()) {
+                    const gamificationData = gamificationDoc.data();
+                    const level = gamificationData?.level?.level;
+                    if (typeof level === 'number' && level > 1) {
+                        return { uid: user.uid, level };
+                    }
+                }
+            } catch {
+                // Silently ignore errors for individual users
+            }
+            return null;
+        });
+
+        const levelResults = await Promise.all(levelPromises);
+        
+        // Atualiza os níveis encontrados
+        levelResults.forEach(result => {
+            if (result) {
+                const user = leaderboardUsers.find(u => u.uid === result.uid);
+                if (user) {
+                    user.level = result.level;
+                }
+            }
+        });
+    }
+
+    return leaderboardUsers;
 }
 
