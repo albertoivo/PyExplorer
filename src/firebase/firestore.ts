@@ -615,16 +615,26 @@ export async function getTopUsers(topN: number = 10): Promise<(UserData & { leve
         });
 
         const levelResults = await Promise.all(levelPromises);
-        
-        // Atualiza os níveis encontrados
+
+        const writeBackPromises: Promise<void>[] = [];
+        // Atualiza os níveis encontrados (runtime) e persiste no leaderboard para os próximos acessos
         levelResults.forEach(result => {
             if (result) {
                 const user = leaderboardUsers.find(u => u.uid === result.uid);
                 if (user) {
                     user.level = result.level;
+                    const docRef = doc(db, LEADERBOARD_COLLECTION, result.uid);
+                    writeBackPromises.push(setDoc(docRef, {
+                        level: result.level,
+                        updatedAt: Timestamp.now(),
+                    }, { merge: true }));
                 }
             }
         });
+
+        if (writeBackPromises.length > 0) {
+            await Promise.all(writeBackPromises);
+        }
     }
 
     return leaderboardUsers;
