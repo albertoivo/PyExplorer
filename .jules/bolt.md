@@ -17,3 +17,7 @@
 ## 2025-01-22 - Interval Thrashing and Heavy Children
 **Learning:** Components with active timers (like `setInterval`) force re-renders every tick. If these components render heavy children (like `MonacoEditor`) and pass new object references (props) on every render, it causes massive unnecessary work (diffing/updating heavy components).
 **Action:** Isolate timers in separate components if possible, or strictly memoize all props (especially objects and functions) passed to heavy children in timer-driven components.
+
+## 2025-01-28 - Memoizing Heavy Component Wrappers
+**Learning:** Even thin wrappers around heavy components (like Monaco Editor or Canvas) can cause performance issues if not memoized. Frequent parent re-renders (e.g., from Context updates like Pyodide loading progress) cause the wrapper to re-execute and re-diff, even if props haven't changed.
+**Action:** Always wrap components hosting heavy third-party libs or canvas elements in `React.memo` to isolate them from parent render noise.

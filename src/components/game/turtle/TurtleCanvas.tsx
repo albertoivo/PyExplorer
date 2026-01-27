@@ -1,5 +1,5 @@
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, memo } from 'react';
 import './TurtleCanvas.css';
 
 // Definição dos tipos para window global
@@ -43,7 +43,7 @@ type Command =
     | { type: 'SPEED'; value: number }
     | { type: 'RESET' };
 
-export function TurtleCanvas({
+export const TurtleCanvas = memo(function TurtleCanvas({
     width = 600,
     height = 400,
     backgroundImage,
@@ -312,6 +312,6 @@ export function TurtleCanvas({
             </div>
         </div>
     );
-}
+});
 
 export default TurtleCanvas;

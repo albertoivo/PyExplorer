@@ -1,5 +1,5 @@
 import Editor from '@monaco-editor/react';
-import { useMemo, useCallback } from 'react';
+import { useMemo, useCallback, memo } from 'react';
 import './PythonEditor.css';
 
 interface PythonEditorProps {
@@ -19,7 +19,7 @@ interface PythonEditorProps {
  * Editor de código Python com syntax highlighting
  * Baseado no Monaco Editor (mesmo usado no VS Code)
  */
-export function PythonEditor({
+export const PythonEditor = memo(function PythonEditor({
     code,
     onChange,
     disabled = false,
@@ -78,6 +78,6 @@ export function PythonEditor({
             />
         </div>
     );
-}
+});
 
 export default PythonEditor;
