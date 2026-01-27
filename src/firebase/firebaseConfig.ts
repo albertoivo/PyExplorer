@@ -59,7 +59,6 @@ try {
     // Usa long polling automaticamente para evitar erros de QUIC/HTTP3 bloqueados em algumas redes
     db = initializeFirestore(app, {
         experimentalAutoDetectLongPolling: true,
-        useFetchStreams: false,
     });
     analytics = getAnalytics(app);
 } catch (error) {
