@@ -101,8 +101,9 @@ const LEADERBOARD_COLLECTION = 'leaderboard';
 /**
  * Atualiza os dados públicos do usuário no leaderboard
  * @param userData - Dados completos do usuário
+ * @param level - Nível opcional do usuário (se disponível)
  */
-async function updateLeaderboard(userData: UserData): Promise<void> {
+async function updateLeaderboard(userData: UserData, level?: number): Promise<void> {
     // Admin não vai para o leaderboard
     if (userData.email === 'albertoivo@gmail.com') {
         return;
@@ -110,14 +111,20 @@ async function updateLeaderboard(userData: UserData): Promise<void> {
 
     const docRef = doc(db, LEADERBOARD_COLLECTION, userData.uid);
     try {
-        // Salva apenas dados seguros/públicos
-        await setDoc(docRef, {
+        const dataToUpdate: Record<string, unknown> = {
             uid: userData.uid,
             displayName: userData.displayName,
             avatar: userData.avatar,
             totalScore: userData.totalScore,
             updatedAt: Timestamp.now(),
-        }, { merge: true });
+        };
+
+        if (level !== undefined) {
+            dataToUpdate.level = level;
+        }
+
+        // Salva apenas dados seguros/públicos
+        await setDoc(docRef, dataToUpdate, { merge: true });
     } catch (err) {
         console.error('[DEBUG] FALHOU em updateLeaderboard:', err);
         throw err;
@@ -434,11 +441,50 @@ export async function updateProgressBatch(
 const GAMIFICATION_COLLECTION = 'gamification';
 
 /**
+ * Valida os dados de gamificação antes de salvar
+ * (Validação runtime para complementar as Firestore Rules que não validam arrays profundos)
+ */
+function validateGamificationData(data: UserGamification): void {
+    if (!data.level || typeof data.level.level !== 'number') {
+        throw new Error('Dados de nível inválidos');
+    }
+
+    if (!Array.isArray(data.achievements)) {
+        throw new Error('Achievements deve ser um array');
+    }
+
+    data.achievements.forEach((a, i) => {
+        if (!a.achievementId || typeof a.achievementId !== 'string') {
+            throw new Error(`Achievement [${i}] inválido: ID ausente`);
+        }
+        if (!(a.unlockedAt instanceof Date)) {
+            throw new Error(`Achievement [${i}] inválido: Data inválida`);
+        }
+    });
+
+    if (!Array.isArray(data.activeMissions)) {
+        throw new Error('ActiveMissions deve ser um array');
+    }
+
+    data.activeMissions.forEach((m, i) => {
+        if (!m.missionId || typeof m.missionId !== 'string') {
+            throw new Error(`Mission [${i}] inválida: ID ausente`);
+        }
+        if (!(m.expiresAt instanceof Date)) {
+            throw new Error(`Mission [${i}] inválida: Data de expiração inválida`);
+        }
+    });
+}
+
+/**
  * Salva os dados de gamificação do usuário
  * @param uid - ID do usuário
  * @param data - Dados de gamificação
  */
 export async function saveGamificationData(uid: string, data: UserGamification): Promise<void> {
+    // Validação runtime prévia
+    validateGamificationData(data);
+
     const docRef = doc(db, GAMIFICATION_COLLECTION, uid);
 
     // Converte datas para Timestamp do Firestore
@@ -457,6 +503,20 @@ export async function saveGamificationData(uid: string, data: UserGamification):
     };
 
     await setDoc(docRef, firestoreData, { merge: true });
+
+    // Tenta atualizar o nível no leaderboard se possível
+    // Precisamos de dados do usuário para chamar updateLeaderboard
+    // Como não temos aqui, fazemos um update parcial direto no leaderboard se o documento existir
+    try {
+        const leaderboardRef = doc(db, LEADERBOARD_COLLECTION, uid);
+        await setDoc(leaderboardRef, {
+            level: data.level.level,
+            updatedAt: Timestamp.now(),
+        }, { merge: true });
+    } catch (err) {
+        console.warn('Erro ao sincronizar nível no leaderboard:', err);
+        // Não falha o saveGamification se o leaderboard falhar (pode não existir ainda)
+    }
 }
 
 /**
@@ -498,7 +558,7 @@ export async function getGamification(uid: string): Promise<UserGamification | n
  * @param topN - Número máximo de usuários a retornar (default: 10)
  * @returns Array de usuários ordenados por pontuação decrescente
  */
-export async function getTopUsers(topN: number = 10): Promise<UserData[]> {
+export async function getTopUsers(topN: number = 10): Promise<(UserData & { level?: number })[]> {
     const q = query(
         collection(db, LEADERBOARD_COLLECTION),
         orderBy('totalScore', 'desc'),
@@ -510,11 +570,12 @@ export async function getTopUsers(topN: number = 10): Promise<UserData[]> {
         const data = docSnap.data() as DocumentData;
 
         // Mapeia explicitamente para garantir que o TS reconheça os campos
-        const userData: UserData = {
+        const userData: UserData & { level?: number } = {
             uid: docSnap.id,
             displayName: data.displayName || 'Jogador',
             avatar: data.avatar || '🧑‍💻',
             totalScore: typeof data.totalScore === 'number' ? data.totalScore : 0,
+            level: typeof data.level === 'number' ? data.level : undefined,
 
             // Campos de data
             updatedAt: data.updatedAt?.toDate() || new Date(),

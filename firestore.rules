@@ -63,7 +63,22 @@ service cloud.firestore {
     // ============================================
     match /questions/{questionId} {
       allow read: if true;
-      allow write: if isAdmin();
+      // Admin pode escrever, mas validamos a estrutura para evitar erros
+      allow write: if isAdmin() &&
+        // Campos obrigatórios principais
+        ('type' in request.resource.data && request.resource.data.type in ['multiple_choice', 'true_false', 'fill_code', 'partial_function', 'full_function', 'parsons_problem', 'turtle_challenge', 'boss_battle']) &&
+        ('world' in request.resource.data && request.resource.data.world in ['basic_commands', 'numbers', 'variables', 'conditions', 'decisions', 'loops', 'functions', 'lists', 'strings', 'user_input', 'dictionaries', 'error_handling']) &&
+        ('difficulty' in request.resource.data && request.resource.data.difficulty in ['easy', 'medium', 'hard']) &&
+        ('title' in request.resource.data && isValidString(request.resource.data.title, 200)) &&
+        ('prompt' in request.resource.data && isValidString(request.resource.data.prompt, 2000)) &&
+        ('explanationKidFriendly' in request.resource.data && isValidString(request.resource.data.explanationKidFriendly, 1000)) &&
+        // Valida campos numéricos
+        (!('ageMin' in request.resource.data) || isValidNumber(request.resource.data.ageMin, 4, 18)) &&
+        (!('points' in request.resource.data) || isValidNumber(request.resource.data.points, 0, 1000)) &&
+        // Valida arrays opcionais
+        (!('options' in request.resource.data) || request.resource.data.options is list) &&
+        (!('tests' in request.resource.data) || request.resource.data.tests is list) &&
+        (!('parsonsSegments' in request.resource.data) || request.resource.data.parsonsSegments is list);
     }
     
     // ============================================
@@ -220,11 +235,12 @@ service cloud.firestore {
       
       // Escrita apenas pelo próprio usuário (para atualizar seu score)
       allow write: if isOwner(userId) &&
-        hasOnly(request.resource.data, ['uid', 'displayName', 'avatar', 'totalScore', 'updatedAt']) &&
+        hasOnly(request.resource.data, ['uid', 'displayName', 'avatar', 'totalScore', 'level', 'updatedAt']) &&
         (!('displayName' in request.resource.data) || isValidString(request.resource.data.displayName, 50)) &&
         (!('avatar' in request.resource.data) || isValidAvatar(request.resource.data.avatar)) &&
         (!('updatedAt' in request.resource.data) || isValidTimestamp(request.resource.data.updatedAt)) &&
-        (!('totalScore' in request.resource.data) || isValidNumber(request.resource.data.totalScore, 0, 9999999));
+        (!('totalScore' in request.resource.data) || isValidNumber(request.resource.data.totalScore, 0, 9999999)) &&
+        (!('level' in request.resource.data) || isValidNumber(request.resource.data.level, 0, 1000));
     }
   }
 }
