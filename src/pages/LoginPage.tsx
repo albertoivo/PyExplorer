@@ -191,8 +191,14 @@ export function LoginPage() {
                             try {
                                 await sendPasswordReset(email);
                                 setSuccessMessage(`Email de redefinição enviado para ${email}!`);
-                            } catch {
-                                // Erro já tratado pelo context (setError)
+                            } catch (err) {
+                                // Prevent username enumeration: if user not found, show success message anyway
+                                const error = err as { code?: string; message?: string };
+                                if (error?.code === 'auth/user-not-found' || error?.message?.includes('auth/user-not-found')) {
+                                    clearError();
+                                    setSuccessMessage(`Email de redefinição enviado para ${email}!`);
+                                }
+                                // Other errors (network, etc) will be shown by AuthContext
                             }
                         }}
                         className="auth-btn--forgot-password"
