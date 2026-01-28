@@ -331,5 +331,17 @@ desenhar_circulo(50)
         ],
         explanationKidFriendly: 'Funções podem receber quantos dados você quiser! Basta separar por vírgula. Dia, Mês e Ano formam o time completo da data! 📅',
         points: 20,
+    },
+    {
+        id: 'func_17',
+        type: 'true_false',
+        world: 'functions',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Return Finaliza?',
+        prompt: 'Quando a função encontra um `return`, ela para imediatamente e não executa o que vem depois.',
+        correctBool: true,
+        explanationKidFriendly: 'O return é o ponto final da função! Assim que ele entrega o valor, a função acaba. Qualquer código depois do return é ignorado (código morto)! 🛑',
+        points: 10,
     }
 ];

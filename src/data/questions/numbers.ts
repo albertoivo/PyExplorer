@@ -331,5 +331,21 @@ export const numbersQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'O % 7 (resto da divisão) é mágico para dias da semana! Ele faz os dias "girarem" e voltarem ao começo sempre que passam de 7. 📅',
         points: 20,
+    },
+    {
+        id: 'num_17',
+        type: 'fill_code',
+        world: 'numbers',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Contando o Troco',
+        prompt: 'Você tinha 50 moedas e gastou 20. Quantas sobraram? Complete a conta:',
+        starterCode: 'total = 50\ngasto = 20\nsobra = total ___ gasto\nprint(sobra)',
+        solutionTemplate: 'sobra = total - gasto',
+        tests: [
+            { input: null, expectedOutput: '30' },
+        ],
+        explanationKidFriendly: 'Para saber quanto sobrou, fazemos uma conta de menos (subtração) usando o sinal -! 50 - 20 = 30. 💰',
+        points: 10,
     }
 ];

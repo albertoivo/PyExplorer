@@ -365,5 +365,23 @@ export const stringsQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'Com f-string, você monta frases complexas rapidinho! É só colocar as variáveis nos lugares certos dentro das chaves { }. 🏆',
         points: 20,
+    },
+    {
+        id: 'strings_17',
+        type: 'multiple_choice',
+        world: 'strings',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Texto ao Contrário',
+        prompt: 'Qual truque de fatiamento inverte o texto (de trás para frente)?',
+        options: [
+            'texto[::-1]',
+            'texto.reverse()',
+            'texto[-1]',
+            'texto.back()',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'O [::-1] é um truque mágico! Ele começa do fim e vai andando para trás (passo -1) até o começo. "Roma" vira "amoR"! 🎩',
+        points: 15,
     }
 ];

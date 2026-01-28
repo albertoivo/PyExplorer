@@ -208,5 +208,23 @@ export const errorHandlingQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: '`IndexError` acontece quando tentamos pegar um item que não existe na lista. Com `try/except`, evitamos que o programa quebre! 🛡️',
         points: 20,
+    },
+    {
+        id: 'error_12',
+        type: 'multiple_choice',
+        world: 'error_handling',
+        difficulty: 'easy',
+        ageMin: 10,
+        title: 'Código Torto',
+        prompt: 'Se você esquecer o espaço (indentação) no começo da linha dentro do `if`, qual erro acontece?',
+        options: [
+            'IndentationError',
+            'SpaceError',
+            'TabError',
+            'IfError',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'Python é super organizado! Se você não alinhar o código corretamente, ele reclama com `IndentationError`. Mantenha tudo alinhado! 📏',
+        points: 10,
     }
 ];

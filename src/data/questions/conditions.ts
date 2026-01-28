@@ -369,5 +369,21 @@ for i in range(4):
         ],
         explanationKidFriendly: 'O comando `in` é como um detetive! Ele procura dentro da lista e avisa se encontrou o que você queria. 🔦',
         points: 15,
+    },
+    {
+        id: 'dec_17',
+        type: 'fill_code',
+        world: 'conditions',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Escolha sua Cor',
+        prompt: 'Você ganha se escolher a cor "azul" OU "roxo". Complete:',
+        starterCode: 'cor = "roxo"\nif cor == "azul" ___ cor == "roxo":\n    print("Você ganhou!")',
+        solutionTemplate: 'if cor == "azul" or cor == "roxo":',
+        tests: [
+            { input: null, expectedOutput: 'Você ganhou!' },
+        ],
+        explanationKidFriendly: 'Use `or` (OU) quando basta uma das opções ser verdadeira para ganhar! Azul OU Roxo servem! 🎨',
+        points: 15,
     }
 ];

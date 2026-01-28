@@ -203,5 +203,23 @@ export const dictionariesQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'Dicionários são fáceis de atualizar! Basta usar a chave ["poção"] e dar o novo valor. O valor antigo some e o novo assume! 💰',
         points: 15,
+    },
+    {
+        id: 'dict_12',
+        type: 'multiple_choice',
+        world: 'dictionaries',
+        difficulty: 'easy',
+        ageMin: 10,
+        title: 'Contando Chaves',
+        prompt: 'Se `mochila = {"corda": 1, "água": 2}`, o que `len(mochila)` retorna?',
+        options: [
+            '2',
+            '4',
+            '3',
+            '1',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'O len() conta quantas chaves tem no dicionário. Temos "corda" e "água", então são 2 coisas! 🎒',
+        points: 10,
     }
 ];

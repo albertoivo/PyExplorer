@@ -342,5 +342,23 @@ export const variablesQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: 'A função `int()` é como uma tesoura: ela corta tudo que vem depois da vírgula! 8.9 vira 8, 8.1 vira 8. Ela não arredonda! ✂️',
         points: 15,
+    },
+    {
+        id: 'var_16',
+        type: 'multiple_choice',
+        world: 'variables',
+        difficulty: 'easy',
+        ageMin: 9,
+        title: 'Ligado ou Desligado?',
+        prompt: 'Se eu fizer `luz_acesa = True`, qual é o tipo da variável `luz_acesa`?',
+        options: [
+            'bool (Booleano)',
+            'str (Texto)',
+            'int (Número)',
+            'float (Decimal)',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'True (Verdadeiro) e False (Falso) são do tipo bool (Booleano). Eles funcionam como interruptores: ligado ou desligado! 💡',
+        points: 10,
     }
 ];

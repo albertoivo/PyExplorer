@@ -356,5 +356,23 @@ for i in range(___):
         ],
         explanationKidFriendly: '`break` é o botão de emergência! Assim que vimos o monstro, paramos tudo e fugimos. Ninguém quer enfrentar um monstro sem espada! 🏃💨',
         points: 20,
+    },
+    {
+        id: 'loop_17',
+        type: 'multiple_choice',
+        world: 'loops',
+        difficulty: 'easy',
+        ageMin: 10,
+        title: 'Loop Infinito',
+        prompt: 'O que acontece se fizermos `while True:` sem nenhum `break`?',
+        options: [
+            'O loop roda para sempre (infinito)',
+            'Roda só uma vez',
+            'Dá erro',
+            'O computador desliga',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'Se a condição for sempre True e não tivermos break, o loop nunca para! Isso é um "Loop Infinito". Cuidado! ♾️',
+        points: 10,
     }
 ];

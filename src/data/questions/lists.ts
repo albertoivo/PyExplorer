@@ -371,5 +371,21 @@ export const listsQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: '`len()` conta tudo para você! É super útil para saber se a mochila está cheia ou se cabe mais coisa. 🎒',
         points: 10,
+    },
+    {
+        id: 'list_17',
+        type: 'fill_code',
+        world: 'lists',
+        difficulty: 'medium',
+        ageMin: 10,
+        title: 'Removendo o Intruso',
+        prompt: 'A lista tem um "gato" no meio das frutas! Remova ele:',
+        starterCode: 'frutas = ["Maçã", "Gato", "Banana"]\nfrutas.___("Gato")\nprint(frutas)',
+        solutionTemplate: 'frutas.remove("Gato")',
+        tests: [
+            { input: null, expectedOutput: "['Maçã', 'Banana']" },
+        ],
+        explanationKidFriendly: 'Use .remove() com o valor que quer tirar da lista. remove("Gato") tira o bichano de lá e deixa só as frutas! 🍎🍌',
+        points: 15,
     }
 ];

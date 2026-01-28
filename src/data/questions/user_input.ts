@@ -209,5 +209,21 @@ export const userInputQuestions: QuestionDocument[] = [
         answerIndex: 0,
         explanationKidFriendly: '`str()` transforma números em texto (string). É útil para comparar senhas ou juntar com outras palavras! 🔐',
         points: 15,
+    },
+    {
+        id: 'input_13',
+        type: 'fill_code',
+        world: 'user_input',
+        difficulty: 'easy',
+        ageMin: 10,
+        title: 'Dobro dos Pontos',
+        prompt: 'O jogo perguntou seus pontos, mas veio como texto! Converta para número e mostre o dobro:',
+        starterCode: 'pontos_texto = "10"\npontos = ___(pontos_texto)\nprint(pontos * 2)',
+        solutionTemplate: 'pontos = int(pontos_texto)',
+        tests: [
+            { input: null, expectedOutput: '20' },
+        ],
+        explanationKidFriendly: 'Para fazer contas, precisamos converter o texto em número usando `int()`. "10" vira 10. O dobro de 10 é 20! 🏆',
+        points: 15,
     }
 ];
