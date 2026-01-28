@@ -87,7 +87,7 @@ export function RegisterPage() {
                 </div>
 
                 {(error || localError) && (
-                    <div className="auth-alert auth-alert--error">
+                    <div className="auth-alert auth-alert--error" role="alert">
                         ❌ {error || localError}
                     </div>
                 )}
