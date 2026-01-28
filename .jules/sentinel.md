@@ -17,3 +17,8 @@
 **Vulnerability:** The application was revealing whether a user exists during login/password reset by mapping `auth/user-not-found` to specific messages like "Usuário não encontrado". This allows attackers to enumerate registered emails.
 **Learning:** Default error mapping often prioritizes debugging over security. Authentication errors must be generic to prevent enumeration.
 **Prevention:** Always map `auth/user-not-found` and `auth/wrong-password` to the same generic message (e.g., "Email or password incorrect") and handle password reset flows to blindly return success.
+
+## 2026-02-14 - Firestore Array Content Validation
+**Vulnerability:** Firestore rules `isValidList` only checked list size, allowing garbage data (arbitrary strings/objects) in fields like `unlockedWorlds`.
+**Learning:** Firestore `list` type check does not validate element types. Deep validation of arrays requires converting to sets (`toSet()`) and checking `difference()` against an allowlist.
+**Prevention:** Use `field.toSet().difference(allowList).size() == 0` for validating array contents against enums.

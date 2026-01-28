@@ -110,7 +110,16 @@ describe('Firestore security rules', () => {
             await assertSucceeds(setDoc(doc(aliceDb, 'users/alice'), {
                 uid: 'alice',
                 displayName: 'Alice',
-                unlockedWorlds: ['world1', 'world2']
+                unlockedWorlds: ['basic_commands', 'loops']
+            }));
+        });
+
+        it('should DENY creating user with invalid world ID in unlockedWorlds', async () => {
+            const aliceDb = testEnv.authenticatedContext('alice').firestore();
+            await assertFails(setDoc(doc(aliceDb, 'users/alice'), {
+                uid: 'alice',
+                displayName: 'Alice',
+                unlockedWorlds: ['basic_commands', 'INVALID_WORLD']
             }));
         });
 
@@ -394,6 +403,24 @@ describe('Firestore security rules', () => {
              await assertFails(setDoc(doc(aliceDb, 'gamification/alice'), {
                  level: 5, // Old structure (Number)
                  streak: 10
+             }));
+        });
+
+        it('should ALLOW writing gamification with valid completedWorldIds', async () => {
+            const aliceDb = testEnv.authenticatedContext('alice').firestore();
+            await assertSucceeds(setDoc(doc(aliceDb, 'gamification/alice'), {
+                level: { level: 3, currentXP: 50, totalXP: 150 },
+                streak: { currentStreak: 5 },
+                stats: { completedWorldIds: ['basic_commands'] }
+            }));
+        });
+
+        it('should DENY writing gamification with invalid completedWorldIds', async () => {
+             const aliceDb = testEnv.authenticatedContext('alice').firestore();
+             await assertFails(setDoc(doc(aliceDb, 'gamification/alice'), {
+                level: { level: 3, currentXP: 50, totalXP: 150 },
+                streak: { currentStreak: 5 },
+                stats: { completedWorldIds: ['invalid_world'] }
              }));
         });
     });

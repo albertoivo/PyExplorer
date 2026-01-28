@@ -51,6 +51,13 @@ service cloud.firestore {
       return data.keys().toSet().hasOnly(fields);
     }
 
+    // Valida que um campo é lista APENAS com mundos válidos
+    function isValidWorldList(field, maxSize) {
+      return field is list &&
+             field.size() <= maxSize &&
+             field.toSet().difference(['basic_commands', 'numbers', 'variables', 'conditions', 'decisions', 'loops', 'functions', 'lists', 'strings', 'user_input', 'dictionaries', 'error_handling'].toSet()).size() == 0;
+    }
+
     // Função para verificar se é admin
     function isAdmin() {
       return isAuthenticated() &&
@@ -106,8 +113,8 @@ service cloud.firestore {
         (!('totalScore' in request.resource.data) || isValidNumber(request.resource.data.totalScore, 0, 9999999)) &&
         // Valida balance se presente (0 a 9.999.999)
         (!('balance' in request.resource.data) || isValidNumber(request.resource.data.balance, 0, 9999999)) &&
-        // Valida unlockedWorlds (deve ser lista)
-        (!('unlockedWorlds' in request.resource.data) || isValidList(request.resource.data.unlockedWorlds, 1000));
+        // Valida unlockedWorlds (deve ser lista de mundos válidos)
+        (!('unlockedWorlds' in request.resource.data) || isValidWorldList(request.resource.data.unlockedWorlds, 1000));
     }
 
     // ============================================
@@ -184,7 +191,7 @@ service cloud.firestore {
             (!('totalQuestionsCompleted' in request.resource.data.stats) || isValidNumber(request.resource.data.stats.totalQuestionsCompleted, 0, 999999)) &&
             (!('totalCorrectAnswers' in request.resource.data.stats) || isValidNumber(request.resource.data.stats.totalCorrectAnswers, 0, 999999)) &&
             (!('lastWeekendDate' in request.resource.data.stats) || isValidString(request.resource.data.stats.lastWeekendDate, 10)) &&
-            (!('completedWorldIds' in request.resource.data.stats) || isValidList(request.resource.data.stats.completedWorldIds, 100))
+            (!('completedWorldIds' in request.resource.data.stats) || isValidWorldList(request.resource.data.stats.completedWorldIds, 100))
         ));
     }
     
