@@ -1,5 +1,5 @@
 import Editor from '@monaco-editor/react';
-import { useMemo, useCallback } from 'react';
+import { useMemo, useCallback, memo } from 'react';
 import './PythonEditor.css';
 
 interface PythonEditorProps {
@@ -19,13 +19,13 @@ interface PythonEditorProps {
  * Editor de código Python com syntax highlighting
  * Baseado no Monaco Editor (mesmo usado no VS Code)
  */
-export function PythonEditor({
+const PythonEditorBase = ({
     code,
     onChange,
     disabled = false,
     height = '300px',
     theme = 'dark',
-}: PythonEditorProps) {
+}: PythonEditorProps) => {
     const handleChange = useCallback((value: string | undefined) => {
         if (!disabled && value !== undefined) {
             onChange(value);
@@ -78,6 +78,9 @@ export function PythonEditor({
             />
         </div>
     );
-}
+};
 
+// Optimized with React.memo to prevent unnecessary re-renders of the heavy Monaco Editor instance
+// when parent state changes (e.g. timers, progress updates) but editor props remain stable.
+export const PythonEditor = memo(PythonEditorBase);
 export default PythonEditor;

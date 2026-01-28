@@ -1,5 +1,5 @@
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, memo } from 'react';
 import './TurtleCanvas.css';
 
 // Definição dos tipos para window global
@@ -43,12 +43,12 @@ type Command =
     | { type: 'SPEED'; value: number }
     | { type: 'RESET' };
 
-export function TurtleCanvas({
+const TurtleCanvasBase = ({
     width = 600,
     height = 400,
     backgroundImage,
     onCommandExecuted
-}: TurtleCanvasProps) {
+}: TurtleCanvasProps) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     const commandQueue = useRef<Command[]>([]);
@@ -312,6 +312,9 @@ export function TurtleCanvas({
             </div>
         </div>
     );
-}
+};
 
+// Optimized with React.memo to prevent unnecessary canvas re-renders
+// when parent component updates state unrelated to the visualization.
+export const TurtleCanvas = memo(TurtleCanvasBase);
 export default TurtleCanvas;
