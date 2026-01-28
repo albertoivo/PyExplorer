@@ -1,45 +1,43 @@
 # Relatório do Guardião Firebase 🔥
 
-**Data:** 25/10/2023 (Atualizado)
-**Status:** ✅ Resolvido
+**Data:** 28/01/2026
+**Status:** ✅ OK
 
 ## Resumo
 
-A análise revelou inconsistências entre a documentação anterior (`RELATORIO_FIREBASE.md`), o código atual e as especificações da missão. As correções foram aplicadas: o campo `lastLoginAt` foi adicionado à stack completa. O código de `saveUser` mantém lógica de limpeza depreciada necessária para `hasOnly`. `unlockedWorlds` está corretamente validado nas regras.
+A análise atual dos arquivos revela um alto nível de consistência entre os tipos TypeScript, as regras do Firestore e os serviços. Diferente das suspeitas levantadas na missão, campos críticos como `unlockedWorlds` estão presentes e validados. Algumas validações estruturais profundas (arrays de objetos) são rasas devido a limitações do Firestore, mas os riscos são mitigados pela lógica dos serviços.
 
 ## ✅ Verificações Passaram
 
-- **Sincronização `questions`:** Campos TS correspondem ao serviço; Rules (leitura pública/escrita admin) adequadas.
-- **Validação `unlockedWorlds`:** O campo está presente e validado como lista em `firestore.rules`.
-- **Campo `lastLoginAt`:** Adicionado em TS (`UserData`), Service (`saveUser`/`getUser`) e Rules (`hasOnly`/`isValidTimestamp`).
-- **Limites Numéricos:** `displayName`, `totalScore`, `attempts`, `streak` possuem limites adequados.
-- **Segurança:** Regras de `isOwner` e validação de escrita estrita (`hasOnly`) implementadas.
+- **Sincronização `users`:** Todos os campos de `UserData` (incluindo `unlockedWorlds` e `lastLoginAt`) estão validados em `firestore.rules` com `hasOnly`.
+- **Sincronização `questions`:** Tipos críticos (`type`, `world`, `difficulty`) são validados contra enums nas regras. Leitura pública e escrita admin estão corretas.
+- **Sincronização `gamification`:** Estruturas complexas (`streak`, `stats`, `powerUps`) estão mapeadas e validadas (keys e tipos) nas regras.
+- **Limites Numéricos:** `totalScore` (9.999.999), `streak` (9.999), e `attempts` (9.999) possuem margens seguras e consistentes.
+- **Segurança:** Regras de `isOwner` garantem isolamento de dados de usuário e progresso.
 
 ## ⚠️ Avisos (Ação Sugerida)
 
-### Inconsistência Documental em `saveUser`
-
-### Inconsistência Documental em `saveUser`
-- **Localização:** `src/firebase/firestore.ts` (linha ~135) vs `RELATORIO_FIREBASE.md`
-- **Descrição:** O relatório anterior afirma que a lógica de limpeza de campos depreciados foi removida, mas o código `saveUser` ainda executa `streak: deleteField()`, etc.
-- **Impacto:** Confusão na manutenção. O código atual está correto para garantir a integridade com `hasOnly`, mas o relatório está desatualizado.
-- **Sugestão:** Atualizar o relatório (feito aqui) ou refatorar se a limpeza não for mais necessária (provavelmente é necessária devido ao `hasOnly`).
-
-### Validação Rasa de `gamification`
+### Validação Rasa de Listas em `gamification`
 - **Localização:** `firestore.rules` (match `/gamification/{userId}`)
-- **Descrição:** `achievements` e `activeMissions` são validados apenas como listas (`is list`), sem verificação da estrutura interna.
-- **Impacto:** Um cliente malicioso poderia injetar objetos com formato inválido nessas listas.
-- **Sugestão:** Implementar validação estrutural se possível, ou confiar na validação do serviço (risco aceito).
+- **Descrição:** Campos como `achievements` e `activeMissions` são validados apenas como listas (`isValidList`), sem verificação da estrutura dos objetos internos.
+- **Impacto:** Risco teórico de injeção de dados malformados nessas listas por usuários autenticados (se bypassarem o cliente).
+- **Sugestão:** Aceitável dada a complexidade do Firestore Rules. Manter validação forte no `questionsService.ts` (já existente em `validateGamificationData`).
 
-### Limite de Score em `userProgress`
-- **Localização:** `firestore.rules`
-- **Descrição:** A regra permite score 0-9999. A verificação solicitada questionava o limite 0-1000.
-- **Impacto:** Baixo. O limite atual (9999) é mais permissivo e seguro para pontuações altas.
-- **Sugestão:** Manter 9999 ou ajustar se houver requisito estrito de negócio para 1000.
+### Validação Rasa de `unlockedWorlds`
+- **Localização:** `firestore.rules` (match `/users/{userId}`)
+- **Descrição:** `unlockedWorlds` é validado como lista de tamanho 1000, mas os elementos individuais não são verificados contra a lista de mundos permitidos (enum `World`).
+- **Impacto:** Possibilidade de inserir strings arbitrárias como "mundos".
+- **Sugestão:** Adicionar validação de elementos se crítico, ou confiar na validação do serviço `unlockWorld`.
+
+### Validação Aberta de `questions`
+- **Localização:** `firestore.rules` (match `/questions/{questionId}`)
+- **Descrição:** A regra de escrita valida campos obrigatórios, mas **não usa `hasOnly`**.
+- **Impacto:** Admins podem acidentalmente salvar campos com typo (ex: `points` vs `score`) ou campos extras não documentados.
+- **Sugestão:** Adicionar `hasOnly` à regra de admin se desejar esquema estrito.
 
 ## ❌ Problemas Críticos
 
-*Nenhum problema crítico de segurança imediata bloqueante encontrado, mas a ausência de `lastLoginAt` pode ser bloqueante para novas features.*
+*Nenhum problema crítico encontrado.*
 
 ## 📋 Tabela de Correspondência
 
@@ -47,6 +45,7 @@ A análise revelou inconsistências entre a documentação anterior (`RELATORIO_
 |---------|------------------|-------------|--------|
 | users | displayName | displayName | ✅ |
 | users | unlockedWorlds | unlockedWorlds | ✅ (Presente) |
-| users | lastLoginAt | lastLoginAt | ✅ (Adicionado) |
-| gamification | achievements | achievements | ⚠️ (Validação rasa) |
+| users | lastLoginAt | lastLoginAt | ✅ (Presente) |
 | userProgress | score | score (0-9999) | ✅ |
+| gamification | achievements | achievements | ⚠️ (Validação rasa) |
+| gamification | activeMissions | activeMissions | ⚠️ (Validação rasa) |
