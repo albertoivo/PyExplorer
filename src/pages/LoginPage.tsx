@@ -96,19 +96,19 @@ export function LoginPage() {
                 </div>
 
                 {requireLogin && (
-                    <div className="auth-alert auth-alert--warning">
+                    <div className="auth-alert auth-alert--warning" role="alert">
                         ⚠️ Você precisa fazer login para acessar esta página
                     </div>
                 )}
 
                 {(error || localError) && (
-                    <div className="auth-alert auth-alert--error">
+                    <div className="auth-alert auth-alert--error" role="alert">
                         ❌ {error || localError}
                     </div>
                 )}
 
                 {successMessage && (
-                    <div className="auth-alert auth-alert--success">
+                    <div className="auth-alert auth-alert--success" role="status">
                         ✅ {successMessage}
                     </div>
                 )}

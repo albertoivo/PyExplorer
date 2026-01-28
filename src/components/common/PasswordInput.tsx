@@ -19,6 +19,7 @@ export const PasswordInput: React.FC<PasswordInputProps> = ({ className = '', st
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
+                title={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
                 style={{
                     position: 'absolute',
                     right: '12px',
