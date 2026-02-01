@@ -62,6 +62,16 @@
     padding: 0.75rem 1.5rem;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 12px;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.gamification-page__stat.clickable {
+    cursor: pointer;
+}
+
+.gamification-page__stat.clickable:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
 }
 
 .gamification-page__stat-icon {

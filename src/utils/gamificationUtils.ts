@@ -75,6 +75,7 @@ export function calculateStreak(
         };
     }
 
+
     // Default (caso estranho de data futura ou erro): mantém
     return {
         streak: currentStreak,
@@ -82,4 +83,15 @@ export function calculateStreak(
         lastActiveDate: today,
         shouldUpdate: false
     };
+}
+
+/**
+ * Retorna a data em string YYYY-MM-DD considerando o fuso horário local do usuário.
+ * Substituto para Date.toISOString().split('T')[0] que retornava UTC.
+ */
+export function getLocalDateStr(date: Date = new Date()): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
 }

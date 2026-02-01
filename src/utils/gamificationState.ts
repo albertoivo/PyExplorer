@@ -11,7 +11,7 @@ import {
     ENDGAME_MISSIONS,
     SHOP_ITEMS
 } from '../data/gamificationData';
-import { calculateStreak } from './gamificationUtils';
+import { calculateStreak, getLocalDateStr } from './gamificationUtils';
 import type { Mission } from '../types/gamification';
 
 // ============================================
@@ -38,7 +38,7 @@ export function getInitialGamification(): UserGamification {
         powerUps: {
             inventory: { skip: 1, fifty_fifty: 2, extra_hint: 2, double_stars: 1, shield: 0 },
             usesToday: { skip: 0, fifty_fifty: 0, extra_hint: 0, double_stars: 0, shield: 0 },
-            lastResetDate: new Date().toISOString().split('T')[0],
+            lastResetDate: getLocalDateStr(),
         },
         stats: {
             totalQuestionsCompleted: 0,
@@ -59,7 +59,7 @@ export function getInitialGamification(): UserGamification {
 
 export function checkDailyAndWeeklyReset(data: UserGamification): UserGamification | null {
     const today = new Date();
-    const todayStr = today.toISOString().split('T')[0];
+    const todayStr = getLocalDateStr(today);
     const lastReset = data.powerUps?.lastResetDate;
 
     const newState = { ...data };
@@ -139,13 +139,33 @@ export function checkDailyAndWeeklyReset(data: UserGamification): UserGamificati
         hasChanges = true;
     }
 
+    // 2.1 Check Endgame Missions Expiry
+    // Remove expired endgame missions so they can be regenerated (by useGamification or here)
+    const expiredEndgameMissions = newState.activeMissions.filter(m =>
+        m.missionId.startsWith('endgame_') &&
+        m.expiresAt &&
+        new Date(m.expiresAt) < today
+    );
+
+    if (expiredEndgameMissions.length > 0) {
+        console.log('⏳ Expired Endgame Missions found:', expiredEndgameMissions.map(m => m.missionId));
+        newState.activeMissions = newState.activeMissions.filter(m =>
+            !expiredEndgameMissions.includes(m)
+        );
+        // Note: We don't regenerate immediately here because the logic for generating them 
+        // is inside useGamification (based on stats check). 
+        // By removing them, useGamification hook will detect they are missing and add new ones 
+        // on next effect run (lines 105-130 in useGamification).
+        hasChanges = true;
+    }
+
     // 3. Check Weekly Missions
     const getSunday = (d: Date) => {
         const dateCopy = new Date(d);
-        const day = dateCopy.getDay();
-        const diff = dateCopy.getDate() - day;
+        const day = dateCopy.getDay(); // 0 for Sunday, 1 for Monday, etc.
+        const diff = dateCopy.getDate() - day; // Adjust to Sunday
         dateCopy.setDate(diff);
-        return dateCopy.toISOString().split('T')[0];
+        return getLocalDateStr(dateCopy); // Return local date string for Sunday
     };
     const currentWeekSunday = getSunday(today);
 
@@ -159,9 +179,14 @@ export function checkDailyAndWeeklyReset(data: UserGamification): UserGamificati
         // Reuse process logic but adjust expiry
         const userWeeklies = newWeeklies.map(m => {
             const base = processMissions([m])[0]; // reuse logic regarding ID modification
+            // Calculate end of week (Saturday 23:59:59)
+            const endOfWeek = new Date(today);
+            endOfWeek.setDate(today.getDate() + (6 - today.getDay())); // Go to Saturday
+            endOfWeek.setHours(23, 59, 59, 999); // End of day
+
             return {
                 ...base,
-                expiresAt: new Date(new Date().setDate(new Date().getDate() + 7))
+                expiresAt: endOfWeek
             };
         });
 
@@ -295,6 +320,14 @@ export function claimMissionRewardLogic(
     }
 
     const today = new Date();
+    // Check if the mission has expired
+    if (userMission.expiresAt && new Date(userMission.expiresAt) < today) {
+        console.warn(`Attempted to claim expired mission: ${missionId}`);
+        // Optionally, remove the expired mission from activeMissions here
+        // For now, just prevent claiming
+        return { success: false, newState: state, rewards: { xp: 0, stars: 0 }, levelUp: null };
+    }
+
     const daily = generateDailyMissions(today);
     const weekly = generateWeeklyMissions(today);
     const allMissions = [...daily, ...weekly, ...ENDGAME_MISSIONS];

@@ -97,17 +97,40 @@ export function GamificationPage() {
                 </div>
 
                 <div className="gamification-page__stats">
-                    <div className="gamification-page__stat">
+                    <div
+                        className="gamification-page__stat clickable"
+                        onClick={() => setActiveTab('overview')}
+                        title="Ver Visão Geral"
+                    >
                         <span className="gamification-page__stat-icon">⚡</span>
                         <span className="gamification-page__stat-value">{userData?.totalScore || 0}</span>
                         <span className="gamification-page__stat-label">Pontos</span>
                     </div>
-                    <div className="gamification-page__stat">
+                    <div
+                        className="gamification-page__stat clickable"
+                        onClick={() => setActiveTab('achievements')}
+                        title="Ver Conquistas"
+                    >
                         <span className="gamification-page__stat-icon">🏅</span>
                         <span className="gamification-page__stat-value">{unlockedAchievements.length}</span>
                         <span className="gamification-page__stat-label">Conquistas</span>
                     </div>
-                    <div className="gamification-page__stat">
+                    <div
+                        className="gamification-page__stat clickable"
+                        onClick={() => setActiveTab('missions')}
+                        title="Ver Missões"
+                    >
+                        <span className="gamification-page__stat-icon">📋</span>
+                        <span className="gamification-page__stat-value">
+                            {activeMissions.filter(m => m.status === 'active').length}
+                        </span>
+                        <span className="gamification-page__stat-label">Missões</span>
+                    </div>
+                    <div
+                        className="gamification-page__stat clickable"
+                        onClick={() => setActiveTab('overview')} // Streak is in Overview
+                        title="Ver Streak"
+                    >
                         <span className="gamification-page__stat-icon">🔥</span>
                         <span className="gamification-page__stat-value">{streak.currentStreak}</span>
                         <span className="gamification-page__stat-label">Streak</span>
