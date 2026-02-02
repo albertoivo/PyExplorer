@@ -13,6 +13,7 @@ import {
 } from '../data/gamificationData';
 import { calculateStreak, getLocalDateStr } from './gamificationUtils';
 import type { Mission } from '../types/gamification';
+import { getInitialPet, gainPetXp } from './petLogic';
 
 // ============================================
 // INITIAL STATE & HELPERS
@@ -20,6 +21,7 @@ import type { Mission } from '../types/gamification';
 
 export function getInitialGamification(): UserGamification {
     return {
+        pet: getInitialPet(),
         level: { level: 1, currentXP: 0, totalXP: 0 },
         streak: {
             currentStreak: 0,
@@ -517,6 +519,13 @@ export function recordQuestionLogic(
     const newLevelInfo = getLevelFromXP(newTotalXP);
     const levelUp = newLevelInfo.level > oldLevelInfo.level ? newLevelInfo : null;
 
+    // Pet Evolution (PyEvo)
+    const currentPet = state.pet || getInitialPet();
+    // Only gain XP if passed, or maybe small XP if failed? For now, only passed.
+    const { newPet } = passed
+        ? gainPetXp(currentPet, xpEarned, options?.worldId || 'generic')
+        : { newPet: currentPet };
+
     // Streak
     const streakResult = calculateStreak(
         state.streak.currentStreak,
@@ -536,6 +545,7 @@ export function recordQuestionLogic(
             currentXP: state.level.currentXP + xpEarned,
             totalXP: newTotalXP,
         },
+        pet: newPet,
         streak: {
             ...state.streak,
             currentStreak: streakResult.streak,
