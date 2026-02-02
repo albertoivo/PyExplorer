@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import { Mascot } from '../Mascot';
 
@@ -76,7 +76,6 @@ describe('Mascot', () => {
         // Or check text content is not empty.
         // Since messages are random, it's hard to predict exact text, but we can check if bubble exists.
         // Implementation: isMessageVisible becomes true.
-        const bubble = document.querySelector('.mascot__bubble');
         // Use container query or check for ANY text
         // But render return container bound to screen
         // Let's rely on class if possible or check if *some* text appears

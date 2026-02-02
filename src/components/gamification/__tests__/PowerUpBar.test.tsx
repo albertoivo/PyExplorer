@@ -177,9 +177,21 @@ describe('PowerUpBarCompact', () => {
     });
 
     it('renders nothing if no powerups available', () => {
-         render(
+        // Create a userPowerUps object where all inventory items are 0
+        const emptyUserPowerUps: UserPowerUps = {
+            ...mockUserPowerUps,
+            inventory: {
+                skip: 0,
+                fifty_fifty: 0,
+                extra_hint: 0,
+                double_stars: 0,
+                shield: 0
+            }
+        };
+
+        render(
             <PowerUpBarCompact
-                userPowerUps={{...mockUserPowerUps, inventory: { skip: 0 } as any}}
+                userPowerUps={emptyUserPowerUps}
                 onUsePowerUp={onUse}
             />
         );
