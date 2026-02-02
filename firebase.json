@@ -18,8 +18,8 @@
         "destination": "/robots.txt"
       },
       {
-        "source": "/og-image.png",
-        "destination": "/og-image.png"
+        "source": "/og-image.jpg",
+        "destination": "/og-image.jpg"
       },
       {
         "source": "**",

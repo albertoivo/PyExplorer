@@ -12,7 +12,7 @@ export function SEO({
     title,
     description,
     canonical,
-    ogImage = '/og-image.png',
+    ogImage = '/og-image.jpg',
     type = 'website'
 }: SEOProps) {
     const siteTitle = 'PyExplorer';
