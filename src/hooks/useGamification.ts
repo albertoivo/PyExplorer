@@ -29,6 +29,7 @@ import {
     hydrateMissions
 } from '../utils/gamificationState';
 import { calculateStreak } from '../utils/gamificationUtils';
+import { feedPet, checkPetStatus, getInitialPet } from '../utils/petLogic';
 
 // ============================================
 // HOOK
@@ -237,6 +238,20 @@ export function useGamification() {
                             }
                         };
                         hasUpdates = true;
+                    }
+
+                    // --- PET MIGRATION ---
+                    if (!finalData.pet) {
+                        console.log('🥚 Initializing Pet for existing user');
+                        finalData.pet = getInitialPet();
+                        hasUpdates = true;
+                    } else {
+                        // Update Pet Status (Hunger Decay)
+                        const updatedPet = checkPetStatus(finalData.pet);
+                        if (JSON.stringify(updatedPet) !== JSON.stringify(finalData.pet)) {
+                            finalData.pet = updatedPet;
+                            hasUpdates = true;
+                        }
                     }
 
                     if (hasUpdates) {
@@ -499,7 +514,7 @@ export function useGamification() {
             setGamification(currentState);
             saveGamification(currentState);
         }
-    }, [gamification, saveGamification, safeAddAchievement]);
+    }, [gamification, saveGamification, safeAddAchievement, updateUserData, userData]);
 
     // ============================================
     // RETURN
@@ -639,5 +654,34 @@ export function useGamification() {
 
         missionNotification,
         dismissMissionNotification: useCallback(() => setMissionNotification(null), []),
+
+        // Pet
+        pet: gamification.pet,
+        feedPet: useCallback(() => {
+            const COST = 10;
+            const balance = userData?.balance || 0;
+
+            if (balance < COST) return false;
+
+            const currentPet = gamification.pet || getInitialPet();
+            // Prevent feeding if full?
+            if (currentPet.hunger >= 100) return false;
+
+            const newPet = feedPet(currentPet);
+            const newState = { ...gamification, pet: newPet };
+
+            setGamification(newState);
+            saveGamification(newState);
+            updateUserData({ balance: balance - COST });
+            return true;
+        }, [gamification, userData, updateUserData, saveGamification]),
+
+        dismissPetEvolution: useCallback(() => {
+            if (!gamification.pet) return;
+            const newPet = { ...gamification.pet, justEvolved: false };
+            const newState = { ...gamification, pet: newPet };
+            setGamification(newState);
+            saveGamification(newState);
+        }, [gamification, saveGamification]),
     };
 }

@@ -239,4 +239,36 @@ export interface UserGamification {
 
     /** Data da última atualização (Firestore Timestamp) */
     updatedAt?: Date;
+
+    /** Mascote Evolutivo (PyEvo) */
+    pet?: UserPet;
+}
+
+// ============================================
+// PYEVO (MASCOTE EVOLUTIVO)
+// ============================================
+
+export type PetStage = 'egg' | 'baby' | 'teen' | 'adult';
+export type PetType = 'generic' | 'snake' | 'owl' | 'chameleon' | 'robot' | 'dragon';
+export type PetMood = 'happy' | 'sad' | 'sleeping' | 'hungry' | 'coding' | 'excited';
+
+export interface UserPet {
+    name: string;
+    stage: PetStage;
+    /** Tipo do mascote (determinado pela evolução) */
+    type: PetType;
+    /** XP atual do mascote */
+    xp: number;
+    /** Nível do mascote */
+    level: number;
+    /** Fome (0-100, onde 0 é faminto e 100 é cheio) */
+    hunger: number;
+    /** Humor atual */
+    mood: PetMood;
+    /** Histórico de XP por mundo para determinar evolução */
+    evolutionPath: Record<string, number>;
+    /** Data da última alimentação (ISO) */
+    lastFedAt: string;
+    /** Se acabou de evoluir (para mostrar modal) */
+    justEvolved?: boolean;
 }

@@ -14,6 +14,8 @@ import { useQuestionsFirestore } from '../hooks/useQuestionsFirestore';
 import { useGamification } from '../context/GamificationContext';
 import { isBossUnlocked } from '../utils/gameLogic';
 import { SEO } from '../components/common/SEO';
+import { PetHabitat } from '../components/gamification/PetHabitat/PetHabitat';
+import { EvolutionModal } from '../components/gamification/PetHabitat/EvolutionModal';
 import './GamePage.css';
 
 type GameView = 'world-map' | 'world-questions' | 'playing' | 'reviewing';
@@ -441,12 +443,20 @@ export function GamePage() {
     return (
         <div className="game-page">
             <SEO title="Aventura" description="Explore mundos, resolva desafios em Python e ganhe recompensas." />
+
+            <EvolutionModal />
+
             {/* Mapa de Mundos */}
             {view === 'world-map' && (
-                <WorldMap
-                    onSelectWorld={handleSelectWorld}
-                    worldProgress={worldProgress}
-                />
+                <>
+                    <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '2rem' }}>
+                        <PetHabitat />
+                    </div>
+                    <WorldMap
+                        onSelectWorld={handleSelectWorld}
+                        worldProgress={worldProgress}
+                    />
+                </>
             )}
 
             {/* Lista de Questões do Mundo */}
