@@ -1,0 +1,188 @@
+import { describe, it, expect, vi } from 'vitest';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { PowerUpBar, PowerUpBarCompact } from '../PowerUpBar/PowerUpBar';
+import type { UserPowerUps } from '../../../types/gamification';
+
+describe('PowerUpBar', () => {
+    const mockUserPowerUps: UserPowerUps = {
+        inventory: {
+            skip: 1,
+            fifty_fifty: 0,
+            extra_hint: 2,
+            double_stars: 0,
+            shield: 0
+        },
+        usesToday: {
+            skip: 0,
+            fifty_fifty: 0,
+            extra_hint: 1,
+            double_stars: 0,
+            shield: 0
+        },
+        lastResetDate: new Date().toISOString().split('T')[0]
+    };
+
+    const mockHandlers = {
+        onUsePowerUp: vi.fn(),
+        onBuyPowerUp: vi.fn(),
+    };
+
+    it('renders all power-ups', () => {
+        render(
+            <PowerUpBar
+                userPowerUps={mockUserPowerUps}
+                userStars={100}
+                onUsePowerUp={mockHandlers.onUsePowerUp}
+                onBuyPowerUp={mockHandlers.onBuyPowerUp}
+            />
+        );
+
+        // Check for specific powerup names (assuming default names in POWERUPS data)
+        expect(screen.getByText('Pular Questão')).toBeInTheDocument();
+        expect(screen.getByText('50/50')).toBeInTheDocument();
+    });
+
+    it('displays quantity and buttons correctly', () => {
+        render(
+            <PowerUpBar
+                userPowerUps={mockUserPowerUps}
+                userStars={100}
+                onUsePowerUp={mockHandlers.onUsePowerUp}
+                onBuyPowerUp={mockHandlers.onBuyPowerUp}
+            />
+        );
+
+        // Skip has 1, should show "1x" and "Usar"
+        const skipButton = screen.getByRole('button', { name: /Usar Pular Questão/i });
+        expect(skipButton).toBeEnabled();
+        expect(screen.getAllByText('1x')).toHaveLength(1);
+
+        // Fifty-fifty has 0, should show price button
+        // Assuming price is 50 for 50/50 (check actual data or generic check)
+        // Since we don't know exact price from here without importing data, we look for buy button behavior
+        const buyButtons = screen.getAllByRole('button', { name: /Comprar/i });
+        expect(buyButtons.length).toBeGreaterThan(0);
+    });
+
+    it('calls onUsePowerUp when clicking use', () => {
+        render(
+            <PowerUpBar
+                userPowerUps={mockUserPowerUps}
+                userStars={100}
+                onUsePowerUp={mockHandlers.onUsePowerUp}
+                onBuyPowerUp={mockHandlers.onBuyPowerUp}
+            />
+        );
+
+        const useBtn = screen.getByRole('button', { name: /Usar Pular Questão/i });
+        fireEvent.click(useBtn);
+        expect(mockHandlers.onUsePowerUp).toHaveBeenCalledWith('skip');
+    });
+
+    it('calls onBuyPowerUp when clicking buy', () => {
+        render(
+            <PowerUpBar
+                userPowerUps={mockUserPowerUps}
+                userStars={100}
+                onUsePowerUp={mockHandlers.onUsePowerUp}
+                onBuyPowerUp={mockHandlers.onBuyPowerUp}
+            />
+        );
+
+        // Find a buy button (e.g., for 50/50)
+        const buyBtn = screen.getByRole('button', { name: /Comprar 50\/50/i });
+        fireEvent.click(buyBtn);
+        expect(mockHandlers.onBuyPowerUp).toHaveBeenCalled();
+    });
+
+    it('disables use button if max uses reached', () => {
+        const exhaustedPowerUps = {
+            ...mockUserPowerUps,
+            usesToday: { ...mockUserPowerUps.usesToday, skip: 999 } // Assuming max is < 999
+        };
+
+        render(
+            <PowerUpBar
+                userPowerUps={exhaustedPowerUps}
+                userStars={100}
+                onUsePowerUp={mockHandlers.onUsePowerUp}
+                onBuyPowerUp={mockHandlers.onBuyPowerUp}
+            />
+        );
+
+        const useBtn = screen.getByRole('button', { name: /Usar Pular Questão/i });
+        expect(useBtn).toBeDisabled();
+    });
+
+    it('disables buy button if not enough stars', () => {
+        render(
+            <PowerUpBar
+                userPowerUps={mockUserPowerUps}
+                userStars={0} // Poor user
+                onUsePowerUp={mockHandlers.onUsePowerUp}
+                onBuyPowerUp={mockHandlers.onBuyPowerUp}
+            />
+        );
+
+        const buyButtons = screen.getAllByRole('button', { name: /Comprar/i });
+        buyButtons.forEach(btn => {
+            expect(btn).toBeDisabled();
+        });
+    });
+});
+
+describe('PowerUpBarCompact', () => {
+    const mockUserPowerUps: UserPowerUps = {
+        inventory: {
+            skip: 1,
+            fifty_fifty: 0,
+            extra_hint: 0,
+            double_stars: 0,
+            shield: 0
+        },
+        usesToday: {
+            skip: 0,
+            fifty_fifty: 0,
+            extra_hint: 0,
+            double_stars: 0,
+            shield: 0
+        },
+        lastResetDate: new Date().toISOString().split('T')[0]
+    };
+
+    const onUse = vi.fn();
+
+    it('renders only available power-ups', () => {
+        render(
+            <PowerUpBarCompact
+                userPowerUps={mockUserPowerUps}
+                onUsePowerUp={onUse}
+            />
+        );
+
+        const buttons = screen.getAllByRole('button');
+        expect(buttons).toHaveLength(1); // Only 'skip'
+    });
+
+    it('handles click', () => {
+        render(
+            <PowerUpBarCompact
+                userPowerUps={mockUserPowerUps}
+                onUsePowerUp={onUse}
+            />
+        );
+
+        fireEvent.click(screen.getByRole('button'));
+        expect(onUse).toHaveBeenCalledWith('skip');
+    });
+
+    it('renders nothing if no powerups available', () => {
+         render(
+            <PowerUpBarCompact
+                userPowerUps={{...mockUserPowerUps, inventory: { skip: 0 } as any}}
+                onUsePowerUp={onUse}
+            />
+        );
+        expect(screen.queryByRole('button')).not.toBeInTheDocument();
+    });
+});
