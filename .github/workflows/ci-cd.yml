@@ -34,7 +34,7 @@ jobs:
   # ===========================================================================
   build:
     name: 🔨 Build & Lint
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     # Firebase credentials are now in .env file (committed to repo)
     # Security is enforced via Firestore Rules, not secret API keys
     
@@ -94,7 +94,7 @@ jobs:
   # ===========================================================================
   deploy-production:
     name: 🚀 Deploy to Production
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: build
     # Só faz deploy em push para main (não em PRs)
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -137,7 +137,7 @@ jobs:
   # ===========================================================================
   deploy-preview:
     name: 👀 Deploy Preview
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: build
     # Só faz preview em PRs (exceto Dependabot que não tem acesso aos secrets)
     if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
@@ -166,7 +166,7 @@ jobs:
   # ===========================================================================
   lighthouse:
     name: 🔦 Lighthouse Audit
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: deploy-production
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     
