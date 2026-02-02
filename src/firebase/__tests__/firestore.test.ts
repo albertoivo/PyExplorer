@@ -53,7 +53,10 @@ vi.mock('firebase/firestore', () => {
     return {
         collection: vi.fn(),
         doc: vi.fn().mockReturnValue({ id: 'mock-doc-ref' }),
-        getDoc: vi.fn(),
+        getDoc: vi.fn().mockResolvedValue({
+            exists: () => false,
+            data: () => undefined
+        }),
         getDocs: vi.fn(),
         setDoc: vi.fn(),
         updateDoc: vi.fn(),
