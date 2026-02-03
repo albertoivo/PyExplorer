@@ -320,5 +320,23 @@ export const basicCommandsQuestions: QuestionDocument[] = [
         ],
         explanationKidFriendly: 'O símbolo # faz o Python ignorar tudo que vem depois dele na mesma linha. É assim que fazemos comentários! 🤫',
         points: 10,
+    },
+    {
+        id: 'basic_16',
+        type: 'multiple_choice',
+        world: 'basic_commands',
+        difficulty: 'easy',
+        ageMin: 8,
+        title: 'Linha em Branco',
+        prompt: 'Como fazemos para pular uma linha (mostrar uma linha vazia) usando print?',
+        options: [
+            'print()',
+            'print(" ")',
+            'print(0)',
+            'pular_linha()',
+        ],
+        answerIndex: 0,
+        explanationKidFriendly: 'Se você usar `print()` sem nada dentro, ele mostra uma linha vazia! É ótimo para separar textos e organizar o que aparece na tela. 📄',
+        points: 10,
     }
 ];

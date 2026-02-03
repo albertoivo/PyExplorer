@@ -18,7 +18,7 @@ jobs:
   # ===========================================================================
   audit:
     name: 🔒 Security Audit
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     
     steps:
       - name: 📥 Checkout repository
@@ -48,7 +48,7 @@ jobs:
   # ===========================================================================
   outdated:
     name: 📦 Check Outdated Packages
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     
     steps:
       - name: 📥 Checkout repository
