@@ -4,47 +4,53 @@
 
 ## Context
 You are working on **PyExplorer**, a React-based educational game for teaching Python to kids (8-15 years old).
-Your goal is to keep the game fresh by adding **one new question per world** every day.
+Your goal is to ensure every world has a rich set of **20 high-quality questions**.
 
 ## Files to Analyze
 1.  `src/data/educationContent.ts` — Define `keyConcepts` (topics) for each world.
 2.  `src/data/questions/[world_id].ts` — The source of truth for questions of a specific world. Examples:
     - `src/data/questions/basic_commands.ts`
     - `src/data/questions/variables.ts`
-    - `src/data/questions/loops.ts`
+    - ... and all other worlds.
 3.  `src/types/question.ts` — Definition of the `QuestionDocument` structure.
 
 ## Workflow
 
 ### 1. Analyze Coverage 📊
-For each world (`basic_commands`, `variables`, `numbers`, `conditions`, `loops`, `functions`, `lists`, `strings`):
-1.  Identify the correct file: `src/data/questions/[world_name].ts`.
-2.  Read the `keyConcepts` from `WORLD_TUTORIALS` in `educationContent.ts` for that world.
-3.  Count existing questions in the world file that cover each concept.
-4.  **Saturation Check:** If a world already has **balanced coverage** (e.g., at least 5 questions for *every* key concept), **SKIP** this world.
-5.  Otherwise, identify the **least covered concept** to target for the new question.
+For **EACH** of the following worlds:
+`basic_commands`, `variables`, `numbers`, `conditions`, `loops`, `functions`, `lists`, `strings`, `user_input`, `dictionaries`, `error_handling`.
+
+1.  Identify the file: `src/data/questions/[world_name].ts`.
+2.  Count the number of existing questions.
+3.  **Target Check:**
+    -   If count **>= 20**: **SKIP** this world. (Do not add, do not remove).
+    -   If count **< 20**: Calculate `needed = 20 - count`. You must generate `needed` new questions.
 
 ### 2. Generate Content 📝
-Create **1 new question** for each active world:
--   **Target:** The least covered concept identified above.
+For each world that needs questions:
+-   **Goal:** Create exactly `needed` questions to reach the total of 20.
+-   **CRITICAL CONSTRAINT: NO DUPLICATES** 🚫
+    -   Check *all* existing titles and prompts in the file.
+    -   **NEVER** create a question that is conceptually identical to an existing one.
+    -   If a concept is saturated, create a variation with a different context/story (e.g., instead of "sum apples", user "sum stars" or "calculate potion ingredients").
 -   **Structure:** Follow `QuestionDocument` interface strictly.
--   **Tone:** Kid-friendly language, enthusiastic, use emojis (🌟, 🐍, 💻).
--   **Difficulty:** Varied (Cycle between `easy`, `medium`, `hard` if possible, or target gaps).
+-   **Tone:** Kid-friendly, enthusiastic, use emojis (🌟, 🐍, 💻).
+-   **Difficulty:** Balance the new questions to have a mix of `easy`, `medium`, `hard`.
 -   **ID Generation:** 
-    -   Find the highest numeric ID in that specific world file (e.g., if `basic_5` exists, next is `basic_6`).
-    -   **CRITICAL:** IDs must be unique and stable.
+    -   Find the highest numeric ID (e.g., `basic_5`).
+    -   Generate sequential IDs for the new batch: `basic_6`, `basic_7`, etc.
 
 ### 3. Update Code 💻
--   Modify the specific file for the world (e.g., `src/data/questions/basic_commands.ts`).
--   Append the new question object to the exported array.
+-   Modify the world file (e.g., `src/data/questions/basic_commands.ts`).
+-   Append the **array of new questions** to the existing export.
 -   **Do not** modify existing questions.
--   **Do not** touch `src/data/questions/index.ts` or `src/data/completeQuestions.ts` (they auto-export/import).
+-   **Do not** touch index files.
 
 ### 4. Verification ✅
 After applying changes:
 1.  Run `npm run lint` to ensure code style.
 2.  Run `npm run test` to guarantee no regressions.
-3.  If any check fails, revert and retry with a fixed question.
+3.  If any check fails, revert and retry.
 
 ## Example Output Format
 ```typescript
@@ -55,10 +61,10 @@ After applying changes:
     difficulty: 'medium',
     ageMin: 8,
     ageMax: 12,
-    title: 'Novo Título Divertido',
-    prompt: 'Pergunta sobre o conceito faltante? ❓',
+    title: 'Novo Título Diferente',
+    prompt: 'Pergunta criativa sobre print? 🖨️',
     options: ['A', 'B', 'C', 'D'],
     answerIndex: 0,
-    explanationKidFriendly: 'Explicação super clara e animada! 🚀',
+    explanationKidFriendly: 'Explicação super clara! 🚀',
 }
 ```
