@@ -17,7 +17,7 @@ on:
 env:
   NODE_VERSION: '24'
   FIREBASE_PROJECT_ID: pyexplorer-cd32d
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
 
 permissions:
   checks: write
@@ -168,7 +168,7 @@ jobs:
     
     steps:
       - name: 📥 Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: 🔦 Run Lighthouse
         uses: treosh/lighthouse-ci-action@v12
