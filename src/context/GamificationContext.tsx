@@ -1,7 +1,6 @@
-import { createContext, useContext, type ReactNode } from 'react';
+import { useContext, type ReactNode } from 'react';
+import { GamificationContext } from './GamificationContextDefinition';
 import { useGamification as useGamificationHook } from '../hooks/useGamification';
-
-const GamificationContext = createContext<ReturnType<typeof useGamificationHook> | null>(null);
 
 /**
  * Provider para compartilhar estado de gamificação entre componentes
@@ -18,6 +17,7 @@ export function GamificationProvider({ children }: { children: ReactNode }) {
 /**
  * Hook para acessar estado compartilhado de gamificação
  */
+// eslint-disable-next-line react-refresh/only-export-components
 export function useGamification() {
     const context = useContext(GamificationContext);
     if (!context) {
@@ -26,4 +26,4 @@ export function useGamification() {
     return context;
 }
 
-export default GamificationProvider;
+

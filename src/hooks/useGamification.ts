@@ -405,7 +405,6 @@ export function useGamification() {
                 const r1 = unlockAchievementLogic(currentState, 'first_world');
                 if (r1.success) {
                     currentState = r1.newState;
-                    hasUpdates = true;
                     // Note: safeAddAchievement is side effect, can call immediately
                     const a = ACHIEVEMENTS.find(x => x.id === 'first_world');
                     if (a) safeAddAchievement(a);
@@ -416,7 +415,6 @@ export function useGamification() {
                     const r2 = unlockAchievementLogic(currentState, 'perfect_world');
                     if (r2.success) {
                         currentState = r2.newState;
-                        hasUpdates = true;
                         const a = ACHIEVEMENTS.find(x => x.id === 'perfect_world');
                         if (a) safeAddAchievement(a);
                     }

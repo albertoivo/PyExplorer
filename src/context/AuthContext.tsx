@@ -1,47 +1,14 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import type { User } from 'firebase/auth';
-import { resetLoginRedirectFlag } from '../pages/LoginPage';
+import { resetLoginRedirectFlag } from '../utils/authRedirect';
+import { translateFirebaseError } from '../utils/errorTranslations';
 import { subscribeToAuthChanges, signIn, signUp, logOut, resetPassword, signInWithGoogle } from '../firebase/auth';
 import { saveUser, getUser } from '../firebase/firestore';
 import type { UserData, World } from '../types/question';
 import { env } from '../config/env';
 
-/**
- * Interface do contexto de autenticação
- */
-interface AuthContextType {
-    /** Usuário atual do Firebase */
-    user: User | null;
-    /** Dados do usuário no Firestore */
-    userData: UserData | null;
-    /** Se está carregando estado de autenticação */
-    loading: boolean;
-    /** Se está em modo convidado (sem login) */
-    isGuest: boolean;
-    /** Erro de autenticação */
-    error: string | null;
-    /** Função de login */
-    login: (email: string, password: string) => Promise<void>;
-    /** Função de login com Google */
-    loginWithGoogle: () => Promise<void>;
-    /** Função de cadastro */
-    register: (email: string, password: string, displayName: string) => Promise<void>;
-    /** Função de logout */
-    logout: () => Promise<void>;
-    /** Função de redefinição de senha */
-    sendPasswordReset: (email: string) => Promise<void>;
-    /** Entrar como convidado */
-    enterAsGuest: (displayName: string) => void;
-    /** Limpar erro */
-    clearError: () => void;
-    /** Recarregar dados do usuário */
-    refreshUserData: () => Promise<void>;
-    /** Atualizar dados do usuário */
-    updateUserData: (updates: Partial<UserData>) => Promise<void>;
-}
-
-export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+import { AuthContext, type AuthContextType } from './AuthContextDefinition';
 
 interface AuthProviderProps {
     children: ReactNode;
@@ -346,31 +313,5 @@ export function useAuth(): AuthContextType {
     return context;
 }
 
-/**
- * Traduz mensagens de erro do Firebase para português
- */
-function translateFirebaseError(message: string): string {
-    const translations: Record<string, string> = {
-        // Prevent username enumeration by using generic error messages
-        'auth/user-not-found': 'Email ou senha incorretos',
-        'auth/wrong-password': 'Email ou senha incorretos',
-        'auth/invalid-credential': 'Email ou senha incorretos',
-        'auth/email-already-in-use': 'Este email já está em uso',
-        'auth/weak-password': 'A senha deve ter pelo menos 6 caracteres',
-        'auth/invalid-email': 'Email inválido',
-        'auth/too-many-requests': 'Muitas tentativas. Tente novamente mais tarde',
-        'auth/network-request-failed': 'Erro de conexão. Verifique sua internet',
-    };
-
-    for (const [code, translation] of Object.entries(translations)) {
-        if (message.includes(code)) {
-            return translation;
-        }
-    }
-
-    return message;
-}
-
 // Fast refresh doesn't allow exporting default non-component value if file exports components
 // so we remove default export and only export hooks/components
-export default AuthContext;

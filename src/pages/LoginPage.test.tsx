@@ -1,5 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { LoginPage, resetLoginRedirectFlag } from './LoginPage';
+import { LoginPage } from './LoginPage';
+import { resetLoginRedirectFlag } from '../utils/authRedirect';
 import { useAuth } from '../hooks/useAuth';
 import { MemoryRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';

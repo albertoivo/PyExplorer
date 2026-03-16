@@ -5,13 +5,7 @@ import { SEO } from '../components/common/SEO';
 import { PasswordInput } from '../components/common/PasswordInput';
 import './AuthPages.css';
 
-// Variável global para rastrear se já redirecionou (persiste entre remontagens do componente)
-let hasRedirectedAfterLogin = false;
-
-// Função para resetar o redirect (chamada no logout)
-export function resetLoginRedirectFlag() {
-    hasRedirectedAfterLogin = false;
-}
+import { getHasRedirected, setHasRedirected } from '../utils/authRedirect';
 
 /**
  * Página de login
@@ -32,16 +26,16 @@ export function LoginPage() {
     // This ensures redirect works on every new login session
     useEffect(() => {
         if (!user) {
-            hasRedirectedAfterLogin = false;
+            setHasRedirected(false);
         }
     }, [user]);
 
     // Redireciona quando usuário logar (usa variável global para evitar loops)
     useEffect(() => {
-        if (user && !hasRedirectedAfterLogin) {
+        if (user && !getHasRedirected()) {
             const destination = (location.state as { from?: Location })?.from?.pathname || '/game';
             console.log('User logged in, redirecting to:', destination);
-            hasRedirectedAfterLogin = true;
+            setHasRedirected(true);
             navigate(destination, { replace: true });
         }
     }, [user, navigate, location.state]);
@@ -58,7 +52,7 @@ export function LoginPage() {
             // Use window.location.href for reliable redirect (navigate() doesn't work due to async state timing)
             const destination = (location.state as { from?: Location })?.from?.pathname || '/game';
             console.log('Login successful, redirecting to:', destination);
-            hasRedirectedAfterLogin = true;
+            setHasRedirected(true);
             window.location.href = destination;
         } catch {
             // Erro já é tratado pelo contexto
