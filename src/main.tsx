@@ -1,5 +1,5 @@
 import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { createRoot, hydrateRoot } from 'react-dom/client'
 import { loader } from '@monaco-editor/react'
 import * as monaco from 'monaco-editor'
 import './index.css'
@@ -36,18 +36,31 @@ function removeLoadingScreen() {
   }
 }
 
-const root = createRoot(document.getElementById('root')!);
+const rootElement = document.getElementById('root')!;
 
-root.render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-);
+// React 19: Usar hydrateRoot se houver conteúdo (vido do SSG), senão createRoot
+if (rootElement.hasChildNodes()) {
+  hydrateRoot(
+    rootElement,
+    <StrictMode>
+      <App />
+    </StrictMode>
+  );
+} else {
+  const root = createRoot(rootElement);
+  root.render(
+    <StrictMode>
+      <App />
+    </StrictMode>
+  );
+}
 
 // Sinaliza que o React montou e remove o loader
-// Usamos requestAnimationFrame para garantir que a renderização inicial ocorreu
 requestAnimationFrame(() => {
   removeLoadingScreen();
   // @ts-expect-error - window.reactMounted is a custom property for the loader script
   window.reactMounted = true;
+
+  // Dispara o evento para o vite-plugin-prerender capturar a página pronta
+  document.dispatchEvent(new Event('render-event'));
 });

@@ -1,6 +1,15 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
+import path from 'path'
+import { fileURLToPath } from 'url'
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url)
+const prerender = require('vite-plugin-prerender')
+import { compression } from 'vite-plugin-compression2'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -184,6 +193,28 @@ export default defineConfig({
       devOptions: {
         enabled: false // Desabilitar em dev para não poluir
       }
+    }),
+    prerender({
+      staticDir: path.join(__dirname, 'dist'),
+      routes: ['/', '/about', '/learn'],
+      renderer: new prerender.PuppeteerRenderer({
+        renderAfterDocumentEvent: 'render-event',
+        renderAfterTime: 5000,
+        headless: true
+      }),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      postProcess(renderedRoute: any) {
+        renderedRoute.html = renderedRoute.html
+          .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, (match: string) => {
+            return match;
+          });
+        return renderedRoute;
+      },
+    }),
+    compression({
+      algorithms: ['brotliCompress', 'gzip'],
+      exclude: [/\.(br)$/, /\.(gz)$/],
+      threshold: 10240, // 10kb
     })
   ],
   build: {

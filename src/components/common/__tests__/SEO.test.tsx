@@ -14,14 +14,12 @@ describe('SEO Component', () => {
     };
 
     beforeEach(() => {
-        // Clear head before each test
-        document.head.innerHTML = '';
+        // Reset title before each test
         document.title = 'Original Title';
     });
 
     afterEach(() => {
-        // Cleanup
-        document.head.innerHTML = '';
+        // Cleanup title if needed
     });
 
     it('updates the document title correctly', async () => {

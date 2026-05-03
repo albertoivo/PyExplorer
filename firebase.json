@@ -22,6 +22,14 @@
         "destination": "/og-image.jpg"
       },
       {
+        "source": "/about",
+        "destination": "/about/index.html"
+      },
+      {
+        "source": "/learn",
+        "destination": "/learn/index.html"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
