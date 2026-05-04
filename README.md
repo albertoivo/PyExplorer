@@ -22,7 +22,7 @@ PyExplorer é um jogo educativo desenvolvido em ReactJS para ensinar programaç�
 - 🎮 **Gamificação Avançada** - Mundos, estrelas, conquistas, streak diário, missões e loja de itens
 - 🐍 **Python no navegador** - Execute código Python real usando Pyodide (WebAssembly)
 - 🐢 **Aprendizado Visual** - Desafios com Turtle Graphics para desenhar com código
-- 🧩 **7 Tipos de Questões** - Múltipla escolha, V/F, complete código, funções, Parsons problems e desafios visuais
+- 🧩 **8 Tipos de Questões** - Múltipla escolha, V/F, complete código, funções, Parsons problems, desafios visuais e Boss Battles
 - 📅 **Desafios Diários** - Novas questões adicionadas diariamente
 - 🌍 **11 Mundos Temáticos** - Sequência pedagógica otimizada para iniciantes
 - 📖 **Modo História** - Acompanhe uma narrativa envolvente enquanto aprende
@@ -48,8 +48,8 @@ PyExplorer é um jogo educativo desenvolvido em ReactJS para ensinar programaç�
 
 1. Clone o repositório:
 ```bash
-git clone https://github.com/seu-usuario/pyexplorer.git
-cd pyexplorer
+git clone https://github.com/albertoivo/PyExplorer.git
+cd PyExplorer
 ```
 
 2. Instale as dependências:
@@ -74,50 +74,59 @@ npm run dev
 ```
 src/
 ├── components/
-│   ├── editor/          # Editor de código Python
-│   ├── game/            # Componentes do jogo
-│   │   ├── feedback/    # Painéis de resultado
-│   │   └── questionTypes/  # Tipos de questão
-│   └── layout/          # Header, Footer, ProtectedRoute
+│   ├── common/          # Componentes genéricos (Botões, Inputs, SEO)
+│   ├── editor/          # Editor de código Python (Monaco)
+│   ├── education/       # Flashcards, Tutoriais e Dicas
+│   ├── game/            # Componentes core do jogo
+│   │   ├── feedback/    # Painéis de resultado e animações
+│   │   ├── questionTypes/ # Implementação dos 8 tipos de questões
+│   │   └── turtle/      # Renderização do Turtle Graphics
+│   ├── gamification/    # Missões, Conquistas e Loja
+│   └── layout/          # Header, Footer, ProtectedRoute, Offline
 ├── context/
-│   ├── AuthContext.tsx  # Contexto de autenticação
-│   └── PyodideContext.tsx  # Contexto do Pyodide
+│   ├── AuthContext.tsx       # Autenticação e Perfis
+│   ├── GamificationContext.tsx # XP, Moedas e Níveis
+│   ├── MascotContext.tsx     # Estado do mascote guia
+│   └── PyodideContext.tsx    # Runtime Python WebAssembly
 ├── data/
-│   └── mockQuestions.ts # Questões de exemplo
+│   ├── questions/       # Base de questões dividida por mundos
+│   ├── worlds.ts        # Configuração da progressão de mundos
+│   └── educationContent.ts # Conteúdo didático e tutoriais
 ├── firebase/
-│   ├── auth.ts          # Funções de autenticação
-│   ├── firebaseConfig.ts # Configuração Firebase
-│   └── firestore.ts     # Funções do Firestore
+│   ├── auth.ts          # Regras de negócio de autenticação
+│   ├── firestore.ts     # Operações de progresso e ranking
+│   └── questionsService.ts # Sincronização de questões
 ├── hooks/
-│   ├── useAuth.ts       # Hook de autenticação
-│   ├── useProgress.ts   # Hook de progresso
-│   ├── usePyodide.ts    # Hook do Pyodide
-│   └── useQuestions.ts  # Hook de questões
+│   ├── useAuth.ts       # Acesso ao usuário e sessão
+│   ├── useGamification.ts # Lógica de recompensas e missões
+│   ├── useProgress.ts   # Persistência de progresso local/nuvem
+│   └── usePyodide.ts    # Execução de código Python
 ├── pages/
-│   ├── GamePage.tsx     # Página do jogo
-│   ├── HomePage.tsx     # Página inicial
-│   ├── LoginPage.tsx    # Página de login
-│   ├── ProfilePage.tsx  # Página de perfil
-│   └── RegisterPage.tsx # Página de cadastro
+│   ├── HomePage.tsx     # Landing page e dashboard
+│   ├── GamePage.tsx     # Arena de desafios
+│   ├── LearnPage.tsx    # Hub de conteúdos educativos
+│   ├── GamificationPage.tsx # Loja e inventário
+│   ├── ProfilePage.tsx  # Perfil do jogador e estatísticas
+│   └── CertificatePage.tsx # Visualização de certificados
 ├── types/
-│   └── question.ts      # Tipos TypeScript
-├── App.tsx              # Componente principal
-├── App.css              # Estilos do App
-├── index.css            # Estilos globais
-└── main.tsx             # Ponto de entrada
+│   └── question.ts      # Definições TypeScript globais
+├── App.tsx              # Roteamento e Providers
+├── index.css            # Design System (Tokens e Base)
+└── main.tsx             # Inicialização do App
 ```
 
 ## 🎯 Tipos de Questões
 
-| Tipo | Descrição |
-|------|-----------|
+| ID Interno | Descrição |
+|------------|-----------|
 | `multiple_choice` | Escolha uma alternativa correta |
 | `true_false` | Verdadeiro ou Falso |
 | `fill_code` | Complete lacunas no código |
 | `partial_function` | Complete parte de uma função |
 | `full_function` | Escreva uma função completa |
-| `parsons` | Reordene blocos de código (lógica sem digitação) |
+| `parsons_problem` | Reordene blocos de código (lógica visual) |
 | `turtle_challenge` | Desenhe formas geométricas com Python |
+| `boss_battle` | Desafios contra o tempo para fechar mundos |
 
 ## 🌍 Mundos disponíveis
 
@@ -166,19 +175,18 @@ firebase deploy --only firestore:rules
 | `npm run build` | Cria build de produção otimizado |
 | `npm run preview` | Visualiza build local |
 | `npm run lint` | Executa linting do código |
-| `npm run test:run` | Executa todos os testes unitários (Smoke, Integration, Regression) |
-| `npm run test:ui` | Abre interface visual do Vitest |
+| `npm run test:run` | Executa todos os testes unitários e de integração |
+| `npm run test:coverage` | Gera relatório de cobertura de testes |
 
 ## 🧪 Testes & Qualidade
 
-O projeto conta com uma suíte de testes robusta utilizando **Vitest**:
-
-O projeto conta com uma suíte de testes robusta utilizando **Vitest** com >360 testes cobrindo:
+O projeto conta com uma suíte de testes robusta utilizando **Vitest** com **>550 testes** cobrindo:
 
 - **Unit Tests**: Lógica de jogo, geradores de certificado e utilitários
 - **Integration Tests**: Fluxos de pontuação, autenticação e progressão
 - **Smoke Tests**: Verificação crítica de renderização e integridade dos dados
 - **Component Tests**: Validação de UI para componentes complexos (Certificados, Editor)
+- **Rules Tests**: Testes das regras de segurança do Firestore (Emulator)
 
 Para rodar os testes:
 ```bash
@@ -189,10 +197,11 @@ npm run test:run
 
 O PyExplorer foi otimizado para rodar suavemente em qualquer dispositivo:
 
-- **Lazy Loading**: Páginas carregadas sob demanda (Code Splitting)
-- **Manual Chunks**: Separação inteligente de dependências (React, Firebase)
-- **Memoização**: Componentes otimizados para evitar re-renderizações
-- **Cache PWA**: Funcionamento offline e carregamento instantâneo
+- **Lazy Loading**: Páginas e componentes pesados (Monaco, Mascot) carregados sob demanda
+- **Manual Chunks**: Separação inteligente de dependências (React, Firebase, Monaco)
+- **Memoização**: Componentes otimizados para evitar re-renderizações desnecessárias
+- **Cache PWA**: Funcionamento offline e carregamento instantâneo via Service Worker
+- **Brotli/Gzip**: Compressão avançada de assets estáticos
 
 ## 🚀 Deploy
 
@@ -215,11 +224,12 @@ firebase deploy --only hosting
 
 ## 🛠 Tecnologias Utilizadas
 
-- **Frontend**: React 19 + TypeScript + Vite
-- **Estilização**: CSS Vanilla com Design System
+- **Frontend**: React 19 + TypeScript 5.9 + Vite
+- **Estilização**: CSS Vanilla com Design System Moderno
 - **Python Runtime**: Pyodide (WebAssembly)
 - **Backend**: Firebase (Auth + Firestore + Hosting)
-- **Editor**: Monaco Editor (VS Code)
+- **Editor**: Monaco Editor (@monaco-editor/react)
+- **Testes**: Vitest + React Testing Library
 
 ## 👨‍💻 Equipe
 
