@@ -11,6 +11,52 @@ import { compression } from 'vite-plugin-compression2'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
+// Conditionally include prerender plugin only in non-CI environments
+const prerenderPlugin = process.env.CI === 'true' ? null : prerender({
+  staticDir: path.join(__dirname, 'dist'),
+  routes: [
+    '/',
+    '/about',
+    '/learn',
+    '/learn/o-que-e-python',
+    '/learn/por-que-aprender-python',
+    '/learn/python-para-criancas',
+    '/learn/primeiros-passos-python',
+    '/learn/jogos-aprender-programacao',
+    '/learn/como-ensinar-python-criancas',
+    '/python-para-criancas',
+    '/aprender-python-jogando'
+  ],
+  renderer: new prerender.PuppeteerRenderer({
+    renderAfterDocumentEvent: 'render-event',
+    renderAfterTime: 10000, // Aumentado para 10s como segurança
+    headless: true,
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-gpu',
+      '--no-first-run',
+      '--no-zygote',
+      '--single-process'
+    ],
+    maxConcurrentRoutes: 1,
+    // No CI, o console do Puppeteer ajudará a identificar erros na aplicação
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    consoleHandler(msg: any) {
+      console.log('[Puppeteer Console]', msg.text());
+    }
+  }),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  postProcess(renderedRoute: any) {
+    renderedRoute.html = renderedRoute.html
+      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, (match: string) => {
+        return match;
+      });
+    return renderedRoute;
+  },
+})
+
 // https://vite.dev/config/
 export default defineConfig({
   envPrefix: 'VITE_',
@@ -194,50 +240,7 @@ export default defineConfig({
         enabled: false // Desabilitar em dev para não poluir
       }
     }),
-    prerender({
-      staticDir: path.join(__dirname, 'dist'),
-      routes: [
-        '/',
-        '/about',
-        '/learn',
-        '/learn/o-que-e-python',
-        '/learn/por-que-aprender-python',
-        '/learn/python-para-criancas',
-        '/learn/primeiros-passos-python',
-        '/learn/jogos-aprender-programacao',
-        '/learn/como-ensinar-python-criancas',
-        '/python-para-criancas',
-        '/aprender-python-jogando'
-      ],
-      renderer: new prerender.PuppeteerRenderer({
-        renderAfterDocumentEvent: 'render-event',
-        renderAfterTime: 10000, // Aumentado para 10s como segurança
-        headless: true,
-        args: [
-          '--no-sandbox',
-          '--disable-setuid-sandbox',
-          '--disable-dev-shm-usage',
-          '--disable-gpu',
-          '--no-first-run',
-          '--no-zygote',
-          '--single-process'
-        ],
-        maxConcurrentRoutes: 1,
-        // No CI, o console do Puppeteer ajudará a identificar erros na aplicação
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        consoleHandler(msg: any) {
-          console.log('[Puppeteer Console]', msg.text());
-        }
-      }),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      postProcess(renderedRoute: any) {
-        renderedRoute.html = renderedRoute.html
-          .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, (match: string) => {
-            return match;
-          });
-        return renderedRoute;
-      },
-    }),
+    ...(prerenderPlugin ? [prerenderPlugin] : []),
     compression({
       algorithms: ['brotliCompress', 'gzip'],
       exclude: [/\.(br)$/, /\.(gz)$/],
