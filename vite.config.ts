@@ -200,7 +200,11 @@ export default defineConfig({
       renderer: new prerender.PuppeteerRenderer({
         renderAfterDocumentEvent: 'render-event',
         renderAfterTime: 5000,
-        headless: true
+        headless: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        maxConcurrentRoutes: 1,
+        // No CI, usamos o Chrome do sistema para evitar problemas de download/permissão
+        ...(process.env.GITHUB_ACTIONS ? { executablePath: '/usr/bin/google-chrome' } : {})
       }),
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       postProcess(renderedRoute: any) {
