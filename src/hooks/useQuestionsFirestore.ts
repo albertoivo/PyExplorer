@@ -53,7 +53,10 @@ export function useQuestionsFirestore() {
 
     // Carrega questões na montagem do componente (com auto-sync)
     useEffect(() => {
-        loadQuestions(true);
+        const initializeQuestions = async () => {
+            await loadQuestions(true);
+        };
+        initializeQuestions();
     }, [loadQuestions]);
 
     /**

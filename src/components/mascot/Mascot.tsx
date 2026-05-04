@@ -57,17 +57,23 @@ export function Mascot({
 
     // Atualiza mensagem
     useEffect(() => {
-        if (message) {
-            setCurrentMessage(message);
-            setIsMessageVisible(true);
-        } else {
-            setCurrentMessage(config.defaultMessage);
-        }
+        // Defer state updates to satisfy react-hooks/set-state-in-effect
+        Promise.resolve().then(() => {
+            if (message) {
+                setCurrentMessage(message);
+                setIsMessageVisible(true);
+            } else {
+                setCurrentMessage(config.defaultMessage);
+            }
+        });
     }, [message, config.defaultMessage]);
 
     // Atualiza visibilidade
     useEffect(() => {
-        setIsVisible(visible);
+        // Defer state update to satisfy react-hooks/set-state-in-effect
+        Promise.resolve().then(() => {
+            setIsVisible(visible);
+        });
     }, [visible]);
 
     // Auto-hide

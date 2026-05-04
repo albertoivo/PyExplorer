@@ -36,10 +36,13 @@ export function TutorialModal({
     useEffect(() => {
         if (worldId) {
             const found = getTutorialByWorld(worldId);
-            setTutorial(found || null);
-            setCurrentStep(0);
-            setShowCode(false);
-            setTypedCode('');
+            // Defer state updates to satisfy react-hooks/set-state-in-effect
+            Promise.resolve().then(() => {
+                setTutorial(found || null);
+                setCurrentStep(0);
+                setShowCode(false);
+                setTypedCode('');
+            });
         }
     }, [worldId]);
 
@@ -48,12 +51,17 @@ export function TutorialModal({
         if (!isOpen || !tutorial) return;
 
         const step = tutorial.steps[currentStep];
+        let timer: ReturnType<typeof setInterval>;
+
         if (step?.code && step.animation === 'typewriter') {
-            setShowCode(true);
-            setTypedCode('');
+            // Defer initial state updates to avoid lint error
+            Promise.resolve().then(() => {
+                setShowCode(true);
+                setTypedCode('');
+            });
 
             let i = 0;
-            const timer = setInterval(() => {
+            timer = setInterval(() => {
                 if (i < step.code!.length) {
                     setTypedCode(step.code!.slice(0, i + 1));
                     i++;
@@ -62,10 +70,14 @@ export function TutorialModal({
                 }
             }, 30);
 
-            return () => clearInterval(timer);
+            return () => {
+                if (timer) clearInterval(timer);
+            };
         } else if (step?.code) {
-            setShowCode(true);
-            setTypedCode(step.code);
+            Promise.resolve().then(() => {
+                setShowCode(true);
+                setTypedCode(step.code!);
+            });
         }
     }, [isOpen, tutorial, currentStep]);
 

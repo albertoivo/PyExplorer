@@ -55,7 +55,10 @@ export function useProgress() {
     }, [userData, isGuest]);
 
     useEffect(() => {
-        loadAllProgress();
+        const initializeProgress = async () => {
+            await loadAllProgress();
+        };
+        initializeProgress();
     }, [loadAllProgress]);
 
     /**

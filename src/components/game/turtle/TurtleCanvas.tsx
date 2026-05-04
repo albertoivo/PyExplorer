@@ -1,5 +1,5 @@
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './TurtleCanvas.css';
 
 // Definição dos tipos para window global
@@ -73,83 +73,49 @@ export function TurtleCanvas({
         visible: true
     });
 
-    // Atualiza a posição do sprite HTML
-    const updateTurtleSprite = useCallback(() => {
-        // Converte coordenadas cartesianas (0,0 no centro) para coordenadas do DOM (top/left)
-        // Y inverte: para cima é positivo no turtle, mas negativo no DOM
-        const domX = (state.current.x + width / 2);
-        const domY = (-state.current.y + height / 2);
+    const onCommandExecutedRef = useRef(onCommandExecuted);
+    useEffect(() => {
+        onCommandExecutedRef.current = onCommandExecuted;
+    }, [onCommandExecuted]);
 
-        setTurtleStyle({
-            left: `${domX}px`,
-            top: `${domY}px`,
-            // Rotação: 0 graus no turtle é direita. CSS rotate 0 é direita também? 
-            // Normal do CSS roda sentido horário. Turtle setamos .right() como clockwise.
-            // Mas Turtle 0 é Leste. CSS 0 é padrão para cima ou direita dependendo do icon.
-            // Vamos assumir icone 🐢 aponta para direita original.
-            // Turtle right(90) -> 90 graus (sul).
-            // CSS rotate(90deg) -> vira sentido horário. 
-            // Então: transform: rotate(-angle deg) ou similar.
-            // python turtle: 0=East, 90=North, 180=West, 270=South (standard mode).
-            // MAS nossa implementação python shim manda `right(angle)`.
-            // Se eu tenho angulo absoluto...
-            // Vamos manter `state.angle` como acumulado de rotações.
-            // Se `turtle.right(90)` é enviado, angle += 90 (sentido horário).
-            // CSS rotate(90deg) é horário. Então bate.
-            // Único detalhe: Python turtle padrão começa Leste. Se nosso icone aponta leste, ok.
-            // Se icone aponta pra cima, precisamos somar offset.
-            // O icone padrão 🐢 costuma estar de lado. Vamos assumir Leste.
-            transform: `translate(-50%, -50%) rotate(${state.current.angle}deg)`
-        });
-    }, [width, height]);
+    // Registra listeners globais ao montar
+    useEffect(() => {
+        // Atualiza a posição do sprite HTML
+        const updateTurtleSprite = () => {
+            const domX = (state.current.x + width / 2);
+            const domY = (-state.current.y + height / 2);
 
-    // Limpa o canvas
-    const clearCanvas = useCallback(() => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Reseta estado
-        state.current = {
-            x: 0,
-            y: 0,
-            angle: 0, // 0 aponta para direita (leste)
-            penDown: true,
-            color: 'black',
-            width: 2,
-            visible: true
+            setTurtleStyle({
+                left: `${domX}px`,
+                top: `${domY}px`,
+                transform: `translate(-50%, -50%) rotate(${state.current.angle}deg)`
+            });
         };
 
-        updateTurtleSprite();
-    }, [updateTurtleSprite]);
+        // Limpa o canvas
+        const clearCanvas = () => {
+            const canvas = canvasRef.current;
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Processa a fila de animação
-    const processQueue = useCallback(() => {
-        if (commandQueue.current.length === 0) {
-            isAnimating.current = false;
-            onCommandExecuted?.();
-            return;
-        }
+            // Reseta estado
+            state.current = {
+                x: 0,
+                y: 0,
+                angle: 0,
+                penDown: true,
+                color: 'black',
+                width: 2,
+                visible: true
+            };
 
-        isAnimating.current = true;
-        const cmd = commandQueue.current.shift();
-        const ctx = canvasRef.current?.getContext('2d');
-
-        if (!cmd || !ctx) {
-            // Need to wrap processQueue in arrow function to avoid circular reference in dependency array if we passed processQueue directly
-            requestAnimationFrame(() => processQueue());
-            return;
-        }
-
-        // Configurações baseadas na velocidade
-        // Se speed for max (10), faz instantâneo.
-        // Se não, divide movimento em passos.
-
+            updateTurtleSprite();
+        };
 
         // Função auxiliar para desenhar linha
-        const drawLine = (x1: number, y1: number, x2: number, y2: number) => {
+        const drawLine = (ctx: CanvasRenderingContext2D, x1: number, y1: number, x2: number, y2: number) => {
             if (!state.current.penDown) return;
 
             ctx.beginPath();
@@ -161,130 +127,139 @@ export function TurtleCanvas({
             ctx.stroke();
         };
 
-        switch (cmd.type) {
-            case 'FORWARD': {
-                const dist = cmd.value;
-
-                const thetaRad = state.current.angle * (Math.PI / 180);
-                const targetX = state.current.x + dist * Math.cos(thetaRad);
-                const targetY = state.current.y - dist * Math.sin(thetaRad); // Y cresce pra cima, angulo cresce horário (pra baixo)
-
-                // Animação de forward
-                const startX = state.current.x;
-                const startY = state.current.y;
-                let currentStep = 0;
-                // Passos dependem da distância e velocidade
-                const steps = animationSpeed.current >= 10 ? 1 : Math.max(1, Math.floor(Math.abs(dist) / (animationSpeed.current / 2)));
-
-                const animateForward = () => {
-                    if (currentStep >= steps) {
-                        state.current.x = targetX;
-                        state.current.y = targetY;
-                        updateTurtleSprite();
-                        // Recursive call via requestAnimationFrame
-                        requestAnimationFrame(() => processQueue());
-                        return;
-                    }
-                    currentStep++;
-                    const progress = currentStep / steps;
-                    const nextX = startX + (targetX - startX) * progress;
-                    const nextY = startY + (targetY - startY) * progress;
-
-                    drawLine(state.current.x, state.current.y, nextX, nextY);
-
-                    state.current.x = nextX;
-                    state.current.y = nextY;
-                    updateTurtleSprite();
-
-                    requestAnimationFrame(animateForward);
-                };
-
-                animateForward();
-                return; // Retorna para não chamar processQueue imediatamente
-            }
-
-            case 'ROTATE': {
-                const targetAngle = state.current.angle + cmd.value;
-
-                // Animação de rotação
-                const startAngle = state.current.angle;
-                const rotSteps = animationSpeed.current >= 10 ? 1 : Math.max(1, Math.floor(Math.abs(cmd.value) / (animationSpeed.current)));
-                let rotStep = 0;
-
-                const animateRotate = () => {
-                    if (rotStep >= rotSteps) {
-                        state.current.angle = targetAngle;
-                        updateTurtleSprite();
-                        // Recursive call via requestAnimationFrame
-                        requestAnimationFrame(() => processQueue());
-                        return;
-                    }
-                    rotStep++;
-                    const progress = rotStep / rotSteps;
-                    state.current.angle = startAngle + (targetAngle - startAngle) * progress;
-                    updateTurtleSprite();
-                    requestAnimationFrame(animateRotate);
-                };
-
-                animateRotate();
+        // Processa a fila de animação
+        const processQueue = () => {
+            if (commandQueue.current.length === 0) {
+                isAnimating.current = false;
+                onCommandExecutedRef.current?.();
                 return;
             }
 
-            case 'COLOR':
-                state.current.color = cmd.value;
-                processQueue();
-                break;
+            isAnimating.current = true;
+            const cmd = commandQueue.current[0];
+            commandQueue.current = commandQueue.current.slice(1);
+            const ctx = canvasRef.current?.getContext('2d');
 
-            case 'WIDTH':
-                state.current.width = cmd.value;
-                processQueue();
-                break;
+            if (!cmd || !ctx) {
+                requestAnimationFrame(() => processQueue());
+                return;
+            }
 
-            case 'PENUP':
-                state.current.penDown = false;
-                processQueue();
-                break;
+            switch (cmd.type) {
+                case 'FORWARD': {
+                    const dist = cmd.value;
+                    const thetaRad = state.current.angle * (Math.PI / 180);
+                    const targetX = state.current.x + dist * Math.cos(thetaRad);
+                    const targetY = state.current.y - dist * Math.sin(thetaRad);
 
-            case 'PENDOWN':
-                state.current.penDown = true;
-                processQueue();
-                break;
+                    const startX = state.current.x;
+                    const startY = state.current.y;
+                    let currentStep = 0;
+                    const steps = animationSpeed.current >= 10 ? 1 : Math.max(1, Math.floor(Math.abs(dist) / (animationSpeed.current / 2)));
 
-            case 'SPEED':
-                animationSpeed.current = cmd.value;
-                processQueue();
-                break;
+                    const animateForward = () => {
+                        if (currentStep >= steps) {
+                            state.current = { ...state.current, x: targetX, y: targetY };
+                            updateTurtleSprite();
+                            requestAnimationFrame(() => processQueue());
+                            return;
+                        }
+                        currentStep++;
+                        const progress = currentStep / steps;
+                        const nextX = startX + (targetX - startX) * progress;
+                        const nextY = startY + (targetY - startY) * progress;
 
-            case 'RESET':
-                clearCanvas();
-                processQueue();
-                break;
-        }
+                        drawLine(ctx, state.current.x, state.current.y, nextX, nextY);
 
-    }, [width, height, clearCanvas, updateTurtleSprite, onCommandExecuted]);
+                        state.current = { ...state.current, x: nextX, y: nextY };
+                        updateTurtleSprite();
 
-    // Registra listeners globais ao montar
-    useEffect(() => {
-        window.turtle_forward = (d) => { commandQueue.current.push({ type: 'FORWARD', value: d }); if (!isAnimating.current) processQueue(); };
-        window.turtle_right = (a) => { commandQueue.current.push({ type: 'ROTATE', value: a }); if (!isAnimating.current) processQueue(); };
-        window.turtle_penup = () => { commandQueue.current.push({ type: 'PENUP' }); if (!isAnimating.current) processQueue(); };
-        window.turtle_pendown = () => { commandQueue.current.push({ type: 'PENDOWN' }); if (!isAnimating.current) processQueue(); };
-        window.turtle_color = (c) => { commandQueue.current.push({ type: 'COLOR', value: c }); if (!isAnimating.current) processQueue(); };
-        window.turtle_width = (w) => { commandQueue.current.push({ type: 'WIDTH', value: w }); if (!isAnimating.current) processQueue(); };
-        window.turtle_speed = (s) => { commandQueue.current.push({ type: 'SPEED', value: s }); if (!isAnimating.current) processQueue(); };
-        window.turtle_reset = () => { commandQueue.current.push({ type: 'RESET' }); if (!isAnimating.current) processQueue(); };
+                        requestAnimationFrame(animateForward);
+                    };
+
+                    animateForward();
+                    return;
+                }
+
+                case 'ROTATE': {
+                    const targetAngle = state.current.angle + cmd.value;
+                    const startAngle = state.current.angle;
+                    const rotSteps = animationSpeed.current >= 10 ? 1 : Math.max(1, Math.floor(Math.abs(cmd.value) / (animationSpeed.current)));
+                    let rotStep = 0;
+
+                    const animateRotate = () => {
+                        if (rotStep >= rotSteps) {
+                            state.current = { ...state.current, angle: targetAngle };
+                            updateTurtleSprite();
+                            requestAnimationFrame(() => processQueue());
+                            return;
+                        }
+                        rotStep++;
+                        const progress = rotStep / rotSteps;
+                        state.current = { ...state.current, angle: startAngle + (targetAngle - startAngle) * progress };
+                        updateTurtleSprite();
+                        requestAnimationFrame(animateRotate);
+                    };
+
+                    animateRotate();
+                    return;
+                }
+
+                case 'COLOR':
+                    state.current = { ...state.current, color: cmd.value };
+                    processQueue();
+                    break;
+
+                case 'WIDTH':
+                    state.current = { ...state.current, width: cmd.value };
+                    processQueue();
+                    break;
+
+                case 'PENUP':
+                    state.current = { ...state.current, penDown: false };
+                    processQueue();
+                    break;
+
+                case 'PENDOWN':
+                    state.current = { ...state.current, penDown: true };
+                    processQueue();
+                    break;
+
+                case 'SPEED':
+                    animationSpeed.current = cmd.value;
+                    processQueue();
+                    break;
+
+                case 'RESET':
+                    clearCanvas();
+                    processQueue();
+                    break;
+            }
+        };
+
+        window.turtle_forward = (d) => { commandQueue.current = [...commandQueue.current, { type: 'FORWARD', value: d }]; if (!isAnimating.current) processQueue(); };
+        window.turtle_right = (a) => { commandQueue.current = [...commandQueue.current, { type: 'ROTATE', value: a }]; if (!isAnimating.current) processQueue(); };
+        window.turtle_penup = () => { commandQueue.current = [...commandQueue.current, { type: 'PENUP' }]; if (!isAnimating.current) processQueue(); };
+        window.turtle_pendown = () => { commandQueue.current = [...commandQueue.current, { type: 'PENDOWN' }]; if (!isAnimating.current) processQueue(); };
+        window.turtle_color = (c) => { commandQueue.current = [...commandQueue.current, { type: 'COLOR', value: c }]; if (!isAnimating.current) processQueue(); };
+        window.turtle_width = (w) => { commandQueue.current = [...commandQueue.current, { type: 'WIDTH', value: w }]; if (!isAnimating.current) processQueue(); };
+        window.turtle_speed = (s) => { commandQueue.current = [...commandQueue.current, { type: 'SPEED', value: s }]; if (!isAnimating.current) processQueue(); };
+        window.turtle_reset = () => { commandQueue.current = [...commandQueue.current, { type: 'RESET' }]; if (!isAnimating.current) processQueue(); };
 
         // Inicializa canvas
         clearCanvas();
 
         return () => {
-            // Cleanup: remove funções globais para evitar vazamento ou chamadas em componente desmontado
-            // Opcional: deixar como no-op
             window.turtle_forward = () => { };
             window.turtle_right = () => { };
-            // ...
+            window.turtle_penup = () => { };
+            window.turtle_pendown = () => { };
+            window.turtle_color = () => { };
+            window.turtle_width = () => { };
+            window.turtle_speed = () => { };
+            window.turtle_reset = () => { };
         };
-    }, [clearCanvas, processQueue, updateTurtleSprite]);
+    }, [width, height]);
 
     // Resize observer para manter canvas nítido? 
     // Por enquanto fixo em width/height props.

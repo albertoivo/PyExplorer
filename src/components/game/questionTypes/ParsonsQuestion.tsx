@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import type { QuestionDocument } from '../../../types/question';
 import { usePyodide } from '../../../hooks/usePyodide';
 import './QuestionTypes.css';
@@ -24,25 +24,21 @@ export function ParsonsQuestion({
     disabled = false,
     showResult = false,
 }: ParsonsQuestionProps) {
-    const [blocks, setBlocks] = useState<CodeBlock[]>([]);
-    const [isRunning, setIsRunning] = useState(false);
-    const [output, setOutput] = useState<string>('');
-    const { runPython, ready } = usePyodide();
-
-    // Inicializa blocos embaralhados
-    useEffect(() => {
+    const [blocks, setBlocks] = useState<CodeBlock[]>(() => {
         if (question.parsonsSegments) {
             const initialBlocks = question.parsonsSegments.map((seg, i) => ({
                 id: `block-${i}`,
-                content: seg.trim(), // Remove indentação original
-                indentation: 0 // Começa sem indentação
+                content: seg.trim(),
+                indentation: 0
             }));
-
-            // Embaralha
-            const shuffled = [...initialBlocks].sort(() => Math.random() - 0.5);
-            setBlocks(shuffled);
+            return [...initialBlocks].sort(() => Math.random() - 0.5);
         }
-    }, [question.parsonsSegments]);
+        return [];
+    });
+
+    const [isRunning, setIsRunning] = useState(false);
+    const [output, setOutput] = useState<string>('');
+    const { runPython, ready } = usePyodide();
 
     // Drag and Drop handlers
     const handleDragStart = (e: React.DragEvent, index: number) => {
