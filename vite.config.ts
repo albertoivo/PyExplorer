@@ -211,12 +211,23 @@ export default defineConfig({
       ],
       renderer: new prerender.PuppeteerRenderer({
         renderAfterDocumentEvent: 'render-event',
-        renderAfterTime: 5000,
+        renderAfterTime: 10000, // Aumentado para 10s como segurança
         headless: true,
-        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        args: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+          '--disable-gpu',
+          '--no-first-run',
+          '--no-zygote',
+          '--single-process'
+        ],
         maxConcurrentRoutes: 1,
-        // No CI, usamos o Chrome do sistema para evitar problemas de download/permissão
-        ...(process.env.GITHUB_ACTIONS ? { executablePath: '/usr/bin/google-chrome' } : {})
+        // No CI, o console do Puppeteer ajudará a identificar erros na aplicação
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        consoleHandler(msg: any) {
+          console.log('[Puppeteer Console]', msg.text());
+        }
       }),
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       postProcess(renderedRoute: any) {
