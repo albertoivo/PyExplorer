@@ -44,7 +44,7 @@ jobs:
       - name: 🌐 Install system dependencies for Puppeteer
         run: |
           sudo apt-get update
-          sudo apt-get install -y libgbm-dev libnss3 libatk-bridge2.0-0 libgtk-3-0 libasound2
+          sudo apt-get install -y libgbm-dev libnss3 libatk-bridge2.0-0 libgtk-3-0 libasound2t64
 
       - name: 📥 Install dependencies
         run: npm ci
