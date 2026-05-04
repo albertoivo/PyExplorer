@@ -196,7 +196,19 @@ export default defineConfig({
     }),
     prerender({
       staticDir: path.join(__dirname, 'dist'),
-      routes: ['/', '/about', '/learn'],
+      routes: [
+        '/',
+        '/about',
+        '/learn',
+        '/learn/o-que-e-python',
+        '/learn/por-que-aprender-python',
+        '/learn/python-para-criancas',
+        '/learn/primeiros-passos-python',
+        '/learn/jogos-aprender-programacao',
+        '/learn/como-ensinar-python-criancas',
+        '/python-para-criancas',
+        '/aprender-python-jogando'
+      ],
       renderer: new prerender.PuppeteerRenderer({
         renderAfterDocumentEvent: 'render-event',
         renderAfterTime: 5000,

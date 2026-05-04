@@ -1,9 +1,5 @@
-/**
- * Página de Artigo Individual
- * Exibe o conteúdo completo de um artigo educacional
- */
-import { useParams, Link, Navigate } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useParams, Link, Navigate, useNavigate } from 'react-router-dom'
+import { useEffect, useRef } from 'react'
 import { getArticleBySlug, getRelatedArticles, type Article } from '../data/learnData'
 import { SEO } from '../components/common/SEO'
 import './ArticlePage.css'
@@ -12,11 +8,32 @@ export function ArticlePage() {
     const { slug } = useParams<{ slug: string }>()
     const article = slug ? getArticleBySlug(slug) : undefined
     const relatedArticles = slug ? getRelatedArticles(slug, 3) : []
+    const navigate = useNavigate()
+    const contentRef = useRef<HTMLDivElement>(null)
 
-    // Scroll to top quando artigo muda
+    // Intercepta cliques em links internos para evitar reload
     useEffect(() => {
-        window.scrollTo(0, 0)
-    }, [slug])
+        const handleInternalLinks = (e: MouseEvent) => {
+            const target = e.target as HTMLElement
+            const anchor = target.closest('a')
+            
+            if (anchor && anchor.href) {
+                const url = new URL(anchor.href)
+                const isInternal = url.origin === window.location.origin
+                
+                if (isInternal) {
+                    e.preventDefault()
+                    navigate(url.pathname + url.search + url.hash)
+                }
+            }
+        }
+
+        const content = contentRef.current
+        if (content) {
+            content.addEventListener('click', handleInternalLinks)
+            return () => content.removeEventListener('click', handleInternalLinks)
+        }
+    }, [navigate])
 
     // Scroll to top quando artigo muda
     useEffect(() => {
@@ -56,7 +73,7 @@ export function ArticlePage() {
             </header>
 
             {/* Conteúdo do Artigo */}
-            <div className="article-content">
+            <div className="article-content" ref={contentRef}>
                 <MarkdownContent content={article.content} />
             </div>
 
@@ -160,6 +177,8 @@ function MarkdownContent({ content }: { content: string }) {
         .replace(/^- (.*$)/gim, '<li>$1</li>')
         // Checkmarks
         .replace(/^- ✅ (.*$)/gim, '<li class="check">✅ $1</li>')
+        // Links [text](url)
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/gim, '<a href="$2">$1</a>')
         // Line breaks
         .replace(/\n\n/gim, '</p><p>')
 

@@ -5,10 +5,15 @@ import { SEO } from '../components/common/SEO';
 import { WORLDS } from '../data/worlds';
 import './HomePage.css';
 
+interface HomePageProps {
+    seoTitle?: string;
+    seoDescription?: string;
+}
+
 /**
  * Página inicial do PyExplorer
  */
-export function HomePage() {
+export function HomePage({ seoTitle, seoDescription }: HomePageProps) {
     const { userData } = useAuth();
 
     // Preload Pyodide script on hover for faster game start
@@ -25,8 +30,8 @@ export function HomePage() {
     return (
         <div className="home-page">
             <SEO
-                title="Aprenda Python Jogando"
-                description="O melhor jogo educativo para crianças aprenderem Python. 100% Grátis, Seguro e Divertido!"
+                title={seoTitle || "Aprenda Python Jogando"}
+                description={seoDescription || "O melhor jogo educativo para crianças aprenderem Python. 100% Grátis, Seguro e Divertido!"}
             />
             {/* Hero Section */}
             <section className="hero">

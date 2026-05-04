@@ -122,6 +122,24 @@ function App() {
                       <Route path="/register" element={<RegisterPage />} />
                       <Route path="/learn" element={<LearnPage />} />
                       <Route path="/learn/:slug" element={<ArticlePage />} />
+                      <Route
+                        path="/python-para-criancas"
+                        element={
+                          <HomePage
+                            seoTitle="Python para Crianças: Aprenda Programação Jogando"
+                            seoDescription="Descubra como ensinar Python para crianças de forma divertida e gratuita com o PyExplorer. O melhor jogo de programação infantil!"
+                          />
+                        }
+                      />
+                      <Route
+                        path="/aprender-python-jogando"
+                        element={
+                          <HomePage
+                            seoTitle="Aprender Python Jogando: Aventura Educativa Grátis"
+                            seoDescription="Quer aprender Python do zero de um jeito divertido? No PyExplorer você aprende lógica e programação resolvendo desafios em um jogo incrível!"
+                          />
+                        }
+                      />
                       <Route path="/certificate" element={<CertificatePage />} />
                       <Route path="/about" element={<AboutPage />} />
 
