@@ -6,7 +6,16 @@ import * as authModule from '../../firebase/auth';
 import * as firestoreModule from '../../firebase/firestore';
 
 // Mock dependencies
-vi.mock('../../firebase/auth');
+vi.mock('../../firebase/auth', () => ({
+    subscribeToAuthChanges: vi.fn(),
+    signInWithGoogle: vi.fn(),
+    signInWithGoogleRedirect: vi.fn(),
+    checkRedirectResult: vi.fn().mockResolvedValue(null),
+    logOut: vi.fn(),
+    signIn: vi.fn(),
+    signUp: vi.fn(),
+    resetPassword: vi.fn()
+}));
 vi.mock('../../firebase/firestore');
 
 // Wrapper for testing hook

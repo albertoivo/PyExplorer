@@ -7,6 +7,8 @@ import {
     updateProfile,
     GoogleAuthProvider,
     signInWithPopup,
+    signInWithRedirect,
+    getRedirectResult,
 } from 'firebase/auth';
 import type { User, UserCredential } from 'firebase/auth';
 import { auth } from './firebaseConfig';
@@ -47,12 +49,32 @@ export async function signIn(
 }
 
 /**
- * Faz login com Google
+ * Faz login com Google via Popup (ou tenta)
+ * Fallback para signInWithRedirect será manipulado no componente
  * @returns Promise com as credenciais do usuário
  */
 export async function signInWithGoogle(): Promise<UserCredential> {
     const provider = new GoogleAuthProvider();
     return signInWithPopup(auth, provider);
+}
+
+/**
+ * Faz login com Google via Redirect (Fallback para mobile/bloqueadores)
+ * @returns Promise vazia, pois redireciona a página
+ */
+export async function signInWithGoogleRedirect(): Promise<never> {
+    const provider = new GoogleAuthProvider();
+    await signInWithRedirect(auth, provider);
+    // Return a promise that never resolves since the page redirects
+    return new Promise(() => {});
+}
+
+/**
+ * Verifica o resultado do login via Redirect
+ * @returns Promise com as credenciais do usuário ou null
+ */
+export async function checkRedirectResult(): Promise<UserCredential | null> {
+    return getRedirectResult(auth);
 }
 
 /**
