@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import type { User } from 'firebase/auth';
 import { resetLoginRedirectFlag } from '../utils/authRedirect';
 import { translateFirebaseError } from '../utils/errorTranslations';
-import { subscribeToAuthChanges, signIn, signUp, logOut, resetPassword, signInWithGoogle } from '../firebase/auth';
+import { subscribeToAuthChanges, signIn, signUp, logOut, resetPassword, signInWithGoogle, signInWithGoogleRedirect, checkRedirectResult } from '../firebase/auth';
 import { saveUser, getUser } from '../firebase/firestore';
 import type { UserData, World } from '../types/question';
 import { env } from '../config/env';
@@ -26,8 +26,46 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const [isGuest, setIsGuest] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    // Escuta mudanças no estado de autenticação
+    // Escuta mudanças no estado de autenticação e verifica redirecionamento
     useEffect(() => {
+        // Verifica se estamos voltando de um redirect do Google
+        const handleRedirect = async () => {
+            try {
+                const credential = await checkRedirectResult();
+                if (credential?.user) {
+                    // Usuário acabou de logar via redirect, processa como um login normal
+                    const firebaseUser = credential.user;
+                    const existingData = await getUser(firebaseUser.uid);
+
+                    if (!existingData) {
+                        const newUserData: UserData = {
+                            uid: firebaseUser.uid,
+                            displayName: firebaseUser.displayName || 'Explorador',
+                            email: firebaseUser.email || '',
+                            avatar: 'default_avatar',
+                            createdAt: new Date(),
+                            updatedAt: new Date(),
+                            totalScore: 0,
+                            balance: 0,
+                            unlockedWorlds: ['basic_commands' as World],
+                        };
+                        await saveUser(newUserData);
+                        // O onAuthStateChanged vai atualizar o estado
+                    }
+
+                    if (window.location.origin !== new URL(env.APP_URL).origin) {
+                        window.location.href = env.APP_URL;
+                    }
+                }
+            } catch (err) {
+                console.error("Erro no redirecionamento do Google:", err);
+                const message = err instanceof Error ? err.message : 'Erro ao entrar com Google (Redirect)';
+                setError(translateFirebaseError(message));
+            }
+        };
+
+        handleRedirect();
+
         const unsubscribe = subscribeToAuthChanges(async (firebaseUser) => {
             setUser(firebaseUser);
 
@@ -94,6 +132,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
         setError(null);
         setLoading(true);
         try {
+            // Se for dispositivo móvel, usa redirecionamento direto, senão usa popup
+            // Fallback: se o popup falhar com popup-closed-by-user, tenta redirecionamento
+
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+            if (isMobile) {
+                await signInWithGoogleRedirect();
+                return; // a página será redirecionada
+            }
+
             const credential = await signInWithGoogle();
             const firebaseUser = credential.user;
 
@@ -126,12 +174,23 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 window.location.href = env.APP_URL;
             }
 
-        } catch (err) {
+        } catch (err: unknown) {
+            // Se for popup fechado (frequente no mobile), cai no redirect
+            const errorCode = (err as { code?: string })?.code;
+            if (errorCode === 'auth/popup-closed-by-user' || errorCode === 'auth/cancelled-popup-request') {
+                console.log('Popup bloqueado ou fechado, tentando redirect...');
+                try {
+                    await signInWithGoogleRedirect();
+                    return; // a página será redirecionada
+                } catch (redirectErr) {
+                    console.error('Falha também no redirect:', redirectErr);
+                }
+            }
+
             const message = err instanceof Error ? err.message : 'Erro ao entrar com Google';
             setError(translateFirebaseError(message));
-            throw err;
-        } finally {
             setLoading(false);
+            throw err;
         }
     };
 
