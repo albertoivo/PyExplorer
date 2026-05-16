@@ -20,14 +20,14 @@ export function Footer() {
 
                     <div className="footer__links">
                         <div className="footer__link-group">
-                            <h4 className="footer__link-title">Aprender</h4>
+                            <p className="footer__link-title">Aprender</p>
                             <Link to="/learn" className="footer__link">📚 Tutoriais</Link>
                             <Link to="/game" className="footer__link">🎮 Jogar</Link>
                             <Link to="/rewards" className="footer__link">🏆 Conquistas</Link>
                         </div>
 
                         <div className="footer__link-group">
-                            <h4 className="footer__link-title">Sobre</h4>
+                            <p className="footer__link-title">Sobre</p>
                             <Link to="/about" className="footer__link">O Projeto</Link>
                             <Link to="/learn/python-para-criancas" className="footer__link">Para Pais</Link>
                             <a href="https://github.com/sponsors/albertoivo" target="_blank" rel="noopener noreferrer" className="footer__link footer__link--highlight">💜 Apoie o Projeto</a>

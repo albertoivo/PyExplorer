@@ -122,7 +122,8 @@ export function RegisterPage() {
                             id="displayName"
                             type="text"
                             className="form-input"
-                            placeholder="Seu apelido no jogo"
+                            placeholder="Seu nome completo"
+                            aria-label="Seu nome completo"
                             value={displayName}
                             onChange={(e) => setDisplayName(e.target.value)}
                             required

@@ -9,7 +9,7 @@ import './Header.css';
  */
 export function Header() {
     const { userData, isGuest, logout, loading } = useAuth();
-    const { gamification } = useGamification(); // Para ter o avatar atualizado em tempo real
+    const { gamification, currentLevel } = useGamification(); // Para ter o avatar atualizado em tempo real
     const location = useLocation();
 
     const handleLogout = async () => {
@@ -105,6 +105,7 @@ export function Header() {
                                 to="/profile"
                                 className={`header__nav-link ${isActive('/profile') ? 'header__nav-link--active' : ''}`}
                                 aria-current={isActive('/profile') ? 'page' : undefined}
+                                aria-label="Acessar Perfil"
                             >
                                 <span aria-hidden="true">👤</span> Perfil
                             </Link>
@@ -118,8 +119,10 @@ export function Header() {
                         <div className="header__loading">Carregando...</div>
                     ) : userData ? (
                         <div className="header__user-info">
+                            <img src="/src/assets/react.svg" className="header__avatar" alt="Avatar do usuário" />
                             <div className="header__user-details">
                                 <span className="header__user-name">{userData.displayName}</span>
+                                <p className="header__user-level">Nível {currentLevel?.level || 1}</p>
                                 <span
                                     className="header__user-stars"
                                     title="Diamantes disponíveis"

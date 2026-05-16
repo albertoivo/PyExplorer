@@ -94,7 +94,7 @@ export function UserDashboard({ userData }: UserDashboardProps) {
                 <Link to="/game" className="hero__btn hero__btn--primary" onMouseEnter={handlePreload} onFocus={handlePreload}>
                     🎮 Jogar Agora
                 </Link>
-                <Link to="/profile" className="hero__btn hero__btn--secondary">
+                <Link to="/profile" className="hero__btn hero__btn--secondary" aria-label="Acessar Perfil">
                     👤 Meu Perfil
                 </Link>
             </div>
