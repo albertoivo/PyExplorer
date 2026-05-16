@@ -44,12 +44,25 @@ export function ArticlePage() {
         return <Navigate to="/learn" replace />
     }
 
+    const structuredData = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": article.title,
+        "description": article.description,
+        "datePublished": article.publishedAt,
+        "author": {
+            "@type": "Organization",
+            "name": "PyExplorer"
+        }
+    }
+
     return (
         <article className="article-page">
             <SEO
                 title={article.title}
                 description={article.description}
                 type="article"
+                structuredData={structuredData}
             />
             {/* Breadcrumb */}
             <nav className="article-breadcrumb">

@@ -23,3 +23,35 @@ export function translateFirebaseError(message: string): string {
 
     return message;
 }
+
+/**
+ * Analisa e categoriza erros comuns do Python para métricas educacionais.
+ * Útil para detectar frustração (ex: erros de sintaxe repetidos).
+ */
+export function categorizePythonError(errorMessage: string): string {
+    if (!errorMessage) return 'Unknown Error';
+    
+    // Extrai o tipo da exceção base (ex: SyntaxError: invalid syntax -> SyntaxError)
+    const match = errorMessage.match(/^([a-zA-Z]+Error):/m);
+    if (match) {
+        const errorType = match[1];
+        
+        // Traduz/categoriza erros mais comuns para analytics
+        switch (errorType) {
+            case 'SyntaxError':
+                return 'Erro de Sintaxe';
+            case 'NameError':
+                return 'Variável não Encontrada';
+            case 'TypeError':
+                return 'Erro de Tipo';
+            case 'IndentationError':
+                return 'Erro de Indentação';
+            case 'IndexError':
+                return 'Índice Fora dos Limites';
+            default:
+                return errorType;
+        }
+    }
+    
+    return 'Erro de Execução';
+}

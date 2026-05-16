@@ -41,9 +41,29 @@ export function EvolutionModal() {
                     </div>
                 </div>
 
-                <button className="evolution-modal__btn" onClick={dismissPetEvolution}>
-                    Incrível! 🚀
-                </button>
+                <div className="evolution-modal__actions">
+                    <button className="evolution-modal__btn" onClick={dismissPetEvolution}>
+                        Incrível! 🚀
+                    </button>
+                    <button 
+                        className="evolution-modal__btn evolution-modal__btn--share" 
+                        onClick={() => {
+                            const shareData = {
+                                title: 'PyExplorer - Meu Mascote Evoluiu!',
+                                text: `Meu mascote ${pet.name} evoluiu para o tipo ${pet.type.toUpperCase()} no PyExplorer! Venha aprender Python jogando!`,
+                                url: window.location.origin
+                            };
+                            if (navigator.share) {
+                                navigator.share(shareData).catch(console.error);
+                            } else {
+                                navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
+                                alert('Link copiado para a área de transferência!');
+                            }
+                        }}
+                    >
+                        Compartilhar 📤
+                    </button>
+                </div>
             </div>
         </div>
     );

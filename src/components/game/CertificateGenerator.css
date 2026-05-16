@@ -175,4 +175,19 @@
     cursor: not-allowed;
 }
 
+.certificate-controls {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.share-btn {
+    background: linear-gradient(135deg, #ff00d9 0%, #ff8800 100%);
+}
+
+.share-btn:hover {
+    box-shadow: 0 5px 15px rgba(255, 136, 0, 0.4);
+}
+
 /* Load fonts via @import or link in HTML (Cinzel, Great Vibes, Playfair Display) */

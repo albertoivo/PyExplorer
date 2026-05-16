@@ -7,6 +7,7 @@ interface SEOProps {
     canonical?: string;
     ogImage?: string;
     type?: 'website' | 'article';
+    structuredData?: Record<string, unknown>;
 }
 
 export function SEO({
@@ -14,7 +15,8 @@ export function SEO({
     description,
     canonical,
     ogImage = '/og-image.jpg',
-    type = 'website'
+    type = 'website',
+    structuredData
 }: SEOProps) {
     const siteTitle = 'PyExplorer';
     const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
@@ -58,6 +60,13 @@ export function SEO({
             <meta name="twitter:title" content={fullTitle} />
             <meta name="twitter:description" content={metaDescription} />
             <meta name="twitter:image" content={ogImage} />
+            
+            {/* Structured Data (JSON-LD) */}
+            {structuredData && (
+                <script type="application/ld+json">
+                    {JSON.stringify(structuredData)}
+                </script>
+            )}
         </Helmet>
     );
 }

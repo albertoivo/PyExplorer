@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { QuestionDocument } from '../../types/question';
 import type { UserProgress } from '../../types/question';
 import './CompletedQuestionModal.css';
@@ -23,6 +23,19 @@ export function CompletedQuestionModal({
     onClose,
 }: CompletedQuestionModalProps) {
     const closeBtnRef = useRef<HTMLButtonElement>(null);
+    const [showSponsorCTA] = useState(() => {
+        if (progress.stars === 3) {
+            const lastSeen = localStorage.getItem('pyexplorer_sponsor_cta_shown');
+            const now = Date.now();
+            const oneDay = 24 * 60 * 60 * 1000;
+
+            if (!lastSeen || now - parseInt(lastSeen, 10) > oneDay) {
+                localStorage.setItem('pyexplorer_sponsor_cta_shown', now.toString());
+                return true;
+            }
+        }
+        return false;
+    });
 
     // Gerenciamento de foco e tecla Esc
     useEffect(() => {
@@ -103,6 +116,21 @@ export function CompletedQuestionModal({
                 <p className="completed-modal__hint">
                     💡 Refazer não dá pontos extras — é só para praticar!
                 </p>
+
+                {showSponsorCTA && (
+                    <div className="completed-modal__sponsor-cta">
+                        <h4>💖 Apoie o PyExplorer</h4>
+                        <p>Seu filho(a) mandou muito bem! Ajude a manter este projeto educacional gratuito.</p>
+                        <a 
+                            href="https://github.com/sponsors/albertoivo" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="completed-modal__sponsor-link"
+                        >
+                            Patrocinar no GitHub
+                        </a>
+                    </div>
+                )}
             </div>
         </div>
     );

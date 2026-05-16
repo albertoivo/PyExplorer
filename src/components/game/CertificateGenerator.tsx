@@ -99,6 +99,24 @@ export function CertificateGenerator({ studentName, completionDate }: Certificat
                 >
                     {isGenerating ? 'Gerando PDF...' : '📥 Baixar Certificado (PDF)'}
                 </button>
+                <button
+                    onClick={() => {
+                        const shareData = {
+                            title: 'PyExplorer - Certificado de Conclusão',
+                            text: `Eu completei a jornada de Programação Python no PyExplorer! 🚀🐍`,
+                            url: window.location.origin
+                        };
+                        if (navigator.share) {
+                            navigator.share(shareData).catch(console.error);
+                        } else {
+                            navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
+                            alert('Link copiado para a área de transferência!');
+                        }
+                    }}
+                    className="download-btn share-btn"
+                >
+                    📤 Compartilhar
+                </button>
             </div>
         </div>
     );
