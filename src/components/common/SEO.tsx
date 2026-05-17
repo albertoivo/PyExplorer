@@ -19,7 +19,7 @@ export function SEO({
     structuredData
 }: SEOProps) {
     const siteTitle = 'PyExplorer';
-    const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
+    const fullTitle = title === siteTitle ? title : (title.length > 50 ? title : `${title} | ${siteTitle}`);
     const metaDescription = description || "Aprenda Python de forma divertida! PyExplorer é um jogo educativo GRATUITO para crianças e iniciantes aprenderem programação.";
 
     // URL Canônica: Prioriza o prop 'canonical', caso contrário constrói a partir da URL base + pathname

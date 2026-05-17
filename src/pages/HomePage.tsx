@@ -21,7 +21,8 @@ export function HomePage({ seoTitle, seoDescription }: HomePageProps) {
     const handlePreload = () => {
         if (!document.querySelector('script[src*="pyodide"]')) {
             const link = document.createElement('link');
-            link.rel = 'prefetch';
+            link.rel = 'preload';
+            link.as = 'script';
             link.href = 'https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js';
             document.head.appendChild(link);
         }

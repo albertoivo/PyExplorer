@@ -23,7 +23,7 @@ interface PythonEditorProps {
     isSuccess?: boolean;
 }
 
-export function useEducationalAnalytics(questionId?: string) {
+function useEducationalAnalytics(questionId?: string) {
     const metricsRef = useRef({
         questionId,
         startTime: 0,

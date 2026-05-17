@@ -46,7 +46,7 @@ export function ArticlePage() {
 
     const structuredData = {
         "@context": "https://schema.org",
-        "@type": "Article",
+        "@type": "TechArticle",
         "headline": article.title,
         "description": article.description,
         "datePublished": article.publishedAt,

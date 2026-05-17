@@ -11,6 +11,7 @@ import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { ProtectedRoute } from './components/layout/ProtectedRoute';
 import { OfflineIndicator } from './components/layout/OfflineIndicator';
+import { ErrorBoundary } from './components/common/ErrorBoundary';
 
 // Mascot - lazy loaded para reduzir bundle inicial
 const Mascot = lazy(() => import('./components/mascot').then(m => ({ default: m.Mascot })));
@@ -114,62 +115,64 @@ function App() {
                 </a>
                 <Header />
                 <main id="main-content" className="app__main" tabIndex={-1}>
-                  <Suspense fallback={<PageLoader />}>
-                    <Routes>
-                      {/* Páginas públicas */}
-                      <Route path="/" element={<HomePage />} />
-                      <Route path="/login" element={<LoginPage />} />
-                      <Route path="/register" element={<RegisterPage />} />
-                      <Route path="/learn" element={<LearnPage />} />
-                      <Route path="/learn/:slug" element={<ArticlePage />} />
-                      <Route
-                        path="/python-para-criancas"
-                        element={
-                          <HomePage
-                            seoTitle="Python para Crianças: Aprenda Programação Jogando"
-                            seoDescription="Descubra como ensinar Python para crianças de forma divertida e gratuita com o PyExplorer. O melhor jogo de programação infantil!"
-                          />
-                        }
-                      />
-                      <Route
-                        path="/aprender-python-jogando"
-                        element={
-                          <HomePage
-                            seoTitle="Aprender Python Jogando: Aventura Educativa Grátis"
-                            seoDescription="Quer aprender Python do zero de um jeito divertido? No PyExplorer você aprende lógica e programação resolvendo desafios em um jogo incrível!"
-                          />
-                        }
-                      />
-                      <Route path="/certificate" element={<CertificatePage />} />
-                      <Route path="/about" element={<AboutPage />} />
+                  <ErrorBoundary>
+                    <Suspense fallback={<PageLoader />}>
+                      <Routes>
+                        {/* Páginas públicas */}
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="/login" element={<LoginPage />} />
+                        <Route path="/register" element={<RegisterPage />} />
+                        <Route path="/learn" element={<LearnPage />} />
+                        <Route path="/learn/:slug" element={<ArticlePage />} />
+                        <Route
+                          path="/python-para-criancas"
+                          element={
+                            <HomePage
+                              seoTitle="Python para Crianças: Aprenda Programação Jogando"
+                              seoDescription="Descubra como ensinar Python para crianças de forma divertida e gratuita com o PyExplorer. O melhor jogo de programação infantil!"
+                            />
+                          }
+                        />
+                        <Route
+                          path="/aprender-python-jogando"
+                          element={
+                            <HomePage
+                              seoTitle="Aprender Python Jogando: Aventura Educativa Grátis"
+                              seoDescription="Quer aprender Python do zero de um jeito divertido? No PyExplorer você aprende lógica e programação resolvendo desafios em um jogo incrível!"
+                            />
+                          }
+                        />
+                        <Route path="/certificate" element={<CertificatePage />} />
+                        <Route path="/about" element={<AboutPage />} />
 
-                      {/* Páginas protegidas (requerem login ou modo convidado) */}
-                      <Route
-                        path="/game"
-                        element={
-                          <ProtectedRoute>
-                            <GamePageWithPyodide />
-                          </ProtectedRoute>
-                        }
-                      />
-                      <Route
-                        path="/profile"
-                        element={
-                          <ProtectedRoute>
-                            <ProfilePage />
-                          </ProtectedRoute>
-                        }
-                      />
-                      <Route
-                        path="/rewards"
-                        element={
-                          <ProtectedRoute>
-                            <GamificationPage />
-                          </ProtectedRoute>
-                        }
-                      />
-                    </Routes>
-                  </Suspense>
+                        {/* Páginas protegidas (requerem login ou modo convidado) */}
+                        <Route
+                          path="/game"
+                          element={
+                            <ProtectedRoute>
+                              <GamePageWithPyodide />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="/profile"
+                          element={
+                            <ProtectedRoute>
+                              <ProfilePage />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="/rewards"
+                          element={
+                            <ProtectedRoute>
+                              <GamificationPage />
+                            </ProtectedRoute>
+                          }
+                        />
+                      </Routes>
+                    </Suspense>
+                  </ErrorBoundary>
                 </main>
                 <Footer />
                 <OfflineIndicator />

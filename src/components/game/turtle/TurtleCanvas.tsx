@@ -1,5 +1,5 @@
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import './TurtleCanvas.css';
 
 // Definição dos tipos para window global
@@ -56,11 +56,7 @@ export function TurtleCanvas({
     const animationSpeed = useRef(5); // 1-10
 
     // Estado visual da tartaruga (para o sprite HTML)
-    const [turtleStyle, setTurtleStyle] = useState({
-        left: '50%',
-        top: '50%',
-        transform: 'translate(-50%, -50%) rotate(0deg)'
-    });
+    const turtleSpriteRef = useRef<HTMLDivElement>(null);
 
     // Estado interno lógico da tartaruga
     const state = useRef<TurtleState>({
@@ -85,11 +81,11 @@ export function TurtleCanvas({
             const domX = (state.current.x + width / 2);
             const domY = (-state.current.y + height / 2);
 
-            setTurtleStyle({
-                left: `${domX}px`,
-                top: `${domY}px`,
-                transform: `translate(-50%, -50%) rotate(${state.current.angle}deg)`
-            });
+            if (turtleSpriteRef.current) {
+                turtleSpriteRef.current.style.left = `${domX}px`;
+                turtleSpriteRef.current.style.top = `${domY}px`;
+                turtleSpriteRef.current.style.transform = `translate(-50%, -50%) rotate(${state.current.angle}deg)`;
+            }
         };
 
         // Limpa o canvas
@@ -282,7 +278,7 @@ export function TurtleCanvas({
                 height={height}
                 className="turtle-canvas"
             />
-            <div className="turtle-sprite" style={turtleStyle}>
+            <div ref={turtleSpriteRef} className="turtle-sprite" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) rotate(0deg)' }}>
                 🐢
             </div>
         </div>
