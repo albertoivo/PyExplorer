@@ -260,11 +260,20 @@ export default defineConfig({
             if (id.includes('pyodide')) {
               return 'pyodide-vendor';
             }
-            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom') || id.includes('scheduler')) {
+            if (id.includes('/node_modules/react/') || id.includes('/node_modules/react-dom/') || id.includes('/node_modules/react-router-dom/') || id.includes('/node_modules/scheduler/')) {
               return 'react-vendor';
             }
             if (id.includes('canvas-confetti')) {
               return 'confetti-vendor';
+            }
+            if (id.includes('monaco-editor')) {
+              return 'monaco-vendor';
+            }
+            if (id.includes('html2canvas')) {
+              return 'html2canvas-vendor';
+            }
+            if (id.includes('jspdf')) {
+              return 'jspdf-vendor';
             }
             return 'vendor';
           }
