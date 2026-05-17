@@ -40,6 +40,13 @@ interface QuestionEngineProps {
 // Chave para armazenar dicas usadas
 const USED_HINTS_KEY = 'pyexplorer_used_hints';
 
+type ConfettiFn = (options?: {
+    particleCount?: number;
+    spread?: number;
+    origin?: { y: number };
+    colors?: string[];
+}) => void;
+
 export function QuestionEngine({
     question,
     onComplete,
@@ -120,7 +127,11 @@ export function QuestionEngine({
 
         if (correct) {
             import('canvas-confetti').then((confettiModule) => {
-                const confetti = (confettiModule as any).default || confettiModule;
+                const confetti = (
+                    'default' in confettiModule
+                        ? confettiModule.default
+                        : confettiModule
+                ) as ConfettiFn;
                 confetti({
                     particleCount: 100,
                     spread: 70,

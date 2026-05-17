@@ -10,6 +10,11 @@ const CACHED_QUESTIONS_KEY = 'pyexplorer_cached_questions';
 const OFFLINE_PROGRESS_KEY = 'pyexplorer_offline_progress';
 const LAST_SYNC_KEY = 'pyexplorer_last_sync';
 
+interface BeforeInstallPromptEvent extends Event {
+    prompt: () => Promise<void>;
+    userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
+}
+
 interface OfflineProgress {
     questionId: string;
     passed: boolean;
@@ -225,8 +230,7 @@ export function useOffline() {
     const installPWA = useCallback(async (): Promise<boolean> => {
         if (!deferredPrompt) return false;
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const promptEvent = deferredPrompt as any;
+        const promptEvent = deferredPrompt as BeforeInstallPromptEvent;
         promptEvent.prompt();
 
         const { outcome } = await promptEvent.userChoice;

@@ -3,13 +3,24 @@ import { useGamification } from '../../../context/GamificationContext';
 import { PetAvatar } from './PetAvatar';
 import './EvolutionModal.css';
 
+type ConfettiFn = (options?: {
+    particleCount?: number;
+    spread?: number;
+    origin?: { y: number };
+    colors?: string[];
+}) => void;
+
 export function EvolutionModal() {
     const { pet, dismissPetEvolution } = useGamification();
 
     useEffect(() => {
         if (pet?.justEvolved) {
             import('canvas-confetti').then((confettiModule) => {
-                const confetti = (confettiModule as any).default || confettiModule;
+                const confetti = (
+                    'default' in confettiModule
+                        ? confettiModule.default
+                        : confettiModule
+                ) as ConfettiFn;
                 confetti({
                     particleCount: 200,
                     spread: 100,
@@ -47,8 +58,8 @@ export function EvolutionModal() {
                     <button className="evolution-modal__btn" onClick={dismissPetEvolution}>
                         Incrível! 🚀
                     </button>
-                    <button 
-                        className="evolution-modal__btn evolution-modal__btn--share" 
+                    <button
+                        className="evolution-modal__btn evolution-modal__btn--share"
                         onClick={() => {
                             const shareData = {
                                 title: 'PyExplorer - Meu Mascote Evoluiu!',

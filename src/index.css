@@ -21,6 +21,10 @@
   --color-accent: #667eea;
   --color-accent-dark: #764ba2;
 
+  /* Aliases para compatibilidade com páginas que usam nomenclatura antiga */
+  --primary-color: var(--color-primary);
+  --primary-color-dark: var(--color-primary-dark);
+
   /* Cores de Fundo */
   --bg-dark: #0f0f1a;
   --bg-darker: #0a0a12;

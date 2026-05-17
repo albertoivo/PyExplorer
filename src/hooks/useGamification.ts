@@ -37,6 +37,12 @@ import { feedPet, checkPetStatus, getInitialPet } from '../utils/petLogic';
 
 const GUEST_GAMIFICATION_KEY = 'pyexplorer_guest_gamification';
 
+type LegacyStreakUserFields = {
+    streak?: number;
+    longestStreak?: number;
+    lastActiveDate?: string;
+};
+
 export function useGamification() {
     const { userData, isGuest, updateUserData } = useAuth();
     const [gamification, setGamification] = useState<UserGamification>(getInitialGamification);
@@ -203,8 +209,7 @@ export function useGamification() {
                     }
 
                     // --- MIGRATION: Sync Legacy Streak from UserData ---
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    const legacyUser = currentUserData as any;
+                    const legacyUser = currentUserData as typeof currentUserData & LegacyStreakUserFields;
                     if (legacyUser.streak && (!finalData.streak.currentStreak || legacyUser.streak > finalData.streak.currentStreak)) {
                         console.log('🔄 Migrating streak from UserData to Gamification');
                         finalData = {
@@ -281,8 +286,7 @@ export function useGamification() {
                     const initial = getInitialGamification();
 
                     // --- MIGRATION: Sync Legacy Streak from UserData ---
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    const legacyUser = currentUserData as any;
+                    const legacyUser = currentUserData as typeof currentUserData & LegacyStreakUserFields;
                     if (legacyUser.streak && legacyUser.streak > 0) {
                         console.log('🔄 Migrating streak from UserData to New Gamification');
                         initial.streak = {

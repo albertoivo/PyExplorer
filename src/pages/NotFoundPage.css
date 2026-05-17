@@ -60,6 +60,7 @@
 
 .not-found-btn--primary:hover {
     background: var(--primary-color-dark, #00cc6a);
+    color: #fff;
     transform: translateY(-2px);
 }
 
@@ -71,6 +72,7 @@
 
 .not-found-btn--secondary:hover {
     background: rgba(255, 255, 255, 0.2);
+    color: var(--text-primary);
     transform: translateY(-2px);
 }
 

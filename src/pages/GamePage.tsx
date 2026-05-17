@@ -19,6 +19,17 @@ import './GamePage.css';
 
 type GameView = 'world-map' | 'world-questions' | 'playing' | 'reviewing';
 
+type WindowWithWebkitAudio = Window & typeof globalThis & {
+    webkitAudioContext?: typeof AudioContext;
+};
+
+type ConfettiFn = (options?: {
+    particleCount?: number;
+    spread?: number;
+    origin?: { y: number };
+    colors?: string[];
+}) => void;
+
 /**
  * Obtém o nome amigável do mundo
  */
@@ -141,11 +152,11 @@ export function GamePage() {
      */
     const playSuccessSound = useCallback(() => {
         try {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
-            if (!AudioContext) return;
+            const audioContextConstructor =
+                window.AudioContext || (window as WindowWithWebkitAudio).webkitAudioContext;
+            if (!audioContextConstructor) return;
 
-            const ctx = new AudioContext();
+            const ctx = new audioContextConstructor();
             const oscillators = [
                 { freq: 523.25, type: 'sine', start: 0, dur: 0.2 }, // C5
                 { freq: 659.25, type: 'sine', start: 0.1, dur: 0.2 }, // E5
@@ -319,7 +330,11 @@ export function GamePage() {
                     // CELEBRAÇÃO DE FIM DE MUNDO 🎉
                     playSuccessSound();
                     import('canvas-confetti').then((confettiModule) => {
-                        const confetti = (confettiModule as any).default || confettiModule;
+                        const confetti = (
+                            'default' in confettiModule
+                                ? confettiModule.default
+                                : confettiModule
+                        ) as ConfettiFn;
                         confetti({
                             particleCount: 150,
                             spread: 70,

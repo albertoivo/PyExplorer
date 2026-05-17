@@ -8,6 +8,14 @@ const require = createRequire(import.meta.url)
 const prerender = require('vite-plugin-prerender')
 import { compression } from 'vite-plugin-compression2'
 
+interface PuppeteerConsoleMessage {
+  text: () => string;
+}
+
+interface PrerenderedRoute {
+  html: string;
+}
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
@@ -44,13 +52,11 @@ const prerenderPlugin = process.env.CI === 'true' ? null : prerender({
     ],
     maxConcurrentRoutes: 1,
     // No CI, o console do Puppeteer ajudará a identificar erros na aplicação
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    consoleHandler(msg: any) {
+    consoleHandler(msg: PuppeteerConsoleMessage) {
       console.log('[Puppeteer Console]', msg.text());
     }
   }),
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  postProcess(renderedRoute: any) {
+  postProcess(renderedRoute: PrerenderedRoute) {
     renderedRoute.html = renderedRoute.html
       .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, (match: string) => {
         return match;

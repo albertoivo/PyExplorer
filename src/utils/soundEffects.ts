@@ -6,10 +6,17 @@
 // Singleton do AudioContext
 let audioCtx: AudioContext | null = null;
 
+type WindowWithWebkitAudio = Window & typeof globalThis & {
+    webkitAudioContext?: typeof AudioContext;
+};
+
 const getAudioContext = () => {
     if (!audioCtx) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+        const AudioContextCtor = window.AudioContext || (window as WindowWithWebkitAudio).webkitAudioContext;
+        if (!AudioContextCtor) {
+            throw new Error('AudioContext API is not supported in this browser');
+        }
+        audioCtx = new AudioContextCtor();
     }
     return audioCtx;
 };
