@@ -16,7 +16,7 @@ export function ProfilePage() {
     const { userData, isGuest } = useAuth();
     const { stats, allProgress } = useProgress();
     const { achievements, unlockedAchievements, gamification, currentLevel, levelProgress } = useGamification();
-    const { getQuestionsByWorld } = useQuestionsFirestore();
+    const { getQuestionsByWorld, loading: loadingQuestions } = useQuestionsFirestore();
 
     if (!userData) {
         return (
@@ -128,15 +128,23 @@ export function ProfilePage() {
                 <div className="profile-section">
                     <h2 className="profile-section__title">🌍 Progresso nos Mundos</h2>
                     <div className="profile-worlds">
-                        {WORLDS.map(world => (
-                            <WorldProgressBar
-                                key={world.id}
-                                worldName={world.name}
-                                worldIcon={world.icon}
-                                completed={getWorldProgress(world.id).completed}
-                                total={getWorldProgress(world.id).total}
-                            />
-                        ))}
+                        {loadingQuestions ? (
+                            <>
+                                {[1, 2, 3, 4].map(i => (
+                                    <div key={i} className="profile-skeleton" />
+                                ))}
+                            </>
+                        ) : (
+                            WORLDS.map(world => (
+                                <WorldProgressBar
+                                    key={world.id}
+                                    worldName={world.name}
+                                    worldIcon={world.icon}
+                                    completed={getWorldProgress(world.id).completed}
+                                    total={getWorldProgress(world.id).total}
+                                />
+                            ))
+                        )}
                     </div>
                 </div>
 
