@@ -63,9 +63,25 @@ const prerenderPlugin = process.env.CI === 'true' ? null : prerender({
 export default defineConfig({
   envPrefix: 'VITE_',
   plugins: [
+    {
+      name: 'defer-css',
+      enforce: 'post',
+      transformIndexHtml(html) {
+        return html.replace(
+          /<link([^>]+)rel="stylesheet"([^>]*)href="([^"]+)"([^>]*)>/gi,
+          (match, _p1, _p2, p3) => {
+            // Se já for print ou tiver onload, não mexe
+            if (match.includes('media="print"')) return match;
+
+            return `<link rel="preload" href="${p3}" as="style" onload="this.onload=null;this.rel='stylesheet'" crossorigin><noscript><link rel="stylesheet" crossorigin href="${p3}"></noscript>`;
+          }
+        );
+      }
+    },
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      injectRegister: 'inline',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'robots.txt', 'sitemap.xml'],
       manifest: {
         name: 'PyExplorer - Aprenda Python Brincando',
