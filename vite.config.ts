@@ -69,7 +69,7 @@ export default defineConfig({
       transformIndexHtml(html) {
         return html.replace(
           /<link([^>]+)rel="stylesheet"([^>]*)href="([^"]+)"([^>]*)>/gi,
-          (match, p1, p2, p3, p4) => {
+          (match, _p1, _p2, p3) => {
             // Se já for print ou tiver onload, não mexe
             if (match.includes('media="print"')) return match;
 
