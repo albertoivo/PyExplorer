@@ -14,7 +14,7 @@ export function LearnPage() {
 
     return (
         <div className="learn-page">
-            <SEO title="Aprenda Python" description="Tutoriais de Python para crianças e iniciantes. Guias passo a passo e dicas para pais." />
+            <SEO title="Aprenda Python" description="Aprenda Python do zero com tutoriais gratuitos em português. Guias interativos para crianças, iniciantes e materiais de apoio para pais." />
             {/* Hero Section */}
             <section className="learn-hero">
                 <div className="learn-hero__content">

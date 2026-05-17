@@ -12,6 +12,15 @@ export function AboutPage() {
             <SEO
                 title="Sobre o PyExplorer"
                 description="Conheça a história do PyExplorer: um jogo gratuito feito no Brasil para ensinar Python para crianças."
+                structuredData={{
+                    "@context": "https://schema.org",
+                    "@type": "EducationalOrganization",
+                    "name": "PyExplorer",
+                    "url": "https://pyexplorer.com.br",
+                    "logo": "https://pyexplorer.com.br/icons/icon-512x512.png",
+                    "description": "Plataforma educacional gratuita para crianças aprenderem programação de forma divertida.",
+                    "sameAs": ["https://github.com/albertoivo/PyExplorer"]
+                }}
             />
             <header className="about-hero">
                 <h1>Sobre o PyExplorer</h1>

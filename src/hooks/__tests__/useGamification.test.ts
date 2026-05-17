@@ -376,8 +376,17 @@ describe('useGamification Hook', () => {
     });
 
     describe('Daily Reset', () => {
+        beforeEach(() => {
+            vi.useFakeTimers({ toFake: ['Date'] });
+            vi.setSystemTime(new Date('2025-01-15T12:00:00Z'));
+        });
+
+        afterEach(() => {
+            vi.useRealTimers();
+        });
+
         it('should reset usesToday if lastResetDate is old', async () => {
-            const yesterday = '2020-01-01';
+            const yesterday = '2025-01-14';
             const today = new Date().toISOString().split('T')[0];
 
             (getGamification as any).mockResolvedValue(getFullMockData({

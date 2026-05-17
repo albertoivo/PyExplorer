@@ -18,7 +18,7 @@ export function Footer() {
                         </p>
                     </div>
 
-                    <div className="footer__links">
+                    <nav className="footer__links" aria-label="Navegação de Rodapé">
                         <div className="footer__link-group">
                             <p className="footer__link-title">Aprender</p>
                             <Link to="/learn" className="footer__link">📚 Tutoriais</Link>
@@ -32,7 +32,7 @@ export function Footer() {
                             <Link to="/learn/python-para-criancas" className="footer__link">Para Pais</Link>
                             <a href="https://github.com/sponsors/albertoivo" target="_blank" rel="noopener noreferrer" className="footer__link footer__link--highlight">💜 Apoie o Projeto</a>
                         </div>
-                    </div>
+                    </nav>
                 </div>
 
                 <div className="footer__bottom">

@@ -13,7 +13,9 @@ export interface Article {
     category: 'beginner' | 'intermediate' | 'tips' | 'parents'
     readTime: number // minutos
     publishedAt: string
+    updatedAt?: string
     keywords: string[]
+    faqs?: { question: string, answer: string }[]
 }
 
 export const ARTICLES: Article[] = [
@@ -26,7 +28,18 @@ export const ARTICLES: Article[] = [
         category: 'beginner',
         readTime: 5,
         publishedAt: '2026-01-05',
+        updatedAt: '2026-05-16',
         keywords: ['o que é python', 'python para iniciantes', 'linguagem python'],
+        faqs: [
+            {
+                question: "Python é difícil de aprender?",
+                answer: "Não! Python é considerada a linguagem mais fácil de aprender, ideal para iniciantes e crianças devido à sua sintaxe simples e legível, semelhante ao inglês."
+            },
+            {
+                question: "Preciso de um computador potente para programar em Python?",
+                answer: "Não! O Python é muito leve. E com o PyExplorer, você pode rodar o código direto no navegador do seu celular ou tablet, sem precisar instalar nada."
+            }
+        ],
         content: `
 # O que é Python?
 

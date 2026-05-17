@@ -32,6 +32,14 @@ export function HomePage({ seoTitle, seoDescription }: HomePageProps) {
             <SEO
                 title={seoTitle || "Aprenda Python Jogando"}
                 description={seoDescription || "O melhor jogo educativo para crianças aprenderem Python. 100% Grátis, Seguro e Divertido!"}
+                structuredData={{
+                    "@context": "https://schema.org",
+                    "@type": "SoftwareApplication",
+                    "name": "PyExplorer",
+                    "applicationCategory": "EducationalApplication",
+                    "operatingSystem": "Web",
+                    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" }
+                }}
             />
             {/* Hero Section */}
             <section className="hero">

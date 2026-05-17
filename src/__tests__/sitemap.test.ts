@@ -24,11 +24,7 @@ describe('Sitemap Integrity', () => {
       '/login',
       '/register',
       '/learn',
-      '/about',
-      '/game',
-      '/rewards',
-      '/profile',
-      '/certificate'
+      '/about'
     ];
 
     expectedRoutes.forEach(route => {

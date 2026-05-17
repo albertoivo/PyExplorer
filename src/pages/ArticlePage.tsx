@@ -44,16 +44,45 @@ export function ArticlePage() {
         return <Navigate to="/learn" replace />
     }
 
-    const structuredData = {
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": article.title,
-        "description": article.description,
-        "datePublished": article.publishedAt,
-        "author": {
-            "@type": "Organization",
-            "name": "PyExplorer"
+    const articleUrl = `https://pyexplorer.com.br/learn/${article.slug}`;
+
+    const structuredData: Record<string, unknown>[] = [
+        {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": article.title,
+            "description": article.description,
+            "datePublished": article.publishedAt,
+            "dateModified": article.updatedAt || article.publishedAt,
+            "author": {
+                "@type": "Organization",
+                "name": "PyExplorer"
+            }
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://pyexplorer.com.br" },
+                { "@type": "ListItem", "position": 2, "name": "Aprender", "item": "https://pyexplorer.com.br/learn" },
+                { "@type": "ListItem", "position": 3, "name": article.title, "item": articleUrl }
+            ]
         }
+    ];
+
+    if (article.faqs && article.faqs.length > 0) {
+        structuredData.push({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": article.faqs.map(faq => ({
+                "@type": "Question",
+                "name": faq.question,
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": faq.answer
+                }
+            }))
+        });
     }
 
     return (
@@ -63,6 +92,7 @@ export function ArticlePage() {
                 description={article.description}
                 type="article"
                 structuredData={structuredData}
+                keywords={article.keywords}
             />
             {/* Breadcrumb */}
             <nav className="article-breadcrumb">

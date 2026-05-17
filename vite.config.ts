@@ -25,7 +25,9 @@ const prerenderPlugin = process.env.CI === 'true' ? null : prerender({
     '/learn/jogos-aprender-programacao',
     '/learn/como-ensinar-python-criancas',
     '/python-para-criancas',
-    '/aprender-python-jogando'
+    '/aprender-python-jogando',
+    '/login',
+    '/register'
   ],
   renderer: new prerender.PuppeteerRenderer({
     renderAfterDocumentEvent: 'render-event',

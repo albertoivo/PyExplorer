@@ -32,6 +32,7 @@ const LearnPage = lazy(() => import('./pages/LearnPage').then(m => ({ default: m
 const ArticlePage = lazy(() => import('./pages/ArticlePage').then(m => ({ default: m.ArticlePage })));
 const CertificatePage = lazy(() => import('./pages/CertificatePage').then(m => ({ default: m.CertificatePage })));
 const AboutPage = lazy(() => import('./pages/AboutPage').then(m => ({ default: m.AboutPage })));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
 
 // GamePage com Pyodide - lazy loaded separadamente para reduzir bundle inicial
 const GamePageWithPyodide = lazy(() =>
@@ -168,6 +169,9 @@ function App() {
                           </ProtectedRoute>
                         }
                       />
+
+                      {/* Catch-all route para página 404 */}
+                      <Route path="*" element={<NotFoundPage />} />
                     </Routes>
                   </Suspense>
                 </main>
