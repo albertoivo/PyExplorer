@@ -128,7 +128,6 @@ describe('QuestionEngine', () => {
         fireEvent.click(screen.getByText('Correct'));
 
         expect(playSound).toHaveBeenCalledWith('success');
-        // confetti is now dynamically imported
         expect(mockMascotReact).toHaveBeenCalledWith(true);
         expect(screen.getByTestId('result-panel')).toHaveTextContent('Success');
 

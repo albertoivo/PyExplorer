@@ -16,7 +16,7 @@ export function EvolutionModal() {
                     origin: { y: 0.6 },
                     colors: ['#FFD700', '#9b59b6', '#2ecc71']
                 });
-            });
+            }).catch(console.error);
         }
     }, [pet?.justEvolved]);
 
