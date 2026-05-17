@@ -1,6 +1,5 @@
 import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import confetti from 'canvas-confetti';
 import type { World, QuestionDocument, UserProgress } from '../types/question';
 import type { PowerUpType } from '../types/gamification';
 import { WorldMap } from '../components/game/WorldMap';
@@ -319,11 +318,14 @@ export function GamePage() {
 
                     // CELEBRAÇÃO DE FIM DE MUNDO 🎉
                     playSuccessSound();
-                    confetti({
-                        particleCount: 150,
-                        spread: 70,
-                        origin: { y: 0.6 },
-                        colors: ['#FFD700', '#FF4500', '#00BFFF', '#32CD32']
+                    import('canvas-confetti').then((confettiModule) => {
+                        const confetti = (confettiModule as any).default || confettiModule;
+                        confetti({
+                            particleCount: 150,
+                            spread: 70,
+                            origin: { y: 0.6 },
+                            colors: ['#FFD700', '#FF4500', '#00BFFF', '#32CD32']
+                        });
                     });
 
                     // Verifica conquistas de mundo

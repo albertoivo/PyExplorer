@@ -120,7 +120,7 @@ describe('QuestionEngine', () => {
         expect(screen.getByTestId('true-false')).toBeInTheDocument();
     });
 
-    it('handles correct answer flow', () => {
+    it('handles correct answer flow', async () => {
         render(
             <QuestionEngine
                 question={baseQuestion}
@@ -132,7 +132,12 @@ describe('QuestionEngine', () => {
         fireEvent.click(screen.getByText('Correct'));
 
         expect(playSound).toHaveBeenCalledWith('success');
-        expect(confetti).toHaveBeenCalled();
+
+        // Use vitest waitFor to handle the async dynamic import of confetti
+        await vi.waitFor(() => {
+            expect(confetti).toHaveBeenCalled();
+        });
+
         expect(mockMascotReact).toHaveBeenCalledWith(true);
         expect(screen.getByTestId('result-panel')).toHaveTextContent('Success');
 
