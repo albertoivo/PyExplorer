@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import confetti from 'canvas-confetti';
 import { useGamification } from '../../../context/GamificationContext';
 import { PetAvatar } from './PetAvatar';
 import './EvolutionModal.css';
@@ -9,11 +8,14 @@ export function EvolutionModal() {
 
     useEffect(() => {
         if (pet?.justEvolved) {
-            confetti({
-                particleCount: 200,
-                spread: 100,
-                origin: { y: 0.6 },
-                colors: ['#FFD700', '#9b59b6', '#2ecc71']
+            import('canvas-confetti').then((confettiModule) => {
+                const confetti = (confettiModule as any).default || confettiModule;
+                confetti({
+                    particleCount: 200,
+                    spread: 100,
+                    origin: { y: 0.6 },
+                    colors: ['#FFD700', '#9b59b6', '#2ecc71']
+                });
             });
         }
     }, [pet?.justEvolved]);
