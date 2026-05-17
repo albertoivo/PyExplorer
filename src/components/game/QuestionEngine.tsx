@@ -1,4 +1,3 @@
-import confetti from 'canvas-confetti';
 import { useState, useCallback } from 'react';
 import type { QuestionDocument, UserAnswer } from '../../types/question';
 import type { HintLevel } from '../../types/education';
@@ -120,12 +119,15 @@ export function QuestionEngine({
         mascotReact(correct);
 
         if (correct) {
-            confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0.6 },
-                colors: ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4']
-            });
+            import('canvas-confetti').then((module) => {
+                const confetti = module.default;
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4']
+                });
+            }).catch(console.error);
             playSound('success');
         } else {
             playSound('error');

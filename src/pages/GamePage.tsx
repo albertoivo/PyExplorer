@@ -1,6 +1,5 @@
 import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import confetti from 'canvas-confetti';
 import type { World, QuestionDocument, UserProgress } from '../types/question';
 import type { PowerUpType } from '../types/gamification';
 import { WorldMap } from '../components/game/WorldMap';

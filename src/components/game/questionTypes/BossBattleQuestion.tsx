@@ -1,5 +1,6 @@
 import { useState, useEffect, memo, useMemo, useCallback } from 'react';
-import Editor from '@monaco-editor/react';
+import { lazy, Suspense } from 'react';
+const Editor = lazy(() => import('@monaco-editor/react'));
 import type { QuestionDocument, PythonExecutionResult } from '../../../types/question';
 import './BossBattleQuestion.css';
 
@@ -133,14 +134,14 @@ export const BossBattleQuestion = memo(function BossBattleQuestion({ question, o
 
             {/* Editor de Código */}
             <div className="boss-editor-wrapper">
-                <Editor
+                <Suspense fallback={<div>Carregando editor...</div>}><Editor
                     height="300px"
                     defaultLanguage="python"
                     value={code}
                     onChange={handleEditorChange}
                     theme="vs-dark"
                     options={editorOptions}
-                />
+                /></Suspense>
             </div>
 
             {/* Controles */}

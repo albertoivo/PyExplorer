@@ -266,7 +266,7 @@ export default defineConfig({
             if (id.includes('canvas-confetti')) {
               return 'confetti-vendor';
             }
-            return 'vendor';
+            if (id.includes('monaco-editor')) return 'monaco-vendor'; if (id.includes('html2canvas') || id.includes('jspdf')) return 'pdf-vendor'; return 'vendor';
           }
         }
       }
