@@ -5,7 +5,6 @@ import { useAuth } from '../../../hooks/useAuth';
 import { usePyodide } from '../../../context/PyodideContext';
 import { useMascotContext } from '../../../context/MascotContext';
 import { playSound } from '../../../utils/soundEffects';
-import confetti from 'canvas-confetti';
 import type { QuestionDocument } from '../../../types/question';
 
 // Mocks
@@ -13,9 +12,6 @@ vi.mock('../../../hooks/useAuth');
 vi.mock('../../../context/PyodideContext');
 vi.mock('../../../context/MascotContext');
 vi.mock('../../../utils/soundEffects');
-vi.mock('canvas-confetti', () => ({
-    default: vi.fn(),
-}));
 
 // Mock Child Components
 vi.mock('../questionTypes', () => ({

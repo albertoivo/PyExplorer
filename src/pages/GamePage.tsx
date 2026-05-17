@@ -318,12 +318,15 @@ export function GamePage() {
 
                     // CELEBRAÇÃO DE FIM DE MUNDO 🎉
                     playSuccessSound();
-                    confetti({
-                        particleCount: 150,
-                        spread: 70,
-                        origin: { y: 0.6 },
-                        colors: ['#FFD700', '#FF4500', '#00BFFF', '#32CD32']
-                    });
+                    import('canvas-confetti').then((module) => {
+                        const confetti = module.default;
+                        confetti({
+                            particleCount: 150,
+                            spread: 70,
+                            origin: { y: 0.6 },
+                            colors: ['#FFD700', '#FF4500', '#00BFFF', '#32CD32']
+                        });
+                    }).catch(console.error);
 
                     // Verifica conquistas de mundo
                     const totalWorldsCompleted = Array.from(worldProgress.values())
