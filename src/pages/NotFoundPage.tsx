@@ -16,7 +16,7 @@ export function NotFoundPage() {
                     Parece que você se perdeu no labirinto de Python! Essa página sumiu no meio da floresta de código.
                 </p>
                 <div className="not-found-actions">
-                    <Link to="/" className="hero__btn hero__btn--primary">
+                    <Link to="/" className="hero__btn hero__btn--primary not-found-btn">
                         🏠 Voltar para o Início
                     </Link>
                 </div>

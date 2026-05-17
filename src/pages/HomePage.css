@@ -80,6 +80,7 @@
 }
 
 .hero__btn--primary:hover {
+    color: #1a1a2e;
     transform: translateY(-3px);
     box-shadow: 0 8px 30px rgba(0, 217, 255, 0.4);
 }
