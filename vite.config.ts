@@ -260,9 +260,6 @@ export default defineConfig({
             if (id.includes('pyodide')) {
               return 'pyodide-vendor';
             }
-            if (id.includes('@monaco-editor') || id.includes('monaco-editor')) {
-              return 'monaco-vendor';
-            }
             if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom') || id.includes('scheduler')) {
               return 'react-vendor';
             }
