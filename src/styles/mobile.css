@@ -81,6 +81,7 @@
         justify-content: center;
         gap: 0.5rem;
         padding-top: 0.5rem;
+        padding-bottom: 0.25rem;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
         margin-top: 0.5rem;
         overflow-x: auto;
@@ -91,6 +92,7 @@
         padding: 0.5rem 0.75rem;
         font-size: 0.75rem;
         white-space: nowrap;
+        margin: 0;
     }
 
     .header__user {
