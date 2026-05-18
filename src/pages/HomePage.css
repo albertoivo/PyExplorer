@@ -544,6 +544,14 @@
         font-size: 1.05rem;
     }
 
+    .hero__actions {
+        flex-direction: column;
+        gap: 1.25rem;
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+
     .hero__btn {
         width: 100%;
         justify-content: center;
