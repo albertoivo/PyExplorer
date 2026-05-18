@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback } from 'react';
+import { createContext, useContext, useState, useCallback, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import type { TestCase, TestResult, PythonExecutionResult } from '../types/question';
 import { TURTLE_PYTHON_SHIM } from '../components/game/turtle/turtle-python-shim';
@@ -399,7 +399,7 @@ sys.stderr = sys.__stderr__
         }
     }, [pyodide, ready]);
 
-    const value: PyodideContextType = {
+    const value = useMemo<PyodideContextType>(() => ({
         ready,
         loading,
         executing,
@@ -407,7 +407,7 @@ sys.stderr = sys.__stderr__
         loadingProgress,
         runPython,
         loadPyodide,
-    };
+    }), [ready, loading, executing, error, loadingProgress, runPython, loadPyodide]);
 
     return (
         <PyodideContext.Provider value={value}>

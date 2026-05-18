@@ -536,17 +536,135 @@ export function useGamification() {
         return hydrateMissions(gamification.activeMissions || []);
     }, [gamification.activeMissions]);
 
-    return {
+    const buyShopItem = useCallback((itemId: string, price: number) => {
+        const result = buyShopItemLogic(gamification, itemId, price, userData?.balance || 0);
+        if (result.success) {
+            let finalState = result.newState;
+            // Check Fashionista/Personal Museum
+            const unlockedIds = checkAchievementsLogic(finalState, (userData?.balance || 0) - price);
+            unlockedIds.forEach(id => {
+                const r = unlockAchievementLogic(finalState, id);
+                if (r.success) {
+                    finalState = r.newState;
+                    const a = ACHIEVEMENTS.find(x => x.id === id);
+                    if (a) safeAddAchievement(a);
+                }
+            });
+
+            setGamification(finalState);
+            saveGamification(finalState);
+            updateUserData({ balance: (userData?.balance || 0) - price });
+            return true;
+        }
+        return false;
+    }, [gamification, userData, saveGamification, updateUserData, safeAddAchievement]);
+
+    const equipItem = useCallback((itemId: string, type: 'avatar' | 'frame' | 'title') => {
+        // Use ref to get latest state (avoids stale closure from setTimeout in AvatarShop)
+        const currentState = gamificationRef.current;
+        const newState = equipItemLogic(currentState, itemId, type);
+        setGamification(newState);
+        saveGamification(newState);
+    }, [saveGamification]);
+
+    const markAchievementSeen = useCallback((achievementId: string) => {
+        const newState = markAchievementSeenLogic(gamification, achievementId);
+        setGamification(newState);
+        saveGamification(newState);
+        setNewAchievements(prev => prev.filter(a => a.id !== achievementId));
+    }, [gamification, saveGamification]);
+
+    const claimMissionReward = useCallback((missionId: string) => {
+        const { success, newState, rewards, levelUp } = claimMissionRewardLogic(gamification, missionId);
+        if (success) {
+            updateUserData({
+                balance: (userData?.balance || 0) + rewards.stars,
+                totalScore: newState.level.totalXP
+            });
+
+            // Check Achievements (Magnata)
+            const newBalance = (userData?.balance || 0) + rewards.stars;
+            const unlockedIds = checkAchievementsLogic(newState, newBalance);
+            let finalState = newState;
+            unlockedIds.forEach(id => {
+                const r = unlockAchievementLogic(finalState, id);
+                if (r.success) {
+                    finalState = r.newState;
+                    const a = ACHIEVEMENTS.find(x => x.id === id);
+                    if (a) safeAddAchievement(a);
+                }
+            });
+
+            if (levelUp) setShowLevelUp(levelUp);
+            setGamification(finalState);
+            saveGamification(finalState);
+        }
+    }, [gamification, userData, updateUserData, saveGamification, safeAddAchievement]);
+
+    const dismissLevelUp = useCallback(() => setShowLevelUp(null), []);
+
+    const usePowerUp = useCallback((powerUpType: PowerUpType) => {
+        const result = consumePowerUpLogic(gamification, powerUpType);
+        if (result.success) {
+            setGamification(result.newState);
+            console.log(`✅ Power-up usado: ${powerUpType}`);
+            saveGamification(result.newState);
+            return true;
+        }
+        return false;
+    }, [gamification, saveGamification]);
+
+    const buyPowerUp = useCallback((powerUpType: PowerUpType, price: number) => {
+        const result = buyPowerUpLogic(gamification, powerUpType, price, userData?.balance || 0);
+        if (result.success) {
+            setGamification(result.newState);
+            console.log(`✅ Power-up comprado: ${powerUpType}`);
+            saveGamification(result.newState);
+            updateUserData({ balance: (userData?.balance || 0) - price });
+            return true;
+        }
+        return false;
+    }, [gamification, userData, updateUserData, saveGamification]);
+
+    const dismissMissionNotification = useCallback(() => setMissionNotification(null), []);
+
+    const feedPetCallback = useCallback(() => {
+        const COST = 10;
+        const balance = userData?.balance || 0;
+
+        if (balance < COST) return false;
+
+        const currentPet = gamification.pet || getInitialPet();
+        // Prevent feeding if full?
+        if (currentPet.hunger >= 100) return false;
+
+        const newPet = feedPet(currentPet);
+        const newState = { ...gamification, pet: newPet };
+
+        setGamification(newState);
+        saveGamification(newState);
+        updateUserData({ balance: balance - COST });
+        return true;
+    }, [gamification, userData, updateUserData, saveGamification]);
+
+    const dismissPetEvolutionCallback = useCallback(() => {
+        if (!gamification.pet) return;
+        const newPet = { ...gamification.pet, justEvolved: false };
+        const newState = { ...gamification, pet: newPet };
+        setGamification(newState);
+        saveGamification(newState);
+    }, [gamification, saveGamification]);
+
+    return useMemo(() => ({
         // State
         gamification,
         loading,
         currentLevel,
         levelProgress,
-        streak: gamification.streak, // UPDATED: Source of truth is now gamification
+        streak: gamification.streak, // Source of truth is now gamification
         activeMissions: gamification?.activeMissions || [],
         inventory: gamification?.inventory,
         powerUps: gamification?.powerUps,
-
 
         // UI State
         showLevelUp,
@@ -561,129 +679,44 @@ export function useGamification() {
         // Actions
         recordQuestionCompleted,
         checkWorldAchievements,
-
-        buyShopItem: useCallback((itemId: string, price: number) => {
-            const result = buyShopItemLogic(gamification, itemId, price, userData?.balance || 0);
-            if (result.success) {
-                let finalState = result.newState;
-                // Check Fashionista/Personal Museum
-                const unlockedIds = checkAchievementsLogic(finalState, (userData?.balance || 0) - price);
-                unlockedIds.forEach(id => {
-                    const r = unlockAchievementLogic(finalState, id);
-                    if (r.success) {
-                        finalState = r.newState;
-                        const a = ACHIEVEMENTS.find(x => x.id === id);
-                        if (a) safeAddAchievement(a);
-                    }
-                });
-
-                setGamification(finalState);
-                saveGamification(finalState);
-                updateUserData({ balance: (userData?.balance || 0) - price });
-                return true;
-            }
-            return false;
-        }, [gamification, userData, saveGamification, updateUserData, safeAddAchievement]),
-
-        equipItem: useCallback((itemId: string, type: 'avatar' | 'frame' | 'title') => {
-            // Use ref to get latest state (avoids stale closure from setTimeout in AvatarShop)
-            const currentState = gamificationRef.current;
-            const newState = equipItemLogic(currentState, itemId, type);
-            setGamification(newState);
-            saveGamification(newState);
-        }, [saveGamification]),
-
-        markAchievementSeen: useCallback((achievementId: string) => {
-            const newState = markAchievementSeenLogic(gamification, achievementId);
-            setGamification(newState);
-            saveGamification(newState);
-            setNewAchievements(prev => prev.filter(a => a.id !== achievementId));
-        }, [gamification, saveGamification]),
-
-        claimMissionReward: useCallback((missionId: string) => {
-            const { success, newState, rewards, levelUp } = claimMissionRewardLogic(gamification, missionId);
-            if (success) {
-                updateUserData({
-                    balance: (userData?.balance || 0) + rewards.stars,
-                    totalScore: newState.level.totalXP
-                });
-
-                // Check Achievements (Magnata)
-                const newBalance = (userData?.balance || 0) + rewards.stars;
-                const unlockedIds = checkAchievementsLogic(newState, newBalance);
-                let finalState = newState;
-                unlockedIds.forEach(id => {
-                    const r = unlockAchievementLogic(finalState, id);
-                    if (r.success) {
-                        finalState = r.newState;
-                        const a = ACHIEVEMENTS.find(x => x.id === id);
-                        if (a) safeAddAchievement(a);
-                    }
-                });
-
-                if (levelUp) setShowLevelUp(levelUp);
-                setGamification(finalState);
-                saveGamification(finalState);
-            }
-        }, [gamification, userData, updateUserData, saveGamification, safeAddAchievement]),
-
-        dismissLevelUp: useCallback(() => setShowLevelUp(null), []),
-
+        buyShopItem,
+        equipItem,
+        markAchievementSeen,
+        claimMissionReward,
+        dismissLevelUp,
         userPowerUps: gamification.powerUps,
-
-        usePowerUp: useCallback((powerUpType: PowerUpType) => {
-            const result = consumePowerUpLogic(gamification, powerUpType);
-            if (result.success) {
-                setGamification(result.newState);
-                console.log(`✅ Power-up usado: ${powerUpType}`);
-                saveGamification(result.newState);
-                return true;
-            }
-            return false;
-        }, [gamification, saveGamification]),
-
-        buyPowerUp: useCallback((powerUpType: PowerUpType, price: number) => {
-            const result = buyPowerUpLogic(gamification, powerUpType, price, userData?.balance || 0);
-            if (result.success) {
-                setGamification(result.newState);
-                console.log(`✅ Power-up comprado: ${powerUpType}`);
-                saveGamification(result.newState);
-                updateUserData({ balance: (userData?.balance || 0) - price });
-                return true;
-            }
-            return false;
-        }, [gamification, userData, updateUserData, saveGamification]),
-
+        usePowerUp,
+        buyPowerUp,
         missionNotification,
-        dismissMissionNotification: useCallback(() => setMissionNotification(null), []),
+        dismissMissionNotification,
 
         // Pet
         pet: gamification.pet,
-        feedPet: useCallback(() => {
-            const COST = 10;
-            const balance = userData?.balance || 0;
-
-            if (balance < COST) return false;
-
-            const currentPet = gamification.pet || getInitialPet();
-            // Prevent feeding if full?
-            if (currentPet.hunger >= 100) return false;
-
-            const newPet = feedPet(currentPet);
-            const newState = { ...gamification, pet: newPet };
-
-            setGamification(newState);
-            saveGamification(newState);
-            updateUserData({ balance: balance - COST });
-            return true;
-        }, [gamification, userData, updateUserData, saveGamification]),
-
-        dismissPetEvolution: useCallback(() => {
-            if (!gamification.pet) return;
-            const newPet = { ...gamification.pet, justEvolved: false };
-            const newState = { ...gamification, pet: newPet };
-            setGamification(newState);
-            saveGamification(newState);
-        }, [gamification, saveGamification]),
-    };
+        feedPet: feedPetCallback,
+        dismissPetEvolution: dismissPetEvolutionCallback,
+    }), [
+        gamification,
+        loading,
+        currentLevel,
+        levelProgress,
+        showLevelUp,
+        dailyMissions,
+        weeklyMissions,
+        achievements,
+        unlockedAchievements,
+        newAchievements,
+        recordQuestionCompleted,
+        checkWorldAchievements,
+        buyShopItem,
+        equipItem,
+        markAchievementSeen,
+        claimMissionReward,
+        dismissLevelUp,
+        usePowerUp,
+        buyPowerUp,
+        missionNotification,
+        dismissMissionNotification,
+        feedPetCallback,
+        dismissPetEvolutionCallback,
+    ]);
 }

@@ -1,4 +1,4 @@
-import { useContext, type ReactNode } from 'react';
+import { useContext, useMemo, type ReactNode } from 'react';
 import { GamificationContext } from './GamificationContextDefinition';
 import { useGamification as useGamificationHook } from '../hooks/useGamification';
 
@@ -7,8 +7,9 @@ import { useGamification as useGamificationHook } from '../hooks/useGamification
  */
 export function GamificationProvider({ children }: { children: ReactNode }) {
     const gamification = useGamificationHook();
+    const contextValue = useMemo(() => gamification, [gamification]);
     return (
-        <GamificationContext.Provider value={gamification}>
+        <GamificationContext.Provider value={contextValue}>
             {children}
         </GamificationContext.Provider>
     );
