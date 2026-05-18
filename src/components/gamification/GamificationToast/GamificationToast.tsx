@@ -27,7 +27,11 @@ export function AchievementToast({ achievement, onClose }: AchievementToastProps
     }, [onClose]);
 
     return (
-        <div className={`toast toast--achievement ${isVisible ? 'toast--visible' : ''}`}>
+        <div 
+            className={`toast toast--achievement ${isVisible ? 'toast--visible' : ''}`}
+            role="status"
+            aria-live="polite"
+        >
             <div className="toast__glow" />
 
             <div className="toast__icon">{achievement.icon}</div>
@@ -81,6 +85,8 @@ export function LevelUpToast({ level, onClose }: LevelUpToastProps) {
         <div
             className={`toast toast--levelup ${isVisible ? 'toast--visible' : ''}`}
             style={{ '--level-color': level.color } as React.CSSProperties}
+            role="status"
+            aria-live="assertive"
         >
             <div className="toast__glow toast__glow--levelup" />
 
