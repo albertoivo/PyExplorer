@@ -81,6 +81,11 @@ export function GamePage() {
         getQuestionProgressRef.current = getQuestionProgress;
     }, [getQuestionProgress]);
 
+    // Rola para o topo sempre que mudar a visualização ou a questão ativa no jogo
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [view, currentQuestion]);
+
     // Mission Notification Timer
     useEffect(() => {
         if (missionNotification) {

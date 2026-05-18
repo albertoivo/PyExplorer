@@ -11,6 +11,7 @@ import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { ProtectedRoute } from './components/layout/ProtectedRoute';
 import { OfflineIndicator } from './components/layout/OfflineIndicator';
+import { ScrollToTop } from './components/layout/ScrollToTop';
 
 // Mascot - lazy loaded para reduzir bundle inicial
 const Mascot = lazy(() => import('./components/mascot').then(m => ({ default: m.Mascot })));
@@ -105,6 +106,7 @@ function GlobalToasts() {
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <HelmetProvider>
         <AuthProvider>
           <GamificationProvider>
