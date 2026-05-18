@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import type { User } from 'firebase/auth';
 import { resetLoginRedirectFlag } from '../utils/authRedirect';
@@ -128,7 +128,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     /**
      * Faz login com Google
      */
-    const loginWithGoogle = async () => {
+    const loginWithGoogle = useCallback(async () => {
         setError(null);
         setLoading(true);
         try {
@@ -192,12 +192,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
             setLoading(false);
             throw err;
         }
-    };
+    }, []);
 
     /**
      * Faz login com email e senha
      */
-    const login = async (email: string, password: string) => {
+    const login = useCallback(async (email: string, password: string) => {
         setError(null);
         setLoading(true);
         try {
@@ -209,12 +209,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
         } finally {
             setLoading(false);
         }
-    };
+    }, []);
 
     /**
      * Cadastra novo usuário
      */
-    const register = async (email: string, password: string, displayName: string) => {
+    const register = useCallback(async (email: string, password: string, displayName: string) => {
         setError(null);
         setLoading(true);
         try {
@@ -242,12 +242,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
         } finally {
             setLoading(false);
         }
-    };
+    }, []);
 
     /**
      * Faz logout
      */
-    const logout = async () => {
+    const logout = useCallback(async () => {
         setError(null);
         try {
             if (isGuest) {
@@ -264,12 +264,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
             setError(message);
             throw err;
         }
-    };
+    }, [isGuest]);
 
     /**
      * Envia email de redefinição de senha
      */
-    const sendPasswordReset = async (email: string) => {
+    const sendPasswordReset = useCallback(async (email: string) => {
         setError(null);
         try {
             await resetPassword(email);
@@ -278,12 +278,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
             setError(translateFirebaseError(message));
             throw err;
         }
-    };
+    }, []);
 
     /**
      * Entra como convidado (sem autenticação)
      */
-    const enterAsGuest = (displayName: string) => {
+    const enterAsGuest = useCallback((displayName: string) => {
         const guestData: UserData = {
             uid: 'guest_' + Date.now(),
             displayName,
@@ -299,27 +299,27 @@ export function AuthProvider({ children }: AuthProviderProps) {
         localStorage.setItem(GUEST_KEY, JSON.stringify(guestData));
         setUserData(guestData);
         setIsGuest(true);
-    };
+    }, []);
 
     /**
      * Limpa mensagem de erro
      */
-    const clearError = () => setError(null);
+    const clearError = useCallback(() => setError(null), []);
 
     /**
      * Recarrega dados do usuário do Firestore
      */
-    const refreshUserData = async () => {
+    const refreshUserData = useCallback(async () => {
         if (user && !isGuest) {
             const data = await getUser(user.uid);
             setUserData(data);
         }
-    };
+    }, [user, isGuest]);
 
     /**
      * Atualiza dados do usuário
      */
-    const updateUserData = async (updates: Partial<UserData>) => {
+    const updateUserData = useCallback(async (updates: Partial<UserData>) => {
         if (!userData) return;
 
         const newData = { ...userData, ...updates, updatedAt: new Date() };
@@ -334,9 +334,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 console.error('Erro ao atualizar dados:', err);
             }
         }
-    };
+    }, [userData, isGuest, user]);
 
-    const value: AuthContextType = {
+    const value = useMemo<AuthContextType>(() => ({
         user,
         userData,
         loading,
@@ -351,7 +351,22 @@ export function AuthProvider({ children }: AuthProviderProps) {
         refreshUserData,
         updateUserData,
         loginWithGoogle,
-    };
+    }), [
+        user,
+        userData,
+        loading,
+        isGuest,
+        error,
+        login,
+        register,
+        logout,
+        sendPasswordReset,
+        enterAsGuest,
+        clearError,
+        refreshUserData,
+        updateUserData,
+        loginWithGoogle,
+    ]);
 
     return (
         <AuthContext.Provider value={value}>

@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react';
-import html2canvas from 'html2canvas';
-// jsPDF is now lazy-loaded for performance (591KB -> only loaded when needed)
+// jsPDF and html2canvas are now lazy-loaded for performance
 import './CertificateGenerator.css';
 
 interface CertificateGeneratorProps {
@@ -21,15 +20,17 @@ export function CertificateGenerator({ studentName, completionDate }: Certificat
         setIsGenerating(true);
 
         try {
-            // Lazy load jsPDF only when needed (saves ~175KB gzip on initial load)
-            const [{ default: jsPDF }, canvas] = await Promise.all([
+            // Lazy load jsPDF and html2canvas only when needed
+            const [{ default: jsPDF }, { default: html2canvas }] = await Promise.all([
                 import('jspdf'),
-                html2canvas(certificateRef.current, {
-                    scale: 2, // Higher resolution
-                    useCORS: true,
-                    backgroundColor: '#1e1e2e', // Match theme
-                })
+                import('html2canvas')
             ]);
+
+            const canvas = await html2canvas(certificateRef.current, {
+                scale: 2, // Higher resolution
+                useCORS: true,
+                backgroundColor: '#1e1e2e', // Match theme
+            });
             console.log('html2canvas done');
 
             const imgData = canvas.toDataURL('image/png');
