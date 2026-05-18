@@ -9,6 +9,9 @@ interface SEOProps {
     type?: 'website' | 'article';
     structuredData?: Record<string, unknown> | Record<string, unknown>[];
     keywords?: string[];
+    publishedTime?: string;
+    modifiedTime?: string;
+    authorName?: string;
 }
 
 export function SEO({
@@ -18,7 +21,10 @@ export function SEO({
     ogImage,
     type = 'website',
     structuredData,
-    keywords
+    keywords,
+    publishedTime,
+    modifiedTime,
+    authorName
 }: SEOProps) {
     const siteTitle = 'PyExplorer';
     const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
@@ -63,6 +69,14 @@ export function SEO({
             <meta property="og:description" content={metaDescription} />
             <meta property="og:url" content={canonicalUrl} />
             <meta property="og:image" content={resolvedOgImage} />
+            {type === 'article' && (
+                <>
+                    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+                    {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+                    <meta property="article:author" content={authorName || 'PyExplorer'} />
+                    <meta property="article:section" content="Educação Tecnológica" />
+                </>
+            )}
 
             {/* Twitter */}
             <meta name="twitter:creator" content="@pyexplorer" />
