@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { useGamification } from '../../context/GamificationContext';
 import { SHOP_ITEMS } from '../../data/gamificationData';
+import reactLogo from '../../assets/react.svg';
 import './Header.css';
 
 /**
@@ -119,7 +120,7 @@ export function Header() {
                         <div className="header__loading">Carregando...</div>
                     ) : userData ? (
                         <div className="header__user-info">
-                            <img src="/src/assets/react.svg" className="header__avatar" alt="Avatar do usuário" />
+                            <img src={reactLogo} className="header__avatar" alt="Avatar do usuário" />
                             <div className="header__user-details">
                                 <span className="header__user-name">{userData.displayName}</span>
                                 <p className="header__user-level">Nível {currentLevel?.level || 1}</p>
