@@ -34,8 +34,8 @@ export function HomePage({ seoTitle, seoDescription }: HomePageProps) {
             return () => window.cancelIdleCallback(idleId);
         }
 
-        const timeoutId = window.setTimeout(runAfterIdle, 600);
-        return () => window.clearTimeout(timeoutId);
+        const timeoutId = setTimeout(runAfterIdle, 600);
+        return () => clearTimeout(timeoutId);
     }, []);
 
     // Preload Pyodide script on hover for faster game start
