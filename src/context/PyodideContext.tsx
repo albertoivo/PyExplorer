@@ -23,8 +23,7 @@ interface PyodideContextType {
     loadPyodide: () => Promise<void>;
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const PyodideContext = createContext<PyodideContextType | undefined>(undefined);
+const PyodideContext = createContext<PyodideContextType | undefined>(undefined);
 
 interface PyodideProviderProps {
     children: ReactNode;
@@ -476,5 +475,3 @@ function formatPythonError(error: string): string {
     return formatted;
 }
 
-// Fast refresh doesn't allow exporting default non-component value if file exports components
-export default PyodideContext;

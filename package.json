@@ -8,10 +8,12 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "vitest",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:rules": "firebase emulators:exec --project pyexplorer-test 'vitest run -c vitest.rules.config.ts'",
+    "test:rules:watch": "firebase emulators:exec --project pyexplorer-test 'vitest -c vitest.rules.config.ts'",
     "sitemap": "node scripts/generate-sitemap.cjs",
     "prepare": "husky"
   },

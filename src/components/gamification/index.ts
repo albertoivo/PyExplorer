@@ -9,7 +9,5 @@ export * from './GamificationToast/GamificationToast';
 export * from './Leaderboard/Leaderboard';
 export * from './UserAvatar';
 export {
-    AchievementToast,
-    LevelUpToast,
     GamificationToastContainer
 } from './GamificationToast/GamificationToast';

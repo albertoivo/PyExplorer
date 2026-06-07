@@ -4,8 +4,7 @@ import { getAuth, inMemoryPersistence, initializeAuth } from 'firebase/auth';
 import type { Auth } from 'firebase/auth';
 import { disableNetwork, initializeFirestore } from 'firebase/firestore';
 import type { Firestore } from 'firebase/firestore';
-import { getAnalytics } from 'firebase/analytics';
-import type { Analytics } from 'firebase/analytics';
+
 import { env } from '../config/env';
 
 /**
@@ -52,7 +51,6 @@ if (missingKeys.length > 0) {
 let app: FirebaseApp;
 let auth: Auth;
 let db: Firestore;
-let analytics: Analytics | null = null;
 
 try {
     app = initializeApp(firebaseConfig);
@@ -76,13 +74,10 @@ try {
         });
     }
 
-    if (!env.IS_AUDIT_BOT && typeof window !== 'undefined') {
-        analytics = getAnalytics(app);
-    }
+
 } catch (error) {
     console.error('Erro ao inicializar Firebase:', error);
     throw error;
 }
 
-export { app, auth, db, analytics };
-export default app;
+export { app, auth, db };

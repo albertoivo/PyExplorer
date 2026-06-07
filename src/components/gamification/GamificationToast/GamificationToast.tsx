@@ -10,7 +10,7 @@ interface AchievementToastProps {
 /**
  * Toast de conquista desbloqueada
  */
-export function AchievementToast({ achievement, onClose }: AchievementToastProps) {
+function AchievementToast({ achievement, onClose }: AchievementToastProps) {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
@@ -67,7 +67,7 @@ interface LevelUpToastProps {
 /**
  * Toast de level up
  */
-export function LevelUpToast({ level, onClose }: LevelUpToastProps) {
+function LevelUpToast({ level, onClose }: LevelUpToastProps) {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {

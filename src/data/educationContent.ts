@@ -826,12 +826,8 @@ export const FLASHCARDS: Flashcard[] = [
     { id: 'fc_error_4', worldId: 'error_handling', emoji: '✅', difficulty: 'medium', question: 'O programa para após try/except?', answer: 'Não! Ele continua normalmente', hint: 'except captura o erro' },
 ];
 
-// ============================================
-// DICAS PROGRESSIVAS PADRÃO
-// ============================================
-
 /** Gera dicas padrão baseadas na questão */
-export function generateDefaultHints(questionId: string, explanation: string): QuestionHints {
+function generateDefaultHints(questionId: string, explanation: string): QuestionHints {
     // Divide a explicação em partes para criar dicas progressivas
     const words = explanation.split(' ');
     const third = Math.ceil(words.length / 3);
@@ -859,7 +855,7 @@ export function generateDefaultHints(questionId: string, explanation: string): Q
 }
 
 /** Mapa de dicas customizadas por questão */
-export const CUSTOM_HINTS: Record<string, QuestionHints> = {
+const CUSTOM_HINTS: Record<string, QuestionHints> = {
     basic_1: {
         questionId: 'basic_1',
         hints: [

@@ -1,14 +1,13 @@
 import type { UserPet, PetType, PetMood } from '../types/gamification';
 
-export const PET_LEVELS = {
+const PET_LEVELS = {
     EGG_HATCH: 2, // Eclode no nível 2
     TEEN: 10,
     ADULT: 25
 };
 
-export const XP_PER_QUESTION = 10;
 export const MAX_HUNGER = 100;
-export const HUNGER_DECAY_PER_HOUR = 5;
+const HUNGER_DECAY_PER_HOUR = 5;
 export const FEED_RESTORE_AMOUNT = 30;
 
 /**

@@ -38,16 +38,3 @@ export const ALL_QUESTIONS: QuestionDocument[] = [
     ...Object.values(ALL_QUESTIONS_BY_WORLD).flat()
 ];
 
-export {
-    basicCommandsQuestions,
-    variablesQuestions,
-    numbersQuestions,
-    conditionsQuestions,
-    loopsQuestions,
-    functionsQuestions,
-    listsQuestions,
-    stringsQuestions,
-    userInputQuestions,
-    dictionariesQuestions,
-    errorHandlingQuestions,
-};
