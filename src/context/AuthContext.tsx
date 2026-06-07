@@ -32,10 +32,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
         // fluxo de redirect/listener do Firebase Auth para não gerar iframes/requests
         // que poluem o relatório de Best Practices.
         if (env.IS_AUDIT_BOT) {
-            setUser(null);
-            setUserData(null);
-            setIsGuest(false);
-            setLoading(false);
+            setTimeout(() => {
+                setUser(null);
+                setUserData(null);
+                setIsGuest(false);
+                setLoading(false);
+            }, 0);
             return;
         }
 
@@ -189,7 +191,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
             // Se for popup fechado (frequente no mobile), cai no redirect
             const errorCode = (err as { code?: string })?.code;
             if (errorCode === 'auth/popup-closed-by-user' || errorCode === 'auth/cancelled-popup-request') {
-                console.log('Popup bloqueado ou fechado, tentando redirect...');
                 try {
                     await signInWithGoogleRedirect();
                     return; // a página será redirecionada

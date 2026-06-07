@@ -70,8 +70,6 @@ export async function autoSyncQuestions(): Promise<{ synced: boolean; count: num
         // Isso cobre tanto ADIÇÃO quanto ATUALIZAÇÃO.
         const toUpsert = ALL_QUESTIONS;
 
-        console.log(`🔄 Sincronizando: ${toUpsert.length} questões para atualizar/inserir, -${toRemove.length} removidas`);
-
         // Usa batch para operações em lote (limite de 500 por batch)
         const BATCH_SIZE = 450; // Margem de segurança
 
@@ -102,7 +100,6 @@ export async function autoSyncQuestions(): Promise<{ synced: boolean; count: num
         }
 
         const message = `Sincronizado: ${toUpsert.length} atualizadas/verificadas, ${toRemove.length > 0 ? `-${toRemove.length} removidas` : ''}`.trim();
-        console.log(`✅ ${message}`);
 
         return { synced: true, count: localCount, message };
     } catch (error) {
@@ -110,7 +107,6 @@ export async function autoSyncQuestions(): Promise<{ synced: boolean; count: num
 
         // Se for erro de permissão, silencia - usuário não é admin e isso é esperado
         if (errorMessage.includes('permission') || errorMessage.includes('Permission')) {
-            console.log('ℹ️ Sync skipped: usuário não tem permissão de escrita (apenas admin pode sincronizar questões)');
             return { synced: false, count: ALL_QUESTIONS.length, message: 'Usando questões locais' };
         }
 
@@ -144,7 +140,6 @@ export async function fetchAllQuestions(): Promise<QuestionDocument[]> {
         const querySnapshot = await getDocs(collection(db, QUESTIONS_COLLECTION));
 
         if (querySnapshot.empty) {
-            console.log('Firestore vazio, usando questões locais');
             return ALL_QUESTIONS;
         }
 
@@ -152,7 +147,6 @@ export async function fetchAllQuestions(): Promise<QuestionDocument[]> {
             deserializeFromFirestore(docSnap.data(), docSnap.id)
         );
 
-        console.log(`📚 ${questions.length} questões carregadas do Firestore`);
         return questions;
     } catch (error) {
         console.warn('Erro ao buscar questões do Firestore, usando fallback local:', error);
@@ -193,7 +187,6 @@ export async function forceSeedQuestions(): Promise<{ success: boolean; count: n
         });
 
         await deleteBatch.commit();
-        console.log(`🗑️ ${existingDocs.size} questões antigas deletadas`);
 
         // Agora insere as novas
         const insertBatch = writeBatch(db);
@@ -206,7 +199,6 @@ export async function forceSeedQuestions(): Promise<{ success: boolean; count: n
 
         await insertBatch.commit();
 
-        console.log(`✅ ${ALL_QUESTIONS.length} questões inseridas no Firestore com sucesso!`);
         return { success: true, count: ALL_QUESTIONS.length };
     } catch (error) {
         const message = error instanceof Error ? error.message : 'Erro desconhecido';

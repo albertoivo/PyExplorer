@@ -1,7 +1,7 @@
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { getTopUsers, saveUser, updateUserScore } from '../firestore';
-import { collection, setDoc, updateDoc, getDocs } from 'firebase/firestore';
+import { collection, setDoc, getDocs } from 'firebase/firestore';
 
 // Mock do Firebase
 vi.mock('../firebaseConfig', () => ({
@@ -103,12 +103,8 @@ describe('Leaderboard Security Services', () => {
 
         await updateUserScore('user123', 50);
 
-        // Deve atualizar score na coleção users
-        expect(updateDoc).toHaveBeenCalled();
-
-        // E deve atualizar o leaderboard
-        // setDoc deve ser chamado para o leaderboard (updateLeaderboard usa setDoc com merge)
-        expect(setDoc).toHaveBeenCalled();
+        // Deve atualizar score na coleção users e no leaderboard
+        expect(setDoc).toHaveBeenCalledTimes(2);
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const setDocCalls = (setDoc as any).mock.calls;

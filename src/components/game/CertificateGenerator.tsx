@@ -12,9 +12,7 @@ export function CertificateGenerator({ studentName, completionDate }: Certificat
     const [isGenerating, setIsGenerating] = useState(false);
 
     const handleDownload = async () => {
-        console.log('Download started');
         if (!certificateRef.current) {
-            console.log('Ref is null');
             return;
         }
         setIsGenerating(true);
@@ -31,10 +29,8 @@ export function CertificateGenerator({ studentName, completionDate }: Certificat
                 useCORS: true,
                 backgroundColor: '#1e1e2e', // Match theme
             });
-            console.log('html2canvas done');
 
             const imgData = canvas.toDataURL('image/png');
-            console.log('Creating PDF');
             const pdf = new jsPDF({
                 orientation: 'landscape',
                 unit: 'px',
@@ -42,7 +38,6 @@ export function CertificateGenerator({ studentName, completionDate }: Certificat
             });
 
             pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-            console.log('Saving PDF');
             pdf.save(`PyExplorer_Certificate_${studentName.replace(/\s+/g, '_')}.pdf`);
         } catch (error) {
             console.error('Error generating certificate:', error);

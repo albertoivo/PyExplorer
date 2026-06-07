@@ -34,7 +34,6 @@ export function LoginPage() {
     useEffect(() => {
         if (user && !getHasRedirected()) {
             const destination = (location.state as { from?: Location })?.from?.pathname || '/game';
-            console.log('User logged in, redirecting to:', destination);
             setHasRedirected(true);
             navigate(destination, { replace: true });
         }
@@ -51,7 +50,6 @@ export function LoginPage() {
             await login(email, password);
             // Use window.location.href for reliable redirect (navigate() doesn't work due to async state timing)
             const destination = (location.state as { from?: Location })?.from?.pathname || '/game';
-            console.log('Login successful, redirecting to:', destination);
             setHasRedirected(true);
             window.location.href = destination;
         } catch {

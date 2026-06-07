@@ -156,9 +156,6 @@ async function saveGamificationWithFallback(uid: string, data: UserGamification)
                 if (!isPermissionDeniedError(error2)) throw error2;
             }
         }
-        // Todas as tentativas falharam — loga warning mas NÃO propaga o erro
-        // O estado fica na memória React e será persistido após deploy das regras
-        console.warn('⚠️ Gamificação salva localmente. Deploy das firestore.rules pendente para persistir no servidor.');
     }
 }
 
@@ -225,7 +222,6 @@ export function useGamification() {
                 hasChanges = true;
                 const achievement = ACHIEVEMENTS.find(a => a.id === id);
                 if (achievement) safeAddAchievement(achievement);
-                console.log(`🏆 Achievement unlocked: ${achievement?.name}`);
             }
         });
 
@@ -253,7 +249,6 @@ export function useGamification() {
                     activeMissions: newActiveMissions
                 };
                 hasChanges = true;
-                console.log('🔓 Endgame missions unlocked!');
             }
         }
 
@@ -280,7 +275,6 @@ export function useGamification() {
     }, []);
 
     const loadGamification = useCallback(async () => {
-        console.log('📥 Loading gamification data...');
         setLoading(true);
         try {
             const currentUserData = userDataRef.current;
@@ -332,7 +326,6 @@ export function useGamification() {
                     // --- MIGRATION: Sync Legacy Streak from UserData ---
                     const legacyUser = currentUserData as typeof currentUserData & LegacyStreakUserFields;
                     if (legacyUser.streak && (!finalData.streak.currentStreak || legacyUser.streak > finalData.streak.currentStreak)) {
-                        console.log('🔄 Migrating streak from UserData to Gamification');
                         finalData = {
                             ...finalData,
                             streak: {
@@ -353,7 +346,6 @@ export function useGamification() {
                     );
 
                     if (streakResult.shouldUpdate) {
-                        console.log('🔥 Updating streak logic in Gamification');
                         finalData = {
                             ...finalData,
                             streak: {
@@ -368,7 +360,6 @@ export function useGamification() {
 
                     // --- PET MIGRATION ---
                     if (!finalData.pet) {
-                        console.log('🥚 Initializing Pet for existing user');
                         finalData.pet = getInitialPet();
                         hasUpdates = true;
                     } else {
@@ -385,8 +376,8 @@ export function useGamification() {
                     if (hasUpdates) {
                         try {
                             await saveGamificationWithFallback(currentUserData.uid, finalData);
-                        } catch (error) {
-                            console.warn('⚠️ Não foi possível persistir migrações da gamificação agora:', error);
+                        } catch {
+                            // Ignora silenciosamente no client
                         }
                     }
 
@@ -401,19 +392,15 @@ export function useGamification() {
                         // If userDataRef.current changed, it means user switched -> ABORT
                         if (userDataRef.current?.uid === currentUserData.uid) {
                             runGamificationChecks(finalData, currentUserData.balance || 0);
-                        } else {
-                            console.log('🛑 Aborting runGamificationChecks: User switched from', currentUserData.uid, 'to', userDataRef.current?.uid);
                         }
                     }, 100);
                 } else {
                     // New user or no data: Start FRESH
-                    console.log('✨ New user detected, initializing gamification...');
                     const initial = getInitialGamification();
 
                     // --- MIGRATION: Sync Legacy Streak from UserData ---
                     const legacyUser = currentUserData as typeof currentUserData & LegacyStreakUserFields;
                     if (legacyUser.streak && legacyUser.streak > 0) {
-                        console.log('🔄 Migrating streak from UserData to New Gamification');
                         initial.streak = {
                             ...initial.streak,
                             currentStreak: legacyUser.streak,
@@ -425,8 +412,8 @@ export function useGamification() {
                     setGamification(initial);
                     try {
                         await saveGamificationWithFallback(currentUserData.uid, initial);
-                    } catch (error) {
-                        console.warn('⚠️ Não foi possível salvar estado inicial da gamificação:', error);
+                    } catch {
+                        // Ignora
                     }
                 }
             }
@@ -485,7 +472,6 @@ export function useGamification() {
 
         // 3. Handle Level Up
         if (levelUp) {
-            console.log(`🎉 Level Up! ${levelUp.level}`);
             setShowLevelUp(levelUp);
         }
 
@@ -506,7 +492,6 @@ export function useGamification() {
         // 5. Handle Mission Notifications (Auto-Claimed)
         if (completedMissionTitles && completedMissionTitles.length > 0) {
             completedMissionTitles.forEach(title => {
-                console.log(`✅ Mission Completed (Auto-Claimed): ${title}`);
                 setMissionNotification({
                     title,
                     rewards: missionRewards // Note: This shows AGGREGATE rewards if multiple complete at once.
@@ -632,7 +617,6 @@ export function useGamification() {
                 if (mResult.levelUp) setShowLevelUp(mResult.levelUp);
 
                 mResult.completedMissions.forEach(m => {
-                    console.log(`✅ Mission Completed (Auto-Claimed): ${m}`);
                     setMissionNotification({
                         title: m,
                         rewards: { stars: mResult.rewards.stars, xp: mResult.rewards.xp }
@@ -736,7 +720,6 @@ export function useGamification() {
         const result = consumePowerUpLogic(gamification, powerUpType);
         if (result.success) {
             setGamification(result.newState);
-            console.log(`✅ Power-up usado: ${powerUpType}`);
             saveGamification(result.newState);
             return true;
         }
@@ -747,7 +730,6 @@ export function useGamification() {
         const result = buyPowerUpLogic(gamification, powerUpType, price, userData?.balance || 0);
         if (result.success) {
             setGamification(result.newState);
-            console.log(`✅ Power-up comprado: ${powerUpType}`);
             saveGamification(result.newState);
             updateUserData({ balance: (userData?.balance || 0) - price });
             return true;

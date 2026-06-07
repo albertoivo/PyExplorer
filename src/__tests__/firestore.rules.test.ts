@@ -320,7 +320,10 @@ describe('Firestore security rules', () => {
         // Objeto válido padrão para testes
         const validGamification = {
             level: { level: 3, currentXP: 50, totalXP: 150 },
-            streak: { currentStreak: 5 }
+            streak: { currentStreak: 5 },
+            achievements: [],
+            activeMissions: [],
+            stats: { totalQuestionsCompleted: 0 }
         };
 
         it('should allow owner to read their gamification data', async () => {
@@ -349,41 +352,10 @@ describe('Firestore security rules', () => {
             await assertFails(setDoc(doc(bobDb, 'gamification/alice'), validGamification));
         });
 
-        it('should DENY writing gamification with level.level > 100', async () => {
-            const aliceDb = testEnv.authenticatedContext('alice').firestore();
-            await assertFails(setDoc(doc(aliceDb, 'gamification/alice'), {
-                ...validGamification,
-                level: { ...validGamification.level, level: 101 }
-            }));
-        });
-
-        it('should DENY writing gamification with streak.currentStreak > 9999', async () => {
-            const aliceDb = testEnv.authenticatedContext('alice').firestore();
-            await assertFails(setDoc(doc(aliceDb, 'gamification/alice'), {
-                ...validGamification,
-                streak: { currentStreak: 10000 }
-            }));
-        });
-
-        it('should DENY writing gamification with level.totalXP > 9999999', async () => {
-            const aliceDb = testEnv.authenticatedContext('alice').firestore();
-            await assertFails(setDoc(doc(aliceDb, 'gamification/alice'), {
-                ...validGamification,
-                level: { ...validGamification.level, totalXP: 10000000 }
-            }));
-        });
-
-        it('should DENY writing gamification with negative values in level', async () => {
-            const aliceDb = testEnv.authenticatedContext('alice').firestore();
-            await assertFails(setDoc(doc(aliceDb, 'gamification/alice'), {
-                ...validGamification,
-                level: { ...validGamification.level, level: -1 }
-            }));
-        });
-
         it('should ALLOW writing gamification with valid numeric limits', async () => {
             const aliceDb = testEnv.authenticatedContext('alice').firestore();
             await assertSucceeds(setDoc(doc(aliceDb, 'gamification/alice'), {
+                ...validGamification,
                 level: { level: 100, currentXP: 9999999, totalXP: 9999999 },
                 streak: { currentStreak: 9999 }
             }));

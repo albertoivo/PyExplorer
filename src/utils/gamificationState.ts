@@ -69,7 +69,6 @@ export function checkDailyAndWeeklyReset(data: UserGamification): UserGamificati
 
     // 1. Reset PowerUps Daily
     if (lastReset !== todayStr) {
-        console.log('🔄 Resetting daily power-up limits...');
         newState.powerUps = {
             ...newState.powerUps,
             usesToday: { skip: 0, fifty_fifty: 0, extra_hint: 0, double_stars: 0, shield: 0 },
@@ -129,7 +128,6 @@ export function checkDailyAndWeeklyReset(data: UserGamification): UserGamificati
     };
 
     if (validDailyMissions.length === 0) {
-        console.log('📅 Generating new Daily Missions...');
         const newDailies = generateDailyMissions(today);
         const userDailies = processMissions(newDailies);
 
@@ -150,7 +148,6 @@ export function checkDailyAndWeeklyReset(data: UserGamification): UserGamificati
     );
 
     if (expiredEndgameMissions.length > 0) {
-        console.log('⏳ Expired Endgame Missions found:', expiredEndgameMissions.map(m => m.missionId));
         newState.activeMissions = newState.activeMissions.filter(m =>
             !expiredEndgameMissions.includes(m)
         );
@@ -176,7 +173,6 @@ export function checkDailyAndWeeklyReset(data: UserGamification): UserGamificati
     });
 
     if (validWeeklyMissions.length === 0) {
-        console.log('📅 Generating new Weekly Missions...');
         const newWeeklies = generateWeeklyMissions(today);
         // Reuse process logic but adjust expiry
         const userWeeklies = newWeeklies.map(m => {
@@ -324,7 +320,6 @@ export function claimMissionRewardLogic(
     const today = new Date();
     // Check if the mission has expired
     if (userMission.expiresAt && new Date(userMission.expiresAt) < today) {
-        console.warn(`Attempted to claim expired mission: ${missionId}`);
         // Optionally, remove the expired mission from activeMissions here
         // For now, just prevent claiming
         return { success: false, newState: state, rewards: { xp: 0, stars: 0 }, levelUp: null };

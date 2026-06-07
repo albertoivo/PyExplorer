@@ -1,6 +1,11 @@
 import '@testing-library/jest-dom'
 import { vi } from 'vitest'
 
+// Mock queryCommandSupported for Monaco editor compatibility in jsdom
+if (typeof document !== 'undefined') {
+    document.queryCommandSupported = document.queryCommandSupported || (() => false);
+}
+
 // Mock Firebase Analytics to prevent "API key not valid" errors in tests
 vi.mock('firebase/analytics', () => ({
     getAnalytics: vi.fn(),

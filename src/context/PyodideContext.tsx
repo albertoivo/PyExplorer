@@ -169,7 +169,6 @@ _capture = CaptureOutput()
             setPyodide(pyodideInstance);
             setReady(true);
             setLoading(false);
-            console.log('✅ Pyodide carregado com sucesso!');
         } catch (err) {
             const message = err instanceof Error ? err.message : 'Erro ao carregar Pyodide';
             console.error('❌ Erro ao carregar Pyodide:', err);

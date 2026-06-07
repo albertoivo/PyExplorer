@@ -338,7 +338,7 @@ describe('Firestore Service Core Logic', () => {
         });
 
         it('unlockWorld should add world to user data if not present', async () => {
-            const { getDoc, updateDoc } = await import('firebase/firestore');
+            const { getDoc, setDoc } = await import('firebase/firestore');
             // User exists and does NOT have the world
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (getDoc as any).mockResolvedValue({
@@ -351,7 +351,7 @@ describe('Firestore Service Core Logic', () => {
 
             await unlockWorld('u1', 'loops');
 
-            expect(updateDoc).toHaveBeenCalledWith(
+            expect(setDoc).toHaveBeenCalledWith(
                 expect.anything(),
                 expect.objectContaining({
                     unlockedWorlds: ['basic_commands', 'loops']
@@ -360,7 +360,7 @@ describe('Firestore Service Core Logic', () => {
         });
 
         it('unlockWorld should NOT update if world already unlocked', async () => {
-            const { getDoc, updateDoc } = await import('firebase/firestore');
+            const { getDoc, setDoc } = await import('firebase/firestore');
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (getDoc as any).mockResolvedValue({
                 exists: () => true,
@@ -372,7 +372,7 @@ describe('Firestore Service Core Logic', () => {
 
             await unlockWorld('u1', 'loops');
 
-            expect(updateDoc).not.toHaveBeenCalled();
+            expect(setDoc).not.toHaveBeenCalled();
         });
     });
 });
