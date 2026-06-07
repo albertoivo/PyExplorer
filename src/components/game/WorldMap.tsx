@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo, memo } from 'react';
 import type { World } from '../../types/question';
 import { useAuth } from '../../hooks/useAuth';
+import { useGamification } from '../../context/GamificationContext';
 import { TutorialModal, FlashcardDeck } from '../education';
 import { getTutorialByWorld } from '../../data/educationContent';
 import { WORLDS } from '../../data/worlds';
@@ -24,7 +25,11 @@ interface WorldMapProps {
  */
 export const WorldMap = memo(function WorldMap({ onSelectWorld, worldProgress }: WorldMapProps) {
     const { userData } = useAuth();
+    const { gamification } = useGamification();
     const userScore = userData?.totalScore || 0;
+    // Usa o maior valor entre totalScore (users collection) e totalXP (gamification collection)
+    // para evitar mundos bloqueados quando uma das coleções ficou desatualizada
+    const effectiveScore = Math.max(userScore, gamification?.level?.totalXP || 0);
     const unlockedWorlds = useMemo(() => userData?.unlockedWorlds || ['basic_commands'], [userData?.unlockedWorlds]);
 
     // Estado para tutorial, flashcards e história
@@ -60,9 +65,13 @@ export const WorldMap = memo(function WorldMap({ onSelectWorld, worldProgress }:
         // Verifica se está na lista de mundos desbloqueados
         if (unlockedWorlds.includes(world.id)) return true;
 
-        // Verifica se tem pontuação suficiente
-        return userScore >= world.requiredScore;
-    }, [unlockedWorlds, userScore]);
+        // Se o usuário já completou alguma questão nesse mundo, ele já teve acesso
+        const progress = worldProgress?.get(world.id);
+        if (progress && progress.completed > 0) return true;
+
+        // Verifica se tem pontuação suficiente (usa o maior entre totalScore e XP da gamificação)
+        return effectiveScore >= world.requiredScore;
+    }, [unlockedWorlds, effectiveScore, worldProgress]);
 
     const getWorldStatus = useCallback((world: WorldInfo) => {
         const progress = worldProgress?.get(world.id);
@@ -226,7 +235,7 @@ export const WorldMap = memo(function WorldMap({ onSelectWorld, worldProgress }:
                 </p>
                 <div className="world-map__score" title="Pontuação total acumulada em todas as questões">
                     <span className="world-map__score-icon">⚡</span>
-                    <span className="world-map__score-value">{userScore} pontos</span>
+                    <span className="world-map__score-value">{effectiveScore} pontos</span>
                 </div>
             </div>
 

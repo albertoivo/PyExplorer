@@ -36,6 +36,11 @@ service cloud.firestore {
       return field is timestamp;
     }
 
+    // Valida que um campo é boolean
+    function isValidBoolean(field) {
+      return field is bool;
+    }
+
     // Valida que um campo é um avatar válido (string, max 500 chars)
     function isValidAvatar(field) {
       return field is string && field.size() <= 500;
@@ -118,7 +123,7 @@ service cloud.firestore {
       
       // Escrita com validação de limites para prevenir cheating
       allow write: if isAuthenticated() && (request.auth.uid == userId || isAdmin()) &&
-        hasOnly(request.resource.data, ['level', 'streak', 'achievements', 'activeMissions', 'inventory', 'powerUps', 'stats', 'updatedAt']) &&
+        hasOnly(request.resource.data, ['level', 'streak', 'achievements', 'activeMissions', 'inventory', 'powerUps', 'stats', 'updatedAt', 'pet']) &&
         // Valida updatedAt
         (!('updatedAt' in request.resource.data) || isValidTimestamp(request.resource.data.updatedAt)) &&
         // Valida level como objeto (Map)
@@ -185,6 +190,21 @@ service cloud.firestore {
             (!('totalCorrectAnswers' in request.resource.data.stats) || isValidNumber(request.resource.data.stats.totalCorrectAnswers, 0, 999999)) &&
             (!('lastWeekendDate' in request.resource.data.stats) || isValidString(request.resource.data.stats.lastWeekendDate, 10)) &&
             (!('completedWorldIds' in request.resource.data.stats) || isValidList(request.resource.data.stats.completedWorldIds, 100))
+        )) &&
+        // Valida pet (Map)
+        (!('pet' in request.resource.data) || (
+          request.resource.data.pet is map &&
+          hasOnly(request.resource.data.pet, ['name', 'stage', 'type', 'xp', 'level', 'hunger', 'mood', 'evolutionPath', 'lastFedAt', 'justEvolved']) &&
+          (!('name' in request.resource.data.pet) || isValidString(request.resource.data.pet.name, 50)) &&
+          (!('stage' in request.resource.data.pet) || request.resource.data.pet.stage in ['egg', 'baby', 'teen', 'adult']) &&
+          (!('type' in request.resource.data.pet) || request.resource.data.pet.type in ['generic', 'snake', 'owl', 'chameleon', 'robot', 'dragon']) &&
+          (!('xp' in request.resource.data.pet) || isValidNumber(request.resource.data.pet.xp, 0, 9999999)) &&
+          (!('level' in request.resource.data.pet) || isValidNumber(request.resource.data.pet.level, 1, 9999)) &&
+          (!('hunger' in request.resource.data.pet) || isValidNumber(request.resource.data.pet.hunger, 0, 100)) &&
+          (!('mood' in request.resource.data.pet) || request.resource.data.pet.mood in ['happy', 'sad', 'sleeping', 'hungry', 'coding', 'excited']) &&
+          (!('evolutionPath' in request.resource.data.pet) || request.resource.data.pet.evolutionPath is map) &&
+          (!('lastFedAt' in request.resource.data.pet) || isValidString(request.resource.data.pet.lastFedAt, 50)) &&
+          (!('justEvolved' in request.resource.data.pet) || isValidBoolean(request.resource.data.pet.justEvolved))
         ));
     }
     

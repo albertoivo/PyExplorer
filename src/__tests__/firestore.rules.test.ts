@@ -389,6 +389,24 @@ describe('Firestore security rules', () => {
             }));
         });
 
+        it('should ALLOW writing gamification with valid pet data', async () => {
+            const aliceDb = testEnv.authenticatedContext('alice').firestore();
+            await assertSucceeds(setDoc(doc(aliceDb, 'gamification/alice'), {
+                ...validGamification,
+                pet: {
+                    name: 'Ovo Misterioso',
+                    stage: 'egg',
+                    type: 'generic',
+                    xp: 0,
+                    level: 1,
+                    hunger: 100,
+                    mood: 'sleeping',
+                    evolutionPath: {},
+                    lastFedAt: '2026-06-07T00:00:00.000Z'
+                }
+            }));
+        });
+
         it('should DENY writing gamification with wrong root type (number instead of object)', async () => {
              const aliceDb = testEnv.authenticatedContext('alice').firestore();
              await assertFails(setDoc(doc(aliceDb, 'gamification/alice'), {

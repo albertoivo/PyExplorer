@@ -4,14 +4,12 @@ import {
     getDoc,
     getDocs,
     setDoc,
-    updateDoc,
     query,
     where,
     orderBy,
     limit,
     Timestamp,
     writeBatch,
-    deleteField,
 } from 'firebase/firestore';
 import type { DocumentData, QueryConstraint } from 'firebase/firestore';
 import { db } from './firebaseConfig';
@@ -140,29 +138,35 @@ async function updateLeaderboard(userData: UserData, level?: number): Promise<vo
 }
 
 /**
- * Cria ou atualiza dados do usuário
- * @param userData - Dados do usuário
+ * Monta um objeto limpo de UserData para gravação no Firestore,
+ * contendo apenas os campos permitidos pelas regras (hasOnly).
+ * Usar setDoc SEM merge garante que campos legados são removidos.
+ */
+function buildCleanUserDoc(userData: UserData): Record<string, unknown> {
+    const clean: Record<string, unknown> = {
+        uid: userData.uid,
+        displayName: userData.displayName,
+        avatar: userData.avatar,
+        email: userData.email,
+        createdAt: userData.createdAt instanceof Date ? Timestamp.fromDate(userData.createdAt) : userData.createdAt,
+        updatedAt: userData.updatedAt instanceof Date ? Timestamp.fromDate(userData.updatedAt) : userData.updatedAt,
+        totalScore: userData.totalScore,
+        balance: userData.balance,
+        unlockedWorlds: userData.unlockedWorlds,
+    };
+    if (userData.lastLoginAt) {
+        clean.lastLoginAt = Timestamp.fromDate(userData.lastLoginAt);
+    }
+    return clean;
+}
+
+/**
+ * Cria ou atualiza dados do usuário.
+ * Usa setDoc sem merge para remover campos legados e satisfazer hasOnly nas regras.
  */
 export async function saveUser(userData: UserData): Promise<void> {
     const docRef = doc(db, USERS_COLLECTION, userData.uid);
-
-    // Remove campos opcionais indefinidos antes de salvar (Firestore não aceita undefined)
-    const { lastLoginAt, ...safeUserData } = userData;
-
-    await setDoc(docRef, {
-        ...safeUserData,
-        // Explicitly delete deprecated fields to satisfy strict hasOnly rules
-        streak: deleteField(),
-        longestStreak: deleteField(),
-        lastActiveDate: deleteField(),
-        inventory: deleteField(),
-        equippedAvatar: deleteField(),
-        createdAt: Timestamp.fromDate(userData.createdAt),
-        updatedAt: Timestamp.fromDate(userData.updatedAt),
-        ...(lastLoginAt ? { lastLoginAt: Timestamp.fromDate(lastLoginAt) } : {}),
-    }, { merge: true });
-
-    // Sincroniza com leaderboard
+    await setDoc(docRef, buildCleanUserDoc(userData));
     await updateLeaderboard(userData);
 }
 
@@ -196,28 +200,16 @@ export async function getUser(uid: string): Promise<UserData | null> {
 export async function updateUserScore(uid: string, additionalScore: number): Promise<void> {
     const user = await getUser(uid);
     if (user) {
-        const newScore = user.totalScore + additionalScore;
+        const updatedUser = { ...user, totalScore: user.totalScore + additionalScore, updatedAt: new Date() };
         const docRef = doc(db, USERS_COLLECTION, uid);
 
-        try {
-            await updateDoc(docRef, {
-                totalScore: newScore,
-                updatedAt: Timestamp.now(),
-            });
-        } catch (err) {
-            console.error('[DEBUG] FALHOU ao atualizar users:', err);
-            throw err;
-        }
+        // Usa setDoc sem merge para garantir documento limpo (sem campos legados)
+        await setDoc(docRef, buildCleanUserDoc(updatedUser));
 
         // Busca o nível atual da gamificação para sincronizar com o leaderboard
         const gamification = await getGamification(uid);
         const currentLevel = gamification?.level?.level || 1;
-
-        // Atualiza leaderboard com o novo score e nível
-        await updateLeaderboard({
-            ...user,
-            totalScore: newScore
-        }, currentLevel);
+        await updateLeaderboard(updatedUser, currentLevel);
     }
 }
 
@@ -229,11 +221,14 @@ export async function updateUserScore(uid: string, additionalScore: number): Pro
 export async function unlockWorld(uid: string, world: World): Promise<void> {
     const user = await getUser(uid);
     if (user && !user.unlockedWorlds.includes(world)) {
-        const docRef = doc(db, USERS_COLLECTION, uid);
-        await updateDoc(docRef, {
+        const updatedUser = {
+            ...user,
             unlockedWorlds: [...user.unlockedWorlds, world],
-            updatedAt: Timestamp.now(),
-        });
+            updatedAt: new Date(),
+        };
+        const docRef = doc(db, USERS_COLLECTION, uid);
+        // Usa setDoc sem merge para garantir documento limpo (sem campos legados)
+        await setDoc(docRef, buildCleanUserDoc(updatedUser));
     }
 }
 
@@ -521,7 +516,9 @@ export async function saveGamificationData(uid: string, data: UserGamification):
         updatedAt: Timestamp.now(),
     };
 
-    await setDoc(docRef, firestoreData, { merge: true });
+    // Importante: escreve o documento completo (sem merge) para remover campos legados
+    // que podem violar regras com hasOnly(...) e causar permission-denied.
+    await setDoc(docRef, firestoreData);
 
     // Sincroniza o nível no leaderboard
     // Busca dados do usuário para garantir que o leaderboard tenha todos os campos
