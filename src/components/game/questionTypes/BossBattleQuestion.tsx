@@ -1,5 +1,6 @@
 import { useState, useEffect, memo, useMemo, useCallback } from 'react';
 import Editor from '@monaco-editor/react';
+import '../../../config/monacoSetup';
 import type { QuestionDocument, PythonExecutionResult } from '../../../types/question';
 import './BossBattleQuestion.css';
 

@@ -73,7 +73,7 @@ export default defineConfig({
       name: 'defer-css',
       enforce: 'post',
       transformIndexHtml(html) {
-        return html.replace(
+        const withDeferredCss = html.replace(
           /<link([^>]+)rel="stylesheet"([^>]*)href="([^"]+)"([^>]*)>/gi,
           (match, _p1, _p2, p3) => {
             // Se já for print ou tiver onload, não mexe
@@ -81,6 +81,12 @@ export default defineConfig({
 
             return `<link rel="preload" href="${p3}" as="style" onload="this.onload=null;this.rel='stylesheet'" crossorigin><noscript><link rel="stylesheet" crossorigin href="${p3}"></noscript>`;
           }
+        );
+
+        // Remove preloads de módulos grandes que não são críticos para a Home.
+        return withDeferredCss.replace(
+          /<link\s+rel="modulepreload"[^>]*href="[^"]*(monaco-vendor|jspdf-vendor|html2canvas-vendor)[^"]*"[^>]*>\s*/gi,
+          ''
         );
       }
     },
@@ -272,6 +278,16 @@ export default defineConfig({
     })
   ],
   build: {
+    modulePreload: {
+      // Evita preload agressivo de chunks não críticos na home
+      // (ex.: bibliotecas usadas apenas em fluxos específicos).
+      resolveDependencies: (_url, deps) =>
+        deps.filter((dep) =>
+          !dep.includes('monaco-vendor') &&
+          !dep.includes('jspdf-vendor') &&
+          !dep.includes('html2canvas-vendor')
+        )
+    },
     rollupOptions: {
       output: {
         manualChunks(id) {
@@ -279,23 +295,11 @@ export default defineConfig({
             if (id.includes('firebase') || id.includes('@firebase')) {
               return 'firebase-vendor';
             }
-            if (id.includes('pyodide')) {
-              return 'pyodide-vendor';
-            }
             if (id.includes('/node_modules/react/') || id.includes('/node_modules/react-dom/') || id.includes('/node_modules/react-router-dom/') || id.includes('/node_modules/scheduler/')) {
               return 'react-vendor';
             }
             if (id.includes('canvas-confetti')) {
               return 'confetti-vendor';
-            }
-            if (id.includes('monaco-editor')) {
-              return 'monaco-vendor';
-            }
-            if (id.includes('html2canvas')) {
-              return 'html2canvas-vendor';
-            }
-            if (id.includes('jspdf')) {
-              return 'jspdf-vendor';
             }
             return 'vendor';
           }

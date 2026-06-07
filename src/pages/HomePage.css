@@ -108,9 +108,15 @@
 }
 
 .hero__snake {
-    font-size: 12rem;
+    font-size: clamp(6rem, 14vw, 10rem);
+    line-height: 1;
+    display: inline-block;
+    transform: translateZ(0);
+}
+
+.home-page--animate-hero .hero__snake {
     animation: float 4s ease-in-out infinite;
-    filter: drop-shadow(0 20px 40px rgba(0, 217, 255, 0.3));
+    filter: drop-shadow(0 12px 20px rgba(0, 217, 255, 0.22));
 }
 
 @keyframes float {
@@ -536,6 +542,17 @@
 }
 
 @media (max-width: 768px) {
+    .home-page--animate-hero .hero__snake {
+        animation: none;
+        filter: none;
+    }
+
+    .hero__illustration::before,
+    .hero__illustration::after {
+        animation: none;
+        content: none;
+    }
+
     .hero__title {
         font-size: 2rem;
     }

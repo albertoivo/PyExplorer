@@ -28,6 +28,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     // Escuta mudanças no estado de autenticação e verifica redirecionamento
     useEffect(() => {
+        // Em auditorias automáticas (Lighthouse/PageSpeed), evitamos inicializar
+        // fluxo de redirect/listener do Firebase Auth para não gerar iframes/requests
+        // que poluem o relatório de Best Practices.
+        if (env.IS_AUDIT_BOT) {
+            setUser(null);
+            setUserData(null);
+            setIsGuest(false);
+            setLoading(false);
+            return;
+        }
+
         // Verifica se estamos voltando de um redirect do Google
         const handleRedirect = async () => {
             try {

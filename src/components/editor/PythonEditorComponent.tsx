@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import Editor from '@monaco-editor/react';
 import { useMemo, useCallback } from 'react';
+import '../../config/monacoSetup';
 import './PythonEditor.css';
 
 interface PythonEditorProps {

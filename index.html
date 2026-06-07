@@ -112,122 +112,32 @@
   <!-- Preconnect for performance -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://firebase.googleapis.com" />
 
   <!-- DNS Prefetch para recursos externos -->
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+  <link rel="dns-prefetch" href="https://firebase.googleapis.com" />
 
   <!-- Splash screens para iOS -->
   <link rel="apple-touch-startup-image" href="/icons/icon-512x512.png" />
 
-  <!-- Fonte otimizada com preload para melhor FCP -->
+  <!-- Fonte crítica acima da dobra -->
   <link rel="preload"
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&family=Cinzel:wght@700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
     as="style" />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&family=Cinzel:wght@700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
     rel="stylesheet" media="print" onload="this.media='all'" />
   <noscript>
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&family=Cinzel:wght@700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
       rel="stylesheet" />
   </noscript>
-
-  <style>
-    /* Loading screen crítico inline */
-    #loading-screen {
-      position: fixed;
-      inset: 0;
-      background: linear-gradient(135deg, #0f0f1a 0%, #1e1e2e 100%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 99999;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      transition: opacity 0.3s ease;
-    }
-
-    #loading-screen .spinner {
-      width: 60px;
-      height: 60px;
-      border: 3px solid rgba(255, 255, 255, 0.1);
-      border-top-color: #00ff88;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-
-    #loading-screen .logo {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      animation: bounce 1s ease infinite;
-    }
-
-    #loading-screen p {
-      color: #a0aec0;
-      margin-top: 1rem;
-      font-size: 0.9rem;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    @keyframes bounce {
-
-      0%,
-      100% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(-10px);
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-      }
-      #loading-screen .logo, #loading-screen .spinner {
-        animation: none !important;
-      }
-    }
-  </style>
 </head>
 
 <body>
-  <!-- Loading screen antes do React carregar -->
-  <div id="loading-screen">
-    <div class="logo">🐍</div>
-    <div class="spinner"></div>
-    <p>Carregando PyExplorer...</p>
-  </div>
-
   <div id="root" style="min-height: 100vh"></div>
   <script type="module" src="/src/main.tsx"></script>
-
-  <script>
-    // Fallback: Remove loading screen se demorar muito (caso o React não monte)
-    window.addEventListener('load', function () {
-      // O main.tsx deve remover a tela antes disso, mas deixamos como segurança
-      setTimeout(function () {
-        var loadingScreen = document.getElementById('loading-screen');
-        if (loadingScreen && !window.reactMounted) {
-          // Apenas remove se o React não tiver sinalizado que montou
-          // Se o React falhar totalmente, removemos para mostrar erro (se houver) ou apenas liberar a tela
-          loadingScreen.style.opacity = '0';
-          setTimeout(function () {
-            loadingScreen.remove();
-          }, 300);
-        }
-      }, 3000);
-    });
-  </script>
 
   <!-- Noscript fallback -->
   <noscript>

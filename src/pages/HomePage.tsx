@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { UserDashboard } from '../components/dashboard/UserDashboard';
 import { SEO } from '../components/common/SEO';
@@ -15,6 +16,27 @@ interface HomePageProps {
  */
 export function HomePage({ seoTitle, seoDescription }: HomePageProps) {
     const { userData } = useAuth();
+    const [animateHero, setAnimateHero] = useState(false);
+
+    useEffect(() => {
+        // Safe animation mode: em mobile evitamos animar a ilustração da hero
+        // para reduzir custo de renderização no PSI mobile.
+        if (window.matchMedia('(max-width: 768px)').matches) {
+            return;
+        }
+
+        const runAfterIdle = () => {
+            setAnimateHero(true);
+        };
+
+        if ('requestIdleCallback' in window) {
+            const idleId = window.requestIdleCallback(runAfterIdle, { timeout: 1200 });
+            return () => window.cancelIdleCallback(idleId);
+        }
+
+        const timeoutId = window.setTimeout(runAfterIdle, 600);
+        return () => window.clearTimeout(timeoutId);
+    }, []);
 
     // Preload Pyodide script on hover for faster game start
     // Uses direct script injection since HomePage is outside PyodideProvider
@@ -28,7 +50,7 @@ export function HomePage({ seoTitle, seoDescription }: HomePageProps) {
     };
 
     return (
-        <div className="home-page">
+        <div className={`home-page ${animateHero ? 'home-page--animate-hero' : ''}`}>
             <SEO
                 title={seoTitle || "Aprenda Python Jogando"}
                 description={seoDescription || "O melhor jogo educativo para crianças aprenderem Python. 100% Grátis, Seguro e Divertido!"}

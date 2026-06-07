@@ -543,7 +543,4 @@ pre {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  #loading-screen .logo, #loading-screen .spinner {
-    animation: none !important;
-  }
 }
