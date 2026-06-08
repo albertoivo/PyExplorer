@@ -175,7 +175,7 @@ firebase deploy --only firestore:rules
 | `npm run build` | Cria build de produção otimizado |
 | `npm run preview` | Visualiza build local |
 | `npm run lint` | Executa linting do código |
-| `npm run test:run` | Executa todos os testes unitários e de integração |
+| `npm run test` | Executa todos os testes unitários e de integração |
 | `npm run test:coverage` | Gera relatório de cobertura de testes |
 
 ## 🧪 Testes & Qualidade
@@ -190,7 +190,7 @@ O projeto conta com uma suíte de testes robusta utilizando **Vitest** com **>55
 
 Para rodar os testes:
 ```bash
-npm run test:run
+npm run test
 ```
 
 ## ⚡ Performance & Otimização
