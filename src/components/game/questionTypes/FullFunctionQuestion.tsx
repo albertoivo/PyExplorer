@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import type { QuestionDocument } from '../../../types/question';
 import PythonEditor from '../../editor/PythonEditor';
+import { QuestionHeader } from './QuestionTypeShared';
 import {
     beginCodeExecution,
-    QuestionHeader,
     runCodeQuestionTests,
     useCodeQuestionRuntime,
-} from './QuestionTypeShared';
+} from './QuestionTypeRuntime';
 import './QuestionTypes.css';
 
 interface FullFunctionQuestionProps {
