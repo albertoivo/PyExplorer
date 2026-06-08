@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { QuestionDocument } from '../../../types/question';
+import { QuestionHeader } from './QuestionTypeShared';
 import './QuestionTypes.css';
 
 interface MultipleChoiceQuestionProps {
@@ -53,19 +54,13 @@ export function MultipleChoiceQuestion({
 
     return (
         <div className="question-container">
-            <div className="question-header">
-                <span className="question-type-badge question-type-badge--choice">
-                    🎯 Escolha a resposta
-                </span>
-                <span className={`question-difficulty question-difficulty--${question.difficulty}`}>
-                    {question.difficulty === 'easy' && '⭐ Fácil'}
-                    {question.difficulty === 'medium' && '⭐⭐ Médio'}
-                    {question.difficulty === 'hard' && '⭐⭐⭐ Difícil'}
-                </span>
-            </div>
-
-            <h2 className="question-title">{question.title}</h2>
-            <p className="question-prompt">{question.prompt}</p>
+            <QuestionHeader
+                badgeClassName="question-type-badge--choice"
+                badgeText="🎯 Escolha a resposta"
+                difficulty={question.difficulty}
+                title={question.title}
+                prompt={question.prompt}
+            />
 
             <div className="question-options">
                 {question.options?.map((option, index) => (

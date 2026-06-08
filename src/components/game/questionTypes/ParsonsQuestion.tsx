@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import type { QuestionDocument } from '../../../types/question';
 import { usePyodide } from '../../../hooks/usePyodide';
+import { QuestionHeader } from './QuestionTypeShared';
 import './QuestionTypes.css';
 import './ParsonsQuestion.css';
 
@@ -116,19 +117,13 @@ export function ParsonsQuestion({
 
     return (
         <div className="question-container question-container--parsons">
-            <div className="question-header">
-                <span className="question-type-badge question-type-badge--parsons">
-                    🧩 Quebra-Cabeça de Código
-                </span>
-                <span className={`question-difficulty question-difficulty--${question.difficulty}`}>
-                    {question.difficulty === 'easy' && '⭐ Fácil'}
-                    {question.difficulty === 'medium' && '⭐⭐ Médio'}
-                    {question.difficulty === 'hard' && '⭐⭐⭐ Difícil'}
-                </span>
-            </div>
-
-            <h2 className="question-title">{question.title}</h2>
-            <p className="question-prompt">{question.prompt}</p>
+            <QuestionHeader
+                badgeClassName="question-type-badge--parsons"
+                badgeText="🧩 Quebra-Cabeça de Código"
+                difficulty={question.difficulty}
+                title={question.title}
+                prompt={question.prompt}
+            />
             <p className="parsons-instructions">
                 Arraste os blocos para colocar na ordem certa. Use as setas para ajustar a "margem" (indentação) de cada linha.
             </p>

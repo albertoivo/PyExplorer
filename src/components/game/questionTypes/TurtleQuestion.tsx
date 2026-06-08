@@ -6,6 +6,7 @@ import PythonEditor from '../../editor/PythonEditor';
 import TurtleCanvas from '../turtle/TurtleCanvas';
 import { TURTLE_PYTHON_SHIM } from '../turtle/turtle-python-shim';
 import { runTurtleSimulation, compareTurtlePaths } from '../../../utils/turtleValidation';
+import { QuestionHeader } from './QuestionTypeShared';
 import './QuestionTypes.css';
 import './TurtleQuestion.css';
 
@@ -111,19 +112,13 @@ export const TurtleQuestion = memo(function TurtleQuestion({
 
     return (
         <div className="question-container question-container--turtle">
-            <div className="question-header">
-                <span className="question-type-badge question-type-badge--turtle">
-                    🐢 Desenho com Tartaruga
-                </span>
-                <span className={`question-difficulty question-difficulty--${question.difficulty}`}>
-                    {question.difficulty === 'easy' && '⭐ Fácil'}
-                    {question.difficulty === 'medium' && '⭐⭐ Médio'}
-                    {question.difficulty === 'hard' && '⭐⭐⭐ Difícil'}
-                </span>
-            </div>
-
-            <h2 className="question-title">{question.title}</h2>
-            <p className="question-prompt">{question.prompt}</p>
+            <QuestionHeader
+                badgeClassName="question-type-badge--turtle"
+                badgeText="🐢 Desenho com Tartaruga"
+                difficulty={question.difficulty}
+                title={question.title}
+                prompt={question.prompt}
+            />
 
             <div className="turtle-workspace">
                 <div className="turtle-editor-section">

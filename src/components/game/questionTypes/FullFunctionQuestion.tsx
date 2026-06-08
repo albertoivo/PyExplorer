@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import type { QuestionDocument } from '../../../types/question';
-import { usePyodide } from '../../../hooks/usePyodide';
 import PythonEditor from '../../editor/PythonEditor';
+import {
+    beginCodeExecution,
+    QuestionHeader,
+    runCodeQuestionTests,
+    useCodeQuestionRuntime,
+} from './QuestionTypeShared';
 import './QuestionTypes.css';
 
 interface FullFunctionQuestionProps {
@@ -20,40 +25,56 @@ export function FullFunctionQuestion({
     disabled = false,
     showResult = false,
 }: FullFunctionQuestionProps) {
-    const [code, setCode] = useState(question.starterCode || '');
-    const [isRunning, setIsRunning] = useState(false);
-    const [output, setOutput] = useState<string>('');
+    const {
+        code,
+        setCode,
+        isRunning,
+        setIsRunning,
+        output,
+        setOutput,
+        runPython,
+        ready,
+    } = useCodeQuestionRuntime(question);
     const [testsPassed, setTestsPassed] = useState<number>(0);
     const [totalTests, setTotalTests] = useState<number>(0);
-    const { runPython, ready } = usePyodide();
 
     const handleSubmit = async () => {
-        if (disabled || !ready) return;
-
-        setIsRunning(true);
-        setOutput('');
+        if (!beginCodeExecution(disabled, ready, setIsRunning, setOutput)) return;
 
         try {
-            const result = await runPython(code, question.tests, question.functionName);
+            const result = await runCodeQuestionTests(runPython, code, question);
+            const typedResult = result as {
+                hasError: boolean;
+                stderr?: string;
+                allTestsPassed?: boolean;
+                stdout?: string;
+                testResults?: Array<{
+                    passed: boolean;
+                    input?: unknown;
+                    expectedOutput?: unknown;
+                    actualOutput?: unknown;
+                    error?: string;
+                }>;
+            };
 
-            if (result.hasError) {
-                setOutput(result.stderr);
+            if (typedResult.hasError) {
+                setOutput(typedResult.stderr || 'Erro desconhecido');
                 setTestsPassed(0);
                 setTotalTests(question.tests?.length || 0);
                 onAnswer(false, code);
             } else {
-                const allPassed = result.allTestsPassed ?? false;
-                const passed = result.testResults?.filter(t => t.passed).length || 0;
-                const total = result.testResults?.length || 0;
+                const allPassed = typedResult.allTestsPassed ?? false;
+                const passed = typedResult.testResults?.filter(t => t.passed).length || 0;
+                const total = typedResult.testResults?.length || 0;
 
                 setTestsPassed(passed);
                 setTotalTests(total);
 
-                let outputText = result.stdout || '';
-                if (result.testResults) {
+                let outputText = typedResult.stdout || '';
+                if (typedResult.testResults) {
                     outputText += '\n\n📊 Resultados dos Testes:\n';
                     outputText += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-                    result.testResults.forEach((test, i) => {
+                    typedResult.testResults.forEach((test, i) => {
                         const icon = test.passed ? '✅' : '❌';
                         outputText += `\n${icon} Teste ${i + 1}:\n`;
                         outputText += `   📥 Entrada: ${JSON.stringify(test.input)}\n`;
@@ -108,19 +129,13 @@ export function FullFunctionQuestion({
 
     return (
         <div className="question-container question-container--code">
-            <div className="question-header">
-                <span className="question-type-badge question-type-badge--full">
-                    💻 Escreva a Função
-                </span>
-                <span className={`question-difficulty question-difficulty--${question.difficulty}`}>
-                    {question.difficulty === 'easy' && '⭐ Fácil'}
-                    {question.difficulty === 'medium' && '⭐⭐ Médio'}
-                    {question.difficulty === 'hard' && '⭐⭐⭐ Difícil'}
-                </span>
-            </div>
-
-            <h2 className="question-title">{question.title}</h2>
-            <p className="question-prompt">{question.prompt}</p>
+            <QuestionHeader
+                badgeClassName="question-type-badge--full"
+                badgeText="💻 Escreva a Função"
+                difficulty={question.difficulty}
+                title={question.title}
+                prompt={question.prompt}
+            />
 
             {question.functionName && (
                 <div className="question-function-signature">

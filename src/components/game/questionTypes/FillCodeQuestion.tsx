@@ -1,7 +1,11 @@
-import { useState } from 'react';
 import type { QuestionDocument } from '../../../types/question';
-import { usePyodide } from '../../../hooks/usePyodide';
 import PythonEditor from '../../editor/PythonEditor';
+import {
+    beginCodeExecution,
+    QuestionHeader,
+    runCodeQuestionTests,
+    useCodeQuestionRuntime,
+} from './QuestionTypeShared';
 import './QuestionTypes.css';
 
 interface FillCodeQuestionProps {
@@ -20,30 +24,42 @@ export function FillCodeQuestion({
     disabled = false,
     showResult = false,
 }: FillCodeQuestionProps) {
-    const [code, setCode] = useState(question.starterCode || '');
-    const [isRunning, setIsRunning] = useState(false);
-    const [output, setOutput] = useState<string>('');
-    const { runPython, ready } = usePyodide();
+    const {
+        code,
+        setCode,
+        isRunning,
+        setIsRunning,
+        output,
+        setOutput,
+        runPython,
+        ready,
+    } = useCodeQuestionRuntime(question);
 
     const handleSubmit = async () => {
-        if (disabled || !ready) return;
-
-        setIsRunning(true);
-        setOutput('');
+        if (!beginCodeExecution(disabled, ready, setIsRunning, setOutput)) return;
 
         try {
-            const result = await runPython(code, question.tests, question.functionName);
+            const result = await runCodeQuestionTests(runPython, code, question);
 
-            if (result.hasError) {
-                setOutput(result.stderr);
+            if ((result as { hasError: boolean }).hasError) {
+                setOutput((result as { stderr: string }).stderr);
                 onAnswer(false, code);
             } else {
-                const allPassed = result.allTestsPassed ?? false;
+                const typedResult = result as {
+                    allTestsPassed?: boolean;
+                    stdout?: string;
+                    testResults?: Array<{
+                        passed: boolean;
+                        expectedOutput?: unknown;
+                        actualOutput?: unknown;
+                    }>;
+                };
+                const allPassed = typedResult.allTestsPassed ?? false;
 
-                let outputText = result.stdout || '';
-                if (result.testResults) {
+                let outputText = typedResult.stdout || '';
+                if (typedResult.testResults) {
                     outputText += '\n\n📊 Resultados dos Testes:\n';
-                    result.testResults.forEach((test, i) => {
+                    typedResult.testResults.forEach((test, i) => {
                         const icon = test.passed ? '✅' : '❌';
                         outputText += `${icon} Teste ${i + 1}: ${test.passed ? 'Passou!' : 'Falhou'}\n`;
                         if (!test.passed) {
@@ -67,19 +83,13 @@ export function FillCodeQuestion({
 
     return (
         <div className="question-container question-container--code">
-            <div className="question-header">
-                <span className="question-type-badge question-type-badge--code">
-                    ✏️ Complete o Código
-                </span>
-                <span className={`question-difficulty question-difficulty--${question.difficulty}`}>
-                    {question.difficulty === 'easy' && '⭐ Fácil'}
-                    {question.difficulty === 'medium' && '⭐⭐ Médio'}
-                    {question.difficulty === 'hard' && '⭐⭐⭐ Difícil'}
-                </span>
-            </div>
-
-            <h2 className="question-title">{question.title}</h2>
-            <p className="question-prompt">{question.prompt}</p>
+            <QuestionHeader
+                badgeClassName="question-type-badge--code"
+                badgeText="✏️ Complete o Código"
+                difficulty={question.difficulty}
+                title={question.title}
+                prompt={question.prompt}
+            />
 
             <div className="question-editor-container">
                 <div className="question-editor-header">
