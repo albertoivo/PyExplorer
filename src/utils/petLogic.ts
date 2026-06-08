@@ -6,8 +6,10 @@ const PET_LEVELS = {
     ADULT: 25
 };
 
+// fallow-ignore-next-line unused-export
 export const MAX_HUNGER = 100;
 const HUNGER_DECAY_PER_HOUR = 5;
+// fallow-ignore-next-line unused-export
 export const FEED_RESTORE_AMOUNT = 30;
 
 /**

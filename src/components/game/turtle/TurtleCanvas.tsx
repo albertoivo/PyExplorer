@@ -43,7 +43,7 @@ type Command =
     | { type: 'SPEED'; value: number }
     | { type: 'RESET' };
 
-export function TurtleCanvas({
+function TurtleCanvas({
     width = 600,
     height = 400,
     backgroundImage,

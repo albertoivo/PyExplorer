@@ -247,4 +247,3 @@ export function ProgressiveHints({
     );
 }
 
-export default ProgressiveHints;

@@ -132,4 +132,3 @@ export const QuestionCard = memo(function QuestionCard({ question, index, status
     );
 });
 
-export default QuestionCard;

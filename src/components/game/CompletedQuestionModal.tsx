@@ -136,4 +136,3 @@ export function CompletedQuestionModal({
     );
 }
 
-export default CompletedQuestionModal;

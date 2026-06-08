@@ -20,6 +20,7 @@ interface ProgressBarProps {
 /**
  * Barra de progresso com várias opções de estilo
  */
+// fallow-ignore-next-line unused-export
 export function ProgressBar({
     current,
     max = 100,
@@ -114,4 +115,3 @@ export function WorldProgressBar({
     );
 }
 
-export default ProgressBar;

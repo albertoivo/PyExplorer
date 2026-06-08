@@ -79,4 +79,3 @@ export function StreakDisplay({ streak, compact = false }: StreakDisplayProps) {
     );
 }
 
-export default StreakDisplay;

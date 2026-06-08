@@ -96,40 +96,4 @@ export interface QuestionHints {
 }
 
 // ============================================
-// ESTADO DO USUÁRIO
-// ============================================
 
-/** Progresso do usuário em tutoriais */
-export interface UserTutorialProgress {
-    /** Tutoriais completados */
-    completedTutorials: World[];
-    /** Passo atual em cada tutorial */
-    currentStep: Record<World, number>;
-    /** Timestamps */
-    lastViewedAt: Record<World, Date>;
-}
-
-/** Progresso do usuário em flashcards */
-export interface UserFlashcardProgress {
-    /** Flashcards vistos */
-    viewedCards: string[];
-    /** Flashcards marcados como "sabidos" */
-    knownCards: string[];
-    /** Flashcards marcados para revisar */
-    reviewCards: string[];
-}
-
-/** Dicas usadas pelo usuário */
-export interface UserHintsUsage {
-    /** Dicas já usadas por questão e nível */
-    usedHints: Record<string, HintLevel[]>;
-    /** Total gasto em dicas */
-    totalSpent: number;
-}
-
-/** Estado completo de educação do usuário */
-export interface UserEducationProgress {
-    tutorials: UserTutorialProgress;
-    flashcards: UserFlashcardProgress;
-    hints: UserHintsUsage;
-}

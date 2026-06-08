@@ -216,4 +216,3 @@ export function HomePage({ seoTitle, seoDescription }: HomePageProps) {
     );
 }
 
-export default HomePage;

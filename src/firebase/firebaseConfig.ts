@@ -48,7 +48,8 @@ if (missingKeys.length > 0) {
 }
 
 // Inicializa o Firebase
-let app: FirebaseApp;
+// fallow-ignore-next-line unused-export
+export let app: FirebaseApp;
 let auth: Auth;
 let db: Firestore;
 
@@ -80,4 +81,4 @@ try {
     throw error;
 }
 
-export { app, auth, db };
+export { auth, db };

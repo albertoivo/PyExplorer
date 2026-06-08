@@ -4,6 +4,7 @@ import type { WorldTutorial, Flashcard, QuestionHints } from '../types/education
 // TUTORIAIS INTERATIVOS DE CADA MUNDO
 // ============================================
 
+// fallow-ignore-next-line unused-export
 export const WORLD_TUTORIALS: WorldTutorial[] = [
     // ============================================
     // 🚀 PRIMEIROS PASSOS (basic_commands)

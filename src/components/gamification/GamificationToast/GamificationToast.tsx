@@ -157,4 +157,3 @@ export function GamificationToastContainer({
     );
 }
 
-export default GamificationToastContainer;

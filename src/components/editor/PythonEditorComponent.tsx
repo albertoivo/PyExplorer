@@ -29,7 +29,7 @@ import { useEducationalAnalytics } from '../../hooks/useEducationalAnalytics';
  * Editor de código Python com syntax highlighting
  * Baseado no Monaco Editor (mesmo usado no VS Code)
  */
-export function PythonEditor({
+function PythonEditor({
     code,
     onChange,
     disabled = false,

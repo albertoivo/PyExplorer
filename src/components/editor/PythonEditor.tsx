@@ -16,7 +16,7 @@ interface PythonEditorProps {
 
 const LazyPythonEditorComponent = lazy(() => import('./PythonEditorComponent'));
 
-export function PythonEditor(props: PythonEditorProps) {
+function PythonEditor(props: PythonEditorProps) {
     return (
         <Suspense fallback={
             <div className={`python-editor ${props.disabled ? 'python-editor--disabled' : ''}`} style={{ height: props.height || '300px' }}>

@@ -164,4 +164,3 @@ export function Leaderboard({ currentUserId }: LeaderboardProps) {
     );
 }
 
-export default Leaderboard;

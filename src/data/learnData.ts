@@ -420,13 +420,6 @@ export function getArticleBySlug(slug: string): Article | undefined {
 }
 
 /**
- * Retorna artigos por categoria
- */
-export function getArticlesByCategory(category: Article['category']): Article[] {
-    return ARTICLES.filter(article => article.category === category)
-}
-
-/**
  * Retorna artigos relacionados (mesma categoria, exceto o atual)
  */
 export function getRelatedArticles(currentSlug: string, limit: number = 3): Article[] {

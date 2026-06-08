@@ -251,4 +251,3 @@ export function TutorialModal({
     );
 }
 
-export default TutorialModal;

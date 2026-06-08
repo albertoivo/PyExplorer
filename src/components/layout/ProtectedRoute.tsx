@@ -39,4 +39,3 @@ export function ProtectedRoute({ children, allowGuest = true }: ProtectedRoutePr
     return <>{children}</>;
 }
 
-export default ProtectedRoute;

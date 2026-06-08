@@ -43,7 +43,7 @@ vi.mock('../questionTypes', () => ({
     TurtleQuestion: () => <div />,
 }));
 
-vi.mock('../education', () => ({
+vi.mock('../../education', () => ({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ProgressiveHints: ({ onHintRevealed }: any) => (
         <div data-testid="hints">

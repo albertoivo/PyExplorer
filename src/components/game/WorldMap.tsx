@@ -308,4 +308,3 @@ export const WorldMap = memo(function WorldMap({ onSelectWorld, worldProgress }:
     );
 });
 
-export default WorldMap;

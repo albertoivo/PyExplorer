@@ -166,4 +166,3 @@ export function Mascot({
 }
 
 
-export default Mascot;

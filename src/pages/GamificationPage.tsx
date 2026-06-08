@@ -252,4 +252,3 @@ export function GamificationPage() {
     );
 }
 
-export default GamificationPage;

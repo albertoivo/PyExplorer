@@ -29,8 +29,7 @@ interface MascotContextType extends MascotState {
     reset: () => void;
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const MascotContext = createContext<MascotContextType | null>(null);
+const MascotContext = createContext<MascotContextType | null>(null);
 
 // ============================================
 // PROVIDER

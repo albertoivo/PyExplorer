@@ -104,7 +104,8 @@ function GlobalToasts() {
  * Componente principal da aplicação PyExplorer
  * Um jogo educativo para ensinar Python para crianças
  */
-function App() {
+// fallow-ignore-next-line unused-export
+export function App() {
   return (
     <Router>
       <ScrollToTop />
@@ -210,6 +211,5 @@ function AppContent() {
   );
 }
 
-export { App };
 export default App;
 

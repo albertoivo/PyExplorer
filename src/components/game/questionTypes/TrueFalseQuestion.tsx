@@ -107,4 +107,3 @@ export function TrueFalseQuestion({
     );
 }
 
-export default TrueFalseQuestion;

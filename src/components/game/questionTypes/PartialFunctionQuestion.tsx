@@ -120,4 +120,3 @@ export function PartialFunctionQuestion({
     );
 }
 
-export default PartialFunctionQuestion;

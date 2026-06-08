@@ -342,4 +342,6 @@ function calculateScore(question: QuestionDocument): number {
     );
 }
 
+// fallow-ignore-next-line unused-export
 export default QuestionEngine;
+

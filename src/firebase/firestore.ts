@@ -34,6 +34,7 @@ const QUESTIONS_COLLECTION = 'questions';
  * @param questionId - ID da questão
  * @returns Questão ou null se não encontrada
  */
+// fallow-ignore-next-line unused-export
 export async function getQuestion(questionId: string): Promise<QuestionDocument | null> {
     const docRef = doc(db, QUESTIONS_COLLECTION, questionId);
     const docSnap = await getDoc(docRef);
@@ -49,6 +50,7 @@ export async function getQuestion(questionId: string): Promise<QuestionDocument 
  * @param filters - Filtros opcionais (mundo, dificuldade, limite)
  * @returns Array de questões
  */
+// fallow-ignore-next-line unused-export
 export async function getQuestions(filters?: {
     world?: World;
     difficulty?: Difficulty;
@@ -81,6 +83,7 @@ export async function getQuestions(filters?: {
  * @param world - Mundo/tema
  * @returns Array de questões do mundo
  */
+// fallow-ignore-next-line unused-export
 export async function getQuestionsByWorld(world: World): Promise<QuestionDocument[]> {
     return getQuestions({ world });
 }
@@ -218,6 +221,7 @@ export async function updateUserScore(uid: string, additionalScore: number): Pro
  * @param uid - ID do usuário
  * @param world - Mundo a desbloquear
  */
+// fallow-ignore-next-line unused-export
 export async function unlockWorld(uid: string, world: World): Promise<void> {
     const user = await getUser(uid);
     if (user && !user.unlockedWorlds.includes(world)) {
@@ -249,6 +253,7 @@ function getProgressDocId(uid: string, questionId: string): string {
  * Salva ou atualiza o progresso do usuário em uma questão
  * @param progress - Dados do progresso
  */
+// fallow-ignore-next-line unused-export
 export async function saveProgress(progress: UserProgress): Promise<void> {
     const docId = getProgressDocId(progress.uid, progress.questionId);
     const docRef = doc(db, PROGRESS_COLLECTION, docId);
@@ -287,6 +292,7 @@ export async function saveProgress(progress: UserProgress): Promise<void> {
  * @param questionId - ID da questão
  * @returns Progresso ou null
  */
+// fallow-ignore-next-line unused-export
 export async function getProgress(uid: string, questionId: string): Promise<UserProgress | null> {
     const docId = getProgressDocId(uid, questionId);
     const docRef = doc(db, PROGRESS_COLLECTION, docId);

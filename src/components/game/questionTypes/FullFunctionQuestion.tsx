@@ -192,4 +192,3 @@ export function FullFunctionQuestion({
     );
 }
 
-export default FullFunctionQuestion;

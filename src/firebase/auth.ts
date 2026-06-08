@@ -100,6 +100,7 @@ export async function resetPassword(email: string): Promise<void> {
  * @param displayName - Novo nome de exibição
  * @returns Promise vazia
  */
+// fallow-ignore-next-line unused-export
 export async function updateUserDisplayName(
     user: User,
     displayName: string
@@ -122,6 +123,7 @@ export function subscribeToAuthChanges(
  * Obtém o usuário atualmente autenticado
  * @returns Usuário atual ou null
  */
+// fallow-ignore-next-line unused-export
 export function getCurrentUser(): User | null {
     return auth.currentUser;
 }

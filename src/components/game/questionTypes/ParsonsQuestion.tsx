@@ -193,4 +193,3 @@ export function ParsonsQuestion({
     );
 }
 
-export default ParsonsQuestion;

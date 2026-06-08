@@ -179,4 +179,3 @@ export const TurtleQuestion = memo(function TurtleQuestion({
     );
 });
 
-export default TurtleQuestion;

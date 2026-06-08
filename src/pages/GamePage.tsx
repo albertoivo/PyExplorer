@@ -54,6 +54,7 @@ const getWorldName = (world: World): string => {
 /**
  * Página principal do jogo
  */
+// fallow-ignore-next-line unused-export
 export function GamePage() {
     const navigate = useNavigate();
     const [view, setView] = useState<GameView>('world-map');
@@ -629,4 +630,3 @@ export function GamePage() {
     );
 }
 
-export default GamePage;

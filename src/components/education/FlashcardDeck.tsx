@@ -239,4 +239,3 @@ export function FlashcardDeck({ worldId, onClose }: FlashcardDeckProps) {
     );
 }
 
-export default FlashcardDeck;

@@ -8,6 +8,7 @@ export type StarRating = 0 | 1 | 2 | 3;
 /**
  * Limites de tempo (em segundos) para ganhar 3 estrelas por dificuldade
  */
+// fallow-ignore-next-line unused-export
 export const TIME_LIMITS: Record<Difficulty, number> = {
     easy: 25,
     medium: 45,

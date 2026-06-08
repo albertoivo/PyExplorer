@@ -1,3 +1,4 @@
+// fallow-ignore-file unused-file
 import { useState, useCallback } from 'react';
 import type { MascotMood } from '../components/mascot/Mascot';
 

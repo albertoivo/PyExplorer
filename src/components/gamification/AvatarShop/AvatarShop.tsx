@@ -168,4 +168,3 @@ export function AvatarShop({ userStars, userLevel, inventory, onBuy, onEquip }: 
     );
 }
 
-export default AvatarShop;

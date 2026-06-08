@@ -157,6 +157,7 @@ export async function fetchAllQuestions(): Promise<QuestionDocument[]> {
 /**
  * Atualiza uma questão existente no Firestore
  */
+// fallow-ignore-next-line unused-export
 export async function updateQuestion(question: QuestionDocument): Promise<void> {
     const docRef = doc(db, QUESTIONS_COLLECTION, question.id);
     const sanitizedData = sanitizeForFirestore(question);
@@ -166,6 +167,7 @@ export async function updateQuestion(question: QuestionDocument): Promise<void> 
 /**
  * Adiciona uma nova questão ao Firestore
  */
+// fallow-ignore-next-line unused-export
 export async function addQuestion(question: QuestionDocument): Promise<void> {
     const docRef = doc(db, QUESTIONS_COLLECTION, question.id);
     const sanitizedData = sanitizeForFirestore(question);

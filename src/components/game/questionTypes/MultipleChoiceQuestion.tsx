@@ -102,4 +102,3 @@ export function MultipleChoiceQuestion({
     );
 }
 
-export default MultipleChoiceQuestion;

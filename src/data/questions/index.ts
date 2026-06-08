@@ -20,7 +20,7 @@ const addBoss = (questions: QuestionDocument[], worldId: string) => {
     return boss ? [...questions, boss] : questions;
 };
 
-export const ALL_QUESTIONS_BY_WORLD = {
+const ALL_QUESTIONS_BY_WORLD = {
     basic_commands: addBoss(basicCommandsQuestions, 'basic_commands'),
     variables: addBoss(variablesQuestions, 'variables'),
     numbers: addBoss(numbersQuestions, 'numbers'),

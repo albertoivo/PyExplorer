@@ -222,6 +222,7 @@ export function useProgress() {
 /**
  * Hook para progresso de uma questão específica
  */
+// fallow-ignore-next-line unused-export
 export function useQuestionProgress(questionId: string | null) {
     const { recordAttempt, loading, getQuestionProgress } = useProgress();
 

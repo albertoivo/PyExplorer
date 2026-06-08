@@ -114,4 +114,3 @@ export function FillCodeQuestion({
     );
 }
 
-export default FillCodeQuestion;

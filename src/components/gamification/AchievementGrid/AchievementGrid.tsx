@@ -122,4 +122,3 @@ export function AchievementGrid({ achievements, unlockedIds, onAchievementClick 
     );
 }
 
-export default AchievementGrid;

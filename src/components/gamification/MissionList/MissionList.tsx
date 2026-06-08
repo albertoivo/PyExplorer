@@ -149,4 +149,3 @@ export function MissionList({ dailyMissions, weeklyMissions, userMissions }: Mis
     );
 }
 
-export default MissionList;

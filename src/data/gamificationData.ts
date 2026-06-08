@@ -404,6 +404,7 @@ export const ACHIEVEMENTS: Achievement[] = [
 // SISTEMA DE NÍVEIS
 // ============================================
 
+// fallow-ignore-next-line unused-export
 export const LEVELS: LevelInfo[] = [
     { level: 1, name: 'Novato', minXP: 0, maxXP: 100, icon: '🌱', color: '#48bb78' },
     { level: 2, name: 'Aprendiz', minXP: 100, maxXP: 250, icon: '🌿', color: '#68d391' },
@@ -426,6 +427,7 @@ export const LEVELS: LevelInfo[] = [
 // MISSÕES BASE
 // ============================================
 
+// fallow-ignore-next-line unused-export
 export const DAILY_MISSIONS: Omit<Mission, 'id'>[] = [
     {
         type: 'daily',
@@ -481,6 +483,7 @@ export const DAILY_MISSIONS: Omit<Mission, 'id'>[] = [
     },
 ];
 
+// fallow-ignore-next-line unused-export
 export const WEEKLY_MISSIONS: Omit<Mission, 'id'>[] = [
     {
         type: 'weekly',
@@ -720,6 +723,7 @@ export function getLevelProgress(xp: number): number {
 /**
  * Retorna as conquistas por categoria
  */
+// fallow-ignore-next-line unused-export
 export function getAchievementsByCategory(category: string): Achievement[] {
     return ACHIEVEMENTS.filter(a => a.category === category);
 }

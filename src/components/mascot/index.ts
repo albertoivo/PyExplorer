@@ -1,2 +1,1 @@
-export { Mascot, type MascotMood } from './Mascot';
-export { useMascot } from '../../hooks/useMascot';
+export { Mascot } from './Mascot';

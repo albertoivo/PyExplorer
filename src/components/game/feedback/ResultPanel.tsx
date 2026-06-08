@@ -115,4 +115,5 @@ export function ResultPanel({
     );
 }
 
+// fallow-ignore-next-line unused-export
 export default ResultPanel;

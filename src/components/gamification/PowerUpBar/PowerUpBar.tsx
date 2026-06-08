@@ -162,4 +162,3 @@ export function PowerUpBarCompact({
     );
 }
 
-export default PowerUpBar;
