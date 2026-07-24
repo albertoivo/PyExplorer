@@ -3,188 +3,130 @@ service cloud.firestore {
   match /databases/{database}/documents {
     
     // ============================================
-    // FUNÇÕES AUXILIARES
+    // FUNÇÕES AUXILIARES DE SEGURANÇA E VALIDAÇÃO
     // ============================================
     
-    // Verifica se está autenticado
     function isAuthenticated() {
       return request.auth != null;
     }
     
-    // Verifica se é o próprio usuário
     function isOwner(userId) {
       return isAuthenticated() && request.auth.uid == userId;
     }
     
-    // Valida que um campo é string com tamanho máximo
-    function isValidString(field, maxLength) {
-      return field is string && field.size() <= maxLength;
-    }
-
-    // Valida que um campo é lista com tamanho máximo
-    function isValidList(field, maxSize) {
-      return field is list && field.size() <= maxSize;
-    }
-    
-    // Valida que um número está dentro de um range
-    function isValidNumber(field, min, max) {
-      return field is number && field >= min && field <= max;
-    }
-
-    // Valida que um campo é timestamp
-    function isValidTimestamp(field) {
-      return field is timestamp;
-    }
-
-    // Valida que um campo é boolean
-    function isValidBoolean(field) {
-      return field is bool;
-    }
-
-    // Valida que um campo é um avatar válido (string, max 500 chars)
-    function isValidAvatar(field) {
-      return field is string && field.size() <= 500;
-    }
-
-    // Valida que um campo é um email válido (string, max 100 chars, contém @)
-    function isValidEmail(field) {
-      return field is string && field.size() <= 100 && field.matches('.*@.*');
-    }
-
-    // Valida se o objeto tem APENAS os campos permitidos
-    function hasOnly(data, fields) {
-      return data.keys().toSet().hasOnly(fields);
-    }
-
-    // Função para verificar se é admin
     function isAdmin() {
       return isAuthenticated() &&
              request.auth.token.email == 'albertoivo@gmail.com' &&
              request.auth.token.email_verified == true;
     }
-    
-    // ============================================
-    // QUESTÕES - Leitura pública, escrita apenas admin
-    // ============================================
-    match /questions/{questionId} {
-      allow read: if true;
-      // Admin pode escrever, mas validamos a estrutura para evitar erros
-      allow write: if isAdmin() &&
-        // Campos obrigatórios principais
-        ('type' in request.resource.data && request.resource.data.type in ['multiple_choice', 'true_false', 'fill_code', 'partial_function', 'full_function', 'parsons_problem', 'turtle_challenge', 'boss_battle']) &&
-        ('world' in request.resource.data && request.resource.data.world in ['basic_commands', 'numbers', 'variables', 'conditions', 'decisions', 'loops', 'functions', 'lists', 'strings', 'user_input', 'dictionaries', 'error_handling']) &&
-        ('difficulty' in request.resource.data && request.resource.data.difficulty in ['easy', 'medium', 'hard']) &&
-        ('title' in request.resource.data && isValidString(request.resource.data.title, 200)) &&
-        ('prompt' in request.resource.data && isValidString(request.resource.data.prompt, 2000)) &&
-        ('explanationKidFriendly' in request.resource.data && isValidString(request.resource.data.explanationKidFriendly, 1000)) &&
-        // Valida campos numéricos
-        (!('ageMin' in request.resource.data) || isValidNumber(request.resource.data.ageMin, 4, 18)) &&
-        (!('points' in request.resource.data) || isValidNumber(request.resource.data.points, 0, 1000)) &&
-        // Valida arrays opcionais
-        (!('options' in request.resource.data) || request.resource.data.options is list) &&
-        (!('tests' in request.resource.data) || request.resource.data.tests is list) &&
-        (!('parsonsSegments' in request.resource.data) || request.resource.data.parsonsSegments is list);
+
+    function isOwnerOrAdmin(userId) {
+      return isOwner(userId) || isAdmin();
     }
-    
-    // ============================================
-    // USUÁRIOS - Cada um só acessa seus dados
-    // ============================================
-    match /users/{userId} {
-      // Simplificado: Se é o dono ou admin, pode ler
-      allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
-      
-      // Escrita: Permite se for o dono ou admin com validação de campos numéricos críticos
-      allow create, update: if isAuthenticated() && (request.auth.uid == userId || isAdmin()) &&
-        hasOnly(request.resource.data, ['uid', 'displayName', 'avatar', 'email', 'createdAt', 'updatedAt', 'totalScore', 'balance', 'unlockedWorlds', 'lastLoginAt']) &&
-        // Valida displayName (string, max 50 chars)
-        (!('displayName' in request.resource.data) || isValidString(request.resource.data.displayName, 50)) &&
-        // Valida avatar
-        (!('avatar' in request.resource.data) || isValidAvatar(request.resource.data.avatar)) &&
-        // Valida email
-        (!('email' in request.resource.data) || isValidEmail(request.resource.data.email)) &&
-        // Valida createdAt e updatedAt
-        (!('createdAt' in request.resource.data) || isValidTimestamp(request.resource.data.createdAt)) &&
-        (!('updatedAt' in request.resource.data) || isValidTimestamp(request.resource.data.updatedAt)) &&
-        // Valida lastLoginAt se presente
-        (!('lastLoginAt' in request.resource.data) || isValidTimestamp(request.resource.data.lastLoginAt)) &&
-        // Valida totalScore se presente (0 a 9.999.999)
-        (!('totalScore' in request.resource.data) || isValidNumber(request.resource.data.totalScore, 0, 9999999)) &&
-        // Valida balance se presente (0 a 9.999.999)
-        (!('balance' in request.resource.data) || isValidNumber(request.resource.data.balance, 0, 9999999)) &&
-        // Valida unlockedWorlds (deve ser lista)
-        (!('unlockedWorlds' in request.resource.data) || isValidList(request.resource.data.unlockedWorlds, 1000));
+
+    function hasOnly(data, fields) {
+      return data.keys().toSet().hasOnly(fields);
+    }
+
+    function isValidString(val, maxLen) {
+      return val is string && val.size() <= maxLen;
+    }
+
+    function isValidNumber(val, minVal, maxVal) {
+      return val is number && val >= minVal && val <= maxVal;
     }
 
     // ============================================
-    // GAMIFICAÇÃO - Cada usuário só acessa seu progresso
+    // 1. QUESTÕES (Read: Público | Write: Admin)
+    // ============================================
+    match /questions/{questionId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // ============================================
+    // 2. USUÁRIOS (Read/Write: Dono ou Admin + Schema)
+    // ============================================
+    match /users/{userId} {
+      allow read: if isOwnerOrAdmin(userId);
+      
+      allow create, update: if isOwnerOrAdmin(userId) &&
+        hasOnly(request.resource.data, [
+          'uid', 'displayName', 'avatar', 'email', 
+          'createdAt', 'updatedAt', 'totalScore', 
+          'balance', 'unlockedWorlds', 'lastLoginAt'
+        ]) &&
+        (!('displayName' in request.resource.data) || isValidString(request.resource.data.displayName, 50)) &&
+        (!('avatar' in request.resource.data) || isValidString(request.resource.data.avatar, 500)) &&
+        (!('email' in request.resource.data) || (isValidString(request.resource.data.email, 100) && request.resource.data.email.matches('.*@.*'))) &&
+        (!('createdAt' in request.resource.data) || request.resource.data.createdAt is timestamp) &&
+        (!('updatedAt' in request.resource.data) || request.resource.data.updatedAt is timestamp) &&
+        (!('lastLoginAt' in request.resource.data) || request.resource.data.lastLoginAt is timestamp) &&
+        (!('totalScore' in request.resource.data) || isValidNumber(request.resource.data.totalScore, 0, 9999999)) &&
+        (!('balance' in request.resource.data) || isValidNumber(request.resource.data.balance, 0, 9999999)) &&
+        (!('unlockedWorlds' in request.resource.data) || (request.resource.data.unlockedWorlds is list && request.resource.data.unlockedWorlds.size() <= 1000));
+    }
+
+    // ============================================
+    // 3. GAMIFICAÇÃO (Read/Write: Dono ou Admin)
     // ============================================
     match /gamification/{userId} {
-      allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+      allow read: if isOwnerOrAdmin(userId);
       
-      // Escrita com validação simplificada para evitar bloqueios de permission-denied (limite de expressões/tipos estritos)
-      allow write: if isAuthenticated() && (request.auth.uid == userId || isAdmin()) &&
-        // Verifica se os campos básicos existem
+      allow write: if isOwnerOrAdmin(userId) &&
         ('level' in request.resource.data) &&
         ('streak' in request.resource.data) &&
         ('achievements' in request.resource.data) &&
         ('activeMissions' in request.resource.data) &&
         ('stats' in request.resource.data) &&
-        (!('updatedAt' in request.resource.data) || isValidTimestamp(request.resource.data.updatedAt));
+        (!('updatedAt' in request.resource.data) || request.resource.data.updatedAt is timestamp);
     }
     
     // ============================================
-    // PROGRESSO - Documentos no formato uid_questionId
+    // 4. PROGRESSO DO USUÁRIO (Format: uid_questionId)
     // ============================================
     match /userProgress/{progressId} {
-      // Função auxiliar para extrair UID do progressId (formato: uid_questionId)
-      function extractUidFromProgressId(pId) {
+      function getProgressUid(pId) {
         return pId.split('_')[0];
       }
       
-      // Leitura: Permite se:
-      // 1. O UID do usuário está no início do progressId (para getDoc individual)
-      // 2. Ou o campo uid do documento pertence ao usuário (para queries com where)
-      // 3. Ou é admin
       allow read: if isAuthenticated() && (
-        extractUidFromProgressId(progressId) == request.auth.uid ||
+        getProgressUid(progressId) == request.auth.uid ||
         (resource != null && resource.data.uid == request.auth.uid) ||
         isAdmin()
       );
       
-      // Escrita: Valida que o UID interno do documento pertence ao usuário e os dados são válidos
       allow write: if isAuthenticated() && (
-        (extractUidFromProgressId(progressId) == request.auth.uid &&
+        (getProgressUid(progressId) == request.auth.uid &&
          request.resource.data.uid == request.auth.uid &&
-         hasOnly(request.resource.data, ['uid', 'questionId', 'status', 'score', 'stars', 'attempts', 'bestTimeSeconds', 'lastAttemptAt', 'userAnswer']) &&
-         // Valida status se presente
+         hasOnly(request.resource.data, [
+           'uid', 'questionId', 'status', 'score', 'stars', 
+           'attempts', 'bestTimeSeconds', 'lastAttemptAt', 'userAnswer'
+         ]) &&
          (!('status' in request.resource.data) || request.resource.data.status in ['not_started', 'in_progress', 'completed']) &&
-         // Valida score se presente (0 a 9999)
          (!('score' in request.resource.data) || isValidNumber(request.resource.data.score, 0, 9999)) &&
-         // Valida attempts se presente (0 a 9999)
          (!('attempts' in request.resource.data) || isValidNumber(request.resource.data.attempts, 0, 9999)) &&
-         // Valida stars se presente (0 a 3)
          (!('stars' in request.resource.data) || isValidNumber(request.resource.data.stars, 0, 3)) &&
-         // Valida bestTimeSeconds se presente (0 a 99999)
          (!('bestTimeSeconds' in request.resource.data) || isValidNumber(request.resource.data.bestTimeSeconds, 0, 99999))
         ) ||
         isAdmin()
       );
     }
+
     // ============================================
-    // LEADERBOARD - Dados públicos (sem email/PII)
+    // 5. LEADERBOARD (Read: Autenticado | Write: Dono/Admin)
     // ============================================
     match /leaderboard/{userId} {
-      // Leitura pública (para montar o ranking)
       allow read: if isAuthenticated();
       
-      // Escrita apenas pelo próprio usuário (para atualizar seu score)
-      allow write: if isOwner(userId) &&
+      allow write: if isOwnerOrAdmin(userId) &&
         hasOnly(request.resource.data, ['uid', 'displayName', 'avatar', 'totalScore', 'level', 'updatedAt']) &&
         (!('displayName' in request.resource.data) || isValidString(request.resource.data.displayName, 50)) &&
-        (!('avatar' in request.resource.data) || isValidAvatar(request.resource.data.avatar)) &&
-        (!('updatedAt' in request.resource.data) || isValidTimestamp(request.resource.data.updatedAt)) &&
+        (!('avatar' in request.resource.data) || isValidString(request.resource.data.avatar, 500)) &&
+        (!('updatedAt' in request.resource.data) || request.resource.data.updatedAt is timestamp) &&
         (!('totalScore' in request.resource.data) || isValidNumber(request.resource.data.totalScore, 0, 9999999)) &&
         (!('level' in request.resource.data) || isValidNumber(request.resource.data.level, 0, 1000));
     }
   }
 }
+
