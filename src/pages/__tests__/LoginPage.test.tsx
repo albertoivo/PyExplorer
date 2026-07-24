@@ -1,12 +1,12 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { LoginPage } from './LoginPage';
-import { useAuth } from '../hooks/useAuth';
+import { LoginPage } from '../LoginPage';
+import { useAuth } from '../../hooks/useAuth';
 import { MemoryRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 
 // Mock do hook useAuth
-vi.mock('../hooks/useAuth', () => ({
+vi.mock('../../hooks/useAuth', () => ({
     useAuth: vi.fn(),
 }));
 

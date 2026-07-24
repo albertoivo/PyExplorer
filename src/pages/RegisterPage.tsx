@@ -5,6 +5,8 @@ import { SEO } from '../components/common/SEO';
 import { PasswordInput } from '../components/common/PasswordInput';
 import { GoogleSignInButton } from '../components/common/GoogleSignInButton';
 import { GuestModeButton } from '../components/common/GuestModeButton';
+import { AuthCard } from '../components/auth/AuthCard';
+import { AuthAlert } from '../components/common/AuthAlert';
 import './AuthPages.css';
 
 /**
@@ -56,7 +58,6 @@ export function RegisterPage() {
 
         try {
             await register(trimmedEmail, password, trimmedName);
-            // O useEffect acima cuida do redirect quando user muda
         } catch {
             // Erro já é tratado pelo contexto via setError
         } finally {
@@ -85,19 +86,13 @@ export function RegisterPage() {
                 title="Criar Conta Grátis"
                 description="Crie sua conta gratuita no PyExplorer e comece sua aventura de aprender Python jogando!"
             />
-            <div className="auth-card">
-                <div className="auth-card__header">
-                    <div className="auth-card__icon">🎮</div>
-                    <h1 className="auth-card__title">Criar sua Conta</h1>
-                    <p className="auth-card__subtitle">
-                        Junte-se à aventura de aprender Python!
-                    </p>
-                </div>
-
+            <AuthCard
+                icon="🎮"
+                title="Criar sua Conta"
+                subtitle="Junte-se à aventura de aprender Python!"
+            >
                 {(error || localError) && (
-                    <div className="auth-alert auth-alert--error" role="alert">
-                        ❌ {error || localError}
-                    </div>
+                    <AuthAlert type="error" message={error || localError} />
                 )}
 
                 <GoogleSignInButton
@@ -199,7 +194,7 @@ export function RegisterPage() {
                         </Link>
                     </p>
                 </div>
-            </div>
+            </AuthCard>
         </div>
     );
 }

@@ -5,6 +5,8 @@ import { SEO } from '../components/common/SEO';
 import { PasswordInput } from '../components/common/PasswordInput';
 import { GoogleSignInButton } from '../components/common/GoogleSignInButton';
 import { GuestModeButton } from '../components/common/GuestModeButton';
+import { AuthCard } from '../components/auth/AuthCard';
+import { AuthAlert } from '../components/common/AuthAlert';
 import './AuthPages.css';
 
 /**
@@ -40,8 +42,6 @@ export function LoginPage() {
 
         try {
             await login(email.trim(), password);
-            // O onAuthStateChanged + useEffect acima cuidam do redirect.
-            // Não fazemos navigate manual aqui para evitar race condition.
         } catch {
             // Erro já é tratado pelo contexto via setError
         } finally {
@@ -62,6 +62,28 @@ export function LoginPage() {
         }
     };
 
+    const handlePasswordReset = async () => {
+        clearError();
+        setLocalError(null);
+        setSuccessMessage(null);
+
+        if (!email.trim()) {
+            setLocalError('Digite seu email no campo acima para redefinir a senha.');
+            return;
+        }
+
+        try {
+            await sendPasswordReset(email.trim());
+            setSuccessMessage(`Email de redefinição enviado para ${email.trim()}!`);
+        } catch (err) {
+            const error = err as { code?: string; message?: string };
+            if (error?.code === 'auth/user-not-found' || error?.message?.includes('auth/user-not-found')) {
+                clearError();
+                setSuccessMessage(`Email de redefinição enviado para ${email.trim()}!`);
+            }
+        }
+    };
+
     const anyLoading = isLoading || isGoogleLoading;
 
     return (
@@ -70,31 +92,21 @@ export function LoginPage() {
                 title="Entrar"
                 description="Faça login no PyExplorer para continuar sua aventura de aprender Python jogando!"
             />
-            <div className="auth-card">
-                <div className="auth-card__header">
-                    <div className="auth-card__icon">🐍</div>
-                    <h1 className="auth-card__title">Entrar no PyExplorer</h1>
-                    <p className="auth-card__subtitle">
-                        Continue sua aventura de aprender Python!
-                    </p>
-                </div>
-
+            <AuthCard
+                icon="🐍"
+                title="Entrar no PyExplorer"
+                subtitle="Continue sua aventura de aprender Python!"
+            >
                 {requireLogin && (
-                    <div className="auth-alert auth-alert--warning" role="alert">
-                        ⚠️ Você precisa fazer login para acessar esta página
-                    </div>
+                    <AuthAlert type="warning" message="Você precisa fazer login para acessar esta página" />
                 )}
 
                 {(error || localError) && (
-                    <div className="auth-alert auth-alert--error" role="alert">
-                        ❌ {error || localError}
-                    </div>
+                    <AuthAlert type="error" message={error || localError} />
                 )}
 
                 {successMessage && (
-                    <div className="auth-alert auth-alert--success" role="status">
-                        ✅ {successMessage}
-                    </div>
+                    <AuthAlert type="success" message={successMessage} />
                 )}
 
                 <GoogleSignInButton
@@ -151,29 +163,7 @@ export function LoginPage() {
                 <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
                     <button
                         type="button"
-                        onClick={async () => {
-                            clearError();
-                            setLocalError(null);
-                            setSuccessMessage(null);
-
-                            if (!email.trim()) {
-                                setLocalError('Digite seu email no campo acima para redefinir a senha.');
-                                return;
-                            }
-
-                            try {
-                                await sendPasswordReset(email.trim());
-                                setSuccessMessage(`Email de redefinição enviado para ${email.trim()}!`);
-                            } catch (err) {
-                                // Prevent username enumeration: if user not found, show success message anyway
-                                const error = err as { code?: string; message?: string };
-                                if (error?.code === 'auth/user-not-found' || error?.message?.includes('auth/user-not-found')) {
-                                    clearError();
-                                    setSuccessMessage(`Email de redefinição enviado para ${email.trim()}!`);
-                                }
-                                // Other errors (network, etc) will be shown by AuthContext
-                            }
-                        }}
+                        onClick={handlePasswordReset}
                         className="auth-btn--forgot-password"
                     >
                         Esqueci minha senha
@@ -190,7 +180,7 @@ export function LoginPage() {
                         </Link>
                     </p>
                 </div>
-            </div>
+            </AuthCard>
         </div>
     );
 }

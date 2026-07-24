@@ -21,11 +21,35 @@ const getAudioContext = () => {
     return audioCtx;
 };
 
-export const playSound = (type: 'success' | 'error' | 'click') => {
+export const playSound = (type: 'success' | 'error' | 'click' | 'celebration') => {
     try {
         const ctx = getAudioContext();
         if (ctx.state === 'suspended') {
             ctx.resume();
+        }
+
+        const now = ctx.currentTime;
+
+        if (type === 'celebration') {
+            const notes = [
+                { freq: 523.25, start: 0, dur: 0.2 },
+                { freq: 659.25, start: 0.1, dur: 0.2 },
+                { freq: 783.99, start: 0.2, dur: 0.4 },
+                { freq: 1046.50, start: 0.3, dur: 0.6 }
+            ];
+            notes.forEach(({ freq, start, dur }) => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, now + start);
+                gain.gain.setValueAtTime(0.3, now + start);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + start + dur);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(now + start);
+                osc.stop(now + start + dur);
+            });
+            return;
         }
 
         const oscillator = ctx.createOscillator();
@@ -33,8 +57,6 @@ export const playSound = (type: 'success' | 'error' | 'click') => {
 
         oscillator.connect(gainNode);
         gainNode.connect(ctx.destination);
-
-        const now = ctx.currentTime;
 
         switch (type) {
             case 'success':
