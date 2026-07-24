@@ -753,7 +753,263 @@ export const WORLD_TUTORIALS: WorldTutorial[] = [
             },
         ],
     },
+
+    // ============================================
+    // 📂 ARQUIVOS (files)
+    // ============================================
+    {
+        worldId: 'files',
+        title: 'Arquivos do Conhecimento 📂',
+        description: 'Aprenda a ler e escrever arquivos de texto reais!',
+        estimatedMinutes: 8,
+        keyConcepts: ['open()', 'read()', 'write()', 'with', 'modos'],
+        steps: [
+            {
+                icon: '📂',
+                title: 'Guardando Dados para Sempre',
+                content: 'Quando o programa fecha, as variáveis somem. Para guardar dados para sempre, usamos arquivos no computador!',
+                animation: 'fadeIn',
+            },
+            {
+                icon: '✍️',
+                title: 'Escrevendo em Arquivos',
+                content: 'Usamos with open("nome.txt", "w") para abrir um arquivo no modo escrita ("w" de write).',
+                code: 'with open("nota.txt", "w") as f:\n    f.write("Olá mundo!")',
+                output: 'Arquivo nota.txt criado com "Olá mundo!"',
+                animation: 'typewriter',
+            },
+            {
+                icon: '📖',
+                title: 'Lendo Arquivos',
+                content: 'Usamos o modo "r" (read) para ler o conteúdo de um arquivo!',
+                code: 'with open("nota.txt", "r") as f:\n    texto = f.read()\n    print(texto)',
+                output: 'Olá mundo!',
+                animation: 'slideUp',
+            },
+            {
+                icon: '🎉',
+                title: 'Mestre dos Arquivos!',
+                content: 'Agora você sabe salvar pontuações, diários e relatórios em arquivos reais!',
+                animation: 'bounce',
+            },
+        ],
+    },
+
+    // ============================================
+    // 🧰 MÓDULOS (modules)
+    // ============================================
+    {
+        worldId: 'modules',
+        title: 'Bazar de Módulos 🧰',
+        description: 'Importe superpoderes e ferramentas prontas!',
+        estimatedMinutes: 7,
+        keyConcepts: ['import', 'random', 'math', 'datetime'],
+        steps: [
+            {
+                icon: '🧰',
+                title: 'O que são Módulos?',
+                content: 'Módulos são caixas de ferramentas prontas criadas por outros programadores para você não precisar reinventar a roda!',
+                animation: 'fadeIn',
+            },
+            {
+                icon: '🎲',
+                title: 'Módulo random',
+                content: 'Use import random para fazer sorteios e jogos com números aleatórios!',
+                code: 'import random\nprint(random.randint(1, 10))',
+                output: '7 (número sorteado)',
+                animation: 'bounce',
+            },
+            {
+                icon: '📐',
+                title: 'Módulo math',
+                content: 'Use import math para super cálculos como raiz quadrada e pi!',
+                code: 'import math\nprint(math.sqrt(25))\nprint(math.pi)',
+                output: '5.0\n3.141592653589793',
+                animation: 'typewriter',
+            },
+            {
+                icon: '🎉',
+                title: 'Invocador de Módulos!',
+                content: 'Com import você tem milhares de ferramentas incríveis ao seu alcance!',
+                animation: 'bounce',
+            },
+        ],
+    },
+
+    // ============================================
+    // 🧙‍♂️ ORIENTAÇÃO A OBJETOS (oop_basics)
+    // ============================================
+    {
+        worldId: 'oop_basics',
+        title: 'A Arte dos Objetos 🧙‍♂️',
+        description: 'Crie moldes e personagens com Classes e Objetos!',
+        estimatedMinutes: 10,
+        keyConcepts: ['class', 'objeto', '__init__', 'self', 'métodos'],
+        steps: [
+            {
+                icon: '🎨',
+                title: 'Moldes (Classes) e Objetos',
+                content: 'Uma Classe é a receita ou fôrma de um biscoito. O Objeto é o biscoito de verdade que você cria!',
+                animation: 'fadeIn',
+            },
+            {
+                icon: '🛠️',
+                title: 'Criando uma Classe com class',
+                content: 'Usamos class NomeDaClasse: e o método __init__(self) para inicializar as características.',
+                code: 'class Heroi:\n    def __init__(self, nome):\n        self.nome = nome\n\nh1 = Heroi("Arthur")\nprint(h1.nome)',
+                output: 'Arthur',
+                animation: 'typewriter',
+            },
+            {
+                icon: '⚡',
+                title: 'Ações (Métodos)',
+                content: 'Métodos são funções criadas dentro da classe que dão superpoderes aos objetos!',
+                code: 'class Gato:\n    def miar(self):\n        return "Miau!"\n\ng = Gato()\nprint(g.miar())',
+                output: 'Miau!',
+                animation: 'bounce',
+            },
+            {
+                icon: '🎉',
+                title: 'Arquiteto de Objetos!',
+                content: 'Você aprendeu Orientação a Objetos, o pilar de quase todos os jogos e softwares modernos!',
+                animation: 'bounce',
+            },
+        ],
+    },
+
+    // ============================================
+    // ⚡ PYTHONIC CODE (pythonic)
+    // ============================================
+    {
+        worldId: 'pythonic',
+        title: 'Atalhos Mágicos ⚡',
+        description: 'Escreva código limpo, rápido e poderoso!',
+        estimatedMinutes: 8,
+        keyConcepts: ['list comprehension', 'lambda', 'atalhos'],
+        steps: [
+            {
+                icon: '⚡',
+                title: 'Código Elegante (Pythonic)',
+                content: 'Em Python, gostamos de código limpo e legível. List Comprehension permite criar listas em 1 única linha!',
+                animation: 'fadeIn',
+            },
+            {
+                icon: '🪄',
+                title: 'List Comprehension',
+                content: 'Em vez de usar um for de 4 linhas, resuma tudo em [expressao for item in lista]!',
+                code: 'numeros = [1, 2, 3]\ndobros = [n * 2 for n in numeros]\nprint(dobros)',
+                output: '[2, 4, 6]',
+                animation: 'typewriter',
+            },
+            {
+                icon: '🎉',
+                title: 'Velocista Pythonic!',
+                content: 'Seus programas agora são super elegantes e profissionais!',
+                animation: 'bounce',
+            },
+        ],
+    },
+
+    // ============================================
+    // 🎨 ARTE & TURTLE (turtle_art)
+    // ============================================
+    {
+        worldId: 'turtle_art',
+        title: 'Estúdio de Arte & Turtle 🎨',
+        description: 'Desenhe formas geométricas e animações na tela!',
+        estimatedMinutes: 8,
+        keyConcepts: ['turtle', 'forward', 'right', 'left', 'loops de desenho'],
+        steps: [
+            {
+                icon: '🎨',
+                title: 'Desenhando com Código',
+                content: 'Com o módulo turtle, você controla uma canetinha tartaruga que desenha na tela enquanto anda!',
+                animation: 'fadeIn',
+            },
+            {
+                icon: '🐢',
+                title: 'Comandos Principais',
+                content: 'forward(passos) anda para frente, right(ang) e left(ang) giram a tartaruga!',
+                code: 'import turtle\nt = turtle.Turtle()\nt.forward(100)\nt.right(90)',
+                output: 'Tartaruga anda 100 pixels e vira 90 graus',
+                animation: 'typewriter',
+            },
+            {
+                icon: '🎉',
+                title: 'Artista do Código!',
+                content: 'Agora você pode criar estrelas, espirais e mandalas incríveis!',
+                animation: 'bounce',
+            },
+        ],
+    },
+
+    // ============================================
+    // 🤖 DADOS & IA (data_science)
+    // ============================================
+    {
+        worldId: 'data_science',
+        title: 'Laboratório de Dados & IA 🤖',
+        description: 'Analise estatísticas e descubra inteligência nos dados!',
+        estimatedMinutes: 9,
+        keyConcepts: ['estatística', 'max/min', 'média', 'filtros de dados'],
+        steps: [
+            {
+                icon: '🤖',
+                title: 'O Poder dos Dados',
+                content: 'A Inteligência Artificial aprende analisando milhões de dados. Em Python, usamos funções como sum(), max(), min() e len().',
+                animation: 'fadeIn',
+            },
+            {
+                icon: '📊',
+                title: 'Calculando a Média',
+                content: 'A média de uma lista de números é calculada dividindo a soma total pelo número de itens!',
+                code: 'notas = [8, 9, 10]\nmedia = sum(notas) / len(notas)\nprint(media)',
+                output: '9.0',
+                animation: 'typewriter',
+            },
+            {
+                icon: '🎉',
+                title: 'Cientista de Dados!',
+                content: 'Você agora sabe extrair insights e inteligência a partir dos números!',
+                animation: 'bounce',
+            },
+        ],
+    },
+
+    // ============================================
+    // 🌐 WEB & APIS (web_api)
+    // ============================================
+    {
+        worldId: 'web_api',
+        title: 'A Teia da Internet & APIs 🌐',
+        description: 'Conecte seu código aos dados vivos do mundo real!',
+        estimatedMinutes: 8,
+        keyConcepts: ['API', 'JSON', 'requisições', 'chaves'],
+        steps: [
+            {
+                icon: '🌐',
+                title: 'O que é uma API?',
+                content: 'APIs permitem que seu código Python converse com a internet para buscar o clima, notícias, moedas e muito mais!',
+                animation: 'fadeIn',
+            },
+            {
+                icon: '📦',
+                title: 'Lendo Dados JSON',
+                content: 'As respostas da web vêm em JSON, que acessamos exatamente como dicionários em Python!',
+                code: 'dados = {"cidade": "Rio", "temp": 30}\nprint(dados["temp"])',
+                output: '30',
+                animation: 'typewriter',
+            },
+            {
+                icon: '🎉',
+                title: 'Mestre da Web!',
+                content: 'Seus programas agora estão conectados ao mundo inteiro!',
+                animation: 'bounce',
+            },
+        ],
+    },
 ];
+
 
 // ============================================
 // FLASHCARDS DE REVISÃO
@@ -821,11 +1077,43 @@ export const FLASHCARDS: Flashcard[] = [
     { id: 'fc_dict_4', worldId: 'dictionaries', emoji: '🔄', difficulty: 'medium', question: 'Diferença de lista e dicionário?', answer: 'Lista: índice. Dict: chave nomeada', hint: 'lista[0] vs dict["nome"]' },
 
     // Tratamento de Erros
-    { id: 'fc_error_1', worldId: 'error_handling', emoji: '🛡️', difficulty: 'easy', question: 'Como proteger código de erros?', answer: 'try/except', codeExample: 'try:\\n  x = 1/0\\nexcept:\\n  print("Erro!")' },
+    { id: 'fc_error_1', worldId: 'error_handling', emoji: '🛡️', difficulty: 'easy', question: 'Como proteger código de erros?', answer: 'try/except', codeExample: 'try:\n  x = 1/0\nexcept:\n  print("Erro!")' },
     { id: 'fc_error_2', worldId: 'error_handling', emoji: '💥', difficulty: 'easy', question: 'O que é ZeroDivisionError?', answer: 'Erro de divisão por zero', hint: 'Acontece quando divide por 0' },
     { id: 'fc_error_3', worldId: 'error_handling', emoji: '📋', difficulty: 'medium', question: 'O que é ValueError?', answer: 'Erro de valor inválido', codeExample: 'int("abc")  # ValueError' },
     { id: 'fc_error_4', worldId: 'error_handling', emoji: '✅', difficulty: 'medium', question: 'O programa para após try/except?', answer: 'Não! Ele continua normalmente', hint: 'except captura o erro' },
+
+    // Arquivos
+    { id: 'fc_file_1', worldId: 'files', emoji: '📂', difficulty: 'easy', question: 'Qual comando abre um arquivo?', answer: 'open()', codeExample: 'open("nota.txt", "r")' },
+    { id: 'fc_file_2', worldId: 'files', emoji: '✍️', difficulty: 'easy', question: 'O que o modo "w" faz?', answer: 'Abre para escrita (write)', hint: 'Pode criar ou sobrescrever o arquivo' },
+    { id: 'fc_file_3', worldId: 'files', emoji: '🔒', difficulty: 'medium', question: 'Por que usar "with open"?', answer: 'Fecha o arquivo automaticamente!', codeExample: 'with open(...) as f:' },
+
+    // Módulos
+    { id: 'fc_mod_1', worldId: 'modules', emoji: '🧰', difficulty: 'easy', question: 'Qual palavra importa bibliotecas?', answer: 'import', codeExample: 'import math' },
+    { id: 'fc_mod_2', worldId: 'modules', emoji: '🎲', difficulty: 'easy', question: 'Qual módulo faz sorteios aleatórios?', answer: 'random', codeExample: 'random.randint(1, 10)' },
+    { id: 'fc_mod_3', worldId: 'modules', emoji: '📐', difficulty: 'medium', question: 'Qual módulo tem raiz quadrada e Pi?', answer: 'math', codeExample: 'math.sqrt(16)  # 4' },
+
+    // Orientação a Objetos
+    { id: 'fc_oop_1', worldId: 'oop_basics', emoji: '🎨', difficulty: 'easy', question: 'Qual palavra cria uma classe?', answer: 'class', codeExample: 'class Heroi:' },
+    { id: 'fc_oop_2', worldId: 'oop_basics', emoji: '🛠️', difficulty: 'medium', question: 'O que __init__(self) faz?', answer: 'Inicializa o objeto quando ele nasce', hint: 'É o construtor da classe' },
+    { id: 'fc_oop_3', worldId: 'oop_basics', emoji: '🙋‍♂️', difficulty: 'easy', question: 'O que self significa?', answer: 'O próprio objeto ("eu mesmo")', codeExample: 'self.nome = nome' },
+
+    // Pythonic
+    { id: 'fc_py_1', worldId: 'pythonic', emoji: '⚡', difficulty: 'easy', question: 'O que é List Comprehension?', answer: 'Criar listas em 1 linha única com for', codeExample: '[x*2 for x in lista]' },
+    { id: 'fc_py_2', worldId: 'pythonic', emoji: '🔍', difficulty: 'medium', question: 'Podemos colocar if em List Comp?', answer: 'Sim! Para filtrar itens', codeExample: '[x for x in lista if x > 0]' },
+
+    // Turtle
+    { id: 'fc_tur_1', worldId: 'turtle_art', emoji: '🐢', difficulty: 'easy', question: 'Qual comando anda para a frente?', answer: 'forward()', codeExample: 't.forward(100)' },
+    { id: 'fc_tur_2', worldId: 'turtle_art', emoji: '🔄', difficulty: 'easy', question: 'Como virar a tartaruga para a direita?', answer: 'right()', codeExample: 't.right(90)' },
+
+    // Data Science & IA
+    { id: 'fc_ds_1', worldId: 'data_science', emoji: '📊', difficulty: 'easy', question: 'Como somar todos os itens da lista?', answer: 'sum()', codeExample: 'sum([10, 20, 30])  # 60' },
+    { id: 'fc_ds_2', worldId: 'data_science', emoji: '📈', difficulty: 'medium', question: 'Como calcular a média?', answer: 'sum(lista) / len(lista)', hint: 'Soma total dividida pela quantidade' },
+
+    // Web & APIs
+    { id: 'fc_web_1', worldId: 'web_api', emoji: '🌐', difficulty: 'easy', question: 'O que é uma API?', answer: 'Interface para buscar dados na web', hint: 'Como um garçom digital' },
+    { id: 'fc_web_2', worldId: 'web_api', emoji: '📦', difficulty: 'medium', question: 'Qual formato de dados a web usa?', answer: 'JSON (parecido com dicionário)', codeExample: '{"status": "ok"}' },
 ];
+
 
 /** Gera dicas padrão baseadas na questão */
 function generateDefaultHints(questionId: string, explanation: string): QuestionHints {

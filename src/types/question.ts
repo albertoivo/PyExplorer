@@ -38,7 +38,15 @@ export type World =
   | 'strings'
   | 'user_input'
   | 'dictionaries'
-  | 'error_handling';
+  | 'error_handling'
+  | 'files'
+  | 'modules'
+  | 'oop_basics'
+  | 'pythonic'
+  | 'turtle_art'
+  | 'data_science'
+  | 'web_api';
+
 
 /**
  * Caso de teste para validação de código Python

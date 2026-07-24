@@ -254,5 +254,146 @@ export const BOSS_QUESTIONS: QuestionDocument[] = [
         ],
         solutionTemplate: `try:\n    resultado = 10 / 0\nexcept:\n    print("Impossível dividir por zero!")`
     },
+    {
+        id: 'boss_battle_12',
+        type: 'boss_battle',
+        world: 'files',
+        difficulty: 'hard',
+        ageMin: 10,
+        title: 'O Arquivista Fantasma',
+        prompt: 'Escreva um código que abra "desafio.txt" no modo escrita ("w") e grave o texto "Venci o Boss!"',
+        explanationKidFriendly: 'O Arquivista só aceita mensagens gravadas em arquivo de verdade!',
+        bossMetadata: {
+            bossName: 'Arquivista Fantasma',
+            bossAvatar: '👻',
+            timeLimitSeconds: 90,
+            initialCode: '# Escreva "Venci o Boss!" no arquivo desafio.txt\n'
+        },
+        tests: [
+            { input: null, expectedOutput: ['Venci o Boss!'] }
+        ],
+        solutionTemplate: `with open("desafio.txt", "w") as f:\n    f.write("Venci o Boss!")`
+    },
+    {
+        id: 'boss_battle_13',
+        type: 'boss_battle',
+        world: 'modules',
+        difficulty: 'hard',
+        ageMin: 10,
+        title: 'O Alquimista dos Módulos',
+        prompt: 'Importe o módulo `math` e mostre o valor de `math.pi` arredondado com 2 casas decimais usando `round(math.pi, 2)`.',
+        explanationKidFriendly: 'O Alquimista adora as constantes universais da matemática!',
+        bossMetadata: {
+            bossName: 'Alquimista do Pi',
+            bossAvatar: '🧪',
+            timeLimitSeconds: 90,
+            initialCode: '# Importe math e mostre round(math.pi, 2)\n'
+        },
+        tests: [
+            { input: null, expectedOutput: ['3.14'] }
+        ],
+        solutionTemplate: `import math\nprint(round(math.pi, 2))`
+    },
+    {
+        id: 'boss_battle_14',
+        type: 'boss_battle',
+        world: 'oop_basics',
+        difficulty: 'hard',
+        ageMin: 10,
+        title: 'O Titã de Aço',
+        prompt: 'Crie uma classe `Guerreiro` com `__init__(self, ataque)` e crie o objeto `g = Guerreiro(50)`. Mostre `g.ataque`!',
+        explanationKidFriendly: 'O Titã exige que você construa seu próprio Guerreiro usando Orientação a Objetos!',
+        bossMetadata: {
+            bossName: 'Titã de Aço',
+            bossAvatar: '🤖',
+            timeLimitSeconds: 120,
+            initialCode: '# Crie a classe Guerreiro e o objeto g\n'
+        },
+        tests: [
+            { input: null, expectedOutput: ['50'] }
+        ],
+        solutionTemplate: `class Guerreiro:\n    def __init__(self, ataque):\n        self.ataque = ataque\ng = Guerreiro(50)\nprint(g.ataque)`
+    },
+    {
+        id: 'boss_battle_15',
+        type: 'boss_battle',
+        world: 'pythonic',
+        difficulty: 'hard',
+        ageMin: 11,
+        title: 'O Velocista do Código',
+        prompt: 'O Velocista exige uma resposta rápida: crie uma list comprehension `[x**2 for x in range(1, 4)]` e imprima o resultado!',
+        explanationKidFriendly: 'Use a velocidade da list comprehension para derrotar o boss em 1 linha!',
+        bossMetadata: {
+            bossName: 'Velocista Pythonic',
+            bossAvatar: '⚡',
+            timeLimitSeconds: 90,
+            initialCode: '# Mostre os quadrados de 1 a 3 com list comprehension\n'
+        },
+        tests: [
+            { input: null, expectedOutput: ['[1, 4, 9]'] }
+        ],
+        solutionTemplate: `print([x**2 for x in range(1, 4)])`
+    },
+    {
+        id: 'boss_battle_16',
+        type: 'boss_battle',
+        world: 'turtle_art',
+        difficulty: 'hard',
+        ageMin: 10,
+        title: 'O Mestre dos Pincéis',
+        prompt: 'Importe `turtle`, crie `t = turtle.Turtle()` e faça um loop `for i in range(3): t.forward(50); t.left(120)` para desenhar um triângulo!',
+        explanationKidFriendly: 'O Mestre dos Pincéis quer ver você desenhar um triângulo perfeito com 3 giros de 120 graus!',
+        bossMetadata: {
+            bossName: 'Mestre Pincel',
+            bossAvatar: '🎨',
+            timeLimitSeconds: 120,
+            initialCode: '# Desenhe um triângulo com a tartaruga\n'
+        },
+        tests: [
+            { input: null, expectedOutput: null }
+        ],
+        solutionTemplate: `import turtle\nt = turtle.Turtle()\nfor i in range(3):\n    t.forward(50)\n    t.left(120)`
+    },
+    {
+        id: 'boss_battle_17',
+        type: 'boss_battle',
+        world: 'data_science',
+        difficulty: 'hard',
+        ageMin: 11,
+        title: 'O Oráculo dos Dados',
+        prompt: 'Dada a lista `dados = [10, 50, 20, 80, 30]`, filtre e mostre apenas os números maiores que 25!',
+        explanationKidFriendly: 'O Oráculo dos Dados quer ver você extrair apenas a informação relevante!',
+        bossMetadata: {
+            bossName: 'Oráculo de Dados',
+            bossAvatar: '📊',
+            timeLimitSeconds: 90,
+            initialCode: 'dados = [10, 50, 20, 80, 30]\n# Mostre números > 25\n'
+        },
+        tests: [
+            { input: null, expectedOutput: ['[50, 80, 30]'] }
+        ],
+        solutionTemplate: `dados = [10, 50, 20, 80, 30]\nprint([x for x in dados if x > 25])`
+    },
+    {
+        id: 'boss_battle_18',
+        type: 'boss_battle',
+        world: 'web_api',
+        difficulty: 'hard',
+        ageMin: 11,
+        title: 'O Guardião das Redes',
+        prompt: 'Dado o dicionário de resposta `api_data = {"user": "Heroi", "score": 999}`, imprima `"Heroi marcou 999"` usando f-string!',
+        explanationKidFriendly: 'Conecte as informações retornadas pela API em uma frase perfeita!',
+        bossMetadata: {
+            bossName: 'Guardião Web',
+            bossAvatar: '🌐',
+            timeLimitSeconds: 90,
+            initialCode: 'api_data = {"user": "Heroi", "score": 999}\n# Imprima a frase desejada\n'
+        },
+        tests: [
+            { input: null, expectedOutput: ['Heroi marcou 999'] }
+        ],
+        solutionTemplate: `api_data = {"user": "Heroi", "score": 999}\nprint(f"{api_data['user']} marcou {api_data['score']}")`
+    },
 ];
+
 

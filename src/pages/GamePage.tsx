@@ -46,6 +46,13 @@ const getWorldName = (world: World): string => {
         user_input: 'Conversando com o Usuário',
         dictionaries: 'Agenda Mágica',
         error_handling: 'Caçando Bugs',
+        files: 'Arquivos do Conhecimento',
+        modules: 'Bazar de Módulos',
+        oop_basics: 'A Arte dos Objetos',
+        pythonic: 'Atalhos Mágicos',
+        turtle_art: 'Estúdio de Arte & Turtle',
+        data_science: 'Laboratório de Dados & IA',
+        web_api: 'A Teia da Internet & APIs',
     };
     return names[world] || world;
 };

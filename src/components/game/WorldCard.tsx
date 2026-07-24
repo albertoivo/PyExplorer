@@ -1,15 +1,7 @@
 import type { CSSProperties } from 'react';
 import { memo } from 'react';
 import type { World } from '../../types/question';
-
-interface WorldInfo {
-    id: World;
-    name: string;
-    description: string;
-    icon: string;
-    color: string;
-    requiredScore?: number;
-}
+import type { WorldInfo } from '../../data/worlds';
 
 interface WorldCardProps {
     world: WorldInfo;
@@ -21,6 +13,7 @@ interface WorldCardProps {
     isComplete: boolean;
     hasTutorial: boolean;
     viewedTutorial: boolean;
+    sagaBadge?: string;
     onClick: (world: WorldInfo) => void;
     onShowTutorial: (worldId: World) => void;
     onShowFlashcards: (worldId: World) => void;
@@ -36,6 +29,7 @@ export const WorldCard = memo(function WorldCard({
     isComplete,
     hasTutorial,
     viewedTutorial,
+    sagaBadge,
     onClick,
     onShowTutorial,
     onShowFlashcards
@@ -47,9 +41,14 @@ export const WorldCard = memo(function WorldCard({
                 style={{ '--world-color': world.color } as CSSProperties}
                 onClick={() => onClick(world)}
                 disabled={!unlocked}
-                aria-label={`Mundo ${index + 1}: ${world.name}. ${unlocked ? (isComplete ? 'Completo' : 'Disponível') : 'Bloqueado'}.${unlocked && total > 0 ? ` Progresso: ${percentage}%.` : ''}`}
+                aria-label={`Mundo ${index + 1}: ${world.name}. ${unlocked ? (isComplete ? 'Completo' : 'Disponível') : 'Bloqueado'}.${unlocked && total > 0 ? ` Progresso: ${percentage.toFixed(0)}%.` : ''}`}
             >
-                <div className="world-card__number" aria-hidden="true">{index + 1}</div>
+                <div className="world-card__top-bar">
+                    <span className="world-card__number" aria-hidden="true">#{index + 1}</span>
+                    {sagaBadge && (
+                        <span className="world-card__saga-chip">{sagaBadge}</span>
+                    )}
+                </div>
 
                 <div className="world-card__icon" aria-hidden="true">
                     {unlocked ? world.icon : '🔒'}
@@ -74,12 +73,12 @@ export const WorldCard = memo(function WorldCard({
 
                 {!unlocked && world.requiredScore && (
                     <div className="world-card__requirement">
-                        🔒 Precisa de {world.requiredScore} ⭐
+                        🔒 Requer {world.requiredScore} ⚡ pts
                     </div>
                 )}
 
                 {isComplete && (
-                    <div className="world-card__badge">🏆</div>
+                    <div className="world-card__badge" title="Mundo 100% Concluído!">🏆</div>
                 )}
 
                 {/* Indicador de Boss - só falta 1 para completar */}
@@ -92,7 +91,7 @@ export const WorldCard = memo(function WorldCard({
                 {/* Indicador de tutorial novo */}
                 {unlocked && hasTutorial && !viewedTutorial && (
                     <div className="world-card__tutorial-badge">
-                        📖 Nova lição!
+                        📖 Nova Lição!
                     </div>
                 )}
             </button>
@@ -107,8 +106,8 @@ export const WorldCard = memo(function WorldCard({
                                 e.stopPropagation();
                                 onShowTutorial(world.id);
                             }}
-                            title="Ver Tutorial"
-                            aria-label="Ver Tutorial"
+                            title="Ver Lição Explicativa"
+                            aria-label="Ver Lição Explicativa"
                         >
                             <span aria-hidden="true">📖</span>
                         </button>
@@ -119,8 +118,8 @@ export const WorldCard = memo(function WorldCard({
                             e.stopPropagation();
                             onShowFlashcards(world.id);
                         }}
-                        title="Flashcards"
-                        aria-label="Ver Flashcards"
+                        title="Revisar com Flashcards"
+                        aria-label="Revisar com Flashcards"
                     >
                         <span aria-hidden="true">📚</span>
                     </button>

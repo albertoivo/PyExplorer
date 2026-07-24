@@ -1,29 +1,38 @@
 .world-map {
-    padding: 2rem;
-    max-width: 1200px;
+    padding: 2rem 1rem;
+    max-width: 1280px;
     margin: 0 auto;
     position: relative;
 }
 
+/* Header */
 .world-map__header {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
 }
 
 .world-map__title {
     font-size: 2.5rem;
     font-weight: 800;
-    background: linear-gradient(90deg, #00d9ff, #00ff88);
+    background: linear-gradient(90deg, #00d9ff, #a855f7, #ec4899);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin: 0 0 0.75rem;
+    margin: 0 0 0.5rem;
 }
 
 .world-map__subtitle {
     color: #a0aec0;
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     margin: 0 0 1.5rem;
+}
+
+.world-map__stats-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .world-map__score {
@@ -33,17 +42,190 @@
     background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 165, 0, 0.15) 100%);
     border: 2px solid rgba(255, 215, 0, 0.4);
     border-radius: 50px;
-    padding: 0.75rem 1.5rem;
+    padding: 0.6rem 1.5rem;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.1);
 }
 
 .world-map__score-icon {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
 }
 
 .world-map__score-value {
     font-size: 1.1rem;
     font-weight: 700;
     color: #ffd700;
+}
+
+/* Abas de Navegação de Sagas */
+.world-map__saga-tabs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+    padding: 0.5rem;
+    background: rgba(30, 30, 46, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+}
+
+.world-map__tab {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.25rem;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: #a0aec0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.world-map__tab:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.world-map__tab--active {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.05) 100%);
+    border-color: var(--tab-color, #00d9ff);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 10px color-mix(in srgb, var(--tab-color, #00d9ff) 30%, transparent);
+}
+
+.world-map__tab-icon {
+    font-size: 1.1rem;
+}
+
+.world-map__tab-badge {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    font-size: 0.75rem;
+    padding: 0.15rem 0.4rem;
+    border-radius: 6px;
+    font-weight: 700;
+}
+
+/* Sagas Container & Sections */
+.world-map__sagas-container {
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+}
+
+.world-map__saga-section {
+    position: relative;
+}
+
+/* Banner Épico da Saga */
+.saga-banner {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.75rem 2rem;
+    background: var(--saga-gradient, linear-gradient(135deg, #1e1e2e 0%, #2a2a3e 100%));
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.saga-banner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 300px;
+    background: radial-gradient(circle at 100% 50%, rgba(255, 255, 255, 0.15), transparent 70%);
+    pointer-events: none;
+}
+
+.saga-banner__icon-box {
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    flex-shrink: 0;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.saga-banner__content {
+    flex: 1;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 0.4rem;
+}
+
+.saga-banner__top {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.saga-banner__badge {
+    background: rgba(255, 255, 255, 0.25);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    backdrop-filter: blur(5px);
+}
+
+.saga-banner__progress-chip {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.saga-banner__title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #fff;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.saga-banner__description {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.saga-banner__progress-bar {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    overflow: hidden;
+    margin-top: 0.5rem;
+    width: 100%;
+}
+
+.saga-banner__progress-fill {
+    height: 100%;
+    background: #fff;
+    border-radius: 50px;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
 }
 
 /* Grid de mundos */
@@ -54,7 +236,14 @@
     position: relative;
     z-index: 1;
     align-items: stretch;
-    /* Garante que as células tenham a mesma altura */
+}
+
+/* World card wrapper */
+.world-card-wrapper {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Card de mundo */
@@ -63,29 +252,17 @@
     background: linear-gradient(145deg, #1e1e2e 0%, #2a2a3e 100%);
     border: 3px solid rgba(255, 255, 255, 0.1);
     border-radius: 24px;
-    padding: 2rem;
+    padding: 1.75rem 1.5rem;
     text-align: center;
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     overflow: hidden;
-    /* Alinhamento Flexbox */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     height: 100%;
     width: 100%;
-}
-
-/* ... (mantém pseudo-elementos e hover) ... */
-
-/* World card wrapper para ações */
-.world-card-wrapper {
-    position: relative;
-    height: 100%;
-    /* Ocupa altura total da célula da grid */
-    display: flex;
-    flex-direction: column;
 }
 
 .world-card::before {
@@ -96,14 +273,13 @@
     right: 0;
     height: 4px;
     background: var(--world-color);
-    opacity: 0.5;
+    opacity: 0.6;
 }
 
 .world-card--unlocked:hover {
-    transform: translateY(-10px) scale(1.02);
+    transform: translateY(-8px) scale(1.02);
     border-color: var(--world-color);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
-        0 0 30px color-mix(in srgb, var(--world-color) 30%, transparent);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px color-mix(in srgb, var(--world-color) 35%, transparent);
 }
 
 .world-card--unlocked:hover::before {
@@ -113,12 +289,12 @@
 .world-card--locked {
     opacity: 0.6;
     cursor: not-allowed;
-    filter: grayscale(0.5);
+    filter: grayscale(0.6);
 }
 
 .world-card--complete {
-    border-color: rgba(72, 187, 120, 0.5);
-    background: linear-gradient(145deg, #1e2e24 0%, #2a3e30 100%);
+    border-color: rgba(72, 187, 120, 0.6);
+    background: linear-gradient(145deg, #182c20 0%, #223a2b 100%);
 }
 
 .world-card--complete::before {
@@ -126,30 +302,47 @@
     opacity: 1;
 }
 
+/* Barra Superior no Card */
+.world-card__top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
 .world-card__number {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 50%;
-    font-size: 0.875rem;
+    font-size: 0.8rem;
     font-weight: 700;
     color: #a0aec0;
 }
 
+.world-card__saga-chip {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.08);
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
 .world-card__icon {
-    font-size: 4rem;
-    margin-bottom: 1rem;
+    font-size: 3.5rem;
+    margin: 0.5rem 0 1rem;
     transition: transform 0.3s ease;
 }
 
 .world-card--unlocked:hover .world-card__icon {
-    transform: scale(1.1);
+    transform: scale(1.15);
     animation: bounce 0.6s ease infinite;
 }
 
@@ -157,11 +350,11 @@
 
     0%,
     100% {
-        transform: scale(1.1) translateY(0);
+        transform: scale(1.15) translateY(0);
     }
 
     50% {
-        transform: scale(1.1) translateY(-10px);
+        transform: scale(1.15) translateY(-8px);
     }
 }
 
@@ -171,9 +364,9 @@
     right: 12px;
     background-color: #e53e3e;
     color: white;
-    padding: 0.25rem 0.75rem;
+    padding: 0.25rem 0.6rem;
     border-radius: 20px;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -184,10 +377,10 @@
 }
 
 .world-card__name {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     font-weight: 700;
     color: #fff;
-    margin: 0 0 0.5rem;
+    margin: 0 0 0.4rem;
 }
 
 .world-card--unlocked .world-card__name {
@@ -195,15 +388,13 @@
 }
 
 .world-card__description {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: #a0aec0;
-    margin: 0 0 1.25rem;
-    line-height: 1.5;
+    margin: 0 0 1rem;
+    line-height: 1.4;
     flex-grow: 1;
-    /* Ocupa espaço disponível para empurrar conteúdo abaixo */
     display: flex;
     align-items: center;
-    /* Centraliza texto verticalmente se for curto */
     justify-content: center;
 }
 
@@ -212,6 +403,8 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    width: 100%;
+    margin-top: auto;
 }
 
 .world-card__progress-bar {
@@ -237,18 +430,19 @@
 }
 
 .world-card__requirement {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: #a0aec0;
     background: rgba(255, 255, 255, 0.05);
-    padding: 0.5rem 1rem;
+    padding: 0.4rem 0.8rem;
     border-radius: 8px;
+    margin-top: auto;
 }
 
 .world-card__badge {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
-    font-size: 1.5rem;
+    top: 0.75rem;
+    right: 0.75rem;
+    font-size: 1.4rem;
     animation: pulse 2s infinite;
 }
 
@@ -264,61 +458,11 @@
     }
 }
 
-/* Caminho visual (decorativo) */
-.world-map__path {
-    display: none;
-    /* Pode ser habilitado para layout linear */
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    z-index: 0;
-}
-
-.world-map__path-segment {
-    height: 4px;
-    background: rgba(255, 255, 255, 0.1);
-    margin: 0 -10px;
-    border-radius: 2px;
-}
-
-.world-map__path-segment--active {
-    background: linear-gradient(90deg, #00d9ff, #667eea);
-}
-
-/* Responsivo */
-@media (max-width: 768px) {
-    .world-map {
-        padding: 1rem;
-    }
-
-    .world-map__title {
-        font-size: 1.75rem;
-    }
-
-    .world-map__grid {
-        grid-template-columns: 1fr;
-    }
-
-    .world-card {
-        padding: 1.5rem;
-    }
-
-    .world-card__icon {
-        font-size: 3rem;
-    }
-}
-
-/* World card wrapper para ações */
-.world-card-wrapper {
-    position: relative;
-}
-
 /* Badge de tutorial novo */
 .world-card__tutorial-badge {
     position: absolute;
-    top: 14px;
-    left: 56px;
+    top: 40px;
+    left: 12px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: #fff;
     padding: 0.2rem 0.5rem;
@@ -361,12 +505,12 @@
 .world-card-wrapper:hover .world-card__actions {
     opacity: 1;
     visibility: visible;
-    bottom: -20px;
+    bottom: -18px;
 }
 
 .world-card__action-btn {
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     border: none;
     background: linear-gradient(145deg, #1e1e2e 0%, #2a2a3e 100%);
@@ -381,11 +525,44 @@
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-/* Mobile: ações sempre visíveis */
+/* Responsivo */
 @media (max-width: 768px) {
+    .world-map {
+        padding: 1rem 0.5rem;
+    }
+
+    .world-map__title {
+        font-size: 1.8rem;
+    }
+
+    .saga-banner {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem;
+        gap: 1rem;
+    }
+
+    .saga-banner__icon-box {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+    }
+
+    .saga-banner__top {
+        justify-content: center;
+    }
+
+    .world-map__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .world-card {
+        padding: 1.5rem 1.25rem;
+    }
+
     .world-card__actions {
         opacity: 1;
         visibility: visible;
-        bottom: -20px;
+        bottom: -18px;
     }
 }
