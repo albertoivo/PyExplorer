@@ -77,6 +77,13 @@ export function Header() {
                     >
                         <span aria-hidden="true">🏠</span> Início
                     </Link>
+                    <Link
+                        to="/learn"
+                        className={`header__nav-link ${location.pathname.startsWith('/learn') ? 'header__nav-link--active' : ''}`}
+                        aria-current={location.pathname.startsWith('/learn') ? 'page' : undefined}
+                    >
+                        <span aria-hidden="true">📚</span> Aprender
+                    </Link>
 
                     {userData && (
                         <>

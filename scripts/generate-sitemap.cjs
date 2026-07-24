@@ -97,8 +97,9 @@ function generateSitemap() {
     const urls = [];
 
     // 1. Process Detected Routes
+    const ignoredRoutes = ['/learn/:slug', '*', '/game', '/profile', '/rewards', '/certificate'];
     for (const route of detectedRoutes) {
-        if (route.path === '/learn/:slug') continue; // Handle separately
+        if (ignoredRoutes.includes(route.path)) continue; // Ignorar rotas dinâmicas/privadas/wildcard
 
         const relativePath = resolveComponentPath(route.component, appContent);
         let lastmod = new Date().toISOString().split('T')[0];
@@ -120,8 +121,10 @@ function generateSitemap() {
 
         const rule = RULES[route.path] || RULES['default'];
 
+        const routeUrl = route.path === '/' ? BASE_URL : `${BASE_URL}${route.path}`;
+
         urls.push({
-            loc: `${BASE_URL}${route.path}`,
+            loc: routeUrl,
             lastmod,
             changefreq: rule.changefreq,
             priority: rule.priority
