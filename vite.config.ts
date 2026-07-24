@@ -38,8 +38,7 @@ const prerenderPlugin = process.env.CI === 'true' ? null : prerender({
     '/register'
   ],
   renderer: new prerender.PuppeteerRenderer({
-    renderAfterDocumentEvent: 'render-event',
-    renderAfterTime: 10000, // Aumentado para 10s como segurança
+    renderAfterTime: 2000,
     headless: true,
     args: [
       '--no-sandbox',
@@ -50,7 +49,7 @@ const prerenderPlugin = process.env.CI === 'true' ? null : prerender({
       '--no-zygote',
       '--single-process'
     ],
-    maxConcurrentRoutes: 1,
+    maxConcurrentRoutes: 4,
     // No CI, o console do Puppeteer ajudará a identificar erros na aplicação
     consoleHandler(msg: PuppeteerConsoleMessage) {
       console.log('[Puppeteer Console]', msg.text());
