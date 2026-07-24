@@ -40,10 +40,6 @@ export function PowerUpBar({
 
     return (
         <div className="powerup-bar">
-            <div className="powerup-bar__title">
-                <span className="powerup-bar__title-icon">⚡</span>
-                <span>Power-ups</span>
-            </div>
 
             <div className="powerup-bar__items">
                 {POWERUPS.map(powerUp => {
