@@ -4,12 +4,12 @@ import { renderHook, act, waitFor } from '@testing-library/react';
 import { useOffline } from '../useOffline';
 import * as questionsService from '../../firebase/questionsService';
 import * as firestoreModule from '../../firebase/firestore';
-import * as authContext from '../../context/AuthContext';
+import * as authHook from '../useAuth';
 
 // Mock dependencies
 vi.mock('../../firebase/questionsService');
 vi.mock('../../firebase/firestore');
-vi.mock('../../context/AuthContext');
+vi.mock('../useAuth');
 
 describe('useOffline', () => {
     let localStorageStore: Record<string, string> = {};
@@ -54,7 +54,7 @@ describe('useOffline', () => {
         }));
 
         // Mock Auth
-        (authContext.useAuth as any).mockReturnValue({
+        (authHook.useAuth as any).mockReturnValue({
             user: mockUser
         });
 
@@ -180,7 +180,7 @@ describe('useOffline', () => {
     });
 
     it('does NOT sync if user not logged in', async () => {
-        (authContext.useAuth as any).mockReturnValue({ user: null });
+        (authHook.useAuth as any).mockReturnValue({ user: null });
         const pending = [{ questionId: 'q1', passed: true, score: 100, timestamp: 123 }];
         localStorageStore['pyexplorer_offline_progress'] = JSON.stringify(pending);
 

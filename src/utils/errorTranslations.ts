@@ -1,20 +1,50 @@
 /**
  * Traduz mensagens de erro do Firebase para português.
  * Centralizado aqui para evitar problemas com Fast Refresh nos contextos.
+ *
+ * Usa regex para extrair o código de erro (ex: "auth/user-not-found")
+ * e lookup direto O(1) em vez de loop O(n) sobre todas as traduções.
  */
 export function translateFirebaseError(message: string): string {
     const translations: Record<string, string> = {
-        // Prevent username enumeration by using generic error messages
+        // Login — mensagens genéricas para prevenir username enumeration
         'auth/user-not-found': 'Email ou senha incorretos',
         'auth/wrong-password': 'Email ou senha incorretos',
         'auth/invalid-credential': 'Email ou senha incorretos',
+        'auth/invalid-login-credentials': 'Email ou senha incorretos',
+
+        // Cadastro
         'auth/email-already-in-use': 'Este email já está em uso',
         'auth/weak-password': 'A senha deve ter pelo menos 6 caracteres',
         'auth/invalid-email': 'Email inválido',
+
+        // Rate limiting e segurança
         'auth/too-many-requests': 'Muitas tentativas. Tente novamente mais tarde',
+        'auth/user-disabled': 'Esta conta foi desativada. Entre em contato conosco',
+        'auth/requires-recent-login': 'Sessão expirada. Faça login novamente',
+        'auth/operation-not-allowed': 'Este método de login não está habilitado',
+
+        // Rede
         'auth/network-request-failed': 'Erro de conexão. Verifique sua internet',
+
+        // Google / OAuth
+        'auth/popup-blocked': 'Pop-up bloqueado pelo navegador. Permita pop-ups e tente novamente',
+        'auth/popup-closed-by-user': 'Login cancelado. Tente novamente',
+        'auth/cancelled-popup-request': 'Login cancelado. Tente novamente',
+        'auth/account-exists-with-different-credential': 'Já existe uma conta com esse email usando outro método de login',
+        'auth/credential-already-in-use': 'Essa credencial já está associada a outra conta',
     };
 
+    // Extrai o código do Firebase da mensagem (ex: "Firebase: Error (auth/invalid-email).")
+    const codeMatch = message.match(/auth\/[\w-]+/);
+    if (codeMatch) {
+        const code = codeMatch[0];
+        if (code in translations) {
+            return translations[code];
+        }
+    }
+
+    // Fallback: tenta match por substring (para mensagens sem formato padrão)
     for (const [code, translation] of Object.entries(translations)) {
         if (message.includes(code)) {
             return translation;

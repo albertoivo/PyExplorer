@@ -56,8 +56,9 @@ let db: Firestore;
 try {
     app = initializeApp(firebaseConfig);
 
-    // Em auditorias automáticas, usamos auth em memória para não inicializar
-    // resolvers de popup/redirect que criam iframes e ruído no console.
+    // Em auditorias automáticas (Lighthouse/PageSpeed), usamos auth em memória sem
+    // resolvers de popup/redirect para evitar criação de iframes e ruídos no console.
+    // Para uso normal, getAuth(app) inicializa com persistência local e browserPopupRedirectResolver.
     auth = env.IS_AUDIT_BOT
         ? initializeAuth(app, { persistence: inMemoryPersistence })
         : getAuth(app);

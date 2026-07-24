@@ -13,11 +13,11 @@ interface ProtectedRouteProps {
  * Componente que protege rotas que requerem autenticação
  */
 export function ProtectedRoute({ children, allowGuest = true }: ProtectedRouteProps) {
-    const { userData, loading, isGuest } = useAuth();
+    const { user, userData, loading, isGuest } = useAuth();
     const location = useLocation();
 
-    // Mostra loading enquanto verifica autenticação
-    if (loading) {
+    // Mostra loading enquanto verifica autenticação ou carrega o perfil do usuário
+    if (loading || (user && !userData)) {
         return (
             <div className="protected-route__loading">
                 <div className="protected-route__spinner"></div>
@@ -27,7 +27,7 @@ export function ProtectedRoute({ children, allowGuest = true }: ProtectedRoutePr
     }
 
     // Se não há usuário (nem convidado), redireciona para login
-    if (!userData) {
+    if (!userData && !isGuest) {
         return <Navigate to="/login" state={{ from: location }} replace />;
     }
 

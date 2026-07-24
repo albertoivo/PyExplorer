@@ -1,7 +1,6 @@
-import { useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import type { User } from 'firebase/auth';
-import { resetLoginRedirectFlag } from '../utils/authRedirect';
 import { translateFirebaseError } from '../utils/errorTranslations';
 import { subscribeToAuthChanges, signIn, signUp, logOut, resetPassword, signInWithGoogle, signInWithGoogleRedirect, checkRedirectResult } from '../firebase/auth';
 import { saveUser, getUser } from '../firebase/firestore';
@@ -15,6 +14,58 @@ interface AuthProviderProps {
 }
 
 const GUEST_KEY = 'pyexplorer_guest';
+
+/**
+ * Cria um objeto UserData padrão para novos usuários.
+ * Factory centralizada para evitar duplicação (usado em registro, Google popup e Google redirect).
+ */
+function createDefaultUserData(overrides: {
+    uid: string;
+    displayName: string;
+    email: string;
+    avatar?: string;
+}): UserData {
+    return {
+        uid: overrides.uid,
+        displayName: overrides.displayName,
+        email: overrides.email,
+        avatar: overrides.avatar || 'default_avatar',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        totalScore: 0,
+        balance: 0,
+        unlockedWorlds: ['basic_commands' as World],
+    };
+}
+
+/**
+ * Lê e valida dados do convidado do localStorage.
+ * Retorna null se não houver dados ou se estiverem corrompidos.
+ */
+function readGuestData(): UserData | null {
+    try {
+        const raw = localStorage.getItem(GUEST_KEY);
+        if (!raw) return null;
+
+        const data = JSON.parse(raw);
+
+        // Validação mínima: verifica que os campos essenciais existem
+        if (
+            typeof data.uid !== 'string' ||
+            typeof data.displayName !== 'string'
+        ) {
+            // Dados corrompidos — limpa o localStorage
+            localStorage.removeItem(GUEST_KEY);
+            return null;
+        }
+
+        return data as UserData;
+    } catch {
+        // JSON inválido — limpa o localStorage
+        localStorage.removeItem(GUEST_KEY);
+        return null;
+    }
+}
 
 /**
  * Provider de autenticação que encapsula toda a lógica de login/cadastro
@@ -51,17 +102,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
                     const existingData = await getUser(firebaseUser.uid);
 
                     if (!existingData) {
-                        const newUserData: UserData = {
+                        const newUserData = createDefaultUserData({
                             uid: firebaseUser.uid,
                             displayName: firebaseUser.displayName || 'Explorador',
                             email: firebaseUser.email || '',
-                            avatar: 'default_avatar',
-                            createdAt: new Date(),
-                            updatedAt: new Date(),
-                            totalScore: 0,
-                            balance: 0,
-                            unlockedWorlds: ['basic_commands' as World],
-                        };
+                        });
                         await saveUser(newUserData);
                         // O onAuthStateChanged vai atualizar o estado
                     }
@@ -109,12 +154,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
                     console.error('Erro ao buscar dados do usuário:', err);
                 }
             } else {
-                // Verifica se há dados de convidado
-                const guestData = localStorage.getItem(GUEST_KEY);
+                // Verifica se há dados de convidado (com validação)
+                const guestData = readGuestData();
                 if (guestData) {
                     setIsGuest(true);
-                    const data = JSON.parse(guestData);
-                    setUserData(data);
+                    setUserData(guestData);
                 } else {
                     setUserData(null);
                     setIsGuest(false);
@@ -140,6 +184,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     /**
      * Faz login com Google
+     * Não faz throw — erros são tratados via setError para evitar Unhandled Promise Rejections.
      */
     const loginWithGoogle = useCallback(async () => {
         setError(null);
@@ -163,17 +208,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
             if (!existingData) {
                 // Se não tiver, cria um novo registro (fluxo de cadastro)
-                const newUserData: UserData = {
+                const newUserData = createDefaultUserData({
                     uid: firebaseUser.uid,
                     displayName: firebaseUser.displayName || 'Explorador',
                     email: firebaseUser.email || '',
-                    avatar: 'default_avatar',
-                    createdAt: new Date(),
-                    updatedAt: new Date(),
-                    totalScore: 0,
-                    balance: 0,
-                    unlockedWorlds: ['basic_commands' as World],
-                };
+                });
 
                 await saveUser(newUserData);
                 setUserData(newUserData);
@@ -202,62 +241,57 @@ export function AuthProvider({ children }: AuthProviderProps) {
             const message = err instanceof Error ? err.message : 'Erro ao entrar com Google';
             setError(translateFirebaseError(message));
             setLoading(false);
-            throw err;
         }
     }, []);
 
     /**
-     * Faz login com email e senha
+     * Faz login com email e senha.
+     * Não faz throw — erros são tratados via setError.
+     * O onAuthStateChanged cuida de atualizar o estado do usuário.
      */
     const login = useCallback(async (email: string, password: string) => {
         setError(null);
         setLoading(true);
         try {
-            await signIn(email, password);
+            await signIn(email.trim(), password);
         } catch (err) {
             const message = err instanceof Error ? err.message : 'Erro ao fazer login';
             setError(translateFirebaseError(message));
-            throw err;
         } finally {
             setLoading(false);
         }
     }, []);
 
     /**
-     * Cadastra novo usuário
+     * Cadastra novo usuário.
+     * Não faz throw — erros são tratados via setError.
      */
     const register = useCallback(async (email: string, password: string, displayName: string) => {
         setError(null);
         setLoading(true);
         try {
-            const credential = await signUp(email, password, displayName);
+            const credential = await signUp(email.trim(), password, displayName.trim());
 
             // Cria documento do usuário no Firestore
-            const newUserData: UserData = {
+            const newUserData = createDefaultUserData({
                 uid: credential.user.uid,
-                displayName,
-                email,
-                avatar: 'default_avatar',
-                createdAt: new Date(),
-                updatedAt: new Date(),
-                totalScore: 0,
-                balance: 0,
-                unlockedWorlds: ['basic_commands' as World],
-            };
+                displayName: displayName.trim(),
+                email: email.trim(),
+            });
 
             await saveUser(newUserData);
             setUserData(newUserData);
         } catch (err) {
             const message = err instanceof Error ? err.message : 'Erro ao criar conta';
             setError(translateFirebaseError(message));
-            throw err;
         } finally {
             setLoading(false);
         }
     }, []);
 
     /**
-     * Faz logout
+     * Faz logout.
+     * Não faz throw — erros são tratados via setError.
      */
     const logout = useCallback(async () => {
         setError(null);
@@ -269,22 +303,21 @@ export function AuthProvider({ children }: AuthProviderProps) {
             } else {
                 await logOut();
             }
-            // Reseta flag de redirect para permitir novo login
-            resetLoginRedirectFlag();
         } catch (err) {
             const message = err instanceof Error ? err.message : 'Erro ao sair';
             setError(message);
-            throw err;
         }
     }, [isGuest]);
 
     /**
-     * Envia email de redefinição de senha
+     * Envia email de redefinição de senha.
+     * Faz throw para que o caller possa diferenciar sucesso de erro
+     * (necessário para mostrar mensagem anti-enumeration na LoginPage).
      */
     const sendPasswordReset = useCallback(async (email: string) => {
         setError(null);
         try {
-            await resetPassword(email);
+            await resetPassword(email.trim());
         } catch (err) {
             const message = err instanceof Error ? err.message : 'Erro ao enviar email';
             setError(translateFirebaseError(message));
@@ -386,18 +419,3 @@ export function AuthProvider({ children }: AuthProviderProps) {
         </AuthContext.Provider>
     );
 }
-
-/**
- * Hook para acessar o contexto de autenticação
- */
-// eslint-disable-next-line react-refresh/only-export-components
-export function useAuth(): AuthContextType {
-    const context = useContext(AuthContext);
-    if (context === undefined) {
-        throw new Error('useAuth deve ser usado dentro de um AuthProvider');
-    }
-    return context;
-}
-
-// Fast refresh doesn't allow exporting default non-component value if file exports components
-// so we remove default export and only export hooks/components

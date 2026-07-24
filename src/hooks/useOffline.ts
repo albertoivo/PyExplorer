@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { QuestionDocument } from '../types/question';
 import { fetchAllQuestions } from '../firebase/questionsService';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from './useAuth';
 import { updateProgressBatch } from '../firebase/firestore';
 
 
