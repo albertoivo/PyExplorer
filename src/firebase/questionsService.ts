@@ -143,11 +143,23 @@ export async function fetchAllQuestions(): Promise<QuestionDocument[]> {
             return ALL_QUESTIONS;
         }
 
-        const questions = querySnapshot.docs.map(docSnap =>
+        const firestoreQuestions = querySnapshot.docs.map(docSnap =>
             deserializeFromFirestore(docSnap.data(), docSnap.id)
         );
 
-        return questions;
+        // Merge com questões locais (ALL_QUESTIONS) para garantir que mundos novos ou questões locais
+        // não fiquem faltando se o Firestore estiver desatualizado ou parcialmente populado.
+        const firestoreMap = new Map(firestoreQuestions.map(q => [q.id, q]));
+
+        // Para cada questão local, usa a versão do Firestore se existir (ex: atualizada pelo admin),
+        // caso contrário usa a questão local como fallback.
+        const mergedQuestions = ALL_QUESTIONS.map(localQ => firestoreMap.get(localQ.id) || localQ);
+
+        // Adiciona quaisquer questões criadas dinamicamente no Firestore que não existam no código local
+        const localIds = new Set(ALL_QUESTIONS.map(q => q.id));
+        const extraFirestoreQuestions = firestoreQuestions.filter(q => !localIds.has(q.id));
+
+        return [...mergedQuestions, ...extraFirestoreQuestions];
     } catch (error) {
         console.warn('Erro ao buscar questões do Firestore, usando fallback local:', error);
         return ALL_QUESTIONS;

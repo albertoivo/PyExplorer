@@ -73,6 +73,23 @@ describe('questionsService', () => {
             expect(questions).toHaveLength(2); // From mock COMPLETE_QUESTIONS
         });
 
+        it('should merge firestore questions with local questions if firestore has only partial data', async () => {
+            (getDocs as any).mockResolvedValue({
+                empty: false,
+                docs: [
+                    {
+                        id: 'q1',
+                        data: () => ({ title: 'Q1 from Firestore' })
+                    }
+                ]
+            });
+
+            const questions = await fetchAllQuestions();
+            expect(questions).toHaveLength(2); // q1 from firestore + q2 from local fallback
+            expect(questions.find(q => q.id === 'q1')?.title).toBe('Q1 from Firestore');
+            expect(questions.find(q => q.id === 'q2')?.title).toBe('Q2');
+        });
+
         it('should return local questions fallback if firestore fails', async () => {
             (getDocs as any).mockRejectedValue(new Error('Network error'));
 
