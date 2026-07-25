@@ -23,11 +23,11 @@ export const oopBasicsQuestions: QuestionDocument[] = [
         title: 'O Construtor Mágico',
         prompt: 'O método especial que inicializa um objeto quando ele nasce é chamado de `__init__`. Complete o parâmetro obrigatório que representa o próprio objeto:',
         starterCode: 'class Heroi:\n    def __init__(____, nome):\n        ____.nome = nome',
-        solutionTemplate: 'self',
+        solutionTemplate: 'class Heroi:\n    def __init__(self, nome):\n        self.nome = nome',
         tests: [
             {
                 input: null,
-                expectedOutput: null,
+                expectedOutput: '',
                 description: 'Define self corretamente'
             }
         ],

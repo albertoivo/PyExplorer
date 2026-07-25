@@ -23,7 +23,7 @@ export const filesQuestions: QuestionDocument[] = [
         title: 'Escrevendo no Diário',
         prompt: 'Para escrever em um arquivo novo ou sobrescrever, usamos o modo "w" (write). Complete o código:',
         starterCode: 'with open("diario.txt", "___") as arquivo:\n    arquivo.write("Olá diário!")',
-        solutionTemplate: 'w',
+        solutionTemplate: 'with open("diario.txt", "w") as arquivo:\n    arquivo.write("Olá diário!")',
         tests: [
             {
                 input: null,

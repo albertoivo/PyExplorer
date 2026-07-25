@@ -23,7 +23,7 @@ export const turtleArtQuestions: QuestionDocument[] = [
         title: 'Andando para Frente',
         prompt: 'Para fazer a tartaruguinha andar 100 passos para a frente, usamos o comando `forward()`. Complete o código:',
         starterCode: 'import turtle\n\nt = turtle.Turtle()\nt._______(100)',
-        solutionTemplate: 'forward',
+        solutionTemplate: 'import turtle\nt = turtle.Turtle()\nt.forward(100)',
         tests: [
             {
                 input: null,

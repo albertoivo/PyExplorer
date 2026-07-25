@@ -58,7 +58,7 @@ export const errorHandlingQuestions: QuestionDocument[] = [
         title: 'Protegendo o Código',
         prompt: 'Complete o código para tratar o erro de divisão por zero:',
         starterCode: '___:\n    resultado = 10 / 0\nexcept:\n    print("Ops! Não pode dividir por zero!")',
-        solutionTemplate: 'try:\n    resultado = 10 / 0',
+        solutionTemplate: 'try:\n    resultado = 10 / 0\nexcept:\n    print("Ops! Não pode dividir por zero!")',
         tests: [
             { input: null, expectedOutput: 'Ops! Não pode dividir por zero!' },
         ],
@@ -74,9 +74,9 @@ export const errorHandlingQuestions: QuestionDocument[] = [
         title: 'Conversão Segura',
         prompt: 'Complete para tratar o erro quando o usuário não digita um número:',
         starterCode: 'try:\n    numero = int(input("Digite um número: "))\n    print("Você digitou:", numero)\n___:\n    print("Isso não é um número!")',
-        solutionTemplate: 'except:\n    print("Isso não é um número!")',
+        solutionTemplate: 'try:\n    numero = int(input("Digite um número: "))\n    print("Você digitou:", numero)\nexcept:\n    print("Isso não é um número!")',
         tests: [
-            { input: null, expectedOutput: 'Digite um número:' },
+            { input: ['gato'], expectedOutput: 'Digite um número: Isso não é um número!' },
         ],
         explanationKidFriendly: 'Se o usuário digitar "abc" ao invés de um número, int() dá erro. O except pega esse erro e mostra uma mensagem amigável! 😊',
         points: 20,
@@ -202,7 +202,7 @@ export const errorHandlingQuestions: QuestionDocument[] = [
         title: 'Lista Curta',
         prompt: 'Proteja o código caso a lista não tenha o item 10 (IndexError):',
         starterCode: 'lista = [1, 2, 3]\n___:\n    print(lista[10])\nexcept IndexError:\n    print("Lista muito curta!")',
-        solutionTemplate: 'try:',
+        solutionTemplate: 'lista = [1, 2, 3]\ntry:\n    print(lista[10])\nexcept IndexError:\n    print("Lista muito curta!")',
         tests: [
             { input: null, expectedOutput: 'Lista muito curta!' },
         ],
@@ -272,7 +272,7 @@ export const errorHandlingQuestions: QuestionDocument[] = [
         title: 'Vários Problemas',
         prompt: 'Complete para tratar `ValueError` e `ZeroDivisionError` separadamente:',
         starterCode: 'try:\n  x = int(input()) / int(input())\nexcept ValueError:\n  print("Erro de valor")\n___ ZeroDivisionError:\n  print("Não divida por zero")',
-        solutionTemplate: 'except ZeroDivisionError:',
+        solutionTemplate: 'try:\n  x = int(input("N1:")) / int(input("N2:"))\nexcept ValueError:\n  print("Erro de valor")\nexcept ZeroDivisionError:\n  print("Não divida por zero")',
         tests: [
             { input: null, expectedOutput: 'Não divida por zero' }, // This test implies the mock would trigger it, but for fill_code we check the syntax mainly
         ],
@@ -318,7 +318,7 @@ export const errorHandlingQuestions: QuestionDocument[] = [
         title: 'Texto não é Número',
         prompt: 'Trate o erro de converter "dez" para número (ValueError):',
         starterCode: 'try:\n  n = int("dez")\nexcept ___:\n  print("Não é número")',
-        solutionTemplate: 'except ValueError:',
+        solutionTemplate: 'try:\n  n = int("dez")\nexcept ValueError:\n  print("Não é número")',
         tests: [
             { input: null, expectedOutput: 'Não é número' },
         ],
@@ -334,7 +334,7 @@ export const errorHandlingQuestions: QuestionDocument[] = [
         title: 'Ignorando Erro',
         prompt: 'Se der erro, não faça nada (use `pass`):',
         starterCode: 'try:\n  print(1/0)\nexcept:\n  ___',
-        solutionTemplate: 'pass',
+        solutionTemplate: 'try:\n  print(1/0)\nexcept:\n  pass',
         tests: [
             { input: null, expectedOutput: '' },
         ],

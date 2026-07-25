@@ -28,7 +28,7 @@ export const pythonicQuestions: QuestionDocument[] = [
         title: 'Dobrando Números em Uma Linha',
         prompt: 'Queremos criar uma lista com os dobros dos números de 1 a 3. Complete o atalho:',
         starterCode: 'dobros = [x * 2 _____ x in [1, 2, 3]]\nprint(dobros)',
-        solutionTemplate: 'for',
+        solutionTemplate: 'dobros = [x * 2 for x in [1, 2, 3]]\nprint(dobros)',
         tests: [
             {
                 input: null,
