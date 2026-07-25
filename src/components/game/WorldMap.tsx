@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo, memo } from 'react';
+import { useState, useCallback, useMemo, useEffect, memo } from 'react';
 import type { World } from '../../types/question';
 import { useAuth } from '../../hooks/useAuth';
 import { useGamification } from '../../context/GamificationContext';
@@ -221,8 +221,8 @@ export const WorldMap = memo(function WorldMap({ onSelectWorld, worldProgress }:
         setShowFlashcards(worldId);
     }, []);
 
-    /* eslint-disable react-hooks/exhaustive-deps */
-    useMemo(() => {
+    // Exibe a história de encerramento quando o mundo é completado 100%
+    useEffect(() => {
         if (!worldProgress) return;
 
         for (const world of WORLDS) {
@@ -237,8 +237,7 @@ export const WorldMap = memo(function WorldMap({ onSelectWorld, worldProgress }:
                 }
             }
         }
-    }, [worldProgress, hasViewedStory]);
-    /* eslint-enable react-hooks/exhaustive-deps */
+    }, [worldProgress, hasViewedStory, showTutorial, activeStory]);
 
     return (
         <div className="world-map">

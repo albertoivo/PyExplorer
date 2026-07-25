@@ -17,6 +17,8 @@ const TYPE_ICONS: Record<string, string> = {
     fill_code: '✏️',
     partial_function: '🧩',
     full_function: '💻',
+    parsons_problem: '🧩',
+    turtle_challenge: '🎨',
     boss_battle: '👹',
 };
 
@@ -26,6 +28,8 @@ const TYPE_LABELS: Record<string, string> = {
     fill_code: 'Complete',
     partial_function: 'Função Parcial',
     full_function: 'Função',
+    parsons_problem: 'Blocos',
+    turtle_challenge: 'Arte Turtle',
     boss_battle: 'Chefe Final',
 };
 

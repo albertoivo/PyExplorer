@@ -18,6 +18,7 @@ import { playSound } from '../utils/soundEffects';
 import { SEO } from '../components/common/SEO';
 import { PetHabitat } from '../components/gamification/PetHabitat/PetHabitat';
 import { EvolutionModal } from '../components/gamification/PetHabitat/EvolutionModal';
+import { WORLDS } from '../data/worlds';
 import './GamePage.css';
 
 type GameView = 'world-map' | 'world-questions' | 'playing' | 'reviewing';
@@ -33,28 +34,8 @@ type ConfettiFn = (options?: {
  * Obtém o nome amigável do mundo
  */
 const getWorldName = (world: World): string => {
-    const names: Record<World, string> = {
-        basic_commands: 'Primeiros Passos',
-        numbers: 'Números Mágicos',
-        variables: 'Mundo das Variáveis',
-        conditions: 'Terra das Decisões',
-        decisions: 'Terra das Decisões',
-        loops: 'Ilha da Repetição',
-        functions: 'Vale das Funções',
-        lists: 'Floresta das Listas',
-        strings: 'Reino das Palavras',
-        user_input: 'Conversando com o Usuário',
-        dictionaries: 'Agenda Mágica',
-        error_handling: 'Caçando Bugs',
-        files: 'Arquivos do Conhecimento',
-        modules: 'Bazar de Módulos',
-        oop_basics: 'A Arte dos Objetos',
-        pythonic: 'Atalhos Mágicos',
-        turtle_art: 'Estúdio de Arte & Turtle',
-        data_science: 'Laboratório de Dados & IA',
-        web_api: 'A Teia da Internet & APIs',
-    };
-    return names[world] || world;
+    const worldObj = WORLDS.find(w => w.id === world);
+    return worldObj ? worldObj.name : world;
 };
 
 /**
@@ -376,7 +357,7 @@ export function GamePage() {
 
     return (
         <div className="game-page">
-            <SEO title="Aventura" description="Resolva +100 desafios interativos de Python no navegador. 11 mundos, boss battles e sistema de estrelas. 100% grátis!" />
+            <SEO title="Aventura" description="Resolva desafios interativos de Python no navegador. 18 mundos, 4 sagas épicas, boss battles e sistema de estrelas. 100% grátis!" />
 
             <EvolutionModal />
 
