@@ -105,9 +105,13 @@ export function ParsonsQuestion({
             .map(b => '    '.repeat(b.indentation) + b.content)
             .join('\n');
 
+        const codeToRun = question.starterCode
+            ? `${question.starterCode}\n\n${assembledCode}`
+            : assembledCode;
+
         try {
             // Executa com testes
-            const result = await runPython(assembledCode, question.tests);
+            const result = await runPython(codeToRun, question.tests);
 
             if (result.hasError) {
                 setOutput(result.stderr);

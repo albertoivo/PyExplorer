@@ -32,17 +32,23 @@ function sanitizeForFirestore(question: QuestionDocument): Record<string, unknow
 function deserializeFromFirestore(data: Record<string, unknown>, id: string): QuestionDocument {
     const question = { ...data, id } as QuestionDocument;
 
-    // Desserializa inputs que foram serializados
+    // Desserializa inputs que foram serializados (ou que estão em formato JSON)
     if (question.tests && Array.isArray(question.tests)) {
         question.tests = question.tests.map((test: TestCase & { inputSerialized?: boolean }) => {
-            if (test.inputSerialized && typeof test.input === 'string') {
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                const { inputSerialized, ...rest } = test;
-                return { ...rest, input: JSON.parse(test.input as string) };
+            let input = test.input;
+            if (typeof input === 'string') {
+                const trimmed = input.trim();
+                if (test.inputSerialized || (trimmed.startsWith('[') && trimmed.endsWith(']')) || (trimmed.startsWith('{') && trimmed.endsWith('}'))) {
+                    try {
+                        input = JSON.parse(input);
+                    } catch {
+                        // Mantém original se falhar
+                    }
+                }
             }
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { inputSerialized, ...rest } = test;
-            return rest;
+            return { ...rest, input };
         });
     }
 
@@ -147,19 +153,15 @@ export async function fetchAllQuestions(): Promise<QuestionDocument[]> {
             deserializeFromFirestore(docSnap.data(), docSnap.id)
         );
 
-        // Merge com questões locais (ALL_QUESTIONS) para garantir que mundos novos ou questões locais
-        // não fiquem faltando se o Firestore estiver desatualizado ou parcialmente populado.
-        const firestoreMap = new Map(firestoreQuestions.map(q => [q.id, q]));
+        // As questões no código local (ALL_QUESTIONS) são a fonte de verdade canônica do jogo.
+        // As questões locais sempre têm precedência para garantir que atualizações e correções no código
+        // entrem em vigor imediatamente no cliente.
+        const localMap = new Map(ALL_QUESTIONS.map(q => [q.id, q]));
 
-        // Para cada questão local, usa a versão do Firestore se existir (ex: atualizada pelo admin),
-        // caso contrário usa a questão local como fallback.
-        const mergedQuestions = ALL_QUESTIONS.map(localQ => firestoreMap.get(localQ.id) || localQ);
+        // Adiciona quaisquer questões extras criadas dinamicamente no Firestore que não existam no código local
+        const extraFirestoreQuestions = firestoreQuestions.filter(q => !localMap.has(q.id));
 
-        // Adiciona quaisquer questões criadas dinamicamente no Firestore que não existam no código local
-        const localIds = new Set(ALL_QUESTIONS.map(q => q.id));
-        const extraFirestoreQuestions = firestoreQuestions.filter(q => !localIds.has(q.id));
-
-        return [...mergedQuestions, ...extraFirestoreQuestions];
+        return [...ALL_QUESTIONS, ...extraFirestoreQuestions];
     } catch (error) {
         console.warn('Erro ao buscar questões do Firestore, usando fallback local:', error);
         return ALL_QUESTIONS;

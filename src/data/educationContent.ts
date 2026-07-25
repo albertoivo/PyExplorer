@@ -856,8 +856,8 @@ export const WORLD_TUTORIALS: WorldTutorial[] = [
                 icon: '🛠️',
                 title: 'Criando uma Classe com class',
                 content: 'Usamos class NomeDaClasse: e o método __init__(self) para inicializar as características.',
-                code: 'class Heroi:\n    def __init__(self, nome):\n        self.nome = nome\n\nh1 = Heroi("Arthur")\nprint(h1.nome)',
-                output: 'Arthur',
+                code: 'class Heroi:\n    def __init__(self, nome):\n        self.nome = nome\n\nh1 = Heroi("Catarina")\nprint(h1.nome)',
+                output: 'Catarina',
                 animation: 'typewriter',
             },
             {

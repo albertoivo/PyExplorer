@@ -22,13 +22,13 @@ export const filesQuestions: QuestionDocument[] = [
         ageMin: 8,
         title: 'Escrevendo no Diário',
         prompt: 'Para escrever em um arquivo novo ou sobrescrever, usamos o modo "w" (write). Complete o código:',
-        starterCode: 'with open("diario.txt", "___") as arquivo:\n    arquivo.write("Olá diário!")',
-        solutionTemplate: 'with open("diario.txt", "w") as arquivo:\n    arquivo.write("Olá diário!")',
+        starterCode: 'with open("diario.txt", "___") as arquivo:\n    arquivo.write("Olá diário!")\n\nwith open("diario.txt", "r") as arquivo:\n    print(arquivo.read())',
+        solutionTemplate: 'with open("diario.txt", "w") as arquivo:\n    arquivo.write("Olá diário!")\n\nwith open("diario.txt", "r") as arquivo:\n    print(arquivo.read())',
         tests: [
             {
                 input: null,
                 expectedOutput: 'Olá diário!',
-                description: 'Verifica se o arquivo foi escrito com sucesso'
+                description: 'Verifica se o arquivo foi escrito e lido com sucesso'
             }
         ],
         explanationKidFriendly: 'O "w" vem da palavra inglesa "write" que significa escrever! É o modo de escrita.',
@@ -42,10 +42,18 @@ export const filesQuestions: QuestionDocument[] = [
         ageMin: 9,
         title: 'Lendo com Segurança',
         prompt: 'Ordene o código para abrir um arquivo "segredo.txt" para leitura ("r") e imprimir seu conteúdo:',
+        starterCode: 'with open("segredo.txt", "w") as _setup:\n    _setup.write("Código Secreto 123")',
         parsonsSegments: [
             'with open("segredo.txt", "r") as f:',
             '    conteudo = f.read()',
             '    print(conteudo)'
+        ],
+        tests: [
+            {
+                input: null,
+                expectedOutput: 'Código Secreto 123',
+                description: 'Verifica se o arquivo segredo.txt foi lido e seu conteúdo impresso com sucesso'
+            }
         ],
         explanationKidFriendly: 'Usar "with open" é incrível porque fecha o arquivo sozinho quando terminamos, evitando que o arquivo fique travado!',
         points: 60,

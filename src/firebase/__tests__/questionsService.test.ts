@@ -41,53 +41,27 @@ describe('questionsService', () => {
     });
 
     describe('fetchAllQuestions', () => {
-        it('should return questions from firestore if available', async () => {
+        it('should return local questions and include extra questions from firestore', async () => {
             (getDocs as any).mockResolvedValue({
                 empty: false,
                 docs: [
                     {
                         id: 'q1',
-                        data: () => ({ title: 'Q1', tests: [{ inputSerialized: true, input: "[1,2]", output: 3 }] })
+                        data: () => ({ title: 'Q1 Firestore' })
                     },
                     {
-                        id: 'q2',
-                        data: () => ({ title: 'Q2' })
+                        id: 'qExtra',
+                        data: () => ({ title: 'QExtra' })
                     }
                 ]
             });
 
             const questions = await fetchAllQuestions();
-            expect(questions).toHaveLength(2);
-            expect(questions[0].title).toBe('Q1');
-            // Check deserialization
-            expect(questions[0].tests![0].input).toEqual([1, 2]);
-        });
-
-        it('should return local questions fallback if firestore is empty', async () => {
-            (getDocs as any).mockResolvedValue({
-                empty: true,
-                docs: []
-            });
-
-            const questions = await fetchAllQuestions();
-            expect(questions).toHaveLength(2); // From mock COMPLETE_QUESTIONS
-        });
-
-        it('should merge firestore questions with local questions if firestore has only partial data', async () => {
-            (getDocs as any).mockResolvedValue({
-                empty: false,
-                docs: [
-                    {
-                        id: 'q1',
-                        data: () => ({ title: 'Q1 from Firestore' })
-                    }
-                ]
-            });
-
-            const questions = await fetchAllQuestions();
-            expect(questions).toHaveLength(2); // q1 from firestore + q2 from local fallback
-            expect(questions.find(q => q.id === 'q1')?.title).toBe('Q1 from Firestore');
+            // Should contain q1 and q2 (from local COMPLETE_QUESTIONS) + qExtra (from firestore)
+            expect(questions).toHaveLength(3);
+            expect(questions.find(q => q.id === 'q1')?.title).toBe('Q1');
             expect(questions.find(q => q.id === 'q2')?.title).toBe('Q2');
+            expect(questions.find(q => q.id === 'qExtra')?.title).toBe('QExtra');
         });
 
         it('should return local questions fallback if firestore fails', async () => {

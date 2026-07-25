@@ -59,7 +59,7 @@ export const oopBasicsQuestions: QuestionDocument[] = [
         ageMin: 10,
         title: 'O Robô que se Apresenta',
         prompt: 'Crie uma classe `Robo` que recebe `nome` no `__init__` e tem um método `falar()` que retorna `"Eu sou o robô " + self.nome`. Crie uma função `testar_robo(nome)` que retorna essa saudação!',
-        starterCode: 'class Robo:\n    def __init__(self, nome):\n        self.nome = nome\n    def falar(self):\n        return "Eu sou o robô " + self.nome\n\ndef testar_robo(nome):\n    r = Robo(nome)\n    return r.falar()',
+        starterCode: 'class Robo:\n    def __init__(self, nome):\n        self.nome = nome\n    def falar(self):\n        return "Eu sou o robô " + self.nome\n\n# implemente sua função aqui\n\nprint(testar_robo("R2D2"))',
         solutionCode: 'class Robo:\n    def __init__(self, nome):\n        self.nome = nome\n    def falar(self):\n        return "Eu sou o robô " + self.nome\n\ndef testar_robo(nome):\n    r = Robo(nome)\n    return r.falar()',
         functionName: 'testar_robo',
         tests: [

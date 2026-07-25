@@ -16,6 +16,16 @@ interface FullFunctionQuestionProps {
     showResult?: boolean;
 }
 
+function formatTestInputArgs(input: unknown): string {
+    if (Array.isArray(input)) {
+        return input.map(arg => JSON.stringify(arg)).join(', ');
+    }
+    if (input === undefined || input === null) {
+        return '';
+    }
+    return JSON.stringify(input);
+}
+
 /**
  * Componente para questões de escrever função completa
  */
@@ -77,7 +87,7 @@ export function FullFunctionQuestion({
                     typedResult.testResults.forEach((test, i) => {
                         const icon = test.passed ? '✅' : '❌';
                         outputText += `\n${icon} Teste ${i + 1}:\n`;
-                        outputText += `   📥 Entrada: ${JSON.stringify(test.input)}\n`;
+                        outputText += `   📥 Entrada: ${formatTestInputArgs(test.input)}\n`;
                         outputText += `   📤 Esperado: ${JSON.stringify(test.expectedOutput)}\n`;
                         if (!test.passed) {
                             outputText += `   ❌ Obtido: ${JSON.stringify(test.actualOutput)}\n`;
@@ -111,8 +121,15 @@ export function FullFunctionQuestion({
         setOutput('');
 
         try {
-            // Apenas executa o código sem verificar testes
-            const result = await runPython(code);
+            // Se o usuário não chamou a função explicitamente no código, adiciona um exemplo de chamada de teste
+            let codeToRun = code;
+            if (question.functionName && question.tests && question.tests.length > 0 && !code.includes(`${question.functionName}(`)) {
+                const firstTest = question.tests[0];
+                const argsStr = formatTestInputArgs(firstTest.input);
+                codeToRun = `${code}\n\n# Exemplo de teste executado:\nprint(${question.functionName}(${argsStr}))`;
+            }
+
+            const result = await runPython(codeToRun);
 
             if (result.hasError) {
                 setOutput(result.stderr);
@@ -151,7 +168,7 @@ export function FullFunctionQuestion({
                         {question.tests.slice(0, 2).map((test, i) => (
                             <div key={i} className="question-example">
                                 <code>
-                                    {question.functionName}({JSON.stringify(test.input)})
+                                    {question.functionName}({formatTestInputArgs(test.input)})
                                     → {JSON.stringify(test.expectedOutput)}
                                 </code>
                             </div>

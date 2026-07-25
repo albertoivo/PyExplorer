@@ -194,6 +194,16 @@ _capture = CaptureOutput()
 
         setExecuting(true);
         try {
+            // Limpa quaisquer arquivos .txt de execuções anteriores para garantir testes isolados
+            try {
+                const existingTxt = pyodide.FS.readdir('.').filter((f: string) => f.endsWith('.txt'));
+                for (const f of existingTxt) {
+                    pyodide.FS.unlink(f);
+                }
+            } catch {
+                // Ignore cleanup error
+            }
+
             // Reseta captura de saída
             await pyodide.runPythonAsync(`
 _capture.reset()
@@ -223,14 +233,26 @@ sys.stderr = sys.__stderr__
 
                 for (const test of tests) {
                     try {
+                        let testInput = test.input;
+                        if (typeof testInput === 'string') {
+                            const trimmed = testInput.trim();
+                            if ((trimmed.startsWith('[') && trimmed.endsWith(']')) || (trimmed.startsWith('{') && trimmed.endsWith('}'))) {
+                                try {
+                                    testInput = JSON.parse(testInput);
+                                } catch {
+                                    // Mantém string original se falhar
+                                }
+                            }
+                        }
+
                         // Prepara os argumentos para a função
                         let args: string;
-                        if (Array.isArray(test.input)) {
-                            args = test.input.map(arg => JSON.stringify(arg)).join(', ');
-                        } else if (test.input === undefined || test.input === null) {
+                        if (Array.isArray(testInput)) {
+                            args = testInput.map(arg => JSON.stringify(arg)).join(', ');
+                        } else if (testInput === undefined || testInput === null) {
                             args = '';
                         } else {
-                            args = JSON.stringify(test.input);
+                            args = JSON.stringify(testInput);
                         }
 
                         // Chama a função com os argumentos
@@ -240,7 +262,19 @@ _test_result = ${functionName}(${args})
 json.dumps(_test_result) if not isinstance(_test_result, (int, float, bool, str, type(None))) else _test_result
             `;
 
-                        const actualOutput = await pyodide.runPythonAsync(callCode);
+                        let actualOutput = await pyodide.runPythonAsync(callCode);
+
+                        // Se a saída foi serializada como JSON string no Python (ex: listas e dicionários), converte de volta para objeto/array JS
+                        if (typeof actualOutput === 'string') {
+                            const trimmed = actualOutput.trim();
+                            if ((trimmed.startsWith('[') && trimmed.endsWith(']')) || (trimmed.startsWith('{') && trimmed.endsWith('}'))) {
+                                try {
+                                    actualOutput = JSON.parse(actualOutput);
+                                } catch {
+                                    // Mantém string original se não for JSON válido
+                                }
+                            }
+                        }
 
                         // Compara resultado
                         const passed = compareOutputs(actualOutput, test.expectedOutput);
@@ -272,6 +306,21 @@ json.dumps(_test_result) if not isinstance(_test_result, (int, float, bool, str,
             else if (tests && tests.length > 0 && !functionName) {
                 testResults = [];
                 const outputLines = stdoutText.trim().split('\n').map(line => line.trim()).filter(line => line);
+
+                // Se a saída do stdout estiver vazia, verifica se o usuário criou algum arquivo .txt no sistema de arquivos do Pyodide
+                if (outputLines.length === 0 && pyodide) {
+                    try {
+                        const txtFiles = pyodide.FS.readdir('.').filter((f: string) => f.endsWith('.txt'));
+                        for (const file of txtFiles) {
+                            const content = pyodide.FS.readFile(file, { encoding: 'utf8' });
+                            if (content.trim()) {
+                                outputLines.push(...content.trim().split('\n').map((l: string) => l.trim()).filter((l: string) => l));
+                            }
+                        }
+                    } catch {
+                        // ignore FS read error
+                    }
+                }
 
                 for (const test of tests) {
                     // Se expectedOutput é null, apenas verifica se não houve erro (implicitamente passed=true aqui)
