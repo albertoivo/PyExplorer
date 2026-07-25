@@ -37,7 +37,7 @@ export const userInputQuestions: QuestionDocument[] = [
         starterCode: 'nome = ___("Qual é o seu nome? ")\nprint("Olá, " + nome)',
         solutionTemplate: 'nome = input("Qual é o seu nome? ")',
         tests: [
-            { input: null, expectedOutput: 'Qual é o seu nome?' },
+            { input: ['Maria'], expectedOutput: 'Qual é o seu nome? Olá, Maria' },
         ],
         explanationKidFriendly: 'Use input() com uma mensagem dentro dos parênteses. A pessoa vai ver a mensagem e poder digitar a resposta! 💬',
         points: 15,
@@ -66,7 +66,7 @@ export const userInputQuestions: QuestionDocument[] = [
         starterCode: 'idade_texto = input("Quantos anos você tem? ")\nidade = ___(idade_texto)\nprint("Em 5 anos você terá", idade + 5)',
         solutionTemplate: 'idade = int(idade_texto)',
         tests: [
-            { input: null, expectedOutput: 'Quantos anos você tem?' },
+            { input: ['10'], expectedOutput: 'Quantos anos você tem? Em 5 anos você terá 15' },
         ],
         explanationKidFriendly: 'input() dá texto, mas precisamos de número para somar! Use int() para converter. Assim 10 + 5 = 15! 🎂',
         points: 20,
@@ -100,7 +100,7 @@ export const userInputQuestions: QuestionDocument[] = [
         starterCode: 'altura_texto = input("Sua altura em metros (use ponto): ")\naltura = ___(altura_texto)\nprint("Você tem", altura, "metros")',
         solutionTemplate: 'altura = float(altura_texto)',
         tests: [
-            { input: null, expectedOutput: 'Sua altura em metros (use ponto):' },
+            { input: ['1.5'], expectedOutput: 'Sua altura em metros (use ponto): Você tem 1.5 metros' },
         ],
         explanationKidFriendly: 'float() serve para números quebrados. Atenção: no Brasil usamos vírgula (1,80), mas o Python usa PONTO (1.80)! Sempre use ponto. 📏',
         points: 20,
@@ -119,7 +119,7 @@ export const userInputQuestions: QuestionDocument[] = [
             'print("Olá, " + nome)',
         ],
         tests: [
-            { input: null, expectedOutput: 'Nome:' }
+            { input: ['Lucas'], expectedOutput: 'Nome: Oi, Lucas!' }
         ],
         explanationKidFriendly: 'Primeiro perguntamos (input), depois respondemos (print)! A ordem importa!',
         points: 15,
@@ -187,7 +187,7 @@ export const userInputQuestions: QuestionDocument[] = [
         starterCode: 'texto = input("Digite um número: ")\nnum = ___(texto)\nprint(num * 2)',
         solutionTemplate: 'num = int(texto)',
         tests: [
-            { input: null, expectedOutput: 'Digite um número:' },
+            { input: ['10'], expectedOutput: 'Digite um número: 20' },
         ],
         explanationKidFriendly: 'O input vem como texto! Precisamos converter para `int` (inteiro) antes de multiplicar, senão o Python repete o texto! ✖️',
         points: 20,
@@ -221,7 +221,7 @@ export const userInputQuestions: QuestionDocument[] = [
         starterCode: 'cor = ___("Qual sua cor favorita? ")\nprint("Que cor linda!")',
         solutionTemplate: 'cor = input("Qual sua cor favorita? ")',
         tests: [
-            { input: null, expectedOutput: 'Qual sua cor favorita?' },
+            { input: ['Azul'], expectedOutput: 'Qual sua cor favorita? Que cor linda!' },
         ],
         explanationKidFriendly: 'Usamos `input()` para fazer uma pergunta. A resposta da pessoa fica guardada na variável `cor`. 🎨',
         points: 10,
@@ -255,7 +255,7 @@ export const userInputQuestions: QuestionDocument[] = [
         starterCode: 'idade_txt = input("Idade: ")\nidade = int(idade_txt)\nano_nasc = 2025 - ___\nprint(ano_nasc)',
         solutionTemplate: 'ano_nasc = 2025 - idade',
         tests: [
-            { input: null, expectedOutput: 'Idade:' },
+            { input: ['12'], expectedOutput: 'Idade: 2013' },
         ],
         explanationKidFriendly: 'Para descobrir o ano de nascimento, subtraímos a idade do ano atual! 2025 menos a idade dá o ano que a pessoa nasceu. 📅',
         points: 15,
@@ -271,7 +271,7 @@ export const userInputQuestions: QuestionDocument[] = [
         starterCode: 'nome = input("Nome: ")\nprint(f"Oi, {___}!")',
         solutionTemplate: 'print(f"Oi, {nome}!")',
         tests: [
-            { input: null, expectedOutput: 'Nome:' },
+            { input: ['Lucas'], expectedOutput: 'Nome: Oi, Lucas!' },
         ],
         explanationKidFriendly: 'Com f-string, colocamos a resposta do usuário (variável `nome`) direto dentro da frase de cumprimento! 👋',
         points: 15,
@@ -287,7 +287,7 @@ export const userInputQuestions: QuestionDocument[] = [
         starterCode: 'n1 = int(input("N1: "))\nn2 = int(input("N2: "))\nres = n1 ___ n2\nprint(res)',
         solutionTemplate: 'res = n1 * n2',
         tests: [
-            { input: null, expectedOutput: 'N1:' },
+            { input: ['5', '10'], expectedOutput: 'N1: N2: 50' },
         ],
         explanationKidFriendly: 'Pedimos dois números (convertendo com `int`) e usamos o asterisco `*` para multiplicar um pelo outro. ✖️',
         points: 20,

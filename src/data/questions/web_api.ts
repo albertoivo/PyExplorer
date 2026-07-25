@@ -28,7 +28,7 @@ export const webApiQuestions: QuestionDocument[] = [
         title: 'Formato de Dados JSON',
         prompt: 'Na internet, os dados chegam quase sempre no formato JSON, que é muito parecido com um dicionário Python. Complete para pegar o valor do status:',
         starterCode: 'resposta_api = {"status": "sucesso", "codigo": 200}\nprint(resposta_api["______"])',
-        solutionTemplate: 'status',
+        solutionTemplate: 'resposta_api = {"status": "sucesso", "codigo": 200}\nprint(resposta_api["status"])',
         tests: [
             {
                 input: null,

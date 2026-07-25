@@ -28,7 +28,7 @@ export const dataScienceQuestions: QuestionDocument[] = [
         title: 'Média de Pontuação do Jogador',
         prompt: 'Para achar a média das pontuações, somamos tudo com `sum()` e dividimos pela quantidade com `len()`. Complete a função:',
         starterCode: 'pontos = [10, 20, 30]\nmedia = sum(pontos) / ____(pontos)\nprint(media)',
-        solutionTemplate: 'len',
+        solutionTemplate: 'pontos = [10, 20, 30]\nmedia = sum(pontos) / len(pontos)\nprint(media)',
         tests: [
             {
                 input: null,

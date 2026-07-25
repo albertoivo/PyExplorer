@@ -23,7 +23,7 @@ export const modulesQuestions: QuestionDocument[] = [
         title: 'Dado da Sorte',
         prompt: 'Queremos gerar um número aleatório entre 1 e 6 usando o módulo `random`. Complete a palavra import:',
         starterCode: '______ random\n\nnumero = random.randint(1, 6)\nprint(numero)',
-        solutionTemplate: 'import',
+        solutionTemplate: 'import random\n\nnumero = random.randint(1, 6)\nprint(numero)',
         tests: [
             {
                 input: null,

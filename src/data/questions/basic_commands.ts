@@ -26,7 +26,7 @@ export const basicCommandsQuestions: QuestionDocument[] = [
         difficulty: 'easy',
         ageMin: 8,
         title: 'Textos precisam de aspas',
-        prompt: 'Para escrever um texto em Python, precisamos colocar ele entre aspas. Por exemplo: "Olá mundo"',
+        prompt: 'Para escrever um texto em Python, precisamos colocá-lo entre aspas. Por exemplo: "Olá mundo"',
         correctBool: true,
         explanationKidFriendly: 'Isso mesmo! Textos em Python ficam entre aspas (pode ser "aspas duplas" ou \'aspas simples\'). Assim o Python sabe que é um texto e não um comando!',
         points: 10,
