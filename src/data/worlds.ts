@@ -88,7 +88,7 @@ export const WORLDS: WorldInfo[] = [
         description: 'Guarde informações em caixinhas mágicas!',
         icon: '📦',
         color: '#3b82f6',
-        requiredScore: 300,
+        requiredScore: 220,
     },
     {
         id: 'user_input',
@@ -97,7 +97,7 @@ export const WORLDS: WorldInfo[] = [
         description: 'Aprenda a conversar com o usuário com input()!',
         icon: '🔮',
         color: '#06b6d4',
-        requiredScore: 600,
+        requiredScore: 480,
     },
     {
         id: 'numbers',
@@ -106,7 +106,7 @@ export const WORLDS: WorldInfo[] = [
         description: 'Faça cálculos incríveis como um mago da matemática!',
         icon: '🔢',
         color: '#8b5cf6',
-        requiredScore: 900,
+        requiredScore: 750,
     },
     {
         id: 'conditions',
@@ -115,7 +115,7 @@ export const WORLDS: WorldInfo[] = [
         description: 'Faça escolhas e crie caminhos diferentes!',
         icon: '🔀',
         color: '#ec4899',
-        requiredScore: 1200,
+        requiredScore: 1050,
     },
     {
         id: 'loops',
@@ -124,7 +124,7 @@ export const WORLDS: WorldInfo[] = [
         description: 'Repita comandos como um feiticeiro!',
         icon: '🔄',
         color: '#10b981',
-        requiredScore: 1600,
+        requiredScore: 1400,
     },
 
     // SAGA 2: ESTRUTURAS E FUNÇÕES
@@ -135,7 +135,7 @@ export const WORLDS: WorldInfo[] = [
         description: 'Manipule textos e crie histórias incríveis!',
         icon: '📝',
         color: '#f59e0b',
-        requiredScore: 2000,
+        requiredScore: 1700,
     },
     {
         id: 'lists',
@@ -144,7 +144,7 @@ export const WORLDS: WorldInfo[] = [
         description: 'Organize muitas coisas numa única lista!',
         icon: '📜',
         color: '#ef4444',
-        requiredScore: 2400,
+        requiredScore: 2100,
     },
     {
         id: 'dictionaries',
@@ -153,7 +153,7 @@ export const WORLDS: WorldInfo[] = [
         description: 'Guarde segredos em dicionários, tuplas e conjuntos!',
         icon: '📚',
         color: '#b91c1c',
-        requiredScore: 2800,
+        requiredScore: 2500,
     },
     {
         id: 'functions',
@@ -162,7 +162,7 @@ export const WORLDS: WorldInfo[] = [
         description: 'Crie suas próprias magias reutilizáveis!',
         icon: '✨',
         color: '#f97316',
-        requiredScore: 3200,
+        requiredScore: 2900,
     },
     {
         id: 'error_handling',
@@ -171,7 +171,7 @@ export const WORLDS: WorldInfo[] = [
         description: 'Proteja seu código contra erros com try/except!',
         icon: '🛡️',
         color: '#64748b',
-        requiredScore: 3600,
+        requiredScore: 3300,
     },
 
     // SAGA 3: ARQUITETO DE SOFTWARE (AVANÇADO)
@@ -182,7 +182,7 @@ export const WORLDS: WorldInfo[] = [
         description: 'Leia, escreva e guarde informações em arquivos reais!',
         icon: '📂',
         color: '#14b8a6',
-        requiredScore: 4000,
+        requiredScore: 3700,
     },
     {
         id: 'modules',
@@ -191,7 +191,7 @@ export const WORLDS: WorldInfo[] = [
         description: 'Use magias prontas com import, math, random e mais!',
         icon: '🧰',
         color: '#84cc16',
-        requiredScore: 4400,
+        requiredScore: 3950,
     },
     {
         id: 'oop_basics',
@@ -200,7 +200,7 @@ export const WORLDS: WorldInfo[] = [
         description: 'Crie seus próprios seres e blueprints com Classes e POO!',
         icon: '🧙‍♂️',
         color: '#a855f7',
-        requiredScore: 4800,
+        requiredScore: 4200,
     },
     {
         id: 'pythonic',
@@ -209,7 +209,7 @@ export const WORLDS: WorldInfo[] = [
         description: 'Escreva código poderoso com List Comprehensions e Lambdas!',
         icon: '⚡',
         color: '#eab308',
-        requiredScore: 5200,
+        requiredScore: 4450,
     },
 
     // SAGA 4: TRILHAS DO DESTINO (ESPECIALIZAÇÕES)
@@ -220,7 +220,7 @@ export const WORLDS: WorldInfo[] = [
         description: 'Crie desenhos geométricos e animações incríveis com código!',
         icon: '🎨',
         color: '#06b6d4',
-        requiredScore: 5600,
+        requiredScore: 4750,
     },
     {
         id: 'data_science',
@@ -229,7 +229,7 @@ export const WORLDS: WorldInfo[] = [
         description: 'Explore dados, estatísticas e lógicas de Inteligência Artificial!',
         icon: '🤖',
         color: '#6366f1',
-        requiredScore: 6000,
+        requiredScore: 4990,
     },
     {
         id: 'web_api',
@@ -238,7 +238,7 @@ export const WORLDS: WorldInfo[] = [
         description: 'Conecte seus programas com informações vivas da internet!',
         icon: '🌐',
         color: '#f43f5e',
-        requiredScore: 6400,
+        requiredScore: 5240,
     },
 ];
 
