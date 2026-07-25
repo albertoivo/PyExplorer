@@ -41,6 +41,8 @@ interface PyodideInterface {
     FS: {
         writeFile: (path: string, data: string, options?: { encoding?: string }) => void;
         readFile: (path: string, options?: { encoding?: string }) => string;
+        readdir: (path: string) => string[];
+        unlink: (path: string) => void;
     };
 }
 

@@ -23,6 +23,8 @@ describe('PyodideContext', () => {
             FS: {
                 writeFile: vi.fn(),
                 readFile: vi.fn().mockReturnValue(''),
+                readdir: vi.fn().mockReturnValue([]),
+                unlink: vi.fn(),
             },
         };
 
