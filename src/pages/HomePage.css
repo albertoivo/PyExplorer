@@ -520,12 +520,12 @@
     .hero {
         flex-direction: column;
         text-align: center;
-        padding: 3rem 1.5rem 4rem;
-        gap: 2rem;
+        padding: 2.5rem 1.5rem 1.5rem;
+        gap: 1.5rem;
     }
 
     .hero__title {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
     }
 
     .hero__actions {
@@ -534,17 +534,35 @@
 
     .hero__illustration {
         flex: 0 0 auto;
+        min-width: auto;
+        min-height: auto;
     }
 
     .hero__snake {
-        font-size: 8rem;
+        font-size: 6rem;
     }
 }
 
 @media (max-width: 768px) {
+    .hero {
+        padding: 2rem 1.25rem 1rem;
+        gap: 1.25rem;
+    }
+
     .home-page--animate-hero .hero__snake {
         animation: none;
         filter: none;
+    }
+
+    .hero__illustration {
+        min-height: auto;
+        min-width: auto;
+        margin-top: 0.5rem;
+        margin-bottom: 0;
+    }
+
+    .hero__snake {
+        font-size: 5rem;
     }
 
     .hero__illustration::before,
@@ -554,29 +572,52 @@
     }
 
     .hero__title {
-        font-size: 2rem;
+        font-size: 1.85rem;
+        margin-bottom: 1rem;
     }
 
     .hero__description {
-        font-size: 1.05rem;
+        font-size: 1rem;
+        margin-bottom: 1.75rem;
     }
 
     .hero__actions {
+        display: flex;
         flex-direction: column;
-        gap: 1.25rem;
+        gap: 1.25rem !important;
         width: 100%;
         max-width: 320px;
-        margin: 0 auto;
+        margin: 0 auto 1rem;
     }
 
     .hero__btn {
         width: 100%;
+        margin: 0 !important;
+        padding: 1rem 1.5rem;
+        font-size: 1.05rem;
         justify-content: center;
+        border-radius: 14px;
+        box-sizing: border-box;
+    }
+
+    .hero__btn--primary {
+        box-shadow: 0 4px 14px rgba(0, 217, 255, 0.25);
+    }
+
+    .hero__btn--secondary {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .features {
+        padding: 2.5rem 1.25rem;
     }
 
     .features__title,
     .worlds-preview__title,
     .cta__title {
-        font-size: 1.75rem;
+        font-size: 1.6rem;
+        margin-bottom: 2rem;
     }
 }
+

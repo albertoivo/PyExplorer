@@ -64,7 +64,7 @@ function PythonEditor({
     // Configurações do Monaco Editor
     const editorOptions = useMemo(() => ({
         minimap: { enabled: false },
-        fontSize: 16,
+        fontSize: typeof window !== 'undefined' && window.innerWidth < 768 ? 14 : 16,
         fontFamily: "'Fira Code', 'Consolas', 'Monaco', monospace",
         fontLigatures: true,
         lineNumbers: 'on' as const,
@@ -74,12 +74,12 @@ function PythonEditor({
         tabSize: 4,
         insertSpaces: true,
         wordWrap: 'on' as const,
-        padding: { top: 16, bottom: 16 },
+        padding: { top: 12, bottom: 12 },
         scrollbar: {
             vertical: 'auto' as const,
             horizontal: 'auto' as const,
-            verticalScrollbarSize: 10,
-            horizontalScrollbarSize: 10,
+            verticalScrollbarSize: 8,
+            horizontalScrollbarSize: 8,
         },
         readOnly: disabled,
         // Configurações amigáveis para iniciantes
@@ -87,6 +87,8 @@ function PythonEditor({
         suggestOnTriggerCharacters: true,
         parameterHints: { enabled: true },
         bracketPairColorization: { enabled: true },
+        // Touch e acessibilidade mobile
+        touchSupport: 'on' as const,
     }), [disabled]);
 
     return (

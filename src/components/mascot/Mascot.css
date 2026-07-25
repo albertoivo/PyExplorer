@@ -416,30 +416,44 @@
    ============================================ */
 
 @media (max-width: 768px) {
+    .mascot {
+        z-index: 150;
+    }
 
-    .mascot--bottom-right,
+    .mascot--bottom-right {
+        bottom: calc(var(--safe-area-bottom, 0px) + 16px);
+        right: 12px;
+    }
+
     .mascot--bottom-left {
-        bottom: 80px;
+        bottom: calc(var(--safe-area-bottom, 0px) + 16px);
+        left: 12px;
     }
 
     .mascot--medium .mascot__body {
-        width: 55px;
-        height: 55px;
+        width: 48px;
+        height: 48px;
     }
 
     .mascot--medium .mascot__face {
-        font-size: 2rem;
+        font-size: 1.6rem;
     }
 
     .mascot__bubble {
-        max-width: 160px;
-        right: -10px;
+        max-width: 150px;
+        padding: 0.5rem 0.75rem;
+        right: -5px;
+    }
+
+    .mascot__message {
+        font-size: 0.75rem;
     }
 
     .mascot__name {
         display: none;
     }
 }
+
 
 /* Reduz animações para quem prefere */
 @media (prefers-reduced-motion: reduce) {

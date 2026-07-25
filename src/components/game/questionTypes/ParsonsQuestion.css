@@ -36,8 +36,7 @@
     align-items: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     cursor: grab;
-    transition: all 0.2s ease;
-    /* Suaviza mudança de margem */
+    margin-left: calc(var(--block-indent, 0) * 30px);
     transition: margin-left 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -58,6 +57,7 @@
     display: flex;
     align-items: center;
     gap: 12px;
+    overflow-x: auto;
 }
 
 .parsons-block__drag-handle {
@@ -70,26 +70,30 @@
     font-family: 'Fira Code', 'Consolas', monospace;
     font-size: 1rem;
     color: #212529;
+    white-space: pre-wrap;
+    word-break: break-word;
 }
 
 .parsons-block__controls {
     display: flex;
-    gap: 4px;
+    gap: 6px;
+    flex-shrink: 0;
 }
 
 .parsons-block__controls button {
     background: #e9ecef;
-    border: none;
-    border-radius: 4px;
-    width: 28px;
-    height: 28px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    min-width: 34px;
+    min-height: 34px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     color: #495057;
-    transition: background 0.2s;
+    transition: all 0.2s ease;
+    touch-action: manipulation;
 }
 
 .parsons-block__controls button:hover:not(:disabled) {
@@ -100,4 +104,28 @@
 .parsons-block__controls button:disabled {
     opacity: 0.3;
     cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    .parsons-area {
+        padding: 12px;
+    }
+
+    .parsons-block {
+        padding: 8px 10px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        margin-left: calc(var(--block-indent, 0) * 16px);
+    }
+
+    .parsons-block__controls {
+        justify-content: flex-end;
+    }
+
+    .parsons-block__controls button {
+        min-width: 38px;
+        min-height: 38px;
+        font-size: 1rem;
+    }
 }

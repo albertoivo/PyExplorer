@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { useGamification } from '../../context/GamificationContext';
@@ -7,14 +8,29 @@ import './Header.css';
 
 /**
  * Componente Header com navegação e informações do usuário
+ * Design moderno com Glassmorphism, Quick Stats Pill e Drawer Responsivo
  */
 export function Header() {
     const { userData, isGuest, logout, loading } = useAuth();
-    const { gamification, currentLevel } = useGamification(); // Para ter o avatar atualizado em tempo real
+    const { gamification, currentLevel } = useGamification();
     const location = useLocation();
+    const [menuOpen, setMenuOpen] = useState(false);
+
+    // Previne scroll da página quando o menu drawer mobile está aberto
+    useEffect(() => {
+        if (menuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [menuOpen]);
 
     const handleLogout = async () => {
         try {
+            setMenuOpen(false);
             await logout();
         } catch (err) {
             console.error('Erro ao fazer logout:', err);
@@ -29,139 +45,177 @@ export function Header() {
     return (
         <header className="header">
             <div className="header__container">
-                {/* Logo e nome do jogo */}
+                {/* Logo e Nome do PyExplorer */}
                 <Link to="/" className="header__logo" aria-label="PyExplorer Página Inicial">
-                    <span className="header__logo-icon" aria-hidden="true">
+                    <span className="header__logo-icon-wrapper">
                         {(() => {
-                            if (!userData && !isGuest) return '🐍';
+                            if (!userData && !isGuest) return <span className="header__logo-emoji">🐍</span>;
                             const equippedAvatarId = gamification?.inventory?.equippedAvatar || 'avatar_snake_green';
                             const equippedFrameId = gamification?.inventory?.equippedFrame;
                             const avatarItem = SHOP_ITEMS.find(i => i.id === equippedAvatarId);
                             const frameItem = equippedFrameId ? SHOP_ITEMS.find(i => i.id === equippedFrameId) : null;
                             const avatarIcon = avatarItem?.icon || '🐍';
 
-                            // Se tem moldura, envolve com borda
                             if (frameItem?.color) {
                                 const borderColor = frameItem.color === 'rainbow'
                                     ? 'linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet)'
                                     : frameItem.color;
                                 return (
-                                    <span style={{
-                                        display: 'inline-flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        width: '40px',
-                                        height: '40px',
-                                        padding: '3px',
-                                        borderRadius: '50%',
-                                        border: frameItem.color === 'rainbow' ? '3px solid transparent' : `3px solid ${borderColor}`,
+                                    <span className="header__logo-avatar-frame" style={{
+                                        border: frameItem.color === 'rainbow' ? '2px solid transparent' : `2px solid ${borderColor}`,
                                         background: frameItem.color === 'rainbow' ? borderColor : 'transparent',
-                                        backgroundClip: frameItem.color === 'rainbow' ? 'padding-box' : undefined,
                                     }}>
-                                        <span style={{ fontSize: '24px', lineHeight: 1 }}>{avatarIcon}</span>
+                                        <span className="header__logo-emoji">{avatarIcon}</span>
                                     </span>
                                 );
                             }
-                            return avatarIcon;
+                            return <span className="header__logo-emoji">{avatarIcon}</span>;
                         })()}
                     </span>
                     <span className="header__logo-text">PyExplorer</span>
                 </Link>
 
-                {/* Navegação principal */}
-                <nav className="header__nav">
-                    <Link
-                        to="/"
-                        className={`header__nav-link ${isActive('/') ? 'header__nav-link--active' : ''}`}
-                        aria-current={isActive('/') ? 'page' : undefined}
+                {/* Quick Stats Pill para Mobile (Visível apenas em telas pequenas quando logado) */}
+                {userData && (
+                    <div className="header__quick-stats" aria-label="Estatísticas do jogador">
+                        <span className="quick-stat" title="Diamantes disponíveis">
+                            <span aria-hidden="true">💎</span> {userData.balance || 0}
+                        </span>
+                        <span className="quick-stat" title="Ofensiva diária">
+                            <span aria-hidden="true">🔥</span> {currentStreak}
+                        </span>
+                    </div>
+                )}
+
+                {/* Ações do Header à Direita (Desktop & Botão Hambúrguer Mobile) */}
+                <div className="header__actions">
+                    {/* Botão de menu hambúrguer para mobile */}
+                    <button
+                        className={`header__hamburger ${menuOpen ? 'header__hamburger--active' : ''}`}
+                        onClick={() => setMenuOpen(!menuOpen)}
+                        aria-label={menuOpen ? 'Fechar menu de navegação' : 'Abrir menu de navegação'}
+                        aria-expanded={menuOpen}
                     >
-                        <span aria-hidden="true">🏠</span> Início
-                    </Link>
-                    <Link
-                        to="/learn"
-                        className={`header__nav-link ${location.pathname.startsWith('/learn') ? 'header__nav-link--active' : ''}`}
-                        aria-current={location.pathname.startsWith('/learn') ? 'page' : undefined}
-                    >
-                        <span aria-hidden="true">📚</span> Aprender
-                    </Link>
-
-                    {userData && (
-                        <>
-                            <Link
-                                to="/game"
-                                className={`header__nav-link ${isActive('/game') ? 'header__nav-link--active' : ''}`}
-                                aria-current={isActive('/game') ? 'page' : undefined}
-                            >
-                                <span aria-hidden="true">🎮</span> Jogar
-                            </Link>
-                            <Link
-                                to="/certificate"
-                                className={`header__nav-link ${location.pathname === '/certificate' ? 'header__nav-link--active' : ''}`}
-                            >
-                                <span aria-hidden="true" title="Certificado">📜</span>
-                                <span className="header__nav-text">Certificado</span>
-                            </Link>
-
-                            <Link
-                                to="/rewards"
-                                className={`header__nav-link ${isActive('/rewards') ? 'header__nav-link--active' : ''}`}
-                                aria-current={isActive('/rewards') ? 'page' : undefined}
-                            >
-                                <span aria-hidden="true">🏆</span> Recompensas
-                            </Link>
-                            <Link
-                                to="/profile"
-                                className={`header__nav-link ${isActive('/profile') ? 'header__nav-link--active' : ''}`}
-                                aria-current={isActive('/profile') ? 'page' : undefined}
-                                aria-label="Acessar Perfil"
-                            >
-                                <span aria-hidden="true">👤</span> Perfil
-                            </Link>
-                        </>
-                    )}
-                </nav>
-
-                {/* Área do usuário */}
-                <div className="header__user">
-                    {loading ? (
-                        <div className="header__loading">Carregando...</div>
-                    ) : userData ? (
-                        <div className="header__user-info">
-                            <img src={reactLogo} className="header__avatar" alt="Avatar do usuário" />
-                            <div className="header__user-details">
-                                <span className="header__user-name">{userData.displayName}</span>
-                                <p className="header__user-level">Nível {currentLevel?.level || 1}</p>
-                                <span
-                                    className="header__user-stars"
-                                    title="Diamantes disponíveis"
-                                    aria-label={`Diamantes disponíveis: ${userData.balance || 0}`}
-                                >
-                                    <span aria-hidden="true">💎</span> {userData.balance || 0}
-                                </span>
-                                <span
-                                    className="header__user-streak"
-                                    title="Ofensiva diária"
-                                    aria-label={`Ofensiva diária: ${currentStreak} dias`}
-                                >
-                                    <span aria-hidden="true">🔥</span> {currentStreak}
-                                </span>
-                                {isGuest && <span className="header__user-guest">(Convidado)</span>}
-                            </div>
-                            <button onClick={handleLogout} className="header__logout-btn">
-                                Sair
-                            </button>
-                        </div>
-                    ) : (
-                        <div className="header__auth-links">
-                            <Link to="/login" className="header__auth-link">
-                                Entrar
-                            </Link>
-                            <Link to="/register" className="header__auth-link header__auth-link--primary">
-                                Criar Conta
-                            </Link>
-                        </div>
-                    )}
+                        <span className="header__hamburger-bar"></span>
+                        <span className="header__hamburger-bar"></span>
+                        <span className="header__hamburger-bar"></span>
+                    </button>
                 </div>
+
+                {/* Navegação principal + Perfil User (Mobile Drawer / Desktop Inline) */}
+                <nav className={`header__nav ${menuOpen ? 'header__nav--open' : ''}`}>
+                    {/* Cabeçalho do Perfil dentro do Drawer Mobile */}
+                    {userData && (
+                        <div className="header__mobile-profile">
+                            <div className="mobile-profile__avatar-container">
+                                <img src={reactLogo} className="mobile-profile__avatar" alt="Avatar do usuário" />
+                                <span className="mobile-profile__level-badge">Nível {currentLevel?.level || 1}</span>
+                            </div>
+                            <div className="mobile-profile__info">
+                                <span className="mobile-profile__name">{userData.displayName}</span>
+                                <span className="mobile-profile__title">{currentLevel?.name || 'Explorador'}</span>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Links de Navegação */}
+                    <div className="header__nav-links">
+                        <Link
+                            to="/"
+                            className={`header__nav-link ${isActive('/') ? 'header__nav-link--active' : ''}`}
+                            aria-current={isActive('/') ? 'page' : undefined}
+                            onClick={() => setMenuOpen(false)}
+                        >
+                            <span className="nav-icon" aria-hidden="true">🏠</span> Início
+                        </Link>
+
+                        <Link
+                            to="/learn"
+                            className={`header__nav-link ${location.pathname.startsWith('/learn') ? 'header__nav-link--active' : ''}`}
+                            aria-current={location.pathname.startsWith('/learn') ? 'page' : undefined}
+                            onClick={() => setMenuOpen(false)}
+                        >
+                            <span className="nav-icon" aria-hidden="true">📚</span> Aprender
+                        </Link>
+
+                        {userData && (
+                            <>
+                                <Link
+                                    to="/game"
+                                    className={`header__nav-link ${isActive('/game') ? 'header__nav-link--active' : ''}`}
+                                    aria-current={isActive('/game') ? 'page' : undefined}
+                                    onClick={() => setMenuOpen(false)}
+                                >
+                                    <span className="nav-icon" aria-hidden="true">🎮</span> Jogar
+                                </Link>
+
+                                <Link
+                                    to="/certificate"
+                                    className={`header__nav-link ${location.pathname === '/certificate' ? 'header__nav-link--active' : ''}`}
+                                    onClick={() => setMenuOpen(false)}
+                                >
+                                    <span className="nav-icon" aria-hidden="true">📜</span> Certificado
+                                </Link>
+
+                                <Link
+                                    to="/rewards"
+                                    className={`header__nav-link ${isActive('/rewards') ? 'header__nav-link--active' : ''}`}
+                                    aria-current={isActive('/rewards') ? 'page' : undefined}
+                                    onClick={() => setMenuOpen(false)}
+                                >
+                                    <span className="nav-icon" aria-hidden="true">🏆</span> Recompensas
+                                </Link>
+
+                                <Link
+                                    to="/profile"
+                                    className={`header__nav-link ${isActive('/profile') ? 'header__nav-link--active' : ''}`}
+                                    aria-current={isActive('/profile') ? 'page' : undefined}
+                                    onClick={() => setMenuOpen(false)}
+                                >
+                                    <span className="nav-icon" aria-hidden="true">👤</span> Perfil
+                                </Link>
+                            </>
+                        )}
+                    </div>
+
+                    {/* Área do usuário / Auth no Desktop & Footer do Drawer no Mobile */}
+                    <div className="header__user-desktop">
+                        {loading ? (
+                            <div className="header__loading">Carregando...</div>
+                        ) : userData ? (
+                            <div className="header__user-pill">
+                                <div className="user-pill__stats">
+                                    <span className="stat-item" title="Diamantes disponíveis">
+                                        <span aria-hidden="true">💎</span> {userData.balance || 0}
+                                    </span>
+                                    <span className="stat-item" title="Ofensiva diária">
+                                        <span aria-hidden="true">🔥</span> {currentStreak}
+                                    </span>
+                                </div>
+                                <div className="user-pill__profile">
+                                    <img src={reactLogo} className="user-pill__avatar" alt="Avatar" />
+                                    <div className="user-pill__details">
+                                        <span className="user-pill__name">{userData.displayName}</span>
+                                        <span className="user-pill__level">Nív. {currentLevel?.level || 1}</span>
+                                        {isGuest && <span className="header__user-guest">(Convidado)</span>}
+                                    </div>
+                                </div>
+                                <button onClick={handleLogout} className="header__logout-btn" title="Encerrar sessão">
+                                    <span aria-hidden="true">🚪</span> Sair
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="header__auth-links">
+                                <Link to="/login" className="header__auth-link" onClick={() => setMenuOpen(false)}>
+                                    Entrar
+                                </Link>
+                                <Link to="/register" className="header__auth-link header__auth-link--primary" onClick={() => setMenuOpen(false)}>
+                                    Criar Conta
+                                </Link>
+                            </div>
+                        )}
+                    </div>
+                </nav>
             </div>
         </header>
     );

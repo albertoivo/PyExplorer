@@ -65,10 +65,10 @@ describe('Header', () => {
 
         renderWithRouter(<Header />);
 
-        expect(screen.getByText('Test User')).toBeInTheDocument();
-        expect(screen.getByText('100')).toBeInTheDocument(); // Balance
-        expect(screen.getByText('5')).toBeInTheDocument(); // Streak from gamification
-        expect(screen.getByText('Sair')).toBeInTheDocument();
+        expect(screen.getAllByText('Test User')[0]).toBeInTheDocument();
+        expect(screen.getAllByText('100')[0]).toBeInTheDocument(); // Balance
+        expect(screen.getAllByText('5')[0]).toBeInTheDocument(); // Streak from gamification
+        expect(screen.getAllByText('Sair')[0]).toBeInTheDocument();
 
         // Check navigation links for logged user
         expect(screen.getByText('Jogar')).toBeInTheDocument();
@@ -86,7 +86,7 @@ describe('Header', () => {
 
         renderWithRouter(<Header />);
 
-        expect(screen.getByText('(Convidado)')).toBeInTheDocument();
+        expect(screen.getAllByText('(Convidado)')[0]).toBeInTheDocument();
     });
 
     it('calls logout when clicking exit', () => {
@@ -100,7 +100,7 @@ describe('Header', () => {
 
         renderWithRouter(<Header />);
 
-        fireEvent.click(screen.getByText('Sair'));
+        fireEvent.click(screen.getAllByText('Sair')[0]);
         expect(mockLogout).toHaveBeenCalled();
     });
 

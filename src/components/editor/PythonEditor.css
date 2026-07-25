@@ -58,3 +58,14 @@
 .monaco-editor .slider:hover {
     background: rgba(0, 217, 255, 0.5) !important;
 }
+
+@media (max-width: 768px) {
+    .python-editor {
+        max-height: 45vh;
+        min-height: 180px;
+    }
+
+    .python-editor__loading {
+        min-height: 150px;
+    }
+}

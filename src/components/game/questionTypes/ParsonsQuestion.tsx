@@ -68,6 +68,19 @@ export function ParsonsQuestion({
         setBlocks(newBlocks);
     };
 
+    // Move block up/down handler (essential for mobile touch)
+    const moveBlock = (index: number, delta: number) => {
+        if (disabled) return;
+        const targetIndex = index + delta;
+        if (targetIndex < 0 || targetIndex >= blocks.length) return;
+
+        const newBlocks = [...blocks];
+        const [movedBlock] = newBlocks.splice(index, 1);
+        newBlocks.splice(targetIndex, 0, movedBlock);
+
+        setBlocks(newBlocks);
+    };
+
     // Indentation handlers
     const changeIndentation = (index: number, delta: number) => {
         if (disabled) return;
@@ -125,7 +138,7 @@ export function ParsonsQuestion({
                 prompt={question.prompt}
             />
             <p className="parsons-instructions">
-                Arraste os blocos para colocar na ordem certa. Use as setas para ajustar a "margem" (indentação) de cada linha.
+                Arraste ou use os botões <b>▲ ▼</b> para ordenar as linhas e <b>◀ ▶</b> para ajustar a margem (indentação).
             </p>
 
             <div className="parsons-area">
@@ -137,7 +150,7 @@ export function ParsonsQuestion({
                         onDragStart={(e) => handleDragStart(e, index)}
                         onDragOver={handleDragOver}
                         onDrop={(e) => handleDrop(e, index)}
-                        style={{ marginLeft: `${block.indentation * 30}px` }}
+                        style={{ '--block-indent': block.indentation } as React.CSSProperties}
                     >
                         <div className="parsons-block__content">
                             <span className="parsons-block__drag-handle">☰</span>
@@ -147,9 +160,26 @@ export function ParsonsQuestion({
                         {!disabled && (
                             <div className="parsons-block__controls">
                                 <button
+                                    onClick={() => moveBlock(index, -1)}
+                                    disabled={index === 0}
+                                    title="Mover para cima"
+                                    aria-label="Mover bloco para cima"
+                                >
+                                    ▲
+                                </button>
+                                <button
+                                    onClick={() => moveBlock(index, 1)}
+                                    disabled={index === blocks.length - 1}
+                                    title="Mover para baixo"
+                                    aria-label="Mover bloco para baixo"
+                                >
+                                    ▼
+                                </button>
+                                <button
                                     onClick={() => changeIndentation(index, -1)}
                                     disabled={block.indentation === 0}
                                     title="Diminuir recuo"
+                                    aria-label="Diminuir recuo da linha"
                                 >
                                     ◀
                                 </button>
@@ -157,6 +187,7 @@ export function ParsonsQuestion({
                                     onClick={() => changeIndentation(index, 1)}
                                     disabled={block.indentation >= 4}
                                     title="Aumentar recuo"
+                                    aria-label="Aumentar recuo da linha"
                                 >
                                     ▶
                                 </button>
