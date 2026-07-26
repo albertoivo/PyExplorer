@@ -48,7 +48,9 @@ export function UserDashboard({ userData }: UserDashboardProps) {
                             />
                         </div>
                         <span className="progress-card__detail">
-                            {Math.round(levelProgress)}% para o próximo nível
+                            {currentLevel.maxXP === Infinity
+                                ? 'Nível máximo!'
+                                : `${Math.round(levelProgress)}% para o próximo nível`}
                         </span>
                     </div>
                 </div>

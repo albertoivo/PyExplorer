@@ -443,7 +443,7 @@ export function useGamification() {
         passed: boolean,
         xpEarned: number = 10,
         responseTimeSeconds?: number,
-        options?: { worldId?: string, starsEarned?: number, isBoss?: boolean, previousStars?: number }
+        options?: { worldId?: string, starsEarned?: number, isBoss?: boolean, previousStars?: number, wasCompleted?: boolean }
     ) => {
         const {
             newState,

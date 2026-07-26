@@ -13,7 +13,7 @@ export const ACHIEVEMENTS: Achievement[] = [
         icon: '🎯',
         category: 'learning',
         rarity: 'common',
-        xpReward: 50,
+        xpReward: 50,    // common: ~50 XP
         starsReward: 5,
         condition: 'Completar 1 questão',
     },
@@ -24,7 +24,7 @@ export const ACHIEVEMENTS: Achievement[] = [
         icon: '📚',
         category: 'learning',
         rarity: 'common',
-        xpReward: 100,
+        xpReward: 100,   // common: ~100 XP
         starsReward: 15,
         condition: 'Completar 10 questões',
     },
@@ -35,7 +35,7 @@ export const ACHIEVEMENTS: Achievement[] = [
         icon: '🎓',
         category: 'learning',
         rarity: 'rare',
-        xpReward: 300,
+        xpReward: 150,   // rare: ~150 XP
         starsReward: 50,
         condition: 'Completar 50 questões',
     },
@@ -46,7 +46,7 @@ export const ACHIEVEMENTS: Achievement[] = [
         icon: '🏆',
         category: 'learning',
         rarity: 'epic',
-        xpReward: 500,
+        xpReward: 350,   // epic: ~350 XP
         starsReward: 100,
         condition: 'Completar 100 questões',
     },
@@ -57,7 +57,7 @@ export const ACHIEVEMENTS: Achievement[] = [
         icon: '🗺️',
         category: 'learning',
         rarity: 'rare',
-        xpReward: 200,
+        xpReward: 150,   // rare: ~150 XP
         starsReward: 30,
         condition: 'Completar todas as questões de um mundo',
     },
@@ -68,31 +68,31 @@ export const ACHIEVEMENTS: Achievement[] = [
         icon: '🌟',
         category: 'learning',
         rarity: 'legendary',
-        xpReward: 1000,
+        xpReward: 600,   // legendary: completar todos os 18 mundos → push para Nv19
         starsReward: 200,
         condition: 'Completar todos os mundos do jogo',
     },
     {
         id: 'world_master',
         name: 'Mestre dos Mundos',
-        description: 'Complete 1 mundo',
+        description: 'Complete 5 mundos',
         icon: '🌍',
         category: 'learning',
         rarity: 'rare',
-        xpReward: 300,
+        xpReward: 150,   // rare: ~150 XP
         starsReward: 50,
-        condition: 'Completar 1 mundo',
+        condition: 'Completar 5 mundos',
     },
     {
         id: 'world_champion',
         name: 'Campeão Global',
-        description: 'Complete 5 mundos',
+        description: 'Complete 10 mundos',
         icon: '🪐',
         category: 'learning',
         rarity: 'epic',
-        xpReward: 1000,
+        xpReward: 350,   // epic: completar 10 mundos
         starsReward: 100,
-        condition: 'Completar 5 mundos',
+        condition: 'Completar 10 mundos',
     },
 
 
@@ -104,7 +104,7 @@ export const ACHIEVEMENTS: Achievement[] = [
         icon: '🔥',
         category: 'streak',
         rarity: 'common',
-        xpReward: 75,
+        xpReward: 75,    // common: ~75 XP
         starsReward: 10,
         condition: 'Jogar 3 dias seguidos',
     },
@@ -115,7 +115,7 @@ export const ACHIEVEMENTS: Achievement[] = [
         icon: '🔥',
         category: 'streak',
         rarity: 'rare',
-        xpReward: 200,
+        xpReward: 150,   // rare: ~150 XP
         starsReward: 30,
         condition: 'Jogar 7 dias seguidos',
     },
@@ -126,7 +126,7 @@ export const ACHIEVEMENTS: Achievement[] = [
         icon: '💎',
         category: 'streak',
         rarity: 'epic',
-        xpReward: 500,
+        xpReward: 300,   // epic: 30 dias seguidos
         starsReward: 100,
         condition: 'Jogar 30 dias seguidos',
     },
@@ -137,7 +137,7 @@ export const ACHIEVEMENTS: Achievement[] = [
         icon: '👑',
         category: 'streak',
         rarity: 'legendary',
-        xpReward: 1500,
+        xpReward: 500,   // legendary: 100 dias → endgame
         starsReward: 300,
         condition: 'Jogar 100 dias seguidos',
     },
@@ -172,7 +172,7 @@ export const ACHIEVEMENTS: Achievement[] = [
         icon: '🧠',
         category: 'mastery',
         rarity: 'epic',
-        xpReward: 500,
+        xpReward: 300,   // epic: 25 questões seguidas
         starsReward: 80,
         condition: 'Acertar 25 questões consecutivas',
     },
@@ -183,7 +183,7 @@ export const ACHIEVEMENTS: Achievement[] = [
         icon: '💯',
         category: 'mastery',
         rarity: 'legendary',
-        xpReward: 750,
+        xpReward: 400,   // legendary: gabaritar mundo inteiro
         starsReward: 150,
         condition: 'Gabaritar um mundo inteiro',
     },
@@ -256,7 +256,7 @@ export const ACHIEVEMENTS: Achievement[] = [
         icon: '⚔️',
         category: 'boss',
         rarity: 'rare',
-        xpReward: 300,
+        xpReward: 150,   // rare: primeiro boss
         starsReward: 50,
         condition: 'Derrotar 1 Boss',
     },
@@ -267,7 +267,7 @@ export const ACHIEVEMENTS: Achievement[] = [
         icon: '🏹',
         category: 'boss',
         rarity: 'epic',
-        xpReward: 1000,
+        xpReward: 350,   // epic: 3 bosses
         starsReward: 150,
         condition: 'Derrotar 3 Bosses',
     },
@@ -278,7 +278,7 @@ export const ACHIEVEMENTS: Achievement[] = [
         icon: '💀',
         category: 'boss',
         rarity: 'legendary',
-        xpReward: 2500,
+        xpReward: 600,   // legendary: todos os 18 bosses → push para Nv19/20
         starsReward: 500,
         condition: 'Derrotar todos os Bosses',
     },
@@ -289,7 +289,7 @@ export const ACHIEVEMENTS: Achievement[] = [
         icon: '🛡️',
         category: 'boss',
         rarity: 'legendary',
-        xpReward: 1500,
+        xpReward: 450,   // legendary: boss sem errar
         starsReward: 200,
         condition: 'Derrotar Boss sem errar (First Try)',
     },
@@ -302,7 +302,7 @@ export const ACHIEVEMENTS: Achievement[] = [
         icon: '📜',
         category: 'mastery',
         rarity: 'epic',
-        xpReward: 1000,
+        xpReward: 400,   // epic: completar último mundo
         starsReward: 200,
         condition: 'Completar o mundo final',
     },
@@ -313,7 +313,7 @@ export const ACHIEVEMENTS: Achievement[] = [
         icon: '💎',
         category: 'mastery',
         rarity: 'legendary',
-        xpReward: 3000,
+        xpReward: 600,   // legendary: gabaritar 3 mundos → push para Nv20
         starsReward: 500,
         condition: 'Gabaritar 3 mundos',
     },
@@ -324,7 +324,7 @@ export const ACHIEVEMENTS: Achievement[] = [
         icon: '⚡',
         category: 'mastery',
         rarity: 'epic',
-        xpReward: 800,
+        xpReward: 300,   // epic: velocidade
         starsReward: 100,
         condition: 'Seq. 5 questões < 20s',
     },
@@ -335,7 +335,7 @@ export const ACHIEVEMENTS: Achievement[] = [
         icon: '🧠',
         category: 'learning',
         rarity: 'legendary',
-        xpReward: 5000,
+        xpReward: 500,   // legendary: 250 questões (jogo tem ~263 sem boss)
         starsReward: 1000,
         condition: 'Completar 250 questões',
     },
@@ -348,7 +348,7 @@ export const ACHIEVEMENTS: Achievement[] = [
         icon: '🎩',
         category: 'collection',
         rarity: 'rare',
-        xpReward: 300,
+        xpReward: 150,   // rare: coleção
         starsReward: 50,
         condition: 'Ter 3 avatares',
     },
@@ -359,7 +359,7 @@ export const ACHIEVEMENTS: Achievement[] = [
         icon: '💰',
         category: 'collection',
         rarity: 'epic',
-        xpReward: 1000,
+        xpReward: 300,   // epic: acumular estrelas
         starsReward: 0, // Recompensa é XP, já tem estrelas
         condition: 'Saldo de 1000 estrelas',
     },
@@ -370,7 +370,7 @@ export const ACHIEVEMENTS: Achievement[] = [
         icon: '🏛️',
         category: 'collection',
         rarity: 'legendary',
-        xpReward: 10000,
+        xpReward: 600,   // legendary: comprar todos os itens da loja → endgame
         starsReward: 0,
         condition: 'Ter todos os itens da loja',
     },
@@ -383,7 +383,7 @@ export const ACHIEVEMENTS: Achievement[] = [
         icon: '🚀',
         category: 'streak',
         rarity: 'epic',
-        xpReward: 2000,
+        xpReward: 450,   // epic: 50 dias seguidos
         starsReward: 400,
         condition: 'Streak 50 dias',
     },
@@ -394,7 +394,7 @@ export const ACHIEVEMENTS: Achievement[] = [
         icon: '📅',
         category: 'streak',
         rarity: 'legendary',
-        xpReward: 20000,
+        xpReward: 700,   // legendary: 365 dias → o mais alto do jogo, push final para Nv20
         starsReward: 5000,
         condition: 'Streak 365 dias',
     }
@@ -405,22 +405,40 @@ export const ACHIEVEMENTS: Achievement[] = [
 // ============================================
 
 // fallow-ignore-next-line unused-export
+// 20 níveis organizados em 4 blocos de 5, um por Saga.
+// Calibrados para que o XP total do jogo (≈7.210 XP) leve o jogador ao Nível 18
+// e os Níveis 19-20 exijam conquistas extras como endgame saudável.
+//
+// Saga 1 (Fundamentos)    → Níveis  1-5  (0 – 2.570 XP)
+// Saga 2 (Estruturas)     → Níveis  6-10 (2.570 – 4.745 XP)
+// Saga 3 (POO/Avançado)   → Níveis 11-15 (4.745 – 6.065 XP)
+// Saga 4 (Especializações)→ Níveis 16-20 (6.065 – 7.900+ XP)
 export const LEVELS: LevelInfo[] = [
-    { level: 1, name: 'Novato', minXP: 0, maxXP: 100, icon: '🌱', color: '#48bb78' },
-    { level: 2, name: 'Aprendiz', minXP: 100, maxXP: 250, icon: '🌿', color: '#68d391' },
-    { level: 3, name: 'Estudante', minXP: 250, maxXP: 500, icon: '📖', color: '#4fd1c5' },
-    { level: 4, name: 'Praticante', minXP: 500, maxXP: 850, icon: '⚡', color: '#63b3ed' },
-    { level: 5, name: 'Explorador', minXP: 850, maxXP: 1300, icon: '🗺️', color: '#667eea' },
-    { level: 6, name: 'Aventureiro', minXP: 1300, maxXP: 1900, icon: '🧭', color: '#9f7aea' },
-    { level: 7, name: 'Programador', minXP: 1900, maxXP: 2700, icon: '💻', color: '#ed64a6' },
-    { level: 8, name: 'Hacker', minXP: 2700, maxXP: 3700, icon: '🔓', color: '#f56565' },
-    { level: 9, name: 'Mestre', minXP: 3700, maxXP: 5000, icon: '🎓', color: '#ed8936' },
-    { level: 10, name: 'Sábio', minXP: 5000, maxXP: 6500, icon: '🧙', color: '#ecc94b' },
-    { level: 11, name: 'Guru', minXP: 6500, maxXP: 8500, icon: '🔮', color: '#38b2ac' },
-    { level: 12, name: 'Arquiteto', minXP: 8500, maxXP: 11000, icon: '🏗️', color: '#3182ce' },
-    { level: 13, name: 'Visionário', minXP: 11000, maxXP: 14000, icon: '👁️', color: '#805ad5' },
-    { level: 14, name: 'Lenda', minXP: 14000, maxXP: 18000, icon: '⭐', color: '#d69e2e' },
-    { level: 15, name: 'Imortal', minXP: 18000, maxXP: Infinity, icon: '👑', color: '#ffd700', rewards: { stars: 500, itemId: 'avatar_golden_snake' } },
+    // ── SAGA 1: O Aprendiz de Python ─────────────────────────────────────────
+    { level: 1,  name: 'Novato',              minXP: 0,    maxXP: 500,          icon: '🌱', color: '#48bb78' },
+    { level: 2,  name: 'Iniciante',           minXP: 500,  maxXP: 1050,         icon: '🌿', color: '#38a169' },
+    { level: 3,  name: 'Aprendiz',            minXP: 1050, maxXP: 1600,         icon: '📖', color: '#4fd1c5' },
+    { level: 4,  name: 'Estudante',           minXP: 1600, maxXP: 2100,         icon: '⚡', color: '#63b3ed' },
+    { level: 5,  name: 'Explorador',          minXP: 2100, maxXP: 2570,         icon: '🗺️', color: '#3182ce' },
+    // ── SAGA 2: O Guardião dos Dados ─────────────────────────────────────────
+    { level: 6,  name: 'Aventureiro',         minXP: 2570, maxXP: 3100,         icon: '🧭', color: '#9f7aea' },
+    { level: 7,  name: 'Programador',         minXP: 3100, maxXP: 3600,         icon: '💻', color: '#805ad5' },
+    { level: 8,  name: 'Construtor',          minXP: 3600, maxXP: 4100,         icon: '🔧', color: '#6b46c1' },
+    { level: 9,  name: 'Estrategista',        minXP: 4100, maxXP: 4450,         icon: '🧠', color: '#553c9a' },
+    { level: 10, name: 'Guardião',            minXP: 4450, maxXP: 4745,         icon: '📜', color: '#a855f7' },
+    // ── SAGA 3: O Arquiteto de Software ──────────────────────────────────────
+    { level: 11, name: 'Artesão',             minXP: 4745, maxXP: 5100,         icon: '🏗️', color: '#ecc94b' },
+    { level: 12, name: 'Hacker',              minXP: 5100, maxXP: 5450,         icon: '🔓', color: '#f59e0b' },
+    { level: 13, name: 'Arquiteto',           minXP: 5450, maxXP: 5750,         icon: '🏛️', color: '#d97706' },
+    { level: 14, name: 'Mestre',              minXP: 5750, maxXP: 5900,         icon: '🎓', color: '#b45309' },
+    { level: 15, name: 'Sábio',               minXP: 5900, maxXP: 6065,         icon: '🧙', color: '#92400e' },
+    // ── SAGA 4: As Trilhas do Destino ────────────────────────────────────────
+    { level: 16, name: 'Guru',                minXP: 6065, maxXP: 6400,         icon: '🔮', color: '#ec4899' },
+    { level: 17, name: 'Visionário',          minXP: 6400, maxXP: 6800,         icon: '👁️', color: '#db2777' },
+    { level: 18, name: 'Lenda',               minXP: 6800, maxXP: 7210,         icon: '⭐', color: '#be185d' },
+    // ── ENDGAME: apenas via conquistas/missões ────────────────────────────────
+    { level: 19, name: 'Imortal',             minXP: 7210, maxXP: 7900,         icon: '👑', color: '#9d174d' },
+    { level: 20, name: 'Pythonista Supremo',  minXP: 7900, maxXP: Infinity,     icon: '🐍', color: '#ffd700', rewards: { stars: 500, itemId: 'avatar_golden_snake' } },
 ];
 
 // ============================================

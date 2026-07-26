@@ -217,7 +217,8 @@ export function GamePage() {
                 worldId: currentQuestion.world,
                 starsEarned,
                 isBoss: currentQuestion.type === 'boss_battle',
-                previousStars: previousProgress?.stars || 0
+                previousStars: previousProgress?.stars || 0,
+                wasCompleted
             });
 
             if (activePowerUp) {

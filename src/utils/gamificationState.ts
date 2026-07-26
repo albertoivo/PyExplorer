@@ -482,7 +482,8 @@ export function recordQuestionLogic(
         starsEarned?: number,
         isBoss?: boolean,
         responseTimeSeconds?: number,
-        previousStars?: number
+        previousStars?: number,
+        wasCompleted?: boolean
     }
 ): {
     newState: UserGamification,
@@ -508,9 +509,13 @@ export function recordQuestionLogic(
         newConsecutiveFast = 0;
     }
 
-    // XP
+    // XP (Practice XP reduced if already completed)
+    const effectiveXpEarned = (passed && options?.wasCompleted)
+        ? Math.max(2, Math.round(xpEarned * 0.3))
+        : (passed ? xpEarned : 0);
+
     const oldLevelInfo = getLevelFromXP(state.level.totalXP);
-    const newTotalXP = state.level.totalXP + xpEarned;
+    const newTotalXP = state.level.totalXP + effectiveXpEarned;
     const newLevelInfo = getLevelFromXP(newTotalXP);
     const levelUp = newLevelInfo.level > oldLevelInfo.level ? newLevelInfo : null;
 
@@ -518,7 +523,7 @@ export function recordQuestionLogic(
     const currentPet = state.pet || getInitialPet();
     // Only gain XP if passed, or maybe small XP if failed? For now, only passed.
     const { newPet } = passed
-        ? gainPetXp(currentPet, xpEarned, options?.worldId || 'generic')
+        ? gainPetXp(currentPet, effectiveXpEarned, options?.worldId || 'generic')
         : { newPet: currentPet };
 
     // Streak
@@ -537,7 +542,7 @@ export function recordQuestionLogic(
         ...state,
         level: {
             ...state.level,
-            currentXP: state.level.currentXP + xpEarned,
+            currentXP: newTotalXP - newLevelInfo.minXP,
             totalXP: newTotalXP,
         },
         pet: newPet,
@@ -550,11 +555,11 @@ export function recordQuestionLogic(
         },
         stats: {
             ...state.stats,
-            totalQuestionsCompleted: state.stats.totalQuestionsCompleted + 1,
+            totalQuestionsCompleted: !options?.wasCompleted ? state.stats.totalQuestionsCompleted + 1 : state.stats.totalQuestionsCompleted,
             totalCorrectAnswers: passed ? state.stats.totalCorrectAnswers + 1 : state.stats.totalCorrectAnswers,
             consecutiveCorrect: newConsecutive,
             bestConsecutiveCorrect: newBestConsecutive,
-            bossesDefeated: (passed && isBoss) ? (state.stats.bossesDefeated || 0) + 1 : (state.stats.bossesDefeated || 0),
+            bossesDefeated: (passed && isBoss && !options?.wasCompleted) ? (state.stats.bossesDefeated || 0) + 1 : (state.stats.bossesDefeated || 0),
             consecutiveFastAnswers: newConsecutiveFast
         },
     };
@@ -626,22 +631,6 @@ export function recordQuestionLogic(
                 shouldUpdate = true;
                 break;
 
-            // Existing logic fallback (simplified here, assuming existing logic handles standard types elsewhere or we add them here)
-            // The original code didn't update mission progress inside recordQuestionLogic,
-            // it likely did it in useGamification or not at all?
-            // Wait, looking at original code, I don't see mission progress update in recordQuestionLogic!
-            // It seems mission progress was NOT being updated in recordQuestionLogic in the original file I read.
-            // Let me re-read recordQuestionLogic carefully.
-            // ...
-            // You are correct. The original recordQuestionLogic ONLY updated stats/level/streak.
-            // It did NOT update activeMissions.
-            // This means mission logic was missing or handled elsewhere?
-            // Checking useGamification... "recordQuestionCompleted" calls "recordQuestionLogic".
-            // It seems the original code might have been incomplete regarding mission updates?
-            // Or maybe "activeMissions" are updated via a separate function I missed?
-            // No, useGamification just sets the state returned by recordQuestionLogic.
-            // So I MUST implement mission update logic here for the new types (and old types if missing).
-
             case 'complete_questions':
                 if (passed) {
                     newProgress += 1;
@@ -660,6 +649,12 @@ export function recordQuestionLogic(
             case 'earn_stars':
                 if (starsEarned > 0) {
                     newProgress += starsEarned;
+                    shouldUpdate = true;
+                }
+                break;
+            case 'login_streak':
+                if (streakResult.shouldUpdate) {
+                    newProgress += 1;
                     shouldUpdate = true;
                 }
                 break;
@@ -782,16 +777,18 @@ export function checkAchievementsLogic(
     if (consecutiveCorrect >= 10) unlocked.push('perfect_10'); // DATA: perfect_10
     if (consecutiveCorrect >= 25) unlocked.push('perfect_25');
 
-    // Worlds
-    if (worldsCompleted >= 1) unlocked.push('first_world');
-    if (worldsCompleted >= 5) unlocked.push('all_worlds'); // Assume 5 is all? Or check DATA condition? 'all_worlds' condition says "Completar todos". 
-    // Logic just guesses 5? I'll keep 5.
+    // Worlds — 18 mundos no total (6+5+4+3)
+    if (worldsCompleted >= 1)  unlocked.push('first_world');    // Explorador
+    if (worldsCompleted >= 5)  unlocked.push('world_master');   // Mestre dos Mundos
+    if (worldsCompleted >= 10) unlocked.push('world_champion'); // Campeão Global
+    if (worldsCompleted >= 18) unlocked.push('all_worlds');     // Conquistador de Mundos
 
     // Bosses (Fallback to worldsCompleted for legacy data)
     const effectiveBosses = Math.max(bossesDefeated || 0, worldsCompleted || 0);
 
     if (effectiveBosses >= 1) unlocked.push('giant_slayer');
     if (effectiveBosses >= 3) unlocked.push('legend_hunter');
+    if (effectiveBosses >= 18) unlocked.push('the_destroyer'); // Todos os 18 bosses
 
     // Speed
     if (consecutiveFastAnswers >= 5) unlocked.push('light_speed');

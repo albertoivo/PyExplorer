@@ -222,4 +222,24 @@ describe('Endgame Missions Logic', () => {
             expect(currentState.activeMissions[0].progress).toBe(3); // Capped
         });
     });
+
+    describe('Practice / Review Mode (wasCompleted)', () => {
+        it('should award reduced practice XP when wasCompleted is true', () => {
+            const { newState } = recordQuestionLogic(initialState, true, 10, {
+                wasCompleted: true
+            });
+            // 30% of 10 is 3
+            expect(newState.level.totalXP).toBe(3);
+            // totalQuestionsCompleted should NOT increment
+            expect(newState.stats.totalQuestionsCompleted).toBe(0);
+        });
+
+        it('should award full XP and increment totalQuestionsCompleted when wasCompleted is false', () => {
+            const { newState } = recordQuestionLogic(initialState, true, 10, {
+                wasCompleted: false
+            });
+            expect(newState.level.totalXP).toBe(10);
+            expect(newState.stats.totalQuestionsCompleted).toBe(1);
+        });
+    });
 });
