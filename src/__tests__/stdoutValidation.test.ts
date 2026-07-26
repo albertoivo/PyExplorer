@@ -143,6 +143,28 @@ describe('Validação de stdout para Boss Battles', () => {
         });
     });
 
+    describe('Questão: Oráculo Perguntador (boss_battle_9)', () => {
+        const expectedOutput = 'regex:tem.*anos';
+
+        it('DEVE passar quando stdout contém os prompts de input sem quebra de linha seguidos pelo print', () => {
+            const stdoutText = 'nome?idade?Ana tem 10 anos\n';
+            const regexPattern = expectedOutput.replace('regex:', '');
+            const regex = new RegExp(regexPattern);
+            const outputLines = stdoutText.trim().split('\n').map(line => line.trim()).filter(line => line);
+            const passed = outputLines.some(line => regex.test(line));
+            expect(passed).toBe(true);
+        });
+
+        it('DEVE passar com formato alternativo de prompt', () => {
+            const stdoutText = 'Qual seu nome? Quantos anos? Carlos tem 12 anos\n';
+            const regexPattern = expectedOutput.replace('regex:', '');
+            const regex = new RegExp(regexPattern);
+            const outputLines = stdoutText.trim().split('\n').map(line => line.trim()).filter(line => line);
+            const passed = outputLines.some(line => regex.test(line));
+            expect(passed).toBe(true);
+        });
+    });
+
     describe('Edge cases', () => {
         it('expectedOutput como string única', () => {
             const result = validateStdoutOutput('hello\n', 'hello');

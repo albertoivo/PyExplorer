@@ -203,7 +203,7 @@ export const BOSS_QUESTIONS: QuestionDocument[] = [
         tests: [
             {
                 input: null,
-                expectedOutput: ['Qual seu nome?']
+                expectedOutput: 'regex:tem.*anos'
             }
         ],
         solutionTemplate: `nome = input("Qual seu nome? ")\nidade = input("Quantos anos? ")\nprint(f"{nome} tem {idade} anos")`
