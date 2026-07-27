@@ -7,6 +7,7 @@ import { createRequire } from 'module'
 const require = createRequire(import.meta.url)
 const prerender = require('vite-plugin-prerender')
 import { compression } from 'vite-plugin-compression2'
+import monacoEditorPlugin from 'vite-plugin-monaco-editor-esm'
 
 interface PuppeteerConsoleMessage {
   text: () => string;
@@ -71,6 +72,15 @@ const prerenderPlugin = process.env.CI === 'true' ? null : prerender({
 export default defineConfig({
   envPrefix: 'VITE_',
   plugins: [
+    monacoEditorPlugin({
+      languageWorkers: [],
+      customWorkers: [
+        {
+          label: 'editorWorkerService',
+          entry: 'monaco-editor/editor/editor.worker',
+        }
+      ]
+    }),
     {
       name: 'defer-css',
       enforce: 'post',
@@ -293,6 +303,9 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id) {
+          if (id.includes('.worker') || id.includes('editor.worker')) {
+            return undefined;
+          }
           if (id.includes('node_modules')) {
             if (id.includes('firebase') || id.includes('@firebase')) {
               return 'firebase-vendor';
