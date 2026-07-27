@@ -48,7 +48,7 @@
     "firebase-tools": "^15.24.0",
     "globals": "^17.7.0",
     "husky": "^9.1.7",
-    "jsdom": "^29.1.1",
+    "jsdom": "^30.0.0",
     "sharp": "^0.35.3",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.64.0",
