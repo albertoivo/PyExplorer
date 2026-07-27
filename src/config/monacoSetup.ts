@@ -1,6 +1,6 @@
 import { loader } from '@monaco-editor/react';
 import * as monaco from 'monaco-editor';
-import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
+import EditorWorker from './editor.worker?worker';
 
 type MonacoGlobal = typeof globalThis & {
   MonacoEnvironment?: {
