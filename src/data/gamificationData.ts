@@ -596,8 +596,8 @@ export const ENDGAME_MISSIONS: Omit<Mission, 'id'>[] = [
 export const POWERUPS: PowerUp[] = [
     {
         id: 'skip',
-        name: 'Pular Questão',
-        description: 'Pule uma questão difícil sem perder o streak',
+        name: 'Pular Questão (Sem Penalidade)',
+        description: 'Pule um exercício difícil sem perder sua ofensiva (streak) ou vidas',
         icon: '⏭️',
         price: 15,
         maxPerDay: 3,

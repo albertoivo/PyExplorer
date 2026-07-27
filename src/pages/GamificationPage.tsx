@@ -36,6 +36,7 @@ export function GamificationPage() {
         usePowerUp,
         buyPowerUp,
         gamification,
+        userStars,
     } = useGamification();
 
 
@@ -164,7 +165,7 @@ export function GamificationPage() {
                             <h3 className="gamification-page__section-title">⚡ Power-ups</h3>
                             <PowerUpBar
                                 userPowerUps={userPowerUps}
-                                userStars={userData?.totalScore || 0}
+                                userStars={userStars}
                                 onUsePowerUp={usePowerUp}
                                 onBuyPowerUp={buyPowerUp}
                             />
@@ -234,7 +235,7 @@ export function GamificationPage() {
 
                 {activeTab === 'shop' && (
                     <AvatarShop
-                        userStars={userData?.balance || 0}
+                        userStars={userStars}
                         userLevel={currentLevel.level}
                         inventory={inventory}
                         onBuy={buyShopItem}

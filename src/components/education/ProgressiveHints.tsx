@@ -1,5 +1,6 @@
 import { useState, useCallback, useMemo } from 'react';
 import type { HintLevel, QuestionHints } from '../../types/education';
+import type { PowerUpType } from '../../types/gamification';
 import { getHintsForQuestion } from '../../data/educationContent';
 import { useAuth } from '../../hooks/useAuth';
 import './ProgressiveHints.css';
@@ -15,6 +16,8 @@ interface ProgressiveHintsProps {
     onHintRevealed: (level: HintLevel, cost: number) => void;
     /** Versão compacta */
     compact?: boolean;
+    /** Power-up ativo */
+    activePowerUp?: PowerUpType | null;
 }
 
 /**
@@ -29,21 +32,42 @@ export function ProgressiveHints({
     revealedHints = [],
     onHintRevealed,
     compact = false,
+    activePowerUp,
 }: ProgressiveHintsProps) {
     const { userData } = useAuth();
-    const [localRevealed, setLocalRevealed] = useState<HintLevel[]>(revealedHints);
     const [showConfirm, setShowConfirm] = useState<HintLevel | null>(null);
     const [animatingHint, setAnimatingHint] = useState<HintLevel | null>(null);
 
+    const effectiveRevealed = useMemo(() => {
+        const set = new Set<HintLevel>(revealedHints);
+        if (activePowerUp === 'extra_hint') {
+            set.add(1);
+            set.add(2);
+        }
+        return Array.from(set);
+    }, [revealedHints, activePowerUp]);
+
     const hints: QuestionHints = useMemo(() => {
-        return getHintsForQuestion(questionId, explanation);
-    }, [questionId, explanation]);
+        const base = getHintsForQuestion(questionId, explanation);
+        if (activePowerUp === 'extra_hint') {
+            return {
+                ...base,
+                hints: base.hints.map((h, idx) => {
+                    if (idx === 1) {
+                        return { ...h, cost: 0, text: `🌟 [Dica Extra do Mestre Python]: ${h.text}` };
+                    }
+                    return h;
+                }) as QuestionHints['hints']
+            };
+        }
+        return base;
+    }, [questionId, explanation, activePowerUp]);
 
     const userStars = userData?.totalScore ?? 0;
 
     const isRevealed = useCallback((level: HintLevel) => {
-        return localRevealed.includes(level);
-    }, [localRevealed]);
+        return effectiveRevealed.includes(level);
+    }, [effectiveRevealed]);
 
     const canReveal = useCallback((level: HintLevel) => {
         // Nível 1 é sempre gratuito
@@ -63,7 +87,6 @@ export function ProgressiveHints({
         setAnimatingHint(level);
 
         setTimeout(() => {
-            setLocalRevealed(prev => [...prev, level]);
             onHintRevealed(level, cost);
             setAnimatingHint(null);
         }, 300);
@@ -131,9 +154,9 @@ export function ProgressiveHints({
                 </div>
 
                 {/* Revealed hints in compact mode */}
-                {localRevealed.length > 0 && (
+                {effectiveRevealed.length > 0 && (
                     <div className="hints__compact-revealed">
-                        {localRevealed.map(level => (
+                        {effectiveRevealed.map(level => (
                             <div key={level} className="hints__compact-hint">
                                 {getHintIcon(level)} {hints.hints[level - 1].text}
                             </div>

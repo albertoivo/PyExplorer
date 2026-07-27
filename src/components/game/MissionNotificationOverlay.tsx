@@ -16,17 +16,21 @@ export interface MissionNotificationOverlayProps {
 export function MissionNotificationOverlay({ notification }: MissionNotificationOverlayProps) {
     if (!notification) return null;
 
+    const isShield = notification.title.includes('🛡️');
+
     return (
         <div className="mission-notification">
-            <div className="mission-notification__content">
-                <div className="mission-notification__icon">🎯</div>
+            <div className="mission-notification__content" style={isShield ? { border: '3px solid #667eea', background: 'linear-gradient(135deg, #1e1e2e 0%, #2a2a40 100%)' } : undefined}>
+                <div className="mission-notification__icon">{isShield ? '🛡️' : '🎯'}</div>
                 <div className="mission-notification__text">
-                    <h3>Missão Cumprida!</h3>
+                    <h3>{isShield ? 'Escudo de Streak!' : 'Missão Cumprida!'}</h3>
                     <p>{notification.title}</p>
-                    <div className="mission-notification__rewards">
-                        {notification.rewards.stars > 0 && <span>⭐ +{notification.rewards.stars}</span>}
-                        {notification.rewards.xp > 0 && <span>✨ +{notification.rewards.xp} XP</span>}
-                    </div>
+                    {(notification.rewards.stars > 0 || notification.rewards.xp > 0) && (
+                        <div className="mission-notification__rewards">
+                            {notification.rewards.stars > 0 && <span>⭐ +{notification.rewards.stars}</span>}
+                            {notification.rewards.xp > 0 && <span>✨ +{notification.rewards.xp} XP</span>}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

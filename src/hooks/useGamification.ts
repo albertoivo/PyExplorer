@@ -163,11 +163,7 @@ export function useGamification() {
     const { userData, isGuest, updateUserData } = useAuth();
     const [gamification, setGamification] = useState<UserGamification>(getInitialGamification);
 
-    // Ref to always have latest gamification state (avoids stale closures in callbacks)
-    const gamificationRef = useRef(gamification);
-    useEffect(() => {
-        gamificationRef.current = gamification;
-    }, [gamification]);
+
 
     // Ref to always have latest userData (avoids stale closures in loadGamification)
     const userDataRef = useRef(userData);
@@ -290,15 +286,25 @@ export function useGamification() {
                     }
 
                     // Streak Logic for Guest
+                    const hasShield = (data.powerUps?.inventory?.shield || 0) > 0;
                     const streakResult = calculateStreak(
                         data.streak?.currentStreak || 0,
                         data.streak?.longestStreak || 0,
-                        data.streak?.lastActivityDate
+                        data.streak?.lastActivityDate,
+                        undefined,
+                        hasShield
                     );
 
                     if (streakResult.shouldUpdate) {
                          data = {
                             ...data,
+                            powerUps: streakResult.shieldUsed ? {
+                                ...data.powerUps,
+                                inventory: {
+                                    ...data.powerUps.inventory,
+                                    shield: Math.max(0, (data.powerUps?.inventory?.shield || 0) - 1)
+                                }
+                            } : data.powerUps,
                             streak: {
                                 currentStreak: streakResult.streak,
                                 longestStreak: streakResult.longestStreak,
@@ -307,6 +313,12 @@ export function useGamification() {
                             }
                         };
                         localStorage.setItem(GUEST_GAMIFICATION_KEY, JSON.stringify(data));
+                        if (streakResult.shieldUsed) {
+                            setMissionNotification({
+                                title: '🛡️ Escudo de Streak Ativado! Seu streak de ofensivas foi protegido contra 1 dia de inatividade!',
+                                rewards: { stars: 0, xp: 0 }
+                            });
+                        }
                     }
 
                     setGamification(data);
@@ -339,15 +351,25 @@ export function useGamification() {
                     }
 
                     // --- STREAK LOGIC ---
+                    const hasShield = (finalData.powerUps?.inventory?.shield || 0) > 0;
                     const streakResult = calculateStreak(
                         finalData.streak.currentStreak,
                         finalData.streak.longestStreak,
-                        finalData.streak.lastActivityDate
+                        finalData.streak.lastActivityDate,
+                        undefined,
+                        hasShield
                     );
 
                     if (streakResult.shouldUpdate) {
                         finalData = {
                             ...finalData,
+                            powerUps: streakResult.shieldUsed ? {
+                                ...finalData.powerUps,
+                                inventory: {
+                                    ...finalData.powerUps.inventory,
+                                    shield: Math.max(0, (finalData.powerUps?.inventory?.shield || 0) - 1)
+                                }
+                            } : finalData.powerUps,
                             streak: {
                                 currentStreak: streakResult.streak,
                                 longestStreak: streakResult.longestStreak,
@@ -356,6 +378,12 @@ export function useGamification() {
                             }
                         };
                         hasUpdates = true;
+                        if (streakResult.shieldUsed) {
+                            setMissionNotification({
+                                title: '🛡️ Escudo de Streak Ativado! Seu streak de ofensivas foi protegido contra 1 dia de inatividade!',
+                                rewards: { stars: 0, xp: 0 }
+                            });
+                        }
                     }
 
                     // --- PET MIGRATION ---
@@ -673,11 +701,11 @@ export function useGamification() {
     }, [gamification, userData, saveGamification, updateUserData, safeAddAchievement]);
 
     const equipItem = useCallback((itemId: string, type: 'avatar' | 'frame' | 'title') => {
-        // Use ref to get latest state (avoids stale closure from setTimeout in AvatarShop)
-        const currentState = gamificationRef.current;
-        const newState = equipItemLogic(currentState, itemId, type);
-        setGamification(newState);
-        saveGamification(newState);
+        setGamification(prev => {
+            const newState = equipItemLogic(prev, itemId, type);
+            saveGamification(newState);
+            return newState;
+        });
     }, [saveGamification]);
 
     const markAchievementSeen = useCallback((achievementId: string) => {
@@ -776,6 +804,7 @@ export function useGamification() {
         activeMissions: gamification?.activeMissions || [],
         inventory: gamification?.inventory,
         powerUps: gamification?.powerUps,
+        userStars: userData?.balance || 0,
 
         // UI State
         showLevelUp,
@@ -829,5 +858,6 @@ export function useGamification() {
         dismissMissionNotification,
         feedPetCallback,
         dismissPetEvolutionCallback,
+        userData?.balance
     ]);
 }

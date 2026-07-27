@@ -148,6 +148,14 @@
     box-shadow: 0 0 20px rgba(245, 101, 101, 0.3);
 }
 
+.question-option--eliminated {
+    opacity: 0.3 !important;
+    text-decoration: line-through;
+    cursor: not-allowed !important;
+    background: rgba(0, 0, 0, 0.2) !important;
+    border-color: rgba(255, 255, 255, 0.05) !important;
+}
+
 .question-option__letter {
     display: flex;
     align-items: center;

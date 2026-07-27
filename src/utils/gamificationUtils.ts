@@ -2,11 +2,12 @@
  * Utilitários para lógica de gamificação
  */
 
-interface StreakResult {
+export interface StreakResult {
     streak: number;
     longestStreak: number;
     lastActiveDate: string;
     shouldUpdate: boolean;
+    shieldUsed?: boolean;
 }
 
 /**
@@ -15,12 +16,14 @@ interface StreakResult {
  * @param currentLongestStreak Maior ofensiva atual
  * @param lastActiveDateStr Data da última atividade (YYYY-MM-DD)
  * @param todayDateStr Data de hoje (YYYY-MM-DD) - opcional, usa hoje se não passar
+ * @param hasShield Se possui um escudo de proteção (shield)
  */
 export function calculateStreak(
     currentStreak: number,
     currentLongestStreak: number = 0,
     lastActiveDateStr: string | null | undefined,
-    todayDateStr?: string
+    todayDateStr?: string,
+    hasShield: boolean = false
 ): StreakResult {
     const today = todayDateStr || new Date().toISOString().split('T')[0];
     const safeLongest = Math.max(currentLongestStreak, currentStreak);
@@ -64,6 +67,16 @@ export function calculateStreak(
             longestStreak: Math.max(safeLongest, newStreak),
             lastActiveDate: today,
             shouldUpdate: true
+        };
+    } else if (diffDays === 2 && hasShield) {
+        // O escudo protege contra 1 dia de inatividade! (ontem foi pulado)
+        const newStreak = currentStreak + 1;
+        return {
+            streak: newStreak,
+            longestStreak: Math.max(safeLongest, newStreak),
+            lastActiveDate: today,
+            shouldUpdate: true,
+            shieldUsed: true
         };
     } else if (diffDays > 1) {
         // Passou mais de um dia: reseta para 1

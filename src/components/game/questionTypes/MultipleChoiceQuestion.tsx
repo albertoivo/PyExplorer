@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import type { QuestionDocument } from '../../../types/question';
+import type { PowerUpType } from '../../../types/gamification';
 import { QuestionHeader } from './QuestionTypeShared';
 import './QuestionTypes.css';
 
@@ -9,6 +10,7 @@ interface MultipleChoiceQuestionProps {
     disabled?: boolean;
     showResult?: boolean;
     selectedAnswer?: number;
+    activePowerUp?: PowerUpType | null;
 }
 
 /**
@@ -20,31 +22,64 @@ export function MultipleChoiceQuestion({
     disabled = false,
     showResult = false,
     selectedAnswer,
+    activePowerUp,
 }: MultipleChoiceQuestionProps) {
     const [selected, setSelected] = useState<number | null>(selectedAnswer ?? null);
 
+    const eliminatedIndices = useMemo(() => {
+        if (activePowerUp !== 'fifty_fifty' || !question.options || question.options.length <= 2) {
+            return new Set<number>();
+        }
+        const incorrectIndices: number[] = [];
+        question.options.forEach((_, idx) => {
+            if (idx !== question.answerIndex) {
+                incorrectIndices.push(idx);
+            }
+        });
+        // Deterministic hash based on question id to remain pure
+        let seed = 0;
+        const qId = question.id || '';
+        for (let i = 0; i < qId.length; i++) {
+            seed = (seed << 5) - seed + qId.charCodeAt(i);
+            seed |= 0;
+        }
+        const shuffled = [...incorrectIndices].sort((a, b) => {
+            const hashA = Math.abs((a * 2654435761 + seed) % 1000);
+            const hashB = Math.abs((b * 2654435761 + seed) % 1000);
+            return hashA - hashB;
+        });
+        const toEliminate = shuffled.slice(0, Math.min(2, incorrectIndices.length));
+        return new Set(toEliminate);
+    }, [activePowerUp, question.options, question.answerIndex, question.id]);
+
+    const effectiveSelected = selected !== null && eliminatedIndices.has(selected) ? null : selected;
+
     const handleSelect = (index: number) => {
-        if (disabled) return;
+        if (disabled || eliminatedIndices.has(index)) return;
         setSelected(index);
     };
 
     const handleSubmit = () => {
-        if (selected === null || disabled) return;
-        const isCorrect = selected === question.answerIndex;
-        onAnswer(isCorrect, selected);
+        if (effectiveSelected === null || disabled) return;
+        const isCorrect = effectiveSelected === question.answerIndex;
+        onAnswer(isCorrect, effectiveSelected);
     };
 
     const getOptionClass = (index: number) => {
         let className = 'question-option';
 
-        if (selected === index) {
+        if (effectiveSelected === index) {
             className += ' question-option--selected';
+        }
+
+        if (eliminatedIndices.has(index)) {
+            className += ' question-option--eliminated';
         }
 
         if (showResult) {
             if (index === question.answerIndex) {
                 className += ' question-option--correct';
-            } else if (selected === index && index !== question.answerIndex) {
+            } else if (effectiveSelected === index && index !== question.answerIndex) {
                 className += ' question-option--incorrect';
             }
         }
@@ -68,7 +103,7 @@ export function MultipleChoiceQuestion({
                         key={index}
                         className={getOptionClass(index)}
                         onClick={() => handleSelect(index)}
-                        disabled={disabled}
+                        disabled={disabled || eliminatedIndices.has(index)}
                     >
                         <span className="question-option__letter">
                             {String.fromCharCode(65 + index)}
@@ -77,7 +112,7 @@ export function MultipleChoiceQuestion({
                         {showResult && index === question.answerIndex && (
                             <span className="question-option__icon">✓</span>
                         )}
-                        {showResult && selected === index && index !== question.answerIndex && (
+                        {showResult && effectiveSelected === index && index !== question.answerIndex && (
                             <span className="question-option__icon">✗</span>
                         )}
                     </button>
@@ -88,7 +123,7 @@ export function MultipleChoiceQuestion({
                 <button
                     className="question-submit-btn"
                     onClick={handleSubmit}
-                    disabled={selected === null || disabled}
+                    disabled={effectiveSelected === null || disabled}
                 >
                     Verificar Resposta 🚀
                 </button>

@@ -194,3 +194,108 @@
     min-width: 1rem;
     text-align: center;
 }
+
+/* Buy Quick in Compact Version */
+.powerup-bar-compact-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.powerup-compact--buy {
+    border: 1px dashed rgba(255, 215, 0, 0.4);
+    background: rgba(255, 215, 0, 0.05);
+}
+
+.powerup-compact--buy:hover:not(:disabled) {
+    background: rgba(255, 215, 0, 0.15);
+    border-color: #ffd700;
+}
+
+.powerup-compact--buy .powerup-compact__count {
+    color: #ffd700;
+    font-size: 0.7rem;
+}
+
+/* Buy Quick Confirmation Overlay */
+.powerup-buy-confirm-overlay {
+    position: absolute;
+    bottom: 100%;
+    margin-bottom: 0.5rem;
+    z-index: 100;
+    background: #1e1e2e;
+    border: 2px solid #667eea;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    min-width: 240px;
+    text-align: center;
+    animation: fadeInSlideUp 0.2s ease-out;
+}
+
+@keyframes fadeInSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.powerup-buy-confirm-box h4 {
+    margin: 0 0 0.25rem 0;
+    color: #fff;
+    font-size: 0.95rem;
+}
+
+.powerup-buy-confirm-box p {
+    margin: 0 0 0.75rem 0;
+    color: #a0aec0;
+    font-size: 0.8rem;
+}
+
+.powerup-buy-confirm-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.powerup-buy-btn-cancel,
+.powerup-buy-btn-confirm {
+    padding: 0.4rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+
+.powerup-buy-btn-cancel {
+    background: rgba(255, 255, 255, 0.1);
+    color: #cbd5e0;
+}
+
+.powerup-buy-btn-cancel:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.powerup-buy-btn-confirm {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+}
+
+.powerup-buy-btn-confirm:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.powerup-buy-btn-confirm:disabled {
+    background: #4a5568;
+    color: #a0aec0;
+    cursor: not-allowed;
+    opacity: 0.6;
+}

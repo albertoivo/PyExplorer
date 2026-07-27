@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { calculateStreak } from '../utils/gamificationUtils';
+import { calculateStreak, getLocalDateStr } from '../utils/gamificationUtils';
+import { recordQuestionLogic, getInitialGamification } from '../utils/gamificationState';
 
 describe('Gamification Logic: Streak Calculation', () => {
     const today = '2023-10-10';
@@ -54,5 +55,41 @@ describe('Gamification Logic: Streak Calculation', () => {
             lastActiveDate: today,
             shouldUpdate: true
         });
+    });
+});
+
+describe('Gamification Logic: Shield Integration in recordQuestionLogic', () => {
+    it('should consume shield and protect streak when completing a question after missing 1 day', () => {
+        const now = new Date();
+        const twoDaysAgoDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 2);
+        const twoDaysAgoStr = getLocalDateStr(twoDaysAgoDate);
+
+        const initialState = getInitialGamification();
+        initialState.streak.currentStreak = 10;
+        initialState.streak.longestStreak = 15;
+        initialState.streak.lastActivityDate = twoDaysAgoStr;
+        initialState.powerUps.inventory.shield = 1;
+
+        const { newState } = recordQuestionLogic(initialState, true, 20);
+
+        expect(newState.streak.currentStreak).toBe(11); // Protected and incremented!
+        expect(newState.powerUps.inventory.shield).toBe(0); // Consumed!
+    });
+
+    it('should NOT consume shield and should reset streak if missing more than 1 day', () => {
+        const now = new Date();
+        const threeDaysAgoDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 3);
+        const threeDaysAgoStr = getLocalDateStr(threeDaysAgoDate);
+
+        const initialState = getInitialGamification();
+        initialState.streak.currentStreak = 10;
+        initialState.streak.longestStreak = 15;
+        initialState.streak.lastActivityDate = threeDaysAgoStr;
+        initialState.powerUps.inventory.shield = 1;
+
+        const { newState } = recordQuestionLogic(initialState, true, 20);
+
+        expect(newState.streak.currentStreak).toBe(1); // Reset!
+        expect(newState.powerUps.inventory.shield).toBe(1); // Not consumed!
     });
 });

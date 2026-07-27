@@ -9,7 +9,8 @@ import {
     generateDailyMissions,
     generateWeeklyMissions,
     ENDGAME_MISSIONS,
-    SHOP_ITEMS
+    SHOP_ITEMS,
+    POWERUPS
 } from '../data/gamificationData';
 import { calculateStreak, getLocalDateStr } from './gamificationUtils';
 import type { Mission } from '../types/gamification';
@@ -255,6 +256,14 @@ export function consumePowerUpLogic(state: UserGamification, powerUpType: PowerU
     const currentCount = state.powerUps.inventory[powerUpType] || 0;
 
     if (currentCount <= 0) {
+        return { success: false, newState: state };
+    }
+
+    const powerUpConfig = POWERUPS.find(p => p.id === powerUpType);
+    const maxPerDay = powerUpConfig ? powerUpConfig.maxPerDay : Infinity;
+    const currentUsesToday = state.powerUps.usesToday[powerUpType] || 0;
+
+    if (currentUsesToday >= maxPerDay) {
         return { success: false, newState: state };
     }
 
@@ -527,10 +536,13 @@ export function recordQuestionLogic(
         : { newPet: currentPet };
 
     // Streak
+    const hasShield = (state.powerUps?.inventory?.shield || 0) > 0;
     const streakResult = calculateStreak(
         state.streak.currentStreak,
         state.streak.longestStreak,
-        state.streak.lastActivityDate
+        state.streak.lastActivityDate,
+        undefined,
+        hasShield
     );
 
     let updatedHistory = state.streak.activityHistory;
@@ -546,6 +558,13 @@ export function recordQuestionLogic(
             totalXP: newTotalXP,
         },
         pet: newPet,
+        powerUps: streakResult.shieldUsed ? {
+            ...state.powerUps,
+            inventory: {
+                ...state.powerUps.inventory,
+                shield: Math.max(0, (state.powerUps?.inventory?.shield || 0) - 1)
+            }
+        } : state.powerUps,
         streak: {
             ...state.streak,
             currentStreak: streakResult.streak,

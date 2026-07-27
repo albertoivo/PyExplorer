@@ -64,6 +64,8 @@ export function QuestionEngine({
     const [showResult, setShowResult] = useState(readOnly);
     const [isCorrect, setIsCorrect] = useState(readOnly);
     const [showHints, setShowHints] = useState(false);
+    const effectiveShowHints = showHints || activePowerUp === 'extra_hint';
+
     // Otimização: Inicialização preguiçosa para evitar leitura síncrona do localStorage a cada render
     const [revealedHints, setRevealedHints] = useState<HintLevel[]>(() => {
         try {
@@ -255,11 +257,16 @@ export function QuestionEngine({
 
             {!showResult && !readOnly && (
                 <div className="question-engine__hints-section">
+                    {activePowerUp === 'extra_hint' && (
+                        <div className="question-engine__powerup-used" style={{ color: '#00d9ff', marginBottom: '0.75rem', fontWeight: 'bold' }}>
+                            💡 Dica Extra Ativa! As duas primeiras dicas foram liberadas gratuitamente.
+                        </div>
+                    )}
                     <button
-                        className={`question-engine__hints-toggle ${showHints ? 'question-engine__hints-toggle--active' : ''}`}
-                        onClick={() => setShowHints(!showHints)}
+                        className={`question-engine__hints-toggle ${effectiveShowHints ? 'question-engine__hints-toggle--active' : ''}`}
+                        onClick={() => setShowHints(!effectiveShowHints)}
                     >
-                        💡 {showHints ? 'Esconder Dicas' : 'Preciso de Ajuda'}
+                        💡 {effectiveShowHints ? 'Esconder Dicas' : 'Preciso de Ajuda'}
                         {revealedHints.length > 0 && (
                             <span className="question-engine__hints-count">
                                 {revealedHints.length}/3
@@ -267,12 +274,13 @@ export function QuestionEngine({
                         )}
                     </button>
 
-                    {showHints && (
+                    {effectiveShowHints && (
                         <ProgressiveHints
                             questionId={question.id}
                             explanation={question.explanationKidFriendly}
                             revealedHints={revealedHints}
                             onHintRevealed={handleHintRevealed}
+                            activePowerUp={activePowerUp || undefined}
                         />
                     )}
                 </div>

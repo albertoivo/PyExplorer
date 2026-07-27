@@ -56,7 +56,7 @@ export function GamePage() {
     const { allProgress, recordAttempt, getQuestionProgress } = useProgress();
     const { loading: pyodideLoading, loadingProgress, loadPyodide, ready } = usePyodide();
     const { questions: allQuestions, loading: questionsLoading, getQuestionsByWorld } = useQuestionsFirestore();
-    const { recordQuestionCompleted, checkWorldAchievements, userPowerUps, usePowerUp: consumePowerUp, missionNotification, dismissMissionNotification } = useGamification();
+    const { recordQuestionCompleted, checkWorldAchievements, userPowerUps, usePowerUp: consumePowerUp, buyPowerUp, userStars, missionNotification, dismissMissionNotification } = useGamification();
 
     const [activePowerUp, setActivePowerUp] = useState<PowerUpType | null>(null);
 
@@ -342,7 +342,7 @@ export function GamePage() {
             return false;
         }
 
-        if (activePowerUp === type) return false;
+        if (activePowerUp !== null) return false;
 
         if (consumePowerUp(type)) {
             setActivePowerUp(type);
@@ -407,6 +407,8 @@ export function GamePage() {
                             userPowerUps={userPowerUps}
                             onUsePowerUp={handleUsePowerUp}
                             activePowerUp={activePowerUp}
+                            userStars={userStars}
+                            onBuyPowerUp={buyPowerUp}
                         />
                     </div>
 

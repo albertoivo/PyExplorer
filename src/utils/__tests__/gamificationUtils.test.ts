@@ -81,5 +81,31 @@ describe('gamificationUtils', () => {
                 shouldUpdate: true
             });
         });
+
+        it('should protect streak and set shieldUsed to true if missed exactly 1 day and hasShield is true', () => {
+            const twoDaysAgo = '2025-05-13'; // missed 2025-05-14
+            const result = calculateStreak(5, 20, twoDaysAgo, today, true);
+
+            expect(result).toEqual({
+                streak: 6, // maintained and incremented for today's activity!
+                longestStreak: 20,
+                lastActiveDate: today,
+                shouldUpdate: true,
+                shieldUsed: true
+            });
+        });
+
+        it('should reset streak if missed more than 1 day even if hasShield is true', () => {
+            const threeDaysAgo = '2025-05-12'; // missed 13th and 14th
+            const result = calculateStreak(5, 20, threeDaysAgo, today, true);
+
+            expect(result).toEqual({
+                streak: 1, // reset because shield only protects 1 day
+                longestStreak: 20,
+                lastActiveDate: today,
+                shouldUpdate: true
+            });
+            expect(result.shieldUsed).toBeFalsy();
+        });
     });
 });
