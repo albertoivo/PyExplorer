@@ -191,11 +191,11 @@ export default defineConfig({
         // Cache de runtime para diferentes recursos
         runtimeCaching: [
           {
-            // Cache para Google Fonts
+            // Cache para Google Fonts (stylesheets)
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
-            handler: 'CacheFirst',
+            handler: 'StaleWhileRevalidate',
             options: {
-              cacheName: 'google-fonts-cache',
+              cacheName: 'google-fonts-stylesheets',
               expiration: {
                 maxEntries: 10,
                 maxAgeSeconds: 60 * 60 * 24 * 365 // 1 ano
@@ -206,13 +206,13 @@ export default defineConfig({
             }
           },
           {
-            // Cache para arquivos de fontes
+            // Cache para arquivos de fontes (woff2, etc)
             urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
             handler: 'CacheFirst',
             options: {
               cacheName: 'gstatic-fonts-cache',
               expiration: {
-                maxEntries: 10,
+                maxEntries: 30,
                 maxAgeSeconds: 60 * 60 * 24 * 365 // 1 ano
               },
               cacheableResponse: {
