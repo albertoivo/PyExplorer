@@ -35,9 +35,14 @@ export function EvolutionModal() {
 
     return (
         <div className="evolution-modal-overlay">
-            <div className="evolution-modal">
+            <div
+                className="evolution-modal"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="evolution-modal-title"
+            >
                 <div className="evolution-modal__header">
-                    <h2>🎉 Evolução! 🎉</h2>
+                    <h2 id="evolution-modal-title">🎉 Evolução! 🎉</h2>
                 </div>
 
                 <div className="evolution-modal__content">
