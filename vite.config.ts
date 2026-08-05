@@ -81,27 +81,7 @@ export default defineConfig({
         }
       ]
     }),
-    {
-      name: 'defer-css',
-      enforce: 'post',
-      transformIndexHtml(html) {
-        const withDeferredCss = html.replace(
-          /<link([^>]+)rel="stylesheet"([^>]*)href="([^"]+)"([^>]*)>/gi,
-          (match, _p1, _p2, p3) => {
-            // Se já for print ou tiver onload, não mexe
-            if (match.includes('media="print"')) return match;
 
-            return `<link rel="preload" href="${p3}" as="style" onload="this.onload=null;this.rel='stylesheet'" crossorigin><noscript><link rel="stylesheet" crossorigin href="${p3}"></noscript>`;
-          }
-        );
-
-        // Remove preloads de módulos grandes que não são críticos para a Home.
-        return withDeferredCss.replace(
-          /<link\s+rel="modulepreload"[^>]*href="[^"]*(monaco-vendor|jspdf-vendor|html2canvas-vendor)[^"]*"[^>]*>\s*/gi,
-          ''
-        );
-      }
-    },
     react(),
     VitePWA({
       registerType: 'autoUpdate',
@@ -312,6 +292,15 @@ export default defineConfig({
             }
             if (id.includes('/node_modules/react/') || id.includes('/node_modules/react-dom/') || id.includes('/node_modules/react-router-dom/') || id.includes('/node_modules/scheduler/')) {
               return 'react-vendor';
+            }
+            if (id.includes('monaco-editor') || id.includes('@monaco-editor')) {
+              return 'monaco-vendor';
+            }
+            if (id.includes('jspdf')) {
+              return 'jspdf-vendor';
+            }
+            if (id.includes('html2canvas')) {
+              return 'html2canvas-vendor';
             }
             if (id.includes('canvas-confetti')) {
               return 'confetti-vendor';

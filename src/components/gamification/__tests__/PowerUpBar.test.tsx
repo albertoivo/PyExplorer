@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { PowerUpBar, PowerUpBarCompact } from '../PowerUpBar/PowerUpBar';
 import type { UserPowerUps } from '../../../types/gamification';
+import { getLocalDateStr } from '../../../utils/gamificationUtils';
 
 describe('PowerUpBar', () => {
     const mockUserPowerUps: UserPowerUps = {
@@ -19,7 +20,7 @@ describe('PowerUpBar', () => {
             double_stars: 0,
             shield: 0
         },
-        lastResetDate: new Date().toISOString().split('T')[0]
+        lastResetDate: getLocalDateStr()
     };
 
     const mockHandlers = {
@@ -147,7 +148,7 @@ describe('PowerUpBarCompact', () => {
             double_stars: 0,
             shield: 0
         },
-        lastResetDate: new Date().toISOString().split('T')[0]
+        lastResetDate: getLocalDateStr()
     };
 
     const onUse = vi.fn();

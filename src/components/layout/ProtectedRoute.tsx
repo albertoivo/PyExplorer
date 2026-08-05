@@ -1,5 +1,6 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { useAuth } from '../../hooks/useAuth';
 import './ProtectedRoute.css';
 
@@ -36,6 +37,13 @@ export function ProtectedRoute({ children, allowGuest = true }: ProtectedRoutePr
         return <Navigate to="/login" state={{ from: location, requireLogin: true }} replace />;
     }
 
-    return <>{children}</>;
+    return (
+        <>
+            <Helmet>
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
+            {children}
+        </>
+    );
 }
 

@@ -25,7 +25,7 @@ export function calculateStreak(
     todayDateStr?: string,
     hasShield: boolean = false
 ): StreakResult {
-    const today = todayDateStr || new Date().toISOString().split('T')[0];
+    const today = todayDateStr || getLocalDateStr();
     const safeLongest = Math.max(currentLongestStreak, currentStreak);
 
     // Se não tem data anterior, é o primeiro dia

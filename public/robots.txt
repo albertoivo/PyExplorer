@@ -3,10 +3,6 @@
 
 User-agent: *
 Allow: /
-Disallow: /profile
-Disallow: /certificate
-Disallow: /rewards
-Disallow: /game
 
 # Sitemap
 Sitemap: https://pyexplorer.com.br/sitemap.xml
