@@ -9,7 +9,6 @@ import {
     ACHIEVEMENTS,
     getLevelFromXP,
     getLevelProgress,
-    ENDGAME_MISSIONS,
 } from '../data/gamificationData';
 import { useAuth } from './useAuth';
 import { getGamification, saveGamificationData } from '../firebase/firestore';
@@ -22,11 +21,16 @@ import {
     buyPowerUpLogic,
     claimMissionRewardLogic,
     recordQuestionLogic,
-    checkAchievementsLogic,
     unlockAchievementLogic,
     markAchievementSeenLogic,
     updateMissionProgress,
-    hydrateMissions
+    hydrateMissions,
+    checkAndUnlockAchievements,
+    ensureEndgameMissions,
+    applyStreakUpdate,
+    migrateLegacyStreak,
+    normalizeGamificationForRules,
+    removePetField,
 } from '../utils/gamificationState';
 import { calculateStreak } from '../utils/gamificationUtils';
 import { feedPet, checkPetStatus, getInitialPet } from '../utils/petLogic';
@@ -53,93 +57,7 @@ function isPermissionDeniedError(error: unknown): boolean {
     return err?.code === 'permission-denied' || err?.code === 'firestore/permission-denied';
 }
 
-function removePetField(data: UserGamification): UserGamification {
-    const { pet, ...legacyData } = data;
-    void pet;
-    return legacyData as UserGamification;
-}
 
-function clampNumber(value: unknown, min: number, max: number, fallback: number): number {
-    if (typeof value !== 'number' || Number.isNaN(value)) return fallback;
-    return Math.min(max, Math.max(min, value));
-}
-
-function normalizeGamificationForRules(data: UserGamification): UserGamification {
-    const initial = getInitialGamification();
-
-    const inventory = {
-        ownedItems: Array.isArray(data.inventory?.ownedItems) ? data.inventory.ownedItems.slice(0, 1000) : initial.inventory.ownedItems,
-        equippedAvatar: typeof data.inventory?.equippedAvatar === 'string' ? data.inventory.equippedAvatar.slice(0, 100) : initial.inventory.equippedAvatar,
-        equippedFrame: typeof data.inventory?.equippedFrame === 'string' ? data.inventory.equippedFrame.slice(0, 100) : initial.inventory.equippedFrame,
-        equippedTitle: typeof data.inventory?.equippedTitle === 'string' ? data.inventory.equippedTitle.slice(0, 100) : initial.inventory.equippedTitle,
-    };
-
-    const powerUpKeys: PowerUpType[] = ['skip', 'fifty_fifty', 'extra_hint', 'double_stars', 'shield'];
-    const normalizedPowerUps = {
-        inventory: powerUpKeys.reduce((acc, key) => {
-            acc[key] = clampNumber(data.powerUps?.inventory?.[key], 0, 999, 0);
-            return acc;
-        }, {} as Record<PowerUpType, number>),
-        usesToday: powerUpKeys.reduce((acc, key) => {
-            acc[key] = clampNumber(data.powerUps?.usesToday?.[key], 0, 99, 0);
-            return acc;
-        }, {} as Record<PowerUpType, number>),
-        lastResetDate: typeof data.powerUps?.lastResetDate === 'string'
-            ? data.powerUps.lastResetDate.slice(0, 10)
-            : initial.powerUps.lastResetDate,
-    };
-
-    const normalizedStats = {
-        totalQuestionsCompleted: clampNumber(data.stats?.totalQuestionsCompleted, 0, 999999, 0),
-        totalCorrectAnswers: clampNumber(data.stats?.totalCorrectAnswers, 0, 999999, 0),
-        consecutiveCorrect: clampNumber(data.stats?.consecutiveCorrect, 0, 999999, 0),
-        bestConsecutiveCorrect: clampNumber(data.stats?.bestConsecutiveCorrect, 0, 999999, 0),
-        weekendQuestionsCount: clampNumber(data.stats?.weekendQuestionsCount, 0, 999999, 0),
-        lastWeekendDate: typeof data.stats?.lastWeekendDate === 'string' ? data.stats.lastWeekendDate.slice(0, 10) : '',
-        totalPlayTime: clampNumber(data.stats?.totalPlayTime, 0, 999999, 0),
-        worldsCompleted: clampNumber(data.stats?.worldsCompleted, 0, 999999, 0),
-        perfectWorlds: clampNumber(data.stats?.perfectWorlds, 0, 999999, 0),
-        bossesDefeated: clampNumber(data.stats?.bossesDefeated, 0, 999999, 0),
-        consecutiveFastAnswers: clampNumber(data.stats?.consecutiveFastAnswers, 0, 999999, 0),
-        completedWorldIds: Array.isArray(data.stats?.completedWorldIds) ? data.stats.completedWorldIds.slice(0, 100) : [],
-    };
-
-    const normalizedPet = data.pet
-        ? {
-            name: typeof data.pet.name === 'string' ? data.pet.name.slice(0, 50) : initial.pet?.name || 'PyEvo',
-            stage: (['egg', 'baby', 'teen', 'adult'] as const).includes(data.pet.stage) ? data.pet.stage : 'egg',
-            type: (['generic', 'snake', 'owl', 'chameleon', 'robot', 'dragon'] as const).includes(data.pet.type) ? data.pet.type : 'generic',
-            xp: clampNumber(data.pet.xp, 0, 9999999, 0),
-            level: clampNumber(data.pet.level, 1, 9999, 1),
-            hunger: clampNumber(data.pet.hunger, 0, 100, 100),
-            mood: (['happy', 'sad', 'sleeping', 'hungry', 'coding', 'excited'] as const).includes(data.pet.mood) ? data.pet.mood : 'sleeping',
-            evolutionPath: (data.pet.evolutionPath && typeof data.pet.evolutionPath === 'object') ? data.pet.evolutionPath : {},
-            lastFedAt: typeof data.pet.lastFedAt === 'string' ? data.pet.lastFedAt.slice(0, 50) : new Date().toISOString(),
-            ...(typeof data.pet.justEvolved === 'boolean' ? { justEvolved: data.pet.justEvolved } : {}),
-        }
-        : undefined;
-
-    return {
-        level: {
-            level: clampNumber(data.level?.level, 0, 100, initial.level.level),
-            currentXP: clampNumber(data.level?.currentXP, 0, 9999999, initial.level.currentXP),
-            totalXP: clampNumber(data.level?.totalXP, 0, 9999999, initial.level.totalXP),
-        },
-        streak: {
-            currentStreak: clampNumber(data.streak?.currentStreak, 0, 9999, initial.streak.currentStreak),
-            longestStreak: clampNumber(data.streak?.longestStreak, 0, 9999, initial.streak.longestStreak),
-            lastActivityDate: typeof data.streak?.lastActivityDate === 'string' ? data.streak.lastActivityDate.slice(0, 10) : initial.streak.lastActivityDate,
-            activityHistory: Array.isArray(data.streak?.activityHistory) ? data.streak.activityHistory.slice(0, 50) : initial.streak.activityHistory,
-        },
-        achievements: Array.isArray(data.achievements) ? data.achievements : [],
-        activeMissions: Array.isArray(data.activeMissions) ? data.activeMissions.slice(0, 50) : [],
-        inventory,
-        powerUps: normalizedPowerUps,
-        stats: normalizedStats,
-        ...(data.updatedAt ? { updatedAt: data.updatedAt } : {}),
-        ...(normalizedPet ? { pet: normalizedPet } : {}),
-    };
-}
 
 async function saveGamificationWithFallback(uid: string, data: UserGamification): Promise<void> {
     const normalized = normalizeGamificationForRules(data);
@@ -210,42 +128,18 @@ export function useGamification() {
         let hasChanges = false;
 
         // 1. Check Achievements
-        const unlockedIds = checkAchievementsLogic(finalState, currentBalance);
-        unlockedIds.forEach(id => {
-            const result = unlockAchievementLogic(finalState, id);
-            if (result.success) {
-                finalState = result.newState;
-                hasChanges = true;
-                const achievement = ACHIEVEMENTS.find(a => a.id === id);
-                if (achievement) safeAddAchievement(achievement);
-            }
-        });
+        const { newState: stateWithAchievements, unlocked } = checkAndUnlockAchievements(finalState, currentBalance);
+        if (unlocked.length > 0) {
+            finalState = stateWithAchievements;
+            hasChanges = true;
+            unlocked.forEach(a => safeAddAchievement(a));
+        }
 
         // 2. Check Endgame Missions Unlock
-        if (finalState.stats.worldsCompleted >= 1) {
-            const hasEndgameMissions = finalState.activeMissions.some(m => m.missionId.startsWith('endgame_'));
-            if (!hasEndgameMissions) {
-                const newMissions = ENDGAME_MISSIONS.map((m, idx) => ({
-                    ...m,
-                    id: `endgame_${m.objectiveType}_${idx}`
-                }));
-
-                const newActiveMissions = [
-                    ...finalState.activeMissions,
-                    ...newMissions.map(m => ({
-                        missionId: m.id,
-                        progress: 0,
-                        status: 'active' as const,
-                        expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 days
-                    }))
-                ];
-
-                finalState = {
-                    ...finalState,
-                    activeMissions: newActiveMissions
-                };
-                hasChanges = true;
-            }
+        const { newState: stateWithMissions, changed: missionsChanged } = ensureEndgameMissions(finalState);
+        if (missionsChanged) {
+            finalState = stateWithMissions;
+            hasChanges = true;
         }
 
         if (hasChanges) {
@@ -286,34 +180,11 @@ export function useGamification() {
                     }
 
                     // Streak Logic for Guest
-                    const hasShield = (data.powerUps?.inventory?.shield || 0) > 0;
-                    const streakResult = calculateStreak(
-                        data.streak?.currentStreak || 0,
-                        data.streak?.longestStreak || 0,
-                        data.streak?.lastActivityDate,
-                        undefined,
-                        hasShield
-                    );
-
-                    if (streakResult.shouldUpdate) {
-                         data = {
-                            ...data,
-                            powerUps: streakResult.shieldUsed ? {
-                                ...data.powerUps,
-                                inventory: {
-                                    ...data.powerUps.inventory,
-                                    shield: Math.max(0, (data.powerUps?.inventory?.shield || 0) - 1)
-                                }
-                            } : data.powerUps,
-                            streak: {
-                                currentStreak: streakResult.streak,
-                                longestStreak: streakResult.longestStreak,
-                                lastActivityDate: streakResult.lastActiveDate,
-                                activityHistory: [...(data.streak?.activityHistory || []), streakResult.lastActiveDate]
-                            }
-                        };
+                    const { newState: updatedData, changed, shieldUsed } = applyStreakUpdate(data, calculateStreak);
+                    if (changed) {
+                        data = updatedData;
                         localStorage.setItem(GUEST_GAMIFICATION_KEY, JSON.stringify(data));
-                        if (streakResult.shieldUsed) {
+                        if (shieldUsed) {
                             setMissionNotification({
                                 title: '🛡️ Escudo de Streak Ativado! Seu streak de ofensivas foi protegido contra 1 dia de inatividade!',
                                 rewards: { stars: 0, xp: 0 }
@@ -337,48 +208,18 @@ export function useGamification() {
 
                     // --- MIGRATION: Sync Legacy Streak from UserData ---
                     const legacyUser = currentUserData as typeof currentUserData & LegacyStreakUserFields;
-                    if (legacyUser.streak && (!finalData.streak.currentStreak || legacyUser.streak > finalData.streak.currentStreak)) {
-                        finalData = {
-                            ...finalData,
-                            streak: {
-                                ...finalData.streak,
-                                currentStreak: legacyUser.streak || 0,
-                                longestStreak: Math.max(legacyUser.longestStreak || 0, finalData.streak.longestStreak),
-                                lastActivityDate: legacyUser.lastActiveDate || finalData.streak.lastActivityDate
-                            }
-                        };
+                    const legacyMigration = migrateLegacyStreak(finalData, legacyUser.streak, legacyUser.longestStreak, legacyUser.lastActiveDate);
+                    if (legacyMigration.changed) {
+                        finalData = legacyMigration.newState;
                         hasUpdates = true;
                     }
 
                     // --- STREAK LOGIC ---
-                    const hasShield = (finalData.powerUps?.inventory?.shield || 0) > 0;
-                    const streakResult = calculateStreak(
-                        finalData.streak.currentStreak,
-                        finalData.streak.longestStreak,
-                        finalData.streak.lastActivityDate,
-                        undefined,
-                        hasShield
-                    );
-
-                    if (streakResult.shouldUpdate) {
-                        finalData = {
-                            ...finalData,
-                            powerUps: streakResult.shieldUsed ? {
-                                ...finalData.powerUps,
-                                inventory: {
-                                    ...finalData.powerUps.inventory,
-                                    shield: Math.max(0, (finalData.powerUps?.inventory?.shield || 0) - 1)
-                                }
-                            } : finalData.powerUps,
-                            streak: {
-                                currentStreak: streakResult.streak,
-                                longestStreak: streakResult.longestStreak,
-                                lastActivityDate: streakResult.lastActiveDate,
-                                activityHistory: [...(finalData.streak.activityHistory || []), streakResult.lastActiveDate]
-                            }
-                        };
+                    const { newState: updatedFinalData, changed: streakChanged, shieldUsed: streakShieldUsed } = applyStreakUpdate(finalData, calculateStreak);
+                    if (streakChanged) {
+                        finalData = updatedFinalData;
                         hasUpdates = true;
-                        if (streakResult.shieldUsed) {
+                        if (streakShieldUsed) {
                             setMissionNotification({
                                 title: '🛡️ Escudo de Streak Ativado! Seu streak de ofensivas foi protegido contra 1 dia de inatividade!',
                                 rewards: { stars: 0, xp: 0 }
@@ -428,18 +269,11 @@ export function useGamification() {
 
                     // --- MIGRATION: Sync Legacy Streak from UserData ---
                     const legacyUser = currentUserData as typeof currentUserData & LegacyStreakUserFields;
-                    if (legacyUser.streak && legacyUser.streak > 0) {
-                        initial.streak = {
-                            ...initial.streak,
-                            currentStreak: legacyUser.streak,
-                            longestStreak: Math.max(legacyUser.longestStreak || 0, initial.streak.longestStreak),
-                            lastActivityDate: legacyUser.lastActiveDate || initial.streak.lastActivityDate
-                        };
-                    }
+                    const { newState: initialWithLegacy } = migrateLegacyStreak(initial, legacyUser.streak, legacyUser.longestStreak, legacyUser.lastActiveDate);
 
-                    setGamification(initial);
+                    setGamification(initialWithLegacy);
                     try {
-                        await saveGamificationWithFallback(currentUserData.uid, initial);
+                        await saveGamificationWithFallback(currentUserData.uid, initialWithLegacy);
                     } catch {
                         // Ignora
                     }
@@ -505,17 +339,9 @@ export function useGamification() {
 
         // 4. Check Achievements with NEW state and balance
         const newBalance = (userData?.balance || 0) + totalStarsToAdd;
-        const unlockedIds = checkAchievementsLogic(newState, newBalance);
-        let finalState = newState;
-
-        unlockedIds.forEach(id => {
-            const result = unlockAchievementLogic(finalState, id);
-            if (result.success) {
-                finalState = result.newState;
-                const achievement = ACHIEVEMENTS.find(a => a.id === id);
-                if (achievement) safeAddAchievement(achievement);
-            }
-        });
+        const { newState: stateWithAchievements, unlocked } = checkAndUnlockAchievements(newState, newBalance);
+        const finalState = stateWithAchievements;
+        unlocked.forEach(a => safeAddAchievement(a));
 
         // 5. Handle Mission Notifications (Auto-Claimed)
         if (completedMissionTitles && completedMissionTitles.length > 0) {
@@ -541,17 +367,10 @@ export function useGamification() {
 
         if (worldId && questionsCompleted !== undefined && totalQuestions !== undefined) {
             if (questionsCompleted === totalQuestions) {
-                // Manually duplicate logic from unlockAchievement to compose state updates
-                // Or just trust the final state?
-                // We need to sequence these updates. 
-                // Best is to mutate a temp state object or chain function calls.
-                // Since update logic is simple, I'll allow chained updates.
-
                 // 1. First World
                 const r1 = unlockAchievementLogic(currentState, 'first_world');
                 if (r1.success) {
                     currentState = r1.newState;
-                    // Note: safeAddAchievement is side effect, can call immediately
                     const a = ACHIEVEMENTS.find(x => x.id === 'first_world');
                     if (a) safeAddAchievement(a);
                 }
@@ -580,7 +399,7 @@ export function useGamification() {
             }
         }
 
-        // Also check global stats
+        // Check world-specific achievements at custom thresholds
         if (currentState.stats.worldsCompleted >= 1) {
             const r3 = unlockAchievementLogic(currentState, 'world_master');
             if (r3.success) {
@@ -588,34 +407,6 @@ export function useGamification() {
                 hasUpdates = true;
                 const a = ACHIEVEMENTS.find(x => x.id === 'world_master');
                 if (a) safeAddAchievement(a);
-            }
-
-            // --- ENDGAME MISSIONS UNLOCK LOGIC ---
-            // If user completed at least 1 world, ensure they have Endgame Missions available
-            // We duplicate logic here for immediate feedback, or ideally delegate to runGamificationChecks?
-            // Since we can't call hook from hook easily without useEffect loop, we keep logic here.
-            const hasEndgameMissions = currentState.activeMissions.some(m => m.missionId.startsWith('endgame_'));
-            if (!hasEndgameMissions) {
-                const newMissions = ENDGAME_MISSIONS.map((m, idx) => ({
-                    ...m,
-                    id: `endgame_${m.objectiveType}_${idx}`
-                }));
-
-                const newActiveMissions = [
-                    ...currentState.activeMissions,
-                    ...newMissions.map(m => ({
-                        missionId: m.id,
-                        progress: 0,
-                        status: 'active' as const,
-                        expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 days
-                    }))
-                ];
-
-                currentState = {
-                    ...currentState,
-                    activeMissions: newActiveMissions
-                };
-                hasUpdates = true;
             }
         }
         if (currentState.stats.worldsCompleted >= 5) {
@@ -626,6 +417,20 @@ export function useGamification() {
                 const a = ACHIEVEMENTS.find(x => x.id === 'world_champion');
                 if (a) safeAddAchievement(a);
             }
+        }
+
+        // Check remaining global stats achievements + endgame missions
+        const { newState: stateWithAchievements, unlocked } = checkAndUnlockAchievements(currentState, userData?.balance || 0);
+        if (unlocked.length > 0) {
+            currentState = stateWithAchievements;
+            hasUpdates = true;
+            unlocked.forEach(a => safeAddAchievement(a));
+        }
+
+        const { newState: stateWithMissions, changed: missionsChanged } = ensureEndgameMissions(currentState);
+        if (missionsChanged) {
+            currentState = stateWithMissions;
+            hasUpdates = true;
         }
 
         if (worldId && questionsCompleted === totalQuestions) {
@@ -680,17 +485,9 @@ export function useGamification() {
     const buyShopItem = useCallback((itemId: string, price: number) => {
         const result = buyShopItemLogic(gamification, itemId, price, userData?.balance || 0);
         if (result.success) {
-            let finalState = result.newState;
             // Check Fashionista/Personal Museum
-            const unlockedIds = checkAchievementsLogic(finalState, (userData?.balance || 0) - price);
-            unlockedIds.forEach(id => {
-                const r = unlockAchievementLogic(finalState, id);
-                if (r.success) {
-                    finalState = r.newState;
-                    const a = ACHIEVEMENTS.find(x => x.id === id);
-                    if (a) safeAddAchievement(a);
-                }
-            });
+            const { newState: finalState, unlocked } = checkAndUnlockAchievements(result.newState, (userData?.balance || 0) - price);
+            unlocked.forEach(a => safeAddAchievement(a));
 
             setGamification(finalState);
             saveGamification(finalState);
@@ -725,16 +522,8 @@ export function useGamification() {
 
             // Check Achievements (Magnata)
             const newBalance = (userData?.balance || 0) + rewards.stars;
-            const unlockedIds = checkAchievementsLogic(newState, newBalance);
-            let finalState = newState;
-            unlockedIds.forEach(id => {
-                const r = unlockAchievementLogic(finalState, id);
-                if (r.success) {
-                    finalState = r.newState;
-                    const a = ACHIEVEMENTS.find(x => x.id === id);
-                    if (a) safeAddAchievement(a);
-                }
-            });
+            const { newState: finalState, unlocked } = checkAndUnlockAchievements(newState, newBalance);
+            unlocked.forEach(a => safeAddAchievement(a));
 
             if (levelUp) setShowLevelUp(levelUp);
             setGamification(finalState);

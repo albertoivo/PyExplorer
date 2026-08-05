@@ -1,5 +1,6 @@
 import type {
     UserGamification,
+    Achievement,
     PowerUpType,
     LevelInfo
 } from '../types/gamification';
@@ -57,6 +58,94 @@ export function getInitialGamification(): UserGamification {
             consecutiveFastAnswers: 0,
             completedWorldIds: [],
         },
+    };
+}
+
+export function clampNumber(value: unknown, min: number, max: number, fallback: number): number {
+    if (typeof value !== 'number' || Number.isNaN(value)) return fallback;
+    return Math.min(max, Math.max(min, value));
+}
+
+export function removePetField(data: UserGamification): UserGamification {
+    const { pet, ...legacyData } = data;
+    void pet;
+    return legacyData as UserGamification;
+}
+
+export function normalizeGamificationForRules(data: UserGamification): UserGamification {
+    const initial = getInitialGamification();
+
+    const inventory = {
+        ownedItems: Array.isArray(data.inventory?.ownedItems) ? data.inventory.ownedItems.slice(0, 1000) : initial.inventory.ownedItems,
+        equippedAvatar: typeof data.inventory?.equippedAvatar === 'string' ? data.inventory.equippedAvatar.slice(0, 100) : initial.inventory.equippedAvatar,
+        equippedFrame: typeof data.inventory?.equippedFrame === 'string' ? data.inventory.equippedFrame.slice(0, 100) : initial.inventory.equippedFrame,
+        equippedTitle: typeof data.inventory?.equippedTitle === 'string' ? data.inventory.equippedTitle.slice(0, 100) : initial.inventory.equippedTitle,
+    };
+
+    const powerUpKeys: PowerUpType[] = ['skip', 'fifty_fifty', 'extra_hint', 'double_stars', 'shield'];
+    const normalizedPowerUps = {
+        inventory: powerUpKeys.reduce((acc, key) => {
+            acc[key] = clampNumber(data.powerUps?.inventory?.[key], 0, 999, 0);
+            return acc;
+        }, {} as Record<PowerUpType, number>),
+        usesToday: powerUpKeys.reduce((acc, key) => {
+            acc[key] = clampNumber(data.powerUps?.usesToday?.[key], 0, 99, 0);
+            return acc;
+        }, {} as Record<PowerUpType, number>),
+        lastResetDate: typeof data.powerUps?.lastResetDate === 'string'
+            ? data.powerUps.lastResetDate.slice(0, 10)
+            : initial.powerUps.lastResetDate,
+    };
+
+    const normalizedStats = {
+        totalQuestionsCompleted: clampNumber(data.stats?.totalQuestionsCompleted, 0, 999999, 0),
+        totalCorrectAnswers: clampNumber(data.stats?.totalCorrectAnswers, 0, 999999, 0),
+        consecutiveCorrect: clampNumber(data.stats?.consecutiveCorrect, 0, 999999, 0),
+        bestConsecutiveCorrect: clampNumber(data.stats?.bestConsecutiveCorrect, 0, 999999, 0),
+        weekendQuestionsCount: clampNumber(data.stats?.weekendQuestionsCount, 0, 999999, 0),
+        lastWeekendDate: typeof data.stats?.lastWeekendDate === 'string' ? data.stats.lastWeekendDate.slice(0, 10) : '',
+        totalPlayTime: clampNumber(data.stats?.totalPlayTime, 0, 999999, 0),
+        worldsCompleted: clampNumber(data.stats?.worldsCompleted, 0, 999999, 0),
+        perfectWorlds: clampNumber(data.stats?.perfectWorlds, 0, 999999, 0),
+        bossesDefeated: clampNumber(data.stats?.bossesDefeated, 0, 999999, 0),
+        consecutiveFastAnswers: clampNumber(data.stats?.consecutiveFastAnswers, 0, 999999, 0),
+        completedWorldIds: Array.isArray(data.stats?.completedWorldIds) ? data.stats.completedWorldIds.slice(0, 100) : [],
+    };
+
+    const normalizedPet = data.pet
+        ? {
+            name: typeof data.pet.name === 'string' ? data.pet.name.slice(0, 50) : initial.pet?.name || 'PyEvo',
+            stage: (['egg', 'baby', 'teen', 'adult'] as const).includes(data.pet.stage) ? data.pet.stage : 'egg',
+            type: (['generic', 'snake', 'owl', 'chameleon', 'robot', 'dragon'] as const).includes(data.pet.type) ? data.pet.type : 'generic',
+            xp: clampNumber(data.pet.xp, 0, 9999999, 0),
+            level: clampNumber(data.pet.level, 1, 9999, 1),
+            hunger: clampNumber(data.pet.hunger, 0, 100, 100),
+            mood: (['happy', 'sad', 'sleeping', 'hungry', 'coding', 'excited'] as const).includes(data.pet.mood) ? data.pet.mood : 'sleeping',
+            evolutionPath: (data.pet.evolutionPath && typeof data.pet.evolutionPath === 'object') ? data.pet.evolutionPath : {},
+            lastFedAt: typeof data.pet.lastFedAt === 'string' ? data.pet.lastFedAt.slice(0, 50) : new Date().toISOString(),
+            ...(typeof data.pet.justEvolved === 'boolean' ? { justEvolved: data.pet.justEvolved } : {}),
+        }
+        : undefined;
+
+    return {
+        level: {
+            level: clampNumber(data.level?.level, 0, 100, initial.level.level),
+            currentXP: clampNumber(data.level?.currentXP, 0, 9999999, initial.level.currentXP),
+            totalXP: clampNumber(data.level?.totalXP, 0, 9999999, initial.level.totalXP),
+        },
+        streak: {
+            currentStreak: clampNumber(data.streak?.currentStreak, 0, 9999, initial.streak.currentStreak),
+            longestStreak: clampNumber(data.streak?.longestStreak, 0, 9999, initial.streak.longestStreak),
+            lastActivityDate: typeof data.streak?.lastActivityDate === 'string' ? data.streak.lastActivityDate.slice(0, 10) : initial.streak.lastActivityDate,
+            activityHistory: Array.isArray(data.streak?.activityHistory) ? data.streak.activityHistory.slice(0, 50) : initial.streak.activityHistory,
+        },
+        achievements: Array.isArray(data.achievements) ? data.achievements : [],
+        activeMissions: Array.isArray(data.activeMissions) ? data.activeMissions.slice(0, 50) : [],
+        inventory,
+        powerUps: normalizedPowerUps,
+        stats: normalizedStats,
+        ...(data.updatedAt ? { updatedAt: data.updatedAt } : {}),
+        ...(normalizedPet ? { pet: normalizedPet } : {}),
     };
 }
 
@@ -839,7 +928,148 @@ export function markAchievementSeenLogic(state: UserGamification, achievementId:
     };
 }
 
+// ============================================
+// COMPOSITE HELPERS (DRY)
+// ============================================
 
+/**
+ * Checks which achievements should be unlocked given the current state and
+ * user balance, then sequentially unlocks each one. Returns the updated state
+ * and the list of Achievement objects that were newly unlocked (for UI toasts).
+ *
+ * This is a pure function — all side-effects (saving, showing toasts) are the
+ * caller's responsibility.
+ */
+export function checkAndUnlockAchievements(
+    state: UserGamification,
+    userBalance: number
+): { newState: UserGamification; unlocked: Achievement[] } {
+    const candidateIds = checkAchievementsLogic(state, userBalance);
+    let currentState = state;
+    const unlocked: Achievement[] = [];
+
+    for (const id of candidateIds) {
+        const result = unlockAchievementLogic(currentState, id);
+        if (result.success) {
+            currentState = result.newState;
+            const achievement = ACHIEVEMENTS.find(a => a.id === id);
+            if (achievement) unlocked.push(achievement);
+        }
+    }
+
+    return { newState: currentState, unlocked };
+}
+
+/**
+ * Ensures endgame missions exist in the user's activeMissions when at least
+ * one world has been completed.  Returns the (potentially updated) state and
+ * a flag indicating whether any change was made.
+ *
+ * Pure function — no side-effects.
+ */
+export function ensureEndgameMissions(
+    state: UserGamification
+): { newState: UserGamification; changed: boolean } {
+    if (state.stats.worldsCompleted < 1) {
+        return { newState: state, changed: false };
+    }
+
+    const hasEndgameMissions = state.activeMissions.some(m =>
+        m.missionId.startsWith('endgame_')
+    );
+
+    if (hasEndgameMissions) {
+        return { newState: state, changed: false };
+    }
+
+    const newMissions = ENDGAME_MISSIONS.map((m, idx) => ({
+        ...m,
+        id: `endgame_${m.objectiveType}_${idx}`,
+    }));
+
+    const newActiveMissions = [
+        ...state.activeMissions,
+        ...newMissions.map(m => ({
+            missionId: m.id,
+            progress: 0,
+            status: 'active' as const,
+            expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
+        })),
+    ];
+
+    return {
+        newState: { ...state, activeMissions: newActiveMissions },
+        changed: true,
+    };
+}
+
+/**
+ * Applies a streak update to the gamification state, factoring in shield usage.
+ * Returns the potentially updated state, a boolean indicating if changes occurred,
+ * and a boolean indicating if a shield was consumed.
+ */
+export function applyStreakUpdate(
+    state: UserGamification,
+    calculateStreakFn: typeof import('./gamificationUtils').calculateStreak
+): { newState: UserGamification; changed: boolean; shieldUsed: boolean } {
+    const hasShield = (state.powerUps?.inventory?.shield || 0) > 0;
+    const streakResult = calculateStreakFn(
+        state.streak.currentStreak,
+        state.streak.longestStreak,
+        state.streak.lastActivityDate,
+        undefined,
+        hasShield
+    );
+
+    if (!streakResult.shouldUpdate) {
+        return { newState: state, changed: false, shieldUsed: false };
+    }
+
+    const newState = {
+        ...state,
+        powerUps: streakResult.shieldUsed ? {
+            ...state.powerUps,
+            inventory: {
+                ...state.powerUps.inventory,
+                shield: Math.max(0, (state.powerUps?.inventory?.shield || 0) - 1)
+            }
+        } : state.powerUps,
+        streak: {
+            currentStreak: streakResult.streak,
+            longestStreak: streakResult.longestStreak,
+            lastActivityDate: streakResult.lastActiveDate,
+            activityHistory: [...(state.streak?.activityHistory || []), streakResult.lastActiveDate]
+        }
+    };
+
+    return { newState, changed: true, shieldUsed: streakResult.shieldUsed || false };
+}
+
+/**
+ * Migrates legacy streak data from UserData into the Gamification state, if applicable.
+ */
+export function migrateLegacyStreak(
+    state: UserGamification,
+    legacyStreak?: number,
+    legacyLongestStreak?: number,
+    legacyLastActiveDate?: string
+): { newState: UserGamification; changed: boolean } {
+    if (legacyStreak && (!state.streak.currentStreak || legacyStreak > state.streak.currentStreak)) {
+        return {
+            newState: {
+                ...state,
+                streak: {
+                    ...state.streak,
+                    currentStreak: legacyStreak || 0,
+                    longestStreak: Math.max(legacyLongestStreak || 0, state.streak.longestStreak),
+                    lastActivityDate: legacyLastActiveDate || state.streak.lastActivityDate
+                }
+            },
+            changed: true
+        };
+    }
+    return { newState: state, changed: false };
+}
 
 function processHydration(mission: Mission, originalId: string): Mission {
     if (originalId.endsWith('_review')) {
