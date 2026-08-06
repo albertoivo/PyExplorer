@@ -21,9 +21,7 @@ import {
     buyPowerUpLogic,
     claimMissionRewardLogic,
     recordQuestionLogic,
-    unlockAchievementLogic,
     markAchievementSeenLogic,
-    updateMissionProgress,
     hydrateMissions,
     checkAndUnlockAchievements,
     ensureEndgameMissions,
@@ -31,6 +29,7 @@ import {
     migrateLegacyStreak,
     normalizeGamificationForRules,
     removePetField,
+    checkWorldAchievementsLogic,
 } from '../utils/gamificationState';
 import { calculateStreak } from '../utils/gamificationUtils';
 import { feedPet, checkPetStatus, getInitialPet } from '../utils/petLogic';
@@ -362,105 +361,43 @@ export function useGamification() {
     // ============================================
 
     const checkWorldAchievements = useCallback((worldId?: string, questionsCompleted?: number, totalQuestions?: number, mistakes: number = 0) => {
-        let currentState = gamification;
-        let hasUpdates = false;
+        const {
+            newState,
+            hasUpdates,
+            unlockedAchievements,
+            completedMissions,
+            missionRewards,
+            levelUp
+        } = checkWorldAchievementsLogic(
+            gamification,
+            userData?.balance || 0,
+            worldId,
+            questionsCompleted,
+            totalQuestions,
+            mistakes
+        );
 
-        if (worldId && questionsCompleted !== undefined && totalQuestions !== undefined) {
-            if (questionsCompleted === totalQuestions) {
-                // 1. First World
-                const r1 = unlockAchievementLogic(currentState, 'first_world');
-                if (r1.success) {
-                    currentState = r1.newState;
-                    const a = ACHIEVEMENTS.find(x => x.id === 'first_world');
-                    if (a) safeAddAchievement(a);
-                }
+        if (hasUpdates) {
+            unlockedAchievements.forEach(a => safeAddAchievement(a));
 
-                // 2. Perfect World
-                if (mistakes === 0) {
-                    const r2 = unlockAchievementLogic(currentState, 'perfect_world');
-                    if (r2.success) {
-                        currentState = r2.newState;
-                        const a = ACHIEVEMENTS.find(x => x.id === 'perfect_world');
-                        if (a) safeAddAchievement(a);
-                    }
-                }
-
-                // 3. Stats update
-                currentState = {
-                    ...currentState,
-                    stats: {
-                        ...currentState.stats,
-                        worldsCompleted: currentState.stats.worldsCompleted + 1,
-                        perfectWorlds: mistakes === 0 ? currentState.stats.perfectWorlds + 1 : currentState.stats.perfectWorlds,
-                        completedWorldIds: [...(currentState.stats.completedWorldIds || []), worldId],
-                    }
-                };
-                hasUpdates = true;
-            }
-        }
-
-        // Check world-specific achievements at custom thresholds
-        if (currentState.stats.worldsCompleted >= 1) {
-            const r3 = unlockAchievementLogic(currentState, 'world_master');
-            if (r3.success) {
-                currentState = r3.newState;
-                hasUpdates = true;
-                const a = ACHIEVEMENTS.find(x => x.id === 'world_master');
-                if (a) safeAddAchievement(a);
-            }
-        }
-        if (currentState.stats.worldsCompleted >= 5) {
-            const r4 = unlockAchievementLogic(currentState, 'world_champion');
-            if (r4.success) {
-                currentState = r4.newState;
-                hasUpdates = true;
-                const a = ACHIEVEMENTS.find(x => x.id === 'world_champion');
-                if (a) safeAddAchievement(a);
-            }
-        }
-
-        // Check remaining global stats achievements + endgame missions
-        const { newState: stateWithAchievements, unlocked } = checkAndUnlockAchievements(currentState, userData?.balance || 0);
-        if (unlocked.length > 0) {
-            currentState = stateWithAchievements;
-            hasUpdates = true;
-            unlocked.forEach(a => safeAddAchievement(a));
-        }
-
-        const { newState: stateWithMissions, changed: missionsChanged } = ensureEndgameMissions(currentState);
-        if (missionsChanged) {
-            currentState = stateWithMissions;
-            hasUpdates = true;
-        }
-
-        if (worldId && questionsCompleted === totalQuestions) {
-            // Trigger Mission Update for World Completion
-            const mResult = updateMissionProgress(currentState, 'complete_world', 1, { worldId });
-            // Handle Auto-Claim
-            if (mResult.completedMissions.length > 0) {
-                currentState = mResult.newState;
-                hasUpdates = true;
-
-                // Update User Data
+            if (completedMissions.length > 0) {
                 updateUserData({
-                    balance: (userData?.balance || 0) + mResult.rewards.stars,
-                    totalScore: currentState.level.totalXP
+                    balance: (userData?.balance || 0) + missionRewards.stars,
+                    totalScore: newState.level.totalXP
                 });
 
-                if (mResult.levelUp) setShowLevelUp(mResult.levelUp);
+                if (levelUp) setShowLevelUp(levelUp);
 
-                mResult.completedMissions.forEach(m => {
+                completedMissions.forEach(m => {
                     setMissionNotification({
                         title: m,
-                        rewards: { stars: mResult.rewards.stars, xp: mResult.rewards.xp }
+                        rewards: { stars: missionRewards.stars, xp: missionRewards.xp }
                     });
                 });
             }
-        }
 
-        if (hasUpdates) {
-            setGamification(currentState);
-            saveGamification(currentState);
+            setGamification(newState);
+            saveGamification(newState);
         }
     }, [gamification, saveGamification, safeAddAchievement, updateUserData, userData]);
 

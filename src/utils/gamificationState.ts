@@ -940,6 +940,120 @@ export function markAchievementSeenLogic(state: UserGamification, achievementId:
  * This is a pure function — all side-effects (saving, showing toasts) are the
  * caller's responsibility.
  */
+export function checkWorldAchievementsLogic(
+    state: UserGamification,
+    userBalance: number,
+    worldId?: string,
+    questionsCompleted?: number,
+    totalQuestions?: number,
+    mistakes: number = 0
+): {
+    newState: UserGamification;
+    hasUpdates: boolean;
+    unlockedAchievements: Achievement[];
+    completedMissions: string[];
+    missionRewards: { stars: number; xp: number };
+    levelUp: LevelInfo | null;
+} {
+    let currentState = state;
+    let hasUpdates = false;
+    const unlockedAchievements: Achievement[] = [];
+
+    if (worldId && questionsCompleted !== undefined && totalQuestions !== undefined) {
+        if (questionsCompleted === totalQuestions) {
+            // 1. First World
+            const r1 = unlockAchievementLogic(currentState, 'first_world');
+            if (r1.success) {
+                currentState = r1.newState;
+                const a = ACHIEVEMENTS.find(x => x.id === 'first_world');
+                if (a) unlockedAchievements.push(a);
+            }
+
+            // 2. Perfect World
+            if (mistakes === 0) {
+                const r2 = unlockAchievementLogic(currentState, 'perfect_world');
+                if (r2.success) {
+                    currentState = r2.newState;
+                    const a = ACHIEVEMENTS.find(x => x.id === 'perfect_world');
+                    if (a) unlockedAchievements.push(a);
+                }
+            }
+
+            // 3. Stats update
+            currentState = {
+                ...currentState,
+                stats: {
+                    ...currentState.stats,
+                    worldsCompleted: currentState.stats.worldsCompleted + 1,
+                    perfectWorlds: mistakes === 0 ? currentState.stats.perfectWorlds + 1 : currentState.stats.perfectWorlds,
+                    completedWorldIds: [...(currentState.stats.completedWorldIds || []), worldId],
+                }
+            };
+            hasUpdates = true;
+        }
+    }
+
+    // Check world-specific achievements at custom thresholds
+    if (currentState.stats.worldsCompleted >= 1) {
+        const r3 = unlockAchievementLogic(currentState, 'world_master');
+        if (r3.success) {
+            currentState = r3.newState;
+            hasUpdates = true;
+            const a = ACHIEVEMENTS.find(x => x.id === 'world_master');
+            if (a) unlockedAchievements.push(a);
+        }
+    }
+    if (currentState.stats.worldsCompleted >= 5) {
+        const r4 = unlockAchievementLogic(currentState, 'world_champion');
+        if (r4.success) {
+            currentState = r4.newState;
+            hasUpdates = true;
+            const a = ACHIEVEMENTS.find(x => x.id === 'world_champion');
+            if (a) unlockedAchievements.push(a);
+        }
+    }
+
+    // Check remaining global stats achievements + endgame missions
+    const { newState: stateWithAchievements, unlocked } = checkAndUnlockAchievements(currentState, userBalance);
+    if (unlocked.length > 0) {
+        currentState = stateWithAchievements;
+        hasUpdates = true;
+        unlockedAchievements.push(...unlocked);
+    }
+
+    const { newState: stateWithMissions, changed: missionsChanged } = ensureEndgameMissions(currentState);
+    if (missionsChanged) {
+        currentState = stateWithMissions;
+        hasUpdates = true;
+    }
+
+    let finalCompletedMissions: string[] = [];
+    let finalMissionRewards = { stars: 0, xp: 0 };
+    let finalLevelUp: LevelInfo | null = null;
+
+    if (worldId && questionsCompleted === totalQuestions) {
+        // Trigger Mission Update for World Completion
+        const mResult = updateMissionProgress(currentState, 'complete_world', 1, { worldId });
+        // Handle Auto-Claim
+        if (mResult.completedMissions.length > 0) {
+            currentState = mResult.newState;
+            hasUpdates = true;
+            finalCompletedMissions = mResult.completedMissions;
+            finalMissionRewards = mResult.rewards;
+            finalLevelUp = mResult.levelUp;
+        }
+    }
+
+    return {
+        newState: currentState,
+        hasUpdates,
+        unlockedAchievements,
+        completedMissions: finalCompletedMissions,
+        missionRewards: finalMissionRewards,
+        levelUp: finalLevelUp
+    };
+}
+
 export function checkAndUnlockAchievements(
     state: UserGamification,
     userBalance: number
