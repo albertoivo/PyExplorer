@@ -81,7 +81,16 @@ export default defineConfig({
         }
       ]
     }),
-
+    {
+      name: 'defer-monaco-css',
+      enforce: 'post',
+      transformIndexHtml(html) {
+        return html.replace(
+          /<link rel="stylesheet"([^>]*?)href="([^"]*monaco-vendor[^"]*)"([^>]*)>/gi,
+          `<link rel="preload" href="$2" as="style" onload="this.onload=null;this.rel='stylesheet'" crossorigin><noscript><link rel="stylesheet" crossorigin href="$2"></noscript>`
+        );
+      }
+    },
     react(),
     VitePWA({
       registerType: 'autoUpdate',
