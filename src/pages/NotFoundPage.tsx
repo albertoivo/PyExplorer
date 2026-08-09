@@ -8,6 +8,7 @@ export function NotFoundPage() {
             <SEO 
                 title="Página não encontrada" 
                 description="Ops! A página que você está procurando não existe." 
+                noindex
             />
             <div className="not-found-content">
                 <span className="not-found-icon">🐍</span>

@@ -91,6 +91,10 @@ export function LoginPage() {
             <SEO
                 title="Entrar"
                 description="Faça login no PyExplorer para continuar sua aventura de aprender Python jogando!"
+                breadcrumbs={[
+                    { name: "Início", path: "/" },
+                    { name: "Entrar", path: "/login" }
+                ]}
             />
             <AuthCard
                 icon="🐍"

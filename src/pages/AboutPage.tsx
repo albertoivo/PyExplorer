@@ -12,6 +12,10 @@ export function AboutPage() {
             <SEO
                 title="Sobre o PyExplorer"
                 description="Conheça a história do PyExplorer: um jogo gratuito feito no Brasil para ensinar Python para crianças."
+                breadcrumbs={[
+                    { name: "Início", path: "/" },
+                    { name: "Sobre", path: "/about" }
+                ]}
                 structuredData={{
                     "@context": "https://schema.org",
                     "@type": "EducationalOrganization",

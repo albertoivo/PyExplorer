@@ -57,7 +57,7 @@ export function CertificatePage() {
 
         return (
             <div className="certificate-page-container">
-                <SEO title="Certificado Bloqueado" />
+                <SEO title="Certificado Bloqueado" noindex />
                 <div className="certificate-locked">
                     <span className="locked-icon">🎓</span>
                     <h2>Certificado em Andamento</h2>
@@ -74,7 +74,7 @@ export function CertificatePage() {
 
     return (
         <div className="certificate-page-container">
-            <SEO title="Seu Certificado Oficial" description="Baixe seu certificado de conclusão do PyExplorer!" />
+            <SEO title="Seu Certificado Oficial" description="Baixe seu certificado de conclusão do PyExplorer!" noindex />
 
             <div className="certificate-content-wrapper">
                 <header className="certificate-page-header">

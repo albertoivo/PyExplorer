@@ -358,7 +358,7 @@ export function GamePage() {
 
     return (
         <div className="game-page">
-            <SEO title="Aventura" description="Resolva desafios interativos de Python no navegador. 18 mundos, 4 sagas épicas, boss battles e sistema de estrelas. 100% grátis!" />
+            <SEO title="Aventura" description="Resolva desafios interativos de Python no navegador. 18 mundos, 4 sagas épicas, boss battles e sistema de estrelas. 100% grátis!" noindex />
 
             <EvolutionModal />
 

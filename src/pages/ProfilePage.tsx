@@ -58,6 +58,7 @@ export function ProfilePage() {
             <SEO
                 title="Meu Perfil"
                 description="Veja seu progresso, conquistas e estatísticas no PyExplorer!"
+                noindex
             />
             <div className="profile-container">
                 {/* Card do Perfil */}

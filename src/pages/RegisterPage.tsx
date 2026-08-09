@@ -85,6 +85,10 @@ export function RegisterPage() {
             <SEO
                 title="Criar Conta Grátis"
                 description="Crie sua conta gratuita no PyExplorer e comece sua aventura de aprender Python jogando!"
+                breadcrumbs={[
+                    { name: "Início", path: "/" },
+                    { name: "Criar Conta", path: "/register" }
+                ]}
             />
             <AuthCard
                 icon="🎮"

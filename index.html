@@ -24,9 +24,10 @@
   <meta property="og:title" content="PyExplorer - Aprenda Python Jogando! 🐍" />
   <meta property="og:description"
     content="Jogo educativo GRATUITO para crianças e iniciantes aprenderem Python! Resolva desafios, ganhe estrelas e aprenda a programar de forma divertida." />
+  <meta property="og:url" content="https://pyexplorer.com.br" />
   <meta property="og:image" content="https://pyexplorer.com.br/og-image.jpg" />
-  <meta property="og:image:width" content="1024" />
-  <meta property="og:image:height" content="1024" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="PyExplorer - Aprenda Python Jogando" />
   <meta property="og:locale" content="pt_BR" />
 
@@ -74,16 +75,24 @@
   {
     "@context": "https://schema.org",
     "@type": "Course",
+    "@id": "https://pyexplorer.com.br#course",
+    "url": "https://pyexplorer.com.br",
     "name": "Curso de Python para Crianças - PyExplorer",
     "description": "Aprenda Python jogando! Curso interativo e gratuito de programação para crianças de 8 a 15 anos.",
     "provider": {
       "@type": "Organization",
-      "name": "PyExplorer"
+      "name": "PyExplorer",
+      "url": "https://pyexplorer.com.br"
     },
     "educationalLevel": "Iniciante",
     "inLanguage": "pt-BR",
     "isAccessibleForFree": true,
-    "teaches": ["Python", "Programação", "Lógica", "Algoritmos"]
+    "teaches": ["Python", "Programação", "Lógica", "Algoritmos"],
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT10H"
+    }
   }
   </script>
 
@@ -119,22 +128,39 @@
   <!-- Splash screens para iOS -->
   <link rel="apple-touch-startup-image" href="/icons/icon-512x512.png" />
 
-  <!-- Fonte crítica acima da dobra -->
+  <!-- Fonte crítica acima da dobra (non-render-blocking) -->
   <link
+    rel="preload"
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
-    rel="stylesheet" />
+    as="style"
+    onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+      rel="stylesheet" />
+  </noscript>
 </head>
 
 <body>
   <div id="root" style="min-height: 100vh"></div>
   <script type="module" src="/src/main.tsx"></script>
 
-  <!-- Noscript fallback -->
+  <!-- Noscript fallback com conteúdo semântico SEO-friendly -->
   <noscript>
     <div
-      style="padding: 2rem; text-align: center; background: #1a1a2e; color: white; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-      <h1>🐍 PyExplorer</h1>
-      <p>Por favor, habilite o JavaScript para jogar PyExplorer.</p>
+      style="padding: 2rem; text-align: center; background: #1a1a2e; color: white; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem;">
+      <h1>🐍 PyExplorer — Aprenda Python Jogando</h1>
+      <p>O melhor jogo educativo <strong>gratuito</strong> para crianças e iniciantes aprenderem programação Python.</p>
+      <p>Resolva desafios interativos, ganhe estrelas e domine Python passo a passo. 100% em português, seguro e funciona offline.</p>
+      <nav>
+        <ul style="list-style:none;padding:0;display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;">
+          <li><a href="/learn" style="color:#00ff88;">📚 Aprenda Python</a></li>
+          <li><a href="/learn/o-que-e-python" style="color:#00ff88;">🐍 O que é Python?</a></li>
+          <li><a href="/learn/python-para-criancas" style="color:#00ff88;">👨‍👩‍👧‍👦 Python para Crianças</a></li>
+          <li><a href="/about" style="color:#00ff88;">ℹ️ Sobre o Projeto</a></li>
+        </ul>
+      </nav>
+      <p><em>Habilite o JavaScript para a experiência completa do PyExplorer.</em></p>
     </div>
   </noscript>
 </body>

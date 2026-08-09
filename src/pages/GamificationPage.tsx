@@ -55,6 +55,7 @@ export function GamificationPage() {
             <SEO
                 title="Recompensas"
                 description="Conquistas, missões diárias, loja de avatares e ranking do PyExplorer!"
+                noindex
             />
 
             {/* Header com nível e stats */}

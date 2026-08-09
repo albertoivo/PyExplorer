@@ -1,6 +1,11 @@
 import { Helmet } from 'react-helmet-async';
 import { env } from '../../config/env';
 
+interface BreadcrumbItem {
+    name: string;
+    path: string;
+}
+
 interface SEOProps {
     title: string;
     description?: string;
@@ -12,6 +17,8 @@ interface SEOProps {
     publishedTime?: string;
     modifiedTime?: string;
     authorName?: string;
+    noindex?: boolean;
+    breadcrumbs?: BreadcrumbItem[];
 }
 
 export function SEO({
@@ -24,7 +31,9 @@ export function SEO({
     keywords,
     publishedTime,
     modifiedTime,
-    authorName
+    authorName,
+    noindex = false,
+    breadcrumbs
 }: SEOProps) {
     const siteTitle = 'PyExplorer';
     const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
@@ -49,6 +58,18 @@ export function SEO({
 
     const canonicalUrl = getCanonicalUrl();
 
+    // BreadcrumbList JSON-LD gerado automaticamente a partir do prop breadcrumbs
+    const breadcrumbStructuredData = breadcrumbs && breadcrumbs.length > 0 ? {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": breadcrumbs.map((item, index) => ({
+            "@type": "ListItem",
+            "position": index + 1,
+            "name": item.name,
+            "item": `${env.APP_URL}${item.path === '/' ? '' : item.path}`
+        }))
+    } : null;
+
     return (
         <Helmet>
             {/* Standard Metadata */}
@@ -57,6 +78,12 @@ export function SEO({
             {keywords && keywords.length > 0 && (
                 <meta name="keywords" content={keywords.join(', ')} />
             )}
+
+            {/* Robots: noindex para páginas protegidas, de erro, ou sem valor para crawlers */}
+            {noindex && (
+                <meta name="robots" content="noindex, nofollow" />
+            )}
+
             <link rel="canonical" href={canonicalUrl} />
 
             {/* Idioma alternativo (Auxilia o Google a entender a região/idioma) */}
@@ -64,11 +91,14 @@ export function SEO({
             <link rel="alternate" hrefLang="x-default" href={canonicalUrl} />
 
             {/* Open Graph */}
+            <meta property="og:site_name" content="PyExplorer" />
             <meta property="og:type" content={type} />
             <meta property="og:title" content={fullTitle} />
             <meta property="og:description" content={metaDescription} />
             <meta property="og:url" content={canonicalUrl} />
             <meta property="og:image" content={resolvedOgImage} />
+            <meta property="og:image:width" content="1200" />
+            <meta property="og:image:height" content="630" />
             {type === 'article' && (
                 <>
                     {publishedTime && <meta property="article:published_time" content={publishedTime} />}
@@ -89,6 +119,13 @@ export function SEO({
             {structuredData && (
                 <script type="application/ld+json">
                     {JSON.stringify(structuredData)}
+                </script>
+            )}
+
+            {/* BreadcrumbList (JSON-LD) */}
+            {breadcrumbStructuredData && (
+                <script type="application/ld+json">
+                    {JSON.stringify(breadcrumbStructuredData)}
                 </script>
             )}
         </Helmet>

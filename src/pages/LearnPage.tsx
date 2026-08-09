@@ -14,7 +14,30 @@ export function LearnPage() {
 
     return (
         <div className="learn-page">
-            <SEO title="Aprenda Python" description="Aprenda Python do zero com tutoriais gratuitos em português. Guias interativos para crianças, iniciantes e materiais de apoio para pais." />
+            <SEO
+                title="Aprenda Python"
+                description="Aprenda Python do zero com tutoriais gratuitos em português. Guias interativos para crianças, iniciantes e materiais de apoio para pais."
+                breadcrumbs={[
+                    { name: "Início", path: "/" },
+                    { name: "Aprender", path: "/learn" }
+                ]}
+                structuredData={{
+                    "@context": "https://schema.org",
+                    "@type": "CollectionPage",
+                    "name": "Aprenda Python - Tutoriais e Artigos Gratuitos",
+                    "description": "Aprenda Python do zero com tutoriais gratuitos em português.",
+                    "url": "https://pyexplorer.com.br/learn",
+                    "mainEntity": {
+                        "@type": "ItemList",
+                        "itemListElement": ARTICLES.map((article, index) => ({
+                            "@type": "ListItem",
+                            "position": index + 1,
+                            "name": article.title,
+                            "url": `https://pyexplorer.com.br/learn/${article.slug}`
+                        }))
+                    }
+                }}
+            />
             {/* Hero Section */}
             <section className="learn-hero">
                 <div className="learn-hero__content">
