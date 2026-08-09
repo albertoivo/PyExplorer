@@ -179,14 +179,33 @@ export function useProgress() {
     /**
      * Calcula estatísticas gerais do progresso
      * Optimization: Memoized to prevent recalculation on every render
+     * and uses a single loop instead of multiple array traversals.
      */
-    const stats = useMemo(() => ({
-        totalQuestions: allProgress.length,
-        completed: allProgress.filter(p => p.status === 'completed').length,
-        inProgress: allProgress.filter(p => p.status === 'in_progress').length,
-        totalScore: allProgress.reduce((sum, p) => sum + p.score, 0),
-        totalAttempts: allProgress.reduce((sum, p) => sum + p.attempts, 0),
-    }), [allProgress]);
+    const stats = useMemo(() => {
+        let completed = 0;
+        let inProgress = 0;
+        let totalScore = 0;
+        let totalAttempts = 0;
+
+        for (let i = 0; i < allProgress.length; i++) {
+            const p = allProgress[i];
+            if (p.status === 'completed') {
+                completed++;
+            } else if (p.status === 'in_progress') {
+                inProgress++;
+            }
+            totalScore += p.score;
+            totalAttempts += p.attempts;
+        }
+
+        return {
+            totalQuestions: allProgress.length,
+            completed,
+            inProgress,
+            totalScore,
+            totalAttempts,
+        };
+    }, [allProgress]);
 
     /**
      * Obtém progresso por mundo
