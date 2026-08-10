@@ -1,0 +1,26 @@
+# PyExplorer
+
+> PyExplorer is an innovative educational game developed in ReactJS, specially created to teach Python programming in a gamified and engaging way for children and teenagers (8 to 15 years old). It uses modern web technologies like Pyodide (WebAssembly) to execute Python code directly in the browser.
+
+Important notes:
+- The platform features 4 Epic Sagas and 18 Worlds covering everything from basic concepts to APIs and Data manipulation.
+- Includes advanced gamification with stars, coins, achievements, daily streaks, dynamic missions, and a virtual store.
+- Supports 8 interactive question types, including multiple choice, code filling, Parsons problems, and visual Turtle challenges.
+- PyExplorer functions as a PWA, allowing offline play, and includes an embedded Monaco Editor for writing Python code.
+
+## Main Pages
+
+- [Home](https://pyexplorer.com.br/): The landing page and main entry point.
+- [Learn](https://pyexplorer.com.br/learn): Educational articles and tutorials about Python and programming for kids.
+- [About](https://pyexplorer.com.br/about): Information about the project and its goals.
+
+## Game and User Areas
+
+- [Game](https://pyexplorer.com.br/game): The main game area where users solve Python challenges (Requires login or guest mode).
+- [Profile](https://pyexplorer.com.br/profile): User profile, progress, and settings (Requires login or guest mode).
+- [Rewards](https://pyexplorer.com.br/rewards): The virtual store and achievements page (Requires login or guest mode).
+- [Certificate](https://pyexplorer.com.br/certificate): Generate a custom PDF certificate upon completion.
+
+## Optional
+
+- [Sitemap](https://pyexplorer.com.br/sitemap.xml): The XML sitemap containing all indexable URLs.
