@@ -1,0 +1,96 @@
+{
+    "sagas": {
+        "basics": {
+            "name": "The Code Awakening",
+            "description": "Start your journey by learning the most basic commands to interact with the computer."
+        },
+        "logic": {
+            "name": "The Valley of Logic",
+            "description": "Learn to make decisions and master the flow of time (loops)."
+        },
+        "structures": {
+            "name": "The Data Cave",
+            "description": "Discover how to organize and store large amounts of information."
+        },
+        "advanced": {
+            "name": "The Mountain of Mastery",
+            "description": "Learn advanced tricks and become a true Python Master."
+        }
+    },
+    "basic_commands": {
+        "name": "First Steps",
+        "description": "Learn to give your first commands in Python!"
+    },
+    "variables": {
+        "name": "World of Variables",
+        "description": "Store data in magical boxes."
+    },
+    "numbers": {
+        "name": "Fun Arithmetic",
+        "description": "Do math and arithmetic operations with Python."
+    },
+    "strings": {
+        "name": "Text Manipulation",
+        "description": "Play with words and sentences in amazing ways."
+    },
+    "user_input": {
+        "name": "Talking to the User",
+        "description": "Learn to ask for information from whoever is playing."
+    },
+    "turtle_art": {
+        "name": "Turtle Art",
+        "description": "Draw incredible shapes using code!"
+    },
+    "conditions": {
+        "name": "Making Decisions",
+        "description": "Use IF and ELSE to choose paths."
+    },
+    "loops": {
+        "name": "Repetition Island",
+        "description": "Make things happen multiple times with FOR and WHILE."
+    },
+    "lists": {
+        "name": "Forest of Lists",
+        "description": "Keep multiple items in a single magical list."
+    },
+    "dictionaries": {
+        "name": "Cave of Dictionaries",
+        "description": "Organize information using keys and values."
+    },
+    "functions": {
+        "name": "Function Factory",
+        "description": "Create your own reusable commands."
+    },
+    "modules": {
+        "name": "Library of Modules",
+        "description": "Import new powers made by other programmers."
+    },
+    "error_handling": {
+        "name": "Bug Hunter",
+        "description": "Learn to handle errors without breaking the game."
+    },
+    "files": {
+        "name": "Master of Files",
+        "description": "Read and save information in text files."
+    },
+    "pythonic": {
+        "name": "Pythonic Style",
+        "description": "Write beautiful and efficient code like a true master."
+    },
+    "oop_basics": {
+        "name": "Object Orientation",
+        "description": "Create your own classes and virtual objects."
+    },
+    "data_science": {
+        "name": "Data Laboratory",
+        "description": "Explore the fundamentals of data analysis and charts."
+    },
+    "web_api": {
+        "name": "Web Connection",
+        "description": "Consume data from real APIs on the internet."
+    },
+    "bosses": {
+        "name": "Boss Challenges",
+        "description": "Face complex problems that will test everything you've learned!"
+    }
+}

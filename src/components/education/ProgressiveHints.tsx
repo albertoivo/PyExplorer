@@ -3,6 +3,7 @@ import type { HintLevel, QuestionHints } from '../../types/education';
 import type { PowerUpType } from '../../types/gamification';
 import { getHintsForQuestion } from '../../data/educationContent';
 import { useAuth } from '../../hooks/useAuth';
+import { useTranslation } from 'react-i18next';
 import './ProgressiveHints.css';
 
 interface ProgressiveHintsProps {
@@ -34,6 +35,7 @@ export function ProgressiveHints({
     compact = false,
     activePowerUp,
 }: ProgressiveHintsProps) {
+    const { t } = useTranslation('game');
     const { userData } = useAuth();
     const [showConfirm, setShowConfirm] = useState<HintLevel | null>(null);
     const [animatingHint, setAnimatingHint] = useState<HintLevel | null>(null);
@@ -54,7 +56,7 @@ export function ProgressiveHints({
                 ...base,
                 hints: base.hints.map((h, idx) => {
                     if (idx === 1) {
-                        return { ...h, cost: 0, text: `🌟 [Dica Extra do Mestre Python]: ${h.text}` };
+                        return { ...h, cost: 0, text: t('hints.extraHintPrefix', '🌟 [Dica Extra do Mestre Python]: ') + h.text };
                     }
                     return h;
                 }) as QuestionHints['hints']
@@ -121,9 +123,9 @@ export function ProgressiveHints({
 
     const getHintLabel = (level: HintLevel) => {
         switch (level) {
-            case 1: return 'Dica Básica';
-            case 2: return 'Dica Média';
-            case 3: return 'Resposta Completa';
+            case 1: return t('hints.basicHint', 'Dica Básica');
+            case 2: return t('hints.mediumHint', 'Dica Média');
+            case 3: return t('hints.fullAnswer', 'Resposta Completa');
         }
     };
 
@@ -167,7 +169,7 @@ export function ProgressiveHints({
                 {/* Confirm dialog */}
                 {showConfirm && (
                     <div className="hints__confirm">
-                        <p>Revelar por {hints.hints[showConfirm - 1].cost}⭐?</p>
+                        <p>{t('hints.revealCompactConfirm', { defaultValue: 'Revelar por {{cost}}⭐?',  cost: hints.hints[showConfirm - 1].cost })}</p>
                         <button onClick={() => revealHint(showConfirm, hints.hints[showConfirm - 1].cost)}>✓</button>
                         <button onClick={cancelReveal}>✕</button>
                     </div>
@@ -180,7 +182,7 @@ export function ProgressiveHints({
         <div className="hints">
             <div className="hints__header">
                 <span className="hints__icon">💡</span>
-                <span className="hints__title">Precisa de ajuda?</span>
+                <span className="hints__title">{t('hints.needHelp', 'Precisa de ajuda?')}</span>
                 <span className="hints__stars">⭐ {userStars}</span>
             </div>
 
@@ -201,7 +203,7 @@ export function ProgressiveHints({
                                 <span className="hints__level-icon">{getHintIcon(level as HintLevel)}</span>
                                 <span className="hints__level-label">{getHintLabel(level as HintLevel)}</span>
                                 <span className={`hints__level-cost ${hint.cost === 0 ? 'hints__level-cost--free' : ''}`}>
-                                    {hint.cost === 0 ? 'Grátis' : `${hint.cost}⭐`}
+                                    {hint.cost === 0 ? t('hints.free', 'Grátis') : `${hint.cost}⭐`}
                                 </span>
                             </div>
 
@@ -216,10 +218,10 @@ export function ProgressiveHints({
                                     onClick={() => handleRevealClick(level as HintLevel)}
                                     disabled={!canShow}
                                 >
-                                    {canShow ? 'Revelar Dica' :
+                                    {canShow ? t('hints.revealBtn', 'Revelar Dica') :
                                         level > 1 && !isRevealed((level - 1) as HintLevel)
-                                            ? 'Revele a dica anterior primeiro'
-                                            : `Você precisa de ${hint.cost}⭐`}
+                                            ? t('hints.revealPreviousFirst', 'Revele a dica anterior primeiro')
+                                            : t('hints.needStars', { defaultValue: 'Você precisa de {{cost}}⭐',  cost: hint.cost })}
                                 </button>
                             )}
 
@@ -237,30 +239,29 @@ export function ProgressiveHints({
                 })}
             </div>
 
-            {/* Confirmation modal */}
             {showConfirm && (
                 <div className="hints__confirm-overlay" onClick={cancelReveal}>
                     <div className="hints__confirm-modal" onClick={e => e.stopPropagation()}>
                         <span className="hints__confirm-icon">{getHintIcon(showConfirm)}</span>
-                        <h4>Revelar {getHintLabel(showConfirm)}?</h4>
+                        <h4>{t('hints.revealConfirmTitle', { defaultValue: 'Revelar {{label}}?',  label: getHintLabel(showConfirm) })}</h4>
                         <p>
-                            Esta dica custa <strong>{hints.hints[showConfirm - 1].cost}⭐</strong>
+                            {t('hints.revealConfirmDesc', 'Esta dica custa')} <strong>{hints.hints[showConfirm - 1].cost}⭐</strong>
                         </p>
                         <p className="hints__confirm-balance">
-                            Saldo atual: {userStars}⭐ → Após: {userStars - hints.hints[showConfirm - 1].cost}⭐
+                            {t('hints.balanceCurrent', 'Saldo atual:')} {userStars}⭐ → {t('hints.balanceAfter', 'Após:')} {userStars - hints.hints[showConfirm - 1].cost}⭐
                         </p>
                         <div className="hints__confirm-actions">
                             <button
                                 className="hints__confirm-btn hints__confirm-btn--cancel"
                                 onClick={cancelReveal}
                             >
-                                Cancelar
+                                {t('hints.cancel', 'Cancelar')}
                             </button>
                             <button
                                 className="hints__confirm-btn hints__confirm-btn--confirm"
                                 onClick={() => revealHint(showConfirm, hints.hints[showConfirm - 1].cost)}
                             >
-                                Revelar por {hints.hints[showConfirm - 1].cost}⭐
+                                {t('hints.revealForStars', { defaultValue: 'Revelar por {{cost}}⭐',  cost: hints.hints[showConfirm - 1].cost })}
                             </button>
                         </div>
                     </div>

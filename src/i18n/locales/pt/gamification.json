@@ -1,0 +1,173 @@
+{
+    "seoTitle": "Recompensas e Conquistas",
+    "seoDescription": "Acompanhe seu progresso, nível, conquistas e compre itens na loja do PyExplorer.",
+    "breadcrumb": "Recompensas",
+    "pageTitle": "🏆 Recompensas e Conquistas",
+    "tabs": {
+        "achievements": "Conquistas",
+        "missions": "Missões",
+        "shop": "Loja",
+        "overview": "Visão Geral",
+        "ranking": "Ranking"
+    },
+    "achievements": {
+        "title": "Conquistas",
+        "unlocked": "Desbloqueada",
+        "locked": "Bloqueada",
+        "keepPlaying": "Continue jogando para desbloquear!",
+        "points": "pontos",
+        "total": "Total de Conquistas:",
+        "recent": "Conquistas Recentes",
+        "empty": "Nenhuma conquista desbloqueada ainda",
+        "seeAll": "Ver Todas",
+        "filterAll": "Todas",
+        "unlockedOnly": "Desbloqueadas"
+    },
+    "missions": {
+        "title": "Missões Ativas",
+        "reward": "Recompensa:",
+        "completed": "Completada!",
+        "progress": "Progresso:",
+        "today": "Missões de Hoje",
+        "seeAll": "Ver Todas as Missões",
+        "daily": "Diárias",
+        "dailyMissions": "Missões Diárias",
+        "highDifficulty": "Alta Dificuldade",
+        "master": "Mestre",
+        "masterChallenges": "Desafios de Mestre",
+        "renewsMidnight": "Renova à meia-noite",
+        "renewsSunday": "Renova no domingo",
+        "secretChallenge": "Desafio Secreto",
+        "secretChallengeDesc": "Complete objetivos ocultos para revelar!",
+        "weekly": "Semanais",
+        "weeklyMissions": "Missões Semanais"
+    },
+    "shop": {
+        "title": "Loja de Avatares",
+        "diamondsAvailable": "Diamantes disponíveis:",
+        "equipped": "Equipado",
+        "equip": "Equipar",
+        "buy": "Comprar por",
+        "notEnoughDiamonds": "Você não tem diamantes suficientes"
+    },
+    "levelBadge": {
+        "level": "Nível {{level}}",
+        "xp": "XP",
+        "max": "MAX"
+    },
+    "powerUpBar": {
+        "ariaActive": "{{name}} ativado",
+        "ariaBuy": "Comprar {{name}} por {{price}} estrelas",
+        "ariaUse": "Usar {{name}}",
+        "ariaUseAvailable": "Usar {{name}}. {{quantity}} disponíveis.",
+        "btnActive": "Ativo",
+        "btnUse": "Usar",
+        "buyAndUse": "Comprar e Usar",
+        "buyFor": "Comprar por {{price}} estrelas",
+        "cancel": "Cancelar",
+        "compactBuyTitle": "{{desc}} (Compre por {{price}}⭐)",
+        "confirmBuyTitle": "Comprar {{name}}?",
+        "cost": "Custo: ⭐ {{price}} | Saldo: ⭐ {{balance}}",
+        "dailyLimit": "Máx. diário: {{left}}/{{max}} restantes",
+        "insufficientStars": "Estrelas Insuficientes",
+        "limitReached": "Limite diário atingido"
+    },
+    "stats": {
+        "score": "Pontuação",
+        "achievements": "Conquistas",
+        "missions": "Missões",
+        "streak": "Ofensiva",
+        "completed": "Concluídas",
+        "attempts": "Tentativas"
+    },
+    "powerups": {
+        "title": "Power-Ups Disponíveis"
+    },
+    "avatarShop": {
+        "buy": "Comprar por {{cost}} 💎",
+        "empty": "Nenhum item disponível na loja no momento",
+        "equipBtn": "Equipar",
+        "equippedBadge": "Equipado",
+        "equippedBtn": "Equipado",
+        "free": "Grátis",
+        "getFree": "Obter Grátis",
+        "levelReq": "Requer Nível {{level}}",
+        "limited": "Edição Limitada",
+        "title": "Loja de Avatares & Molduras"
+    },
+    "leaderboard": {
+        "beFirst": "Seja o primeiro a liderar o ranking!",
+        "empty": "Ranking vazio no momento",
+        "errorLoad": "Erro ao carregar ranking",
+        "level": "Nível {{level}}",
+        "loading": "Carregando ranking...",
+        "player": "Jogador",
+        "title": "Ranking"
+    },
+    "petHabitat": {
+        "btnFeed": "Alimentar Pet",
+        "btnHeat": "Aquecer Ovo",
+        "eating": "Alimentando...",
+        "eggFull": "Ovo totalmente aquecido!",
+        "energyTitle": "Energia do Pet",
+        "feedInstruction": "Alimente seu pet para ganhar XP extra!",
+        "guestButton": "Entrar para Cuidar",
+        "guestTooltip": "Crie uma conta para chocar e alimentar seu pet!",
+        "heatInstruction": "Aqueça o ovo até chocar seu novo companheiro!",
+        "heatTitle": "Calor do Ovo",
+        "heating": "Aquecendo...",
+        "noStarsFull": "Você precisa de estrelas para alimentar!",
+        "petFull": "Pet totalmente alimentado!",
+        "title": "Habitat do Pet",
+        "titleFeed": "Alimente seu Pet",
+        "titleHeat": "Aqueça o Ovo",
+        "xpTooltip": "Pets felizes concedem bônus de XP em todas as missões!"
+    },
+    "evolution": {
+        "awesome": "Incrível!",
+        "copied": "Copiado para a área de transferência!",
+        "description": "Seu companheiro evoluiu para um novo estágio!",
+        "share": "Compartilhar Conquista",
+        "shareText": "Meu pet evoluiu no PyExplorer! Venha aprender Python jogando comigo!",
+        "shareTitle": "Evolução do Pet!",
+        "title": "Seu Pet Evoluiu!",
+        "type": "Estágio de Evolução"
+    },
+    "streak": {
+        "bonus": "Bônus de Ofensiva",
+        "daysInRow": "{{count}} dias seguidos",
+        "record": "Recorde: {{count}} dias"
+    },
+    "toast": {
+        "achievementUnlocked": "Nova Conquista Desbloqueada!",
+        "level": "Nível",
+        "levelUp": "Subiu de Nível!"
+    },
+    "profile": {
+        "guestMode": "Modo Convidado",
+        "guestWarningText": "Você está usando uma conta de convidado. Crie uma conta gratuita para salvar seu progresso na nuvem!",
+        "guestWarningTitle": "Atenção: Progresso Local",
+        "level": "Nível {{level}}",
+        "loginRequired": "Faça login para visualizar seu perfil completo.",
+        "maxLevel": "Nível Máximo Alcançado!",
+        "seoDescription": "Visualize seu perfil no PyExplorer, estatísticas de progresso, conquistas e nivelamento em Python.",
+        "seoTitle": "Seu Perfil - PyExplorer",
+        "worldsProgress": "Progresso nos Mundos",
+        "xpToNextLevel": "{{current}} / {{next}} XP para o próximo nível"
+    },
+    "achievementGrid": {
+        "title": "Conquistas",
+        "filterAll": "Todas",
+        "unlockedOnly": "Só desbloqueadas",
+        "empty": "Nenhuma conquista encontrada",
+        "categories": {
+            "learning": "Aprendizado",
+            "streak": "Ofensiva",
+            "mastery": "Maestria",
+            "social": "Social",
+            "special": "Especial",
+            "boss": "Chefão",
+            "collection": "Coleção"
+        }
+    }
+}

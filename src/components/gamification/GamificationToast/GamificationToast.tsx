@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { Achievement, LevelInfo } from '../../../types/gamification';
+import { useTranslation } from 'react-i18next';
 import './GamificationToast.css';
 
 interface AchievementToastProps {
@@ -11,6 +12,7 @@ interface AchievementToastProps {
  * Toast de conquista desbloqueada
  */
 function AchievementToast({ achievement, onClose }: AchievementToastProps) {
+    const { t } = useTranslation('gamification');
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
@@ -37,9 +39,9 @@ function AchievementToast({ achievement, onClose }: AchievementToastProps) {
             <div className="toast__icon">{achievement.icon}</div>
 
             <div className="toast__content">
-                <span className="toast__label">🏆 Conquista Desbloqueada!</span>
-                <span className="toast__title">{achievement.name}</span>
-                <span className="toast__description">{achievement.description}</span>
+                <span className="toast__label">🏆 {t('toast.achievementUnlocked', 'Conquista Desbloqueada!')}</span>
+                <span className="toast__title">{t(`achievements.${achievement.id}.name`, achievement.name)}</span>
+                <span className="toast__description">{t(`achievements.${achievement.id}.description`, achievement.description)}</span>
             </div>
 
             <div className="toast__rewards">
@@ -68,6 +70,7 @@ interface LevelUpToastProps {
  * Toast de level up
  */
 function LevelUpToast({ level, onClose }: LevelUpToastProps) {
+    const { t } = useTranslation('gamification');
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
@@ -93,9 +96,9 @@ function LevelUpToast({ level, onClose }: LevelUpToastProps) {
             <div className="toast__icon toast__icon--levelup">{level.icon}</div>
 
             <div className="toast__content">
-                <span className="toast__label">⬆️ LEVEL UP!</span>
-                <span className="toast__title">Nível {level.level}</span>
-                <span className="toast__description">{level.name}</span>
+                <span className="toast__label">⬆️ {t('toast.levelUp', 'LEVEL UP!')}</span>
+                <span className="toast__title">{t('toast.level', { defaultValue: 'Nível {{level}}',  level: level.level })}</span>
+                <span className="toast__description">{t(`levels.${level.level}.name`, level.name)}</span>
             </div>
 
             {level.rewards && (

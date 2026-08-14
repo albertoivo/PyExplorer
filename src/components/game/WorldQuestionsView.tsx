@@ -1,5 +1,6 @@
 import type { World, QuestionDocument, UserProgress } from '../../types/question';
 import { QuestionCard } from './QuestionCard';
+import { useTranslation } from 'react-i18next';
 
 export interface WorldQuestionsViewProps {
     selectedWorld: World;
@@ -26,15 +27,16 @@ export function WorldQuestionsView({
     onBackToMap,
     onStartQuestion,
 }: WorldQuestionsViewProps) {
+    const { t } = useTranslation('game');
     return (
         <div className="world-questions">
             <div className="world-questions__header">
                 <button className="back-button" onClick={onBackToMap}>
-                    ← Voltar ao Mapa
+                    ← {t('backToMap', 'Voltar ao Mapa')}
                 </button>
                 <h2 className="world-questions__title">{worldName}</h2>
                 <div className="world-questions__stats">
-                    {completedCount} / {totalCount} completadas
+                    {t('completedStats', { defaultValue: '{{completed}} / {{total}} completadas',  completed: completedCount, total: totalCount })}
                 </div>
             </div>
 
@@ -64,8 +66,8 @@ export function WorldQuestionsView({
             {sortedQuestions.length === 0 && (
                 <div className="world-questions__empty">
                     <span className="world-questions__empty-icon">📭</span>
-                    <p>Este mundo ainda não tem questões.</p>
-                    <p>Em breve adicionaremos conteúdo aqui!</p>
+                    <p>{t('worldEmptyTitle', 'Este mundo ainda não tem questões.')}</p>
+                    <p>{t('worldEmptyDesc', 'Em breve adicionaremos conteúdo aqui!')}</p>
                 </div>
             )}
         </div>

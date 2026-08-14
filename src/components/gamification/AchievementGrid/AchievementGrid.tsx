@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Achievement, AchievementCategory, AchievementRarity } from '../../../types/gamification';
+import { useTranslation } from 'react-i18next';
 import './AchievementGrid.css';
 
 interface AchievementGridProps {
@@ -8,14 +9,14 @@ interface AchievementGridProps {
     onAchievementClick?: (achievement: Achievement) => void;
 }
 
-const CATEGORY_LABELS: Record<AchievementCategory, { name: string; icon: string }> = {
-    learning: { name: 'Aprendizado', icon: '📚' },
-    streak: { name: 'Consistência', icon: '🔥' },
-    mastery: { name: 'Maestria', icon: '⭐' },
-    social: { name: 'Social', icon: '👥' },
-    special: { name: 'Especial', icon: '🎁' },
-    boss: { name: 'Chefões', icon: '⚔️' },
-    collection: { name: 'Coleção', icon: '💎' },
+const CATEGORY_KEYS: Record<AchievementCategory, { key: string; icon: string }> = {
+    learning: { key: 'achievementGrid.categories.learning', icon: '📚' },
+    streak: { key: 'achievementGrid.categories.streak', icon: '🔥' },
+    mastery: { key: 'achievementGrid.categories.mastery', icon: '⭐' },
+    social: { key: 'achievementGrid.categories.social', icon: '👥' },
+    special: { key: 'achievementGrid.categories.special', icon: '🎁' },
+    boss: { key: 'achievementGrid.categories.boss', icon: '⚔️' },
+    collection: { key: 'achievementGrid.categories.collection', icon: '💎' },
 };
 
 const RARITY_COLORS: Record<AchievementRarity, string> = {
@@ -29,10 +30,11 @@ const RARITY_COLORS: Record<AchievementRarity, string> = {
  * Grid de conquistas com filtro por categoria
  */
 export function AchievementGrid({ achievements, unlockedIds, onAchievementClick }: AchievementGridProps) {
+    const { t } = useTranslation('gamification');
     const [selectedCategory, setSelectedCategory] = useState<AchievementCategory | 'all'>('all');
     const [showUnlockedOnly, setShowUnlockedOnly] = useState(false);
 
-    const categories = Object.keys(CATEGORY_LABELS) as AchievementCategory[];
+    const categories = Object.keys(CATEGORY_KEYS) as AchievementCategory[];
 
     const filteredAchievements = achievements.filter(a => {
         if (selectedCategory !== 'all' && a.category !== selectedCategory) return false;
@@ -48,7 +50,7 @@ export function AchievementGrid({ achievements, unlockedIds, onAchievementClick 
         <div className="achievement-grid">
             <div className="achievement-grid__header">
                 <h3 className="achievement-grid__title">
-                    🏆 Conquistas
+                    🏆 {t('achievementGrid.title', 'Conquistas')}
                     <span className="achievement-grid__count">{unlockedCount}/{totalVisible}</span>
                 </h3>
 
@@ -57,15 +59,16 @@ export function AchievementGrid({ achievements, unlockedIds, onAchievementClick 
                         className={`achievement-grid__filter ${selectedCategory === 'all' ? 'achievement-grid__filter--active' : ''}`}
                         onClick={() => setSelectedCategory('all')}
                     >
-                        Todas
+                        {t('achievementGrid.filterAll', 'Todas')}
                     </button>
                     {categories.map(cat => (
                         <button
                             key={cat}
                             className={`achievement-grid__filter ${selectedCategory === cat ? 'achievement-grid__filter--active' : ''}`}
                             onClick={() => setSelectedCategory(cat)}
+                            title={t(CATEGORY_KEYS[cat].key)}
                         >
-                            {CATEGORY_LABELS[cat].icon}
+                            {CATEGORY_KEYS[cat].icon}
                         </button>
                     ))}
                 </div>
@@ -76,7 +79,7 @@ export function AchievementGrid({ achievements, unlockedIds, onAchievementClick 
                         checked={showUnlockedOnly}
                         onChange={(e) => setShowUnlockedOnly(e.target.checked)}
                     />
-                    <span>Só desbloqueadas</span>
+                    <span>{t('achievementGrid.unlockedOnly', 'Só desbloqueadas')}</span>
                 </label>
             </div>
 
@@ -94,9 +97,9 @@ export function AchievementGrid({ achievements, unlockedIds, onAchievementClick 
                                 {isUnlocked ? achievement.icon : '🔒'}
                             </div>
                             <div className="achievement-card__info">
-                                <span className="achievement-card__name">{achievement.name}</span>
+                                <span className="achievement-card__name">{t(`achievements.${achievement.id}.name`, achievement.name)}</span>
                                 <span className="achievement-card__description">
-                                    {isUnlocked ? achievement.description : achievement.condition}
+                                    {isUnlocked ? t(`achievements.${achievement.id}.description`, achievement.description) : t(`achievements.${achievement.id}.condition`, achievement.condition)}
                                 </span>
                             </div>
                             <div className="achievement-card__rarity">
@@ -115,7 +118,7 @@ export function AchievementGrid({ achievements, unlockedIds, onAchievementClick 
             {filteredAchievements.length === 0 && (
                 <div className="achievement-grid__empty">
                     <span className="achievement-grid__empty-icon">🎯</span>
-                    <p>Nenhuma conquista encontrada</p>
+                    <p>{t('achievementGrid.empty', 'Nenhuma conquista encontrada')}</p>
                 </div>
             )}
         </div>

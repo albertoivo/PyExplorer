@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom'
 import { vi } from 'vitest'
+import '../i18n'
 
 // Mock queryCommandSupported for Monaco editor compatibility in jsdom
 if (typeof document !== 'undefined') {

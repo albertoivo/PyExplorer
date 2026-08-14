@@ -1,0 +1,28 @@
+{
+    "seoTitle": "About PyExplorer",
+    "seoDescription": "Learn about PyExplorer: a free game made in Brazil to teach Python to kids.",
+    "breadcrumb": "About",
+    "heroTitle": "About PyExplorer",
+    "heroSubtitle": "Our mission is to democratize programming education for kids around the world 🌍",
+    "greeting": "👋 Hello, Explorer!",
+    "story1": "<strong>PyExplorer</strong> was born from a simple dream: to make learning programming as fun as playing video games. We believe code is the superpower of the 21st century, and every kid should have the chance to unlock it.",
+    "story2": "Many tech courses are expensive, complex or only in English. PyExplorer was created to change that. We are 100% free and focused on the student experience.",
+    "values": {
+        "freeTitle": "100% Free",
+        "freeDesc": "Quality education should have no price barrier. PyExplorer is and always will be free.",
+        "madeInBrazilTitle": "Made in Brazil",
+        "madeInBrazilDesc": "Content crafted with care, originally created in Portuguese and now available in multiple languages.",
+        "safeTitle": "Safe & Private",
+        "safeDesc": "We don't sell data. We don't show intrusive ads. A safe environment to learn.",
+        "funTitle": "Learn by Playing",
+        "funDesc": "No boring classes. Here you learn by solving challenges and earning rewards."
+    },
+    "techTitle": "How Does It Work? 🛠️",
+    "tech1": "<strong>PyExplorer</strong> uses an amazing technology called <strong>WebAssembly (Pyodide)</strong>. This means Python code runs directly in your browser, without installing anything!",
+    "tech2": "Just access the site, type your code and see the result instantly. Works on computers, tablets and even phones.",
+    "supportTitle": "Like PyExplorer? 💜",
+    "supportDesc": "Your support helps us keep the servers running and create new free content.",
+    "ctaTitle": "Be Part of This Story",
+    "ctaDesc": "Thousands of kids have already written their first line of code with us.",
+    "ctaButton": "Start My Journey 🚀"
+}

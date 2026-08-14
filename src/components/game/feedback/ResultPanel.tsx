@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import './ResultPanel.css';
 
 interface ResultPanelProps {
@@ -33,6 +34,7 @@ export function ResultPanel({
     onNext,
     showExplanation = true,
 }: ResultPanelProps) {
+    const { t } = useTranslation('game');
     const [showingExplanation, setShowingExplanation] = React.useState(false);
     const panelRef = useRef<HTMLDivElement>(null);
 
@@ -48,7 +50,7 @@ export function ResultPanel({
             ref={panelRef}
             tabIndex={-1}
             role="alert"
-            aria-label={success ? "Resultado: Sucesso" : "Resultado: Tente novamente"}
+            aria-label={success ? t('resultPanel.ariaSuccess', 'Resultado: Sucesso') : t('resultPanel.ariaError', 'Resultado: Tente novamente')}
             className={`result-panel ${success ? 'result-panel--success' : 'result-panel--error'}`}
             style={{ outline: 'none' }} // Remove outline visual mas mantém foco programático
         >
@@ -57,7 +59,7 @@ export function ResultPanel({
             </div>
 
             <h3 className="result-panel__title">
-                {title || (success ? 'Parabéns!' : 'Quase lá!')}
+                {title || (success ? t('resultPanel.defaultSuccessTitle', 'Parabéns!') : t('resultPanel.defaultErrorTitle', 'Quase lá!'))}
             </h3>
 
             <p className="result-panel__message">{message}</p>
@@ -65,7 +67,7 @@ export function ResultPanel({
             {success && points !== undefined && points > 0 && (
                 <div className="result-panel__points">
                     <span className="result-panel__points-icon" aria-hidden="true">⭐</span>
-                    <span className="result-panel__points-value">+{points} pontos</span>
+                    <span className="result-panel__points-value">+{points} {t('resultPanel.points', 'pontos')}</span>
                 </div>
             )}
 
@@ -76,7 +78,7 @@ export function ResultPanel({
                         onClick={() => setShowingExplanation(!showingExplanation)}
                         aria-expanded={showingExplanation}
                     >
-                        💡 {showingExplanation ? 'Ocultar explicação' : 'Ver explicação'}
+                        💡 {showingExplanation ? t('resultPanel.hideExplanation', 'Ocultar explicação') : t('resultPanel.showExplanation', 'Ver explicação')}
                     </button>
 
                     {showingExplanation && (
@@ -90,13 +92,13 @@ export function ResultPanel({
             <div className="result-panel__actions">
                 {!success && onRetry && (
                     <button className="result-panel__btn result-panel__btn--retry" onClick={onRetry}>
-                        🔄 Tentar Novamente
+                        🔄 {t('resultPanel.retry', 'Tentar Novamente')}
                     </button>
                 )}
 
                 {onNext && (
                     <button className="result-panel__btn result-panel__btn--next" onClick={onNext}>
-                        {success ? 'Próxima Questão →' : 'Pular Questão →'}
+                        {success ? t('resultPanel.nextQuestion', 'Próxima Questão →') : t('resultPanel.skipQuestion', 'Pular Questão →')}
                     </button>
                 )}
             </div>

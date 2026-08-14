@@ -1,0 +1,173 @@
+{
+    "seoTitle": "Rewards and Achievements",
+    "seoDescription": "Track your progress, level, achievements and buy items in the PyExplorer shop.",
+    "breadcrumb": "Rewards",
+    "pageTitle": "🏆 Rewards & Achievements",
+    "tabs": {
+        "achievements": "Achievements",
+        "missions": "Missions",
+        "shop": "Shop",
+        "overview": "Overview",
+        "ranking": "Ranking"
+    },
+    "achievements": {
+        "title": "Achievements",
+        "unlocked": "Unlocked",
+        "locked": "Locked",
+        "keepPlaying": "Keep playing to unlock!",
+        "points": "points",
+        "total": "Total Achievements:",
+        "recent": "Recent Achievements",
+        "empty": "No achievements unlocked yet",
+        "seeAll": "View All",
+        "filterAll": "All",
+        "unlockedOnly": "Unlocked"
+    },
+    "missions": {
+        "title": "Active Missions",
+        "reward": "Reward:",
+        "completed": "Completed!",
+        "progress": "Progress:",
+        "today": "Today's Missions",
+        "seeAll": "View All Missions",
+        "daily": "Daily",
+        "dailyMissions": "Daily Missions",
+        "highDifficulty": "High Difficulty",
+        "master": "Master",
+        "masterChallenges": "Master Challenges",
+        "renewsMidnight": "Renews at midnight",
+        "renewsSunday": "Renews on Sunday",
+        "secretChallenge": "Secret Challenge",
+        "secretChallengeDesc": "Complete hidden objectives to reveal!",
+        "weekly": "Weekly",
+        "weeklyMissions": "Weekly Missions"
+    },
+    "shop": {
+        "title": "Avatar Shop",
+        "diamondsAvailable": "Available diamonds:",
+        "equipped": "Equipped",
+        "equip": "Equip",
+        "buy": "Buy for",
+        "notEnoughDiamonds": "Not enough diamonds"
+    },
+    "levelBadge": {
+        "level": "Level {{level}}",
+        "xp": "XP",
+        "max": "MAX"
+    },
+    "powerUpBar": {
+        "ariaActive": "{{name}} activated",
+        "ariaBuy": "Buy {{name}} for {{price}} stars",
+        "ariaUse": "Use {{name}}",
+        "ariaUseAvailable": "Use {{name}}. {{quantity}} available.",
+        "btnActive": "Active",
+        "btnUse": "Use",
+        "buyAndUse": "Buy and Use",
+        "buyFor": "Buy for {{price}} stars",
+        "cancel": "Cancel",
+        "compactBuyTitle": "{{desc}} (Buy for {{price}}⭐)",
+        "confirmBuyTitle": "Buy {{name}}?",
+        "cost": "Cost: ⭐ {{price}} | Balance: ⭐ {{balance}}",
+        "dailyLimit": "Daily max: {{left}}/{{max}} remaining",
+        "insufficientStars": "Insufficient Stars",
+        "limitReached": "Daily limit reached"
+    },
+    "stats": {
+        "score": "Score",
+        "achievements": "Achievements",
+        "missions": "Missions",
+        "streak": "Streak",
+        "completed": "Completed",
+        "attempts": "Attempts"
+    },
+    "powerups": {
+        "title": "Available Power-Ups"
+    },
+    "avatarShop": {
+        "buy": "Buy for {{cost}} 💎",
+        "empty": "No items available in the shop currently",
+        "equipBtn": "Equip",
+        "equippedBadge": "Equipped",
+        "equippedBtn": "Equipped",
+        "free": "Free",
+        "getFree": "Get Free",
+        "levelReq": "Requires Level {{level}}",
+        "limited": "Limited Edition",
+        "title": "Avatar & Frame Shop"
+    },
+    "leaderboard": {
+        "beFirst": "Be the first to lead the leaderboard!",
+        "empty": "Leaderboard empty currently",
+        "errorLoad": "Error loading leaderboard",
+        "level": "Level {{level}}",
+        "loading": "Loading leaderboard...",
+        "player": "Player",
+        "title": "Ranking"
+    },
+    "petHabitat": {
+        "btnFeed": "Feed Pet",
+        "btnHeat": "Warm Egg",
+        "eating": "Feeding...",
+        "eggFull": "Egg fully warmed!",
+        "energyTitle": "Pet Energy",
+        "feedInstruction": "Feed your pet to earn extra XP!",
+        "guestButton": "Log in to Care",
+        "guestTooltip": "Create an account to hatch and feed your pet!",
+        "heatInstruction": "Warm the egg to hatch your new companion!",
+        "heatTitle": "Egg Warmth",
+        "heating": "Warming...",
+        "noStarsFull": "You need stars to feed!",
+        "petFull": "Pet fully fed!",
+        "title": "Pet Habitat",
+        "titleFeed": "Feed your Pet",
+        "titleHeat": "Warm the Egg",
+        "xpTooltip": "Happy pets grant XP bonuses on all missions!"
+    },
+    "evolution": {
+        "awesome": "Awesome!",
+        "copied": "Copied to clipboard!",
+        "description": "Your companion evolved to a new stage!",
+        "share": "Share Achievement",
+        "shareText": "My pet evolved in PyExplorer! Come learn Python playing with me!",
+        "shareTitle": "Pet Evolution!",
+        "title": "Your Pet Evolved!",
+        "type": "Evolution Stage"
+    },
+    "streak": {
+        "bonus": "Streak Bonus",
+        "daysInRow": "{{count}} days in a row",
+        "record": "Record: {{count}} days"
+    },
+    "toast": {
+        "achievementUnlocked": "New Achievement Unlocked!",
+        "level": "Level",
+        "levelUp": "Leveled Up!"
+    },
+    "profile": {
+        "guestMode": "Guest Mode",
+        "guestWarningText": "You are using a guest account. Create a free account to save your progress to the cloud!",
+        "guestWarningTitle": "Warning: Local Progress",
+        "level": "Level {{level}}",
+        "loginRequired": "Log in to view your complete profile.",
+        "maxLevel": "Max Level Reached!",
+        "seoDescription": "View your PyExplorer profile, progress statistics, achievements, and Python leveling.",
+        "seoTitle": "Your Profile - PyExplorer",
+        "worldsProgress": "Worlds Progress",
+        "xpToNextLevel": "{{current}} / {{next}} XP to next level"
+    },
+    "achievementGrid": {
+        "title": "Achievements",
+        "filterAll": "All",
+        "unlockedOnly": "Unlocked only",
+        "empty": "No achievements found",
+        "categories": {
+            "learning": "Learning",
+            "streak": "Streak",
+            "mastery": "Mastery",
+            "social": "Social",
+            "special": "Special",
+            "boss": "Boss",
+            "collection": "Collection"
+        }
+    }
+}

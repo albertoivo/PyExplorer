@@ -7,12 +7,14 @@ import { GoogleSignInButton } from '../components/common/GoogleSignInButton';
 import { GuestModeButton } from '../components/common/GuestModeButton';
 import { AuthCard } from '../components/auth/AuthCard';
 import { AuthAlert } from '../components/common/AuthAlert';
+import { useTranslation } from 'react-i18next';
 import './AuthPages.css';
 
 /**
  * Página de cadastro
  */
 export function RegisterPage() {
+    const { t } = useTranslation('auth');
     const [displayName, setDisplayName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -40,17 +42,17 @@ export function RegisterPage() {
 
         // Validações
         if (trimmedName.length < 2) {
-            setLocalError('O apelido deve ter pelo menos 2 caracteres');
+            setLocalError(t('register.errorNameShort'));
             return;
         }
 
         if (password !== confirmPassword) {
-            setLocalError('As senhas não conferem');
+            setLocalError(t('register.errorPasswordMismatch'));
             return;
         }
 
         if (password.length < 6) {
-            setLocalError('A senha deve ter pelo menos 6 caracteres');
+            setLocalError(t('register.errorPasswordShort'));
             return;
         }
 
@@ -83,17 +85,17 @@ export function RegisterPage() {
     return (
         <div className="auth-page">
             <SEO
-                title="Criar Conta Grátis"
-                description="Crie sua conta gratuita no PyExplorer e comece sua aventura de aprender Python jogando!"
+                title={t('register.seoTitle')}
+                description={t('register.seoDescription')}
                 breadcrumbs={[
-                    { name: "Início", path: "/" },
-                    { name: "Criar Conta", path: "/register" }
+                    { name: t('common:nav.home', "Início"), path: "/" },
+                    { name: t('register.breadcrumb'), path: "/register" }
                 ]}
             />
             <AuthCard
                 icon="🎮"
-                title="Criar sua Conta"
-                subtitle="Junte-se à aventura de aprender Python!"
+                title={t('register.title')}
+                subtitle={t('register.subtitle')}
             >
                 {(error || localError) && (
                     <AuthAlert type="error" message={error || localError} />
@@ -102,24 +104,24 @@ export function RegisterPage() {
                 <GoogleSignInButton
                     onClick={handleGoogleLogin}
                     disabled={anyLoading}
-                    label={isGoogleLoading ? '⏳ Conectando...' : 'Inscrever-se com Google'}
+                    label={isGoogleLoading ? t('register.googleLoading') : t('register.googleButton')}
                 />
 
                 <div className="auth-divider">
-                    <span>ou use seu email</span>
+                    <span>{t('common:orUseEmail', 'ou use seu email')}</span>
                 </div>
 
                 <form onSubmit={handleSubmit} className="auth-form">
                     <div className="form-group">
                         <label htmlFor="displayName" className="form-label">
-                            👤 Como podemos te chamar?
+                            {t('register.nameLabel')}
                         </label>
                         <input
                             id="displayName"
                             type="text"
                             className="form-input"
-                            placeholder="Seu nome completo"
-                            aria-label="Seu nome completo"
+                            placeholder={t('register.namePlaceholder')}
+                            aria-label={t('register.namePlaceholder')}
                             value={displayName}
                             onChange={(e) => setDisplayName(e.target.value)}
                             required
@@ -131,13 +133,13 @@ export function RegisterPage() {
 
                     <div className="form-group">
                         <label htmlFor="email" className="form-label">
-                            📧 Email (pode ser dos pais)
+                            {t('register.emailLabel')}
                         </label>
                         <input
                             id="email"
                             type="email"
                             className="form-input"
-                            placeholder="email@exemplo.com"
+                            placeholder={t('register.emailPlaceholder')}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
@@ -147,11 +149,11 @@ export function RegisterPage() {
 
                     <div className="form-group">
                         <label htmlFor="password" className="form-label">
-                            🔑 Crie uma senha secreta
+                            {t('register.passwordLabel')}
                         </label>
                         <PasswordInput
                             id="password"
-                            placeholder="Mínimo 6 caracteres"
+                            placeholder={t('register.passwordPlaceholder')}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
@@ -162,11 +164,11 @@ export function RegisterPage() {
 
                     <div className="form-group">
                         <label htmlFor="confirmPassword" className="form-label">
-                            🔐 Confirme a senha
+                            {t('register.confirmLabel')}
                         </label>
                         <PasswordInput
                             id="confirmPassword"
-                            placeholder="Digite a senha novamente"
+                            placeholder={t('register.confirmPlaceholder')}
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             required
@@ -180,21 +182,21 @@ export function RegisterPage() {
                         className="auth-btn auth-btn--primary"
                         disabled={anyLoading}
                     >
-                        {isLoading ? '⏳ Criando...' : '🌟 Criar Conta'}
+                        {isLoading ? t('register.submitLoading') : t('register.submitButton')}
                     </button>
                 </form>
 
                 <div className="auth-divider">
-                    <span>ou</span>
+                    <span>{t('common:or', 'ou')}</span>
                 </div>
 
                 <GuestModeButton />
 
                 <div className="auth-links">
                     <p>
-                        Já tem uma conta?{' '}
+                        {t('register.hasAccount')}{' '}
                         <Link to="/login" className="auth-link">
-                            Fazer login
+                            {t('register.doLogin')}
                         </Link>
                     </p>
                 </div>

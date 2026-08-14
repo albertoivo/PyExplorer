@@ -1,4 +1,5 @@
 import type { LevelInfo } from '../../../types/gamification';
+import { useTranslation } from 'react-i18next';
 import './LevelBadge.css';
 
 interface LevelBadgeProps {
@@ -19,6 +20,7 @@ export function LevelBadge({
     size = 'medium',
     onClick,
 }: LevelBadgeProps) {
+    const { t } = useTranslation('gamification');
     const progress = level.maxXP === Infinity
         ? 100
         : ((currentXP - level.minXP) / (level.maxXP - level.minXP)) * 100;
@@ -33,8 +35,8 @@ export function LevelBadge({
         >
             <div className="level-badge__icon">{level.icon}</div>
             <div className="level-badge__info">
-                <span className="level-badge__level">Nível {level.level}</span>
-                <span className="level-badge__name">{level.name}</span>
+                <span className="level-badge__level">{t('levelBadge.level', { defaultValue: 'Nível {{level}}',  level: level.level })}</span>
+                <span className="level-badge__name">{t(`levels.${level.level}.name`, level.name)}</span>
             </div>
 
             {showProgress && (
@@ -46,7 +48,7 @@ export function LevelBadge({
                         />
                     </div>
                     <span className="level-badge__progress-text">
-                        {level.maxXP === Infinity ? 'MAX' : `${currentXP - level.minXP}/${level.maxXP - level.minXP} XP`}
+                        {level.maxXP === Infinity ? t('levelBadge.max', 'MAX') : `${currentXP - level.minXP}/${level.maxXP - level.minXP} XP`}
                     </span>
                 </div>
             )}

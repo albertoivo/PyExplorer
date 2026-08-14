@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import type { SagaInfo } from '../../data/worlds';
+import { useTranslation } from 'react-i18next';
 
 interface SagaBannerProps {
     saga: SagaInfo;
@@ -14,6 +15,7 @@ export const SagaBanner = memo(function SagaBanner({
     totalQuestions = 0,
     percentage = 0,
 }: SagaBannerProps) {
+    const { t } = useTranslation('game');
     return (
         <div
             className="saga-banner"
@@ -30,15 +32,15 @@ export const SagaBanner = memo(function SagaBanner({
             </div>
             <div className="saga-banner__content">
                 <div className="saga-banner__top">
-                    <span className="saga-banner__badge">{saga.badge}</span>
+                    <span className="saga-banner__badge">{t(`sagas.${saga.id}.badge`, saga.badge)}</span>
                     {totalQuestions > 0 && (
                         <span className="saga-banner__progress-chip">
-                            {completedQuestions}/{totalQuestions} Questões ({percentage.toFixed(0)}%)
+                            {completedQuestions}/{totalQuestions} {t('sagaBanner.questions', 'Questões')} ({percentage.toFixed(0)}%)
                         </span>
                     )}
                 </div>
-                <h3 className="saga-banner__title">{saga.title}</h3>
-                <p className="saga-banner__description">{saga.description}</p>
+                <h3 className="saga-banner__title">{t(`sagas.${saga.id}.title`, saga.title)}</h3>
+                <p className="saga-banner__description">{t(`sagas.${saga.id}.description`, saga.description)}</p>
 
                 {totalQuestions > 0 && (
                     <div className="saga-banner__progress-bar">

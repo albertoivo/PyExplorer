@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import './ProgressBar.css';
 
 interface ProgressBarProps {
@@ -30,6 +31,7 @@ export function ProgressBar({
     showPercentage = true,
     animated = true,
 }: ProgressBarProps) {
+    const { t } = useTranslation('game');
     const percentage = Math.min(100, Math.max(0, (current / max) * 100));
 
     return (
@@ -51,7 +53,7 @@ export function ProgressBar({
                 aria-valuenow={current}
                 aria-valuemin={0}
                 aria-valuemax={max}
-                aria-label={label || (showPercentage ? `${Math.round(percentage)}%` : 'Progresso')}
+                aria-label={label || (showPercentage ? `${Math.round(percentage)}%` : t('progressBar.ariaLabel', 'Progresso'))}
             >
                 <div
                     className={`progress-bar__fill progress-bar__fill--${variant} ${animated ? 'progress-bar__fill--animated' : ''}`}
@@ -82,6 +84,7 @@ export function WorldProgressBar({
     completed,
     total,
 }: WorldProgressBarProps) {
+    const { t } = useTranslation('game');
     const percentage = total > 0 ? (completed / total) * 100 : 0;
     const isComplete = completed === total;
 
@@ -102,7 +105,7 @@ export function WorldProgressBar({
                     aria-valuenow={completed}
                     aria-valuemin={0}
                     aria-valuemax={total}
-                    aria-label={`Progresso em ${worldName}`}
+                    aria-label={t('progressBar.worldAriaLabel', { defaultValue: 'Progresso em {{worldName}}',  worldName })}
                 >
                     <div
                         className={`world-progress__fill ${isComplete ? 'world-progress__fill--complete' : ''}`}

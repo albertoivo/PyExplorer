@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react';
 import { memo } from 'react';
 import type { World } from '../../types/question';
 import type { WorldInfo } from '../../data/worlds';
+import { useTranslation } from 'react-i18next';
 
 interface WorldCardProps {
     world: WorldInfo;
@@ -34,6 +35,7 @@ export const WorldCard = memo(function WorldCard({
     onShowTutorial,
     onShowFlashcards
 }: WorldCardProps) {
+    const { t } = useTranslation('game');
     return (
         <div className="world-card-wrapper">
             <button
@@ -41,7 +43,12 @@ export const WorldCard = memo(function WorldCard({
                 style={{ '--world-color': world.color } as CSSProperties}
                 onClick={() => onClick(world)}
                 disabled={!unlocked}
-                aria-label={`Mundo ${index + 1}: ${world.name}. ${unlocked ? (isComplete ? 'Completo' : 'Disponível') : 'Bloqueado'}.${unlocked && total > 0 ? ` Progresso: ${percentage.toFixed(0)}%.` : ''}`}
+                aria-label={t('worldCard.ariaLabel', { defaultValue: 'Mundo {{num}}: {{name}}. {{status}}.{{progress}}', 
+                    num: index + 1,
+                    name: t(`worlds.${world.id}.name`, world.name),
+                    status: unlocked ? (isComplete ? t('status.completed', 'Completo') : t('status.available', 'Disponível')) : t('status.locked', 'Bloqueado'),
+                    progress: unlocked && total > 0 ? t('worldCard.progressPrefix', { defaultValue: ' Progresso: {{pct}}%.',  pct: percentage.toFixed(0) }) : ''
+                })}
             >
                 <div className="world-card__top-bar">
                     <span className="world-card__number" aria-hidden="true">#{index + 1}</span>
@@ -54,8 +61,8 @@ export const WorldCard = memo(function WorldCard({
                     {unlocked ? world.icon : '🔒'}
                 </div>
 
-                <h3 className="world-card__name">{world.name}</h3>
-                <p className="world-card__description">{world.description}</p>
+                <h3 className="world-card__name">{t(`worlds.${world.id}.name`, world.name)}</h3>
+                <p className="world-card__description">{t(`worlds.${world.id}.description`, world.description)}</p>
 
                 {unlocked && total > 0 && (
                     <div className="world-card__progress">
@@ -73,25 +80,25 @@ export const WorldCard = memo(function WorldCard({
 
                 {!unlocked && world.requiredScore && (
                     <div className="world-card__requirement">
-                        🔒 Requer {world.requiredScore} ⚡ pts
+                        🔒 {t('worldCard.requirement', { defaultValue: 'Requer {{score}} ⚡ pts',  score: world.requiredScore })}
                     </div>
                 )}
 
                 {isComplete && (
-                    <div className="world-card__badge" title="Mundo 100% Concluído!">🏆</div>
+                    <div className="world-card__badge" title={t('worldCard.completedTooltip', 'Mundo 100% Concluído!')}>🏆</div>
                 )}
 
                 {/* Indicador de Boss - só falta 1 para completar */}
                 {unlocked && !isComplete && total > 0 && completed === total - 1 && (
                     <div className="world-card__boss-badge">
-                        👹 BOSS BATTLE!
+                        👹 {t('worldCard.bossBattle', 'BOSS BATTLE!')}
                     </div>
                 )}
 
                 {/* Indicador de tutorial novo */}
                 {unlocked && hasTutorial && !viewedTutorial && (
                     <div className="world-card__tutorial-badge">
-                        📖 Nova Lição!
+                        📖 {t('worldCard.newLesson', 'Nova Lição!')}
                     </div>
                 )}
             </button>
@@ -106,8 +113,8 @@ export const WorldCard = memo(function WorldCard({
                                 e.stopPropagation();
                                 onShowTutorial(world.id);
                             }}
-                            title="Ver Lição Explicativa"
-                            aria-label="Ver Lição Explicativa"
+                            title={t('worldCard.viewLesson', 'Ver Lição Explicativa')}
+                            aria-label={t('worldCard.viewLesson', 'Ver Lição Explicativa')}
                         >
                             <span aria-hidden="true">📖</span>
                         </button>
@@ -118,8 +125,8 @@ export const WorldCard = memo(function WorldCard({
                             e.stopPropagation();
                             onShowFlashcards(world.id);
                         }}
-                        title="Revisar com Flashcards"
-                        aria-label="Revisar com Flashcards"
+                        title={t('worldCard.reviewFlashcards', 'Revisar com Flashcards')}
+                        aria-label={t('worldCard.reviewFlashcards', 'Revisar com Flashcards')}
                     >
                         <span aria-hidden="true">📚</span>
                     </button>

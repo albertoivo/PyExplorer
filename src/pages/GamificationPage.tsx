@@ -12,6 +12,7 @@ import {
     PowerUpBar,
     Leaderboard,
 } from '../components/gamification';
+import { useTranslation } from 'react-i18next';
 import './GamificationPage.css';
 
 type GamificationTab = 'overview' | 'achievements' | 'missions' | 'shop' | 'ranking';
@@ -20,6 +21,7 @@ type GamificationTab = 'overview' | 'achievements' | 'missions' | 'shop' | 'rank
  * Página de gamificação
  */
 export function GamificationPage() {
+    const { t } = useTranslation('gamification');
     const { userData } = useAuth();
     const {
         currentLevel,
@@ -43,18 +45,18 @@ export function GamificationPage() {
     const [activeTab, setActiveTab] = useState<GamificationTab>('overview');
 
     const tabs: { id: GamificationTab; name: string; icon: string }[] = [
-        { id: 'overview', name: 'Visão Geral', icon: '📊' },
-        { id: 'achievements', name: 'Conquistas', icon: '🏅' },
-        { id: 'missions', name: 'Missões', icon: '📋' },
-        { id: 'shop', name: 'Loja', icon: '🛒' },
-        { id: 'ranking', name: 'Ranking', icon: '👑' },
+        { id: 'overview', name: t('tabs.overview', 'Visão Geral'), icon: '📊' },
+        { id: 'achievements', name: t('tabs.achievements', 'Conquistas'), icon: '🏅' },
+        { id: 'missions', name: t('tabs.missions', 'Missões'), icon: '📋' },
+        { id: 'shop', name: t('tabs.shop', 'Loja'), icon: '🛒' },
+        { id: 'ranking', name: t('tabs.ranking', 'Ranking'), icon: '👑' },
     ];
 
     return (
         <div className="gamification-page">
             <SEO
-                title="Recompensas"
-                description="Conquistas, missões diárias, loja de avatares e ranking do PyExplorer!"
+                title={t('seoTitle')}
+                description={t('seoDescription')}
                 noindex
             />
 
@@ -93,7 +95,7 @@ export function GamificationPage() {
                         })()}
                     </div>
                     <div className="gamification-page__user-info">
-                        <h1 className="gamification-page__name">{userData?.displayName || 'Jogador'}</h1>
+                        <h1 className="gamification-page__name">{userData?.displayName || t('common:player')}</h1>
                         <LevelBadge level={currentLevel} currentXP={gamification.level.totalXP} showProgress />
                     </div>
                 </div>
@@ -102,40 +104,40 @@ export function GamificationPage() {
                     <div
                         className="gamification-page__stat clickable"
                         onClick={() => setActiveTab('overview')}
-                        title="Ver Visão Geral"
+                        title={t('tabs.overview')}
                     >
                         <span className="gamification-page__stat-icon">⚡</span>
                         <span className="gamification-page__stat-value">{userData?.totalScore || 0}</span>
-                        <span className="gamification-page__stat-label">Pontos</span>
+                        <span className="gamification-page__stat-label">{t('stats.score')}</span>
                     </div>
                     <div
                         className="gamification-page__stat clickable"
                         onClick={() => setActiveTab('achievements')}
-                        title="Ver Conquistas"
+                        title={t('tabs.achievements')}
                     >
                         <span className="gamification-page__stat-icon">🏅</span>
                         <span className="gamification-page__stat-value">{unlockedAchievements.length}</span>
-                        <span className="gamification-page__stat-label">Conquistas</span>
+                        <span className="gamification-page__stat-label">{t('stats.achievements')}</span>
                     </div>
                     <div
                         className="gamification-page__stat clickable"
                         onClick={() => setActiveTab('missions')}
-                        title="Ver Missões"
+                        title={t('tabs.missions')}
                     >
                         <span className="gamification-page__stat-icon">📋</span>
                         <span className="gamification-page__stat-value">
                             {activeMissions.filter(m => m.status === 'active').length}
                         </span>
-                        <span className="gamification-page__stat-label">Missões</span>
+                        <span className="gamification-page__stat-label">{t('stats.missions')}</span>
                     </div>
                     <div
                         className="gamification-page__stat clickable"
                         onClick={() => setActiveTab('overview')} // Streak is in Overview
-                        title="Ver Streak"
+                        title={t('tabs.overview')}
                     >
                         <span className="gamification-page__stat-icon">🔥</span>
                         <span className="gamification-page__stat-value">{streak.currentStreak}</span>
-                        <span className="gamification-page__stat-label">Streak</span>
+                        <span className="gamification-page__stat-label">{t('stats.streak')}</span>
                     </div>
                 </div>
             </header>
@@ -163,7 +165,7 @@ export function GamificationPage() {
                         </div>
 
                         <div className="gamification-page__section">
-                            <h3 className="gamification-page__section-title">⚡ Power-ups</h3>
+                            <h3 className="gamification-page__section-title">⚡ {t('powerups.title')}</h3>
                             <PowerUpBar
                                 userPowerUps={userPowerUps}
                                 userStars={userStars}
@@ -173,7 +175,7 @@ export function GamificationPage() {
                         </div>
 
                         <div className="gamification-page__section">
-                            <h3 className="gamification-page__section-title">📋 Missões de Hoje</h3>
+                            <h3 className="gamification-page__section-title">📋 {t('missions.today')}</h3>
                             <div className="gamification-page__mini-missions">
                                 {dailyMissions.slice(0, 2).map(mission => {
                                     const userMission = activeMissions.find(m => m.missionId === mission.id);
@@ -184,7 +186,7 @@ export function GamificationPage() {
                                         <div key={mission.id} className="mini-mission">
                                             <span className="mini-mission__icon">{mission.icon}</span>
                                             <div className="mini-mission__info">
-                                                <span className="mini-mission__title">{mission.title}</span>
+                                                <span className="mini-mission__title">{t(`missions.daily.${mission.id}.title`, mission.title)}</span>
                                                 <div className="mini-mission__bar">
                                                     <div className="mini-mission__fill" style={{ width: `${percentage}%` }} />
                                                 </div>
@@ -195,25 +197,25 @@ export function GamificationPage() {
                                 })}
                             </div>
                             <button className="gamification-page__see-all" onClick={() => setActiveTab('missions')}>
-                                Ver todas as missões →
+                                {t('missions.seeAll')} →
                             </button>
                         </div>
 
                         <div className="gamification-page__section">
-                            <h3 className="gamification-page__section-title">🏅 Últimas Conquistas</h3>
+                            <h3 className="gamification-page__section-title">🏅 {t('achievements.recent')}</h3>
                             <div className="gamification-page__recent-achievements">
                                 {unlockedAchievements.slice(0, 4).map(achievement => (
                                     <div key={achievement.id} className="recent-achievement">
                                         <span className="recent-achievement__icon">{achievement.icon}</span>
-                                        <span className="recent-achievement__name">{achievement.name}</span>
+                                        <span className="recent-achievement__name">{t(`achievements.items.${achievement.id}.name`, achievement.name)}</span>
                                     </div>
                                 ))}
                                 {unlockedAchievements.length === 0 && (
-                                    <p className="gamification-page__empty">Nenhuma conquista ainda. Continue jogando!</p>
+                                    <p className="gamification-page__empty">{t('achievements.empty')}</p>
                                 )}
                             </div>
                             <button className="gamification-page__see-all" onClick={() => setActiveTab('achievements')}>
-                                Ver todas as conquistas →
+                                {t('achievements.seeAll')} →
                             </button>
                         </div>
                     </div>

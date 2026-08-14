@@ -1,4 +1,5 @@
 import type { UserStreak } from '../../../types/gamification';
+import { useTranslation } from 'react-i18next';
 import './StreakDisplay.css';
 
 interface StreakDisplayProps {
@@ -10,6 +11,7 @@ interface StreakDisplayProps {
  * Exibe o streak diário do usuário
  */
 export function StreakDisplay({ streak, compact = false }: StreakDisplayProps) {
+    const { t } = useTranslation('gamification');
     const { currentStreak, longestStreak, activityHistory } = streak;
 
     // Gera os últimos 7 dias
@@ -39,14 +41,14 @@ export function StreakDisplay({ streak, compact = false }: StreakDisplayProps) {
                     <span className="streak-display__fire">🔥</span>
                     <div className="streak-display__info">
                         <span className="streak-display__count">{currentStreak}</span>
-                        <span className="streak-display__label">dias seguidos</span>
+                        <span className="streak-display__label">{t('streak.daysInRow', 'dias seguidos')}</span>
                     </div>
                 </div>
 
                 {longestStreak > currentStreak && (
                     <div className="streak-display__best">
                         <span className="streak-display__best-icon">🏆</span>
-                        <span className="streak-display__best-value">Recorde: {longestStreak}</span>
+                        <span className="streak-display__best-value">{t('streak.record', { defaultValue: 'Recorde: {{count}}',  count: longestStreak })}</span>
                     </div>
                 )}
             </div>
@@ -71,7 +73,7 @@ export function StreakDisplay({ streak, compact = false }: StreakDisplayProps) {
                 <div className="streak-display__bonus">
                     <span className="streak-display__bonus-icon">⚡</span>
                     <span className="streak-display__bonus-text">
-                        Bônus de streak: +{Math.min(currentStreak, 30)}% XP
+                        {t('streak.bonus', { defaultValue: 'Bônus de streak: +{{percent}}% XP',  percent: Math.min(currentStreak, 30) })}
                     </span>
                 </div>
             )}

@@ -4,15 +4,17 @@ import { useGamification } from '../context/GamificationContext';
 import { useQuestionsFirestore } from '../hooks/useQuestionsFirestore';
 import { WorldProgressBar } from '../components/game/feedback/ProgressBar';
 import { DataSeeder } from '../components/education/DataSeeder';
-import { SEO } from '../components/common/SEO';
 import { SHOP_ITEMS } from '../data/gamificationData';
 import { WORLDS } from '../data/worlds';
+import { useTranslation } from 'react-i18next';
+import { SEO } from '../components/common/SEO';
 import './ProfilePage.css';
 
 /**
  * Página de perfil do usuário
  */
 export function ProfilePage() {
+    const { t } = useTranslation('gamification');
     const { userData, isGuest } = useAuth();
     const { stats, allProgress } = useProgress();
     const { achievements, unlockedAchievements, gamification, currentLevel, levelProgress } = useGamification();
@@ -23,7 +25,7 @@ export function ProfilePage() {
             <div className="profile-page">
                 <div className="profile-empty">
                     <span>🔒</span>
-                    <p>Você precisa estar logado para ver seu perfil.</p>
+                    <p>{t('profile.loginRequired', 'Você precisa estar logado para ver seu perfil.')}</p>
                 </div>
             </div>
         );
@@ -34,7 +36,7 @@ export function ProfilePage() {
     const currentFrameId = gamification?.inventory?.equippedFrame;
     const currentAvatarItem = SHOP_ITEMS.find(a => a.id === currentAvatarId && a.type === 'avatar');
     const currentFrameItem = currentFrameId ? SHOP_ITEMS.find(f => f.id === currentFrameId) : null;
-    const displayAvatar = currentAvatarItem || SHOP_ITEMS.find(a => a.id === 'avatar_snake_green') || { icon: '🧑‍💻', name: 'Programador' };
+    const displayAvatar = currentAvatarItem || SHOP_ITEMS.find(a => a.id === 'avatar_snake_green') || { icon: '🧑‍💻', name: t('common:player', 'Programador') };
 
     // Calcula progresso por mundo usando o total real de questões
     const getWorldProgress = (worldId: string) => {
@@ -56,8 +58,8 @@ export function ProfilePage() {
     return (
         <div className="profile-page">
             <SEO
-                title="Meu Perfil"
-                description="Veja seu progresso, conquistas e estatísticas no PyExplorer!"
+                title={t('profile.seoTitle', 'Meu Perfil')}
+                description={t('profile.seoDescription', 'Veja seu progresso, conquistas e estatísticas no PyExplorer!')}
                 noindex
             />
             <div className="profile-container">
@@ -90,12 +92,12 @@ export function ProfilePage() {
 
                     {isGuest && (
                         <span className="profile-card__guest-badge">
-                            👤 Modo Convidado
+                            👤 {t('profile.guestMode', 'Modo Convidado')}
                         </span>
                     )}
 
                     <div className="profile-card__level">
-                        <span className="profile-card__level-badge">Nível {currentLevel.level} - {currentLevel.name}</span>
+                        <span className="profile-card__level-badge">{t('profile.level', 'Nível')} {currentLevel.level} - {t(`levels.${currentLevel.level}`, currentLevel.name)}</span>
                         <div className="profile-card__level-progress">
                             <div
                                 className="profile-card__level-bar"
@@ -104,30 +106,30 @@ export function ProfilePage() {
                         </div>
                         <span className="profile-card__level-text">
                             {currentLevel.maxXP === Infinity
-                                ? 'Nível máximo!'
-                                : `${currentLevel.maxXP - gamification.level.totalXP} XP para o próximo nível`}
+                                ? t('profile.maxLevel', 'Nível máximo!')
+                                : t('profile.xpToNextLevel', { defaultValue: '{{xp}} XP para o próximo nível',  xp: currentLevel.maxXP - gamification.level.totalXP })}
                         </span>
                     </div>
 
                     <div className="profile-card__stats">
                         <div className="stat-item">
                             <span className="stat-item__value">⚡ {userData.totalScore}</span>
-                            <span className="stat-item__label">Pontos</span>
+                            <span className="stat-item__label">{t('stats.score')}</span>
                         </div>
                         <div className="stat-item">
                             <span className="stat-item__value">✅ {stats.completed}</span>
-                            <span className="stat-item__label">Completas</span>
+                            <span className="stat-item__label">{t('stats.completed')}</span>
                         </div>
                         <div className="stat-item">
                             <span className="stat-item__value">🎯 {stats.totalAttempts}</span>
-                            <span className="stat-item__label">Tentativas</span>
+                            <span className="stat-item__label">{t('stats.attempts')}</span>
                         </div>
                     </div>
                 </div>
 
                 {/* Progresso por Mundo */}
                 <div className="profile-section">
-                    <h2 className="profile-section__title">🌍 Progresso nos Mundos</h2>
+                    <h2 className="profile-section__title">🌍 {t('profile.worldsProgress', 'Progresso nos Mundos')}</h2>
                     <div className="profile-worlds">
                         {WORLDS.map(world => (
                             <WorldProgressBar
@@ -143,7 +145,7 @@ export function ProfilePage() {
 
                 {/* Conquistas (Dinâmico) */}
                 <div className="profile-section">
-                    <h2 className="profile-section__title">🏅 Conquistas</h2>
+                    <h2 className="profile-section__title">🏅 {t('tabs.achievements', 'Conquistas')}</h2>
                     <div className="profile-achievements">
                         {achievements.map((achievement) => {
                             const isUnlocked = unlockedAchievements.some(u => u.id === achievement.id);
@@ -153,8 +155,8 @@ export function ProfilePage() {
                             return (
                                 <div key={achievement.id} className={`achievement ${isUnlocked ? 'achievement--unlocked' : ''} `}>
                                     <span className="achievement__icon">{achievement.icon}</span>
-                                    <span className="achievement__name">{achievement.name}</span>
-                                    <span className="achievement__desc">{achievement.description}</span>
+                                    <span className="achievement__name">{t(`achievements.items.${achievement.id}.name`, achievement.name)}</span>
+                                    <span className="achievement__desc">{t(`achievements.items.${achievement.id}.description`, achievement.description)}</span>
                                     {isUnlocked && <span className="achievement__check">✅</span>}
                                 </div>
                             );
@@ -167,10 +169,9 @@ export function ProfilePage() {
                     <div className="profile-guest-warning">
                         <span className="profile-guest-warning__icon">⚠️</span>
                         <div>
-                            <p className="profile-guest-warning__title">Você está jogando como convidado</p>
+                            <p className="profile-guest-warning__title">{t('profile.guestWarningTitle', 'Você está jogando como convidado')}</p>
                             <p className="profile-guest-warning__text">
-                                Seu progresso está salvo apenas neste dispositivo.
-                                Para salvar na nuvem e acessar de qualquer lugar, crie uma conta!
+                                {t('profile.guestWarningText', 'Seu progresso está salvo apenas neste dispositivo. Para salvar na nuvem e acessar de qualquer lugar, crie uma conta!')}
                             </p>
                         </div>
                     </div>

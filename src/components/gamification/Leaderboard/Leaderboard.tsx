@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { LeaderboardEntry } from '../../../types/gamification';
 import { getTopUsers } from '../../../firebase/firestore';
+import { useTranslation } from 'react-i18next';
 import './Leaderboard.css';
 
 interface LeaderboardProps {
@@ -18,6 +19,7 @@ const RANK_EMOJIS: Record<number, string> = {
  * Busca dados automaticamente do Firestore
  */
 export function Leaderboard({ currentUserId }: LeaderboardProps) {
+    const { t } = useTranslation('gamification');
     const [entries, setEntries] = useState<LeaderboardEntry[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -34,7 +36,7 @@ export function Leaderboard({ currentUserId }: LeaderboardProps) {
                 const leaderboardEntries: LeaderboardEntry[] = users.map((user, index) => ({
                     rank: index + 1,
                     uid: user.uid,
-                    displayName: user.displayName || 'Jogador',
+                    displayName: user.displayName || t('leaderboard.player', 'Jogador'),
                     avatar: user.avatar && user.avatar.length < 5 ? user.avatar : '🧑‍💻',
                     totalScore: user.totalScore || 0,
                     level: user.level || 1,
@@ -44,7 +46,7 @@ export function Leaderboard({ currentUserId }: LeaderboardProps) {
                 setEntries(leaderboardEntries);
             } catch (err) {
                 console.error('Erro ao carregar leaderboard:', err);
-                setError('Não foi possível carregar o ranking.');
+                setError(t('leaderboard.errorLoad', 'Não foi possível carregar o ranking.'));
             } finally {
                 setLoading(false);
             }
@@ -64,10 +66,10 @@ export function Leaderboard({ currentUserId }: LeaderboardProps) {
     if (loading) {
         return (
             <div className="leaderboard">
-                <h2 className="leaderboard__title">🏆 Ranking</h2>
+                <h2 className="leaderboard__title">🏆 {t('leaderboard.title', 'Ranking')}</h2>
                 <div className="leaderboard__loading">
                     <span className="leaderboard__loading-icon">⏳</span>
-                    <p>Carregando ranking...</p>
+                    <p>{t('leaderboard.loading', 'Carregando ranking...')}</p>
                 </div>
             </div>
         );
@@ -77,7 +79,7 @@ export function Leaderboard({ currentUserId }: LeaderboardProps) {
     if (error) {
         return (
             <div className="leaderboard">
-                <h2 className="leaderboard__title">🏆 Ranking</h2>
+                <h2 className="leaderboard__title">🏆 {t('leaderboard.title', 'Ranking')}</h2>
                 <div className="leaderboard__error">
                     <span className="leaderboard__error-icon">⚠️</span>
                     <p>{error}</p>
@@ -88,13 +90,13 @@ export function Leaderboard({ currentUserId }: LeaderboardProps) {
 
     return (
         <div className="leaderboard">
-            <h2 className="leaderboard__title">🏆 Ranking</h2>
+            <h2 className="leaderboard__title">🏆 {t('leaderboard.title', 'Ranking')}</h2>
 
             {entries.length === 0 ? (
                 <div className="leaderboard__empty">
                     <span className="leaderboard__empty-icon">🎮</span>
-                    <p>Nenhum jogador no ranking ainda.</p>
-                    <p>Seja o primeiro!</p>
+                    <p>{t('leaderboard.empty', 'Nenhum jogador no ranking ainda.')}</p>
+                    <p>{t('leaderboard.beFirst', 'Seja o primeiro!')}</p>
                 </div>
             ) : (
                 <>
@@ -149,7 +151,7 @@ export function Leaderboard({ currentUserId }: LeaderboardProps) {
                                 <div className="leaderboard__entry-avatar">{currentUserEntry.avatar}</div>
                                 <div className="leaderboard__entry-info">
                                     <span className="leaderboard__entry-name">{currentUserEntry.displayName}</span>
-                                    <span className="leaderboard__entry-level">Nível {currentUserEntry.level}</span>
+                                    <span className="leaderboard__entry-level">{t('leaderboard.level', { defaultValue: 'Nível {{level}}',  level: currentUserEntry.level })}</span>
                                 </div>
                                 <div className="leaderboard__entry-score">
                                     <span className="leaderboard__entry-score-icon">⭐</span>

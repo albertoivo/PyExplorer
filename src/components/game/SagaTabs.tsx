@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import type { SagaInfo } from '../../data/worlds';
+import { useTranslation } from 'react-i18next';
 
 interface SagaTabsProps {
     sagas: SagaInfo[];
@@ -14,8 +15,9 @@ export const SagaTabs = memo(function SagaTabs({
     sagaStats,
     onSelectSaga,
 }: SagaTabsProps) {
+    const { t } = useTranslation('game');
     return (
-        <div className="world-map__saga-tabs" role="tablist" aria-label="Filtro de Sagas">
+        <div className="world-map__saga-tabs" role="tablist" aria-label={t('sagaTabs.ariaLabel', 'Filtro de Sagas')}>
             <button
                 className={`world-map__tab ${selectedSagaId === 'all' ? 'world-map__tab--active' : ''}`}
                 onClick={() => onSelectSaga('all')}
@@ -23,7 +25,7 @@ export const SagaTabs = memo(function SagaTabs({
                 aria-selected={selectedSagaId === 'all'}
                 data-testid="saga-tab-all"
             >
-                ✨ Todas as Sagas
+                ✨ {t('sagaTabs.allSagas', 'Todas as Sagas')}
             </button>
             {sagas.map(saga => {
                 const st = sagaStats.get(saga.id);
@@ -39,7 +41,7 @@ export const SagaTabs = memo(function SagaTabs({
                         data-testid={`saga-tab-${saga.id}`}
                     >
                         <span className="world-map__tab-icon">{saga.icon}</span>
-                        <span className="world-map__tab-title">{saga.badge}</span>
+                        <span className="world-map__tab-title">{t(`sagas.${saga.id}.badge`, saga.badge)}</span>
                         {st && st.total > 0 && (
                             <span className="world-map__tab-badge">{st.percentage.toFixed(0)}%</span>
                         )}

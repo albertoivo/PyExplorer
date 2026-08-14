@@ -53,14 +53,17 @@ const GamePageWithPyodide = lazy(() =>
 
 import './App.css';
 
+import { useTranslation } from 'react-i18next';
+
 /**
  * Componente de loading durante lazy load
  */
 function PageLoader() {
+  const { t } = useTranslation('common');
   return (
     <div className="page-loader">
       <div className="page-loader__spinner"></div>
-      <p className="page-loader__text">Carregando...</p>
+      <p className="page-loader__text">{t('loading')}</p>
     </div>
   );
 }
@@ -121,11 +124,12 @@ export function App() {
 function AppContent() {
   const { userData, isGuest } = useAuth();
   const hasPlayerContext = Boolean(userData) || isGuest;
+  const { t } = useTranslation('common');
 
   const appLayout = (
     <div className="app">
       <a href="#main-content" className="skip-to-content">
-        Pular para o conteúdo principal
+        {t('aria.skipToContent')}
       </a>
       <Header />
       <main id="main-content" className="app__main" tabIndex={-1}>

@@ -1,0 +1,103 @@
+{
+    "nav": {
+        "home": "Home",
+        "learn": "Learn",
+        "play": "Play",
+        "certificate": "Certificate",
+        "rewards": "Rewards",
+        "profile": "Profile",
+        "login": "Login",
+        "register": "Register",
+        "logout": "Sign Out",
+        "closeMenu": "Close navigation menu",
+        "openMenu": "Open navigation menu",
+        "stats": "Player statistics",
+        "explorer": "Explorer",
+        "guest": "Guest",
+        "loading": "Loading...",
+        "level": "Level"
+    },
+    "aria": {
+        "homePage": "PyExplorer Home Page",
+        "playerStats": "Player statistics",
+        "openMenu": "Open navigation menu",
+        "closeMenu": "Close navigation menu",
+        "closeModal": "Close modal",
+        "showPassword": "Show password",
+        "hidePassword": "Hide password",
+        "skipToContent": "Skip to main content",
+        "footerNav": "Footer Navigation",
+        "levelProgress": "Level progress",
+        "accessProfile": "Go to Profile",
+        "viewLesson": "View Lesson",
+        "reviewFlashcards": "Review with Flashcards",
+        "moveUp": "Move block up",
+        "moveDown": "Move block down",
+        "indentLeft": "Decrease indentation",
+        "indentRight": "Increase indentation"
+    },
+    "loading": "Loading...",
+    "level": "Level",
+    "levelShort": "Lv.",
+    "guest": "Guest",
+    "diamonds": "Available diamonds",
+    "streak": "Daily streak",
+    "footer": {
+        "tagline": "Learn Python the fun way!",
+        "learnSection": "Learn",
+        "tutorials": "📚 Tutorials & Articles",
+        "pythonForKids": "👨‍👩‍👧‍👦 Python for Kids",
+        "learnPlaying": "🎮 Learn by Playing",
+        "playNow": "🚀 Play Now",
+        "aboutSection": "About",
+        "theProject": "The Project",
+        "achievements": "🏆 Achievements",
+        "supportProject": "💜 Support the Project",
+        "copyright": "© {{year}} PyExplorer. Made with 💜 to teach programming.",
+        "badgeEducational": "🎓 Educational",
+        "badgeSafe": "🔒 Safe for kids",
+        "badgeFree": "🆓 Free"
+    },
+    "guestMode": {
+        "playAsGuest": "👤 Play as Guest",
+        "note": "💡 In guest mode, your progress is saved only on this device"
+    },
+    "guestNames": {
+        "adjectives": [
+            "Swift",
+            "Clever",
+            "Curious",
+            "Brave",
+            "Wise",
+            "Cheerful"
+        ],
+        "nouns": [
+            "Traveler",
+            "Explorer",
+            "Adventurer",
+            "Scientist",
+            "Wizard",
+            "Ninja"
+        ]
+    },
+    "readTime": "⏱️ {{minutes}} min read",
+    "categories": {
+        "beginner": "🌱 Beginner",
+        "intermediate": "📈 Intermediate",
+        "tips": "💡 Tip",
+        "parents": "👪 For Parents"
+    },
+    "or": "or",
+    "orUseEmail": "or use your email",
+    "result": {
+        "success": "Result: Success",
+        "tryAgain": "Result: Try again"
+    },
+    "mascot": {
+        "name": "Pythoninho",
+        "ariaLabel": "Pythoninho Mascot: {{mood}}. {{state}}",
+        "clickToInteract": "Click to interact",
+        "saying": "Saying: {{msg}}"
+    },
+    "player": "Player"
+}

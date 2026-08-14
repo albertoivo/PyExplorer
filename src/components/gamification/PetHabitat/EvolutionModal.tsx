@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useGamification } from '../../../context/GamificationContext';
 import { PetAvatar } from './PetAvatar';
+import { useTranslation } from 'react-i18next';
 import './EvolutionModal.css';
 
 type ConfettiFn = (options?: {
@@ -11,6 +12,7 @@ type ConfettiFn = (options?: {
 }) => void;
 
 export function EvolutionModal() {
+    const { t } = useTranslation('gamification');
     const { pet, dismissPetEvolution } = useGamification();
 
     useEffect(() => {
@@ -42,11 +44,11 @@ export function EvolutionModal() {
                 aria-labelledby="evolution-modal-title"
             >
                 <div className="evolution-modal__header">
-                    <h2 id="evolution-modal-title">🎉 Evolução! 🎉</h2>
+                    <h2 id="evolution-modal-title">🎉 {t('evolution.title', 'Evolução!')} 🎉</h2>
                 </div>
 
                 <div className="evolution-modal__content">
-                    <p>Seu mascote evoluiu para o próximo estágio!</p>
+                    <p>{t('evolution.description', 'Seu mascote evoluiu para o próximo estágio!')}</p>
 
                     <div className="evolution-modal__avatar">
                         <div className="evolution-glow"></div>
@@ -55,31 +57,31 @@ export function EvolutionModal() {
 
                     <div className="evolution-modal__details">
                         <h3>{pet.name}</h3>
-                        <p className="evolution-type">Tipo: {pet.type.toUpperCase()}</p>
+                        <p className="evolution-type">{t('evolution.type', { defaultValue: 'Tipo: {{type}}',  type: pet.type.toUpperCase() })}</p>
                     </div>
                 </div>
 
                 <div className="evolution-modal__actions">
                     <button className="evolution-modal__btn" onClick={dismissPetEvolution}>
-                        Incrível! 🚀
+                        {t('evolution.awesome', 'Incrível! 🚀')}
                     </button>
                     <button
                         className="evolution-modal__btn evolution-modal__btn--share"
                         onClick={() => {
                             const shareData = {
-                                title: 'PyExplorer - Meu Mascote Evoluiu!',
-                                text: `Meu mascote ${pet.name} evoluiu para o tipo ${pet.type.toUpperCase()} no PyExplorer! Venha aprender Python jogando!`,
+                                title: t('evolution.shareTitle', 'PyExplorer - Meu Mascote Evoluiu!'),
+                                text: t('evolution.shareText', { defaultValue: 'Meu mascote {{name}} evoluiu para o tipo {{type}} no PyExplorer! Venha aprender Python jogando!',  name: pet.name, type: pet.type.toUpperCase() }),
                                 url: window.location.origin
                             };
                             if (navigator.share) {
                                 navigator.share(shareData).catch(console.error);
                             } else {
                                 navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
-                                alert('Link copiado para a área de transferência!');
+                                alert(t('evolution.copied', 'Link copiado para a área de transferência!'));
                             }
                         }}
                     >
-                        Compartilhar 📤
+                        {t('evolution.share', 'Compartilhar 📤')}
                     </button>
                 </div>
             </div>

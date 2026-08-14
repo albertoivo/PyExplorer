@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import type { StoryEpisode } from '../../data/gamificationData';
+import { useTranslation } from 'react-i18next';
 import './StoryModal.css';
 
 interface StoryModalProps {
@@ -8,6 +9,7 @@ interface StoryModalProps {
 }
 
 export function StoryModal({ episode, onComplete }: StoryModalProps) {
+    const { t } = useTranslation('game');
     const [step, setStep] = useState(0);
     const modalRef = useRef<HTMLDivElement>(null);
     const nextBtnRef = useRef<HTMLButtonElement>(null);
@@ -71,9 +73,9 @@ export function StoryModal({ episode, onComplete }: StoryModalProps) {
             >
                 <div className="story-header">
                     <h2 id="story-title" className="story-title">
-                        {episode.title}
+                        {t(`story.${episode.worldId}_${episode.type}.title`, episode.title)}
                     </h2>
-                    <span className="story-progress" aria-label={`Passo ${step + 1} de ${episode.dialogue.length}`}>
+                    <span className="story-progress" aria-label={t('story.progressLabel', { defaultValue: 'Passo {{current}} de {{total}}',  current: step + 1, total: episode.dialogue.length })}>
                         {step + 1} / {episode.dialogue.length}
                     </span>
                 </div>
@@ -82,26 +84,26 @@ export function StoryModal({ episode, onComplete }: StoryModalProps) {
                     <div
                         className="story-avatar"
                         role="img"
-                        aria-label={`Avatar de ${currentDialogue.speaker}`}
+                        aria-label={t('story.avatarLabel', { defaultValue: 'Avatar de {{speaker}}',  speaker: currentDialogue.speaker })}
                     >
                         {currentDialogue.avatar || '🗣️'}
                     </div>
                     <div className="story-text-box" aria-live="polite">
-                        <strong className="story-speaker">{currentDialogue.speaker}</strong>
-                        <p className="story-text">{currentDialogue.text}</p>
+                        <strong className="story-speaker">{t(`story.${episode.worldId}_${episode.type}.speaker_${step}`, currentDialogue.speaker)}</strong>
+                        <p className="story-text">{t(`story.${episode.worldId}_${episode.type}.text_${step}`, currentDialogue.text)}</p>
                     </div>
                 </div>
 
                 <div className="story-footer">
                     <button className="story-skip-btn" onClick={onComplete}>
-                        Pular
+                        {t('story.skip', 'Pular')}
                     </button>
                     <button
                         className="story-next-btn"
                         onClick={handleNext}
                         ref={nextBtnRef}
                     >
-                        {isLastStep ? 'Começar Aventura! 🚀' : 'Próximo ➡️'}
+                        {isLastStep ? t('story.startAdventure', 'Começar Aventura! 🚀') : t('story.next', 'Próximo ➡️')}
                     </button>
                 </div>
             </div>

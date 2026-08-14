@@ -1,0 +1,28 @@
+{
+    "seoTitle": "Sobre o PyExplorer",
+    "seoDescription": "Conheça a história do PyExplorer: um jogo gratuito feito no Brasil para ensinar Python para crianças.",
+    "breadcrumb": "Sobre",
+    "heroTitle": "Sobre o PyExplorer",
+    "heroSubtitle": "Nossa missão é democratizar o ensino de programação para crianças no Brasil 🇧🇷",
+    "greeting": "👋 Olá, Explorador!",
+    "story1": "O <strong>PyExplorer</strong> nasceu de um sonho simples: tornar o aprendizado de programação tão divertido quanto jogar videogame. Acreditamos que o código é o superpoder do século 21, e toda criança deveria ter a chance de desbloqueá-lo.",
+    "story2": "Muitos cursos de tecnologia são caros, complexos ou em inglês. O PyExplorer foi criado para mudar isso. Somos 100% gratuitos, em português e focados na experiência do aluno.",
+    "values": {
+        "freeTitle": "100% Gratuito",
+        "freeDesc": "Educação de qualidade não deve ter barreira de preço. O PyExplorer é e sempre será grátis.",
+        "madeInBrazilTitle": "Feito no Brasil",
+        "madeInBrazilDesc": "Conteúdo adaptado para nossa cultura e idioma. Nada de traduções automáticas estranhas.",
+        "safeTitle": "Seguro e Privado",
+        "safeDesc": "Não vendemos dados. Não exibimos anúncios intrusivos. Um ambiente seguro para aprender.",
+        "funTitle": "Aprender Brincando",
+        "funDesc": "Sem aulas chatas. Aqui você aprende resolvendo desafios e ganhando recompensas."
+    },
+    "techTitle": "Como Funciona? 🛠️",
+    "tech1": "O PyExplorer usa uma tecnologia incrível chamada <strong>WebAssembly (Pyodide)</strong>. Isso significa que o código Python roda direto no seu navegador, sem precisar instalar nada no computador!",
+    "tech2": "Basta acessar o site, digitar o código e ver o resultado na hora. Funciona no computador, tablet e até no celular.",
+    "supportTitle": "Gosta do PyExplorer? 💜",
+    "supportDesc": "Seu apoio nos ajuda a manter os servidores online e criar novos conteúdos gratuitos.",
+    "ctaTitle": "Faça Parte dessa História",
+    "ctaDesc": "Milhares de crianças já escreveram sua primeira linha de código conosco.",
+    "ctaButton": "Começar Minha Jornada 🚀"
+}

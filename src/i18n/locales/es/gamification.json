@@ -1,0 +1,173 @@
+{
+    "seoTitle": "Recompensas y Logros",
+    "seoDescription": "Sigue tu progreso, nivel, logros y compra artículos en la tienda de PyExplorer.",
+    "breadcrumb": "Recompensas",
+    "pageTitle": "🏆 Recompensas y Logros",
+    "tabs": {
+        "achievements": "Logros",
+        "missions": "Misiones",
+        "shop": "Tienda",
+        "overview": "Visión General",
+        "ranking": "Clasificación"
+    },
+    "achievements": {
+        "title": "Logros",
+        "unlocked": "Desbloqueado",
+        "locked": "Bloqueado",
+        "keepPlaying": "¡Sigue jugando para desbloquear!",
+        "points": "puntos",
+        "total": "Total de Logros:",
+        "recent": "Logros Recientes",
+        "empty": "Sin logros desbloqueados aún",
+        "seeAll": "Ver Todos",
+        "filterAll": "Todos",
+        "unlockedOnly": "Desbloqueados"
+    },
+    "missions": {
+        "title": "Misiones Activas",
+        "reward": "Recompensa:",
+        "completed": "¡Completada!",
+        "progress": "Progreso:",
+        "today": "Misiones de Hoy",
+        "seeAll": "Ver Todas las Misiones",
+        "daily": "Diarias",
+        "dailyMissions": "Misiones Diarias",
+        "highDifficulty": "Alta Dificultad",
+        "master": "Maestro",
+        "masterChallenges": "Desafíos de Maestro",
+        "renewsMidnight": "Se renueva a medianoche",
+        "renewsSunday": "Se renueva el domingo",
+        "secretChallenge": "Desafío Secreto",
+        "secretChallengeDesc": "¡Completa objetivos ocultos para revelar!",
+        "weekly": "Semanales",
+        "weeklyMissions": "Misiones Semanales"
+    },
+    "shop": {
+        "title": "Tienda de Avatares",
+        "diamondsAvailable": "Diamantes disponibles:",
+        "equipped": "Equipado",
+        "equip": "Equipar",
+        "buy": "Comprar por",
+        "notEnoughDiamonds": "No tienes suficientes diamantes"
+    },
+    "levelBadge": {
+        "level": "Nivel {{level}}",
+        "xp": "XP",
+        "max": "MAX"
+    },
+    "powerUpBar": {
+        "ariaActive": "{{name}} activado",
+        "ariaBuy": "Comprar {{name}} por {{price}} estrellas",
+        "ariaUse": "Usar {{name}}",
+        "ariaUseAvailable": "Usar {{name}}. {{quantity}} disponibles.",
+        "btnActive": "Activo",
+        "btnUse": "Usar",
+        "buyAndUse": "Comprar y Usar",
+        "buyFor": "Comprar por {{price}} estrellas",
+        "cancel": "Cancelar",
+        "compactBuyTitle": "{{desc}} (Comprar por {{price}}⭐)",
+        "confirmBuyTitle": "¿Comprar {{name}}?",
+        "cost": "Costo: ⭐ {{price}} | Saldo: ⭐ {{balance}}",
+        "dailyLimit": "Máx. diario: {{left}}/{{max}} restantes",
+        "insufficientStars": "Estrellas Insuficientes",
+        "limitReached": "Límite diario alcanzado"
+    },
+    "stats": {
+        "score": "Puntuación",
+        "achievements": "Logros",
+        "missions": "Misiones",
+        "streak": "Racha",
+        "completed": "Completadas",
+        "attempts": "Intentos"
+    },
+    "powerups": {
+        "title": "Potenciadores Disponibles"
+    },
+    "avatarShop": {
+        "buy": "Comprar por {{cost}} 💎",
+        "empty": "No hay artículos disponibles en la tienda actualmente",
+        "equipBtn": "Equipar",
+        "equippedBadge": "Equipado",
+        "equippedBtn": "Equipado",
+        "free": "Gratis",
+        "getFree": "Obtener Gratis",
+        "levelReq": "Requiere Nivel {{level}}",
+        "limited": "Edición Limitada",
+        "title": "Tienda de Avatares y Marcos"
+    },
+    "leaderboard": {
+        "beFirst": "¡Sé el primero en liderar la clasificación!",
+        "empty": "Clasificación vacía actualmente",
+        "errorLoad": "Error al cargar la clasificación",
+        "level": "Nivel {{level}}",
+        "loading": "Cargando clasificación...",
+        "player": "Jugador",
+        "title": "Clasificación"
+    },
+    "petHabitat": {
+        "btnFeed": "Alimentar Mascota",
+        "btnHeat": "Calentar Huevo",
+        "eating": "Alimentando...",
+        "eggFull": "¡Huevo totalmente calentado!",
+        "energyTitle": "Energía de la Mascota",
+        "feedInstruction": "¡Alimenta a tu mascota para ganar XP extra!",
+        "guestButton": "Inicia sesión para cuidar",
+        "guestTooltip": "¡Crea una cuenta para incubar y alimentar a tu mascota!",
+        "heatInstruction": "¡Calienta el huevo para incubar a tu nuevo compañero!",
+        "heatTitle": "Calor del Huevo",
+        "heating": "Calentando...",
+        "noStarsFull": "¡Necesitas estrellas para alimentar!",
+        "petFull": "¡Mascota totalmente alimentada!",
+        "title": "Hábitat de la Mascota",
+        "titleFeed": "Alimenta a tu Mascota",
+        "titleHeat": "Calienta el Huevo",
+        "xpTooltip": "¡Las mascotas felices otorgan bonificaciones de XP en todas las misiones!"
+    },
+    "evolution": {
+        "awesome": "¡Increíble!",
+        "copied": "¡Copiado al portapapeles!",
+        "description": "¡Tu compañero evolucionó a una nueva etapa!",
+        "share": "Compartir Logro",
+        "shareText": "¡Mi mascota evolucionó en PyExplorer! ¡Ven a aprender Python jugando conmigo!",
+        "shareTitle": "¡Evolución de la Mascota!",
+        "title": "¡Tu Mascota Evolucionó!",
+        "type": "Etapa de Evolución"
+    },
+    "streak": {
+        "bonus": "Bono de Racha",
+        "daysInRow": "{{count}} días seguidos",
+        "record": "Récord: {{count}} días"
+    },
+    "toast": {
+        "achievementUnlocked": "¡Nuevo Logro Desbloqueado!",
+        "level": "Nivel",
+        "levelUp": "¡Subiste de Nivel!"
+    },
+    "profile": {
+        "guestMode": "Modo Invitado",
+        "guestWarningText": "Estás usando una cuenta de invitado. ¡Crea una cuenta gratuita para guardar tu progreso en la nube!",
+        "guestWarningTitle": "Advertencia: Progreso Local",
+        "level": "Nivel {{level}}",
+        "loginRequired": "Inicia sesión para ver tu perfil completo.",
+        "maxLevel": "¡Nivel Máximo Alcanzado!",
+        "seoDescription": "Visualiza tu perfil en PyExplorer, estadísticas de progreso, logros y nivel en Python.",
+        "seoTitle": "Tu Perfil - PyExplorer",
+        "worldsProgress": "Progreso en los Mundos",
+        "xpToNextLevel": "{{current}} / {{next}} XP para el siguiente nivel"
+    },
+    "achievementGrid": {
+        "title": "Logros",
+        "filterAll": "Todos",
+        "unlockedOnly": "Solo desbloqueados",
+        "empty": "No se encontraron logros",
+        "categories": {
+            "learning": "Aprendizaje",
+            "streak": "Racha",
+            "mastery": "Maestría",
+            "social": "Social",
+            "special": "Especial",
+            "boss": "Jefe",
+            "collection": "Colección"
+        }
+    }
+}

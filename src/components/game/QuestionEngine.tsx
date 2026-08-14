@@ -18,6 +18,7 @@ import { playSound } from '../../utils/soundEffects';
 import { useAuth } from '../../hooks/useAuth';
 import { usePyodide } from '../../context/PyodideContext';
 import { useMascotContext } from '../../context/MascotContext';
+import { useTranslation } from 'react-i18next';
 import './QuestionEngine.css';
 
 interface QuestionEngineProps {
@@ -56,6 +57,7 @@ export function QuestionEngine({
     savedAnswer,
     activePowerUp,
 }: QuestionEngineProps) {
+    const { t } = useTranslation('game');
     const { userData, updateUserData } = useAuth();
     const { runPython, executing: isExecuting } = usePyodide();
     const { react: mascotReact } = useMascotContext();
@@ -234,7 +236,7 @@ export function QuestionEngine({
                 return (
                     <div className="question-engine__unsupported">
                         <span className="question-engine__unsupported-icon">🚧</span>
-                        <p>Tipo de questão não suportado: {question.type}</p>
+                        <p>{t('engine.unsupportedType', { defaultValue: 'Tipo de questão não suportado: {{type}}',  type: question.type })}</p>
                     </div>
                 );
         }
@@ -244,10 +246,10 @@ export function QuestionEngine({
         <div className={`question-engine ${readOnly ? 'question-engine--readonly' : ''}`}>
             {readOnly && (
                 <div className="question-engine__readonly-badge">
-                    📖 Modo Visualização
+                    📖 {t('engine.readonlyMode', 'Modo Visualização')}
                     {savedAnswer !== undefined && (
                         <span className="question-engine__readonly-badge-sub">
-                            Sua resposta está destacada abaixo
+                            {t('engine.readonlySub', 'Sua resposta está destacada abaixo')}
                         </span>
                     )}
                 </div>
@@ -259,14 +261,14 @@ export function QuestionEngine({
                 <div className="question-engine__hints-section">
                     {activePowerUp === 'extra_hint' && (
                         <div className="question-engine__powerup-used" style={{ color: '#00d9ff', marginBottom: '0.75rem', fontWeight: 'bold' }}>
-                            💡 Dica Extra Ativa! As duas primeiras dicas foram liberadas gratuitamente.
+                            💡 {t('engine.extraHintActive', 'Dica Extra Ativa! As duas primeiras dicas foram liberadas gratuitamente.')}
                         </div>
                     )}
                     <button
                         className={`question-engine__hints-toggle ${effectiveShowHints ? 'question-engine__hints-toggle--active' : ''}`}
                         onClick={() => setShowHints(!effectiveShowHints)}
                     >
-                        💡 {effectiveShowHints ? 'Esconder Dicas' : 'Preciso de Ajuda'}
+                        💡 {effectiveShowHints ? t('engine.hideHints', 'Esconder Dicas') : t('engine.needHelp', 'Preciso de Ajuda')}
                         {revealedHints.length > 0 && (
                             <span className="question-engine__hints-count">
                                 {revealedHints.length}/3
@@ -292,10 +294,10 @@ export function QuestionEngine({
                         success={isCorrect}
                         message={
                             readOnly
-                                ? 'Você já completou esta questão! 🎉'
+                                ? t('engine.resultReadonly', 'Você já completou esta questão! 🎉')
                                 : isCorrect
-                                    ? 'Você acertou! Continue assim! 🌟'
-                                    : 'Não foi dessa vez, mas você está aprendendo!'
+                                    ? t('engine.resultCorrect', 'Você acertou! Continue assim! 🌟')
+                                    : t('engine.resultIncorrect', 'Não foi dessa vez, mas você está aprendendo!')
                         }
                         explanation={question.explanationKidFriendly}
                         points={readOnly ? undefined : (isCorrect ? getFinalScore() : undefined)}
@@ -305,13 +307,13 @@ export function QuestionEngine({
 
                     {hintsCost > 0 && isCorrect && !readOnly && (
                         <div className="question-engine__hints-used">
-                            💡 Você usou dicas (-{Math.floor(hintsCost / 2)} pontos)
+                            💡 {t('engine.hintsUsedPenalty', { defaultValue: 'Você usou dicas (-{{points}} pontos)',  points: Math.floor(hintsCost / 2) })}
                         </div>
                     )}
 
                     {activePowerUp === 'double_stars' && isCorrect && !readOnly && (
                         <div className="question-engine__powerup-used" style={{ color: '#FFD700', marginTop: '0.5rem', fontWeight: 'bold' }}>
-                            ✨ Double Stars Ativo! (x2 pontos)
+                            ✨ {t('engine.doubleStarsActive', 'Double Stars Ativo! (x2 pontos)')}
                         </div>
                     )}
                 </div>

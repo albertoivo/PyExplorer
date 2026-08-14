@@ -19,6 +19,7 @@ import { SEO } from '../components/common/SEO';
 import { PetHabitat } from '../components/gamification/PetHabitat/PetHabitat';
 import { EvolutionModal } from '../components/gamification/PetHabitat/EvolutionModal';
 import { WORLDS } from '../data/worlds';
+import { useTranslation } from 'react-i18next';
 import './GamePage.css';
 
 type GameView = 'world-map' | 'world-questions' | 'playing' | 'reviewing';
@@ -42,6 +43,7 @@ const getWorldName = (world: World): string => {
  * Página principal do jogo
  */
 export function GamePage() {
+    const { t } = useTranslation('game');
     const navigate = useNavigate();
     const [view, setView] = useState<GameView>('world-map');
     const [selectedWorld, setSelectedWorld] = useState<World | null>(null);
@@ -288,9 +290,7 @@ export function GamePage() {
                     const totalWorlds = worldProgress.size;
                     if (totalWorldsCompleted === totalWorlds) {
                         setTimeout(() => {
-                            const goCert = window.confirm(
-                                'PARABÉNS! VOCÊ ZERO O JOGO! 🏆🐍\n\nTodas as questões foram completadas.\n\nDeseja ir para a página do seu CERTIFICADO agora?'
-                            );
+                            const goCert = window.confirm(t('confirmCert', 'PARABÉNS! VOCÊ ZERO O JOGO! 🏆🐍\n\nTodas as questões foram completadas.\n\nDeseja ir para a página do seu CERTIFICADO agora?'));
                             if (goCert) {
                                 navigate('/certificate');
                                 return;
@@ -358,7 +358,7 @@ export function GamePage() {
 
     return (
         <div className="game-page">
-            <SEO title="Aventura" description="Resolva desafios interativos de Python no navegador. 18 mundos, 4 sagas épicas, boss battles e sistema de estrelas. 100% grátis!" noindex />
+            <SEO title={t('seoTitle', 'Aventura')} description={t('seoDescription')} noindex />
 
             <EvolutionModal />
 
@@ -395,10 +395,10 @@ export function GamePage() {
                 <div className="question-play">
                     <div className="question-play__header">
                         <button className="back-button" onClick={handleBackToQuestions}>
-                            ← Voltar às Questões
+                            ← {t('backToQuestions', 'Voltar às Questões')}
                         </button>
                         <div className="question-play__progress">
-                            Questão {currentQuestionIndex + 1} de {worldQuestions.length}
+                            {t('questionProgress', { defaultValue: 'Questão {{current}} de {{total}}',  current: currentQuestionIndex + 1, total: worldQuestions.length })}
                         </div>
                     </div>
 
@@ -427,10 +427,10 @@ export function GamePage() {
                 <div className="question-play question-play--reviewing">
                     <div className="question-play__header">
                         <button className="back-button" onClick={handleBackToQuestions}>
-                            ← Voltar às Questões
+                            ← {t('backToQuestions', 'Voltar às Questões')}
                         </button>
                         <div className="question-play__review-badge">
-                            📖 Visualização
+                            📖 {t('reviewBadge', 'Visualização')}
                         </div>
                     </div>
 
@@ -448,7 +448,7 @@ export function GamePage() {
                             className="question-play__redo-btn"
                             onClick={handleRedoQuestion}
                         >
-                            🔄 Refazer para Praticar
+                            🔄 {t('redoForPractice', 'Refazer para Praticar')}
                         </button>
                     </div>
                 </div>

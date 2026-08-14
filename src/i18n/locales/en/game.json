@@ -1,0 +1,174 @@
+{
+    "seoTitle": "Play",
+    "seoDescription": "Explore the worlds of PyExplorer, solve challenges and learn Python by playing!",
+    "breadcrumb": "Play",
+    "pageTitle": "PyExplorer Worlds",
+    "playAsGuest": "🎮 Playing as Guest",
+    "continueAdventure": "Continue Adventure",
+    "completedQuestions": "You have solved {{count}} questions today!",
+    "startExploring": "Start exploring the first world for your adventure!",
+    "noQuestionsInWorld": "There are no questions available in this world yet. Come back soon!",
+    "startWorld": "🚀 Start World",
+    "continueWorld": "▶️ Continue",
+    "masteredWorld": "⭐ Mastered World",
+    "completedPrefix": "Completed",
+    "ofSuffix": "of",
+    "lockedTooltip": "Complete previous worlds to unlock this one!",
+    "story": {
+        "title": "The Journey Begins",
+        "next": "Next ➡️",
+        "play": "Play!",
+        "avatarLabel": "Story Avatar",
+        "progressLabel": "Story Progress",
+        "skip": "Skip",
+        "startAdventure": "Start Adventure! 🚀"
+    },
+    "result": {
+        "success": "🎉 Success!",
+        "pointsEarned": "You earned {{points}} points",
+        "starsEarned": "+ {{stars}} stars",
+        "almost": "🤔 Almost there!",
+        "nextQuestion": "Next Question",
+        "tryAgain": "Try Again",
+        "solution": "See Solution"
+    },
+    "question": {
+        "runCode": "▶️ Run",
+        "checkAnswer": "Check",
+        "checking": "Checking...",
+        "output": "Terminal Output:",
+        "true": "True",
+        "false": "False",
+        "dragBlocks": "Drag the blocks in the correct order"
+    },
+    "hints": {
+        "needHelp": "Need help?",
+        "needStars": "Need stars",
+        "free": "Free",
+        "basicHint": "Basic Hint",
+        "mediumHint": "Medium Hint",
+        "fullAnswer": "Full Answer",
+        "revealBtn": "Reveal Hint ({{cost}} ⭐)",
+        "revealForStars": "Reveal for {{cost}} ⭐",
+        "revealCompactConfirm": "Reveal ({{cost}} ⭐)",
+        "revealConfirmTitle": "Reveal {{type}}?",
+        "revealConfirmDesc": "This will cost {{cost}} stars.",
+        "balanceCurrent": "Your current balance: {{stars}} ⭐",
+        "balanceAfter": "Balance after revealing: {{after}} ⭐",
+        "revealPreviousFirst": "Reveal the previous hint first!",
+        "extraHintPrefix": "Extra hint:",
+        "cancel": "Cancel"
+    },
+    "completedModal": {
+        "title": "Question Completed!",
+        "attempts": "Attempts",
+        "points": "Points earned",
+        "redoPractice": "Redo for Practice",
+        "redoHint": "You can redo this question for practice without losing progress.",
+        "sponsorTitle": "Support PyExplorer",
+        "sponsorDesc": "Help keep the platform free and open for all students.",
+        "sponsorLink": "Support Project",
+        "viewAnswer": "View Answer",
+        "answerNotAvailable": "Answer not available",
+        "closeLabel": "Close modal"
+    },
+    "questionCard": {
+        "ariaLabel": "Question {{num}}: {{title}}. Status: {{status}}. {{score}} Type: {{type}}."
+    },
+    "stars": {
+        "earned": "Stars earned",
+        "potential": "0 of 3 stars"
+    },
+    "status": {
+        "available": "Available",
+        "completed": "Completed",
+        "locked": "Locked",
+        "unknown": "Unknown",
+        "not_started": "Not started"
+    },
+    "questionTypes": {
+        "unknown": "Question",
+        "multiple_choice": "Multiple Choice",
+        "true_false": "True/False",
+        "fill_code": "Fill Code",
+        "partial_function": "Partial Function",
+        "full_function": "Full Function",
+        "parsons_problem": "Parsons Problem",
+        "turtle_challenge": "Turtle Challenge",
+        "boss_battle": "Boss Battle"
+    },
+    "engine": {
+        "resultCorrect": "Correct!",
+        "resultIncorrect": "Incorrect!",
+        "resultReadonly": "Read-only mode",
+        "unsupportedType": "Unsupported question type",
+        "readonlyMode": "View Mode",
+        "readonlySub": "You have completed this question or are viewing as a guest.",
+        "needHelp": "Need Help",
+        "hideHints": "Hide hints",
+        "extraHintActive": "Extra hint activated!",
+        "doubleStarsActive": "Double stars activated!",
+        "hintsUsedPenalty": "Hints used (penalty applied)"
+    },
+    "sagaBanner": {
+        "questions": "Questions"
+    },
+    "sagaTabs": {
+        "allSagas": "All Sagas",
+        "ariaLabel": "Saga tabs"
+    },
+    "worldCard": {
+        "ariaLabel": "World {{num}}: {{name}}. {{status}}.{{progress}}",
+        "bossBattle": "Boss Battle",
+        "completedTooltip": "You have already completed this world!",
+        "newLesson": "New Lesson",
+        "progressPrefix": "Progress:",
+        "requirement": "Requirement: {{req}}",
+        "reviewFlashcards": "Review Flashcards",
+        "viewLesson": "View Lesson"
+    },
+    "progressBar": {
+        "ariaLabel": "Overall progress",
+        "worldAriaLabel": "Progress in {{worldName}}"
+    },
+    "resultPanel": {
+        "ariaSuccess": "Correct answer!",
+        "ariaError": "Incorrect answer!",
+        "defaultSuccessTitle": "Congratulations!",
+        "defaultErrorTitle": "Almost there!",
+        "hideExplanation": "Hide Explanation",
+        "showExplanation": "View Explanation",
+        "nextQuestion": "Next Question",
+        "points": "points",
+        "retry": "Try Again",
+        "skipQuestion": "Skip Question"
+    },
+    "certificate": {
+        "congrats": "Congratulations, {{name}}! 🎉",
+        "continueBtn": "Continue Learning",
+        "continueDesc": "Continue your journey to unlock your official certificate.",
+        "guestName": "Explorer",
+        "inProgressDesc": "You haven't completed all missions yet!",
+        "inProgressTitle": "Certificate in Progress",
+        "loading": "Checking your journey...",
+        "lockedSeoTitle": "Certificate Locked - PyExplorer",
+        "lockedTitle": "Restricted Access",
+        "loginRequired": "Log in to view your certificate",
+        "progressInfo": "{{completed}} of {{total}} questions solved",
+        "subtitle": "Python Course Completion Certificate",
+        "supportBtn": "Support PyExplorer",
+        "supportDesc": "If PyExplorer helped you, consider supporting the project!",
+        "supportTitle": "Support Open Education",
+        "unlockedSeoDesc": "Congratulations! Download or share your official PyExplorer completion certificate.",
+        "unlockedSeoTitle": "Your Official Certificate - PyExplorer"
+    },
+    "backToQuestions": "Back to Questions",
+    "confirmCert": "Generate Certificate",
+    "questionProgress": "Question {{current}} of {{total}}",
+    "redoForPractice": "Redo for Practice",
+    "reviewBadge": "Review",
+    "backToMap": "Back to Map",
+    "completedStats": "Completion Stats",
+    "worldEmptyDesc": "This world has no questions registered yet.",
+    "worldEmptyTitle": "Empty World"
+}

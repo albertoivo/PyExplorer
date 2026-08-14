@@ -1,28 +1,30 @@
 import { Link } from 'react-router-dom';
 import { SEO } from '../components/common/SEO';
+import { useTranslation } from 'react-i18next';
 import './NotFoundPage.css';
 
 export function NotFoundPage() {
+    const { t } = useTranslation('notFound');
     return (
         <div className="not-found-page">
             <SEO 
-                title="Página não encontrada" 
-                description="Ops! A página que você está procurando não existe." 
+                title={t('seoTitle')} 
+                description={t('seoDescription')} 
                 noindex
             />
             <div className="not-found-content">
                 <span className="not-found-icon">🐍</span>
-                <h1>Ops! Página não encontrada</h1>
-                <p>Parece que você explorou um pouco demais e acabou saindo do mapa!</p>
+                <h1>{t('title')}</h1>
+                <p>{t('description')}</p>
                 <div className="not-found-actions">
                     <Link to="/" className="not-found-btn not-found-btn--primary">
-                        🏠 Voltar para o Início
+                        {t('goHome')}
                     </Link>
                     <Link to="/game" className="not-found-btn not-found-btn--secondary">
-                        🎮 Jogar PyExplorer
+                        {t('goPlay')}
                     </Link>
                     <Link to="/learn" className="not-found-btn not-found-btn--secondary">
-                        📚 Aprender Python
+                        {t('goLearn')}
                     </Link>
                 </div>
             </div>

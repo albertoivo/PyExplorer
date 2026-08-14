@@ -15,6 +15,7 @@ describe('stats calculation optimization', () => {
             totalScore: allProgress.reduce((sum, p) => sum + p.score, 0),
             totalAttempts: allProgress.reduce((sum, p) => sum + p.attempts, 0),
         };
+        void stats;
     });
 
     bench('Optimized single-iteration loop', () => {
@@ -39,5 +40,6 @@ describe('stats calculation optimization', () => {
             totalScore,
             totalAttempts
         };
+        void stats;
     });
 });

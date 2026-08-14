@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import type { QuestionDocument } from '../../types/question';
+import { useTranslation } from 'react-i18next';
 import './QuestionCard.css';
 
 interface QuestionCardProps {
@@ -22,21 +23,22 @@ const TYPE_ICONS: Record<string, string> = {
     boss_battle: '👹',
 };
 
-const TYPE_LABELS: Record<string, string> = {
-    multiple_choice: 'Escolha',
-    true_false: 'V ou F',
-    fill_code: 'Complete',
-    partial_function: 'Função Parcial',
-    full_function: 'Função',
-    parsons_problem: 'Blocos',
-    turtle_challenge: 'Arte Turtle',
-    boss_battle: 'Chefe Final',
+// Use keys instead of direct translation to allow dynamic translation inside the component
+const TYPE_KEYS: Record<string, string> = {
+    multiple_choice: 'questionTypes.multiple_choice',
+    true_false: 'questionTypes.true_false',
+    fill_code: 'questionTypes.fill_code',
+    partial_function: 'questionTypes.partial_function',
+    full_function: 'questionTypes.full_function',
+    parsons_problem: 'questionTypes.parsons_problem',
+    turtle_challenge: 'questionTypes.turtle_challenge',
+    boss_battle: 'questionTypes.boss_battle',
 };
 
-const STATUS_LABELS: Record<string, string> = {
-    not_started: 'Não iniciado',
-    in_progress: 'Em progresso',
-    completed: 'Completo',
+const STATUS_KEYS: Record<string, string> = {
+    not_started: 'status.not_started',
+    in_progress: 'status.in_progress',
+    completed: 'status.completed',
 };
 
 const getStatusIcon = (status: string, locked?: boolean, index?: number) => {
@@ -52,7 +54,8 @@ const getStatusIcon = (status: string, locked?: boolean, index?: number) => {
  * Renderiza estrelas ganhas (filled) vs potenciais (empty)
  */
 const StarsDisplay = ({ stars, status }: { stars: number; status: string }) => {
-    const label = status !== 'completed' ? '0 de 3 estrelas' : `${stars} de 3 estrelas`;
+    const { t } = useTranslation('game');
+    const label = status !== 'completed' ? t('stars.potential', '0 de 3 estrelas') : t('stars.earned', { defaultValue: '{{earned}} de 3 estrelas',  earned: stars });
 
     // Se não completou, mostra estrelas vazias
     if (status !== 'completed') {
@@ -89,8 +92,9 @@ const StarsDisplay = ({ stars, status }: { stars: number; status: string }) => {
  * Card de questão na lista de questões de um mundo
  */
 export const QuestionCard = memo(function QuestionCard({ question, index, status, stars = 0, locked, onClick }: QuestionCardProps) {
+    const { t } = useTranslation('game');
     const typeIcon = TYPE_ICONS[question.type] || '❓';
-    const typeLabel = TYPE_LABELS[question.type] || 'Questão';
+    const typeLabel = TYPE_KEYS[question.type] ? t(TYPE_KEYS[question.type]) : t('questionTypes.unknown', 'Questão');
     const statusIcon = getStatusIcon(status, locked, index);
 
     const handleClick = () => {
@@ -100,9 +104,15 @@ export const QuestionCard = memo(function QuestionCard({ question, index, status
     };
 
     // Construct comprehensive aria-label for the entire card button
-    const statusLabel = locked ? 'Bloqueado' : (STATUS_LABELS[status] || 'Status desconhecido');
-    const scoreLabel = status === 'completed' ? `${stars} de 3 estrelas` : '0 de 3 estrelas';
-    const ariaLabel = `Questão ${index + 1}: ${question.title}. ${statusLabel}. ${!locked ? scoreLabel + '.' : ''} Tipo: ${typeLabel}.`;
+    const statusLabel = locked ? t('status.locked', 'Bloqueado') : (STATUS_KEYS[status] ? t(STATUS_KEYS[status]) : t('status.unknown', 'Status desconhecido'));
+    const scoreLabel = status === 'completed' ? t('stars.earned', { defaultValue: '{{earned}} de 3 estrelas',  earned: stars }) : t('stars.potential', '0 de 3 estrelas');
+    const ariaLabel = t('questionCard.ariaLabel', { defaultValue: 'Questão {{num}}: {{title}}. {{status}}. {{score}} Tipo: {{type}}.', 
+        num: index + 1,
+        title: question.title,
+        status: statusLabel,
+        score: !locked ? scoreLabel + '.' : '',
+        type: typeLabel
+    });
 
     return (
         <button

@@ -7,12 +7,14 @@ import { GoogleSignInButton } from '../components/common/GoogleSignInButton';
 import { GuestModeButton } from '../components/common/GuestModeButton';
 import { AuthCard } from '../components/auth/AuthCard';
 import { AuthAlert } from '../components/common/AuthAlert';
+import { useTranslation } from 'react-i18next';
 import './AuthPages.css';
 
 /**
  * Página de login
  */
 export function LoginPage() {
+    const { t } = useTranslation('auth');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -68,18 +70,18 @@ export function LoginPage() {
         setSuccessMessage(null);
 
         if (!email.trim()) {
-            setLocalError('Digite seu email no campo acima para redefinir a senha.');
+            setLocalError(t('login.resetEmailRequired'));
             return;
         }
 
         try {
             await sendPasswordReset(email.trim());
-            setSuccessMessage(`Email de redefinição enviado para ${email.trim()}!`);
+            setSuccessMessage(t('login.resetEmailSent', { email: email.trim() }));
         } catch (err) {
             const error = err as { code?: string; message?: string };
             if (error?.code === 'auth/user-not-found' || error?.message?.includes('auth/user-not-found')) {
                 clearError();
-                setSuccessMessage(`Email de redefinição enviado para ${email.trim()}!`);
+                setSuccessMessage(t('login.resetEmailSent', { email: email.trim() }));
             }
         }
     };
@@ -89,20 +91,20 @@ export function LoginPage() {
     return (
         <div className="auth-page">
             <SEO
-                title="Entrar"
-                description="Faça login no PyExplorer para continuar sua aventura de aprender Python jogando!"
+                title={t('login.seoTitle')}
+                description={t('login.seoDescription')}
                 breadcrumbs={[
-                    { name: "Início", path: "/" },
-                    { name: "Entrar", path: "/login" }
+                    { name: t('common:nav.home', "Início"), path: "/" },
+                    { name: t('login.breadcrumb'), path: "/login" }
                 ]}
             />
             <AuthCard
                 icon="🐍"
-                title="Entrar no PyExplorer"
-                subtitle="Continue sua aventura de aprender Python!"
+                title={t('login.title')}
+                subtitle={t('login.subtitle')}
             >
                 {requireLogin && (
-                    <AuthAlert type="warning" message="Você precisa fazer login para acessar esta página" />
+                    <AuthAlert type="warning" message={t('login.requireLogin')} />
                 )}
 
                 {(error || localError) && (
@@ -116,21 +118,21 @@ export function LoginPage() {
                 <GoogleSignInButton
                     onClick={handleGoogleLogin}
                     disabled={anyLoading}
-                    label={isGoogleLoading ? '⏳ Entrando...' : 'Entrar com Google'}
+                    label={isGoogleLoading ? t('login.googleLoading') : t('login.googleButton')}
                 />
 
                 <div className="auth-divider">
-                    <span>ou use seu email</span>
+                    <span>{t('common:orUseEmail', 'ou use seu email')}</span>
                 </div>
 
                 <form onSubmit={handleSubmit} className="auth-form">
                     <div className="form-group">
-                        <label htmlFor="email" className="form-label">📧 Email</label>
+                        <label htmlFor="email" className="form-label">{t('login.emailLabel')}</label>
                         <input
                             id="email"
                             type="email"
                             className="form-input"
-                            placeholder="seu@email.com"
+                            placeholder={t('login.emailPlaceholder')}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
@@ -139,10 +141,10 @@ export function LoginPage() {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="password" className="form-label">🔑 Senha</label>
+                        <label htmlFor="password" className="form-label">{t('login.passwordLabel')}</label>
                         <PasswordInput
                             id="password"
-                            placeholder="Sua senha secreta"
+                            placeholder={t('login.passwordPlaceholder')}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
@@ -156,12 +158,12 @@ export function LoginPage() {
                         className="auth-btn auth-btn--primary"
                         disabled={anyLoading}
                     >
-                        {isLoading ? '⏳ Entrando...' : '🚀 Entrar'}
+                        {isLoading ? t('login.submitLoading') : t('login.submitButton')}
                     </button>
                 </form>
 
                 <div className="auth-divider">
-                    <span>ou</span>
+                    <span>{t('common:or', 'ou')}</span>
                 </div>
 
                 <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
@@ -170,7 +172,7 @@ export function LoginPage() {
                         onClick={handlePasswordReset}
                         className="auth-btn--forgot-password"
                     >
-                        Esqueci minha senha
+                        {t('login.forgotPassword')}
                     </button>
                 </div>
 
@@ -178,9 +180,9 @@ export function LoginPage() {
 
                 <div className="auth-links">
                     <p>
-                        Não tem uma conta?{' '}
+                        {t('login.noAccount')}{' '}
                         <Link to="/register" className="auth-link">
-                            Criar conta grátis
+                            {t('login.createFree')}
                         </Link>
                     </p>
                 </div>

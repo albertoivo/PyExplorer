@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
+import { useTranslation } from 'react-i18next';
 
 /** Adjetivos e substantivos divertidos para geração de nomes aleatórios */
 const ADJECTIVES = ['Veloz', 'Esperto', 'Curioso', 'Valente', 'Sábio', 'Alegre'];
@@ -19,6 +20,7 @@ function generateGuestName(): string {
  * Gera um nome aleatório divertido e navega para /game.
  */
 export function GuestModeButton() {
+    const { t } = useTranslation('auth');
     const { enterAsGuest } = useAuth();
     const navigate = useNavigate();
 
@@ -34,11 +36,11 @@ export function GuestModeButton() {
                 className="auth-btn auth-btn--guest"
                 onClick={handleGuestMode}
             >
-                👤 Jogar como Convidado
+                👤 {t('guestMode.playAsGuest', 'Jogar como Convidado')}
             </button>
 
             <p className="auth-guest-note">
-                💡 No modo convidado, seu progresso fica salvo apenas neste dispositivo
+                💡 {t('guestMode.guestNote', 'No modo convidado, seu progresso fica salvo apenas neste dispositivo')}
             </p>
         </>
     );

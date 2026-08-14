@@ -1,0 +1,174 @@
+{
+    "seoTitle": "Jogar",
+    "seoDescription": "Explore os mundos do PyExplorer, resolva desafios e aprenda Python jogando!",
+    "breadcrumb": "Jogar",
+    "pageTitle": "Mundos do PyExplorer",
+    "playAsGuest": "🎮 Jogando como Convidado",
+    "continueAdventure": "Continuar Aventura",
+    "completedQuestions": "Você já resolveu {{count}} questões hoje!",
+    "startExploring": "Comece a explorar o primeiro mundo para sua aventura!",
+    "noQuestionsInWorld": "Ainda não há questões disponíveis neste mundo. Volte em breve!",
+    "startWorld": "🚀 Iniciar Mundo",
+    "continueWorld": "▶️ Continuar",
+    "masteredWorld": "⭐ Mundo Dominado",
+    "completedPrefix": "Completou",
+    "ofSuffix": "de",
+    "lockedTooltip": "Complete os mundos anteriores para liberar este!",
+    "story": {
+        "title": "A Jornada Começa",
+        "next": "Próximo ➡️",
+        "play": "Jogar!",
+        "avatarLabel": "Avatar da História",
+        "progressLabel": "Progresso da História",
+        "skip": "Pular",
+        "startAdventure": "Começar Aventura! 🚀"
+    },
+    "result": {
+        "success": "🎉 Sucesso!",
+        "pointsEarned": "Você ganhou {{points}} pontos",
+        "starsEarned": "+ {{stars}} estrelas",
+        "almost": "🤔 Quase lá!",
+        "nextQuestion": "Próxima Questão",
+        "tryAgain": "Tentar Novamente",
+        "solution": "Ver Solução"
+    },
+    "question": {
+        "runCode": "▶️ Executar",
+        "checkAnswer": "Verificar",
+        "checking": "Verificando...",
+        "output": "Saída do Terminal:",
+        "true": "Verdadeiro",
+        "false": "Falso",
+        "dragBlocks": "Arraste os blocos na ordem correta"
+    },
+    "hints": {
+        "needHelp": "Precisa de ajuda?",
+        "needStars": "Precisa de estrelas",
+        "free": "Grátis",
+        "basicHint": "Dica Básica",
+        "mediumHint": "Dica Intermediária",
+        "fullAnswer": "Resposta Completa",
+        "revealBtn": "Revelar Dica ({{cost}} ⭐)",
+        "revealForStars": "Revelar por {{cost}} ⭐",
+        "revealCompactConfirm": "Revelar ({{cost}} ⭐)",
+        "revealConfirmTitle": "Revelar {{type}}?",
+        "revealConfirmDesc": "Isso custará {{cost}} estrelas.",
+        "balanceCurrent": "Seu saldo atual: {{stars}} ⭐",
+        "balanceAfter": "Saldo após revelar: {{after}} ⭐",
+        "revealPreviousFirst": "Revele a dica anterior primeiro!",
+        "extraHintPrefix": "Dica extra:",
+        "cancel": "Cancelar"
+    },
+    "completedModal": {
+        "title": "Questão Concluída!",
+        "attempts": "Tentativas",
+        "points": "Pontos obtidos",
+        "redoPractice": "Refazer para Praticar",
+        "redoHint": "Você pode refazer esta questão para praticar sem perder seu progresso.",
+        "sponsorTitle": "Apoie o PyExplorer",
+        "sponsorDesc": "Ajude a manter a plataforma gratuita e aberta para todos os estudantes.",
+        "sponsorLink": "Apoiar Projeto",
+        "viewAnswer": "Ver Resposta",
+        "answerNotAvailable": "Resposta não disponível",
+        "closeLabel": "Fechar modal"
+    },
+    "questionCard": {
+        "ariaLabel": "Questão {{num}}: {{title}}. Status: {{status}}. {{score}} Tipo: {{type}}."
+    },
+    "stars": {
+        "earned": "Estrelas ganhas",
+        "potential": "0 de 3 estrelas"
+    },
+    "status": {
+        "available": "Disponível",
+        "completed": "Concluído",
+        "locked": "Bloqueado",
+        "unknown": "Desconhecido",
+        "not_started": "Não iniciado"
+    },
+    "questionTypes": {
+        "unknown": "Questão",
+        "multiple_choice": "Escolha",
+        "true_false": "V/F",
+        "fill_code": "Preencher",
+        "partial_function": "Função Parcial",
+        "full_function": "Função Completa",
+        "parsons_problem": "Parsons",
+        "turtle_challenge": "Tartaruga",
+        "boss_battle": "Chefão"
+    },
+    "engine": {
+        "resultCorrect": "Correto!",
+        "resultIncorrect": "Incorreto!",
+        "resultReadonly": "Modo de leitura",
+        "unsupportedType": "Tipo de questão não suportado",
+        "readonlyMode": "Modo Visualização",
+        "readonlySub": "Você já concluiu esta questão ou está visualizando como convidado.",
+        "needHelp": "Preciso de Ajuda",
+        "hideHints": "Ocultar dicas",
+        "extraHintActive": "Dica extra ativada!",
+        "doubleStarsActive": "Estrelas em dobro ativadas!",
+        "hintsUsedPenalty": "Dicas usadas (penalidade aplicada)"
+    },
+    "sagaBanner": {
+        "questions": "Questões"
+    },
+    "sagaTabs": {
+        "allSagas": "Todas as Sagas",
+        "ariaLabel": "Abas de sagas"
+    },
+    "worldCard": {
+        "ariaLabel": "Mundo {{num}}: {{name}}. {{status}}.{{progress}}",
+        "bossBattle": "Batalha de Chefão",
+        "completedTooltip": "Você já completou este mundo!",
+        "newLesson": "Nova Lição",
+        "progressPrefix": "Progresso:",
+        "requirement": "Requisito: {{req}}",
+        "reviewFlashcards": "Revisar Flashcards",
+        "viewLesson": "Ver Lição"
+    },
+    "progressBar": {
+        "ariaLabel": "Progresso geral",
+        "worldAriaLabel": "Progresso em {{worldName}}"
+    },
+    "resultPanel": {
+        "ariaSuccess": "Resposta correta!",
+        "ariaError": "Resposta incorreta!",
+        "defaultSuccessTitle": "Parabéns!",
+        "defaultErrorTitle": "Quase lá!",
+        "hideExplanation": "Ocultar Explicação",
+        "showExplanation": "Ver Explicação",
+        "nextQuestion": "Próxima Questão",
+        "points": "pontos",
+        "retry": "Tentar Novamente",
+        "skipQuestion": "Pular Questão"
+    },
+    "certificate": {
+        "congrats": "Parabéns, {{name}}! 🎉",
+        "continueBtn": "Continuar Aprendendo",
+        "continueDesc": "Continue sua jornada para desbloquear o certificado oficial.",
+        "guestName": "Apreciador",
+        "inProgressDesc": "Você ainda não completou todas as missões!",
+        "inProgressTitle": "Certificado em Andamento",
+        "loading": "Verificando sua jornada...",
+        "lockedSeoTitle": "Certificado Bloqueado - PyExplorer",
+        "lockedTitle": "Acesso Restrito",
+        "loginRequired": "Faça login para ver seu certificado",
+        "progressInfo": "{{completed}} de {{total}} questões resolvidas",
+        "subtitle": "Certificado de Conclusão do Curso de Python",
+        "supportBtn": "Apoie o PyExplorer",
+        "supportDesc": "Se o PyExplorer te ajudou, considere apoiar o projeto!",
+        "supportTitle": "Apoie a Educação Aberta",
+        "unlockedSeoDesc": "Parabéns! Baixe ou compartilhe seu certificado oficial de conclusão do PyExplorer.",
+        "unlockedSeoTitle": "Seu Certificado Oficial - PyExplorer"
+    },
+    "backToQuestions": "Voltar para Questões",
+    "confirmCert": "Gerar Certificado",
+    "questionProgress": "Questão {{current}} de {{total}}",
+    "redoForPractice": "Refazer para Praticar",
+    "reviewBadge": "Revisão",
+    "backToMap": "Voltar para o Mapa",
+    "completedStats": "Estatísticas de Conclusão",
+    "worldEmptyDesc": "Este mundo ainda não possui questões cadastradas.",
+    "worldEmptyTitle": "Mundo Vazio"
+}

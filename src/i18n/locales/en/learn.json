@@ -1,0 +1,24 @@
+{
+    "seoTitle": "Learn Python",
+    "seoDescription": "Learn Python from scratch with free tutorials. Interactive guides for kids, beginners and support materials for parents.",
+    "breadcrumb": "Learn",
+    "heroTitle": "📚 Learn Python",
+    "heroSubtitle": "Articles, tutorials and tips to master Python from scratch!",
+    "beginners": {
+        "title": "🎯 For Beginners",
+        "description": "Never programmed? Start here!"
+    },
+    "parents": {
+        "title": "👨‍👩‍👧‍👦 For Parents & Educators",
+        "description": "Guides to support children learning programming"
+    },
+    "tips": {
+        "title": "💡 Tips & Fun Facts",
+        "description": "Extra resources to boost your learning"
+    },
+    "cta": {
+        "title": "🎮 Ready to Practice?",
+        "description": "Apply what you learned in PyExplorer challenges!",
+        "button": "Play Now"
+    }
+}

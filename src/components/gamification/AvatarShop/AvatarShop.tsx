@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { ShopItem, ShopItemType, UserInventory } from '../../../types/gamification';
 import { getShopItemsByType } from '../../../data/gamificationData';
+import { useTranslation } from 'react-i18next';
 import './AvatarShop.css';
 
 interface AvatarShopProps {
@@ -11,22 +12,23 @@ interface AvatarShopProps {
     onEquip: (itemId: string, type: 'avatar' | 'frame' | 'title') => void;
 }
 
-const TAB_LABELS: Record<ShopItemType, { name: string; icon: string }> = {
-    avatar: { name: 'Avatares', icon: '🐍' },
-    frame: { name: 'Molduras', icon: '🖼️' },
-    badge: { name: 'Emblemas', icon: '🏅' },
-    title: { name: 'Títulos', icon: '📛' },
+const TAB_KEYS: Record<ShopItemType, { key: string; icon: string }> = {
+    avatar: { key: 'avatarShop.tabs.avatar', icon: '🐍' },
+    frame: { key: 'avatarShop.tabs.frame', icon: '🖼️' },
+    badge: { key: 'avatarShop.tabs.badge', icon: '🏅' },
+    title: { key: 'avatarShop.tabs.title', icon: '📛' },
 };
 
 /**
  * Loja de avatares, molduras e itens cosméticos
  */
 export function AvatarShop({ userStars, userLevel, inventory, onBuy, onEquip }: AvatarShopProps) {
+    const { t } = useTranslation('gamification');
     const [selectedTab, setSelectedTab] = useState<ShopItemType>('avatar');
     const [buyingItem, setBuyingItem] = useState<string | null>(null);
 
     const items = getShopItemsByType(selectedTab);
-    const tabs = Object.keys(TAB_LABELS) as ShopItemType[];
+    const tabs = Object.keys(TAB_KEYS) as ShopItemType[];
 
     const isOwned = (itemId: string) => inventory.ownedItems.includes(itemId);
     const isEquipped = (item: ShopItem) => {
@@ -71,7 +73,7 @@ export function AvatarShop({ userStars, userLevel, inventory, onBuy, onEquip }: 
     return (
         <div className="avatar-shop">
             <div className="avatar-shop__header">
-                <h2 className="avatar-shop__title">🛒 Loja</h2>
+                <h2 className="avatar-shop__title">🛒 {t('avatarShop.title', 'Loja')}</h2>
                 <div className="avatar-shop__balance">
                     <span className="avatar-shop__balance-icon">💎</span>
                     <span className="avatar-shop__balance-value">{userStars}</span>
@@ -85,8 +87,8 @@ export function AvatarShop({ userStars, userLevel, inventory, onBuy, onEquip }: 
                         className={`avatar-shop__tab ${selectedTab === tab ? 'avatar-shop__tab--active' : ''}`}
                         onClick={() => setSelectedTab(tab)}
                     >
-                        <span className="avatar-shop__tab-icon">{TAB_LABELS[tab].icon}</span>
-                        <span className="avatar-shop__tab-name">{TAB_LABELS[tab].name}</span>
+                        <span className="avatar-shop__tab-icon">{TAB_KEYS[tab].icon}</span>
+                        <span className="avatar-shop__tab-name">{t(TAB_KEYS[tab].key)}</span>
                     </button>
                 ))}
             </div>
@@ -106,33 +108,33 @@ export function AvatarShop({ userStars, userLevel, inventory, onBuy, onEquip }: 
                             style={{ '--item-color': item.color || '#667eea' } as React.CSSProperties}
                         >
                             {item.limited && (
-                                <div className="shop-item__limited">⏰ Limitado</div>
+                                <div className="shop-item__limited">⏰ {t('avatarShop.limited', 'Limitado')}</div>
                             )}
 
                             <div className="shop-item__preview">
                                 <span className="shop-item__icon" style={item.color ? { filter: `drop-shadow(0 0 10px ${item.color})` } : {}}>
                                     {item.icon}
                                 </span>
-                                {equipped && <div className="shop-item__equipped-badge">✓ Equipado</div>}
+                                {equipped && <div className="shop-item__equipped-badge">✓ {t('avatarShop.equippedBadge', 'Equipado')}</div>}
                             </div>
 
                             <div className="shop-item__info">
-                                <h4 className="shop-item__name">{item.name}</h4>
-                                <p className="shop-item__description">{item.description}</p>
+                                <h4 className="shop-item__name">{t(`shopItems.${item.id}.name`, item.name)}</h4>
+                                <p className="shop-item__description">{t(`shopItems.${item.id}.description`, item.description)}</p>
                             </div>
 
                             {!owned ? (
                                 <div className="shop-item__purchase">
                                     {item.requiredLevel && !hasLevel && (
                                         <div className="shop-item__level-req">
-                                            🔒 Nível {item.requiredLevel}
+                                            🔒 {t('avatarShop.levelReq', { defaultValue: 'Nível {{level}}',  level: item.requiredLevel })}
                                         </div>
                                     )}
 
                                     <div className="shop-item__price">
                                         <span className="shop-item__price-icon">💎</span>
                                         <span className={`shop-item__price-value ${!affordable ? 'shop-item__price-value--expensive' : ''}`}>
-                                            {item.price === 0 ? 'Grátis' : item.price}
+                                            {item.price === 0 ? t('avatarShop.free', 'Grátis') : item.price}
                                         </span>
                                     </div>
 
@@ -141,7 +143,7 @@ export function AvatarShop({ userStars, userLevel, inventory, onBuy, onEquip }: 
                                         onClick={() => handleBuy(item)}
                                         disabled={!affordable || !hasLevel || isBuying}
                                     >
-                                        {isBuying ? '...' : (item.price === 0 ? 'Obter' : 'Comprar')}
+                                        {isBuying ? '...' : (item.price === 0 ? t('avatarShop.getFree', 'Obter') : t('avatarShop.buy', 'Comprar'))}
                                     </button>
                                 </div>
                             ) : (
@@ -150,7 +152,7 @@ export function AvatarShop({ userStars, userLevel, inventory, onBuy, onEquip }: 
                                     onClick={() => handleEquip(item)}
                                     disabled={equipped}
                                 >
-                                    {equipped ? '✓ Equipado' : 'Equipar'}
+                                    {equipped ? `✓ ${t('avatarShop.equippedBtn', 'Equipado')}` : t('avatarShop.equipBtn', 'Equipar')}
                                 </button>
                             )}
                         </div>
@@ -161,7 +163,7 @@ export function AvatarShop({ userStars, userLevel, inventory, onBuy, onEquip }: 
             {items.length === 0 && (
                 <div className="avatar-shop__empty">
                     <span className="avatar-shop__empty-icon">🏪</span>
-                    <p>Nenhum item disponível nesta categoria</p>
+                    <p>{t('avatarShop.empty', 'Nenhum item disponível nesta categoria')}</p>
                 </div>
             )}
         </div>

@@ -1,0 +1,96 @@
+{
+    "sagas": {
+        "basics": {
+            "name": "O Despertar do Código",
+            "description": "Comece sua jornada aprendendo os comandos mais básicos para interagir com o computador."
+        },
+        "logic": {
+            "name": "O Vale da Lógica",
+            "description": "Aprenda a tomar decisões e a dominar o fluxo do tempo (repetições)."
+        },
+        "structures": {
+            "name": "A Caverna dos Dados",
+            "description": "Descubra como organizar e armazenar grandes quantidades de informações."
+        },
+        "advanced": {
+            "name": "A Montanha da Maestria",
+            "description": "Aprenda truques avançados e torne-se um verdadeiro Mestre Python."
+        }
+    },
+    "basic_commands": {
+        "name": "Primeiros Passos",
+        "description": "Aprenda a dar os primeiros comandos em Python!"
+    },
+    "variables": {
+        "name": "Mundo das Variáveis",
+        "description": "Guarde dados em caixas mágicas."
+    },
+    "numbers": {
+        "name": "Aritmética Divertida",
+        "description": "Faça contas e operações matemáticas com Python."
+    },
+    "strings": {
+        "name": "Manipulação de Textos",
+        "description": "Brinque com palavras e frases de formas incríveis."
+    },
+    "user_input": {
+        "name": "Conversando com o Usuário",
+        "description": "Aprenda a pedir informações para quem está jogando."
+    },
+    "turtle_art": {
+        "name": "Arte com Turtle",
+        "description": "Desenhe formas incríveis usando código!"
+    },
+    "conditions": {
+        "name": "Tomando Decisões",
+        "description": "Use IF e ELSE para escolher caminhos."
+    },
+    "loops": {
+        "name": "Ilha da Repetição",
+        "description": "Faça as coisas acontecerem várias vezes com FOR e WHILE."
+    },
+    "lists": {
+        "name": "Floresta das Listas",
+        "description": "Guarde vários itens em uma única lista mágica."
+    },
+    "dictionaries": {
+        "name": "Caverna dos Dicionários",
+        "description": "Organize informações usando chaves e valores."
+    },
+    "functions": {
+        "name": "Fábrica de Funções",
+        "description": "Crie seus próprios comandos reutilizáveis."
+    },
+    "modules": {
+        "name": "Biblioteca de Módulos",
+        "description": "Importe poderes novos feitos por outros programadores."
+    },
+    "error_handling": {
+        "name": "Caçador de Bugs",
+        "description": "Aprenda a lidar com erros sem quebrar o jogo."
+    },
+    "files": {
+        "name": "Mestre dos Arquivos",
+        "description": "Leia e salve informações em arquivos de texto."
+    },
+    "pythonic": {
+        "name": "Estilo Pythonic",
+        "description": "Escreva código bonito e eficiente como um verdadeiro mestre."
+    },
+    "oop_basics": {
+        "name": "Orientação a Objetos",
+        "description": "Crie suas próprias classes e objetos virtuais."
+    },
+    "data_science": {
+        "name": "Laboratório de Dados",
+        "description": "Explore os fundamentos de análise de dados e gráficos."
+    },
+    "web_api": {
+        "name": "Conexão Web",
+        "description": "Consuma dados de APIs reais na internet."
+    },
+    "bosses": {
+        "name": "Desafios dos Chefões",
+        "description": "Enfrente problemas complexos que testarão tudo que você aprendeu!"
+    }
+}

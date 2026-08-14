@@ -5,9 +5,11 @@
 import { Link } from 'react-router-dom'
 import { ARTICLES, type Article } from '../data/learnData'
 import { SEO } from '../components/common/SEO'
+import { useTranslation } from 'react-i18next'
 import './LearnPage.css'
 
 export function LearnPage() {
+    const { t } = useTranslation('learn');
     const beginnerArticles = ARTICLES.filter(a => a.category === 'beginner')
     const parentArticles = ARTICLES.filter(a => a.category === 'parents')
     const tipArticles = ARTICLES.filter(a => a.category === 'tips')
@@ -15,11 +17,11 @@ export function LearnPage() {
     return (
         <div className="learn-page">
             <SEO
-                title="Aprenda Python"
-                description="Aprenda Python do zero com tutoriais gratuitos em português. Guias interativos para crianças, iniciantes e materiais de apoio para pais."
+                title={t('seoTitle')}
+                description={t('seoDescription')}
                 breadcrumbs={[
-                    { name: "Início", path: "/" },
-                    { name: "Aprender", path: "/learn" }
+                    { name: t('common:nav.home', "Início"), path: "/" },
+                    { name: t('breadcrumb'), path: "/learn" }
                 ]}
                 structuredData={{
                     "@context": "https://schema.org",
@@ -42,10 +44,10 @@ export function LearnPage() {
             <section className="learn-hero">
                 <div className="learn-hero__content">
                     <h1 className="learn-hero__title">
-                        📚 Aprenda Python
+                        {t('heroTitle')}
                     </h1>
                     <p className="learn-hero__subtitle">
-                        Artigos, tutoriais e dicas para dominar Python do zero!
+                        {t('heroSubtitle')}
                     </p>
                 </div>
             </section>
@@ -53,10 +55,10 @@ export function LearnPage() {
             {/* Artigos para Iniciantes */}
             <section className="learn-section">
                 <h2 className="learn-section__title">
-                    🎯 Para Iniciantes
+                    {t('beginners.title')}
                 </h2>
                 <p className="learn-section__description">
-                    Nunca programou? Comece por aqui!
+                    {t('beginners.description')}
                 </p>
                 <div className="learn-grid">
                     {beginnerArticles.map(article => (
@@ -69,10 +71,10 @@ export function LearnPage() {
             {parentArticles.length > 0 && (
                 <section className="learn-section">
                     <h2 className="learn-section__title">
-                        👨‍👩‍👧‍👦 Para Pais e Educadores
+                        {t('parents.title')}
                     </h2>
                     <p className="learn-section__description">
-                        Guias para apoiar crianças no aprendizado de programação
+                        {t('parents.description')}
                     </p>
                     <div className="learn-grid">
                         {parentArticles.map(article => (
@@ -86,10 +88,10 @@ export function LearnPage() {
             {tipArticles.length > 0 && (
                 <section className="learn-section">
                     <h2 className="learn-section__title">
-                        💡 Dicas e Curiosidades
+                        {t('tips.title')}
                     </h2>
                     <p className="learn-section__description">
-                        Recursos extras para turbinar seu aprendizado
+                        {t('tips.description')}
                     </p>
                     <div className="learn-grid">
                         {tipArticles.map(article => (
@@ -102,10 +104,10 @@ export function LearnPage() {
             {/* CTA Section */}
             <section className="learn-cta">
                 <div className="learn-cta__content">
-                    <h2>🎮 Pronto para Praticar?</h2>
-                    <p>Aplique o que aprendeu nos desafios do PyExplorer!</p>
+                    <h2>{t('cta.title')}</h2>
+                    <p>{t('cta.description')}</p>
                     <Link to="/game" className="learn-cta__button">
-                        Jogar Agora
+                        {t('cta.button')}
                     </Link>
                 </div>
             </section>

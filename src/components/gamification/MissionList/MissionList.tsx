@@ -1,7 +1,7 @@
 import type { Mission, UserMission } from '../../../types/gamification';
-import './MissionList.css';
-
 import { ENDGAME_MISSIONS } from '../../../data/gamificationData';
+import { useTranslation } from 'react-i18next';
+import './MissionList.css';
 
 interface MissionListProps {
     dailyMissions: Mission[];
@@ -14,6 +14,7 @@ interface MissionListProps {
  * Lista de missões diárias e semanais
  */
 export function MissionList({ dailyMissions, weeklyMissions, userMissions }: MissionListProps) {
+    const { t } = useTranslation('gamification');
     const getUserMission = (missionId: string) => userMissions.find(m => m.missionId === missionId);
 
     // Identify active endgame missions from userMissions that start with 'endgame_'
@@ -36,15 +37,15 @@ export function MissionList({ dailyMissions, weeklyMissions, userMissions }: Mis
         return {
             id: um.missionId,
             type: 'endgame',
-            title: 'Desafio Secreto',
-            description: 'Complete este desafio especial',
+            title: t('missions.secretChallenge', 'Desafio Secreto'),
+            description: t('missions.secretChallengeDesc', 'Complete este desafio especial'),
             icon: '❓',
             objectiveType: 'speedrun' as const, // Explicit const assertion
             targetValue: 1,
             starsReward: 0,
             xpReward: 0
         } as Mission; // Explicit cast to Mission to satisfy interface
-    }).filter(m => m.title !== 'Desafio Secreto'); // Optional: filter out fallbacks if desired
+    }).filter(m => m.title !== t('missions.secretChallenge', 'Desafio Secreto')); // Optional: filter out fallbacks if desired
 
     const renderMission = (mission: Mission) => {
         const userMission = getUserMission(mission.id);
@@ -52,7 +53,7 @@ export function MissionList({ dailyMissions, weeklyMissions, userMissions }: Mis
         const percentage = Math.min(100, (progress / mission.targetValue) * 100);
         const isCompleted = userMission?.status === 'completed';
         const isClaimed = userMission?.status === 'claimed';
-        const typeLabel = mission.type === 'daily' ? 'Diária' : (mission.type === 'weekly' ? 'Semanal' : 'Mestre');
+        const typeLabel = mission.type === 'daily' ? t('missions.daily', 'Diária') : (mission.type === 'weekly' ? t('missions.weekly', 'Semanal') : t('missions.master', 'Mestre'));
         const typeClass = mission.type;
 
         return (
@@ -64,13 +65,13 @@ export function MissionList({ dailyMissions, weeklyMissions, userMissions }: Mis
 
                 <div className="mission-card__content">
                     <div className="mission-card__header">
-                        <span className="mission-card__title">{mission.title}</span>
+                        <span className="mission-card__title">{t(`missions.items.${mission.id}.title`, mission.title)}</span>
                         <span className={`mission-card__type mission-card__type--${typeClass}`}>
                             {typeLabel}
                         </span>
                     </div>
 
-                    <p className="mission-card__description">{mission.description}</p>
+                    <p className="mission-card__description">{t(`missions.items.${mission.id}.description`, mission.description)}</p>
 
                     <div className="mission-card__progress">
                         <div className="mission-card__progress-bar">
@@ -102,7 +103,7 @@ export function MissionList({ dailyMissions, weeklyMissions, userMissions }: Mis
                 */}
                 {(isCompleted || isClaimed) && (
                     <div className="mission-card__claimed-badge">
-                        ✅ Completada!
+                        ✅ {t('missions.completed', 'Completada!')}
                     </div>
                 )}
             </div>
@@ -115,8 +116,8 @@ export function MissionList({ dailyMissions, weeklyMissions, userMissions }: Mis
                 <section className="mission-list__section">
                     <h3 className="mission-list__section-title">
                         <span className="mission-list__section-icon">🏆</span>
-                        Desafios de Mestre
-                        <span className="mission-list__section-timer">Dificuldade Elevada</span>
+                        {t('missions.masterChallenges', 'Desafios de Mestre')}
+                        <span className="mission-list__section-timer">{t('missions.highDifficulty', 'Dificuldade Elevada')}</span>
                     </h3>
                     <div className="mission-list__grid">
                         {activeEndgameMissions.map(renderMission)}
@@ -127,8 +128,8 @@ export function MissionList({ dailyMissions, weeklyMissions, userMissions }: Mis
             <section className="mission-list__section">
                 <h3 className="mission-list__section-title">
                     <span className="mission-list__section-icon">📅</span>
-                    Missões Diárias
-                    <span className="mission-list__section-timer">Renova à meia-noite</span>
+                    {t('missions.dailyMissions', 'Missões Diárias')}
+                    <span className="mission-list__section-timer">{t('missions.renewsMidnight', 'Renova à meia-noite')}</span>
                 </h3>
                 <div className="mission-list__grid">
                     {dailyMissions.map(renderMission)}
@@ -138,8 +139,8 @@ export function MissionList({ dailyMissions, weeklyMissions, userMissions }: Mis
             <section className="mission-list__section">
                 <h3 className="mission-list__section-title">
                     <span className="mission-list__section-icon">📆</span>
-                    Missões Semanais
-                    <span className="mission-list__section-timer">Renova no domingo</span>
+                    {t('missions.weeklyMissions', 'Missões Semanais')}
+                    <span className="mission-list__section-timer">{t('missions.renewsSunday', 'Renova no domingo')}</span>
                 </h3>
                 <div className="mission-list__grid">
                     {weeklyMissions.map(renderMission)}

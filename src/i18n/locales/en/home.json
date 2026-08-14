@@ -1,0 +1,52 @@
+{
+    "seo": {
+        "title": "Learn Python by Playing",
+        "description": "The best educational game for kids to learn Python. 100% Free, Safe and Fun!"
+    },
+    "breadcrumb": "Home",
+    "hero": {
+        "badge": "🎓 Educational & Fun",
+        "titlePrefix": "Learn",
+        "titlePython": "Python",
+        "titleSuffix": "like a Hero! 🦸‍♂️",
+        "description": "Embark on an incredible adventure through the worlds of programming! Solve challenges, earn stars and become a Python master!",
+        "continueAdventure": "🚀 Continue Adventure",
+        "startPlaying": "🎮 Start Playing",
+        "haveAccount": "I have an account",
+        "title": "Master Python in an Interactive Journey"
+    },
+    "features": {
+        "title": "Why is PyExplorer Special?",
+        "interactiveQuestions": "Interactive Questions",
+        "interactiveQuestionsDesc": "Multiple choice, true/false, complete the code and more!",
+        "worlds": "11 Worlds to Explore",
+        "worldsDesc": "Unlock new worlds as you progress!",
+        "pythonInBrowser": "Python in the Browser",
+        "pythonInBrowserDesc": "Run real Python code without installing anything!",
+        "earnStars": "Earn Stars",
+        "earnStarsDesc": "Complete challenges and accumulate points!",
+        "learnPlaying": "Learn by Playing",
+        "learnPlayingDesc": "Concepts explained in a simple and fun way!",
+        "safeForKids": "Safe for Kids",
+        "safeForKidsDesc": "A safe environment for all ages!"
+    },
+    "worldsPreview": {
+        "title": "PyExplorer Worlds"
+    },
+    "learnSection": {
+        "title": "Learn Python for Free 📚",
+        "subtitle": "Check out our complete guides and tutorials for beginners and parents.",
+        "whatIsPython": "What is Python?",
+        "whatIsPythonDesc": "Understand why this is the best language to start with.",
+        "parentGuide": "Guide for Parents",
+        "parentGuideDesc": "How to help your child learn programming.",
+        "firstSteps": "First Steps",
+        "firstStepsDesc": "Your first hands-on Python tutorial.",
+        "viewAllArticles": "📖 View All Articles"
+    },
+    "cta": {
+        "title": "Ready to start your adventure?",
+        "description": "Join thousands of kids learning Python the fun way!",
+        "createAccount": "🎮 Create Free Account"
+    }
+}

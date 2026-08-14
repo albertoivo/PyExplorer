@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import './Footer.css';
 
 /**
@@ -6,6 +7,7 @@ import './Footer.css';
  */
 export function Footer() {
     const currentYear = new Date().getFullYear();
+    const { t } = useTranslation('common');
 
     return (
         <footer className="footer">
@@ -14,36 +16,36 @@ export function Footer() {
                     <div className="footer__brand">
                         <Link to="/" className="footer__logo">🐍 PyExplorer</Link>
                         <p className="footer__tagline">
-                            Aprenda Python de forma divertida!
+                            {t('footer.tagline')}
                         </p>
                     </div>
 
-                    <nav className="footer__links" aria-label="Navegação de Rodapé">
+                    <nav className="footer__links" aria-label={t('aria.footerNav')}>
                         <div className="footer__link-group">
-                            <p className="footer__link-title">Aprender</p>
-                            <Link to="/learn" className="footer__link">📚 Tutoriais & Artigos</Link>
-                            <Link to="/python-para-criancas" className="footer__link">👨‍👩‍👧‍👦 Python para Crianças</Link>
-                            <Link to="/aprender-python-jogando" className="footer__link">🎮 Aprender Jogando</Link>
-                            <Link to="/game" className="footer__link">🚀 Jogar Agora</Link>
+                            <p className="footer__link-title">{t('footer.learnSection')}</p>
+                            <Link to="/learn" className="footer__link">{t('footer.tutorials')}</Link>
+                            <Link to="/python-para-criancas" className="footer__link">{t('footer.pythonForKids')}</Link>
+                            <Link to="/aprender-python-jogando" className="footer__link">{t('footer.learnPlaying')}</Link>
+                            <Link to="/game" className="footer__link">{t('footer.playNow')}</Link>
                         </div>
 
                         <div className="footer__link-group">
-                            <p className="footer__link-title">Sobre</p>
-                            <Link to="/about" className="footer__link">O Projeto</Link>
-                            <Link to="/rewards" className="footer__link">🏆 Conquistas</Link>
-                            <a href="https://github.com/sponsors/albertoivo" target="_blank" rel="noopener noreferrer" className="footer__link footer__link--highlight">💜 Apoie o Projeto</a>
+                            <p className="footer__link-title">{t('footer.aboutSection')}</p>
+                            <Link to="/about" className="footer__link">{t('footer.theProject')}</Link>
+                            <Link to="/rewards" className="footer__link">{t('footer.achievements')}</Link>
+                            <a href="https://github.com/sponsors/albertoivo" target="_blank" rel="noopener noreferrer" className="footer__link footer__link--highlight">{t('footer.supportProject')}</a>
                         </div>
                     </nav>
                 </div>
 
                 <div className="footer__bottom">
                     <p className="footer__copyright">
-                        © {currentYear} PyExplorer. Feito com 💜 para ensinar programação.
+                        {t('footer.copyright', { year: currentYear })}
                     </p>
                     <div className="footer__badges">
-                        <span className="footer__badge">🎓 Educativo</span>
-                        <span className="footer__badge">🔒 Seguro para crianças</span>
-                        <span className="footer__badge">🆓 Gratuito</span>
+                        <span className="footer__badge">{t('footer.badgeEducational')}</span>
+                        <span className="footer__badge">{t('footer.badgeSafe')}</span>
+                        <span className="footer__badge">{t('footer.badgeFree')}</span>
                     </div>
                 </div>
             </div>

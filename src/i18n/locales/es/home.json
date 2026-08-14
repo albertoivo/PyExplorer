@@ -1,0 +1,52 @@
+{
+    "seo": {
+        "title": "Aprende Python Jugando",
+        "description": "¡El mejor juego educativo para que los niños aprendan Python. 100% Gratis, Seguro y Divertido!"
+    },
+    "breadcrumb": "Inicio",
+    "hero": {
+        "badge": "🎓 Educativo y Divertido",
+        "titlePrefix": "Aprende",
+        "titlePython": "Python",
+        "titleSuffix": "¡como un Héroe! 🦸‍♂️",
+        "description": "¡Embárcate en una aventura increíble por los mundos de la programación! ¡Resuelve desafíos, gana estrellas y conviértete en un maestro de Python!",
+        "continueAdventure": "🚀 Continuar Aventura",
+        "startPlaying": "🎮 Empezar a Jugar",
+        "haveAccount": "Ya tengo cuenta",
+        "title": "Domina Python en un Viaje Interactivo"
+    },
+    "features": {
+        "title": "¿Por qué PyExplorer es Especial?",
+        "interactiveQuestions": "Preguntas Interactivas",
+        "interactiveQuestionsDesc": "¡Opción múltiple, verdadero/falso, completa el código y más!",
+        "worlds": "11 Mundos para Explorar",
+        "worldsDesc": "¡Desbloquea nuevos mundos a medida que avanzas!",
+        "pythonInBrowser": "Python en el Navegador",
+        "pythonInBrowserDesc": "¡Ejecuta código Python real sin instalar nada!",
+        "earnStars": "Gana Estrellas",
+        "earnStarsDesc": "¡Completa desafíos y acumula puntos!",
+        "learnPlaying": "Aprende Jugando",
+        "learnPlayingDesc": "¡Conceptos explicados de forma simple y divertida!",
+        "safeForKids": "Seguro para Niños",
+        "safeForKidsDesc": "¡Un ambiente seguro para todas las edades!"
+    },
+    "worldsPreview": {
+        "title": "Mundos de PyExplorer"
+    },
+    "learnSection": {
+        "title": "Aprende Python Gratis 📚",
+        "subtitle": "Consulta nuestras guías y tutoriales completos para principiantes y padres.",
+        "whatIsPython": "¿Qué es Python?",
+        "whatIsPythonDesc": "Entiende por qué este es el mejor lenguaje para empezar.",
+        "parentGuide": "Guía para Padres",
+        "parentGuideDesc": "Cómo ayudar a tu hijo a aprender programación.",
+        "firstSteps": "Primeros Pasos",
+        "firstStepsDesc": "Tu primer tutorial práctico de Python.",
+        "viewAllArticles": "📖 Ver Todos los Artículos"
+    },
+    "cta": {
+        "title": "¿Listo para comenzar tu aventura?",
+        "description": "¡Únete a miles de niños aprendiendo Python de forma divertida!",
+        "createAccount": "🎮 Crear Cuenta Gratis"
+    }
+}

@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
+import { useTranslation } from 'react-i18next';
 import { useGamification } from '../../context/GamificationContext';
 import { SHOP_ITEMS } from '../../data/gamificationData';
+import { LanguageSwitcher } from './LanguageSwitcher';
 import reactLogo from '../../assets/react.svg';
 import './Header.css';
 
@@ -13,7 +15,8 @@ import './Header.css';
 export function Header() {
     const { userData, isGuest, logout, loading } = useAuth();
     const { gamification, currentLevel } = useGamification();
-    const location = useLocation();
+
+    const { t } = useTranslation('common');
     const [menuOpen, setMenuOpen] = useState(false);
 
     // Previne scroll da página quando o menu drawer mobile está aberto
@@ -37,7 +40,7 @@ export function Header() {
         }
     };
 
-    const isActive = (path: string) => location.pathname === path;
+
 
     // Prioritize gamification streak (source of truth)
     const currentStreak = gamification?.streak?.currentStreak || 0;
@@ -77,11 +80,11 @@ export function Header() {
 
                 {/* Quick Stats Pill para Mobile (Visível apenas em telas pequenas quando logado) */}
                 {userData && (
-                    <div className="header__quick-stats" aria-label="Estatísticas do jogador">
-                        <span className="quick-stat" title="Diamantes disponíveis">
+                    <div className="header__quick-stats" aria-label={t('nav.stats')}>
+                        <span className="quick-stat" title={t('diamonds')}>
                             <span aria-hidden="true">💎</span> {userData.balance || 0}
                         </span>
-                        <span className="quick-stat" title="Ofensiva diária">
+                        <span className="quick-stat" title={t('streak')}>
                             <span aria-hidden="true">🔥</span> {currentStreak}
                         </span>
                     </div>
@@ -89,11 +92,11 @@ export function Header() {
 
                 {/* Ações do Header à Direita (Desktop & Botão Hambúrguer Mobile) */}
                 <div className="header__actions">
-                    {/* Botão de menu hambúrguer para mobile */}
+                    <LanguageSwitcher />
                     <button
                         className={`header__hamburger ${menuOpen ? 'header__hamburger--active' : ''}`}
                         onClick={() => setMenuOpen(!menuOpen)}
-                        aria-label={menuOpen ? 'Fechar menu de navegação' : 'Abrir menu de navegação'}
+                        aria-label={menuOpen ? t('nav.closeMenu') : t('nav.openMenu')}
                         aria-expanded={menuOpen}
                     >
                         <span className="header__hamburger-bar"></span>
@@ -108,72 +111,68 @@ export function Header() {
                     {userData && (
                         <div className="header__mobile-profile">
                             <div className="mobile-profile__avatar-container">
-                                <img src={reactLogo} className="mobile-profile__avatar" alt="Avatar do usuário" />
-                                <span className="mobile-profile__level-badge">Nível {currentLevel?.level || 1}</span>
+                                <img src={reactLogo} className="mobile-profile__avatar" alt="Avatar" />
+                                <span className="mobile-profile__level-badge">{t('nav.level')} {currentLevel?.level || 1}</span>
                             </div>
                             <div className="mobile-profile__info">
                                 <span className="mobile-profile__name">{userData.displayName}</span>
-                                <span className="mobile-profile__title">{currentLevel?.name || 'Explorador'}</span>
+                                <span className="mobile-profile__title">{currentLevel?.name || t('nav.explorer')}</span>
                             </div>
                         </div>
                     )}
 
                     {/* Links de Navegação */}
                     <div className="header__nav-links">
-                        <Link
+                        <NavLink
                             to="/"
-                            className={`header__nav-link ${isActive('/') ? 'header__nav-link--active' : ''}`}
-                            aria-current={isActive('/') ? 'page' : undefined}
+                            className={({ isActive }) => `header__nav-link ${isActive ? 'header__nav-link--active' : ''}`}
                             onClick={() => setMenuOpen(false)}
+                            end
                         >
-                            <span className="nav-icon" aria-hidden="true">🏠</span> Início
-                        </Link>
+                            <span className="nav-icon" aria-hidden="true">🏠</span> {t('nav.home')}
+                        </NavLink>
 
-                        <Link
+                        <NavLink
                             to="/learn"
-                            className={`header__nav-link ${location.pathname.startsWith('/learn') ? 'header__nav-link--active' : ''}`}
-                            aria-current={location.pathname.startsWith('/learn') ? 'page' : undefined}
+                            className={({ isActive }) => `header__nav-link ${isActive ? 'header__nav-link--active' : ''}`}
                             onClick={() => setMenuOpen(false)}
                         >
-                            <span className="nav-icon" aria-hidden="true">📚</span> Aprender
-                        </Link>
+                            <span className="nav-icon" aria-hidden="true">📚</span> {t('nav.learn')}
+                        </NavLink>
 
                         {userData && (
                             <>
-                                <Link
+                                <NavLink
                                     to="/game"
-                                    className={`header__nav-link ${isActive('/game') ? 'header__nav-link--active' : ''}`}
-                                    aria-current={isActive('/game') ? 'page' : undefined}
+                                    className={({ isActive }) => `header__nav-link ${isActive ? 'header__nav-link--active' : ''}`}
                                     onClick={() => setMenuOpen(false)}
                                 >
-                                    <span className="nav-icon" aria-hidden="true">🎮</span> Jogar
-                                </Link>
+                                    <span className="nav-icon" aria-hidden="true">🎮</span> {t('nav.play')}
+                                </NavLink>
 
-                                <Link
+                                <NavLink
                                     to="/certificate"
-                                    className={`header__nav-link ${location.pathname === '/certificate' ? 'header__nav-link--active' : ''}`}
+                                    className={({ isActive }) => `header__nav-link ${isActive ? 'header__nav-link--active' : ''}`}
                                     onClick={() => setMenuOpen(false)}
                                 >
-                                    <span className="nav-icon" aria-hidden="true">📜</span> Certificado
-                                </Link>
+                                    <span className="nav-icon" aria-hidden="true">📜</span> {t('nav.certificate')}
+                                </NavLink>
 
-                                <Link
+                                <NavLink
                                     to="/rewards"
-                                    className={`header__nav-link ${isActive('/rewards') ? 'header__nav-link--active' : ''}`}
-                                    aria-current={isActive('/rewards') ? 'page' : undefined}
+                                    className={({ isActive }) => `header__nav-link ${isActive ? 'header__nav-link--active' : ''}`}
                                     onClick={() => setMenuOpen(false)}
                                 >
-                                    <span className="nav-icon" aria-hidden="true">🏆</span> Recompensas
-                                </Link>
+                                    <span className="nav-icon" aria-hidden="true">🏆</span> {t('nav.rewards')}
+                                </NavLink>
 
-                                <Link
+                                <NavLink
                                     to="/profile"
-                                    className={`header__nav-link ${isActive('/profile') ? 'header__nav-link--active' : ''}`}
-                                    aria-current={isActive('/profile') ? 'page' : undefined}
+                                    className={({ isActive }) => `header__nav-link ${isActive ? 'header__nav-link--active' : ''}`}
                                     onClick={() => setMenuOpen(false)}
                                 >
-                                    <span className="nav-icon" aria-hidden="true">👤</span> Perfil
-                                </Link>
+                                    <span className="nav-icon" aria-hidden="true">👤</span> {t('nav.profile')}
+                                </NavLink>
                             </>
                         )}
                     </div>
@@ -181,14 +180,14 @@ export function Header() {
                     {/* Área do usuário / Auth no Desktop & Footer do Drawer no Mobile */}
                     <div className="header__user-desktop">
                         {loading ? (
-                            <div className="header__loading">Carregando...</div>
+                            <div className="header__loading">{t('nav.loading')}</div>
                         ) : userData ? (
                             <div className="header__user-pill">
                                 <div className="user-pill__stats">
-                                    <span className="stat-item" title="Diamantes disponíveis">
+                                    <span className="stat-item" title={t('diamonds')}>
                                         <span aria-hidden="true">💎</span> {userData.balance || 0}
                                     </span>
-                                    <span className="stat-item" title="Ofensiva diária">
+                                    <span className="stat-item" title={t('streak')}>
                                         <span aria-hidden="true">🔥</span> {currentStreak}
                                     </span>
                                 </div>
@@ -196,21 +195,21 @@ export function Header() {
                                     <img src={reactLogo} className="user-pill__avatar" alt="Avatar" />
                                     <div className="user-pill__details">
                                         <span className="user-pill__name">{userData.displayName}</span>
-                                        <span className="user-pill__level">Nív. {currentLevel?.level || 1}</span>
-                                        {isGuest && <span className="header__user-guest">(Convidado)</span>}
+                                        <span className="user-pill__level">{t('nav.level')} {currentLevel?.level || 1}</span>
+                                        {isGuest && <span className="header__user-guest">({t('nav.guest')})</span>}
                                     </div>
                                 </div>
-                                <button onClick={handleLogout} className="header__logout-btn" title="Encerrar sessão">
-                                    <span aria-hidden="true">🚪</span> Sair
+                                <button onClick={handleLogout} className="header__logout-btn" title={t('nav.logout')}>
+                                    <span aria-hidden="true">🚪</span> {t('nav.logout')}
                                 </button>
                             </div>
                         ) : (
                             <div className="header__auth-links">
                                 <Link to="/login" className="header__auth-link" onClick={() => setMenuOpen(false)}>
-                                    Entrar
+                                    {t('nav.login')}
                                 </Link>
                                 <Link to="/register" className="header__auth-link header__auth-link--primary" onClick={() => setMenuOpen(false)}>
-                                    Criar Conta
+                                    {t('nav.register')}
                                 </Link>
                             </div>
                         )}

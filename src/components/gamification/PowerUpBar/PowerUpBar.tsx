@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { UserPowerUps, PowerUpType } from '../../../types/gamification';
 import { POWERUPS } from '../../../data/gamificationData';
 import { getLocalDateStr } from '../../../utils/gamificationUtils';
+import { useTranslation } from 'react-i18next';
 import './PowerUpBar.css';
 
 interface PowerUpBarProps {
@@ -22,6 +23,7 @@ export function PowerUpBar({
     onBuyPowerUp,
     activePowerUp,
 }: PowerUpBarProps) {
+    const { t } = useTranslation('gamification');
     const today = getLocalDateStr();
     const isResetNeeded = userPowerUps.lastResetDate !== today;
 
@@ -64,10 +66,10 @@ export function PowerUpBar({
                             </div>
 
                             <div className="powerup-item__info">
-                                <h4 className="powerup-item__name">{powerUp.name}</h4>
-                                <p className="powerup-item__description">{powerUp.description}</p>
+                                <h4 className="powerup-item__name">{t(`powerups.${powerUp.id}.name`, powerUp.name)}</h4>
+                                <p className="powerup-item__description">{t(`powerups.${powerUp.id}.description`, powerUp.description)}</p>
                                 <span className="powerup-item__limit">
-                                    Máx. diário: {usesLeft}/{powerUp.maxPerDay} restantes
+                                    {t('powerUpBar.dailyLimit', { defaultValue: 'Máx. diário: {{left}}/{{max}} restantes',  left: usesLeft, max: powerUp.maxPerDay })}
                                 </span>
                             </div>
 
@@ -77,18 +79,18 @@ export function PowerUpBar({
                                         className="powerup-btn powerup-btn--use"
                                         onClick={() => onUsePowerUp(powerUp.id)}
                                         disabled={!canUseNow}
-                                        title={usesLeft === 0 ? 'Limite diário atingido' : powerUp.description}
-                                        aria-label={isActive ? `${powerUp.name} ativado` : `Usar ${powerUp.name}`}
+                                        title={usesLeft === 0 ? t('powerUpBar.limitReached', 'Limite diário atingido') : t(`powerups.${powerUp.id}.description`, powerUp.description)}
+                                        aria-label={isActive ? t('powerUpBar.ariaActive', { defaultValue: '{{name}} ativado',  name: t(`powerups.${powerUp.id}.name`, powerUp.name) }) : t('powerUpBar.ariaUse', { defaultValue: 'Usar {{name}}',  name: t(`powerups.${powerUp.id}.name`, powerUp.name) })}
                                     >
-                                        {isActive ? 'Ativo' : 'Usar'}
+                                        {isActive ? t('powerUpBar.btnActive', 'Ativo') : t('powerUpBar.btnUse', 'Usar')}
                                     </button>
                                 ) : (
                                     <button
                                         className="powerup-btn powerup-btn--buy"
                                         onClick={() => onBuyPowerUp(powerUp.id, powerUp.price)}
                                         disabled={!canBuyNow}
-                                        title={`Comprar por ${powerUp.price} estrelas`}
-                                        aria-label={`Comprar ${powerUp.name} por ${powerUp.price} estrelas`}
+                                        title={t('powerUpBar.buyFor', { defaultValue: 'Comprar por {{price}} estrelas',  price: powerUp.price })}
+                                        aria-label={t('powerUpBar.ariaBuy', { defaultValue: 'Comprar {{name}} por {{price}} estrelas',  name: t(`powerups.${powerUp.id}.name`, powerUp.name), price: powerUp.price })}
                                     >
                                         ⭐ {powerUp.price}
                                     </button>
@@ -115,6 +117,7 @@ export function PowerUpBarCompact({
     userStars?: number;
     onBuyPowerUp?: (type: PowerUpType, price: number) => boolean;
 }) {
+    const { t } = useTranslation('gamification');
     const [confirmBuy, setConfirmBuy] = useState<PowerUpType | null>(null);
     const today = getLocalDateStr();
     const isResetNeeded = userPowerUps.lastResetDate !== today;
@@ -147,14 +150,14 @@ export function PowerUpBarCompact({
             {targetPowerUp && (
                 <div className="powerup-buy-confirm-overlay">
                     <div className="powerup-buy-confirm-box">
-                        <h4>Comprar {targetPowerUp.name}?</h4>
-                        <p>Custo: ⭐ {targetPowerUp.price} | Saldo: ⭐ {userStars || 0}</p>
+                        <h4>{t('powerUpBar.confirmBuyTitle', { defaultValue: 'Comprar {{name}}?',  name: t(`powerups.${targetPowerUp.id}.name`, targetPowerUp.name) })}</h4>
+                        <p>{t('powerUpBar.cost', { defaultValue: 'Custo: ⭐ {{price}} | Saldo: ⭐ {{balance}}',  price: targetPowerUp.price, balance: userStars || 0 })}</p>
                         <div className="powerup-buy-confirm-actions">
                             <button
                                 className="powerup-buy-btn-cancel"
                                 onClick={() => setConfirmBuy(null)}
                             >
-                                Cancelar
+                                {t('powerUpBar.cancel', 'Cancelar')}
                             </button>
                             <button
                                 className="powerup-buy-btn-confirm"
@@ -166,7 +169,7 @@ export function PowerUpBarCompact({
                                     setConfirmBuy(null);
                                 }}
                             >
-                                {(userStars || 0) < targetPowerUp.price ? 'Estrelas Insuficientes' : 'Comprar e Usar'}
+                                {(userStars || 0) < targetPowerUp.price ? t('powerUpBar.insufficientStars', 'Estrelas Insuficientes') : t('powerUpBar.buyAndUse', 'Comprar e Usar')}
                             </button>
                         </div>
                     </div>
@@ -191,8 +194,8 @@ export function PowerUpBarCompact({
                                 }
                             }}
                             disabled={(isZero ? !onBuyPowerUp : !canUseNow) || isActive}
-                            title={isZero ? `${powerUp.description} (Compre por ${powerUp.price}⭐)` : powerUp.description}
-                            aria-label={isZero ? `Comprar ${powerUp.name} por ${powerUp.price} estrelas` : `Usar ${powerUp.name}. ${quantity} disponíveis.`}
+                            title={isZero ? t('powerUpBar.compactBuyTitle', { defaultValue: '{{desc}} (Compre por {{price}}⭐)',  desc: t(`powerups.${powerUp.id}.description`, powerUp.description), price: powerUp.price }) : t(`powerups.${powerUp.id}.description`, powerUp.description)}
+                            aria-label={isZero ? t('powerUpBar.ariaBuy', { defaultValue: 'Comprar {{name}} por {{price}} estrelas',  name: t(`powerups.${powerUp.id}.name`, powerUp.name), price: powerUp.price }) : t('powerUpBar.ariaUseAvailable', { defaultValue: 'Usar {{name}}. {{quantity}} disponíveis.',  name: t(`powerups.${powerUp.id}.name`, powerUp.name), quantity })}
                         >
                             <span className="powerup-compact__icon" aria-hidden="true">
                                 {powerUp.icon}

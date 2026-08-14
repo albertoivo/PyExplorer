@@ -1,0 +1,28 @@
+{
+    "seoTitle": "Acerca de PyExplorer",
+    "seoDescription": "Conoce la historia de PyExplorer: un juego gratuito hecho en Brasil para enseñar Python a los niños.",
+    "breadcrumb": "Acerca de",
+    "heroTitle": "Acerca de PyExplorer",
+    "heroSubtitle": "Nuestra misión es democratizar la enseñanza de programación para niños en todo el mundo 🌍",
+    "greeting": "👋 ¡Hola, Explorador!",
+    "story1": "<strong>PyExplorer</strong> nació de un sueño simple: hacer que aprender programación sea tan divertido como jugar videojuegos. Creemos que el código es el superpoder del siglo 21, y todos los niños deberían tener la oportunidad de desbloquearlo.",
+    "story2": "Muchos cursos de tecnología son caros, complejos o solo en inglés. PyExplorer fue creado para cambiar eso. Somos 100% gratuitos y enfocados en la experiencia del estudiante.",
+    "values": {
+        "freeTitle": "100% Gratuito",
+        "freeDesc": "La educación de calidad no debe tener barreras de precio. PyExplorer es y siempre será gratis.",
+        "madeInBrazilTitle": "Hecho en Brasil",
+        "madeInBrazilDesc": "Contenido creado con cuidado, originalmente en portugués y ahora disponible en varios idiomas.",
+        "safeTitle": "Seguro y Privado",
+        "safeDesc": "No vendemos datos. No mostramos anuncios intrusivos. Un ambiente seguro para aprender.",
+        "funTitle": "Aprender Jugando",
+        "funDesc": "Sin clases aburridas. Aquí aprendes resolviendo desafíos y ganando recompensas."
+    },
+    "techTitle": "¿Cómo Funciona? 🛠️",
+    "tech1": "<strong>PyExplorer</strong> usa una tecnología increíble llamada <strong>WebAssembly (Pyodide)</strong>. ¡Esto significa que el código Python se ejecuta directamente en tu navegador, sin instalar nada!",
+    "tech2": "Solo accede al sitio, escribe tu código y ve el resultado al instante. Funciona en computadoras, tablets y hasta celulares.",
+    "supportTitle": "¿Te gusta PyExplorer? 💜",
+    "supportDesc": "Tu apoyo nos ayuda a mantener los servidores funcionando y crear nuevo contenido gratuito.",
+    "ctaTitle": "Sé Parte de esta Historia",
+    "ctaDesc": "Miles de niños ya escribieron su primera línea de código con nosotros.",
+    "ctaButton": "Comenzar Mi Viaje 🚀"
+}

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { QuestionDocument } from '../../types/question';
 import type { UserProgress } from '../../types/question';
+import { useTranslation } from 'react-i18next';
 import './CompletedQuestionModal.css';
 
 interface CompletedQuestionModalProps {
@@ -22,6 +23,7 @@ export function CompletedQuestionModal({
     onRedo,
     onClose,
 }: CompletedQuestionModalProps) {
+    const { t } = useTranslation('game');
     const closeBtnRef = useRef<HTMLButtonElement>(null);
     const [showSponsorCTA] = useState(() => {
         if (progress.stars === 3) {
@@ -65,7 +67,7 @@ export function CompletedQuestionModal({
                     ref={closeBtnRef}
                     className="completed-modal__close"
                     onClick={onClose}
-                    aria-label="Fechar modal"
+                    aria-label={t('completedModal.closeLabel', 'Fechar modal')}
                 >
                     ✕
                 </button>
@@ -73,7 +75,7 @@ export function CompletedQuestionModal({
                 <div className="completed-modal__badge" aria-hidden="true">✓</div>
 
                 <h2 id="completed-modal-title" className="completed-modal__title">
-                    Questão Concluída!
+                    {t('completedModal.title', 'Questão Concluída!')}
                 </h2>
 
                 <p className="completed-modal__question-title">
@@ -84,12 +86,12 @@ export function CompletedQuestionModal({
                     <div className="completed-modal__stat">
                         <span className="completed-modal__stat-icon" aria-hidden="true">⭐</span>
                         <span className="completed-modal__stat-value">{progress.score}</span>
-                        <span className="completed-modal__stat-label">pontos</span>
+                        <span className="completed-modal__stat-label">{t('completedModal.points', 'pontos')}</span>
                     </div>
                     <div className="completed-modal__stat">
                         <span className="completed-modal__stat-icon" aria-hidden="true">🔄</span>
                         <span className="completed-modal__stat-value">{progress.attempts}</span>
-                        <span className="completed-modal__stat-label">tentativas</span>
+                        <span className="completed-modal__stat-label">{t('completedModal.attempts', 'tentativas')}</span>
                     </div>
                 </div>
 
@@ -98,10 +100,10 @@ export function CompletedQuestionModal({
                         className="completed-modal__btn completed-modal__btn--view"
                         onClick={onViewAnswer}
                         disabled={!progress.userAnswer}
-                        title={!progress.userAnswer ? 'Resposta não disponível' : undefined}
+                        title={!progress.userAnswer ? t('completedModal.answerNotAvailable', 'Resposta não disponível') : undefined}
                     >
                         <span className="completed-modal__btn-icon" aria-hidden="true">📖</span>
-                        Ver minha resposta
+                        {t('completedModal.viewAnswer', 'Ver minha resposta')}
                     </button>
 
                     <button
@@ -109,25 +111,25 @@ export function CompletedQuestionModal({
                         onClick={onRedo}
                     >
                         <span className="completed-modal__btn-icon" aria-hidden="true">🔄</span>
-                        Refazer (para praticar)
+                        {t('completedModal.redoPractice', 'Refazer (para praticar)')}
                     </button>
                 </div>
 
                 <p className="completed-modal__hint">
-                    💡 Refazer não dá pontos extras — é só para praticar!
+                    💡 {t('completedModal.redoHint', 'Refazer não dá pontos extras — é só para praticar!')}
                 </p>
 
                 {showSponsorCTA && (
                     <div className="completed-modal__sponsor-cta">
-                        <h4>💖 Apoie o PyExplorer</h4>
-                        <p>Seu filho(a) mandou muito bem! Ajude a manter este projeto educacional gratuito.</p>
+                        <h4>💖 {t('completedModal.sponsorTitle', 'Apoie o PyExplorer')}</h4>
+                        <p>{t('completedModal.sponsorDesc', 'Seu filho(a) mandou muito bem! Ajude a manter este projeto educacional gratuito.')}</p>
                         <a 
                             href="https://github.com/sponsors/albertoivo" 
                             target="_blank" 
                             rel="noopener noreferrer"
                             className="completed-modal__sponsor-link"
                         >
-                            Patrocinar no GitHub
+                            {t('completedModal.sponsorLink', 'Patrocinar no GitHub')}
                         </a>
                     </div>
                 )}

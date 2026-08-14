@@ -1,0 +1,103 @@
+{
+    "nav": {
+        "home": "Início",
+        "learn": "Aprender",
+        "play": "Jogar",
+        "certificate": "Certificado",
+        "rewards": "Recompensas",
+        "profile": "Perfil",
+        "login": "Entrar",
+        "register": "Criar Conta",
+        "logout": "Sair",
+        "closeMenu": "Fechar menu de navegação",
+        "openMenu": "Abrir menu de navegação",
+        "stats": "Estatísticas do jogador",
+        "explorer": "Explorador",
+        "guest": "Convidado",
+        "loading": "Carregando...",
+        "level": "Nível"
+    },
+    "aria": {
+        "homePage": "PyExplorer Página Inicial",
+        "playerStats": "Estatísticas do jogador",
+        "openMenu": "Abrir menu de navegação",
+        "closeMenu": "Fechar menu de navegação",
+        "closeModal": "Fechar modal",
+        "showPassword": "Mostrar senha",
+        "hidePassword": "Ocultar senha",
+        "skipToContent": "Pular para o conteúdo principal",
+        "footerNav": "Navegação de Rodapé",
+        "levelProgress": "Progresso do nível",
+        "accessProfile": "Acessar Perfil",
+        "viewLesson": "Ver Lição Explicativa",
+        "reviewFlashcards": "Revisar com Flashcards",
+        "moveUp": "Mover bloco para cima",
+        "moveDown": "Mover bloco para baixo",
+        "indentLeft": "Diminuir recuo da linha",
+        "indentRight": "Aumentar recuo da linha"
+    },
+    "loading": "Carregando...",
+    "level": "Nível",
+    "levelShort": "Nív.",
+    "guest": "Convidado",
+    "diamonds": "Diamantes disponíveis",
+    "streak": "Ofensiva diária",
+    "footer": {
+        "tagline": "Aprenda Python de forma divertida!",
+        "learnSection": "Aprender",
+        "tutorials": "📚 Tutoriais & Artigos",
+        "pythonForKids": "👨‍👩‍👧‍👦 Python para Crianças",
+        "learnPlaying": "🎮 Aprender Jogando",
+        "playNow": "🚀 Jogar Agora",
+        "aboutSection": "Sobre",
+        "theProject": "O Projeto",
+        "achievements": "🏆 Conquistas",
+        "supportProject": "💜 Apoie o Projeto",
+        "copyright": "© {{year}} PyExplorer. Feito com 💜 para ensinar programação.",
+        "badgeEducational": "🎓 Educativo",
+        "badgeSafe": "🔒 Seguro para crianças",
+        "badgeFree": "🆓 Gratuito"
+    },
+    "guestMode": {
+        "playAsGuest": "👤 Jogar como Convidado",
+        "note": "💡 No modo convidado, seu progresso fica salvo apenas neste dispositivo"
+    },
+    "guestNames": {
+        "adjectives": [
+            "Veloz",
+            "Esperto",
+            "Curioso",
+            "Valente",
+            "Sábio",
+            "Alegre"
+        ],
+        "nouns": [
+            "Viajante",
+            "Explorador",
+            "Aventureiro",
+            "Cientista",
+            "Mago",
+            "Ninja"
+        ]
+    },
+    "readTime": "⏱️ {{minutes}} min de leitura",
+    "categories": {
+        "beginner": "🌱 Iniciante",
+        "intermediate": "📈 Intermediário",
+        "tips": "💡 Dica",
+        "parents": "👪 Para Pais"
+    },
+    "or": "ou",
+    "orUseEmail": "ou use seu email",
+    "result": {
+        "success": "Resultado: Sucesso",
+        "tryAgain": "Resultado: Tente novamente"
+    },
+    "mascot": {
+        "name": "Pythoninho",
+        "ariaLabel": "Mascote Pythoninho: {{mood}}. {{state}}",
+        "clickToInteract": "Clique para interagir",
+        "saying": "Dizendo: {{msg}}"
+    },
+    "player": "Jogador"
+}

@@ -1,0 +1,24 @@
+{
+    "seoTitle": "Aprende Python",
+    "seoDescription": "Aprende Python desde cero con tutoriales gratuitos. Guías interactivas para niños, principiantes y materiales de apoyo para padres.",
+    "breadcrumb": "Aprender",
+    "heroTitle": "📚 Aprende Python",
+    "heroSubtitle": "¡Artículos, tutoriales y consejos para dominar Python desde cero!",
+    "beginners": {
+        "title": "🎯 Para Principiantes",
+        "description": "¿Nunca programaste? ¡Empieza aquí!"
+    },
+    "parents": {
+        "title": "👨‍👩‍👧‍👦 Para Padres y Educadores",
+        "description": "Guías para apoyar a los niños en el aprendizaje de programación"
+    },
+    "tips": {
+        "title": "💡 Consejos y Curiosidades",
+        "description": "Recursos extra para impulsar tu aprendizaje"
+    },
+    "cta": {
+        "title": "🎮 ¿Listo para Practicar?",
+        "description": "¡Aplica lo que aprendiste en los desafíos de PyExplorer!",
+        "button": "Jugar Ahora"
+    }
+}

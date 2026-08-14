@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import './Mascot.css';
 import { MOOD_CONFIGS } from '../../utils/mascotConfig';
 import { RANDOM_MESSAGES } from '../../utils/mascotMessages';
+import { useTranslation } from 'react-i18next';
 
 // ============================================
 // TIPOS
@@ -49,6 +50,7 @@ export function Mascot({
     position = 'bottom-right',
     autoHide,
 }: MascotProps) {
+    const { t } = useTranslation('common');
     const [isVisible, setIsVisible] = useState(visible);
     const [isMessageVisible, setIsMessageVisible] = useState(!!message);
     const [currentMessage, setCurrentMessage] = useState(message);
@@ -115,7 +117,7 @@ export function Mascot({
             className={`mascot mascot--${size} mascot--${position}`}
             onClick={handleClick}
             type="button"
-            aria-label={`Mascote Pythoninho: ${mood}. ${isMessageVisible && currentMessage ? `Dizendo: ${currentMessage}` : 'Clique para interagir'}`}
+            aria-label={t('mascot.ariaLabel', { defaultValue: 'Mascote Pythoninho: {{mood}}. {{state}}',  mood, state: isMessageVisible && currentMessage ? t('mascot.saying', { defaultValue: 'Dizendo: {{msg}}',  msg: currentMessage }) : t('mascot.clickToInteract', 'Clique para interagir') })}
         >
             {/* Balão de fala */}
             {isMessageVisible && currentMessage && (
@@ -160,7 +162,7 @@ export function Mascot({
             </div>
 
             {/* Nome do mascote */}
-            <span className="mascot__name">Pythoninho</span>
+            <span className="mascot__name">{t('mascot.name', 'Pythoninho')}</span>
         </button>
     );
 }
