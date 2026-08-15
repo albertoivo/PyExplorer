@@ -35,13 +35,25 @@ import esGamification from './locales/es/gamification.json';
 import esWorlds from './locales/es/worlds.json';
 import esNotFound from './locales/es/notFound.json';
 
-export const supportedLanguages = ['pt', 'en', 'es'] as const;
+// === Hindi ===
+import hiCommon from './locales/hi/common.json';
+import hiHome from './locales/hi/home.json';
+import hiAuth from './locales/hi/auth.json';
+import hiAbout from './locales/hi/about.json';
+import hiLearn from './locales/hi/learn.json';
+import hiGame from './locales/hi/game.json';
+import hiGamification from './locales/hi/gamification.json';
+import hiWorlds from './locales/hi/worlds.json';
+import hiNotFound from './locales/hi/notFound.json';
+
+export const supportedLanguages = ['pt', 'en', 'es', 'hi'] as const;
 export type SupportedLanguage = (typeof supportedLanguages)[number];
 
 export const languageNames: Record<SupportedLanguage, string> = {
     pt: 'Português',
     en: 'English',
     es: 'Español',
+    hi: 'हिन्दी',
 };
 
 i18n
@@ -82,10 +94,21 @@ i18n
                 worlds: esWorlds,
                 notFound: esNotFound,
             },
+            hi: {
+                common: hiCommon,
+                home: hiHome,
+                auth: hiAuth,
+                about: hiAbout,
+                learn: hiLearn,
+                game: hiGame,
+                gamification: hiGamification,
+                worlds: hiWorlds,
+                notFound: hiNotFound,
+            },
         },
         fallbackLng: 'pt',
         lng: 'pt',
-        supportedLngs: ['pt', 'en', 'es'],
+        supportedLngs: ['pt', 'en', 'es', 'hi'],
         defaultNS: 'common',
         ns: ['common', 'home', 'auth', 'about', 'learn', 'game', 'gamification', 'worlds', 'notFound'],
         interpolation: {

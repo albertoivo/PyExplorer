@@ -1,0 +1,174 @@
+{
+  "seoTitle": "खेल",
+  "seoDescription": "PyExplorer की दुनिया का अन्वेषण करें, चुनौतियों का समाधान करें और खेलकर Python सीखें!",
+  "breadcrumb": "खेल",
+  "pageTitle": "पायएक्सप्लोरर वर्ल्ड्स",
+  "playAsGuest": "🎮 अतिथि के रूप में खेलना",
+  "continueAdventure": "साहसिक कार्य जारी रखें",
+  "completedQuestions": "आपने आज {{गिनती}} प्रश्न हल कर लिए हैं!",
+  "startExploring": "अपने साहसिक कार्य के लिए पहली दुनिया की खोज शुरू करें!",
+  "noQuestionsInWorld": "इस दुनिया में अभी तक कोई प्रश्न उपलब्ध नहीं हैं। जल्द ही वापस आ गए!",
+  "startWorld": "🚀 विश्व प्रारंभ करें",
+  "continueWorld": "▶️ जारी रखें",
+  "masteredWorld": "⭐ महारत हासिल दुनिया",
+  "completedPrefix": "पुरा होना।",
+  "ofSuffix": "का",
+  "lockedTooltip": "इसे अनलॉक करने के लिए पिछली दुनिया को पूरा करें!",
+  "story": {
+    "title": "यात्रा शुरू होती है",
+    "next": "अगला ➡️",
+    "play": "खेल!",
+    "avatarLabel": "कहानी अवतार",
+    "progressLabel": "कहानी प्रगति",
+    "skip": "छोडना",
+    "startAdventure": "साहसिक कार्य शुरू करें! 🚀"
+  },
+  "result": {
+    "success": "🎉 सफलता!",
+    "pointsEarned": "आपने {{अंक}} अंक अर्जित किये",
+    "starsEarned": "+ {{सितारे}} तारे",
+    "almost": "🤔 लगभग वहाँ!",
+    "nextQuestion": "अगला सवाल",
+    "tryAgain": "पुनः प्रयास करें",
+    "solution": "समाधान देखें"
+  },
+  "question": {
+    "runCode": "▶️ भागो",
+    "checkAnswer": "जाँच करना",
+    "checking": "जाँच हो रही है...",
+    "output": "टर्मिनल आउटपुट:",
+    "true": "सत्य",
+    "false": "असत्य",
+    "dragBlocks": "ब्लॉकों को सही क्रम में खींचें"
+  },
+  "hints": {
+    "needHelp": "मदद की ज़रूरत है?",
+    "needStars": "सितारों की जरूरत है",
+    "free": "मुक्त",
+    "basicHint": "मूल संकेत",
+    "mediumHint": "मध्यम संकेत",
+    "fullAnswer": "पूर्ण उत्तर",
+    "revealBtn": "संकेत प्रकट करें ({{लागत}} ⭐)",
+    "revealForStars": "{{लागत}} ⭐ के लिए प्रकट करें",
+    "revealCompactConfirm": "प्रकट करें ({{लागत}} ⭐)",
+    "revealConfirmTitle": "{{प्रकार}} प्रकट करें?",
+    "revealConfirmDesc": "इसकी कीमत {{cost}} स्टार होगी।",
+    "balanceCurrent": "आपका वर्तमान शेष: {{स्टार्स}} ⭐",
+    "balanceAfter": "प्रकटीकरण के बाद संतुलन: {{बाद में }} ⭐",
+    "revealPreviousFirst": "पहले पिछला संकेत प्रकट करें!",
+    "extraHintPrefix": "अतिरिक्त संकेत:",
+    "cancel": "रद्द करना"
+  },
+  "completedModal": {
+    "title": "प्रश्न पूरा हुआ!",
+    "attempts": "प्रयास",
+    "points": "अंक अर्जित किये गये",
+    "redoPractice": "अभ्यास के लिए पुनः करें",
+    "redoHint": "आप प्रगति खोए बिना अभ्यास के लिए इस प्रश्न को दोबारा कर सकते हैं।",
+    "sponsorTitle": "पायएक्सप्लोरर का समर्थन करें",
+    "sponsorDesc": "मंच को सभी छात्रों के लिए स्वतंत्र और खुला रखने में मदद करें।",
+    "sponsorLink": "समर्थन परियोजना",
+    "viewAnswer": "उत्तर देखें",
+    "answerNotAvailable": "उत्तर उपलब्ध नहीं है",
+    "closeLabel": "मोडल बंद करें"
+  },
+  "questionCard": {
+    "ariaLabel": "प्रश्न {{संख्या}}: {{शीर्षक}}। स्थिति: {{स्थिति}}. {{स्कोर}} प्रकार: {{प्रकार}}।"
+  },
+  "stars": {
+    "earned": "सितारे कमाए",
+    "potential": "3 में से 0 स्टार"
+  },
+  "status": {
+    "available": "उपलब्ध",
+    "completed": "पुरा होना।",
+    "locked": "बंद",
+    "unknown": "अज्ञात",
+    "not_started": "शुरू नहीं"
+  },
+  "questionTypes": {
+    "unknown": "सवाल",
+    "multiple_choice": "बहुविकल्पी",
+    "true_false": "सत्य/असत्य",
+    "fill_code": "कोड भरें",
+    "partial_function": "आंशिक कार्य",
+    "full_function": "पूर्ण कार्य",
+    "parsons_problem": "पार्सन्स समस्या",
+    "turtle_challenge": "कछुआ चुनौती",
+    "boss_battle": "बॉस लड़ाई"
+  },
+  "engine": {
+    "resultCorrect": "सही!",
+    "resultIncorrect": "ग़लत!",
+    "resultReadonly": "केवल पढ़ने योग्य मोड",
+    "unsupportedType": "असमर्थित प्रश्न प्रकार",
+    "readonlyMode": "दृश्य मोड",
+    "readonlySub": "आपने यह प्रश्न पूरा कर लिया है या अतिथि के रूप में देख रहे हैं।",
+    "needHelp": "मदद की ज़रूरत है",
+    "hideHints": "संकेत छिपाएँ",
+    "extraHintActive": "अतिरिक्त संकेत सक्रिय!",
+    "doubleStarsActive": "डबल स्टार सक्रिय!",
+    "hintsUsedPenalty": "उपयोग किए गए संकेत (जुर्माना लागू)"
+  },
+  "sagaBanner": {
+    "questions": "प्रश्न"
+  },
+  "sagaTabs": {
+    "allSagas": "सभी सागा",
+    "ariaLabel": "सागा टैब"
+  },
+  "worldCard": {
+    "ariaLabel": "विश्व {{संख्या}}: {{नाम}}। {{स्थिति}}.{{प्रगति}}",
+    "bossBattle": "बॉस लड़ाई",
+    "completedTooltip": "आप पहले ही इस दुनिया को पूरा कर चुके हैं!",
+    "newLesson": "नया पाठ",
+    "progressPrefix": "प्रगति:",
+    "requirement": "आवश्यकता: {{अनुरोध}}",
+    "reviewFlashcards": "फ़्लैशकार्ड की समीक्षा करें",
+    "viewLesson": "पाठ देखें"
+  },
+  "progressBar": {
+    "ariaLabel": "समग्र प्रगति",
+    "worldAriaLabel": "{{worldName}} में प्रगति"
+  },
+  "resultPanel": {
+    "ariaSuccess": "सही जवाब!",
+    "ariaError": "ग़लत उत्तर!",
+    "defaultSuccessTitle": "बधाई हो!",
+    "defaultErrorTitle": "वहाँ लगभग!",
+    "hideExplanation": "स्पष्टीकरण छिपाएँ",
+    "showExplanation": "स्पष्टीकरण देखें",
+    "nextQuestion": "अगला सवाल",
+    "points": "अंक",
+    "retry": "पुनः प्रयास करें",
+    "skipQuestion": "प्रश्न छोड़ें"
+  },
+  "certificate": {
+    "congrats": "बधाई हो, {{नाम}}! 🎉",
+    "continueBtn": "सीखना जारी रखें",
+    "continueDesc": "अपना आधिकारिक प्रमाणपत्र अनलॉक करने के लिए अपनी यात्रा जारी रखें।",
+    "guestName": "एक्सप्लोरर",
+    "inProgressDesc": "आपने अभी तक सभी मिशन पूरे नहीं किये हैं!",
+    "inProgressTitle": "प्रमाणपत्र प्रगति पर है",
+    "loading": "आपकी यात्रा की जाँच की जा रही है...",
+    "lockedSeoTitle": "प्रमाणपत्र लॉक किया गया - PyExplorer",
+    "lockedTitle": "प्रतिबंधित पहुंच",
+    "loginRequired": "अपना प्रमाणपत्र देखने के लिए लॉग इन करें",
+    "progressInfo": "{{कुल}} प्रश्नों में से {{पूर्ण}} हल हो गए",
+    "subtitle": "पायथन कोर्स समापन प्रमाणपत्र",
+    "supportBtn": "पायएक्सप्लोरर का समर्थन करें",
+    "supportDesc": "यदि PyExplorer ने आपकी सहायता की है, तो परियोजना का समर्थन करने पर विचार करें!",
+    "supportTitle": "मुक्त शिक्षा का समर्थन करें",
+    "unlockedSeoDesc": "बधाई हो! अपना आधिकारिक PyExplorer पूर्णता प्रमाणपत्र डाउनलोड करें या साझा करें।",
+    "unlockedSeoTitle": "आपका आधिकारिक प्रमाणपत्र - PyExplorer"
+  },
+  "backToQuestions": "प्रश्नों पर वापस जाएँ",
+  "confirmCert": "प्रमाणपत्र जनरेट करें",
+  "questionProgress": "{{कुल}} में से प्रश्न {{वर्तमान}}",
+  "redoForPractice": "अभ्यास के लिए पुनः करें",
+  "reviewBadge": "समीक्षा",
+  "backToMap": "मानचित्र पर वापस जाएँ",
+  "completedStats": "समापन आँकड़े",
+  "worldEmptyDesc": "इस दुनिया में अभी तक कोई प्रश्न पंजीकृत नहीं है।",
+  "worldEmptyTitle": "खाली दुनिया"
+}
