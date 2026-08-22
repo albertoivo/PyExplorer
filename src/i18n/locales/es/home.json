@@ -1,19 +1,35 @@
 {
     "seo": {
         "title": "Aprende Python Jugando",
-        "description": "¡El mejor juego educativo para que los niños aprendan Python. 100% Gratis, Seguro y Divertido!"
+        "description": "El mejor juego educativo para niños para aprender Python. ¡100% Gratis, Seguro y Divertido!"
     },
     "breadcrumb": "Inicio",
     "hero": {
         "badge": "🎓 Educativo y Divertido",
-        "titlePrefix": "Aprende",
+        "title": "Domina Python en un Viaje Interactivo",
         "titlePython": "Python",
         "titleSuffix": "¡como un Héroe! 🦸‍♂️",
+        "titlePrefix": "Aprende",
         "description": "¡Embárcate en una aventura increíble por los mundos de la programación! ¡Resuelve desafíos, gana estrellas y conviértete en un maestro de Python!",
         "continueAdventure": "🚀 Continuar Aventura",
         "startPlaying": "🎮 Empezar a Jugar",
-        "haveAccount": "Ya tengo cuenta",
-        "title": "Domina Python en un Viaje Interactivo"
+        "haveAccount": "Ya tengo cuenta"
+    },
+    "dashboard": {
+        "greeting": "👋 ¡Hola, {{name}}!",
+        "subtitle": "Aquí está tu progreso",
+        "level": "Nivel {{level}}",
+        "levelMax": "¡Nivel máximo alcanzado!",
+        "percentToNext": "{{percent}}% para el siguiente nivel",
+        "streak": "Racha",
+        "streakDays": "{{count}} días",
+        "streakRecord": "Récord: {{count}} días",
+        "stars": "Estrellas",
+        "totalEarned": "Total ganado: {{score}}",
+        "questions": "Preguntas",
+        "completed": "completadas",
+        "playNow": "🎮 Jugar Ahora",
+        "myProfile": "👤 Mi Perfil"
     },
     "features": {
         "title": "¿Por qué PyExplorer es Especial?",
@@ -26,9 +42,9 @@
         "earnStars": "Gana Estrellas",
         "earnStarsDesc": "¡Completa desafíos y acumula puntos!",
         "learnPlaying": "Aprende Jugando",
-        "learnPlayingDesc": "¡Conceptos explicados de forma simple y divertida!",
+        "learnPlayingDesc": "¡Conceptos explicados de forma sencilla y divertida!",
         "safeForKids": "Seguro para Niños",
-        "safeForKidsDesc": "¡Un ambiente seguro para todas las edades!"
+        "safeForKidsDesc": "¡Entorno seguro para todas las edades!"
     },
     "worldsPreview": {
         "title": "Mundos de PyExplorer"

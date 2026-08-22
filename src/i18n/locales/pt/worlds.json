@@ -1,5 +1,29 @@
 {
     "sagas": {
+        "saga_1": {
+            "title": "Saga 1: O Aprendiz de Python",
+            "subtitle": "Fundamentos & Lógica de Programação",
+            "description": "Dê os primeiros passos, crie variáveis, converse com o usuário e domine decisões e repetições!",
+            "badge": "Iniciante"
+        },
+        "saga_2": {
+            "title": "Saga 2: O Guardião dos Dados",
+            "subtitle": "Estruturas, Texto & Funções",
+            "description": "Domine a manipulação de textos, organize listas, dicionários e crie magias reutilizáveis!",
+            "badge": "Intermediário"
+        },
+        "saga_3": {
+            "title": "Saga 3: O Arquiteto de Software",
+            "subtitle": "Orientação a Objetos & Recursos Avançados",
+            "description": "Construa arquivos, use bibliotecas, crie suas próprias Classes/Objetos e use atalhos Pythonic!",
+            "badge": "Avançado"
+        },
+        "saga_4": {
+            "title": "Saga 4: As Trilhas do Destino",
+            "subtitle": "Especializações & Projetos Práticos",
+            "description": "Crie artes com código, analise dados reais de IA e conecte-se com APIs da internet!",
+            "badge": "Mestre"
+        },
         "basics": {
             "name": "O Despertar do Código",
             "description": "Comece sua jornada aprendendo os comandos mais básicos para interagir com o computador."

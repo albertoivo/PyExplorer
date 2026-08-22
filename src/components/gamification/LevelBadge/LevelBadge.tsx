@@ -36,7 +36,7 @@ export function LevelBadge({
             <div className="level-badge__icon">{level.icon}</div>
             <div className="level-badge__info">
                 <span className="level-badge__level">{t('levelBadge.level', { defaultValue: 'Nível {{level}}',  level: level.level })}</span>
-                <span className="level-badge__name">{t(`levels.${level.level}.name`, level.name)}</span>
+                <span className="level-badge__name">{level.name}</span>
             </div>
 
             {showProgress && (

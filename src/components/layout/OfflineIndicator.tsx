@@ -1,10 +1,12 @@
 import { useOffline } from '../../hooks/useOffline';
+import { useTranslation } from 'react-i18next';
 import './OfflineIndicator.css';
 
 /**
  * Indicador de status offline/online e opções de PWA
  */
 export function OfflineIndicator() {
+    const { t } = useTranslation('common');
     const {
         isOnline,
         isPWA,
@@ -31,10 +33,10 @@ export function OfflineIndicator() {
                     role="alert"
                 >
                     <span className="offline-indicator__icon" aria-hidden="true">📡</span>
-                    <span className="offline-indicator__text">Sem conexão</span>
+                    <span className="offline-indicator__text">{t('offline.noConnection', 'Sem conexão')}</span>
                     {pendingSync > 0 && (
                         <span className="offline-indicator__pending">
-                            {pendingSync} pendente{pendingSync > 1 ? 's' : ''}
+                            {t('offline.pending', { count: pendingSync, defaultValue: `${pendingSync} pendentes` })}
                         </span>
                     )}
                 </div>
@@ -50,11 +52,11 @@ export function OfflineIndicator() {
                         {isSyncing ? '⏳' : '🔄️'}
                     </span>
                     <span className="offline-indicator__text">
-                        {isSyncing ? 'Sincronizando...' : `${pendingSync} item(s) para sincronizar`}
+                        {isSyncing ? t('offline.syncing', 'Sincronizando...') : t('offline.pendingToSync', { count: pendingSync, defaultValue: `${pendingSync} itens para sincronizar` })}
                     </span>
                     {!isSyncing && (
                         <button className="offline-indicator__btn" onClick={syncPendingProgress}>
-                            Sincronizar
+                            {t('offline.syncNow', 'Sincronizar')}
                         </button>
                     )}
                 </div>
@@ -67,9 +69,9 @@ export function OfflineIndicator() {
                     aria-live="polite"
                 >
                     <span className="offline-indicator__icon" aria-hidden="true">📲</span>
-                    <span className="offline-indicator__text">Instale o app!</span>
+                    <span className="offline-indicator__text">{t('offline.installApp', 'Instale o app!')}</span>
                     <button className="offline-indicator__btn offline-indicator__btn--primary" onClick={installPWA}>
-                        Instalar
+                        {t('offline.install', 'Instalar')}
                     </button>
                 </div>
             )}
@@ -81,13 +83,12 @@ export function OfflineIndicator() {
                     aria-live="polite"
                 >
                     <span className="offline-indicator__icon" aria-hidden="true">✨</span>
-                    <span className="offline-indicator__text">Nova versão disponível!</span>
+                    <span className="offline-indicator__text">{t('offline.updateAvailable', 'Nova versão disponível!')}</span>
                     <button className="offline-indicator__btn offline-indicator__btn--primary" onClick={applyUpdate}>
-                        Atualizar
+                        {t('offline.update', 'Atualizar')}
                     </button>
                 </div>
             )}
         </>
     );
 }
-

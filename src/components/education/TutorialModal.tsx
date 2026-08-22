@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { WorldTutorial } from '../../types/education';
 import { getTutorialByWorld } from '../../data/educationContent';
+import { useTranslation } from 'react-i18next';
 import './TutorialModal.css';
 
 interface TutorialModalProps {
@@ -26,6 +27,7 @@ export function TutorialModal({
     onComplete,
     forceWatch = false
 }: TutorialModalProps) {
+    const { t } = useTranslation('game');
     const [tutorial, setTutorial] = useState<WorldTutorial | null>(null);
     const [currentStep, setCurrentStep] = useState(0);
     const [isAnimating, setIsAnimating] = useState(false);
@@ -140,7 +142,7 @@ export function TutorialModal({
                             <button
                                 className="tutorial-modal__close"
                                 onClick={handleSkip}
-                                aria-label="Fechar tutorial"
+                                aria-label={t('tutorials.close', 'Fechar tutorial')}
                             >
                                 ✕
                             </button>
@@ -155,7 +157,7 @@ export function TutorialModal({
                         />
                     </div>
                     <div className="tutorial-modal__step-counter">
-                        Passo {currentStep + 1} de {tutorial.steps.length}
+                        {t('tutorials.stepCounter', { current: currentStep + 1, total: tutorial.steps.length, defaultValue: `Passo ${currentStep + 1} de ${tutorial.steps.length}` })}
                     </div>
                 </div>
 
@@ -169,7 +171,7 @@ export function TutorialModal({
                     {showCode && step.code && (
                         <div className="tutorial-modal__code-section">
                             <div className="tutorial-modal__code-header">
-                                <span>💻 Exemplo de código:</span>
+                                <span>{t('tutorials.codeExample', '💻 Exemplo de código:')}</span>
                             </div>
                             <pre className="tutorial-modal__code">
                                 <code>{typedCode}</code>
@@ -180,7 +182,7 @@ export function TutorialModal({
 
                             {step.output && typedCode === step.code && (
                                 <div className="tutorial-modal__output">
-                                    <div className="tutorial-modal__output-header">📤 Saída:</div>
+                                    <div className="tutorial-modal__output-header">{t('tutorials.output', '📤 Saída:')}</div>
                                     <pre className="tutorial-modal__output-text">{step.output}</pre>
                                 </div>
                             )}
@@ -191,7 +193,7 @@ export function TutorialModal({
                     {step.exercise && (
                         <div className="tutorial-modal__exercise">
                             <div className="tutorial-modal__exercise-header">
-                                🎯 Tente você mesmo:
+                                {t('tutorials.tryItYourself', '🎯 Tente você mesmo:')}
                             </div>
                             <p>{step.exercise.prompt}</p>
                             <pre className="tutorial-modal__code">{step.exercise.template}</pre>
@@ -206,13 +208,13 @@ export function TutorialModal({
                         onClick={handlePrevious}
                         disabled={currentStep === 0}
                     >
-                        ⬅️ Anterior
+                        {t('tutorials.previous', '⬅️ Anterior')}
                     </button>
 
                     {/* Key concepts (on last step) */}
                     {isLastStep && (
                         <div className="tutorial-modal__concepts">
-                            <span className="tutorial-modal__concepts-label">Você aprendeu:</span>
+                            <span className="tutorial-modal__concepts-label">{t('tutorials.conceptsLearned', 'Você aprendeu:')}</span>
                             <div className="tutorial-modal__concepts-list">
                                 {tutorial.keyConcepts.map((concept, idx) => (
                                     <span key={idx} className="tutorial-modal__concept-tag">
@@ -227,7 +229,7 @@ export function TutorialModal({
                         className="tutorial-modal__btn tutorial-modal__btn--primary"
                         onClick={handleNext}
                     >
-                        {isLastStep ? '🚀 Começar!' : 'Próximo ➡️'}
+                        {isLastStep ? t('tutorials.start', '🚀 Começar!') : t('tutorials.next', 'Próximo ➡️')}
                     </button>
                 </div>
 
@@ -241,7 +243,7 @@ export function TutorialModal({
                                 setCurrentStep(idx);
                                 setShowCode(false);
                             }}
-                            aria-label={`Ir para passo ${idx + 1}`}
+                            aria-label={`${t('tutorials.stepCounter', { current: idx + 1, total: tutorial.steps.length, defaultValue: `Passo ${idx + 1}` })}`}
                             aria-current={idx === currentStep ? 'step' : undefined}
                         />
                     ))}
@@ -250,4 +252,3 @@ export function TutorialModal({
         </div>
     );
 }
-

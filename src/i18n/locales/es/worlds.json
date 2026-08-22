@@ -1,12 +1,36 @@
 {
     "sagas": {
+        "saga_1": {
+            "title": "Saga 1: El Aprendiz de Python",
+            "subtitle": "Fundamentos & Lógica de Programación",
+            "description": "¡Da tus primeros pasos, crea variables, interactúa con el usuario y domina decisiones y bucles!",
+            "badge": "Principiante"
+        },
+        "saga_2": {
+            "title": "Saga 2: El Guardián de los Datos",
+            "subtitle": "Estructuras, Texto & Funciones",
+            "description": "¡Domina la manipulación de texto, organiza listas, diccionarios y crea magia reutilizable!",
+            "badge": "Intermedio"
+        },
+        "saga_3": {
+            "title": "Saga 3: El Arquitecto de Software",
+            "subtitle": "Orientación a Objetos & Recursos Avanzados",
+            "description": "¡Crea archivos, usa bibliotecas, crea tus propias Clases/Objetos y usa atajos Pythonic!",
+            "badge": "Avanzado"
+        },
+        "saga_4": {
+            "title": "Saga 4: Los Senderos del Destino",
+            "subtitle": "Especializaciones & Proyectos Prácticos",
+            "description": "¡Crea arte con código, analiza datos reales de IA y conéctate con APIs de internet!",
+            "badge": "Maestro"
+        },
         "basics": {
             "name": "El Despertar del Código",
             "description": "Comienza tu viaje aprendiendo los comandos más básicos para interactuar con la computadora."
         },
         "logic": {
             "name": "El Valle de la Lógica",
-            "description": "Aprende a tomar decisiones y a dominar el flujo del tiempo (repeticiones)."
+            "description": "Aprende a tomar decisiones y a dominar el flujo de ejecución (bucles)."
         },
         "structures": {
             "name": "La Cueva de los Datos",
@@ -19,7 +43,7 @@
     },
     "basic_commands": {
         "name": "Primeros Pasos",
-        "description": "¡Aprende a dar los primeros comandos en Python!"
+        "description": "¡Aprende a dar tus primeros comandos en Python!"
     },
     "variables": {
         "name": "Mundo de las Variables",
@@ -27,14 +51,14 @@
     },
     "numbers": {
         "name": "Aritmética Divertida",
-        "description": "Haz cuentas y operaciones matemáticas con Python."
+        "description": "Haz cálculos y operaciones matemáticas con Python."
     },
     "strings": {
         "name": "Manipulación de Textos",
         "description": "Juega con palabras y frases de formas increíbles."
     },
     "user_input": {
-        "name": "Hablando con el Usuario",
+        "name": "Conversando con el Usuario",
         "description": "Aprende a pedir información a quien está jugando."
     },
     "turtle_art": {
@@ -47,7 +71,7 @@
     },
     "loops": {
         "name": "Isla de la Repetición",
-        "description": "Haz que las cosas sucedan varias veces con FOR y WHILE."
+        "description": "Haz que las acciones se repitan varias veces con FOR y WHILE."
     },
     "lists": {
         "name": "Bosque de las Listas",
@@ -63,19 +87,19 @@
     },
     "modules": {
         "name": "Biblioteca de Módulos",
-        "description": "Importa poderes nuevos creados por otros programadores."
+        "description": "Importa nuevos poderes creados por otros programadores."
     },
     "error_handling": {
         "name": "Cazador de Bugs",
-        "description": "Aprende a lidiar con errores sin romper el juego."
+        "description": "Aprende a manejar errores sin romper el juego."
     },
     "files": {
-        "name": "Maestro de los Archivos",
+        "name": "Maestro de Archivos",
         "description": "Lee y guarda información en archivos de texto."
     },
     "pythonic": {
         "name": "Estilo Pythonic",
-        "description": "Escribe código hermoso y eficiente como un verdadero maestro."
+        "description": "Escribe código limpio y eficiente como un verdadero profesional."
     },
     "oop_basics": {
         "name": "Orientación a Objetos",
@@ -87,10 +111,10 @@
     },
     "web_api": {
         "name": "Conexión Web",
-        "description": "Consume datos de APIs reales en Internet."
+        "description": "Consume datos de APIs reales en internet."
     },
     "bosses": {
-        "name": "Desafíos de Jefes",
-        "description": "¡Enfrenta problemas complejos que pondrán a prueba todo lo que aprendiste!"
+        "name": "Desafíos de los Jefes",
+        "description": "¡Enfréntate a problemas complejos que pondrán a prueba todo lo que has aprendido!"
     }
 }

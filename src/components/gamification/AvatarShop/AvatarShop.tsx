@@ -88,7 +88,7 @@ export function AvatarShop({ userStars, userLevel, inventory, onBuy, onEquip }: 
                         onClick={() => setSelectedTab(tab)}
                     >
                         <span className="avatar-shop__tab-icon">{TAB_KEYS[tab].icon}</span>
-                        <span className="avatar-shop__tab-name">{t(TAB_KEYS[tab].key)}</span>
+                        <span className="avatar-shop__tab-name">{t(TAB_KEYS[tab].key as unknown as string)}</span>
                     </button>
                 ))}
             </div>

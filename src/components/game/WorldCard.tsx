@@ -35,7 +35,7 @@ export const WorldCard = memo(function WorldCard({
     onShowTutorial,
     onShowFlashcards
 }: WorldCardProps) {
-    const { t } = useTranslation('game');
+    const { t } = useTranslation(['game', 'worlds']);
     return (
         <div className="world-card-wrapper">
             <button
@@ -43,11 +43,11 @@ export const WorldCard = memo(function WorldCard({
                 style={{ '--world-color': world.color } as CSSProperties}
                 onClick={() => onClick(world)}
                 disabled={!unlocked}
-                aria-label={t('worldCard.ariaLabel', { defaultValue: 'Mundo {{num}}: {{name}}. {{status}}.{{progress}}', 
+                aria-label={t('game:worldCard.ariaLabel', { defaultValue: 'Mundo {{num}}: {{name}}. {{status}}.{{progress}}', 
                     num: index + 1,
-                    name: t(`worlds.${world.id}.name`, world.name),
-                    status: unlocked ? (isComplete ? t('status.completed', 'Completo') : t('status.available', 'Disponível')) : t('status.locked', 'Bloqueado'),
-                    progress: unlocked && total > 0 ? t('worldCard.progressPrefix', { defaultValue: ' Progresso: {{pct}}%.',  pct: percentage.toFixed(0) }) : ''
+                    name: t(`worlds:${world.id}.name`, world.name),
+                    status: unlocked ? (isComplete ? t('game:status.completed', 'Completo') : t('game:status.available', 'Disponível')) : t('game:status.locked', 'Bloqueado'),
+                    progress: unlocked && total > 0 ? t('game:worldCard.progressPrefix', { defaultValue: ' Progresso: {{pct}}%.',  pct: percentage.toFixed(0) }) : ''
                 })}
             >
                 <div className="world-card__top-bar">
@@ -61,8 +61,8 @@ export const WorldCard = memo(function WorldCard({
                     {unlocked ? world.icon : '🔒'}
                 </div>
 
-                <h3 className="world-card__name">{t(`worlds.${world.id}.name`, world.name)}</h3>
-                <p className="world-card__description">{t(`worlds.${world.id}.description`, world.description)}</p>
+                <h3 className="world-card__name">{t(`worlds:${world.id}.name`, world.name)}</h3>
+                <p className="world-card__description">{t(`worlds:${world.id}.description`, world.description)}</p>
 
                 {unlocked && total > 0 && (
                     <div className="world-card__progress">
@@ -80,55 +80,55 @@ export const WorldCard = memo(function WorldCard({
 
                 {!unlocked && world.requiredScore && (
                     <div className="world-card__requirement">
-                        🔒 {t('worldCard.requirement', { defaultValue: 'Requer {{score}} ⚡ pts',  score: world.requiredScore })}
+                        🔒 {t('game:worldCard.requirement', { defaultValue: 'Requer {{score}} ⚡ pts',  score: world.requiredScore })}
                     </div>
                 )}
 
                 {isComplete && (
-                    <div className="world-card__badge" title={t('worldCard.completedTooltip', 'Mundo 100% Concluído!')}>🏆</div>
+                    <div className="world-card__badge" title={t('game:worldCard.completedTooltip', 'Mundo 100% Concluído!')}>🏆</div>
                 )}
 
                 {/* Indicador de Boss - só falta 1 para completar */}
                 {unlocked && !isComplete && total > 0 && completed === total - 1 && (
                     <div className="world-card__boss-badge">
-                        👹 {t('worldCard.bossBattle', 'BOSS BATTLE!')}
+                        👹 {t('game:worldCard.bossBattle', 'BOSS BATTLE!')}
                     </div>
                 )}
 
                 {/* Indicador de tutorial novo */}
                 {unlocked && hasTutorial && !viewedTutorial && (
                     <div className="world-card__tutorial-badge">
-                        📖 {t('worldCard.newLesson', 'Nova Lição!')}
+                        ✨ {t('game:worldCard.newLesson', 'Nova Aula!')}
                     </div>
                 )}
             </button>
 
-            {/* Botões de ações extras quando desbloqueado */}
+            {/* Ações Rápidas (Flashcards e Tutorial) */}
             {unlocked && (
-                <div className="world-card__actions">
+                <div className="world-card__quick-actions">
                     {hasTutorial && (
                         <button
-                            className="world-card__action-btn"
+                            className="world-card__quick-btn world-card__quick-btn--tutorial"
                             onClick={(e) => {
                                 e.stopPropagation();
                                 onShowTutorial(world.id);
                             }}
-                            title={t('worldCard.viewLesson', 'Ver Lição Explicativa')}
-                            aria-label={t('worldCard.viewLesson', 'Ver Lição Explicativa')}
+                            title={t('game:worldCard.viewLesson', 'Ver Aula Explicativa')}
+                            aria-label={t('game:worldCard.viewLesson', 'Ver Aula Explicativa')}
                         >
-                            <span aria-hidden="true">📖</span>
+                            📖
                         </button>
                     )}
                     <button
-                        className="world-card__action-btn"
+                        className="world-card__quick-btn world-card__quick-btn--flashcards"
                         onClick={(e) => {
                             e.stopPropagation();
                             onShowFlashcards(world.id);
                         }}
-                        title={t('worldCard.reviewFlashcards', 'Revisar com Flashcards')}
-                        aria-label={t('worldCard.reviewFlashcards', 'Revisar com Flashcards')}
+                        title={t('game:worldCard.reviewFlashcards', 'Revisar com Flashcards')}
+                        aria-label={t('game:worldCard.reviewFlashcards', 'Revisar com Flashcards')}
                     >
-                        <span aria-hidden="true">📚</span>
+                        📚
                     </button>
                 </div>
             )}

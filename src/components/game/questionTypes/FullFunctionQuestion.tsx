@@ -7,14 +7,8 @@ import {
     runCodeQuestionTests,
     useCodeQuestionRuntime,
 } from './QuestionTypeRuntime';
+import { useTranslation } from 'react-i18next';
 import './QuestionTypes.css';
-
-interface FullFunctionQuestionProps {
-    question: QuestionDocument;
-    onAnswer: (isCorrect: boolean, code: string) => void;
-    disabled?: boolean;
-    showResult?: boolean;
-}
 
 function formatTestInputArgs(input: unknown): string {
     if (Array.isArray(input)) {
@@ -26,8 +20,15 @@ function formatTestInputArgs(input: unknown): string {
     return JSON.stringify(input);
 }
 
+interface FullFunctionQuestionProps {
+    question: QuestionDocument;
+    onAnswer: (isCorrect: boolean, code: string) => void;
+    disabled?: boolean;
+    showResult?: boolean;
+}
+
 /**
- * Componente para questões de escrever função completa
+ * Componente para questões onde o usuário escreve a função completa do zero
  */
 export function FullFunctionQuestion({
     question,
@@ -35,6 +36,7 @@ export function FullFunctionQuestion({
     disabled = false,
     showResult = false,
 }: FullFunctionQuestionProps) {
+    const { t } = useTranslation('game');
     const {
         code,
         setCode,
@@ -53,29 +55,27 @@ export function FullFunctionQuestion({
 
         try {
             const result = await runCodeQuestionTests(runPython, code, question);
-            const typedResult = result as {
-                hasError: boolean;
-                stderr?: string;
-                allTestsPassed?: boolean;
-                stdout?: string;
-                testResults?: Array<{
-                    passed: boolean;
-                    input?: unknown;
-                    expectedOutput?: unknown;
-                    actualOutput?: unknown;
-                    error?: string;
-                }>;
-            };
 
-            if (typedResult.hasError) {
-                setOutput(typedResult.stderr || 'Erro desconhecido');
+            if ((result as { hasError: boolean }).hasError) {
+                setOutput((result as { stderr: string }).stderr);
                 setTestsPassed(0);
                 setTotalTests(question.tests?.length || 0);
                 onAnswer(false, code);
             } else {
+                const typedResult = result as {
+                    allTestsPassed?: boolean;
+                    stdout?: string;
+                    testResults?: Array<{
+                        passed: boolean;
+                        input?: unknown;
+                        expectedOutput?: unknown;
+                        actualOutput?: unknown;
+                        error?: string;
+                    }>;
+                };
                 const allPassed = typedResult.allTestsPassed ?? false;
                 const passed = typedResult.testResults?.filter(t => t.passed).length || 0;
-                const total = typedResult.testResults?.length || 0;
+                const total = typedResult.testResults?.length || question.tests?.length || 0;
 
                 setTestsPassed(passed);
                 setTotalTests(total);
@@ -148,7 +148,7 @@ export function FullFunctionQuestion({
         <div className="question-container question-container--code">
             <QuestionHeader
                 badgeClassName="question-type-badge--full"
-                badgeText="💻 Escreva a Função"
+                badgeText={t('questionTypes.badgeFull', '⚡ Ecreva a Função')}
                 difficulty={question.difficulty}
                 title={question.title}
                 prompt={question.prompt}
@@ -156,14 +156,14 @@ export function FullFunctionQuestion({
 
             {question.functionName && (
                 <div className="question-function-signature">
-                    <span className="question-function-label">📝 Sua função deve se chamar:</span>
+                    <span className="question-function-label">{t('question.functionMustBeNamed', '📝 Sua função deve se chamar:')}</span>
                     <code className="question-function-name">{question.functionName}</code>
                 </div>
             )}
 
             {question.tests && question.tests.length > 0 && (
                 <div className="question-examples">
-                    <div className="question-examples__title">📋 Exemplos de uso:</div>
+                    <div className="question-examples__title">{t('question.usageExamples', '📋 Exemplos de uso:')}</div>
                     <div className="question-examples__list">
                         {question.tests.slice(0, 2).map((test, i) => (
                             <div key={i} className="question-example">
@@ -179,11 +179,11 @@ export function FullFunctionQuestion({
 
             <div className="question-editor-container">
                 <div className="question-editor-header">
-                    <span>🐍 Editor Python</span>
-                    {!ready && <span className="editor-loading">Carregando Python...</span>}
+                    <span>{t('question.editorPython', '🐍 Editor Python')}</span>
+                    {!ready && <span className="editor-loading">{t('question.loadingPython', 'Carregando Python...')}</span>}
                     {totalTests > 0 && (
                         <span className={`editor-tests-badge ${testsPassed === totalTests ? 'editor-tests-badge--passed' : ''}`}>
-                            {testsPassed}/{totalTests} testes
+                            {testsPassed}/{totalTests} {t('sagaBanner.questions', 'testes')}
                         </span>
                     )}
                 </div>
@@ -197,7 +197,7 @@ export function FullFunctionQuestion({
 
             {output && (
                 <div className={`question-output ${showResult ? 'question-output--result' : ''}`}>
-                    <div className="question-output__header">📤 Saída:</div>
+                    <div className="question-output__header">{t('tutorials.output', '📤 Saída:')}</div>
                     <pre className="question-output__content">{output}</pre>
                 </div>
             )}
@@ -209,18 +209,17 @@ export function FullFunctionQuestion({
                         onClick={handleRun}
                         disabled={!ready || isRunning}
                     >
-                        ▶ Testar Código
+                        {t('question.runCode', '▶️ Executar')}
                     </button>
                     <button
                         className="question-submit-btn"
                         onClick={handleSubmit}
                         disabled={disabled || !ready || isRunning}
                     >
-                        {isRunning ? 'Executando... ⏳' : 'Verificar Resposta 🚀'}
+                        {isRunning ? t('question.checking', 'Verificando...') : t('question.checkAnswer', 'Verificar Resposta 🚀')}
                     </button>
                 </div>
             )}
         </div>
     );
 }
-

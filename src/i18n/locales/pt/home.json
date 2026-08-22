@@ -15,6 +15,22 @@
         "startPlaying": "🎮 Começar a Jogar",
         "haveAccount": "Já tenho conta"
     },
+    "dashboard": {
+        "greeting": "👋 Olá, {{name}}!",
+        "subtitle": "Aqui está seu progresso",
+        "level": "Nível {{level}}",
+        "levelMax": "Nível máximo!",
+        "percentToNext": "{{percent}}% para o próximo nível",
+        "streak": "Ofensiva",
+        "streakDays": "{{count}} dias",
+        "streakRecord": "Recorde: {{count}} dias",
+        "stars": "Estrelas",
+        "totalEarned": "Total ganho: {{score}}",
+        "questions": "Questões",
+        "completed": "completadas",
+        "playNow": "🎮 Jogar Agora",
+        "myProfile": "👤 Meu Perfil"
+    },
     "features": {
         "title": "Por que o PyExplorer é Especial?",
         "interactiveQuestions": "Questões Interativas",

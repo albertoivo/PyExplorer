@@ -310,7 +310,8 @@ export function GamePage() {
         selectedWorld,
         worldProgress,
         checkWorldAchievements,
-        navigate
+        navigate,
+        t
     ]);
 
     /**

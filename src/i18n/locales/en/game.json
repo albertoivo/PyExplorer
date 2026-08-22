@@ -1,25 +1,34 @@
 {
     "seoTitle": "Play",
-    "seoDescription": "Explore the worlds of PyExplorer, solve challenges and learn Python by playing!",
+    "seoDescription": "Explore PyExplorer worlds, solve challenges and learn Python by playing!",
     "breadcrumb": "Play",
     "pageTitle": "PyExplorer Worlds",
     "playAsGuest": "🎮 Playing as Guest",
     "continueAdventure": "Continue Adventure",
-    "completedQuestions": "You have solved {{count}} questions today!",
-    "startExploring": "Start exploring the first world for your adventure!",
-    "noQuestionsInWorld": "There are no questions available in this world yet. Come back soon!",
+    "completedQuestions": "You have already solved {{count}} questions today!",
+    "startExploring": "Start exploring the first world on your adventure!",
+    "noQuestionsInWorld": "No questions available in this world yet. Come back soon!",
     "startWorld": "🚀 Start World",
     "continueWorld": "▶️ Continue",
-    "masteredWorld": "⭐ Mastered World",
+    "masteredWorld": "⭐ World Mastered",
     "completedPrefix": "Completed",
     "ofSuffix": "of",
     "lockedTooltip": "Complete previous worlds to unlock this one!",
+    "backToQuestions": "Back to Questions",
+    "confirmCert": "Generate Certificate",
+    "questionProgress": "Question {{current}} of {{total}}",
+    "redoForPractice": "Redo for Practice",
+    "reviewBadge": "Review",
+    "backToMap": "Back to Map",
+    "completedStats": "Completion Statistics",
+    "worldEmptyDesc": "This world does not have registered questions yet.",
+    "worldEmptyTitle": "Empty World",
     "story": {
         "title": "The Journey Begins",
         "next": "Next ➡️",
         "play": "Play!",
-        "avatarLabel": "Story Avatar",
-        "progressLabel": "Story Progress",
+        "avatarLabel": "Avatar of {{speaker}}",
+        "progressLabel": "Step {{current}} of {{total}}",
         "skip": "Skip",
         "startAdventure": "Start Adventure! 🚀"
     },
@@ -30,23 +39,28 @@
         "almost": "🤔 Almost there!",
         "nextQuestion": "Next Question",
         "tryAgain": "Try Again",
-        "solution": "See Solution"
+        "solution": "View Solution"
     },
     "question": {
         "runCode": "▶️ Run",
-        "checkAnswer": "Check",
+        "checkAnswer": "Check Answer 🚀",
         "checking": "Checking...",
         "output": "Terminal Output:",
         "true": "True",
         "false": "False",
-        "dragBlocks": "Drag the blocks in the correct order"
+        "dragBlocks": "Drag the blocks in the correct order",
+        "editorPython": "🐍 Python Editor",
+        "loadingPython": "Loading Python...",
+        "functionMustBeNamed": "📝 Your function must be named:",
+        "usageExamples": "📋 Usage examples:",
+        "hint": "💡 Hint:"
     },
     "hints": {
         "needHelp": "Need help?",
-        "needStars": "Need stars",
+        "needStars": "Stars needed",
         "free": "Free",
         "basicHint": "Basic Hint",
-        "mediumHint": "Medium Hint",
+        "mediumHint": "Intermediate Hint",
         "fullAnswer": "Full Answer",
         "revealBtn": "Reveal Hint ({{cost}} ⭐)",
         "revealForStars": "Reveal for {{cost}} ⭐",
@@ -54,7 +68,7 @@
         "revealConfirmTitle": "Reveal {{type}}?",
         "revealConfirmDesc": "This will cost {{cost}} stars.",
         "balanceCurrent": "Your current balance: {{stars}} ⭐",
-        "balanceAfter": "Balance after revealing: {{after}} ⭐",
+        "balanceAfter": "Balance after reveal: {{after}} ⭐",
         "revealPreviousFirst": "Reveal the previous hint first!",
         "extraHintPrefix": "Extra hint:",
         "cancel": "Cancel"
@@ -64,7 +78,7 @@
         "attempts": "Attempts",
         "points": "Points earned",
         "redoPractice": "Redo for Practice",
-        "redoHint": "You can redo this question for practice without losing progress.",
+        "redoHint": "You can redo this question for practice without losing your progress.",
         "sponsorTitle": "Support PyExplorer",
         "sponsorDesc": "Help keep the platform free and open for all students.",
         "sponsorLink": "Support Project",
@@ -76,55 +90,99 @@
         "ariaLabel": "Question {{num}}: {{title}}. Status: {{status}}. {{score}} Type: {{type}}."
     },
     "stars": {
-        "earned": "Stars earned",
+        "earned": "{{earned}} of 3 stars",
         "potential": "0 of 3 stars"
     },
     "status": {
         "available": "Available",
         "completed": "Completed",
         "locked": "Locked",
+        "in_progress": "In progress",
         "unknown": "Unknown",
         "not_started": "Not started"
     },
+    "difficulties": {
+        "easy": "Easy",
+        "medium": "Medium",
+        "hard": "Hard",
+        "starsEasy": "⭐ Easy",
+        "starsMedium": "⭐⭐ Medium",
+        "starsHard": "⭐⭐⭐ Hard"
+    },
     "questionTypes": {
         "unknown": "Question",
-        "multiple_choice": "Multiple Choice",
-        "true_false": "True/False",
+        "multiple_choice": "Choice",
+        "true_false": "T/F",
         "fill_code": "Fill Code",
         "partial_function": "Partial Function",
         "full_function": "Full Function",
-        "parsons_problem": "Parsons Problem",
-        "turtle_challenge": "Turtle Challenge",
-        "boss_battle": "Boss Battle"
+        "parsons_problem": "Parsons",
+        "turtle_challenge": "Turtle",
+        "boss_battle": "Boss Battle",
+        "badgeChoice": "🎯 Choose the answer",
+        "badgeTf": "⚡ True or False",
+        "badgeFill": "✏️ Fill in the Code",
+        "badgePartial": "🧩 Complete the Function",
+        "badgeFull": "⚡ Write the Function",
+        "badgeParsons": "🧩 Order the Blocks",
+        "badgeTurtle": "🎨 Turtle Challenge",
+        "badgeBoss": "👹 BOSS BATTLE!"
     },
     "engine": {
         "resultCorrect": "Correct!",
         "resultIncorrect": "Incorrect!",
         "resultReadonly": "Read-only mode",
         "unsupportedType": "Unsupported question type",
-        "readonlyMode": "View Mode",
-        "readonlySub": "You have completed this question or are viewing as a guest.",
+        "readonlyMode": "Preview Mode",
+        "readonlySub": "You have already completed this question or are viewing as a guest.",
         "needHelp": "Need Help",
         "hideHints": "Hide hints",
         "extraHintActive": "Extra hint activated!",
         "doubleStarsActive": "Double stars activated!",
-        "hintsUsedPenalty": "Hints used (penalty applied)"
+        "hintsUsedPenalty": "Hints used (penalty applied)",
+        "verifyAnswer": "Check Answer 🚀"
     },
     "sagaBanner": {
         "questions": "Questions"
     },
     "sagaTabs": {
         "allSagas": "All Sagas",
-        "ariaLabel": "Saga tabs"
+        "ariaLabel": "Saga filter tabs"
+    },
+    "sagas": {
+        "saga_1": {
+            "title": "Saga 1: The Python Apprentice",
+            "subtitle": "Fundamentals & Programming Logic",
+            "description": "Take your first steps, create variables, interact with the user and master decisions and loops!",
+            "badge": "Beginner"
+        },
+        "saga_2": {
+            "title": "Saga 2: The Data Guardian",
+            "subtitle": "Structures, Text & Functions",
+            "description": "Master text manipulation, organize lists, dictionaries and create reusable magic!",
+            "badge": "Intermediate"
+        },
+        "saga_3": {
+            "title": "Saga 3: The Software Architect",
+            "subtitle": "Object-Oriented & Advanced Features",
+            "description": "Build files, use libraries, create your own Classes/Objects and use Pythonic shortcuts!",
+            "badge": "Advanced"
+        },
+        "saga_4": {
+            "title": "Saga 4: The Trails of Destiny",
+            "subtitle": "Specializations & Practical Projects",
+            "description": "Create art with code, analyze real AI data and connect with internet APIs!",
+            "badge": "Master"
+        }
     },
     "worldCard": {
         "ariaLabel": "World {{num}}: {{name}}. {{status}}.{{progress}}",
-        "bossBattle": "Boss Battle",
-        "completedTooltip": "You have already completed this world!",
-        "newLesson": "New Lesson",
-        "progressPrefix": "Progress:",
-        "requirement": "Requirement: {{req}}",
-        "reviewFlashcards": "Review Flashcards",
+        "bossBattle": "BOSS BATTLE!",
+        "completedTooltip": "World 100% Completed!",
+        "newLesson": "New Lesson!",
+        "progressPrefix": " Progress: {{pct}}%.",
+        "requirement": "Requires {{score}} ⚡ pts",
+        "reviewFlashcards": "Review with Flashcards",
         "viewLesson": "View Lesson"
     },
     "progressBar": {
@@ -137,7 +195,7 @@
         "defaultSuccessTitle": "Congratulations!",
         "defaultErrorTitle": "Almost there!",
         "hideExplanation": "Hide Explanation",
-        "showExplanation": "View Explanation",
+        "showExplanation": "Show Explanation",
         "nextQuestion": "Next Question",
         "points": "points",
         "retry": "Try Again",
@@ -145,30 +203,57 @@
     },
     "certificate": {
         "congrats": "Congratulations, {{name}}! 🎉",
-        "continueBtn": "Continue Learning",
-        "continueDesc": "Continue your journey to unlock your official certificate.",
+        "continueBtn": "Keep Learning",
+        "continueDesc": "Continue your journey to unlock the official certificate.",
         "guestName": "Explorer",
-        "inProgressDesc": "You haven't completed all missions yet!",
+        "inProgressDesc": "You haven't completed all quests yet!",
         "inProgressTitle": "Certificate in Progress",
         "loading": "Checking your journey...",
         "lockedSeoTitle": "Certificate Locked - PyExplorer",
         "lockedTitle": "Restricted Access",
-        "loginRequired": "Log in to view your certificate",
+        "loginRequired": "Sign in to view your certificate",
         "progressInfo": "{{completed}} of {{total}} questions solved",
         "subtitle": "Python Course Completion Certificate",
         "supportBtn": "Support PyExplorer",
         "supportDesc": "If PyExplorer helped you, consider supporting the project!",
         "supportTitle": "Support Open Education",
         "unlockedSeoDesc": "Congratulations! Download or share your official PyExplorer completion certificate.",
-        "unlockedSeoTitle": "Your Official Certificate - PyExplorer"
+        "unlockedSeoTitle": "Your Official Certificate - PyExplorer",
+        "certificateOfCompletion": "Certificate of Completion",
+        "certifiedThat": "This is to certify that",
+        "pythonProgramming": "Python Programming",
+        "masterPy": "Master Py",
+        "chiefInstructor": "Chief Instructor",
+        "verifiedAt": "pyexplorer.firebaseapp.com"
     },
-    "backToQuestions": "Back to Questions",
-    "confirmCert": "Generate Certificate",
-    "questionProgress": "Question {{current}} of {{total}}",
-    "redoForPractice": "Redo for Practice",
-    "reviewBadge": "Review",
-    "backToMap": "Back to Map",
-    "completedStats": "Completion Stats",
-    "worldEmptyDesc": "This world has no questions registered yet.",
-    "worldEmptyTitle": "Empty World"
+    "flashcards": {
+        "title": "📚 Flashcards",
+        "empty": "No flashcards for this world yet!",
+        "back": "Back",
+        "tapToFlip": "Tap to see the answer",
+        "answerLabel": "Answer:",
+        "easy": "🟢 Easy",
+        "medium": "🟡 Medium",
+        "hard": "🔴 Hard",
+        "review": "📝 Review",
+        "known": "✅ Got it!",
+        "congrats": "Congratulations!",
+        "reviewedAll": "You reviewed all {{count}} flashcards!",
+        "youKnow": "You know",
+        "toReview": "To review",
+        "restart": "🔄 Restart",
+        "finish": "✨ Done"
+    },
+    "tutorials": {
+        "title": "📖 Tutorial",
+        "codeExample": "💻 Code example:",
+        "output": "📤 Output:",
+        "tryItYourself": "🎯 Try it yourself:",
+        "conceptsLearned": "You learned:",
+        "previous": "⬅️ Previous",
+        "next": "Next ➡️",
+        "start": "🚀 Start!",
+        "close": "Close tutorial",
+        "stepCounter": "Step {{current}} of {{total}}"
+    }
 }

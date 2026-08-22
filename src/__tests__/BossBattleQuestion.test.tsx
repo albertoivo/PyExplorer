@@ -6,6 +6,20 @@ import type { QuestionDocument } from '../types/question';
 // Mock timers
 vi.useFakeTimers();
 
+vi.mock('@monaco-editor/react', () => ({
+    default: ({ value, onChange }: { value: string; onChange: (val: string) => void }) => (
+        <textarea
+            data-testid="monaco-editor"
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+        />
+    ),
+    loader: {
+        config: vi.fn(),
+        init: vi.fn().mockResolvedValue({}),
+    },
+}));
+
 describe('BossBattleQuestion', () => {
     const mockQuestion: QuestionDocument = {
         id: 'boss_1',

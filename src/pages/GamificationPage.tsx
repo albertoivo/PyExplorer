@@ -21,7 +21,7 @@ type GamificationTab = 'overview' | 'achievements' | 'missions' | 'shop' | 'rank
  * Página de gamificação
  */
 export function GamificationPage() {
-    const { t } = useTranslation('gamification');
+    const { t } = useTranslation(['gamification', 'common']);
     const { userData } = useAuth();
     const {
         currentLevel,
@@ -186,7 +186,7 @@ export function GamificationPage() {
                                         <div key={mission.id} className="mini-mission">
                                             <span className="mini-mission__icon">{mission.icon}</span>
                                             <div className="mini-mission__info">
-                                                <span className="mini-mission__title">{t(`missions.daily.${mission.id}.title`, mission.title)}</span>
+                                                <span className="mini-mission__title">{t(`missions.items.${mission.id}.title`, mission.title)}</span>
                                                 <div className="mini-mission__bar">
                                                     <div className="mini-mission__fill" style={{ width: `${percentage}%` }} />
                                                 </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useAuth } from '../../hooks/useAuth';
+import { useTranslation } from 'react-i18next';
 import './ProtectedRoute.css';
 
 interface ProtectedRouteProps {
@@ -14,6 +15,7 @@ interface ProtectedRouteProps {
  * Componente que protege rotas que requerem autenticação
  */
 export function ProtectedRoute({ children, allowGuest = true }: ProtectedRouteProps) {
+    const { t } = useTranslation('common');
     const { user, userData, loading, isGuest } = useAuth();
     const location = useLocation();
 
@@ -22,7 +24,7 @@ export function ProtectedRoute({ children, allowGuest = true }: ProtectedRoutePr
         return (
             <div className="protected-route__loading">
                 <div className="protected-route__spinner"></div>
-                <p className="protected-route__loading-text">Carregando...</p>
+                <p className="protected-route__loading-text">{t('loading', 'Carregando...')}</p>
             </div>
         );
     }
@@ -46,4 +48,3 @@ export function ProtectedRoute({ children, allowGuest = true }: ProtectedRoutePr
         </>
     );
 }
-

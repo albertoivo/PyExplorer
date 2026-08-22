@@ -1,24 +1,40 @@
 {
     "seo": {
-        "title": "Learn Python by Playing",
+        "title": "Learn Python Playing",
         "description": "The best educational game for kids to learn Python. 100% Free, Safe and Fun!"
     },
     "breadcrumb": "Home",
     "hero": {
-        "badge": "🎓 Educational & Fun",
-        "titlePrefix": "Learn",
+        "badge": "🎓 Educational and Fun",
+        "title": "Master Python in an Interactive Journey",
         "titlePython": "Python",
         "titleSuffix": "like a Hero! 🦸‍♂️",
-        "description": "Embark on an incredible adventure through the worlds of programming! Solve challenges, earn stars and become a Python master!",
+        "titlePrefix": "Learn",
+        "description": "Embark on an incredible adventure through the programming worlds! Solve challenges, earn stars and become a Python master!",
         "continueAdventure": "🚀 Continue Adventure",
         "startPlaying": "🎮 Start Playing",
-        "haveAccount": "I have an account",
-        "title": "Master Python in an Interactive Journey"
+        "haveAccount": "I have an account"
+    },
+    "dashboard": {
+        "greeting": "👋 Hello, {{name}}!",
+        "subtitle": "Here is your progress",
+        "level": "Level {{level}}",
+        "levelMax": "Max level reached!",
+        "percentToNext": "{{percent}}% to next level",
+        "streak": "Streak",
+        "streakDays": "{{count}} days",
+        "streakRecord": "Record: {{count}} days",
+        "stars": "Stars",
+        "totalEarned": "Total earned: {{score}}",
+        "questions": "Questions",
+        "completed": "completed",
+        "playNow": "🎮 Play Now",
+        "myProfile": "👤 My Profile"
     },
     "features": {
         "title": "Why is PyExplorer Special?",
         "interactiveQuestions": "Interactive Questions",
-        "interactiveQuestionsDesc": "Multiple choice, true/false, complete the code and more!",
+        "interactiveQuestionsDesc": "Multiple choice, true/false, fill in the code and more!",
         "worlds": "11 Worlds to Explore",
         "worldsDesc": "Unlock new worlds as you progress!",
         "pythonInBrowser": "Python in the Browser",
@@ -26,9 +42,9 @@
         "earnStars": "Earn Stars",
         "earnStarsDesc": "Complete challenges and accumulate points!",
         "learnPlaying": "Learn by Playing",
-        "learnPlayingDesc": "Concepts explained in a simple and fun way!",
+        "learnPlayingDesc": "Concepts explained simply and fun!",
         "safeForKids": "Safe for Kids",
-        "safeForKidsDesc": "A safe environment for all ages!"
+        "safeForKidsDesc": "Safe environment for all ages!"
     },
     "worldsPreview": {
         "title": "PyExplorer Worlds"
@@ -38,10 +54,10 @@
         "subtitle": "Check out our complete guides and tutorials for beginners and parents.",
         "whatIsPython": "What is Python?",
         "whatIsPythonDesc": "Understand why this is the best language to start with.",
-        "parentGuide": "Guide for Parents",
+        "parentGuide": "Parent Guide",
         "parentGuideDesc": "How to help your child learn programming.",
         "firstSteps": "First Steps",
-        "firstStepsDesc": "Your first hands-on Python tutorial.",
+        "firstStepsDesc": "Your first practical Python tutorial.",
         "viewAllArticles": "📖 View All Articles"
     },
     "cta": {

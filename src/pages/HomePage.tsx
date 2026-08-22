@@ -18,7 +18,7 @@ interface HomePageProps {
 export function HomePage({ seoTitle, seoDescription }: HomePageProps) {
     const { userData } = useAuth();
     const [animateHero, setAnimateHero] = useState(false);
-    const { t } = useTranslation('home');
+    const { t } = useTranslation(['home', 'worlds']);
 
     useEffect(() => {
         // Safe animation mode: em mobile evitamos animar a ilustração da hero
@@ -151,10 +151,10 @@ export function HomePage({ seoTitle, seoDescription }: HomePageProps) {
                         <div
                             key={world.id}
                             className={`world-preview ${index > 0 ? 'world-preview--locked' : ''}`}
-                            title={world.description}
+                            title={t(`worlds:${world.id}.description`, world.description)}
                         >
                             <span className="world-preview__icon" aria-hidden="true">{world.icon}</span>
-                            <span className="world-preview__name">{world.name}</span>
+                            <span className="world-preview__name">{t(`worlds:${world.id}.name`, world.name)}</span>
                         </div>
                     ))}
                 </div>

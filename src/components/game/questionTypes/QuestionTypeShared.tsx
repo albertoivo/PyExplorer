@@ -1,4 +1,5 @@
 import type { Difficulty } from '../../../types/question';
+import { useTranslation } from 'react-i18next';
 
 interface QuestionHeaderProps {
     badgeClassName: string;
@@ -15,6 +16,7 @@ export function QuestionHeader({
     title,
     prompt,
 }: QuestionHeaderProps) {
+    const { t } = useTranslation('game');
     return (
         <>
             <div className="question-header">
@@ -22,9 +24,9 @@ export function QuestionHeader({
                     {badgeText}
                 </span>
                 <span className={`question-difficulty question-difficulty--${difficulty}`}>
-                    {difficulty === 'easy' && '⭐ Fácil'}
-                    {difficulty === 'medium' && '⭐⭐ Médio'}
-                    {difficulty === 'hard' && '⭐⭐⭐ Difícil'}
+                    {difficulty === 'easy' && t('difficulties.starsEasy', '⭐ Fácil')}
+                    {difficulty === 'medium' && t('difficulties.starsMedium', '⭐⭐ Médio')}
+                    {difficulty === 'hard' && t('difficulties.starsHard', '⭐⭐⭐ Difícil')}
                 </span>
             </div>
 
@@ -33,4 +35,3 @@ export function QuestionHeader({
         </>
     );
 }
-

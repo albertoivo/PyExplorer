@@ -53,7 +53,7 @@ export function Leaderboard({ currentUserId }: LeaderboardProps) {
         }
 
         fetchLeaderboard();
-    }, [currentUserId]);
+    }, [currentUserId, t]);
 
     // Find current user position
     const currentUserEntry = useMemo(() =>

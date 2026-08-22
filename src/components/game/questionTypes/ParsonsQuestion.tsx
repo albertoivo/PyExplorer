@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import type { QuestionDocument } from '../../../types/question';
 import { usePyodide } from '../../../hooks/usePyodide';
@@ -19,23 +18,34 @@ interface CodeBlock {
     indentation: number; // 0, 1, 2... (multiplicado por 4 espaços)
 }
 
+function createShuffledBlocks(segments: string[]): CodeBlock[] {
+    const initialBlocks = segments.map((seg: string, i: number) => ({
+        id: `block-${i}`,
+        content: seg.trim(),
+        indentation: 0
+    }));
+    // Reverse/rotate to ensure blocks do not start already in the target solved order
+    if (initialBlocks.length > 1) {
+        return initialBlocks.slice(1).concat(initialBlocks.slice(0, 1));
+    }
+    return initialBlocks;
+}
+
 export function ParsonsQuestion({
     question,
     onAnswer,
     disabled = false,
     showResult = false,
 }: ParsonsQuestionProps) {
-    const [blocks, setBlocks] = useState<CodeBlock[]>(() => {
-        if (question.parsonsSegments) {
-            const initialBlocks = question.parsonsSegments.map((seg, i) => ({
-                id: `block-${i}`,
-                content: seg.trim(),
-                indentation: 0
-            }));
-            return [...initialBlocks].sort(() => Math.random() - 0.5);
-        }
-        return [];
-    });
+    const [prevQuestionId, setPrevQuestionId] = useState(question.id);
+    const [blocks, setBlocks] = useState<CodeBlock[]>(() =>
+        createShuffledBlocks(question.parsonsSegments || [])
+    );
+
+    if (prevQuestionId !== question.id) {
+        setPrevQuestionId(question.id);
+        setBlocks(createShuffledBlocks(question.parsonsSegments || []));
+    }
 
     const [isRunning, setIsRunning] = useState(false);
     const [output, setOutput] = useState<string>('');
@@ -149,54 +159,66 @@ export function ParsonsQuestion({
                 {blocks.map((block, index) => (
                     <div
                         key={block.id}
-                        className={`parsons-block ${disabled ? 'parsons-block--disabled' : ''}`}
+                        className="parsons-block-wrapper"
+                        style={{ paddingLeft: `${block.indentation * 24}px` }}
                         draggable={!disabled}
                         onDragStart={(e) => handleDragStart(e, index)}
                         onDragOver={handleDragOver}
                         onDrop={(e) => handleDrop(e, index)}
-                        style={{ '--block-indent': block.indentation } as React.CSSProperties}
                     >
-                        <div className="parsons-block__content">
-                            <span className="parsons-block__drag-handle">☰</span>
-                            <code>{block.content}</code>
+                        {/* Botões de Indentação (Esquerda) */}
+                        <div className="parsons-indent-controls">
+                            <button
+                                type="button"
+                                className="parsons-btn parsons-btn--indent"
+                                onClick={() => changeIndentation(index, -1)}
+                                disabled={disabled || block.indentation === 0}
+                                title="Diminuir indentação"
+                                aria-label={`Diminuir indentação da linha ${index + 1}`}
+                            >
+                                ◀
+                            </button>
+                            <button
+                                type="button"
+                                className="parsons-btn parsons-btn--indent"
+                                onClick={() => changeIndentation(index, 1)}
+                                disabled={disabled || block.indentation >= 4}
+                                title="Aumentar indentação"
+                                aria-label={`Aumentar indentação da linha ${index + 1}`}
+                            >
+                                ▶
+                            </button>
                         </div>
 
-                        {!disabled && (
-                            <div className="parsons-block__controls">
-                                <button
-                                    onClick={() => moveBlock(index, -1)}
-                                    disabled={index === 0}
-                                    title="Mover para cima"
-                                    aria-label="Mover bloco para cima"
-                                >
-                                    ▲
-                                </button>
-                                <button
-                                    onClick={() => moveBlock(index, 1)}
-                                    disabled={index === blocks.length - 1}
-                                    title="Mover para baixo"
-                                    aria-label="Mover bloco para baixo"
-                                >
-                                    ▼
-                                </button>
-                                <button
-                                    onClick={() => changeIndentation(index, -1)}
-                                    disabled={block.indentation === 0}
-                                    title="Diminuir recuo"
-                                    aria-label="Diminuir recuo da linha"
-                                >
-                                    ◀
-                                </button>
-                                <button
-                                    onClick={() => changeIndentation(index, 1)}
-                                    disabled={block.indentation >= 4}
-                                    title="Aumentar recuo"
-                                    aria-label="Aumentar recuo da linha"
-                                >
-                                    ▶
-                                </button>
-                            </div>
-                        )}
+                        {/* Bloco de Código com Drag Handle */}
+                        <div className="parsons-block">
+                            <span className="parsons-drag-handle" title="Arraste para reordenar" aria-hidden="true">⋮⋮</span>
+                            <code className="parsons-code">{block.content}</code>
+                        </div>
+
+                        {/* Botões de Reordenação Vertical (Direita - Mobile Friendly) */}
+                        <div className="parsons-order-controls">
+                            <button
+                                type="button"
+                                className="parsons-btn parsons-btn--order"
+                                onClick={() => moveBlock(index, -1)}
+                                disabled={disabled || index === 0}
+                                title="Mover para cima"
+                                aria-label={`Mover linha ${index + 1} para cima`}
+                            >
+                                ▲
+                            </button>
+                            <button
+                                type="button"
+                                className="parsons-btn parsons-btn--order"
+                                onClick={() => moveBlock(index, 1)}
+                                disabled={disabled || index === blocks.length - 1}
+                                title="Mover para baixo"
+                                aria-label={`Mover linha ${index + 1} para baixo`}
+                            >
+                                ▼
+                            </button>
+                        </div>
                     </div>
                 ))}
             </div>
@@ -222,4 +244,3 @@ export function ParsonsQuestion({
         </div>
     );
 }
-

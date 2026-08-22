@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 // jsPDF and html2canvas are now lazy-loaded for performance
 import './CertificateGenerator.css';
 
@@ -8,6 +9,7 @@ interface CertificateGeneratorProps {
 }
 
 export function CertificateGenerator({ studentName, completionDate }: CertificateGeneratorProps) {
+    const { t } = useTranslation('game');
     const certificateRef = useRef<HTMLDivElement>(null);
     const [isGenerating, setIsGenerating] = useState(false);
 
@@ -54,23 +56,23 @@ export function CertificateGenerator({ studentName, completionDate }: Certificat
                         <div className="certificate-content">
                             <div className="certificate-header">
                                 <span className="certificate-icon">🐍</span>
-                                <h1>Certificado de Conclusão</h1>
+                                <h1>{t('certificate.certificateOfCompletion', 'Certificado de Conclusão')}</h1>
                                 <p className="certificate-subtitle">PyExplorer Academy</p>
                             </div>
 
                             <div className="certificate-body">
-                                <p className="certificate-text">Certificamos que</p>
+                                <p className="certificate-text">{t('certificate.certifiedThat', 'Certificamos que')}</p>
                                 <h2 className="student-name">{studentName}</h2>
                                 <p className="certificate-text">
                                     completou com sucesso a jornada do iniciante em
                                 </p>
-                                <h3 className="course-title">Programação Python</h3>
+                                <h3 className="course-title">{t('certificate.pythonProgramming', 'Programação Python')}</h3>
                             </div>
 
                             <div className="certificate-footer">
                                 <div className="signature-block">
-                                    <p>Mestre Py</p>
-                                    <small>Instrutor Chefe</small>
+                                    <p>{t('certificate.masterPy', 'Mestre Py')}</p>
+                                    <small>{t('certificate.chiefInstructor', 'Instrutor Chefe')}</small>
                                 </div>
 
                                 <div className="badge-block">
@@ -79,7 +81,7 @@ export function CertificateGenerator({ studentName, completionDate }: Certificat
 
                                 <div className="date-block">
                                     <p className="date-text">Data: {completionDate}</p>
-                                    <small>pyexplorer.firebaseapp.com</small>
+                                    <small>{t('certificate.verifiedAt', 'pyexplorer.firebaseapp.com')}</small>
                                 </div>
                             </div>
                         </div>
@@ -111,7 +113,7 @@ export function CertificateGenerator({ studentName, completionDate }: Certificat
                     }}
                     className="download-btn share-btn"
                 >
-                    📤 Compartilhar
+                    📤 {t('evolution.share', 'Compartilhar')}
                 </button>
             </div>
         </div>

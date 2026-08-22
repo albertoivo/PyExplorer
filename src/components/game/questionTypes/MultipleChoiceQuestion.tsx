@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import type { QuestionDocument } from '../../../types/question';
 import type { PowerUpType } from '../../../types/gamification';
 import { QuestionHeader } from './QuestionTypeShared';
+import { useTranslation } from 'react-i18next';
 import './QuestionTypes.css';
 
 interface MultipleChoiceQuestionProps {
@@ -24,6 +25,7 @@ export function MultipleChoiceQuestion({
     selectedAnswer,
     activePowerUp,
 }: MultipleChoiceQuestionProps) {
+    const { t } = useTranslation('game');
     const [selected, setSelected] = useState<number | null>(selectedAnswer ?? null);
 
     const eliminatedIndices = useMemo(() => {
@@ -91,7 +93,7 @@ export function MultipleChoiceQuestion({
         <div className="question-container">
             <QuestionHeader
                 badgeClassName="question-type-badge--choice"
-                badgeText="🎯 Escolha a resposta"
+                badgeText={t('questionTypes.badgeChoice', '🎯 Escolha a resposta')}
                 difficulty={question.difficulty}
                 title={question.title}
                 prompt={question.prompt}
@@ -125,10 +127,9 @@ export function MultipleChoiceQuestion({
                     onClick={handleSubmit}
                     disabled={effectiveSelected === null || disabled}
                 >
-                    Verificar Resposta 🚀
+                    {t('question.checkAnswer', 'Verificar Resposta 🚀')}
                 </button>
             )}
         </div>
     );
 }
-

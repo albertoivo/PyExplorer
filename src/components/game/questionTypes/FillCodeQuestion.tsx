@@ -6,6 +6,7 @@ import {
     runCodeQuestionTests,
     useCodeQuestionRuntime,
 } from './QuestionTypeRuntime';
+import { useTranslation } from 'react-i18next';
 import './QuestionTypes.css';
 
 interface FillCodeQuestionProps {
@@ -24,6 +25,7 @@ export function FillCodeQuestion({
     disabled = false,
     showResult = false,
 }: FillCodeQuestionProps) {
+    const { t } = useTranslation('game');
     const {
         code,
         setCode,
@@ -85,7 +87,7 @@ export function FillCodeQuestion({
         <div className="question-container question-container--code">
             <QuestionHeader
                 badgeClassName="question-type-badge--code"
-                badgeText="✏️ Complete o Código"
+                badgeText={t('questionTypes.badgeFill', '✏️ Complete o Código')}
                 difficulty={question.difficulty}
                 title={question.title}
                 prompt={question.prompt}
@@ -93,8 +95,8 @@ export function FillCodeQuestion({
 
             <div className="question-editor-container">
                 <div className="question-editor-header">
-                    <span>🐍 Editor Python</span>
-                    {!ready && <span className="editor-loading">Carregando Python...</span>}
+                    <span>{t('question.editorPython', '🐍 Editor Python')}</span>
+                    {!ready && <span className="editor-loading">{t('question.loadingPython', 'Carregando Python...')}</span>}
                 </div>
                 <PythonEditor
                     code={code}
@@ -106,7 +108,7 @@ export function FillCodeQuestion({
 
             {output && (
                 <div className={`question-output ${showResult ? 'question-output--result' : ''}`}>
-                    <div className="question-output__header">📤 Saída:</div>
+                    <div className="question-output__header">{t('tutorials.output', '📤 Saída:')}</div>
                     <pre className="question-output__content">{output}</pre>
                 </div>
             )}
@@ -117,10 +119,9 @@ export function FillCodeQuestion({
                     onClick={handleSubmit}
                     disabled={disabled || !ready || isRunning}
                 >
-                    {isRunning ? 'Executando... ⏳' : 'Executar e Verificar 🚀'}
+                    {isRunning ? t('question.checking', 'Verificando...') : t('question.checkAnswer', 'Verificar Resposta 🚀')}
                 </button>
             )}
         </div>
     );
 }
-

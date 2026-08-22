@@ -40,8 +40,8 @@ function AchievementToast({ achievement, onClose }: AchievementToastProps) {
 
             <div className="toast__content">
                 <span className="toast__label">🏆 {t('toast.achievementUnlocked', 'Conquista Desbloqueada!')}</span>
-                <span className="toast__title">{t(`achievements.${achievement.id}.name`, achievement.name)}</span>
-                <span className="toast__description">{t(`achievements.${achievement.id}.description`, achievement.description)}</span>
+                <span className="toast__title">{t(`achievements.items.${achievement.id}.name`, achievement.name)}</span>
+                <span className="toast__description">{t(`achievements.items.${achievement.id}.description`, achievement.description)}</span>
             </div>
 
             <div className="toast__rewards">

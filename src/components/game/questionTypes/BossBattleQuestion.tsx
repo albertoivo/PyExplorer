@@ -12,19 +12,25 @@ interface BossBattleQuestionProps {
     isExecuting: boolean;
 }
 
+const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+};
+
 export const BossBattleQuestion = memo(function BossBattleQuestion({ question, onRun, onComplete, onNext, isExecuting }: BossBattleQuestionProps) {
     const [code, setCode] = useState(question.bossMetadata?.initialCode || question.starterCode || '');
     const [timeLeft, setTimeLeft] = useState(question.bossMetadata?.timeLimitSeconds || 60);
     const [isActive, setIsActive] = useState(false); // Só começa quando o usuário clica "Iniciar Batalha"
-    const [isGameOver, setIsGameOver] = useState(false);
     const [hasWon, setHasWon] = useState(false);
+    const [isGameOver, setIsGameOver] = useState(false);
     const [feedback, setFeedback] = useState<string | null>(null);
 
-    // Efeito para o Timer
+    // Timer de contagem regressiva
     useEffect(() => {
-        let interval: ReturnType<typeof setInterval>;
+        let interval: NodeJS.Timeout;
 
-        if (isActive && !isGameOver) {
+        if (isActive && !isGameOver && !hasWon) {
             interval = setInterval(() => {
                 setTimeLeft((prev) => {
                     if (prev <= 1) {
@@ -38,12 +44,12 @@ export const BossBattleQuestion = memo(function BossBattleQuestion({ question, o
         }
 
         return () => clearInterval(interval);
-    }, [isActive, isGameOver]);
+    }, [isActive, isGameOver, hasWon]);
 
     const handleRun = async () => {
         if (!isActive) setIsActive(true); // Garante que o timer tá rodando
-        if (isGameOver) return; // Não roda se acabou o tempo
 
+        setFeedback(null);
         const result = await onRun(code);
 
         if (!result.hasError && result.allTestsPassed) {
@@ -60,37 +66,32 @@ export const BossBattleQuestion = memo(function BossBattleQuestion({ question, o
 
     const handleStart = () => {
         setIsActive(true);
-        setFeedback(null);
     };
 
     const handleRetail = () => {
-        setCode(question.bossMetadata?.initialCode || question.starterCode || '');
-        setTimeLeft(question.bossMetadata?.timeLimitSeconds || 60);
         setIsGameOver(false);
-        setIsActive(false);
+        setHasWon(false);
+        setTimeLeft(question.bossMetadata?.timeLimitSeconds || 60);
         setFeedback(null);
+        setIsActive(true);
     };
 
-    // Formata o tempo MM:SS
-    const formatTime = (seconds: number) => {
-        const mins = Math.floor(seconds / 60);
-        const secs = seconds % 60;
-        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-    };
-
-    // Otimização: Memoiza opções do editor para evitar re-render no timer
     const editorOptions = useMemo(() => ({
         minimap: { enabled: false },
-        fontSize: 16,
+        fontSize: 14,
+        lineNumbers: 'on' as const,
         scrollBeyondLastLine: false,
-        readOnly: isGameOver
-    }), [isGameOver]);
+        automaticLayout: true,
+        tabSize: 4,
+        wordWrap: 'on' as const,
+        accessibilitySupport: 'off' as const,
+    }), []);
 
     const handleEditorChange = useCallback((value: string | undefined) => {
         setCode(value || '');
     }, []);
 
-    if (!isActive && !isGameOver && timeLeft === (question.bossMetadata?.timeLimitSeconds || 60)) {
+    if (!isActive && !hasWon && !isGameOver) {
         return (
             <div className="boss-intro">
                 <div className="boss-avatar-large">{question.bossMetadata?.bossAvatar || '👹'}</div>
@@ -107,17 +108,24 @@ export const BossBattleQuestion = memo(function BossBattleQuestion({ question, o
     }
 
     return (
-        <div className={`boss-battle-container ${isGameOver ? 'game-over' : ''} ${timeLeft < 10 ? 'hurry-up' : ''}`}>
-            {/* Header da Batalha */}
+        <div className={`boss-battle-container ${hasWon ? 'victory' : ''} ${isGameOver ? 'game-over' : ''}`}>
+            {/* Header da Batalha: Avatar do Chefe e Barra de Tempo */}
             <div className="boss-header">
                 <div className="boss-info">
-                    <span className="boss-avatar-small">{question.bossMetadata?.bossAvatar}</span>
-                    <span className="boss-name">{question.bossMetadata?.bossName}</span>
+                    <span className="boss-avatar">{question.bossMetadata?.bossAvatar || '👹'}</span>
+                    <div>
+                        <h3>{question.bossMetadata?.bossName}</h3>
+                        <span className="boss-status">
+                            {hasWon ? 'DERROTADO! 💀' : isGameOver ? 'VITORIOSO... 😈' : 'FURIOSO! ⚡'}
+                        </span>
+                    </div>
                 </div>
 
-                <div className={`boss-timer ${timeLeft < 10 ? 'danger' : ''}`}>
-                    <span>⏰</span>
-                    <span>{formatTime(timeLeft)}</span>
+                <div className="boss-timer">
+                    <span className="timer-icon">⏳</span>
+                    <span className={`timer-text ${timeLeft <= 10 ? 'urgent' : ''}`}>
+                        {formatTime(timeLeft)}
+                    </span>
                 </div>
             </div>
 
@@ -167,4 +175,3 @@ export const BossBattleQuestion = memo(function BossBattleQuestion({ question, o
         </div>
     );
 });
-

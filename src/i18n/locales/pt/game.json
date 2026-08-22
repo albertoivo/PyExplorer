@@ -14,12 +14,21 @@
     "completedPrefix": "Completou",
     "ofSuffix": "de",
     "lockedTooltip": "Complete os mundos anteriores para liberar este!",
+    "backToQuestions": "Voltar para Questões",
+    "confirmCert": "Gerar Certificado",
+    "questionProgress": "Questão {{current}} de {{total}}",
+    "redoForPractice": "Refazer para Praticar",
+    "reviewBadge": "Revisão",
+    "backToMap": "Voltar para o Mapa",
+    "completedStats": "Estatísticas de Conclusão",
+    "worldEmptyDesc": "Este mundo ainda não possui questões cadastradas.",
+    "worldEmptyTitle": "Mundo Vazio",
     "story": {
         "title": "A Jornada Começa",
         "next": "Próximo ➡️",
         "play": "Jogar!",
-        "avatarLabel": "Avatar da História",
-        "progressLabel": "Progresso da História",
+        "avatarLabel": "Avatar de {{speaker}}",
+        "progressLabel": "Passo {{current}} de {{total}}",
         "skip": "Pular",
         "startAdventure": "Começar Aventura! 🚀"
     },
@@ -34,12 +43,17 @@
     },
     "question": {
         "runCode": "▶️ Executar",
-        "checkAnswer": "Verificar",
+        "checkAnswer": "Verificar Resposta 🚀",
         "checking": "Verificando...",
         "output": "Saída do Terminal:",
         "true": "Verdadeiro",
         "false": "Falso",
-        "dragBlocks": "Arraste os blocos na ordem correta"
+        "dragBlocks": "Arraste os blocos na ordem correta",
+        "editorPython": "🐍 Editor Python",
+        "loadingPython": "Carregando Python...",
+        "functionMustBeNamed": "📝 Sua função deve se chamar:",
+        "usageExamples": "📋 Exemplos de uso:",
+        "hint": "💡 Dica:"
     },
     "hints": {
         "needHelp": "Precisa de ajuda?",
@@ -76,15 +90,24 @@
         "ariaLabel": "Questão {{num}}: {{title}}. Status: {{status}}. {{score}} Tipo: {{type}}."
     },
     "stars": {
-        "earned": "Estrelas ganhas",
+        "earned": "{{earned}} de 3 estrelas",
         "potential": "0 de 3 estrelas"
     },
     "status": {
         "available": "Disponível",
         "completed": "Concluído",
         "locked": "Bloqueado",
+        "in_progress": "Em progresso",
         "unknown": "Desconhecido",
         "not_started": "Não iniciado"
+    },
+    "difficulties": {
+        "easy": "Fácil",
+        "medium": "Médio",
+        "hard": "Difícil",
+        "starsEasy": "⭐ Fácil",
+        "starsMedium": "⭐⭐ Médio",
+        "starsHard": "⭐⭐⭐ Difícil"
     },
     "questionTypes": {
         "unknown": "Questão",
@@ -95,7 +118,15 @@
         "full_function": "Função Completa",
         "parsons_problem": "Parsons",
         "turtle_challenge": "Tartaruga",
-        "boss_battle": "Chefão"
+        "boss_battle": "Chefão",
+        "badgeChoice": "🎯 Escolha a resposta",
+        "badgeTf": "⚡ Verdadeiro ou Falso",
+        "badgeFill": "✏️ Complete o Código",
+        "badgePartial": "🧩 Complete a Função",
+        "badgeFull": "⚡ Escreva a Função",
+        "badgeParsons": "🧩 Ordene os Blocos",
+        "badgeTurtle": "🎨 Desafio da Tartaruga",
+        "badgeBoss": "👹 BATALHA DE CHEFÃO!"
     },
     "engine": {
         "resultCorrect": "Correto!",
@@ -108,7 +139,8 @@
         "hideHints": "Ocultar dicas",
         "extraHintActive": "Dica extra ativada!",
         "doubleStarsActive": "Estrelas em dobro ativadas!",
-        "hintsUsedPenalty": "Dicas usadas (penalidade aplicada)"
+        "hintsUsedPenalty": "Dicas usadas (penalidade aplicada)",
+        "verifyAnswer": "Verificar Resposta 🚀"
     },
     "sagaBanner": {
         "questions": "Questões"
@@ -117,15 +149,41 @@
         "allSagas": "Todas as Sagas",
         "ariaLabel": "Abas de sagas"
     },
+    "sagas": {
+        "saga_1": {
+            "title": "Saga 1: O Aprendiz de Python",
+            "subtitle": "Fundamentos & Lógica de Programação",
+            "description": "Dê os primeiros passos, crie variáveis, converse com o usuário e domine decisões e repetições!",
+            "badge": "Iniciante"
+        },
+        "saga_2": {
+            "title": "Saga 2: O Guardião dos Dados",
+            "subtitle": "Estruturas, Texto & Funções",
+            "description": "Domine a manipulação de textos, organize listas, dicionários e crie magias reutilizáveis!",
+            "badge": "Intermediário"
+        },
+        "saga_3": {
+            "title": "Saga 3: O Arquiteto de Software",
+            "subtitle": "Orientação a Objetos & Recursos Avançados",
+            "description": "Construa arquivos, use bibliotecas, crie suas próprias Classes/Objetos e use atalhos Pythonic!",
+            "badge": "Avançado"
+        },
+        "saga_4": {
+            "title": "Saga 4: As Trilhas do Destino",
+            "subtitle": "Especializações & Projetos Práticos",
+            "description": "Crie artes com código, analise dados reais de IA e conecte-se com APIs da internet!",
+            "badge": "Mestre"
+        }
+    },
     "worldCard": {
         "ariaLabel": "Mundo {{num}}: {{name}}. {{status}}.{{progress}}",
-        "bossBattle": "Batalha de Chefão",
-        "completedTooltip": "Você já completou este mundo!",
-        "newLesson": "Nova Lição",
-        "progressPrefix": "Progresso:",
-        "requirement": "Requisito: {{req}}",
-        "reviewFlashcards": "Revisar Flashcards",
-        "viewLesson": "Ver Lição"
+        "bossBattle": "BOSS BATTLE!",
+        "completedTooltip": "Mundo 100% Concluído!",
+        "newLesson": "Nova Lição!",
+        "progressPrefix": " Progresso: {{pct}}%.",
+        "requirement": "Requer {{score}} ⚡ pts",
+        "reviewFlashcards": "Revisar com Flashcards",
+        "viewLesson": "Ver Lição Explicativa"
     },
     "progressBar": {
         "ariaLabel": "Progresso geral",
@@ -160,15 +218,42 @@
         "supportDesc": "Se o PyExplorer te ajudou, considere apoiar o projeto!",
         "supportTitle": "Apoie a Educação Aberta",
         "unlockedSeoDesc": "Parabéns! Baixe ou compartilhe seu certificado oficial de conclusão do PyExplorer.",
-        "unlockedSeoTitle": "Seu Certificado Oficial - PyExplorer"
+        "unlockedSeoTitle": "Seu Certificado Oficial - PyExplorer",
+        "certificateOfCompletion": "Certificado de Conclusão",
+        "certifiedThat": "Certificamos que",
+        "pythonProgramming": "Programação Python",
+        "masterPy": "Mestre Py",
+        "chiefInstructor": "Instrutor Chefe",
+        "verifiedAt": "pyexplorer.firebaseapp.com"
     },
-    "backToQuestions": "Voltar para Questões",
-    "confirmCert": "Gerar Certificado",
-    "questionProgress": "Questão {{current}} de {{total}}",
-    "redoForPractice": "Refazer para Praticar",
-    "reviewBadge": "Revisão",
-    "backToMap": "Voltar para o Mapa",
-    "completedStats": "Estatísticas de Conclusão",
-    "worldEmptyDesc": "Este mundo ainda não possui questões cadastradas.",
-    "worldEmptyTitle": "Mundo Vazio"
+    "flashcards": {
+        "title": "📚 Flashcards",
+        "empty": "Ainda não há flashcards para este mundo!",
+        "back": "Voltar",
+        "tapToFlip": "Toque para ver a resposta",
+        "answerLabel": "Resposta:",
+        "easy": "🟢 Fácil",
+        "medium": "🟡 Médio",
+        "hard": "🔴 Difícil",
+        "review": "📝 Revisar",
+        "known": "✅ Sei!",
+        "congrats": "Parabéns!",
+        "reviewedAll": "Você revisou todos os {{count}} flashcards!",
+        "youKnow": "Você sabe",
+        "toReview": "Para revisar",
+        "restart": "🔄 Recomeçar",
+        "finish": "✨ Concluir"
+    },
+    "tutorials": {
+        "title": "📖 Tutorial",
+        "codeExample": "💻 Exemplo de código:",
+        "output": "📤 Saída:",
+        "tryItYourself": "🎯 Tente você mesmo:",
+        "conceptsLearned": "Você aprendeu:",
+        "previous": "⬅️ Anterior",
+        "next": "Próximo ➡️",
+        "start": "🚀 Começar!",
+        "close": "Fechar tutorial",
+        "stepCounter": "Passo {{current}} de {{total}}"
+    }
 }

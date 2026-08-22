@@ -1,5 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { env } from '../../config/env';
+import { useTranslation } from 'react-i18next';
+import { AVAILABLE_LANGUAGES } from '../../i18n';
 
 interface BreadcrumbItem {
     name: string;
@@ -35,6 +37,7 @@ export function SEO({
     noindex = false,
     breadcrumbs
 }: SEOProps) {
+    const { i18n } = useTranslation();
     const siteTitle = 'PyExplorer';
     const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
     const metaDescription = description || "Aprenda Python de forma divertida! PyExplorer é um jogo educativo GRATUITO para crianças e iniciantes aprenderem programação.";
@@ -45,7 +48,6 @@ export function SEO({
         : `${env.APP_URL}/og-image.jpg`;
 
     // URL Canônica: Prioriza o prop 'canonical', caso contrário constrói a partir da URL base + pathname
-    // Isso garante que variações como query strings ou subdomínios (www) não criem conteúdo duplicado
     const getCanonicalUrl = () => {
         if (canonical) return canonical.replace(/\/$/, '');
 
@@ -70,6 +72,9 @@ export function SEO({
         }))
     } : null;
 
+    const currentLang = i18n.language ? i18n.language.split('-')[0] : 'pt';
+    const ogLocale = currentLang === 'en' ? 'en_US' : currentLang === 'es' ? 'es_ES' : currentLang === 'hi' ? 'hi_IN' : 'pt_BR';
+
     return (
         <Helmet>
             {/* Standard Metadata */}
@@ -86,12 +91,20 @@ export function SEO({
 
             <link rel="canonical" href={canonicalUrl} />
 
-            {/* Idioma alternativo (Auxilia o Google a entender a região/idioma) */}
-            <link rel="alternate" hrefLang="pt-BR" href={canonicalUrl} />
+            {/* Hreflang alternates for all supported languages */}
+            {AVAILABLE_LANGUAGES.map((lang) => (
+                <link
+                    key={lang.code}
+                    rel="alternate"
+                    hrefLang={lang.code}
+                    href={canonicalUrl}
+                />
+            ))}
             <link rel="alternate" hrefLang="x-default" href={canonicalUrl} />
 
             {/* Open Graph */}
             <meta property="og:site_name" content="PyExplorer" />
+            <meta property="og:locale" content={ogLocale} />
             <meta property="og:type" content={type} />
             <meta property="og:title" content={fullTitle} />
             <meta property="og:description" content={metaDescription} />
@@ -114,7 +127,7 @@ export function SEO({
             <meta name="twitter:title" content={fullTitle} />
             <meta name="twitter:description" content={metaDescription} />
             <meta name="twitter:image" content={resolvedOgImage} />
-            
+
             {/* Structured Data (JSON-LD) */}
             {structuredData && (
                 <script type="application/ld+json">

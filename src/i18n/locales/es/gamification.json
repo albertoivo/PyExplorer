@@ -18,10 +18,97 @@
         "points": "puntos",
         "total": "Total de Logros:",
         "recent": "Logros Recientes",
-        "empty": "Sin logros desbloqueados aún",
+        "empty": "Aún no hay logros desbloqueados",
         "seeAll": "Ver Todos",
         "filterAll": "Todos",
-        "unlockedOnly": "Desbloqueados"
+        "unlockedOnly": "Desbloqueados",
+        "items": {
+            "first_question": {
+                "name": "Primer Paso",
+                "description": "Completa tu primera pregunta",
+                "condition": "Completar 1 pregunta"
+            },
+            "ten_questions": {
+                "name": "Dedicado",
+                "description": "Completa 10 preguntas",
+                "condition": "Completar 10 preguntas"
+            },
+            "fifty_questions": {
+                "name": "Estudiante Aplicado",
+                "description": "Completa 50 preguntas",
+                "condition": "Completar 50 preguntas"
+            },
+            "hundred_questions": {
+                "name": "Maestro del Conocimiento",
+                "description": "Completa 100 preguntas",
+                "condition": "Completar 100 preguntas"
+            },
+            "first_world": {
+                "name": "Explorador",
+                "description": "Completa un mundo entero",
+                "condition": "Completar todos los desafíos de un mundo"
+            },
+            "perfect_world": {
+                "name": "Perfección",
+                "description": "Consigue 3 estrellas en todas las preguntas de un mundo",
+                "condition": "Obtener 3 estrellas en todas las preguntas de un mundo"
+            },
+            "streak_3": {
+                "name": "Calentando Motores",
+                "description": "Estudia durante 3 días seguidos",
+                "condition": "Mantener una racha de 3 días"
+            },
+            "streak_7": {
+                "name": "Semana Victoriosa",
+                "description": "Estudia durante 7 días seguidos",
+                "condition": "Mantener una racha de 7 días"
+            },
+            "streak_30": {
+                "name": "Hábito de Acero",
+                "description": "Estudia durante 30 días seguidos",
+                "condition": "Mantener una racha de 30 días"
+            },
+            "all_worlds": {
+                "name": "Leyenda de PyExplorer",
+                "description": "Completa todos los mundos del juego",
+                "condition": "Completar todos los mundos de la aventura"
+            },
+            "speed_demon": {
+                "name": "Relámpago",
+                "description": "Resuelve una pregunta en menos de 15 segundos",
+                "condition": "Resolver pregunta rápidamente"
+            },
+            "night_owl": {
+                "name": "Búho Nocturno",
+                "description": "Resuelve una pregunta después de las 22:00",
+                "condition": "Resolver pregunta en horario nocturno"
+            },
+            "early_bird": {
+                "name": "Madrugador",
+                "description": "Resuelve una pregunta antes de las 7:00",
+                "condition": "Resolver pregunta por la mañana temprano"
+            },
+            "shop_collector": {
+                "name": "Coleccionista",
+                "description": "Adquiere 5 artículos en la Tienda de Avatares",
+                "condition": "Comprar 5 artículos en la tienda"
+            },
+            "first_pet": {
+                "name": "Nuevo Amigo",
+                "description": "Eclosiona tu primera mascota",
+                "condition": "Eclosionar el huevo de la mascota"
+            },
+            "pet_max": {
+                "name": "Compañero Supremo",
+                "description": "Evoluciona tu mascota a la etapa máxima",
+                "condition": "Evolucionar mascota al nivel máximo"
+            },
+            "boss_slayer": {
+                "name": "Cazador de Jefes",
+                "description": "Derrota a tu primer Jefe",
+                "condition": "Ganar una batalla de jefe"
+            }
+        }
     },
     "missions": {
         "title": "Misiones Activas",
@@ -40,7 +127,33 @@
         "secretChallenge": "Desafío Secreto",
         "secretChallengeDesc": "¡Completa objetivos ocultos para revelar!",
         "weekly": "Semanales",
-        "weeklyMissions": "Misiones Semanales"
+        "weeklyMissions": "Misiones Semanales",
+        "items": {
+            "daily_questions_3": {
+                "title": "Práctica Diaria",
+                "description": "Resuelve 3 preguntas hoy"
+            },
+            "daily_stars_5": {
+                "title": "Cazador de Estrellas",
+                "description": "Gana 5 estrellas en nuevos desafíos"
+            },
+            "daily_perfect_1": {
+                "title": "Mente Brillante",
+                "description": "Acierta una pregunta a la primera sin usar pistas"
+            },
+            "weekly_questions_20": {
+                "title": "Maratón Semanal",
+                "description": "Resuelve 20 preguntas durante esta semana"
+            },
+            "weekly_worlds_1": {
+                "title": "Conquistador de Tierras",
+                "description": "Completa 1 mundo entero esta semana"
+            },
+            "weekly_streak_5": {
+                "title": "Enfoque Total",
+                "description": "Mantén una racha de al menos 5 días esta semana"
+            }
+        }
     },
     "shop": {
         "title": "Tienda de Avatares",
@@ -50,10 +163,91 @@
         "buy": "Comprar por",
         "notEnoughDiamonds": "No tienes suficientes diamantes"
     },
+    "shopItems": {
+        "avatar_snake_green": {
+            "name": "Serpiente Clásica",
+            "description": "¡El avatar inicial de todo explorador de Python!"
+        },
+        "avatar_robot": {
+            "name": "Robot Tecnológico",
+            "description": "¡Programado para resolver cualquier error!"
+        },
+        "avatar_wizard": {
+            "name": "Mago del Código",
+            "description": "¡Transforma comandos en pura magia!"
+        },
+        "avatar_ninja": {
+            "name": "Ninja de Algoritmos",
+            "description": "¡Rápido, silencioso y sin errores de sintaxis!"
+        },
+        "avatar_dragon": {
+            "name": "Dragón Py",
+            "description": "¡Poder supremo para quienes dominan todos los lenguajes!"
+        },
+        "frame_bronze": {
+            "name": "Marco de Bronce",
+            "description": "Un marco simple y elegante para tu avatar."
+        },
+        "frame_silver": {
+            "name": "Marco de Plata",
+            "description": "Muestra tu progreso con este brillo plateado."
+        },
+        "frame_gold": {
+            "name": "Marco de Oro",
+            "description": "¡Destaca con el legendario borde dorado!"
+        },
+        "frame_rainbow": {
+            "name": "Marco Arcoíris",
+            "description": "¡Colores animados y radiantes para verdaderos campeones!"
+        },
+        "title_beginner": {
+            "name": "Principiante",
+            "description": "Dando los primeros pasos en el código."
+        },
+        "title_coder": {
+            "name": "Programador",
+            "description": "Capaz de crear programas increíbles."
+        },
+        "title_master": {
+            "name": "Maestro Python",
+            "description": "Domina todas las estructuras y secretos del lenguaje."
+        }
+    },
     "levelBadge": {
         "level": "Nivel {{level}}",
         "xp": "XP",
-        "max": "MAX"
+        "max": "MÁX"
+    },
+    "levels": {
+        "1": { "name": "Aprendiz de Python" },
+        "2": { "name": "Explorador de Datos" },
+        "3": { "name": "Maestro de Variables" },
+        "4": { "name": "Guardián de la Lógica" },
+        "5": { "name": "Arquitecto de Funciones" },
+        "6": { "name": "Ingeniero de Código" },
+        "7": { "name": "Hechicero de Algoritmos" },
+        "8": { "name": "Caballero del Conocimiento" },
+        "9": { "name": "Señor de la Programación" },
+        "10": { "name": "Gran Maestro Python" }
+    },
+    "powerups": {
+        "title": "Power-Ups Disponibles",
+        "fifty_fifty": {
+            "name": "50/50",
+            "description": "Elimina dos opciones incorrectas en preguntas de opción múltiple."
+        },
+        "extra_hint": {
+            "name": "Pista Extra",
+            "description": "Obtén una pista especial sin costo de estrellas."
+        },
+        "double_stars": {
+            "name": "Doble Estrella",
+            "description": "Duplica las estrellas ganadas en la próxima pregunta completada."
+        },
+        "freeze_streak": {
+            "name": "Congelar Racha",
+            "description": "Protege tu racha diaria si olvidas jugar un día."
+        }
     },
     "powerUpBar": {
         "ariaActive": "{{name}} activado",
@@ -67,7 +261,7 @@
         "cancel": "Cancelar",
         "compactBuyTitle": "{{desc}} (Comprar por {{price}}⭐)",
         "confirmBuyTitle": "¿Comprar {{name}}?",
-        "cost": "Costo: ⭐ {{price}} | Saldo: ⭐ {{balance}}",
+        "cost": "Coste: ⭐ {{price}} | Saldo: ⭐ {{balance}}",
         "dailyLimit": "Máx. diario: {{left}}/{{max}} restantes",
         "insufficientStars": "Estrellas Insuficientes",
         "limitReached": "Límite diario alcanzado"
@@ -80,12 +274,9 @@
         "completed": "Completadas",
         "attempts": "Intentos"
     },
-    "powerups": {
-        "title": "Potenciadores Disponibles"
-    },
     "avatarShop": {
         "buy": "Comprar por {{cost}} 💎",
-        "empty": "No hay artículos disponibles en la tienda actualmente",
+        "empty": "No hay artículos disponibles en la tienda por el momento",
         "equipBtn": "Equipar",
         "equippedBadge": "Equipado",
         "equippedBtn": "Equipado",
@@ -93,11 +284,17 @@
         "getFree": "Obtener Gratis",
         "levelReq": "Requiere Nivel {{level}}",
         "limited": "Edición Limitada",
-        "title": "Tienda de Avatares y Marcos"
+        "title": "Tienda de Avatares & Marcos",
+        "tabs": {
+            "avatar": "Avatares",
+            "frame": "Marcos",
+            "badge": "Emblemas",
+            "title": "Títulos"
+        }
     },
     "leaderboard": {
         "beFirst": "¡Sé el primero en liderar la clasificación!",
-        "empty": "Clasificación vacía actualmente",
+        "empty": "La clasificación está vacía por el momento",
         "errorLoad": "Error al cargar la clasificación",
         "level": "Nivel {{level}}",
         "loading": "Cargando clasificación...",
@@ -111,30 +308,30 @@
         "eggFull": "¡Huevo totalmente calentado!",
         "energyTitle": "Energía de la Mascota",
         "feedInstruction": "¡Alimenta a tu mascota para ganar XP extra!",
-        "guestButton": "Inicia sesión para cuidar",
+        "guestButton": "Entrar para Cuidar",
         "guestTooltip": "¡Crea una cuenta para incubar y alimentar a tu mascota!",
-        "heatInstruction": "¡Calienta el huevo para incubar a tu nuevo compañero!",
+        "heatInstruction": "¡Calienta el huevo hasta incubar a tu nuevo compañero!",
         "heatTitle": "Calor del Huevo",
         "heating": "Calentando...",
         "noStarsFull": "¡Necesitas estrellas para alimentar!",
-        "petFull": "¡Mascota totalmente alimentada!",
+        "petFull": "¡Mascota totalmente llena!",
         "title": "Hábitat de la Mascota",
         "titleFeed": "Alimenta a tu Mascota",
         "titleHeat": "Calienta el Huevo",
-        "xpTooltip": "¡Las mascotas felices otorgan bonificaciones de XP en todas las misiones!"
+        "xpTooltip": "¡Las mascotas felices otorgan bonificación de XP en todas las misiones!"
     },
     "evolution": {
         "awesome": "¡Increíble!",
         "copied": "¡Copiado al portapapeles!",
-        "description": "¡Tu compañero evolucionó a una nueva etapa!",
+        "description": "¡Tu compañero ha evolucionado a una nueva etapa!",
         "share": "Compartir Logro",
         "shareText": "¡Mi mascota evolucionó en PyExplorer! ¡Ven a aprender Python jugando conmigo!",
-        "shareTitle": "¡Evolución de la Mascota!",
+        "shareTitle": "¡Evolución de Mascota!",
         "title": "¡Tu Mascota Evolucionó!",
         "type": "Etapa de Evolución"
     },
     "streak": {
-        "bonus": "Bono de Racha",
+        "bonus": "Bonificación de Racha",
         "daysInRow": "{{count}} días seguidos",
         "record": "Récord: {{count}} días"
     },
@@ -146,11 +343,11 @@
     "profile": {
         "guestMode": "Modo Invitado",
         "guestWarningText": "Estás usando una cuenta de invitado. ¡Crea una cuenta gratuita para guardar tu progreso en la nube!",
-        "guestWarningTitle": "Advertencia: Progreso Local",
+        "guestWarningTitle": "Atención: Progreso Local",
         "level": "Nivel {{level}}",
         "loginRequired": "Inicia sesión para ver tu perfil completo.",
         "maxLevel": "¡Nivel Máximo Alcanzado!",
-        "seoDescription": "Visualiza tu perfil en PyExplorer, estadísticas de progreso, logros y nivel en Python.",
+        "seoDescription": "Visualiza tu perfil en PyExplorer, estadísticas de progreso, logros y nivel de Python.",
         "seoTitle": "Tu Perfil - PyExplorer",
         "worldsProgress": "Progreso en los Mundos",
         "xpToNextLevel": "{{current}} / {{next}} XP para el siguiente nivel"

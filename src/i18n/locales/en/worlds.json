@@ -1,16 +1,40 @@
 {
     "sagas": {
+        "saga_1": {
+            "title": "Saga 1: The Python Apprentice",
+            "subtitle": "Fundamentals & Programming Logic",
+            "description": "Take your first steps, create variables, interact with the user and master decisions and loops!",
+            "badge": "Beginner"
+        },
+        "saga_2": {
+            "title": "Saga 2: The Data Guardian",
+            "subtitle": "Structures, Text & Functions",
+            "description": "Master text manipulation, organize lists, dictionaries and create reusable magic!",
+            "badge": "Intermediate"
+        },
+        "saga_3": {
+            "title": "Saga 3: The Software Architect",
+            "subtitle": "Object-Oriented & Advanced Features",
+            "description": "Build files, use libraries, create your own Classes/Objects and use Pythonic shortcuts!",
+            "badge": "Advanced"
+        },
+        "saga_4": {
+            "title": "Saga 4: The Trails of Destiny",
+            "subtitle": "Specializations & Practical Projects",
+            "description": "Create art with code, analyze real AI data and connect with internet APIs!",
+            "badge": "Master"
+        },
         "basics": {
-            "name": "The Code Awakening",
-            "description": "Start your journey by learning the most basic commands to interact with the computer."
+            "name": "The Awakening of Code",
+            "description": "Begin your journey learning the most fundamental commands to interact with the computer."
         },
         "logic": {
             "name": "The Valley of Logic",
-            "description": "Learn to make decisions and master the flow of time (loops)."
+            "description": "Learn to make decisions and master the flow of execution (loops)."
         },
         "structures": {
-            "name": "The Data Cave",
-            "description": "Discover how to organize and store large amounts of information."
+            "name": "The Cave of Data",
+            "description": "Discover how to organize and store large collections of information."
         },
         "advanced": {
             "name": "The Mountain of Mastery",
@@ -19,15 +43,15 @@
     },
     "basic_commands": {
         "name": "First Steps",
-        "description": "Learn to give your first commands in Python!"
+        "description": "Learn how to give your first commands in Python!"
     },
     "variables": {
         "name": "World of Variables",
-        "description": "Store data in magical boxes."
+        "description": "Store data inside magical boxes."
     },
     "numbers": {
         "name": "Fun Arithmetic",
-        "description": "Do math and arithmetic operations with Python."
+        "description": "Perform calculations and math operations with Python."
     },
     "strings": {
         "name": "Text Manipulation",
@@ -35,7 +59,7 @@
     },
     "user_input": {
         "name": "Talking to the User",
-        "description": "Learn to ask for information from whoever is playing."
+        "description": "Learn to ask for input from the person playing."
     },
     "turtle_art": {
         "name": "Turtle Art",
@@ -43,15 +67,15 @@
     },
     "conditions": {
         "name": "Making Decisions",
-        "description": "Use IF and ELSE to choose paths."
+        "description": "Use IF and ELSE to choose branching paths."
     },
     "loops": {
-        "name": "Repetition Island",
-        "description": "Make things happen multiple times with FOR and WHILE."
+        "name": "Island of Repetition",
+        "description": "Make actions repeat multiple times with FOR and WHILE."
     },
     "lists": {
         "name": "Forest of Lists",
-        "description": "Keep multiple items in a single magical list."
+        "description": "Store multiple items in a single magical list."
     },
     "dictionaries": {
         "name": "Cave of Dictionaries",
@@ -62,12 +86,12 @@
         "description": "Create your own reusable commands."
     },
     "modules": {
-        "name": "Library of Modules",
-        "description": "Import new powers made by other programmers."
+        "name": "Module Library",
+        "description": "Import new powers built by other developers."
     },
     "error_handling": {
         "name": "Bug Hunter",
-        "description": "Learn to handle errors without breaking the game."
+        "description": "Learn to handle errors gracefully without breaking the game."
     },
     "files": {
         "name": "Master of Files",
@@ -75,11 +99,11 @@
     },
     "pythonic": {
         "name": "Pythonic Style",
-        "description": "Write beautiful and efficient code like a true master."
+        "description": "Write clean, elegant and efficient code like a pro."
     },
     "oop_basics": {
-        "name": "Object Orientation",
-        "description": "Create your own classes and virtual objects."
+        "name": "Object-Oriented Programming",
+        "description": "Create your own virtual classes and objects."
     },
     "data_science": {
         "name": "Data Laboratory",
@@ -87,10 +111,10 @@
     },
     "web_api": {
         "name": "Web Connection",
-        "description": "Consume data from real APIs on the internet."
+        "description": "Fetch live data from real APIs on the internet."
     },
     "bosses": {
         "name": "Boss Challenges",
-        "description": "Face complex problems that will test everything you've learned!"
+        "description": "Tackle complex problems that will test everything you have learned!"
     }
 }

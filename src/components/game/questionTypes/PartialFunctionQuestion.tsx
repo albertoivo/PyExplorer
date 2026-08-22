@@ -6,6 +6,7 @@ import {
     runCodeQuestionTests,
     useCodeQuestionRuntime,
 } from './QuestionTypeRuntime';
+import { useTranslation } from 'react-i18next';
 import './QuestionTypes.css';
 
 interface PartialFunctionQuestionProps {
@@ -24,6 +25,7 @@ export function PartialFunctionQuestion({
     disabled = false,
     showResult = false,
 }: PartialFunctionQuestionProps) {
+    const { t } = useTranslation('game');
     const {
         code,
         setCode,
@@ -89,21 +91,20 @@ export function PartialFunctionQuestion({
         <div className="question-container question-container--code">
             <QuestionHeader
                 badgeClassName="question-type-badge--partial"
-                badgeText="🧩 Complete a Função"
+                badgeText={t('questionTypes.badgePartial', '🧩 Complete a Função')}
                 difficulty={question.difficulty}
                 title={question.title}
                 prompt={question.prompt}
             />
 
             <div className="question-hint">
-                💡 <strong>Dica:</strong> Complete apenas as partes faltantes do código.
-                O resto já está pronto para você!
+                {t('question.hint', '💡 Dica:')} {t('engine.readonlySub', 'Complete apenas as partes faltantes do código.')}
             </div>
 
             <div className="question-editor-container">
                 <div className="question-editor-header">
-                    <span>🐍 Editor Python</span>
-                    {!ready && <span className="editor-loading">Carregando Python...</span>}
+                    <span>{t('question.editorPython', '🐍 Editor Python')}</span>
+                    {!ready && <span className="editor-loading">{t('question.loadingPython', 'Carregando Python...')}</span>}
                 </div>
                 <PythonEditor
                     code={code}
@@ -115,7 +116,7 @@ export function PartialFunctionQuestion({
 
             {output && (
                 <div className={`question-output ${showResult ? 'question-output--result' : ''}`}>
-                    <div className="question-output__header">📤 Saída:</div>
+                    <div className="question-output__header">{t('tutorials.output', '📤 Saída:')}</div>
                     <pre className="question-output__content">{output}</pre>
                 </div>
             )}
@@ -126,10 +127,9 @@ export function PartialFunctionQuestion({
                     onClick={handleSubmit}
                     disabled={disabled || !ready || isRunning}
                 >
-                    {isRunning ? 'Executando... ⏳' : 'Executar e Verificar 🚀'}
+                    {isRunning ? t('question.checking', 'Verificando...') : t('question.checkAnswer', 'Verificar Resposta 🚀')}
                 </button>
             )}
         </div>
     );
 }
-

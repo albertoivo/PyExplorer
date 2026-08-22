@@ -1,8 +1,8 @@
 {
     "seoTitle": "Rewards and Achievements",
-    "seoDescription": "Track your progress, level, achievements and buy items in the PyExplorer shop.",
+    "seoDescription": "Track your progress, level, achievements and purchase items in the PyExplorer shop.",
     "breadcrumb": "Rewards",
-    "pageTitle": "🏆 Rewards & Achievements",
+    "pageTitle": "🏆 Rewards and Achievements",
     "tabs": {
         "achievements": "Achievements",
         "missions": "Missions",
@@ -19,9 +19,96 @@
         "total": "Total Achievements:",
         "recent": "Recent Achievements",
         "empty": "No achievements unlocked yet",
-        "seeAll": "View All",
+        "seeAll": "See All",
         "filterAll": "All",
-        "unlockedOnly": "Unlocked"
+        "unlockedOnly": "Unlocked",
+        "items": {
+            "first_question": {
+                "name": "First Step",
+                "description": "Complete your first question",
+                "condition": "Complete 1 question"
+            },
+            "ten_questions": {
+                "name": "Dedicated",
+                "description": "Complete 10 questions",
+                "condition": "Complete 10 questions"
+            },
+            "fifty_questions": {
+                "name": "Diligent Student",
+                "description": "Complete 50 questions",
+                "condition": "Complete 50 questions"
+            },
+            "hundred_questions": {
+                "name": "Master of Knowledge",
+                "description": "Complete 100 questions",
+                "condition": "Complete 100 questions"
+            },
+            "first_world": {
+                "name": "Explorer",
+                "description": "Complete an entire world",
+                "condition": "Complete all challenges in a world"
+            },
+            "perfect_world": {
+                "name": "Perfection",
+                "description": "Get 3 stars on all questions in a world",
+                "condition": "Obtain 3 stars on all questions in a world"
+            },
+            "streak_3": {
+                "name": "Warming Up",
+                "description": "Study for 3 consecutive days",
+                "condition": "Maintain a 3-day streak"
+            },
+            "streak_7": {
+                "name": "Victorious Week",
+                "description": "Study for 7 consecutive days",
+                "condition": "Maintain a 7-day streak"
+            },
+            "streak_30": {
+                "name": "Iron Habit",
+                "description": "Study for 30 consecutive days",
+                "condition": "Maintain a 30-day streak"
+            },
+            "all_worlds": {
+                "name": "PyExplorer Legend",
+                "description": "Complete all worlds in the game",
+                "condition": "Complete all worlds of the journey"
+            },
+            "speed_demon": {
+                "name": "Lightning Fast",
+                "description": "Solve a question in under 15 seconds",
+                "condition": "Solve question quickly"
+            },
+            "night_owl": {
+                "name": "Night Owl",
+                "description": "Solve a question after 10 PM",
+                "condition": "Solve question during nighttime"
+            },
+            "early_bird": {
+                "name": "Early Bird",
+                "description": "Solve a question before 7 AM",
+                "condition": "Solve question in the early morning"
+            },
+            "shop_collector": {
+                "name": "Collector",
+                "description": "Acquire 5 items in the Avatar Shop",
+                "condition": "Buy 5 items in the shop"
+            },
+            "first_pet": {
+                "name": "New Friend",
+                "description": "Hatch your first pet",
+                "condition": "Hatch the pet egg"
+            },
+            "pet_max": {
+                "name": "Supreme Companion",
+                "description": "Evolve your pet to maximum stage",
+                "condition": "Evolve pet to maximum level"
+            },
+            "boss_slayer": {
+                "name": "Boss Slayer",
+                "description": "Defeat your first Boss",
+                "condition": "Win a boss battle"
+            }
+        }
     },
     "missions": {
         "title": "Active Missions",
@@ -29,7 +116,7 @@
         "completed": "Completed!",
         "progress": "Progress:",
         "today": "Today's Missions",
-        "seeAll": "View All Missions",
+        "seeAll": "See All Missions",
         "daily": "Daily",
         "dailyMissions": "Daily Missions",
         "highDifficulty": "High Difficulty",
@@ -40,7 +127,33 @@
         "secretChallenge": "Secret Challenge",
         "secretChallengeDesc": "Complete hidden objectives to reveal!",
         "weekly": "Weekly",
-        "weeklyMissions": "Weekly Missions"
+        "weeklyMissions": "Weekly Missions",
+        "items": {
+            "daily_questions_3": {
+                "title": "Daily Practice",
+                "description": "Solve 3 questions today"
+            },
+            "daily_stars_5": {
+                "title": "Star Hunter",
+                "description": "Earn 5 stars in new challenges"
+            },
+            "daily_perfect_1": {
+                "title": "Brilliant Mind",
+                "description": "Solve a question on the first try without using hints"
+            },
+            "weekly_questions_20": {
+                "title": "Weekly Marathon",
+                "description": "Solve 20 questions during this week"
+            },
+            "weekly_worlds_1": {
+                "title": "Land Conqueror",
+                "description": "Complete 1 entire world this week"
+            },
+            "weekly_streak_5": {
+                "title": "Total Focus",
+                "description": "Maintain a streak of at least 5 days this week"
+            }
+        }
     },
     "shop": {
         "title": "Avatar Shop",
@@ -48,12 +161,93 @@
         "equipped": "Equipped",
         "equip": "Equip",
         "buy": "Buy for",
-        "notEnoughDiamonds": "Not enough diamonds"
+        "notEnoughDiamonds": "You don't have enough diamonds"
+    },
+    "shopItems": {
+        "avatar_snake_green": {
+            "name": "Classic Snake",
+            "description": "The starting avatar of every Python explorer!"
+        },
+        "avatar_robot": {
+            "name": "Tech Robot",
+            "description": "Programmed to solve any bug!"
+        },
+        "avatar_wizard": {
+            "name": "Code Wizard",
+            "description": "Turns commands into pure magic!"
+        },
+        "avatar_ninja": {
+            "name": "Algorithm Ninja",
+            "description": "Fast, silent and free of syntax errors!"
+        },
+        "avatar_dragon": {
+            "name": "Py Dragon",
+            "description": "Supreme power for those who master all languages!"
+        },
+        "frame_bronze": {
+            "name": "Bronze Frame",
+            "description": "A simple and elegant frame for your avatar."
+        },
+        "frame_silver": {
+            "name": "Silver Frame",
+            "description": "Show off your progress with this silvery shine."
+        },
+        "frame_gold": {
+            "name": "Gold Frame",
+            "description": "Stand out with the legendary golden border!"
+        },
+        "frame_rainbow": {
+            "name": "Rainbow Frame",
+            "description": "Animated and radiant colors for true champions!"
+        },
+        "title_beginner": {
+            "name": "Beginner",
+            "description": "Taking the first steps in code."
+        },
+        "title_coder": {
+            "name": "Programmer",
+            "description": "Capable of creating incredible software."
+        },
+        "title_master": {
+            "name": "Python Master",
+            "description": "Masters all structures and secrets of the language."
+        }
     },
     "levelBadge": {
         "level": "Level {{level}}",
         "xp": "XP",
         "max": "MAX"
+    },
+    "levels": {
+        "1": { "name": "Python Apprentice" },
+        "2": { "name": "Data Explorer" },
+        "3": { "name": "Variable Master" },
+        "4": { "name": "Logic Guardian" },
+        "5": { "name": "Function Architect" },
+        "6": { "name": "Code Engineer" },
+        "7": { "name": "Algorithm Sorcerer" },
+        "8": { "name": "Knight of Knowledge" },
+        "9": { "name": "Lord of Programming" },
+        "10": { "name": "Grandmaster Python" }
+    },
+    "powerups": {
+        "title": "Available Power-Ups",
+        "fifty_fifty": {
+            "name": "50/50",
+            "description": "Eliminates two incorrect options in multiple choice questions."
+        },
+        "extra_hint": {
+            "name": "Extra Hint",
+            "description": "Gain a special hint at no star cost."
+        },
+        "double_stars": {
+            "name": "Double Stars",
+            "description": "Doubles the stars earned on the next completed question."
+        },
+        "freeze_streak": {
+            "name": "Streak Freeze",
+            "description": "Protects your daily streak if you forget to play for a day."
+        }
     },
     "powerUpBar": {
         "ariaActive": "{{name}} activated",
@@ -80,12 +274,9 @@
         "completed": "Completed",
         "attempts": "Attempts"
     },
-    "powerups": {
-        "title": "Available Power-Ups"
-    },
     "avatarShop": {
         "buy": "Buy for {{cost}} 💎",
-        "empty": "No items available in the shop currently",
+        "empty": "No items available in the shop at the moment",
         "equipBtn": "Equip",
         "equippedBadge": "Equipped",
         "equippedBtn": "Equipped",
@@ -93,11 +284,17 @@
         "getFree": "Get Free",
         "levelReq": "Requires Level {{level}}",
         "limited": "Limited Edition",
-        "title": "Avatar & Frame Shop"
+        "title": "Avatar & Frame Shop",
+        "tabs": {
+            "avatar": "Avatars",
+            "frame": "Frames",
+            "badge": "Badges",
+            "title": "Titles"
+        }
     },
     "leaderboard": {
-        "beFirst": "Be the first to lead the leaderboard!",
-        "empty": "Leaderboard empty currently",
+        "beFirst": "Be the first to top the ranking!",
+        "empty": "Leaderboard is currently empty",
         "errorLoad": "Error loading leaderboard",
         "level": "Level {{level}}",
         "loading": "Loading leaderboard...",
@@ -110,25 +307,25 @@
         "eating": "Feeding...",
         "eggFull": "Egg fully warmed!",
         "energyTitle": "Pet Energy",
-        "feedInstruction": "Feed your pet to earn extra XP!",
-        "guestButton": "Log in to Care",
+        "feedInstruction": "Feed your pet to earn bonus XP!",
+        "guestButton": "Sign In to Care",
         "guestTooltip": "Create an account to hatch and feed your pet!",
-        "heatInstruction": "Warm the egg to hatch your new companion!",
+        "heatInstruction": "Warm the egg until it hatches your new companion!",
         "heatTitle": "Egg Warmth",
         "heating": "Warming...",
         "noStarsFull": "You need stars to feed!",
-        "petFull": "Pet fully fed!",
+        "petFull": "Pet is completely full!",
         "title": "Pet Habitat",
-        "titleFeed": "Feed your Pet",
+        "titleFeed": "Feed Your Pet",
         "titleHeat": "Warm the Egg",
-        "xpTooltip": "Happy pets grant XP bonuses on all missions!"
+        "xpTooltip": "Happy pets grant bonus XP across all quests!"
     },
     "evolution": {
         "awesome": "Awesome!",
         "copied": "Copied to clipboard!",
-        "description": "Your companion evolved to a new stage!",
+        "description": "Your companion has evolved to a new stage!",
         "share": "Share Achievement",
-        "shareText": "My pet evolved in PyExplorer! Come learn Python playing with me!",
+        "shareText": "My pet evolved on PyExplorer! Come learn Python by playing with me!",
         "shareTitle": "Pet Evolution!",
         "title": "Your Pet Evolved!",
         "type": "Evolution Stage"
@@ -141,16 +338,16 @@
     "toast": {
         "achievementUnlocked": "New Achievement Unlocked!",
         "level": "Level",
-        "levelUp": "Leveled Up!"
+        "levelUp": "Level Up!"
     },
     "profile": {
         "guestMode": "Guest Mode",
-        "guestWarningText": "You are using a guest account. Create a free account to save your progress to the cloud!",
-        "guestWarningTitle": "Warning: Local Progress",
+        "guestWarningText": "You are using a guest account. Create a free account to save your progress in the cloud!",
+        "guestWarningTitle": "Notice: Local Progress",
         "level": "Level {{level}}",
-        "loginRequired": "Log in to view your complete profile.",
+        "loginRequired": "Sign in to view your complete profile.",
         "maxLevel": "Max Level Reached!",
-        "seoDescription": "View your PyExplorer profile, progress statistics, achievements, and Python leveling.",
+        "seoDescription": "View your PyExplorer profile, progress statistics, achievements and Python level.",
         "seoTitle": "Your Profile - PyExplorer",
         "worldsProgress": "Worlds Progress",
         "xpToNextLevel": "{{current}} / {{next}} XP to next level"
@@ -158,7 +355,7 @@
     "achievementGrid": {
         "title": "Achievements",
         "filterAll": "All",
-        "unlockedOnly": "Unlocked only",
+        "unlockedOnly": "Unlocked Only",
         "empty": "No achievements found",
         "categories": {
             "learning": "Learning",

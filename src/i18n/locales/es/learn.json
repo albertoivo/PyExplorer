@@ -1,24 +1,32 @@
 {
     "seoTitle": "Aprende Python",
-    "seoDescription": "Aprende Python desde cero con tutoriales gratuitos. Guías interactivas para niños, principiantes y materiales de apoyo para padres.",
+    "seoDescription": "Aprende Python desde cero con tutoriales gratuitos. Guías interactivas para niños, principiantes y recursos para padres.",
     "breadcrumb": "Aprender",
     "heroTitle": "📚 Aprende Python",
     "heroSubtitle": "¡Artículos, tutoriales y consejos para dominar Python desde cero!",
     "beginners": {
         "title": "🎯 Para Principiantes",
-        "description": "¿Nunca programaste? ¡Empieza aquí!"
+        "description": "¿Nunca has programado? ¡Empieza aquí!"
     },
     "parents": {
         "title": "👨‍👩‍👧‍👦 Para Padres y Educadores",
-        "description": "Guías para apoyar a los niños en el aprendizaje de programación"
+        "description": "Guías para apoyar a los niños en el aprendizaje de la programación"
     },
     "tips": {
         "title": "💡 Consejos y Curiosidades",
-        "description": "Recursos extra para impulsar tu aprendizaje"
+        "description": "Recursos adicionales para impulsar tu aprendizaje"
     },
     "cta": {
         "title": "🎮 ¿Listo para Practicar?",
-        "description": "¡Aplica lo que aprendiste en los desafíos de PyExplorer!",
+        "description": "¡Aplica lo que has aprendido en los desafíos de PyExplorer!",
         "button": "Jugar Ahora"
+    },
+    "article": {
+        "backToArticles": "← Volver a los Artículos",
+        "continueLearning": "📚 Continuar Aprendiendo",
+        "practiceNow": "🎮 ¡Hora de Practicar!",
+        "practiceDescription": "¡Pon en práctica lo que has aprendido en este artículo!",
+        "tableOfContents": "En este Artículo",
+        "readTimeMin": "⏱️ {{minutes}} min de lectura"
     }
 }

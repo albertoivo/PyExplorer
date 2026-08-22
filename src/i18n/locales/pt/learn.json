@@ -20,5 +20,13 @@
         "title": "🎮 Pronto para Praticar?",
         "description": "Aplique o que aprendeu nos desafios do PyExplorer!",
         "button": "Jogar Agora"
+    },
+    "article": {
+        "backToArticles": "← Voltar para Artigos",
+        "continueLearning": "📚 Continue Aprendendo",
+        "practiceNow": "🎮 Hora de Praticar!",
+        "practiceDescription": "Coloque em prática o que você aprendeu neste artigo!",
+        "tableOfContents": "Neste Artigo",
+        "readTimeMin": "⏱️ {{minutes}} min de leitura"
     }
 }

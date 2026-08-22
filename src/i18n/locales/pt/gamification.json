@@ -21,7 +21,94 @@
         "empty": "Nenhuma conquista desbloqueada ainda",
         "seeAll": "Ver Todas",
         "filterAll": "Todas",
-        "unlockedOnly": "Desbloqueadas"
+        "unlockedOnly": "Desbloqueadas",
+        "items": {
+            "first_question": {
+                "name": "Primeiro Passo",
+                "description": "Complete sua primeira questão",
+                "condition": "Completar 1 questão"
+            },
+            "ten_questions": {
+                "name": "Dedicado",
+                "description": "Complete 10 questões",
+                "condition": "Completar 10 questões"
+            },
+            "fifty_questions": {
+                "name": "Estudante Aplicado",
+                "description": "Complete 50 questões",
+                "condition": "Completar 50 questões"
+            },
+            "hundred_questions": {
+                "name": "Mestre do Conhecimento",
+                "description": "Complete 100 questões",
+                "condition": "Completar 100 questões"
+            },
+            "first_world": {
+                "name": "Explorador",
+                "description": "Complete um mundo inteiro",
+                "condition": "Completar todos os desafios de um mundo"
+            },
+            "perfect_world": {
+                "name": "Perfeição",
+                "description": "Consiga 3 estrelas em todas as questões de um mundo",
+                "condition": "Obter 3 estrelas em todas as questões de um mundo"
+            },
+            "streak_3": {
+                "name": "Aquecendo os Motores",
+                "description": "Estude por 3 dias seguidos",
+                "condition": "Manter uma sequência de 3 dias"
+            },
+            "streak_7": {
+                "name": "Semana Vitoriosa",
+                "description": "Estude por 7 dias seguidos",
+                "condition": "Manter uma sequência de 7 dias"
+            },
+            "streak_30": {
+                "name": "Hábito de Aço",
+                "description": "Estude por 30 dias seguidos",
+                "condition": "Manter uma sequência de 30 dias"
+            },
+            "all_worlds": {
+                "name": "Lenda do PyExplorer",
+                "description": "Complete todos os mundos do jogo",
+                "condition": "Concluir todos os mundos da jornada"
+            },
+            "speed_demon": {
+                "name": "Relâmpago",
+                "description": "Resolva uma questão em menos de 15 segundos",
+                "condition": "Resolver questão rapidamente"
+            },
+            "night_owl": {
+                "name": "Coruja da Noite",
+                "description": "Resolva uma questão após as 22h",
+                "condition": "Resolver questão no período noturno"
+            },
+            "early_bird": {
+                "name": "Madrugador",
+                "description": "Resolva uma questão antes das 7h",
+                "condition": "Resolver questão no início da manhã"
+            },
+            "shop_collector": {
+                "name": "Colecionador",
+                "description": "Adquira 5 itens na Loja de Avatares",
+                "condition": "Comprar 5 itens na loja"
+            },
+            "first_pet": {
+                "name": "Novo Amigo",
+                "description": "Choque seu primeiro pet",
+                "condition": "Chocar o ovo do pet"
+            },
+            "pet_max": {
+                "name": "Companheiro Supremo",
+                "description": "Evolua seu pet ao estágio máximo",
+                "condition": "Evoluir pet ao nível máximo"
+            },
+            "boss_slayer": {
+                "name": "Caçador de Chefões",
+                "description": "Derrote seu primeiro Boss",
+                "condition": "Vencer uma batalha de chefão"
+            }
+        }
     },
     "missions": {
         "title": "Missões Ativas",
@@ -40,7 +127,33 @@
         "secretChallenge": "Desafio Secreto",
         "secretChallengeDesc": "Complete objetivos ocultos para revelar!",
         "weekly": "Semanais",
-        "weeklyMissions": "Missões Semanais"
+        "weeklyMissions": "Missões Semanais",
+        "items": {
+            "daily_questions_3": {
+                "title": "Prática Diária",
+                "description": "Resolva 3 questões hoje"
+            },
+            "daily_stars_5": {
+                "title": "Caçador de Estrelas",
+                "description": "Ganhe 5 estrelas em novos desafios"
+            },
+            "daily_perfect_1": {
+                "title": "Mente Brilhante",
+                "description": "Acerte uma questão de primeira sem usar dicas"
+            },
+            "weekly_questions_20": {
+                "title": "Maratona Semanal",
+                "description": "Resolva 20 questões durante esta semana"
+            },
+            "weekly_worlds_1": {
+                "title": "Conquistador de Terras",
+                "description": "Complete 1 mundo inteiro nesta semana"
+            },
+            "weekly_streak_5": {
+                "title": "Foco Total",
+                "description": "Mantenha uma ofensiva de pelo menos 5 dias nesta semana"
+            }
+        }
     },
     "shop": {
         "title": "Loja de Avatares",
@@ -50,10 +163,91 @@
         "buy": "Comprar por",
         "notEnoughDiamonds": "Você não tem diamantes suficientes"
     },
+    "shopItems": {
+        "avatar_snake_green": {
+            "name": "Cobrinha Clássica",
+            "description": "O avatar inicial de todo explorador Python!"
+        },
+        "avatar_robot": {
+            "name": "Robô Tech",
+            "description": "Programado para resolver qualquer bug!"
+        },
+        "avatar_wizard": {
+            "name": "Mago do Código",
+            "description": "Transforma comandos em pura magia!"
+        },
+        "avatar_ninja": {
+            "name": "Ninja dos Algoritmos",
+            "description": "Rápido, silencioso e sem erros de sintaxe!"
+        },
+        "avatar_dragon": {
+            "name": "Dragão Py",
+            "description": "Poder supremo para quem domina todas as linguagens!"
+        },
+        "frame_bronze": {
+            "name": "Moldura de Bronze",
+            "description": "Uma moldura simples e elegante para seu avatar."
+        },
+        "frame_silver": {
+            "name": "Moldura de Prata",
+            "description": "Mostre seu progresso com este brilho prateado."
+        },
+        "frame_gold": {
+            "name": "Moldura de Ouro",
+            "description": "Destaque-se com a lendária borda dourada!"
+        },
+        "frame_rainbow": {
+            "name": "Moldura Arco-Íris",
+            "description": "Cores animadas e radiantes para verdadeiros campeões!"
+        },
+        "title_beginner": {
+            "name": "Iniciante",
+            "description": "Dando os primeiros passos no código."
+        },
+        "title_coder": {
+            "name": "Programador",
+            "description": "Capaz de criar programas incríveis."
+        },
+        "title_master": {
+            "name": "Mestre Python",
+            "description": "Domina todas as estruturas e segredos da linguagem."
+        }
+    },
     "levelBadge": {
         "level": "Nível {{level}}",
         "xp": "XP",
         "max": "MAX"
+    },
+    "levels": {
+        "1": { "name": "Aprendiz de Python" },
+        "2": { "name": "Explorador de Dados" },
+        "3": { "name": "Mestre das Variáveis" },
+        "4": { "name": "Guardião da Lógica" },
+        "5": { "name": "Arquiteto de Funções" },
+        "6": { "name": "Engenheiro de Código" },
+        "7": { "name": "Feiticeiro dos Algoritmos" },
+        "8": { "name": "Cavaleiro do Conhecimento" },
+        "9": { "name": "Lorde da Programação" },
+        "10": { "name": "Grão-Mestre Python" }
+    },
+    "powerups": {
+        "title": "Power-Ups Disponíveis",
+        "fifty_fifty": {
+            "name": "50/50",
+            "description": "Elimina duas alternativas erradas em questões de múltipla escolha."
+        },
+        "extra_hint": {
+            "name": "Dica Extra",
+            "description": "Ganha uma dica especial sem custo de estrelas."
+        },
+        "double_stars": {
+            "name": "Estrelas em Dobro",
+            "description": "Dobra as estrelas ganhas na próxima questão concluída."
+        },
+        "freeze_streak": {
+            "name": "Protetor de Ofensiva",
+            "description": "Protege sua sequência diária se você esquecer de jogar um dia."
+        }
     },
     "powerUpBar": {
         "ariaActive": "{{name}} ativado",
@@ -80,9 +274,6 @@
         "completed": "Concluídas",
         "attempts": "Tentativas"
     },
-    "powerups": {
-        "title": "Power-Ups Disponíveis"
-    },
     "avatarShop": {
         "buy": "Comprar por {{cost}} 💎",
         "empty": "Nenhum item disponível na loja no momento",
@@ -93,7 +284,13 @@
         "getFree": "Obter Grátis",
         "levelReq": "Requer Nível {{level}}",
         "limited": "Edição Limitada",
-        "title": "Loja de Avatares & Molduras"
+        "title": "Loja de Avatares & Molduras",
+        "tabs": {
+            "avatar": "Avatares",
+            "frame": "Molduras",
+            "badge": "Emblemas",
+            "title": "Títulos"
+        }
     },
     "leaderboard": {
         "beFirst": "Seja o primeiro a liderar o ranking!",

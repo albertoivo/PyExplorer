@@ -1,4 +1,3 @@
-
 import { useState, useEffect, memo } from 'react';
 import type { QuestionDocument } from '../../../types/question';
 import { usePyodide } from '../../../hooks/usePyodide';
@@ -7,6 +6,7 @@ import TurtleCanvas from '../turtle/TurtleCanvas';
 import { TURTLE_PYTHON_SHIM } from '../turtle/turtle-python-shim';
 import { runTurtleSimulation, compareTurtlePaths } from '../../../utils/turtleValidation';
 import { QuestionHeader } from './QuestionTypeShared';
+import { useTranslation } from 'react-i18next';
 import './QuestionTypes.css';
 import './TurtleQuestion.css';
 
@@ -23,6 +23,7 @@ export const TurtleQuestion = memo(function TurtleQuestion({
     disabled = false,
     showResult = false,
 }: TurtleQuestionProps) {
+    const { t } = useTranslation('game');
     const [code, setCode] = useState(question.starterCode || '');
     const [isRunning, setIsRunning] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -91,7 +92,7 @@ export const TurtleQuestion = memo(function TurtleQuestion({
                 const isMatch = compareTurtlePaths(userSegments, expectedSegments);
 
                 if (isMatch) {
-                     onAnswer(true, code);
+                    onAnswer(true, code);
                 } else {
                     setError('O desenho não ficou igual ao esperado. Tente novamente! 🐢');
                     onAnswer(false, code);
@@ -114,7 +115,7 @@ export const TurtleQuestion = memo(function TurtleQuestion({
         <div className="question-container question-container--turtle">
             <QuestionHeader
                 badgeClassName="question-type-badge--turtle"
-                badgeText="🐢 Desenho com Tartaruga"
+                badgeText={t('questionTypes.badgeTurtle', '🐢 Desenho com Tartaruga')}
                 difficulty={question.difficulty}
                 title={question.title}
                 prompt={question.prompt}
@@ -123,7 +124,7 @@ export const TurtleQuestion = memo(function TurtleQuestion({
             <div className="turtle-workspace">
                 <div className="turtle-editor-section">
                     <div className="question-editor-header">
-                        <span>🐍 Seu Código</span>
+                        <span>🐍 {t('question.editorPython', 'Seu Código')}</span>
                     </div>
                     <PythonEditor
                         code={code}
@@ -135,7 +136,7 @@ export const TurtleQuestion = memo(function TurtleQuestion({
 
                 <div className="turtle-canvas-section">
                     <div className="question-editor-header">
-                        <span>🎨 Resultado</span>
+                        <span>🎨 {t('tutorials.output', 'Resultado')}</span>
                     </div>
                     <TurtleCanvas
                         width={400}
@@ -173,4 +174,3 @@ export const TurtleQuestion = memo(function TurtleQuestion({
         </div>
     );
 });
-

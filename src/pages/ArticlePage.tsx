@@ -1,47 +1,49 @@
-import { useParams, Link, Navigate, useNavigate } from 'react-router-dom'
-import { useEffect, useRef } from 'react'
-import { getArticleBySlug, getRelatedArticles, type Article } from '../data/learnData'
-import { SEO } from '../components/common/SEO'
-import './ArticlePage.css'
+import { useParams, Link, Navigate, useNavigate } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
+import { getArticleBySlug, getRelatedArticles, type Article } from '../data/learnData';
+import { SEO } from '../components/common/SEO';
+import { useTranslation } from 'react-i18next';
+import './ArticlePage.css';
 
 export function ArticlePage() {
-    const { slug } = useParams<{ slug: string }>()
-    const article = slug ? getArticleBySlug(slug) : undefined
-    const relatedArticles = slug ? getRelatedArticles(slug, 3) : []
-    const navigate = useNavigate()
-    const contentRef = useRef<HTMLDivElement>(null)
+    const { t, i18n } = useTranslation(['learn', 'common']);
+    const { slug } = useParams<{ slug: string }>();
+    const article = slug ? getArticleBySlug(slug) : undefined;
+    const relatedArticles = slug ? getRelatedArticles(slug, 3) : [];
+    const navigate = useNavigate();
+    const contentRef = useRef<HTMLDivElement>(null);
 
     // Intercepta cliques em links internos para evitar reload
     useEffect(() => {
         const handleInternalLinks = (e: MouseEvent) => {
-            const target = e.target as HTMLElement
-            const anchor = target.closest('a')
-            
+            const target = e.target as HTMLElement;
+            const anchor = target.closest('a');
+
             if (anchor && anchor.href) {
-                const url = new URL(anchor.href)
-                const isInternal = url.origin === window.location.origin
-                
+                const url = new URL(anchor.href);
+                const isInternal = url.origin === window.location.origin;
+
                 if (isInternal) {
-                    e.preventDefault()
-                    navigate(url.pathname + url.search + url.hash)
+                    e.preventDefault();
+                    navigate(url.pathname + url.search + url.hash);
                 }
             }
-        }
+        };
 
-        const content = contentRef.current
+        const content = contentRef.current;
         if (content) {
-            content.addEventListener('click', handleInternalLinks)
-            return () => content.removeEventListener('click', handleInternalLinks)
+            content.addEventListener('click', handleInternalLinks);
+            return () => content.removeEventListener('click', handleInternalLinks);
         }
-    }, [navigate])
+    }, [navigate]);
 
     // Scroll to top quando artigo muda
     useEffect(() => {
-        window.scrollTo(0, 0)
-    }, [slug])
+        window.scrollTo(0, 0);
+    }, [slug]);
 
     if (!article) {
-        return <Navigate to="/learn" replace />
+        return <Navigate to="/learn" replace />;
     }
 
     const articleUrl = `https://pyexplorer.com.br/learn/${article.slug}`;
@@ -63,8 +65,8 @@ export function ArticlePage() {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             "itemListElement": [
-                { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://pyexplorer.com.br" },
-                { "@type": "ListItem", "position": 2, "name": "Aprender", "item": "https://pyexplorer.com.br/learn" },
+                { "@type": "ListItem", "position": 1, "name": t('common:nav.home', 'Início'), "item": "https://pyexplorer.com.br" },
+                { "@type": "ListItem", "position": 2, "name": t('learn:breadcrumb', 'Aprender'), "item": "https://pyexplorer.com.br/learn" },
                 { "@type": "ListItem", "position": 3, "name": article.title, "item": articleUrl }
             ]
         }
@@ -96,9 +98,9 @@ export function ArticlePage() {
             />
             {/* Breadcrumb */}
             <nav className="article-breadcrumb">
-                <Link to="/">Início</Link>
+                <Link to="/">{t('common:nav.home', 'Início')}</Link>
                 <span>/</span>
-                <Link to="/learn">Aprender</Link>
+                <Link to="/learn">{t('learn:breadcrumb', 'Aprender')}</Link>
                 <span>/</span>
                 <span>{article.title}</span>
             </nav>
@@ -109,8 +111,8 @@ export function ArticlePage() {
                 <h1 className="article-header__title">{article.title}</h1>
                 <p className="article-header__description">{article.description}</p>
                 <div className="article-header__meta">
-                    <span>⏱️ {article.readTime} min de leitura</span>
-                    <span>📅 {formatDate(article.publishedAt)}</span>
+                    <span>{t('learn:article.readTimeMin', { minutes: article.readTime, defaultValue: `⏱️ ${article.readTime} min de leitura` })}</span>
+                    <span>📅 {formatDate(article.publishedAt, i18n.language)}</span>
                     <span>{getCategoryLabel(article.category)}</span>
                 </div>
             </header>
@@ -123,10 +125,10 @@ export function ArticlePage() {
             {/* CTA */}
             <section className="article-cta">
                 <div className="article-cta__content">
-                    <h2>🎮 Hora de Praticar!</h2>
-                    <p>Coloque em prática o que você aprendeu neste artigo!</p>
+                    <h2>{t('learn:article.practiceNow', '🎮 Hora de Praticar!')}</h2>
+                    <p>{t('learn:article.practiceDescription', 'Coloque em prática o que você aprendeu neste artigo!')}</p>
                     <Link to="/game" className="article-cta__button">
-                        Jogar PyExplorer
+                        {t('learn:cta.button', 'Jogar PyExplorer')}
                     </Link>
                 </div>
             </section>
@@ -134,7 +136,7 @@ export function ArticlePage() {
             {/* Artigos Relacionados */}
             {relatedArticles.length > 0 && (
                 <section className="article-related">
-                    <h2>📚 Continue Aprendendo</h2>
+                    <h2>{t('learn:article.continueLearning', '📚 Continue Aprendendo')}</h2>
                     <div className="article-related__grid">
                         {relatedArticles.map(related => (
                             <Link
@@ -154,11 +156,11 @@ export function ArticlePage() {
             {/* Voltar */}
             <div className="article-back">
                 <Link to="/learn" className="article-back__link">
-                    ← Voltar para Artigos
+                    {t('learn:article.backToArticles', '← Voltar para Artigos')}
                 </Link>
             </div>
         </article>
-    )
+    );
 }
 
 /**
@@ -223,23 +225,24 @@ function MarkdownContent({ content }: { content: string }) {
         // Links [text](url)
         .replace(/\[([^\]]+)\]\(([^)]+)\)/gim, '<a href="$2">$1</a>')
         // Line breaks
-        .replace(/\n\n/gim, '</p><p>')
+        .replace(/\n\n/gim, '</p><p>');
 
     return (
         <div
             className="markdown-content"
             dangerouslySetInnerHTML={{ __html: `<p>${html}</p>` }}
         />
-    )
+    );
 }
 
-function formatDate(dateStr: string): string {
-    const date = new Date(dateStr)
-    return date.toLocaleDateString('pt-BR', {
+function formatDate(dateStr: string, locale: string = 'pt-BR'): string {
+    const date = new Date(dateStr);
+    const resolvedLocale = locale.startsWith('en') ? 'en-US' : locale.startsWith('es') ? 'es-ES' : locale.startsWith('hi') ? 'hi-IN' : 'pt-BR';
+    return date.toLocaleDateString(resolvedLocale, {
         day: 'numeric',
         month: 'long',
         year: 'numeric'
-    })
+    });
 }
 
 function getCategoryLabel(category: Article['category']): string {
@@ -248,8 +251,8 @@ function getCategoryLabel(category: Article['category']): string {
         intermediate: '📈 Intermediário',
         tips: '💡 Dica',
         parents: '👪 Para Pais'
-    }
-    return labels[category]
+    };
+    return labels[category];
 }
 
 function escapeHtml(text: string): string {

@@ -14,7 +14,7 @@ import './ProfilePage.css';
  * Página de perfil do usuário
  */
 export function ProfilePage() {
-    const { t } = useTranslation('gamification');
+    const { t } = useTranslation(['gamification', 'worlds', 'common']);
     const { userData, isGuest } = useAuth();
     const { stats, allProgress } = useProgress();
     const { achievements, unlockedAchievements, gamification, currentLevel, levelProgress } = useGamification();
@@ -25,7 +25,7 @@ export function ProfilePage() {
             <div className="profile-page">
                 <div className="profile-empty">
                     <span>🔒</span>
-                    <p>{t('profile.loginRequired', 'Você precisa estar logado para ver seu perfil.')}</p>
+                    <p>{t('gamification:profile.loginRequired', 'Você precisa estar logado para ver seu perfil.')}</p>
                 </div>
             </div>
         );
@@ -50,16 +50,14 @@ export function ProfilePage() {
         };
     };
 
-    // Nível do jogador vem do useGamification (baseado em XP, não em estrelas)
-
     // Ferramentas de Desenvolvedor (Apenas admin)
     const isAdmin = userData.email === 'albertoivo@gmail.com';
 
     return (
         <div className="profile-page">
             <SEO
-                title={t('profile.seoTitle', 'Meu Perfil')}
-                description={t('profile.seoDescription', 'Veja seu progresso, conquistas e estatísticas no PyExplorer!')}
+                title={t('gamification:profile.seoTitle', 'Meu Perfil')}
+                description={t('gamification:profile.seoDescription', 'Veja seu progresso, conquistas e estatísticas no PyExplorer!')}
                 noindex
             />
             <div className="profile-container">
@@ -85,19 +83,23 @@ export function ProfilePage() {
                         ) : (
                             <span className="profile-card__avatar-emoji">{displayAvatar.icon}</span>
                         )}
-                        <span className="profile-card__avatar-name">{displayAvatar.name}</span>
+                        <span className="profile-card__avatar-name">
+                            {'id' in displayAvatar ? t(`gamification:shopItems.${displayAvatar.id}.name`, displayAvatar.name) : displayAvatar.name}
+                        </span>
                     </div>
 
                     <h2 className="profile-card__name">{userData.displayName}</h2>
 
                     {isGuest && (
                         <span className="profile-card__guest-badge">
-                            👤 {t('profile.guestMode', 'Modo Convidado')}
+                            👤 {t('gamification:profile.guestMode', 'Modo Convidado')}
                         </span>
                     )}
 
                     <div className="profile-card__level">
-                        <span className="profile-card__level-badge">{t('profile.level', 'Nível')} {currentLevel.level} - {t(`levels.${currentLevel.level}`, currentLevel.name)}</span>
+                        <span className="profile-card__level-badge">
+                            {t('gamification:profile.level', { level: currentLevel.level, defaultValue: `Nível ${currentLevel.level}` })} - {t(`gamification:levels.${currentLevel.level}.name`, currentLevel.name)}
+                        </span>
                         <div className="profile-card__level-progress">
                             <div
                                 className="profile-card__level-bar"
@@ -106,35 +108,39 @@ export function ProfilePage() {
                         </div>
                         <span className="profile-card__level-text">
                             {currentLevel.maxXP === Infinity
-                                ? t('profile.maxLevel', 'Nível máximo!')
-                                : t('profile.xpToNextLevel', { defaultValue: '{{xp}} XP para o próximo nível',  xp: currentLevel.maxXP - gamification.level.totalXP })}
+                                ? t('gamification:profile.maxLevel', 'Nível máximo!')
+                                : t('gamification:profile.xpToNextLevel', {
+                                    current: currentLevel.maxXP - gamification.level.totalXP,
+                                    next: currentLevel.maxXP,
+                                    defaultValue: `${currentLevel.maxXP - gamification.level.totalXP} XP para o próximo nível`
+                                })}
                         </span>
                     </div>
 
                     <div className="profile-card__stats">
                         <div className="stat-item">
                             <span className="stat-item__value">⚡ {userData.totalScore}</span>
-                            <span className="stat-item__label">{t('stats.score')}</span>
+                            <span className="stat-item__label">{t('gamification:stats.score', 'Pontuação')}</span>
                         </div>
                         <div className="stat-item">
                             <span className="stat-item__value">✅ {stats.completed}</span>
-                            <span className="stat-item__label">{t('stats.completed')}</span>
+                            <span className="stat-item__label">{t('gamification:stats.completed', 'Concluídas')}</span>
                         </div>
                         <div className="stat-item">
                             <span className="stat-item__value">🎯 {stats.totalAttempts}</span>
-                            <span className="stat-item__label">{t('stats.attempts')}</span>
+                            <span className="stat-item__label">{t('gamification:stats.attempts', 'Tentativas')}</span>
                         </div>
                     </div>
                 </div>
 
                 {/* Progresso por Mundo */}
                 <div className="profile-section">
-                    <h2 className="profile-section__title">🌍 {t('profile.worldsProgress', 'Progresso nos Mundos')}</h2>
+                    <h2 className="profile-section__title">🌍 {t('gamification:profile.worldsProgress', 'Progresso nos Mundos')}</h2>
                     <div className="profile-worlds">
                         {WORLDS.map(world => (
                             <WorldProgressBar
                                 key={world.id}
-                                worldName={world.name}
+                                worldName={t(`worlds:${world.id}.name`, world.name)}
                                 worldIcon={world.icon}
                                 completed={getWorldProgress(world.id).completed}
                                 total={getWorldProgress(world.id).total}
@@ -145,7 +151,7 @@ export function ProfilePage() {
 
                 {/* Conquistas (Dinâmico) */}
                 <div className="profile-section">
-                    <h2 className="profile-section__title">🏅 {t('tabs.achievements', 'Conquistas')}</h2>
+                    <h2 className="profile-section__title">🏅 {t('gamification:tabs.achievements', 'Conquistas')}</h2>
                     <div className="profile-achievements">
                         {achievements.map((achievement) => {
                             const isUnlocked = unlockedAchievements.some(u => u.id === achievement.id);
@@ -155,8 +161,8 @@ export function ProfilePage() {
                             return (
                                 <div key={achievement.id} className={`achievement ${isUnlocked ? 'achievement--unlocked' : ''} `}>
                                     <span className="achievement__icon">{achievement.icon}</span>
-                                    <span className="achievement__name">{t(`achievements.items.${achievement.id}.name`, achievement.name)}</span>
-                                    <span className="achievement__desc">{t(`achievements.items.${achievement.id}.description`, achievement.description)}</span>
+                                    <span className="achievement__name">{t(`gamification:achievements.items.${achievement.id}.name`, achievement.name)}</span>
+                                    <span className="achievement__desc">{t(`gamification:achievements.items.${achievement.id}.description`, achievement.description)}</span>
                                     {isUnlocked && <span className="achievement__check">✅</span>}
                                 </div>
                             );
@@ -169,9 +175,9 @@ export function ProfilePage() {
                     <div className="profile-guest-warning">
                         <span className="profile-guest-warning__icon">⚠️</span>
                         <div>
-                            <p className="profile-guest-warning__title">{t('profile.guestWarningTitle', 'Você está jogando como convidado')}</p>
+                            <p className="profile-guest-warning__title">{t('gamification:profile.guestWarningTitle', 'Você está jogando como convidado')}</p>
                             <p className="profile-guest-warning__text">
-                                {t('profile.guestWarningText', 'Seu progresso está salvo apenas neste dispositivo. Para salvar na nuvem e acessar de qualquer lugar, crie uma conta!')}
+                                {t('gamification:profile.guestWarningText', 'Seu progresso está salvo apenas neste dispositivo. Para salvar na nuvem e acessar de qualquer lugar, crie uma conta!')}
                             </p>
                         </div>
                     </div>
@@ -185,4 +191,3 @@ export function ProfilePage() {
         </div>
     );
 }
-

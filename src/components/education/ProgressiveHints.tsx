@@ -63,7 +63,7 @@ export function ProgressiveHints({
             };
         }
         return base;
-    }, [questionId, explanation, activePowerUp]);
+    }, [questionId, explanation, activePowerUp, t]);
 
     const userStars = userData?.totalScore ?? 0;
 

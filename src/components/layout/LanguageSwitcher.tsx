@@ -1,20 +1,12 @@
 import { useTranslation } from 'react-i18next';
-import type { SupportedLanguage } from '../../i18n';
-import { languageNames, supportedLanguages } from '../../i18n';
+import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, type SupportedLanguage } from '../../i18n';
 import './LanguageSwitcher.css';
-import { useEffect } from 'react';
 
 export function LanguageSwitcher() {
-    const { i18n } = useTranslation();
-    const currentLang = i18n.language.split('-')[0] as SupportedLanguage;
-
-    // Ensure the language is supported, otherwise fallback to 'en'
-    const validLang = supportedLanguages.includes(currentLang) ? currentLang : 'en';
-
-    useEffect(() => {
-        // Set the HTML lang attribute when the component mounts or language changes
-        document.documentElement.lang = validLang;
-    }, [validLang]);
+    const { i18n, t } = useTranslation('common');
+    const rawLang = i18n.language ? i18n.language.split('-')[0].toLowerCase() : DEFAULT_LANGUAGE;
+    const isSupported = AVAILABLE_LANGUAGES.some(l => l.code === rawLang);
+    const validLang = (isSupported ? rawLang : DEFAULT_LANGUAGE) as SupportedLanguage;
 
     const changeLanguage = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const lang = e.target.value as SupportedLanguage;
@@ -28,11 +20,11 @@ export function LanguageSwitcher() {
                 className="language-switcher__select"
                 value={validLang}
                 onChange={changeLanguage}
-                aria-label="Selecionar idioma / Select language"
+                aria-label={t('aria.selectLanguage', 'Selecionar idioma')}
             >
-                {supportedLanguages.map((lang) => (
-                    <option key={lang} value={lang}>
-                        {languageNames[lang]}
+                {AVAILABLE_LANGUAGES.map((lang) => (
+                    <option key={lang.code} value={lang.code}>
+                        {lang.flag} {lang.nativeName}
                     </option>
                 ))}
             </select>

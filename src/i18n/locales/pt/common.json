@@ -34,7 +34,8 @@
         "moveUp": "Mover bloco para cima",
         "moveDown": "Mover bloco para baixo",
         "indentLeft": "Diminuir recuo da linha",
-        "indentRight": "Aumentar recuo da linha"
+        "indentRight": "Aumentar recuo da linha",
+        "selectLanguage": "Selecionar idioma"
     },
     "loading": "Carregando...",
     "level": "Nível",
@@ -99,5 +100,11 @@
         "clickToInteract": "Clique para interagir",
         "saying": "Dizendo: {{msg}}"
     },
-    "player": "Jogador"
+    "player": "Jogador",
+    "offline": {
+        "noConnection": "Sem conexão",
+        "installApp": "Instale o app!",
+        "newVersion": "Nova versão disponível!",
+        "offlineReady": "App pronto para funcionar offline!"
+    }
 }

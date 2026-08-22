@@ -66,7 +66,7 @@ export function AchievementGrid({ achievements, unlockedIds, onAchievementClick 
                             key={cat}
                             className={`achievement-grid__filter ${selectedCategory === cat ? 'achievement-grid__filter--active' : ''}`}
                             onClick={() => setSelectedCategory(cat)}
-                            title={t(CATEGORY_KEYS[cat].key)}
+                            title={t(CATEGORY_KEYS[cat].key as unknown as string)}
                         >
                             {CATEGORY_KEYS[cat].icon}
                         </button>
@@ -97,9 +97,9 @@ export function AchievementGrid({ achievements, unlockedIds, onAchievementClick 
                                 {isUnlocked ? achievement.icon : '🔒'}
                             </div>
                             <div className="achievement-card__info">
-                                <span className="achievement-card__name">{t(`achievements.${achievement.id}.name`, achievement.name)}</span>
+                                <span className="achievement-card__name">{t(`achievements.items.${achievement.id}.name`, achievement.name)}</span>
                                 <span className="achievement-card__description">
-                                    {isUnlocked ? t(`achievements.${achievement.id}.description`, achievement.description) : t(`achievements.${achievement.id}.condition`, achievement.condition)}
+                                    {isUnlocked ? t(`achievements.items.${achievement.id}.description`, achievement.description) : t(`achievements.items.${achievement.id}.condition`, achievement.condition)}
                                 </span>
                             </div>
                             <div className="achievement-card__rarity">

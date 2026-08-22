@@ -6,8 +6,8 @@
         "certificate": "Certificate",
         "rewards": "Rewards",
         "profile": "Profile",
-        "login": "Login",
-        "register": "Register",
+        "login": "Sign In",
+        "register": "Sign Up",
         "logout": "Sign Out",
         "closeMenu": "Close navigation menu",
         "openMenu": "Open navigation menu",
@@ -26,19 +26,20 @@
         "showPassword": "Show password",
         "hidePassword": "Hide password",
         "skipToContent": "Skip to main content",
-        "footerNav": "Footer Navigation",
+        "footerNav": "Footer navigation",
         "levelProgress": "Level progress",
-        "accessProfile": "Go to Profile",
+        "accessProfile": "Access Profile",
         "viewLesson": "View Lesson",
         "reviewFlashcards": "Review with Flashcards",
         "moveUp": "Move block up",
         "moveDown": "Move block down",
-        "indentLeft": "Decrease indentation",
-        "indentRight": "Increase indentation"
+        "indentLeft": "Decrease line indentation",
+        "indentRight": "Increase line indentation",
+        "selectLanguage": "Select language"
     },
     "loading": "Loading...",
     "level": "Level",
-    "levelShort": "Lv.",
+    "levelShort": "Lvl.",
     "guest": "Guest",
     "diamonds": "Available diamonds",
     "streak": "Daily streak",
@@ -55,12 +56,12 @@
         "supportProject": "💜 Support the Project",
         "copyright": "© {{year}} PyExplorer. Made with 💜 to teach programming.",
         "badgeEducational": "🎓 Educational",
-        "badgeSafe": "🔒 Safe for kids",
-        "badgeFree": "🆓 Free"
+        "badgeSafe": "🔒 Kid Safe",
+        "badgeFree": "🆓 100% Free"
     },
     "guestMode": {
         "playAsGuest": "👤 Play as Guest",
-        "note": "💡 In guest mode, your progress is saved only on this device"
+        "note": "💡 In guest mode, your progress is only saved on this device"
     },
     "guestNames": {
         "adjectives": [
@@ -84,7 +85,7 @@
     "categories": {
         "beginner": "🌱 Beginner",
         "intermediate": "📈 Intermediate",
-        "tips": "💡 Tip",
+        "tips": "💡 Tips",
         "parents": "👪 For Parents"
     },
     "or": "or",
@@ -99,5 +100,11 @@
         "clickToInteract": "Click to interact",
         "saying": "Saying: {{msg}}"
     },
-    "player": "Player"
+    "player": "Player",
+    "offline": {
+        "noConnection": "No connection",
+        "installApp": "Install app!",
+        "newVersion": "New version available!",
+        "offlineReady": "App ready to work offline!"
+    }
 }

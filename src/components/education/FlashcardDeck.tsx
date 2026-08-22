@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo } from 'react';
-// Types provided by educationContent '../../types/education';
 import { getFlashcardsByWorld, FLASHCARDS } from '../../data/educationContent';
+import { useTranslation } from 'react-i18next';
 import './FlashcardDeck.css';
 
 interface FlashcardDeckProps {
@@ -14,6 +14,7 @@ interface FlashcardDeckProps {
  * Deck de Flashcards para revisão
  */
 export function FlashcardDeck({ worldId, onClose }: FlashcardDeckProps) {
+    const { t } = useTranslation('game');
     const cards = useMemo(() => {
         if (worldId) {
             return getFlashcardsByWorld(worldId);
@@ -86,9 +87,9 @@ export function FlashcardDeck({ worldId, onClose }: FlashcardDeckProps) {
             <div className="flashcard-deck__overlay" onClick={onClose}>
                 <div className="flashcard-deck__empty" onClick={e => e.stopPropagation()}>
                     <span className="flashcard-deck__empty-icon">📚</span>
-                    <p>Ainda não há flashcards para este mundo!</p>
+                    <p>{t('flashcards.empty', 'Ainda não há flashcards para este mundo!')}</p>
                     <button className="flashcard-deck__btn" onClick={onClose}>
-                        Voltar
+                        {t('flashcards.back', 'Voltar')}
                     </button>
                 </div>
             </div>
@@ -102,10 +103,10 @@ export function FlashcardDeck({ worldId, onClose }: FlashcardDeckProps) {
             <div className="flashcard-deck" onClick={e => e.stopPropagation()}>
                 {/* Header */}
                 <div className="flashcard-deck__header">
-                    <button className="flashcard-deck__close" onClick={onClose}>
+                    <button className="flashcard-deck__close" onClick={onClose} aria-label={t('common:aria.closeModal', 'Fechar modal')}>
                         ✕
                     </button>
-                    <h2 className="flashcard-deck__title">📚 Flashcards</h2>
+                    <h2 className="flashcard-deck__title">{t('flashcards.title', '📚 Flashcards')}</h2>
                     <div className="flashcard-deck__counter">
                         {currentIndex + 1} / {cards.length}
                     </div>
@@ -122,10 +123,10 @@ export function FlashcardDeck({ worldId, onClose }: FlashcardDeckProps) {
                 {/* Stats */}
                 <div className="flashcard-deck__stats">
                     <span className="flashcard-deck__stat flashcard-deck__stat--known">
-                        ✅ {knownCards.size} sei
+                        ✅ {knownCards.size} {t('flashcards.youKnow', 'Você sabe')}
                     </span>
                     <span className="flashcard-deck__stat flashcard-deck__stat--review">
-                        📝 {reviewCards.size} revisar
+                        📝 {reviewCards.size} {t('flashcards.toReview', 'Para revisar')}
                     </span>
                 </div>
 
@@ -141,18 +142,18 @@ export function FlashcardDeck({ worldId, onClose }: FlashcardDeckProps) {
                                 <div className="flashcard__front">
                                     <span className="flashcard__emoji">{currentCard.emoji}</span>
                                     <p className="flashcard__question">{currentCard.question}</p>
-                                    <span className="flashcard__hint-text">Toque para ver a resposta</span>
+                                    <span className="flashcard__hint-text">{t('flashcards.tapToFlip', 'Toque para ver a resposta')}</span>
 
                                     <span className={`flashcard__difficulty flashcard__difficulty--${currentCard.difficulty}`}>
-                                        {currentCard.difficulty === 'easy' && '🟢 Fácil'}
-                                        {currentCard.difficulty === 'medium' && '🟡 Médio'}
-                                        {currentCard.difficulty === 'hard' && '🔴 Difícil'}
+                                        {currentCard.difficulty === 'easy' && t('flashcards.easy', '🟢 Fácil')}
+                                        {currentCard.difficulty === 'medium' && t('flashcards.medium', '🟡 Médio')}
+                                        {currentCard.difficulty === 'hard' && t('flashcards.hard', '🔴 Difícil')}
                                     </span>
                                 </div>
 
                                 {/* Back */}
                                 <div className="flashcard__back">
-                                    <div className="flashcard__answer-label">Resposta:</div>
+                                    <div className="flashcard__answer-label">{t('flashcards.answerLabel', 'Resposta:')}</div>
                                     <p className="flashcard__answer">{currentCard.answer}</p>
 
                                     {currentCard.codeExample && (
@@ -173,13 +174,14 @@ export function FlashcardDeck({ worldId, onClose }: FlashcardDeckProps) {
                                 onClick={() => goToNext('review')}
                                 disabled={!isFlipped}
                             >
-                                📝 Revisar
+                                {t('flashcards.review', '📝 Revisar')}
                             </button>
 
                             <button
                                 className="flashcard-deck__action flashcard-deck__action--nav"
                                 onClick={goToPrevious}
                                 disabled={currentIndex === 0}
+                                aria-label={t('tutorials.previous', '⬅️ Anterior')}
                             >
                                 ⬅️
                             </button>
@@ -187,6 +189,7 @@ export function FlashcardDeck({ worldId, onClose }: FlashcardDeckProps) {
                             <button
                                 className="flashcard-deck__action flashcard-deck__action--nav"
                                 onClick={() => goToNext()}
+                                aria-label={t('tutorials.next', 'Próximo ➡️')}
                             >
                                 ➡️
                             </button>
@@ -196,7 +199,7 @@ export function FlashcardDeck({ worldId, onClose }: FlashcardDeckProps) {
                                 onClick={() => goToNext('known')}
                                 disabled={!isFlipped}
                             >
-                                ✅ Sei!
+                                {t('flashcards.known', '✅ Sei!')}
                             </button>
                         </div>
                     </>
@@ -204,17 +207,17 @@ export function FlashcardDeck({ worldId, onClose }: FlashcardDeckProps) {
                     /* Completion */
                     <div className="flashcard-deck__complete">
                         <span className="flashcard-deck__complete-icon">🎉</span>
-                        <h3>Parabéns!</h3>
-                        <p>Você revisou todos os {cards.length} flashcards!</p>
+                        <h3>{t('flashcards.congrats', 'Parabéns!')}</h3>
+                        <p>{t('flashcards.reviewedAll', { count: cards.length, defaultValue: `Você revisou todos os ${cards.length} flashcards!` })}</p>
 
                         <div className="flashcard-deck__final-stats">
                             <div className="flashcard-deck__final-stat">
                                 <span className="flashcard-deck__final-stat-value">{knownCards.size}</span>
-                                <span className="flashcard-deck__final-stat-label">Você sabe</span>
+                                <span className="flashcard-deck__final-stat-label">{t('flashcards.youKnow', 'Você sabe')}</span>
                             </div>
                             <div className="flashcard-deck__final-stat">
                                 <span className="flashcard-deck__final-stat-value">{reviewCards.size}</span>
-                                <span className="flashcard-deck__final-stat-label">Para revisar</span>
+                                <span className="flashcard-deck__final-stat-label">{t('flashcards.toReview', 'Para revisar')}</span>
                             </div>
                         </div>
 
@@ -223,13 +226,13 @@ export function FlashcardDeck({ worldId, onClose }: FlashcardDeckProps) {
                                 className="flashcard-deck__btn flashcard-deck__btn--secondary"
                                 onClick={restartDeck}
                             >
-                                🔄 Recomeçar
+                                {t('flashcards.restart', '🔄 Recomeçar')}
                             </button>
                             <button
                                 className="flashcard-deck__btn flashcard-deck__btn--primary"
                                 onClick={onClose}
                             >
-                                ✨ Concluir
+                                {t('flashcards.finish', '✨ Concluir')}
                             </button>
                         </div>
                     </div>
@@ -238,4 +241,3 @@ export function FlashcardDeck({ worldId, onClose }: FlashcardDeckProps) {
         </div>
     );
 }
-
