@@ -3,16 +3,17 @@
  * Conteúdo SEO-friendly sobre Python para crianças
  */
 import { Link } from 'react-router-dom'
-import { ARTICLES, type Article } from '../data/learnData'
+import { useArticles, type Article } from '../data/learnData'
 import { SEO } from '../components/common/SEO'
 import { useTranslation } from 'react-i18next'
 import './LearnPage.css'
 
 export function LearnPage() {
     const { t } = useTranslation('learn');
-    const beginnerArticles = ARTICLES.filter(a => a.category === 'beginner')
-    const parentArticles = ARTICLES.filter(a => a.category === 'parents')
-    const tipArticles = ARTICLES.filter(a => a.category === 'tips')
+    const articles = useArticles();
+    const beginnerArticles = articles.filter(a => a.category === 'beginner')
+    const parentArticles = articles.filter(a => a.category === 'parents')
+    const tipArticles = articles.filter(a => a.category === 'tips')
 
     return (
         <div className="learn-page">
@@ -31,7 +32,7 @@ export function LearnPage() {
                     "url": "https://pyexplorer.com.br/learn",
                     "mainEntity": {
                         "@type": "ItemList",
-                        "itemListElement": ARTICLES.map((article, index) => ({
+                        "itemListElement": articles.map((article, index) => ({
                             "@type": "ListItem",
                             "position": index + 1,
                             "name": article.title,

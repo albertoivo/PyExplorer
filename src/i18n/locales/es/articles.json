@@ -1,0 +1,140 @@
+{
+  "what-is-python": {
+    "title": "¿Qué es Python?Guía completa para principiantes",
+    "description": "Descubre qué es el lenguaje Python, por qué es tan popular y cómo puede ser la mejor opción para quienes empiezan a programar.",
+    "content": "# ¿Qué es Python?\n\n**Python** es un lenguaje de programación creado en 1991 por Guido van Rossum.Fue diseñado para ser **fácil de leer y escribir**, ¡como si fuera casi un texto en inglés!\n\n## ¿Por qué Python es tan popular?\n\nPython es uno de los lenguajes más utilizados en el mundo por varias razones:\n\n### 1. Fácil de aprender 📚\nPython tiene una sintaxis simple y clara.Mira lo fácil que es escribir \"¡Hola mundo!\":\n\n```pitón\nprint(\"¡Hola mundo!\")\n```\n\n### 2. Versátil 🔧\nCon Python puedes crear:\n- **Juegos** (¡como Minecraft!)\n- **Sitios web y aplicaciones**\n- **Inteligencia artificial**\n- **Análisis de datos**\n- **Automatización de tareas**\n\n### 3. Comunidad enorme 🌍\nMillones de programadores usan Python, ¡así que siempre hay alguien que puede ayudar!\n\n## Pitón para niños\n\nPython es perfecto para niños porque:\n- ✅ No es necesario memorizar muchos comandos complicados\n- ✅ Los errores se muestran claramente\n- ✅ Los resultados aparecen rápidamente\n- ✅ ¡Es divertido ver el código funcionando!\n\n## ¡Empiece ahora!\n\n¡En PyExplorer, aprendes Python jugando!Resuelve desafíos, gana estrellas y evoluciona de básico a avanzado.\n\n**¿Estás listo para comenzar tu viaje?** 🚀",
+    "keywords": [
+      "que es piton",
+      "Python para principiantes",
+      "lenguaje pitón"
+    ],
+    "faqs": [
+      {
+        "question": "¿Es difícil aprender Python?",
+        "answer": "¡No!Python es considerado el lenguaje más fácil de aprender, ideal para principiantes y niños debido a su sintaxis simple y legible, similar al inglés."
+      },
+      {
+        "question": "¿Necesito una computadora potente para programar en Python?",
+        "answer": "¡No!Python es muy ligero.Y con PyExplorer, puedes ejecutar el código directamente en el navegador de tu teléfono o tableta, sin tener que instalar nada."
+      }
+    ]
+  },
+  "why-learn-python": {
+    "title": "¿Por qué aprender Python en 2026?5 razones increíbles",
+    "description": "Descubra las cinco razones principales para aprender Python en 2026 y cómo este lenguaje puede abrirle puertas a su carrera.",
+    "content": "# ¿Por qué aprender Python en 2026?\n\nSi estás pensando en aprender a programar, ¡**Python es la elección correcta**!Ver 5 razones:\n\n## 1. Idioma más utilizado en el mundo 🏆\n\nPython es el lenguaje número uno en popularidad según el índice TIOBE.¡Gigantes como **Google, Netflix, Instagram y Spotify** usan Python!\n\n## 2. Salarios altos 💰\n\nLos programadores de Python se encuentran entre los mejor pagados:\n- **Júnior**: R$4.000 - R$7.000\n- **Completo**: R$ 8.000 - R$ 15.000\n- **Senior**: R$ 15.000 - R$ 30.000+\n\n## 3. Inteligencia artificial 🤖\n\nPython es el lenguaje principal para:\n- Aprendizaje automático\n- ChatGPT y otros modelos de IA\n- Análisis de datos\n- Automatización\n\n## 4. Fácil de aprender 📖\n\nCompara un \"Hola mundo\" en diferentes idiomas:\n\n**Python:**\n```pitón\nprint(\"¡Hola mundo!\")\n```\n\n**Java:**\n```java\nclase pública principal {\npúblico estático vacío principal (String [] argumentos) {\nSystem.out.println(\"¡Hola mundo!\");\n}\n}\n```\n\n¿Viste la diferencia?¡Python va directo al grano!\n\n## 5. Comunidad increíble 🌟\n\n- Miles de bibliotecas gratuitas\n- Excelente documentación\n- Foros activos para responder preguntas.\n- Tutoriales en portugués\n\n## ¡Comienza tu viaje!\n\nPyExplorer fue creado para hacer que el aprendizaje de Python sea **divertido y accesible**.¡Empieza hoy!",
+    "keywords": [
+      "¿Por qué aprender Python?",
+      "ventajas de Python",
+      "carrera de pitón"
+    ],
+    "faqs": []
+  },
+  "python-for-kids": {
+    "title": "Python para niños: la guía definitiva para padres",
+    "description": "Aprenda a enseñar Python a los niños de una manera divertida.Consejos para padres sobre la edad ideal, los recursos y cómo apoyar el aprendizaje.",
+    "content": "# Python para niños: guía para padres\n\n¿Su hijo quiere aprender a programar?**¡Python es la elección perfecta!** Esta guía lo ayudará a respaldar ese viaje.\n\n## ¿Cuál es la edad ideal?🎂\n\n- **6-8 años**: Conceptos básicos con juegos visuales\n- **8-12 años**: Python con proyectos simples (¡ideal para PyExplorer!)\n- **12+ años**: Proyectos más complejos y creativos\n\n## Beneficios de la programación para niños\n\n### 1. Pensamiento lógico 🧠\nLa programación enseña a los niños a pensar de forma estructurada y a resolver problemas paso a paso.\n\n### 2. Creatividad 🎨\n¡Con código, los niños pueden crear sus propios juegos, historias y animaciones!\n\n### 3. Resiliencia 💪\nLos errores son parte de la programación.Los niños aprenden que el fracaso es el camino hacia el éxito.\n\n### 4. Habilidad futura 🔮\nLa programación será imprescindible en prácticamente todas las carreras.\n\n## Cómo apoyar a su hijo\n\n### ✅Hazlo juntos\n¡Siéntate a continuación y aprende también!Esto crea conexión.\n\n### ✅ Celebra las pequeñas victorias\n¡Cada código que funciona merece celebración!🎉\n\n### ✅ Que esté mal\nNo lo corrijas inmediatamente.Deje que el niño descubra el error.\n\n### ✅ Limitar tiempo\n30-60 minutos por sesión es ideal para mantenerse concentrado.\n\n## ¿Por qué PyExplorer?\n\nPyExplorer fue creado especialmente para niños:\n- 🎮 Aprendizaje en formato de juego\n- ⭐ Sistema de recompensas y logros\n- 🐍 Mascota amigable que ayuda\n- 📱 Funciona en celular, tableta y computadora\n- 🆓 ¡100% gratis!\n\nSi quiere lo mejor para su hijo, **[comience a aprender Python jugando](/)** ¡ahora mismo!",
+    "keywords": [
+      "pitón para niños",
+      "enseñar programación",
+      "programación infantil"
+    ],
+    "faqs": []
+  },
+  "how-to-teach-python": {
+    "title": "Cómo enseñar Python a niños de 8 a 15 años",
+    "description": "Una guía práctica para padres y profesores sobre cómo presentar Python a niños y adolescentes de una forma eficaz y divertida.",
+    "content": "# Cómo enseñar Python a niños de 8 a 15 años\n\nEnseñar programación a niños y adolescentes requiere un enfoque diferente al de enseñar a adultos.Estas son las mejores prácticas:\n\n## 1. Comience con el \"¿Por qué?\" 🎯\nAntes de mostrar el código, muestre lo que puede hacer.Muestre juegos, sitios web y robots creados con Python.Esto despierta un interés inmediato.\n\n## 2. Utilice analogías del mundo real 🍎\nExplique variables como \"cajas etiquetadas\" y bucles como \"una receta de pastel repetida\".Esto convierte lo abstracto en algo concreto.\n\n## 3. Aprendizaje basado en proyectos 🏗️\nEn lugar de enseñarle toda la teoría primero, deje que su hijo cree algo pequeño de inmediato.El sentimiento de logro es el mayor motivador.\n\n## 4. La gamificación es esencial 🎮\nA los niños les encantan los desafíos, los niveles y las recompensas.Por eso plataformas como PyExplorer funcionan tan bien.\n\n## 5. Respeta el ritmo 🐢\nAlgunos niños se dan cuenta rápidamente, otros necesitan más tiempo.Lo importante es que el proceso sea divertido y sin presiones.\n\n## Conclusión\nEl objetivo no es sólo formar programadores, sino enseñar pensamiento lógico y resolución de problemas.\n\nPara facilitar este viaje, puede utilizar herramientas gratuitas y divertidas.**[empiece a aprender Python jugando](/)** con su hijo hoy!",
+    "keywords": [
+      "cómo enseñar pitón",
+      "pitón de 8 a 15 años",
+      "metodología de programación infantil"
+    ],
+    "faqs": []
+  },
+  "first-steps-python": {
+    "title": "Introducción a Python: tutorial para principiantes",
+    "description": "Aprenda los comandos básicos de Python en este tutorial paso a paso.Desde print() hasta variables, todo explicado de forma sencilla.",
+    "content": "# Comenzando en Python\n\n¡Aprendamos los comandos básicos de Python!Este tutorial es para aquellos que nunca han programado.\n\n## 1. El comando print() 📝\n\n`print()` muestra mensajes en la pantalla:\n\n```pitón\nprint(\"¡Hola, soy un programa!\")\nprint (\"¡Python es increíble!\")\n```\n\n**Resultado:**\n```\nHola, soy un programa!\n¡Python es increíble!\n```\n\n## 2. Variables 📦\n\nLas variables son como cajas que almacenan valores:\n\n```pitón\nnombre = \"María\"\nedad = 10\nprint(\"Mi nombre es\", nombre)\nprint(\"Yo soy\", edad, \"años\")\n```\n\n**Resultado:**\n```\nmi nombre es maria\ntengo 10 años\n```\n\n## 3. Haciendo los cálculos 🔢\n\nPython es una calculadora súper poderosa:\n\n```pitón\n# suma\nresultado = 10 + 5\nimprimir (resultado) # 15\n\n# Multiplicación\ntotal = 4 * 3\nimprimir(total) # 12\n\n# ¡Todos juntos!\ncontar = (10 + 5) * 2\nimprimir (cuenta) # 30\n```\n\n## 4. Solicitar información 💬\n\nUtilice `input()` para solicitar datos al usuario:\n\n```pitón\nnombre = entrada(\"¿Cuál es tu nombre?\")\nimprimir(\"Hola\", nombre, \"!\")\n```\n\n## 5. Tomar decisiones 🤔\n\nUtilice `if` para tomar decisiones:\n\n```pitón\nedad = 12\n\nsi edad >= 10:\nprint(\"¡Puedes jugar!\")\nmás:\nprint(\"¡Vuelve cuando seas más grande!\")\n```\n\n## ¡Practica en PyExplorer!\n\n¡Estos comandos son la base de todo!¡En PyExplorer, practicas cada uno de ellos con desafíos divertidos y ganas estrellas por cada respuesta correcta!⭐",
+    "keywords": [
+      "tutorial de Python",
+      "aprender Python desde cero",
+      "comandos de Python"
+    ],
+    "faqs": []
+  },
+  "programming-games-kids": {
+    "title": "5 mejores juegos para estudiar Python y programación",
+    "description": "Descubre los mejores juegos y plataformas para que los niños aprendan a programar de forma divertida, incluido PyExplorer.",
+    "content": "#5 mejores juegos para aprender a programar\n\n¡Aprender a programar puede ser **muy divertido**!Descubre los mejores juegos:\n\n## 1. PyExplorer 🐍⭐ (¡Recomendado!)\n\n**Edad:** 8-15 años\n**Idioma:** Pitón\n**Precio:** Gratis\n\nPyExplorer es un juego brasileño creado especialmente para enseñar Python:\n- ✅ Interfaz en portugués\n- ✅ Sistema de niveles y recompensas\n- ✅ Retos progresivos\n- ✅ Funciona sin conexión\n- ✅ ¡100% gratis!\n\n## 2. Rasca 🐱\n\n**Edad:** 6-12 años\n**Idioma:** Bloques visuales\n**Precio:** Gratis\n\nCreado por el MIT, Scratch utiliza bloques de colores que encajan entre sí.Excelente para comenzar, pero no enseña código real.\n\n## 3. Código.org 🎓\n\n**Edad:** 4-18 años\n**Idioma:** Varios\n**Precio:** Gratis\n\nPlataforma con cursos estructurados utilizando personajes famosos como Minecraft y Star Wars.\n\n## 4. Código de combate ⚔️\n\n**Edad:** 10+ años\n**Idioma:** Python, JavaScript\n**Precio:** Gratis\n\nJuego de rol en el que controlas a un héroe escribiendo código.Divertido, pero en inglés.\n\n## 5. Robot ligero 💡\n\n**Edad:** 4-10 años\n**Idioma:** Conceptos lógicos\n**Precio:** Pagado (R$ 15)\n\nJuego de rompecabezas que enseña conceptos de programación sin código.\n\n## ¿Por qué elegir PyExplorer?\n\n|Característica |PyExplorador |Otros |\n|----------------|------------|--------|\n|En portugués |✅ |❌/Parcial |\n|Pitón real |✅ |❌/Limitado |\n|Gratis |✅ |❌/Freemium |\n|Sistema gamificado |✅ |Parcial |\n|Sin conexión |✅ |❌ |\n\n**[Empiece a aprender Python jugando](/)** ¡ahora mismo en PyExplorer!🚀",
+    "keywords": [
+      "juegos de programacion",
+      "aprender programación jugando",
+      "juegos de codificacion"
+    ],
+    "faqs": []
+  },
+  "python-exercises-kids": {
+    "title": "Ejercicios de Python para niños: desafíos prácticos con clave de respuestas",
+    "description": "Practica la lógica y la programación con 5 divertidos ejercicios de Python diseñados para niños y principiantes.Incluye código completo y respuestas explicadas.",
+    "content": "# Ejercicios de Python para niños: desafíos prácticos\n\n¡La mejor manera de aprender a programar es **ensuciarse las manos**!Hemos preparado 5 desafíos progresivos para ejercitar tu lógica de programación.\n\n---\n\n## 🎯 Desafío 1: El héroe presentador\n\n**Objetivo:** Crear un programa que tome el nombre de un personaje y su superpoder, y muestre un mensaje introductorio.\n\n### Lo que practicarás:\n- Uso de `input()` para recibir datos\n- Uso de `print()` y concatenación de texto\n\n### ¡Intenta resolverlo primero!\nEscriba un código que solicite el **Nombre** y el **Poder** y muestre: \"¡Atención! ¡El héroe [Nombre] ha llegado con el poder de [Poder]!\"`.\n\n```pitón\n# Consejo: utilice dos variables diferentes\nnombre = entrada(\"¿Cómo se llama el héroe?\")\npower = input(\"¿Cuál es tu superpoder?\")\n\n# ¡Ahora muestra el mensaje!\n```\n\n---\n\n## 🔢 Desafío 2: Calculadora de edad en días\n\n**Objetivo:** ¡Descubre aproximadamente cuántos días ha vivido una persona en el planeta!\n\n### Lo que practicarás:\n- Conversión de texto a número entero con `int()`\n- Operaciones matemáticas en Python\n\n### Solución explicada:\n```pitón\nedad = int(entrada(\"¿Cuántos años tienes?\"))\ndías = edad * 365\n\nprint(\"¡Guau! Has vivido aproximadamente\", días, \"¡días!\")\n```\n\n---\n\n## ⚡ Desafío 3: Detector de supervelocidad\n\n**Objetivo:** Comprobar si un robot se desplaza dentro del límite de velocidad permitido.\n\n### Lo que practicarás:\n- Estructuras condicionales (`if` y `else`)\n- Comparadores numéricos (`>`, `<=`)\n\n```pitón\nspeed = int(input(\"¿Cuál es la velocidad actual del robot (km/h)?\"))\n\nsi velocidad > 80:\nprint(\"⚠️ ALERTA: ¡Velocidad demasiado alta! Reduciendo motores...\")\nmás:\nprint(\"✅ ¡Velocidad segura! Sigue navegando.\")\n```\n\n---\n\n## 🔄 Desafío 4: La cuenta atrás del cohete\n\n**Objetivo:** ¡Cuenta atrás del 5 al 1 para el lanzamiento de una nave espacial!\n\n### Lo que practicarás:\n- Repetir bucles con `for` y la función `range()`\n\n```pitón\nprint(\"🚀 Lanzar en...\")\n\npara el segundo en el rango (5, 0, -1):\nimprimir(segundo, \"...\")\n\nprint(\"💥 ¡DESPEGUE!\")\n```\n\n---\n\n## 🎮 Desafío 5: El selector de camino mágico\n\n**Objetivo:** ¡Crea un minijuego de decisión donde la elección del jugador cambia el final de la historia!\n\n```pitón\nprint(\"Estás frente a dos puertas en el bosque misterioso:\")\nprint(\"1 - Puerta de cristal\")\nprint(\"2 - Puerta de madera\")\n\nelección = entrada (\"¿Qué puerta abres (1 o 2)?\")\n\nsi elige == \"1\":\nprint (\"✨ ¡Encontraste un cofre lleno de diamantes mágicos!\")\nelección elif == \"2\":\nprint(\"🐉 ¡Un simpático dragón verde te ofreció llevarte!\")\nmás:\nprint(\"❓ ¡Dudaste y una brisa mágica te llevó de regreso a casa!\")\n```\n\n---\n\n## 🚀 ¿Dónde practicar más?\n\n¿Quieres probar estos códigos y resolver más de 100 desafíos interactivos con consejos de la mascota y un sistema de puntos?\n\n**[Aprende Python jugando PyExplorer](/)** ¡y convierte el estudio de programación en una verdadera aventura!",
+    "keywords": [
+      "ejercicios de pitón niños",
+      "ejercicios de pitón para principiantes",
+      "desafíos de programación infantil",
+      "aprende Python practicando"
+    ],
+    "faqs": [
+      {
+        "question": "¿Cómo puedo practicar estos ejercicios sin instalar nada en mi computadora?",
+        "answer": "¡Puedes probar todos los códigos directamente en el navegador usando PyExplorer!Nuestra plataforma ejecuta Python real en cualquier computadora, tableta o teléfono celular."
+      },
+      {
+        "question": "¿Cuál es la edad recomendada para resolver estos desafíos?",
+        "answer": "Estos ejercicios fueron diseñados para niños y jóvenes a partir de 8 años, o para cualquier principiante que esté dando sus primeros pasos en la programación."
+      }
+    ]
+  },
+  "scratch-vs-python": {
+    "title": "Scratch vs Python: ¿Cuál es el mejor lenguaje para niños?",
+    "description": "Comprenda las diferencias entre Scratch y Python, los pros y los contras de cada uno, y sepa exactamente el momento adecuado para que su hijo haga la transición a escribir código.",
+    "content": "# Scratch vs Python: ¿Cuál elegir para los niños?\n\nSi quieres introducir a tu hijo o alumno en el mundo de la tecnología, es muy probable que te hayas topado con dos opciones populares: **Scratch** y **Python**.\n\nSi bien ambas son herramientas educativas increíbles, se adaptan a **diferentes etapas de desarrollo**.\n\n---\n\n## 📊 Comparación directa\n\n|Recurso |Rasca 🐱 |Pitón 🐍 |\n|:--- |:--- |:--- |\n|**Estilo de código** |Arrastrar y soltar bloque visual |Código escrito en texto |\n|**Rango de edad ideal** |6 a 9 años |8 a 15+ años |\n|**Curva de aprendizaje** |Muy bajo (sin errores tipográficos) |Suave y natural |\n|**Uso en el mundo real** |Educativo y conceptual |Profesional (Google, Netflix, IA) |\n|**Portabilidad** |Web y animaciones |Juegos, sitios web, robótica y aplicaciones |\n\n---\n\n## 🧩 ¿Qué es Scratch?\n\nScratch fue desarrollado por el prestigioso laboratorio del MIT para enseñar lógica computacional a través de bloques visuales.\n\n### Ventajas de Scratch:\n- ✅ **Cero errores de sintaxis:** No hay riesgo de olvidar una coma o un paréntesis.\n- ✅ **Resultado visual inmediato:** Fácil de crear animaciones e historias rápidamente.\n\n### Limitaciones:\n- ❌ No prepara para el mercado o desarrollo de sistemas reales.\n- ❌ Puede infantilizarse a medida que el niño crece.\n\n---\n\n## 🐍 ¿Qué es Python?\n\nPython es uno de los lenguajes de programación real más populares del planeta, famoso por tener una sintaxis limpia que se asemeja a oraciones simples en inglés.\n\n### Ventajas de Python:\n- ✅ **Idioma Real:** El niño aprende el mismo lenguaje utilizado por los ingenieros de la NASA y los desarrolladores de Inteligencia Artificial.\n- ✅ **Razonamiento estructurado:** Estimula la atención al detalle y la mecanografía.\n- ✅ **Transición perfecta con juegos:** Cuando se enseña con gamificación (como en PyExplorer), se vuelve tan divertido como un videojuego.\n\n---\n\n## 🎯 ¿Cuándo hacer la transición de Scratch a Python?\n\nEl momento ideal para migrar de Scratch a Python es cuando su hijo:\n1. Ya comprende conceptos básicos como \"Si... Entonces\" y repeticiones.\n2. Ya te sientes cómodo escribiendo en el teclado.\n3. Demuestra voluntad de crear proyectos más desafiantes.\n\nObtenga más información en nuestra **[guía de Python para niños](/python-for-kids)** y vea cuán natural y emocionante puede ser esta transición.\n\n---\n\n## 💡 Conclusión\n\nNo existe una \"mejor\" herramienta absoluta, sino la **herramienta adecuada para la edad adecuada**:\n- **6 a 8 años:** Empieza con Scratch para despertar la curiosidad.\n- **A partir de 8 años:** **Python** es la opción ideal para desarrollar habilidades reales y duraderas.\n\n¿Quieres comenzar tu viaje en Python 100% gratis y en portugués?**[Prueba PyExplorer jugando ahora mismo](/)**!",
+    "keywords": [
+      "cero vs pitón",
+      "scratch o python para niños",
+      "diferencia de rayado de Python",
+      "¿Cuál es el mejor idioma para niños?"
+    ],
+    "faqs": [
+      {
+        "question": "¿Mi hijo necesita aprender Scratch antes que Python?",
+        "answer": "No necesariamente.Los niños de 8 o 9 años ya pueden empezar a utilizar Python directamente con juegos y entornos divertidos como PyExplorer."
+      },
+      {
+        "question": "¿Se considera Scratch programación real?",
+        "answer": "¡Sí!Scratch enseña toda la lógica esencial (variables, bucles, condiciones).La única diferencia es que el niño encaja bloques de colores en lugar de escribir texto."
+      }
+    ]
+  },
+  "python-projects-kids": {
+    "title": "5 proyectos sencillos de Python que los niños pueden crear hoy",
+    "description": "¡Aprenda a crear 5 proyectos y juegos increíbles en Python desde cero!Códigos cortos, explicados paso a paso y listos para ejecutar.",
+    "content": "#5 proyectos sencillos de Python que los niños pueden crear hoy\n\n¡La programación es mucho más emocionante cuando ves que tus propias ideas cobran vida en la pantalla!\n\nHemos reunido **5 proyectos prácticos**, divertidos y con solo unas pocas líneas de código, perfectos para quienes recién comienzan.\n\n---\n\n## 🎲 Proyecto 1: Simulador de lanzamiento de dados\n\n¡Crea un dado virtual que lanza un número del 1 al 6 cada vez que tiras!\n\n```pitón\nimportar aleatoriamente\n\nprint(\"🎲 Lanzar el dado mágico...\")\nresultado = aleatorio.randint(1, 6)\nprint(\"Obtuviste el número:\", resultado)\n```\n\n*Desafío adicional:* ¡Intenta cambiar el código para lanzar un dado RPG de 20 caras (`randint(1, 20)`)!\n\n---\n\n## 🔮 Proyecto 2: La bola 8 mágica del futuro\n\n¡Hazle una pregunta a la Bola Mágica 8 y descubre cuál será tu destino!\n\n```pitón\nimportar aleatoriamente\n\npregunta = entrada(\"Haz una pregunta sobre tu futuro: \")\n\nrespuestas = [\n\"¡Definitivamente sí! ✨\",\n\"Mis fuentes dicen que no...🔮\",\n\"¡Pregunta de nuevo más tarde! ⏳\",\n\"¡Sin duda! 🚀\",\n\"¡Por supuesto que no! ❌\"\n]\n\nprint(\"La Bola Mágica 8 respondió:\", elección aleatoria(respuestas))\n```\n\n---\n\n## 📖 Proyecto 3: Generador de historias locas (Mad Libs)\n\n¡Un juego clásico en el que escribes palabras aleatorias y el programa genera una historia divertida!\n\n```pitón\nsustantivo = entrada(\"Ingrese un animal: \")\nlugar = entrada(\"Ingrese un lugar: \")\ncomida = input(\"Ingrese una comida: \")\n\nimprimir(f\"\n¡Un día, {sust.} salió a caminar por {lugar} y se comió un plato gigante de {comida}!\")\n```\n\n---\n\n## 🏆 Proyecto 4: Prueba de conocimientos de superhéroes\n\n¡Crea tu propio juego de preguntas para poner a prueba a tus amigos!\n\n```pitón\npuntos = 0\n\nprint(\"⚡ PRUEBA DE SUPERHÉROES ⚡\")\nrespuesta = input(\"¿Cómo se llama el alter ego de Spider-Man?\").strip().title()\n\nsi respuesta == \"Peter Parker\":\nprint(\"✅ ¡Correcto! ¡10 puntos más!\")\npuntos += 10\nmás:\nprint(\"❌ ¡Ups! La respuesta correcta fue Peter Parker.\")\n\nprint(f\"Tu puntuación final: {puntos} puntos!\")\n```\n\n---\n\n## 🔢 Proyecto 5: El juego de los números secretos\n\n¡La computadora elige un número del 1 al 10 y debes adivinarlo en hasta 3 intentos!\n\n```pitón\nimportar aleatoriamente\n\nnúmero_secreto = aleatorio.randint(1, 10)\nlo hice bien = Falso\n\nprint(\"🎯 ¡Adivina el número secreto entre 1 y 10!\")\n\npara intento en el rango (1, 4):\nadivinar = int(entrada(f\"Intentar {intento}: \"))\n\nsi patada == número_secreto:\nprint(\"🎉 ¡FELICIDADES! ¡Descubriste el número secreto!\")\nlo hice bien = Verdadero\nromper\npatada elif <número_secreto:\nprint(\"Pista: ¡El número secreto es MÁS GRANDE! ⬆️\")\nmás:\nprint(\"Pista: ¡El número secreto es MÁS PEQUEÑO! ⬇️\")\n\nsi no lo hizo bien:\nprint(f\"¡Qué pena! El número secreto era {numero_secreto}.\")\n```\n\n---\n\n## 🌟 ¿Te gustaron estos proyectos?\n\nEn **PyExplorer**, aprendes todos los conceptos detrás de estos juegos paso a paso, ¡ganas estrellas y desbloqueas nuevos mundos!\n\n**[Empieza a aprender Python jugando ahora mismo](/)** ¡y crea tus propios proyectos tecnológicos!",
+    "keywords": [
+      "proyectos de Python para niños",
+      "proyectos de Python para principiantes",
+      "crear juegos en python",
+      "proyectos de programación infantil"
+    ],
+    "faqs": [
+      {
+        "question": "¿Necesito instalar programas en mi computadora para crear estos proyectos?",
+        "answer": "¡No!Puede escribir y probar todos estos proyectos directamente en el navegador a través de PyExplorer."
+      },
+      {
+        "question": "¿Puedo modificar los proyectos para hacerlos a mi manera?",
+        "answer": "¡Con seguridad!Esa es la mejor parte de la programación: cambiar las reglas, cambiar las frases y crear tu propia versión del juego."
+      }
+    ]
+  }
+}

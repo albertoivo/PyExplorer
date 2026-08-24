@@ -31,7 +31,7 @@ function getLastModDate(filePath) {
 
 function getArticleSlugs() {
     const content = fs.readFileSync(LEARN_DATA_FILE, 'utf-8');
-    const slugRegex = /slug:\s*['"]([^'"]+)['"]/g;
+    const slugRegex = /["']?slug["']?:\s*['"]([^'"]+)['"]/g;
     const slugs = [];
     let match;
     while ((match = slugRegex.exec(content)) !== null) {

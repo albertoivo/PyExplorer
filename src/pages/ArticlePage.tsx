@@ -1,6 +1,6 @@
 import { useParams, Link, Navigate, useNavigate } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
-import { getArticleBySlug, getRelatedArticles, type Article } from '../data/learnData';
+import { useArticleBySlug, useRelatedArticles, type Article } from '../data/learnData';
 import { SEO } from '../components/common/SEO';
 import { useTranslation } from 'react-i18next';
 import './ArticlePage.css';
@@ -8,8 +8,8 @@ import './ArticlePage.css';
 export function ArticlePage() {
     const { t, i18n } = useTranslation(['learn', 'common']);
     const { slug } = useParams<{ slug: string }>();
-    const article = slug ? getArticleBySlug(slug) : undefined;
-    const relatedArticles = slug ? getRelatedArticles(slug, 3) : [];
+    const article = useArticleBySlug(slug);
+    const relatedArticles = useRelatedArticles(slug, 3);
     const navigate = useNavigate();
     const contentRef = useRef<HTMLDivElement>(null);
 
