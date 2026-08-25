@@ -1,3 +1,4 @@
+import type { Dispatch, SetStateAction } from 'react';
 import { useCallback } from 'react';
 import { signIn, signUp, resetPassword } from '../../firebase/auth';
 import { saveUser } from '../../firebase/firestore';
@@ -6,9 +7,9 @@ import { translateFirebaseError } from '../../utils/errorTranslations';
 import type { UserData } from '../../types/question';
 
 export function useEmailAuth(
-    setUserData: React.Dispatch<React.SetStateAction<UserData | null>>,
-    setError: React.Dispatch<React.SetStateAction<string | null>>,
-    setLoading: React.Dispatch<React.SetStateAction<boolean>>
+    setUserData: Dispatch<SetStateAction<UserData | null>>,
+    setError: Dispatch<SetStateAction<string | null>>,
+    setLoading: Dispatch<SetStateAction<boolean>>
 ) {
     const login = useCallback(async (email: string, password: string) => {
         setError(null);

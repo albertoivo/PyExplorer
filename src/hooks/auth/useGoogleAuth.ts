@@ -1,3 +1,4 @@
+import type { Dispatch, SetStateAction } from 'react';
 import { useCallback } from 'react';
 import { signInWithGoogle, signInWithGoogleRedirect } from '../../firebase/auth';
 import { saveUser, getUser } from '../../firebase/firestore';
@@ -7,9 +8,9 @@ import { env } from '../../config/env';
 import type { UserData } from '../../types/question';
 
 export function useGoogleAuth(
-    setUserData: React.Dispatch<React.SetStateAction<UserData | null>>,
-    setError: React.Dispatch<React.SetStateAction<string | null>>,
-    setLoading: React.Dispatch<React.SetStateAction<boolean>>
+    setUserData: Dispatch<SetStateAction<UserData | null>>,
+    setError: Dispatch<SetStateAction<string | null>>,
+    setLoading: Dispatch<SetStateAction<boolean>>
 ) {
     const loginWithGoogle = useCallback(async () => {
         setError(null);

@@ -1,10 +1,11 @@
+import type { Dispatch, SetStateAction } from 'react';
 import { useCallback } from 'react';
 import type { UserData, World } from '../../types/question';
 import { GUEST_KEY } from '../../utils/auth/authUtils';
 
 export function useGuestAuth(
-    setUserData: React.Dispatch<React.SetStateAction<UserData | null>>,
-    setIsGuest: React.Dispatch<React.SetStateAction<boolean>>
+    setUserData: Dispatch<SetStateAction<UserData | null>>,
+    setIsGuest: Dispatch<SetStateAction<boolean>>
 ) {
     const enterAsGuest = useCallback((displayName: string) => {
         const guestData: UserData = {
