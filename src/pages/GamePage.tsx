@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import type { World, QuestionDocument, UserProgress } from '../types/question';
 import type { PowerUpType } from '../types/gamification';
 import { WorldMap } from '../components/game/WorldMap';
-import { QuestionEngine } from '../components/game/QuestionEngine';
-import { PowerUpBarCompact } from '../components/gamification';
+import { QuestionPlayView } from '../components/game/QuestionPlayView';
+import { QuestionReviewView } from '../components/game/QuestionReviewView';
+
 import { CompletedQuestionModal } from '../components/game/CompletedQuestionModal';
 import { PyodideLoader } from '../components/game/PyodideLoader';
 import { WorldQuestionsView } from '../components/game/WorldQuestionsView';
@@ -392,66 +393,30 @@ export function GamePage() {
 
             {/* Jogando uma Questão */}
             {view === 'playing' && currentQuestion && (
-                <div className="question-play">
-                    <div className="question-play__header">
-                        <button className="back-button" onClick={handleBackToQuestions}>
-                            ← Voltar às Questões
-                        </button>
-                        <div className="question-play__progress">
-                            Questão {currentQuestionIndex + 1} de {worldQuestions.length}
-                        </div>
-                    </div>
-
-                    <div className="question-play__powerups">
-                        <PowerUpBarCompact
-                            userPowerUps={userPowerUps}
-                            onUsePowerUp={handleUsePowerUp}
-                            activePowerUp={activePowerUp}
-                            userStars={userStars}
-                            onBuyPowerUp={buyPowerUp}
-                        />
-                    </div>
-
-                    <QuestionEngine
-                        key={currentQuestion.id}
-                        question={currentQuestion}
-                        onComplete={handleQuestionComplete}
-                        onNext={handleNext}
-                        activePowerUp={activePowerUp || undefined}
-                    />
-                </div>
+                <QuestionPlayView
+                    currentQuestion={currentQuestion}
+                    currentQuestionIndex={currentQuestionIndex}
+                    worldQuestionsLength={worldQuestions.length}
+                    userPowerUps={userPowerUps}
+                    activePowerUp={activePowerUp}
+                    userStars={userStars}
+                    handleBackToQuestions={handleBackToQuestions}
+                    handleUsePowerUp={handleUsePowerUp}
+                    buyPowerUp={buyPowerUp}
+                    handleQuestionComplete={handleQuestionComplete}
+                    handleNext={handleNext}
+                />
             )}
 
             {/* Revisando uma Questão */}
             {view === 'reviewing' && currentQuestion && completedQuestionProgress && (
-                <div className="question-play question-play--reviewing">
-                    <div className="question-play__header">
-                        <button className="back-button" onClick={handleBackToQuestions}>
-                            ← Voltar às Questões
-                        </button>
-                        <div className="question-play__review-badge">
-                            📖 Visualização
-                        </div>
-                    </div>
-
-                    <QuestionEngine
-                        key={currentQuestion.id}
-                        question={currentQuestion}
-                        onComplete={handleQuestionComplete}
-                        onNext={handleBackToQuestions}
-                        readOnly={true}
-                        savedAnswer={completedQuestionProgress.userAnswer}
-                    />
-
-                    <div className="question-play__review-footer">
-                        <button
-                            className="question-play__redo-btn"
-                            onClick={handleRedoQuestion}
-                        >
-                            🔄 Refazer para Praticar
-                        </button>
-                    </div>
-                </div>
+                <QuestionReviewView
+                    currentQuestion={currentQuestion}
+                    completedQuestionProgress={completedQuestionProgress}
+                    handleBackToQuestions={handleBackToQuestions}
+                    handleQuestionComplete={handleQuestionComplete}
+                    handleRedoQuestion={handleRedoQuestion}
+                />
             )}
 
             {/* Modal de questão já completada */}

@@ -11,3 +11,27 @@
   - `src/hooks/gamification/useGamificationCore.ts`: New hook for completing questions, achievements, and level-ups.
 - **🧹 Architectural Gain:** SRP — each hook now owns a single domain in the gamification system.
 - **🔬 Verification:** Confirmation that `tsc`, `npm test`, `npm run lint`, and `npm run build` all passed.
+
+## 2026-08-25 - Extract specific auth hooks from AuthContext
+
+- **💡 What:** Extracted specific flows for `useGoogleAuth`, `useGuestAuth`, and `useEmailAuth` to handle authentication flows individually.
+- **🎯 Why:** Code smell identified: Large god Context file `AuthContext.tsx` managed everything about authentication, guest access, and user progress sync.
+- **📁 Files Changed:**
+  - `src/context/AuthContext.tsx`: Simplified by delegating logic to custom hooks.
+  - `src/utils/auth/authUtils.ts`: Added helper functions for handling auth.
+  - `src/hooks/auth/useGoogleAuth.ts`: Added to handle Google authentication flows.
+  - `src/hooks/auth/useGuestAuth.ts`: Added to handle guest user flow.
+  - `src/hooks/auth/useEmailAuth.ts`: Added to handle email-based authentication flows.
+- **🧹 Architectural Gain:** SRP — each custom hook manages a very specific type of authentication flow, simplifying the core `AuthContext.tsx`.
+- **🔬 Verification:** Verified `tsc`, `npm test`, `npm run lint`, and `npm run build` all pass.
+
+## 2026-08-25 - Extract views out of GamePage.tsx
+
+- **💡 What:** Extracted specific JSX views for `playing` and `reviewing` from `GamePage.tsx`.
+- **🎯 Why:** Code smell identified: Large god Page file `GamePage.tsx` managed everything including large inline JSX chunks for distinct views.
+- **📁 Files Changed:**
+  - `src/pages/GamePage.tsx`: Simplified by delegating logic to view components.
+  - `src/components/game/QuestionPlayView.tsx`: Extracted view for actively playing a question.
+  - `src/components/game/QuestionReviewView.tsx`: Extracted view for reviewing a completed question.
+- **🧹 Architectural Gain:** SRP — each component is now much smaller and easier to maintain.
+- **🔬 Verification:** Verified `tsc`, `npm test`, `npm run lint`, and `npm run build` all pass.
