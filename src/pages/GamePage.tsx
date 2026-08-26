@@ -1,98 +1,41 @@
-import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import type { World, QuestionDocument, UserProgress } from '../types/question';
-import type { PowerUpType } from '../types/gamification';
+import { useEffect } from 'react';
+import type { World } from '../types/question';
 import { WorldMap } from '../components/game/WorldMap';
 import { QuestionPlayView } from '../components/game/QuestionPlayView';
 import { QuestionReviewView } from '../components/game/QuestionReviewView';
-
 import { CompletedQuestionModal } from '../components/game/CompletedQuestionModal';
 import { PyodideLoader } from '../components/game/PyodideLoader';
 import { WorldQuestionsView } from '../components/game/WorldQuestionsView';
 import { MissionNotificationOverlay } from '../components/game/MissionNotificationOverlay';
-import { useProgress } from '../hooks/useProgress';
 import { usePyodide } from '../hooks/usePyodide';
-import { useQuestionsFirestore } from '../hooks/useQuestionsFirestore';
-import { useGamification } from '../context/GamificationContext';
-import { isBossUnlocked } from '../utils/gameLogic';
-import { playSound } from '../utils/soundEffects';
 import { SEO } from '../components/common/SEO';
 import { PetHabitat } from '../components/gamification/PetHabitat/PetHabitat';
 import { EvolutionModal } from '../components/gamification/PetHabitat/EvolutionModal';
 import { WORLDS } from '../data/worlds';
 import './GamePage.css';
 
-type GameView = 'world-map' | 'world-questions' | 'playing' | 'reviewing';
+import { useGameState } from '../hooks/game/useGameState';
+import { useGameActions } from '../hooks/game/useGameActions';
 
-type ConfettiFn = (options?: {
-    particleCount?: number;
-    spread?: number;
-    origin?: { y: number };
-    colors?: string[];
-}) => void;
-
-/**
- * Obtém o nome amigável do mundo
- */
 const getWorldName = (world: World): string => {
     const worldObj = WORLDS.find(w => w.id === world);
     return worldObj ? worldObj.name : world;
 };
 
-/**
- * Página principal do jogo
- */
 export function GamePage() {
-    const navigate = useNavigate();
-    const [view, setView] = useState<GameView>('world-map');
-    const [selectedWorld, setSelectedWorld] = useState<World | null>(null);
-    const [currentQuestion, setCurrentQuestion] = useState<QuestionDocument | null>(null);
-    const [worldQuestions, setWorldQuestions] = useState<QuestionDocument[]>([]);
-    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const gameState = useGameState();
+    const actions = useGameActions(gameState);
 
-    // Modal para questões já completadas
-    const [showCompletedModal, setShowCompletedModal] = useState(false);
-    const [completedQuestionProgress, setCompletedQuestionProgress] = useState<UserProgress | null>(null);
-
-    const { allProgress, recordAttempt, getQuestionProgress } = useProgress();
     const { loading: pyodideLoading, loadingProgress, loadPyodide, ready } = usePyodide();
-    const { questions: allQuestions, loading: questionsLoading, getQuestionsByWorld } = useQuestionsFirestore();
-    const { recordQuestionCompleted, checkWorldAchievements, userPowerUps, usePowerUp: consumePowerUp, buyPowerUp, userStars, missionNotification, dismissMissionNotification } = useGamification();
 
-    const [activePowerUp, setActivePowerUp] = useState<PowerUpType | null>(null);
-
-    // Otimização: Manter referência estável para getQuestionProgress
-    const getQuestionProgressRef = useRef(getQuestionProgress);
     useEffect(() => {
-        getQuestionProgressRef.current = getQuestionProgress;
-    }, [getQuestionProgress]);
-
-    // Rola para o topo sempre que mudar a visualização ou a questão ativa no jogo
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, [view, currentQuestion]);
-
-    // Mission Notification Timer
-    useEffect(() => {
-        if (missionNotification) {
+        if (gameState.missionNotification) {
             const timer = setTimeout(() => {
-                dismissMissionNotification();
+                gameState.dismissMissionNotification();
             }, 4000);
             return () => clearTimeout(timer);
         }
-    }, [missionNotification, dismissMissionNotification]);
-
-    // Timer para medir tempo de resposta
-    const questionStartTime = useRef<number>(0);
-
-    // Memoriza as questões ordenadas para evitar re-sort e mutação do state a cada render
-    const sortedQuestions = useMemo(() => {
-        return [...worldQuestions].sort((a, b) => {
-            if (a.type === 'boss_battle' && b.type !== 'boss_battle') return 1;
-            if (a.type !== 'boss_battle' && b.type === 'boss_battle') return -1;
-            return 0;
-        });
-    }, [worldQuestions]);
+    }, [gameState.missionNotification, gameState.dismissMissionNotification]);
 
     useEffect(() => {
         if (!ready && !pyodideLoading) {
@@ -100,260 +43,7 @@ export function GamePage() {
         }
     }, [ready, pyodideLoading, loadPyodide]);
 
-    // Agrupa questões por mundo para calcular progresso
-    const worldProgress = useMemo(() => {
-        const progress = new Map<World, { completed: number; total: number }>();
-
-        const completedQuestionIds = new Set(
-            allProgress
-                .filter(p => p.status === 'completed')
-                .map(p => p.questionId)
-        );
-
-        for (const q of allQuestions) {
-            if (!progress.has(q.world)) {
-                progress.set(q.world, { completed: 0, total: 0 });
-            }
-
-            const worldStats = progress.get(q.world)!;
-            worldStats.total++;
-
-            if (completedQuestionIds.has(q.id)) {
-                worldStats.completed++;
-            }
-        }
-
-        return progress;
-    }, [allProgress, allQuestions]);
-
-    // Otimização: Calcula se o boss deve ser desbloqueado
-    const bossBattleUnlocked = useMemo(() => {
-        return isBossUnlocked(worldQuestions, getQuestionProgress);
-    }, [worldQuestions, getQuestionProgress]);
-
-    /**
-     * Seleciona um mundo para ver suas questões
-     */
-    const handleSelectWorld = useCallback((world: World) => {
-        const questions = getQuestionsByWorld(world);
-        setSelectedWorld(world);
-        setWorldQuestions(questions);
-        setView('world-questions');
-    }, [getQuestionsByWorld]);
-
-    /**
-     * Começa a jogar uma questão
-     */
-    const handleStartQuestion = useCallback((question: QuestionDocument) => {
-        const progress = getQuestionProgressRef.current(question.id);
-        const index = worldQuestions.findIndex(q => q.id === question.id);
-
-        setCurrentQuestion(question);
-        setCurrentQuestionIndex(index);
-
-        if (progress?.status === 'completed') {
-            setCompletedQuestionProgress(progress);
-            setShowCompletedModal(true);
-        } else {
-            setView('playing');
-            questionStartTime.current = Date.now();
-        }
-    }, [worldQuestions]);
-
-    /**
-     * Usuário escolheu "Ver minha resposta" no modal
-     */
-    const handleViewAnswer = useCallback(() => {
-        setShowCompletedModal(false);
-        setView('reviewing');
-    }, []);
-
-    /**
-     * Usuário escolheu "Refazer" no modal
-     */
-    const handleRedoQuestion = useCallback(() => {
-        setShowCompletedModal(false);
-        setView('playing');
-        questionStartTime.current = Date.now();
-    }, []);
-
-    /**
-     * Fecha o modal de questão completada
-     */
-    const handleCloseCompletedModal = useCallback(() => {
-        setShowCompletedModal(false);
-        setCurrentQuestion(null);
-        setCompletedQuestionProgress(null);
-    }, []);
-
-    /**
-     * Callback quando uma questão é completada
-     */
-    const handleQuestionComplete = useCallback(async (passed: boolean, score: number) => {
-        const responseTimeSeconds = (Date.now() - questionStartTime.current) / 1000;
-
-        if (currentQuestion) {
-            let finalScore = score;
-            if (passed && activePowerUp === 'double_stars') {
-                finalScore *= 2;
-            }
-
-            const previousProgress = getQuestionProgress(currentQuestion.id);
-            const wasCompleted = previousProgress?.status === 'completed';
-            const existingScore = previousProgress?.score || 0;
-            const starsEarned = (passed && !wasCompleted && finalScore > existingScore)
-                ? finalScore - existingScore
-                : 0;
-
-            await recordAttempt(
-                currentQuestion.id,
-                passed,
-                finalScore,
-                undefined,
-                currentQuestion.difficulty,
-                responseTimeSeconds
-            );
-
-            recordQuestionCompleted(passed, finalScore, responseTimeSeconds, {
-                worldId: currentQuestion.world,
-                starsEarned,
-                isBoss: currentQuestion.type === 'boss_battle',
-                previousStars: previousProgress?.stars || 0,
-                wasCompleted
-            });
-
-            if (activePowerUp) {
-                setActivePowerUp(null);
-            }
-        }
-    }, [currentQuestion, getQuestionProgress, recordAttempt, recordQuestionCompleted, activePowerUp]);
-
-    /**
-     * Vai para a próxima questão não resolvida ou volta para a lista
-     */
-    const handleNext = useCallback(() => {
-        let nextIndex = currentQuestionIndex + 1;
-        let foundUnresolved = false;
-
-        while (nextIndex < worldQuestions.length) {
-            const nextQ = worldQuestions[nextIndex];
-            const progress = getQuestionProgress(nextQ.id);
-            if (progress?.status !== 'completed') {
-                foundUnresolved = true;
-                break;
-            }
-            nextIndex++;
-        }
-
-        if (foundUnresolved) {
-            setCurrentQuestion(worldQuestions[nextIndex]);
-            setCurrentQuestionIndex(nextIndex);
-            questionStartTime.current = Date.now();
-        } else {
-            if (selectedWorld) {
-                const progress = worldProgress.get(selectedWorld);
-                if (progress && progress.completed === progress.total) {
-                    // Toca som de celebração usando o utilitário soundEffects
-                    playSound('celebration');
-
-                    import('canvas-confetti').then((confettiModule) => {
-                        const confetti = (
-                            'default' in confettiModule
-                                ? confettiModule.default
-                                : confettiModule
-                        ) as ConfettiFn;
-                        confetti({
-                            particleCount: 150,
-                            spread: 70,
-                            origin: { y: 0.6 },
-                            colors: ['#FFD700', '#FF4500', '#00BFFF', '#32CD32']
-                        });
-                    });
-
-                    const totalWorldsCompleted = Array.from(worldProgress.values())
-                        .filter(p => p.completed === p.total && p.total > 0).length;
-
-                    const mistakes = worldQuestions.reduce((acc, q) => {
-                        const qProgress = getQuestionProgress(q.id);
-                        const attemptCount = qProgress?.attempts || 0;
-                        return acc + Math.max(0, attemptCount - 1);
-                    }, 0);
-
-                    checkWorldAchievements(
-                        selectedWorld,
-                        progress.completed,
-                        progress.total,
-                        mistakes
-                    );
-
-                    const totalWorlds = worldProgress.size;
-                    if (totalWorldsCompleted === totalWorlds) {
-                        setTimeout(() => {
-                            const goCert = window.confirm(
-                                'PARABÉNS! VOCÊ ZERO O JOGO! 🏆🐍\n\nTodas as questões foram completadas.\n\nDeseja ir para a página do seu CERTIFICADO agora?'
-                            );
-                            if (goCert) {
-                                navigate('/certificate');
-                                return;
-                            }
-                        }, 1000);
-                    }
-                }
-            }
-
-            setView('world-questions');
-            setCurrentQuestion(null);
-        }
-    }, [
-        currentQuestionIndex,
-        worldQuestions,
-        getQuestionProgress,
-        selectedWorld,
-        worldProgress,
-        checkWorldAchievements,
-        navigate
-    ]);
-
-    /**
-     * Volta para a lista de questões do mundo
-     */
-    const handleBackToQuestions = useCallback(() => {
-        setView('world-questions');
-        setCurrentQuestion(null);
-    }, []);
-
-    /**
-     * Volta para o mapa de mundos
-     */
-    const handleBackToMap = useCallback(() => {
-        setView('world-map');
-        setSelectedWorld(null);
-        setWorldQuestions([]);
-    }, []);
-
-    /**
-     * Usa um power-up
-     */
-    const handleUsePowerUp = useCallback((type: PowerUpType): boolean => {
-        if (type === 'skip') {
-            if (consumePowerUp('skip')) {
-                handleNext();
-                return true;
-            }
-            return false;
-        }
-
-        if (activePowerUp !== null) return false;
-
-        if (consumePowerUp(type)) {
-            setActivePowerUp(type);
-            return true;
-        }
-        return false;
-    }, [activePowerUp, handleNext, consumePowerUp]);
-
-    // Mostra loading do Pyodide ou questões
-    if (!ready || questionsLoading) {
+    if (!ready || gameState.questionsLoading) {
         return <PyodideLoader loadingProgress={loadingProgress} />;
     }
 
@@ -363,75 +53,69 @@ export function GamePage() {
 
             <EvolutionModal />
 
-            {/* Mapa de Mundos */}
-            {view === 'world-map' && (
+            {gameState.view === 'world-map' && (
                 <>
                     <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '2rem' }}>
                         <PetHabitat />
                     </div>
                     <WorldMap
-                        onSelectWorld={handleSelectWorld}
-                        worldProgress={worldProgress}
+                        onSelectWorld={actions.handleSelectWorld}
+                        worldProgress={gameState.worldProgress}
                     />
                 </>
             )}
 
-            {/* Lista de Questões do Mundo */}
-            {view === 'world-questions' && selectedWorld && (
+            {gameState.view === 'world-questions' && gameState.selectedWorld && (
                 <WorldQuestionsView
-                    selectedWorld={selectedWorld}
-                    worldName={getWorldName(selectedWorld)}
-                    sortedQuestions={sortedQuestions}
-                    completedCount={worldProgress.get(selectedWorld)?.completed || 0}
-                    totalCount={worldProgress.get(selectedWorld)?.total || 0}
-                    bossBattleUnlocked={bossBattleUnlocked}
-                    getQuestionProgress={getQuestionProgress}
-                    onBackToMap={handleBackToMap}
-                    onStartQuestion={handleStartQuestion}
+                    selectedWorld={gameState.selectedWorld}
+                    worldName={getWorldName(gameState.selectedWorld)}
+                    sortedQuestions={gameState.sortedQuestions}
+                    completedCount={gameState.worldProgress.get(gameState.selectedWorld)?.completed || 0}
+                    totalCount={gameState.worldProgress.get(gameState.selectedWorld)?.total || 0}
+                    bossBattleUnlocked={gameState.bossBattleUnlocked}
+                    getQuestionProgress={gameState.getQuestionProgress}
+                    onBackToMap={actions.handleBackToMap}
+                    onStartQuestion={actions.handleStartQuestion}
                 />
             )}
 
-            {/* Jogando uma Questão */}
-            {view === 'playing' && currentQuestion && (
+            {gameState.view === 'playing' && gameState.currentQuestion && (
                 <QuestionPlayView
-                    currentQuestion={currentQuestion}
-                    currentQuestionIndex={currentQuestionIndex}
-                    worldQuestionsLength={worldQuestions.length}
-                    userPowerUps={userPowerUps}
-                    activePowerUp={activePowerUp}
-                    userStars={userStars}
-                    handleBackToQuestions={handleBackToQuestions}
-                    handleUsePowerUp={handleUsePowerUp}
-                    buyPowerUp={buyPowerUp}
-                    handleQuestionComplete={handleQuestionComplete}
-                    handleNext={handleNext}
+                    currentQuestion={gameState.currentQuestion}
+                    currentQuestionIndex={gameState.currentQuestionIndex}
+                    worldQuestionsLength={gameState.worldQuestions.length}
+                    userPowerUps={gameState.userPowerUps}
+                    activePowerUp={gameState.activePowerUp}
+                    userStars={gameState.userStars}
+                    handleBackToQuestions={actions.handleBackToQuestions}
+                    handleUsePowerUp={actions.handleUsePowerUp}
+                    buyPowerUp={gameState.buyPowerUp}
+                    handleQuestionComplete={actions.handleQuestionComplete}
+                    handleNext={actions.handleNext}
                 />
             )}
 
-            {/* Revisando uma Questão */}
-            {view === 'reviewing' && currentQuestion && completedQuestionProgress && (
+            {gameState.view === 'reviewing' && gameState.currentQuestion && gameState.completedQuestionProgress && (
                 <QuestionReviewView
-                    currentQuestion={currentQuestion}
-                    completedQuestionProgress={completedQuestionProgress}
-                    handleBackToQuestions={handleBackToQuestions}
-                    handleQuestionComplete={handleQuestionComplete}
-                    handleRedoQuestion={handleRedoQuestion}
+                    currentQuestion={gameState.currentQuestion}
+                    completedQuestionProgress={gameState.completedQuestionProgress}
+                    handleBackToQuestions={actions.handleBackToQuestions}
+                    handleQuestionComplete={actions.handleQuestionComplete}
+                    handleRedoQuestion={actions.handleRedoQuestion}
                 />
             )}
 
-            {/* Modal de questão já completada */}
-            {showCompletedModal && currentQuestion && completedQuestionProgress && (
+            {gameState.showCompletedModal && gameState.currentQuestion && gameState.completedQuestionProgress && (
                 <CompletedQuestionModal
-                    question={currentQuestion}
-                    progress={completedQuestionProgress}
-                    onViewAnswer={handleViewAnswer}
-                    onRedo={handleRedoQuestion}
-                    onClose={handleCloseCompletedModal}
+                    question={gameState.currentQuestion}
+                    progress={gameState.completedQuestionProgress}
+                    onViewAnswer={actions.handleViewAnswer}
+                    onRedo={actions.handleRedoQuestion}
+                    onClose={actions.handleCloseCompletedModal}
                 />
             )}
 
-            {/* Mission Notification Overlay */}
-            <MissionNotificationOverlay notification={missionNotification} />
+            <MissionNotificationOverlay notification={gameState.missionNotification} />
         </div>
     );
 }
