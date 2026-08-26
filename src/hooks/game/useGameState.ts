@@ -23,7 +23,7 @@ export function useGameState() {
     const { questions: allQuestions, loading: questionsLoading, getQuestionsByWorld } = useQuestionsFirestore();
     const { recordQuestionCompleted, checkWorldAchievements, userPowerUps, usePowerUp: consumePowerUp, buyPowerUp, userStars, missionNotification, dismissMissionNotification } = useGamification();
 
-    const questionStartTime = useRef<number>(0);
+    const questionStartTimeRef = useRef<number>(0);
     const getQuestionProgressRef = useRef(getQuestionProgress);
 
     useEffect(() => {
@@ -76,7 +76,7 @@ export function useGameState() {
         showCompletedModal, setShowCompletedModal,
         completedQuestionProgress, setCompletedQuestionProgress,
         activePowerUp, setActivePowerUp,
-        questionStartTime,
+        questionStartTimeRef,
         getQuestionProgressRef,
         sortedQuestions,
         worldProgress,

@@ -35,7 +35,7 @@ export function GamePage() {
             }, 4000);
             return () => clearTimeout(timer);
         }
-    }, [gameState.missionNotification, gameState.dismissMissionNotification]);
+    }, [gameState.missionNotification, gameState.dismissMissionNotification, gameState]);
 
     useEffect(() => {
         if (!ready && !pyodideLoading) {

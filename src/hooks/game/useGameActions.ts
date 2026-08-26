@@ -11,7 +11,7 @@ type ConfettiFn = (options?: {
     colors?: string[];
 }) => void;
 
-export function useGameActions(gameState: any) {
+export function useGameActions(gameState: ReturnType<typeof import("./useGameState").useGameState>) {
     const navigate = useNavigate();
     const {
         setView,
@@ -25,7 +25,7 @@ export function useGameActions(gameState: any) {
         getQuestionsByWorld,
         getQuestionProgressRef,
         worldQuestions,
-        questionStartTime,
+        questionStartTimeRef,
         getQuestionProgress,
         recordAttempt,
         recordQuestionCompleted,
@@ -57,9 +57,9 @@ export function useGameActions(gameState: any) {
             setShowCompletedModal(true);
         } else {
             setView('playing');
-            questionStartTime.current = Date.now();
+            questionStartTimeRef.current = Date.now();
         }
-    }, [worldQuestions, getQuestionProgressRef, setCurrentQuestion, setCurrentQuestionIndex, setCompletedQuestionProgress, setShowCompletedModal, setView, questionStartTime]);
+    }, [worldQuestions, getQuestionProgressRef, setCurrentQuestion, setCurrentQuestionIndex, setCompletedQuestionProgress, setShowCompletedModal, setView, questionStartTimeRef]);
 
     const handleViewAnswer = useCallback(() => {
         setShowCompletedModal(false);
@@ -69,8 +69,8 @@ export function useGameActions(gameState: any) {
     const handleRedoQuestion = useCallback(() => {
         setShowCompletedModal(false);
         setView('playing');
-        questionStartTime.current = Date.now();
-    }, [setShowCompletedModal, setView, questionStartTime]);
+        questionStartTimeRef.current = Date.now();
+    }, [setShowCompletedModal, setView, questionStartTimeRef]);
 
     const handleCloseCompletedModal = useCallback(() => {
         setShowCompletedModal(false);
@@ -79,7 +79,7 @@ export function useGameActions(gameState: any) {
     }, [setShowCompletedModal, setCurrentQuestion, setCompletedQuestionProgress]);
 
     const handleQuestionComplete = useCallback(async (passed: boolean, score: number) => {
-        const responseTimeSeconds = (Date.now() - questionStartTime.current) / 1000;
+        const responseTimeSeconds = (Date.now() - questionStartTimeRef.current) / 1000;
 
         if (currentQuestion) {
             let finalScore = score;
@@ -115,7 +115,7 @@ export function useGameActions(gameState: any) {
                 setActivePowerUp(null);
             }
         }
-    }, [currentQuestion, getQuestionProgress, recordAttempt, recordQuestionCompleted, activePowerUp, questionStartTime, setActivePowerUp]);
+    }, [currentQuestion, getQuestionProgress, recordAttempt, recordQuestionCompleted, activePowerUp, questionStartTimeRef, setActivePowerUp]);
 
     const handleNext = useCallback(() => {
         let nextIndex = currentQuestionIndex + 1;
@@ -134,7 +134,7 @@ export function useGameActions(gameState: any) {
         if (foundUnresolved) {
             setCurrentQuestion(worldQuestions[nextIndex]);
             setCurrentQuestionIndex(nextIndex);
-            questionStartTime.current = Date.now();
+            questionStartTimeRef.current = Date.now();
         } else {
             if (selectedWorld) {
                 const progress = worldProgress.get(selectedWorld);
@@ -156,7 +156,7 @@ export function useGameActions(gameState: any) {
                     });
 
                     const totalWorldsCompleted = Array.from(worldProgress.values())
-                        .filter((p: any) => p.completed === p.total && p.total > 0).length;
+                        .filter((p: { completed: number; total: number }) => p.completed === p.total && p.total > 0).length;
 
                     const mistakes = worldQuestions.reduce((acc: number, q: QuestionDocument) => {
                         const qProgress = getQuestionProgress(q.id);
@@ -200,7 +200,7 @@ export function useGameActions(gameState: any) {
         setCurrentQuestion,
         setCurrentQuestionIndex,
         setView,
-        questionStartTime
+        questionStartTimeRef
     ]);
 
     const handleBackToQuestions = useCallback(() => {
