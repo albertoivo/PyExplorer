@@ -36,26 +36,12 @@
     ],
     "headers": [
       {
-        "source": "**/*.@(js|css|woff|woff2|png|jpg|jpeg|svg|webp|gif)",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "public, max-age=31536000, immutable"
-          }
-        ]
-      },
-      {
-        "source": "assets/**",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "public, max-age=31536000, immutable"
-          }
-        ]
-      },
-      {
         "source": "/**",
         "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache, no-store, must-revalidate"
+          },
           {
             "key": "Cross-Origin-Opener-Policy",
             "value": "same-origin"
