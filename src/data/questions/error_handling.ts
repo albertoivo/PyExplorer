@@ -271,10 +271,10 @@ export const errorHandlingQuestions: QuestionDocument[] = [
         ageMin: 11,
         title: 'Vários Problemas',
         prompt: 'Complete para tratar `ValueError` e `ZeroDivisionError` separadamente:',
-        starterCode: 'try:\n  x = int(input()) / int(input())\nexcept ValueError:\n  print("Erro de valor")\n___ ZeroDivisionError:\n  print("Não divida por zero")',
-        solutionTemplate: 'try:\n  x = int(input("N1:")) / int(input("N2:"))\nexcept ValueError:\n  print("Erro de valor")\nexcept ZeroDivisionError:\n  print("Não divida por zero")',
+        starterCode: 'try:\n  x = int(input("N1: ")) / int(input("N2: "))\nexcept ValueError:\n  print("Erro de valor")\n___ ZeroDivisionError:\n  print("Não divida por zero")',
+        solutionTemplate: 'try:\n  x = int(input("N1: ")) / int(input("N2: "))\nexcept ValueError:\n  print("Erro de valor")\nexcept ZeroDivisionError:\n  print("Não divida por zero")',
         tests: [
-            { input: null, expectedOutput: 'Não divida por zero' }, // This test implies the mock would trigger it, but for fill_code we check the syntax mainly
+            { input: ['5', '0'], expectedOutput: 'regex:Não divida por zero' },
         ],
         explanationKidFriendly: 'Você pode ter vários `except`! Um para cada tipo de problema. Assim você dá a mensagem certa para o erro certo! 👨‍⚕️',
         points: 20,

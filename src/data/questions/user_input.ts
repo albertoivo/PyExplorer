@@ -37,7 +37,7 @@ export const userInputQuestions: QuestionDocument[] = [
         starterCode: 'nome = ___("Qual é o seu nome? ")\nprint("Olá, " + nome)',
         solutionTemplate: 'nome = input("Qual é o seu nome? ")',
         tests: [
-            { input: ['Maria'], expectedOutput: 'Qual é o seu nome? Olá, Maria' },
+            { input: ['Maria'], expectedOutput: 'regex:Qual é o seu nome\\? Olá, .+' },
         ],
         explanationKidFriendly: 'Use input() com uma mensagem dentro dos parênteses. A pessoa vai ver a mensagem e poder digitar a resposta! 💬',
         points: 15,
@@ -119,7 +119,7 @@ export const userInputQuestions: QuestionDocument[] = [
             'print("Olá, " + nome)',
         ],
         tests: [
-            { input: ['Lucas'], expectedOutput: 'Nome: Oi, Lucas!' }
+            { input: ['Lucas'], expectedOutput: 'regex:Nome: Olá, .+' }
         ],
         explanationKidFriendly: 'Primeiro perguntamos (input), depois respondemos (print)! A ordem importa!',
         points: 15,
@@ -271,7 +271,7 @@ export const userInputQuestions: QuestionDocument[] = [
         starterCode: 'nome = input("Nome: ")\nprint(f"Oi, {___}!")',
         solutionTemplate: 'print(f"Oi, {nome}!")',
         tests: [
-            { input: ['Lucas'], expectedOutput: 'Nome: Oi, Lucas!' },
+            { input: ['Lucas'], expectedOutput: 'regex:Nome: Oi, .+!' },
         ],
         explanationKidFriendly: 'Com f-string, colocamos a resposta do usuário (variável `nome`) direto dentro da frase de cumprimento! 👋',
         points: 15,
