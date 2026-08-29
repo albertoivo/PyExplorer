@@ -10,10 +10,6 @@ const CACHED_QUESTIONS_KEY = 'pyexplorer_cached_questions';
 const OFFLINE_PROGRESS_KEY = 'pyexplorer_offline_progress';
 const LAST_SYNC_KEY = 'pyexplorer_last_sync';
 
-interface BeforeInstallPromptEvent extends Event {
-    prompt: () => Promise<void>;
-    userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
-}
 
 interface OfflineProgress {
     questionId: string;
@@ -25,8 +21,6 @@ interface OfflineProgress {
 interface OfflineState {
     /** Se está online */
     isOnline: boolean;
-    /** Se o app está instalado como PWA */
-    isPWA: boolean;
     /** Questões em cache */
     cachedQuestions: QuestionDocument[];
     /** Progresso pendente de sincronização */
@@ -43,7 +37,6 @@ interface OfflineState {
 export function useOffline() {
     const [state, setState] = useState<OfflineState>({
         isOnline: navigator.onLine,
-        isPWA: window.matchMedia('(display-mode: standalone)').matches,
         cachedQuestions: [],
         pendingProgress: [],
         lastSync: null,
@@ -206,78 +199,10 @@ export function useOffline() {
         return questions;
     }, [state.cachedQuestions]);
 
-    /**
-     * Verifica se pode instalar como PWA
-     */
-    const [deferredPrompt, setDeferredPrompt] = useState<Event | null>(null);
-
-    useEffect(() => {
-        const handleBeforeInstall = (e: Event) => {
-            e.preventDefault();
-            setDeferredPrompt(e);
-        };
-
-        window.addEventListener('beforeinstallprompt', handleBeforeInstall);
-
-        return () => {
-            window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
-        };
-    }, []);
-
-    /**
-     * Instala o app como PWA
-     */
-    const installPWA = useCallback(async (): Promise<boolean> => {
-        if (!deferredPrompt) return false;
-
-        const promptEvent = deferredPrompt as BeforeInstallPromptEvent;
-        promptEvent.prompt();
-
-        const { outcome } = await promptEvent.userChoice;
-        setDeferredPrompt(null);
-
-        return outcome === 'accepted';
-    }, [deferredPrompt]);
-
-    /**
-     * Verifica se há atualização do service worker
-     */
-    const [updateAvailable, setUpdateAvailable] = useState(false);
-    const [swRegistration, setSWRegistration] = useState<ServiceWorkerRegistration | null>(null);
-
-    useEffect(() => {
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.ready.then(registration => {
-                setSWRegistration(registration);
-
-                registration.addEventListener('updatefound', () => {
-                    const newWorker = registration.installing;
-                    if (newWorker) {
-                        newWorker.addEventListener('statechange', () => {
-                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                setUpdateAvailable(true);
-                            }
-                        });
-                    }
-                });
-            });
-        }
-    }, []);
-
-    /**
-     * Aplica atualização do service worker
-     */
-    const applyUpdate = useCallback(() => {
-        if (swRegistration?.waiting) {
-            swRegistration.waiting.postMessage({ type: 'SKIP_WAITING' });
-            window.location.reload();
-        }
-    }, [swRegistration]);
 
     return {
         // Estado
         isOnline: state.isOnline,
-        isPWA: state.isPWA,
         pendingSync: state.pendingProgress.length,
         lastSync: state.lastSync,
         isSyncing: state.isSyncing,
@@ -291,12 +216,5 @@ export function useOffline() {
         saveOfflineProgress,
         syncPendingProgress,
 
-        // PWA
-        canInstall: !!deferredPrompt,
-        installPWA,
-
-        // Update
-        updateAvailable,
-        applyUpdate,
     };
 }

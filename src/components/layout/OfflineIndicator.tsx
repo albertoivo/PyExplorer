@@ -1,4 +1,5 @@
 import { useOffline } from '../../hooks/useOffline';
+import { usePWA } from '../../hooks/usePWA';
 import './OfflineIndicator.css';
 
 /**
@@ -7,15 +8,18 @@ import './OfflineIndicator.css';
 export function OfflineIndicator() {
     const {
         isOnline,
-        isPWA,
         pendingSync,
         isSyncing,
+        syncPendingProgress,
+    } = useOffline();
+
+    const {
+        isPWA,
         canInstall,
         installPWA,
         updateAvailable,
         applyUpdate,
-        syncPendingProgress,
-    } = useOffline();
+    } = usePWA();
 
     // Não mostra nada se está online, é PWA e não tem nada pendente
     if (isOnline && isPWA && pendingSync === 0 && !updateAvailable) {
@@ -90,4 +94,3 @@ export function OfflineIndicator() {
         </>
     );
 }
-
