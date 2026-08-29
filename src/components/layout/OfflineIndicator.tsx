@@ -21,8 +21,8 @@ export function OfflineIndicator() {
         applyUpdate,
     } = usePWA();
 
-    // Não mostra nada se está online, é PWA e não tem nada pendente
-    if (isOnline && isPWA && pendingSync === 0 && !updateAvailable) {
+    // Não mostra nada se está online, não há nada pendente/atualização e já é PWA ou não pode instalar
+    if (isOnline && pendingSync === 0 && !updateAvailable && (!canInstall || isPWA)) {
         return null;
     }
 

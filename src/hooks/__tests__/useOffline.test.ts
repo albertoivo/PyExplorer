@@ -41,37 +41,9 @@ describe('useOffline', () => {
             writable: true
         });
 
-        // Mock matchMedia (PWA check)
-        window.matchMedia = vi.fn().mockImplementation(query => ({
-            matches: false,
-            media: query,
-            onchange: null,
-            addListener: vi.fn(),
-            removeListener: vi.fn(),
-            addEventListener: vi.fn(),
-            removeEventListener: vi.fn(),
-            dispatchEvent: vi.fn(),
-        }));
-
         // Mock Auth
         (authHook.useAuth as any).mockReturnValue({
             user: mockUser
-        });
-
-        // Mock Service Worker
-        Object.defineProperty(navigator, 'serviceWorker', {
-            value: {
-                ready: Promise.resolve({
-                    addEventListener: vi.fn(),
-                    installing: null,
-                    waiting: null,
-                }),
-                controller: {
-                    postMessage: vi.fn()
-                },
-                register: vi.fn(),
-            },
-            writable: true
         });
 
         // Ensure fetchAllQuestions returns empty array by default (not undefined)
