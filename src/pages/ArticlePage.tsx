@@ -2,6 +2,7 @@ import { useParams, Link, Navigate, useNavigate } from 'react-router-dom'
 import { useEffect, useRef } from 'react'
 import { getArticleBySlug, getRelatedArticles, type Article } from '../data/learnData'
 import { SEO } from '../components/common/SEO'
+import { parseMarkdown } from '../utils/markdownParser'
 import './ArticlePage.css'
 
 export function ArticlePage() {
@@ -165,70 +166,11 @@ export function ArticlePage() {
  * Renderiza conteúdo Markdown simples
  */
 function MarkdownContent({ content }: { content: string }) {
-    // Sanitize input to prevent XSS
-    let processedContent = escapeHtml(content);
-
-    // Primeiro, processa tabelas separadamente
-    // Encontra e converte tabelas markdown
-    const tableRegex = /(\|.+\|[\r\n]+\|[-:| ]+\|[\r\n]+(?:\|.+\|[\r\n]*)+)/gm;
-    processedContent = processedContent.replace(tableRegex, (tableBlock) => {
-        const lines = tableBlock.trim().split('\n').filter(line => line.trim());
-        if (lines.length < 2) return tableBlock;
-
-        // Primeira linha é o header
-        const headerCells = lines[0].split('|').filter(c => c.trim()).map(c => c.trim());
-        // Segunda linha é o separador (ignoramos)
-        // Restante são as linhas de dados
-        const dataRows = lines.slice(2);
-
-        let html = '<table class="markdown-table"><thead><tr>';
-        headerCells.forEach(cell => {
-            html += `<th>${cell}</th>`;
-        });
-        html += '</tr></thead><tbody>';
-
-        dataRows.forEach(row => {
-            const cells = row.split('|').filter(c => c.trim()).map(c => c.trim());
-            html += '<tr>';
-            cells.forEach(cell => {
-                html += `<td>${cell}</td>`;
-            });
-            html += '</tr>';
-        });
-
-        html += '</tbody></table>';
-        return html;
-    });
-
-    // Converte markdown básico para HTML
-    const html = processedContent
-        // Headers
-        .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-        .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-        .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-        // Bold
-        .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
-        // Italic
-        .replace(/\*(.*)\*/gim, '<em>$1</em>')
-        // Code blocks
-        .replace(/```python\n([\s\S]*?)```/gim, '<pre class="code-block code-block--python"><code>$1</code></pre>')
-        .replace(/```java\n([\s\S]*?)```/gim, '<pre class="code-block code-block--java"><code>$1</code></pre>')
-        .replace(/```([\s\S]*?)```/gim, '<pre class="code-block"><code>$1</code></pre>')
-        // Inline code
-        .replace(/`([^`]+)`/gim, '<code class="inline-code">$1</code>')
-        // Lists
-        .replace(/^- (.*$)/gim, '<li>$1</li>')
-        // Checkmarks
-        .replace(/^- ✅ (.*$)/gim, '<li class="check">✅ $1</li>')
-        // Links [text](url)
-        .replace(/\[([^\]]+)\]\(([^)]+)\)/gim, '<a href="$2">$1</a>')
-        // Line breaks
-        .replace(/\n\n/gim, '</p><p>')
-
+    const html = parseMarkdown(content);
     return (
         <div
             className="markdown-content"
-            dangerouslySetInnerHTML={{ __html: `<p>${html}</p>` }}
+            dangerouslySetInnerHTML={{ __html: html }}
         />
     )
 }
@@ -250,13 +192,4 @@ function getCategoryLabel(category: Article['category']): string {
         parents: '👪 Para Pais'
     }
     return labels[category]
-}
-
-function escapeHtml(text: string): string {
-    return text
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
 }
