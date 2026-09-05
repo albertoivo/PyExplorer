@@ -59,10 +59,10 @@ export function parseMarkdown(content: string): string {
         .replace(/```([\s\S]*?)```/gim, '<pre class="code-block"><code>$1</code></pre>')
         // Inline code
         .replace(/`([^`]+)`/gim, '<code class="inline-code">$1</code>')
+        // Checkmarks (deve vir antes de Lists para não ser consumido por ele)
+        .replace(/^- ✅ (.*$)/gim, '<li class="check">✅ $1</li>')
         // Lists
         .replace(/^- (.*$)/gim, '<li>$1</li>')
-        // Checkmarks
-        .replace(/^- ✅ (.*$)/gim, '<li class="check">✅ $1</li>')
         // Links [text](url)
         .replace(/\[([^\]]+)\]\(([^)]+)\)/gim, '<a href="$2">$1</a>')
         // Line breaks

@@ -30,6 +30,12 @@ describe('markdownParser', () => {
             expect(parseMarkdown(input)).toBe(expected);
         });
 
+        it('parses checkmarks correctly', () => {
+            const input = '- ✅ Check 1\n- Item 2';
+            const expected = '<p><li class="check">✅ Check 1</li>\n<li>Item 2</li></p>';
+            expect(parseMarkdown(input)).toBe(expected);
+        });
+
         it('parses line breaks correctly', () => {
             const input = 'Line 1\n\nLine 2';
             const expected = '<p>Line 1</p><p>Line 2</p>';
