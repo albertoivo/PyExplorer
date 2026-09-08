@@ -1,13 +1,11 @@
-## 2026-08-22 - Extract domain logic from useGamification god-hook
+## 2025-05-18 — Refactored Markdown logic in ArticlePage
 
-- **💡 What:** Extracted domain sub-hooks from `useGamification.ts`, creating `useGamificationStore`, `useGamificationShop`, `useGamificationPet`, `useGamificationMissions`, and `useGamificationCore`.
-- **🎯 Why:** Code smell identified: Single god-hook managing achievements, XP, streaks, missions, load/save logic, shop, and level-ups violated SRP.
+- **💡 What:** Extracted Markdown logic parsing out of `src/pages/ArticlePage.tsx` into a new utility file `src/utils/markdownParser.ts`. Fixed a bug where bold and italic tags were consuming format characters greedily causing parsing issues when multiple elements appear on the same line.
+- **🎯 Why:** Code smell identified (SRP violation and logic coupling in page component). `ArticlePage.tsx` had custom markdown parsing logic that is better extracted to a pure function for testing and reuse. Additionally, the non-greedy matching fix required by memory could be easily added and verified.
 - **📁 Files Changed:**
-  - `src/hooks/useGamification.ts`: Removed domain logic and delegated to sub-hooks.
-  - `src/hooks/gamification/useGamificationStore.ts`: New hook for load, save, sync, migration, and gamification validation check logic.
-  - `src/hooks/gamification/useGamificationShop.ts`: New hook for items, shop, power-ups.
-  - `src/hooks/gamification/useGamificationPet.ts`: New hook for pet actions.
-  - `src/hooks/gamification/useGamificationMissions.ts`: New hook for claiming rewards and missions.
-  - `src/hooks/gamification/useGamificationCore.ts`: New hook for completing questions, achievements, and level-ups.
-- **🧹 Architectural Gain:** SRP — each hook now owns a single domain in the gamification system.
-- **🔬 Verification:** Confirmation that `tsc`, `npm test`, `npm run lint`, and `npm run build` all passed.
+  - `src/pages/ArticlePage.tsx`: Removed `MarkdownContent` logic inside `escapeHtml` and inline logic; updated to use `parseMarkdown`.
+  - `src/utils/markdownParser.ts`: New file containing `escapeHtml` and `parseMarkdown` with the greedy bug fix applied.
+  - `src/utils/__tests__/markdownParser.test.ts`: Added unit tests for the newly extracted functions.
+- **🧹 Architectural Gain:** SRP applied (logic separated from components into purely functional helpers). Testability greatly improved. Avoids polluting UI components with non-trivial text transformations.
+- **🔬 Verification:** Confirmed that `tsc`, `npm test`, `npm run lint`, and `npm run build` pass smoothly.
+\n## 2026-09-07 — Extracted calculateScore to pure function\n\n- **💡 What:** Extracted the `calculateScore` business logic function out of `src/components/game/QuestionEngine.tsx` and moved it to the pure utility file `src/utils/progressLogic.ts`.\n- **🎯 Why:** Code smell identified: Business rules embedded directly in UI components violating the Single Responsibility Principle.\n- **📁 Files Changed:**\n  - `src/components/game/QuestionEngine.tsx`: Removed `calculateScore` definition and imported it.\n  - `src/utils/progressLogic.ts`: Added the `calculateScore` function and explicitly typed it with `QuestionDocument`.\n- **🧹 Architectural Gain:** SRP applied (business logic decoupled from view layer); improved testability by moving logic to a pure function.\n- **🔬 Verification:** Confirmed that `tsc`, `npm test`, `npm run lint`, and `npm run build` passed.

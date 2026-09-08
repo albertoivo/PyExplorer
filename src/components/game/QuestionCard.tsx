@@ -94,7 +94,7 @@ const StarsDisplay = ({ stars, status }: { stars: number; status: string }) => {
 export const QuestionCard = memo(function QuestionCard({ question, index, status, stars = 0, locked, onClick }: QuestionCardProps) {
     const { t } = useTranslation('game');
     const typeIcon = TYPE_ICONS[question.type] || '❓';
-    const typeLabel = (TYPE_KEYS[question.type] ? t(TYPE_KEYS[question.type] as unknown as string) : t('questionTypes.unknown', 'Questão')) as string;
+    const typeLabel = (TYPE_KEYS[question.type] ? t(TYPE_KEYS[question.type] as never) : t('questionTypes.unknown', 'Questão')) as string;
     const statusIcon = getStatusIcon(status, locked, index);
 
     const handleClick = () => {
@@ -104,7 +104,7 @@ export const QuestionCard = memo(function QuestionCard({ question, index, status
     };
 
     // Construct comprehensive aria-label for the entire card button
-    const statusLabel = (locked ? t('status.locked', 'Bloqueado') : (STATUS_KEYS[status] ? t(STATUS_KEYS[status] as unknown as string) : t('status.unknown', 'Status desconhecido'))) as string;
+    const statusLabel = (locked ? t('status.locked', 'Bloqueado') : (STATUS_KEYS[status] ? t(STATUS_KEYS[status] as never) : t('status.unknown', 'Status desconhecido'))) as string;
     const scoreLabel = (status === 'completed' ? t('stars.earned', { defaultValue: '{{earned}} de 3 estrelas',  earned: stars }) : t('stars.potential', '0 de 3 estrelas')) as string;
     const ariaLabel = t('questionCard.ariaLabel', { defaultValue: 'Questão {{num}}: {{title}}. {{status}}. {{score}} Tipo: {{type}}.', 
         num: index + 1,

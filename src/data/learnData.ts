@@ -106,18 +106,18 @@ export const BASE_ARTICLES: BaseArticle[] = [
  * Hook para acessar os artigos traduzidos
  */
 export function useArticles(): Article[] {
-    const { t } = useTranslation(['articles']);
+    const { t } = useTranslation('articles');
     
     return useMemo(() => {
         return BASE_ARTICLES.map(base => {
-            const translatedKeywords = t(`articles:${base.id}.keywords`, { returnObjects: true });
-            const translatedFaqs = t(`articles:${base.id}.faqs`, { returnObjects: true });
+            const translatedKeywords = t(`${base.id}.keywords` as never, { returnObjects: true });
+            const translatedFaqs = t(`${base.id}.faqs` as never, { returnObjects: true });
 
             return {
                 ...base,
-                title: t(`articles:${base.id}.title`, { defaultValue: '' }),
-                description: t(`articles:${base.id}.description`, { defaultValue: '' }),
-                content: t(`articles:${base.id}.content`, { defaultValue: '' }),
+                title: t(`${base.id}.title` as never, { defaultValue: '' }),
+                description: t(`${base.id}.description` as never, { defaultValue: '' }),
+                content: t(`${base.id}.content` as never, { defaultValue: '' }),
                 keywords: Array.isArray(translatedKeywords) ? translatedKeywords : [],
                 faqs: Array.isArray(translatedFaqs) ? translatedFaqs : []
             };

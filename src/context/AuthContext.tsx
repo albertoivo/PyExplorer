@@ -1,70 +1,18 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import type { User } from 'firebase/auth';
-import { translateFirebaseError } from '../utils/errorTranslations';
-import { subscribeToAuthChanges, signIn, signUp, logOut, resetPassword, signInWithGoogle, signInWithGoogleRedirect, checkRedirectResult } from '../firebase/auth';
+import { subscribeToAuthChanges, logOut, checkRedirectResult } from '../firebase/auth';
 import { saveUser, getUser } from '../firebase/firestore';
-import type { UserData, World } from '../types/question';
+import type { UserData } from '../types/question';
 import { env } from '../config/env';
+import { translateFirebaseError } from '../utils/errorTranslations';
 
 import { AuthContext, type AuthContextType } from './AuthContextDefinition';
+import { createDefaultUserData, readGuestData, GUEST_KEY } from '../utils/auth/authUtils';
+import { useGoogleAuth, useGuestAuth, useEmailAuth } from '../hooks/auth';
 
 interface AuthProviderProps {
     children: ReactNode;
-}
-
-const GUEST_KEY = 'pyexplorer_guest';
-
-/**
- * Cria um objeto UserData padrão para novos usuários.
- * Factory centralizada para evitar duplicação (usado em registro, Google popup e Google redirect).
- */
-function createDefaultUserData(overrides: {
-    uid: string;
-    displayName: string;
-    email: string;
-    avatar?: string;
-}): UserData {
-    return {
-        uid: overrides.uid,
-        displayName: overrides.displayName,
-        email: overrides.email,
-        avatar: overrides.avatar || 'default_avatar',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        totalScore: 0,
-        balance: 0,
-        unlockedWorlds: ['basic_commands' as World],
-    };
-}
-
-/**
- * Lê e valida dados do convidado do localStorage.
- * Retorna null se não houver dados ou se estiverem corrompidos.
- */
-function readGuestData(): UserData | null {
-    try {
-        const raw = localStorage.getItem(GUEST_KEY);
-        if (!raw) return null;
-
-        const data = JSON.parse(raw);
-
-        // Validação mínima: verifica que os campos essenciais existem
-        if (
-            typeof data.uid !== 'string' ||
-            typeof data.displayName !== 'string'
-        ) {
-            // Dados corrompidos — limpa o localStorage
-            localStorage.removeItem(GUEST_KEY);
-            return null;
-        }
-
-        return data as UserData;
-    } catch {
-        // JSON inválido — limpa o localStorage
-        localStorage.removeItem(GUEST_KEY);
-        return null;
-    }
 }
 
 /**
@@ -76,6 +24,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const [loading, setLoading] = useState(true);
     const [isGuest, setIsGuest] = useState(false);
     const [error, setError] = useState<string | null>(null);
+
+    const { loginWithGoogle } = useGoogleAuth(setUserData, setError, setLoading);
+    const { enterAsGuest } = useGuestAuth(setUserData, setIsGuest);
+    const { login, register, sendPasswordReset } = useEmailAuth(setUserData, setError, setLoading);
 
     // Escuta mudanças no estado de autenticação e verifica redirecionamento
     useEffect(() => {
@@ -181,114 +133,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         }
     }, []);
 
-
-    /**
-     * Faz login com Google
-     * Não faz throw — erros são tratados via setError para evitar Unhandled Promise Rejections.
-     */
-    const loginWithGoogle = useCallback(async () => {
-        setError(null);
-        setLoading(true);
-        try {
-            // Se for dispositivo móvel, usa redirecionamento direto, senão usa popup
-            // Fallback: se o popup falhar com popup-closed-by-user, tenta redirecionamento
-
-            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-            if (isMobile) {
-                await signInWithGoogleRedirect();
-                return; // a página será redirecionada
-            }
-
-            const credential = await signInWithGoogle();
-            const firebaseUser = credential.user;
-
-            // Verifica se o usuário já tem dados no Firestore
-            const existingData = await getUser(firebaseUser.uid);
-
-            if (!existingData) {
-                // Se não tiver, cria um novo registro (fluxo de cadastro)
-                const newUserData = createDefaultUserData({
-                    uid: firebaseUser.uid,
-                    displayName: firebaseUser.displayName || 'Explorador',
-                    email: firebaseUser.email || '',
-                });
-
-                await saveUser(newUserData);
-                setUserData(newUserData);
-            } else {
-                // Se já tiver, apenas atualiza o estado local
-                setUserData(existingData);
-            }
-
-            // Garante que estamos na URL correta
-            if (window.location.origin !== new URL(env.APP_URL).origin) {
-                window.location.href = env.APP_URL;
-            }
-
-        } catch (err: unknown) {
-            // Se for popup fechado (frequente no mobile), cai no redirect
-            const errorCode = (err as { code?: string })?.code;
-            if (errorCode === 'auth/popup-closed-by-user' || errorCode === 'auth/cancelled-popup-request') {
-                try {
-                    await signInWithGoogleRedirect();
-                    return; // a página será redirecionada
-                } catch (redirectErr) {
-                    console.error('Falha também no redirect:', redirectErr);
-                }
-            }
-
-            const message = err instanceof Error ? err.message : 'Erro ao entrar com Google';
-            setError(translateFirebaseError(message));
-            setLoading(false);
-        }
-    }, []);
-
-    /**
-     * Faz login com email e senha.
-     * Não faz throw — erros são tratados via setError.
-     * O onAuthStateChanged cuida de atualizar o estado do usuário.
-     */
-    const login = useCallback(async (email: string, password: string) => {
-        setError(null);
-        setLoading(true);
-        try {
-            await signIn(email.trim(), password);
-        } catch (err) {
-            const message = err instanceof Error ? err.message : 'Erro ao fazer login';
-            setError(translateFirebaseError(message));
-        } finally {
-            setLoading(false);
-        }
-    }, []);
-
-    /**
-     * Cadastra novo usuário.
-     * Não faz throw — erros são tratados via setError.
-     */
-    const register = useCallback(async (email: string, password: string, displayName: string) => {
-        setError(null);
-        setLoading(true);
-        try {
-            const credential = await signUp(email.trim(), password, displayName.trim());
-
-            // Cria documento do usuário no Firestore
-            const newUserData = createDefaultUserData({
-                uid: credential.user.uid,
-                displayName: displayName.trim(),
-                email: email.trim(),
-            });
-
-            await saveUser(newUserData);
-            setUserData(newUserData);
-        } catch (err) {
-            const message = err instanceof Error ? err.message : 'Erro ao criar conta';
-            setError(translateFirebaseError(message));
-        } finally {
-            setLoading(false);
-        }
-    }, []);
-
     /**
      * Faz logout.
      * Não faz throw — erros são tratados via setError.
@@ -308,43 +152,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
             setError(message);
         }
     }, [isGuest]);
-
-    /**
-     * Envia email de redefinição de senha.
-     * Faz throw para que o caller possa diferenciar sucesso de erro
-     * (necessário para mostrar mensagem anti-enumeration na LoginPage).
-     */
-    const sendPasswordReset = useCallback(async (email: string) => {
-        setError(null);
-        try {
-            await resetPassword(email.trim());
-        } catch (err) {
-            const message = err instanceof Error ? err.message : 'Erro ao enviar email';
-            setError(translateFirebaseError(message));
-            throw err;
-        }
-    }, []);
-
-    /**
-     * Entra como convidado (sem autenticação)
-     */
-    const enterAsGuest = useCallback((displayName: string) => {
-        const guestData: UserData = {
-            uid: 'guest_' + Date.now(),
-            displayName,
-            email: '',
-            avatar: 'guest_avatar',
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            totalScore: 0,
-            balance: 0,
-            unlockedWorlds: ['basic_commands' as World],
-        };
-
-        localStorage.setItem(GUEST_KEY, JSON.stringify(guestData));
-        setUserData(guestData);
-        setIsGuest(true);
-    }, []);
 
     /**
      * Limpa mensagem de erro

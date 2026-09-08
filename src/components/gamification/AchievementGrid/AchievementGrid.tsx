@@ -66,7 +66,7 @@ export function AchievementGrid({ achievements, unlockedIds, onAchievementClick 
                             key={cat}
                             className={`achievement-grid__filter ${selectedCategory === cat ? 'achievement-grid__filter--active' : ''}`}
                             onClick={() => setSelectedCategory(cat)}
-                            title={t(CATEGORY_KEYS[cat].key as unknown as string)}
+                            title={t(CATEGORY_KEYS[cat].key as never)}
                         >
                             {CATEGORY_KEYS[cat].icon}
                         </button>

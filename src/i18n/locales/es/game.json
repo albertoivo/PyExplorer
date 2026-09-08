@@ -19,6 +19,7 @@
     "questionProgress": "Pregunta {{current}} de {{total}}",
     "redoForPractice": "Rehacer para Practicar",
     "reviewBadge": "Repaso",
+    "gameCompleteConfirm": "¡FELICITACIONES! ¡HAS COMPLETADO EL JUEGO! 🏆🐍\n\nTodas las preguntas han sido completadas.\n\n¿Deseas ir a la página de tu CERTIFICADO ahora?",
     "backToMap": "Volver al Mapa",
     "completedStats": "Estadísticas de Finalización",
     "worldEmptyDesc": "Este mundo aún no tiene preguntas registradas.",

@@ -19,6 +19,7 @@ export interface Resources {
     gamification: typeof gamification;
     worlds: typeof worlds;
     notFound: typeof notFound;
+    articles: Record<string, unknown>;
 }
 
 declare module 'i18next' {

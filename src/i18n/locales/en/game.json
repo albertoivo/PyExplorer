@@ -19,6 +19,7 @@
     "questionProgress": "Question {{current}} of {{total}}",
     "redoForPractice": "Redo for Practice",
     "reviewBadge": "Review",
+    "gameCompleteConfirm": "CONGRATULATIONS! YOU BEAT THE GAME! 🏆🐍\n\nAll questions have been completed.\n\nWould you like to visit your CERTIFICATE page now?",
     "backToMap": "Back to Map",
     "completedStats": "Completion Statistics",
     "worldEmptyDesc": "This world does not have registered questions yet.",

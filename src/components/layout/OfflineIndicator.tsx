@@ -1,4 +1,5 @@
 import { useOffline } from '../../hooks/useOffline';
+import { usePWA } from '../../hooks/usePWA';
 import { useTranslation } from 'react-i18next';
 import './OfflineIndicator.css';
 
@@ -9,18 +10,21 @@ export function OfflineIndicator() {
     const { t } = useTranslation('common');
     const {
         isOnline,
-        isPWA,
         pendingSync,
         isSyncing,
+        syncPendingProgress,
+    } = useOffline();
+
+    const {
+        isPWA,
         canInstall,
         installPWA,
         updateAvailable,
         applyUpdate,
-        syncPendingProgress,
-    } = useOffline();
+    } = usePWA();
 
-    // Não mostra nada se está online, é PWA e não tem nada pendente
-    if (isOnline && isPWA && pendingSync === 0 && !updateAvailable) {
+    // Não mostra nada se está online, não há nada pendente/atualização e já é PWA ou não pode instalar
+    if (isOnline && pendingSync === 0 && !updateAvailable && (!canInstall || isPWA)) {
         return null;
     }
 

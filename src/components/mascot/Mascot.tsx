@@ -112,12 +112,22 @@ export function Mascot({
 
     if (!isVisible) return null;
 
+    const mascotState = isMessageVisible && currentMessage
+        ? t('mascot.saying', { defaultValue: 'Dizendo: {{msg}}', msg: currentMessage })
+        : t('mascot.clickToInteract', 'Clique para interagir');
+
+    const mascotAriaLabel = t('mascot.ariaLabel', {
+        defaultValue: 'Mascote Pythoninho: {{mood}}. {{state}}',
+        mood,
+        state: mascotState
+    });
+
     return (
         <button
             className={`mascot mascot--${size} mascot--${position}`}
             onClick={handleClick}
             type="button"
-            aria-label={t('mascot.ariaLabel', { defaultValue: 'Mascote Pythoninho: {{mood}}. {{state}}',  mood, state: isMessageVisible && currentMessage ? t('mascot.saying', { defaultValue: 'Dizendo: {{msg}}',  msg: currentMessage }) : t('mascot.clickToInteract', 'Clique para interagir') })}
+            aria-label={mascotAriaLabel}
         >
             {/* Balão de fala */}
             {isMessageVisible && currentMessage && (

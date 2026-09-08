@@ -19,6 +19,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { usePyodide } from '../../context/PyodideContext';
 import { useMascotContext } from '../../context/MascotContext';
 import { useTranslation } from 'react-i18next';
+import { calculateScore } from '../../utils/progressLogic';
 import './QuestionEngine.css';
 
 interface QuestionEngineProps {
@@ -319,36 +320,6 @@ export function QuestionEngine({
                 </div>
             )}
         </div>
-    );
-}
-
-/**
- * Calcula a pontuação baseada na dificuldade da questão
- */
-function calculateScore(question: QuestionDocument): number {
-    const base = question.points || 10;
-
-    const difficultyMultiplier = {
-        easy: 1,
-        medium: 1.5,
-        hard: 2,
-    };
-
-    const typeMultiplier = {
-        multiple_choice: 1,
-        true_false: 0.8,
-        fill_code: 1.5,
-        partial_function: 1.8,
-        full_function: 2,
-        parsons_problem: 1.5,
-        turtle_challenge: 1.5,
-        boss_battle: 5.0,
-    };
-
-    return Math.round(
-        base *
-        difficultyMultiplier[question.difficulty] *
-        typeMultiplier[question.type]
     );
 }
 
