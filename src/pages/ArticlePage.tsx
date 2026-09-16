@@ -1,6 +1,6 @@
 import { useParams, Link, Navigate, useNavigate } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
-import { useArticleBySlug, useRelatedArticles, type Article } from '../data/learnData';
+import { useArticleBySlug, useRelatedArticles } from '../data/learnData';
 import { SEO } from '../components/common/SEO';
 import { parseMarkdown } from '../utils/markdownParser';
 import { useTranslation } from 'react-i18next';
@@ -114,7 +114,7 @@ export function ArticlePage() {
                 <div className="article-header__meta">
                     <span>{t('learn:article.readTimeMin', { minutes: article.readTime, defaultValue: `⏱️ ${article.readTime} min de leitura` })}</span>
                     <span>📅 {formatDate(article.publishedAt, i18n.language)}</span>
-                    <span>{getCategoryLabel(article.category)}</span>
+                    <span>{t(`learn:categories.${article.category}` as never)}</span>
                 </div>
             </header>
 
@@ -187,12 +187,4 @@ function formatDate(dateStr: string, locale: string = 'pt-BR'): string {
     });
 }
 
-function getCategoryLabel(category: Article['category']): string {
-    const labels = {
-        beginner: '🌱 Iniciante',
-        intermediate: '📈 Intermediário',
-        tips: '💡 Dica',
-        parents: '👪 Para Pais'
-    };
-    return labels[category];
-}
+

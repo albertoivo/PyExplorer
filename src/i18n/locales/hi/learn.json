@@ -28,5 +28,11 @@
         "practiceDescription": "इस लेख में जो कुछ भी आपने सीखा है उसे व्यवहार में लाएं!",
         "tableOfContents": "इस लेख में",
         "readTimeMin": "⏱️ {{minutes}} मिनट का पठन"
+    },
+    "categories": {
+        "beginner": "🌱 शुरुआती",
+        "intermediate": "📈 मध्यम",
+        "tips": "💡 सुझाव",
+        "parents": "👪 माता-पिता के लिए"
     }
 }

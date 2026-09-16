@@ -51,6 +51,7 @@ describe('i18n State of the Art Architecture & Translations', () => {
         'gamification',
         'worlds',
         'notFound',
+        'articles',
     ];
 
     const targetLanguages: SupportedLanguage[] = ['pt', 'en', 'es', 'hi'];
@@ -180,5 +181,48 @@ describe('i18n State of the Art Architecture & Translations', () => {
         await i18n.changeLanguage('pt');
         expect(i18n.language).toMatch(/^pt/);
         expect(i18n.t('common:nav.home')).toBe('Início');
+    });
+
+    it('should never translate "Python" to incorrect variants (piton, pitón, अजगर)', () => {
+        const forbiddenTerms = [/\bpit[oó]n\b/i, /अजगर/];
+
+        for (const [path, mod] of Object.entries(localeModules)) {
+            const rawContent = JSON.stringify(mod.default);
+            for (const pattern of forbiddenTerms) {
+                expect(
+                    pattern.test(rawContent),
+                    `Found forbidden translation matching ${pattern} in ${path}`
+                ).toBe(false);
+            }
+        }
+    });
+
+    it('should never translate "Scratch" to incorrect literal translations (rasca, खरोंच)', () => {
+        const forbiddenTerms = [/\brasca\b/i, /खरोंच/];
+
+        for (const [path, mod] of Object.entries(localeModules)) {
+            const rawContent = JSON.stringify(mod.default);
+            for (const pattern of forbiddenTerms) {
+                expect(
+                    pattern.test(rawContent),
+                    `Found forbidden Scratch translation matching ${pattern} in ${path}`
+                ).toBe(false);
+            }
+        }
+    });
+
+    it('should only use valid code fences in markdown content', () => {
+        const validFences = new Set(['```python', '```java', '```']);
+
+        for (const [path, mod] of Object.entries(localeModules)) {
+            const rawContent = JSON.stringify(mod.default);
+            const matches = rawContent.match(/```[^\n\\]*/g) || [];
+            for (const fence of matches) {
+                expect(
+                    validFences.has(fence),
+                    `Invalid markdown code fence "${fence}" found in ${path}`
+                ).toBe(true);
+            }
+        }
     });
 });

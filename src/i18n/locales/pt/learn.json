@@ -28,5 +28,11 @@
         "practiceDescription": "Coloque em prática o que você aprendeu neste artigo!",
         "tableOfContents": "Neste Artigo",
         "readTimeMin": "⏱️ {{minutes}} min de leitura"
+    },
+    "categories": {
+        "beginner": "🌱 Iniciante",
+        "intermediate": "📈 Intermediário",
+        "tips": "💡 Dica",
+        "parents": "👪 Para Pais"
     }
 }

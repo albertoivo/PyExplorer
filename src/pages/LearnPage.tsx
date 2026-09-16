@@ -27,8 +27,8 @@ export function LearnPage() {
                 structuredData={{
                     "@context": "https://schema.org",
                     "@type": "CollectionPage",
-                    "name": "Aprenda Python - Tutoriais e Artigos Gratuitos",
-                    "description": "Aprenda Python do zero com tutoriais gratuitos em português.",
+                    "name": t('seoTitle'),
+                    "description": t('seoDescription'),
                     "url": "https://pyexplorer.com.br/learn",
                     "mainEntity": {
                         "@type": "ItemList",
@@ -120,6 +120,7 @@ export function LearnPage() {
  * Card de artigo
  */
 function ArticleCard({ article }: { article: Article }) {
+    const { t } = useTranslation('learn');
     return (
         <Link to={`/learn/${article.slug}`} className="article-card">
             <div className="article-card__icon">{article.icon}</div>
@@ -128,23 +129,13 @@ function ArticleCard({ article }: { article: Article }) {
                 <p className="article-card__description">{article.description}</p>
                 <div className="article-card__meta">
                     <span className="article-card__time">
-                        ⏱️ {article.readTime} min de leitura
+                        {t('article.readTimeMin', { minutes: article.readTime })}
                     </span>
                     <span className="article-card__category">
-                        {getCategoryLabel(article.category)}
+                        {t(`categories.${article.category}`)}
                     </span>
                 </div>
             </div>
         </Link>
-    )
-}
-
-function getCategoryLabel(category: Article['category']): string {
-    const labels = {
-        beginner: '🌱 Iniciante',
-        intermediate: '📈 Intermediário',
-        tips: '💡 Dica',
-        parents: '👪 Para Pais'
-    }
-    return labels[category]
+    );
 }
