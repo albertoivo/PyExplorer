@@ -36,7 +36,9 @@ describe('SEO Component', () => {
         await waitFor(() => {
             const metaDesc = document.querySelector('meta[name="description"]');
             expect(metaDesc).not.toBeNull();
-            expect(metaDesc?.getAttribute('content')).toContain('Aprenda Python de forma divertida');
+            // Default description should be non-empty (varies by language, so we just check it exists)
+            const content = metaDesc?.getAttribute('content') || '';
+            expect(content.length).toBeGreaterThan(10);
         });
     });
 
@@ -89,6 +91,44 @@ describe('SEO Component', () => {
         await waitFor(() => {
             const link = document.querySelector('link[rel="canonical"]');
             expect(link?.getAttribute('href')).toBe(canonical);
+        });
+    });
+
+    it('renders distinct hreflang alternate links for all supported languages and x-default', async () => {
+        renderWithHelmet(<SEO title="Hreflang Test" />);
+
+        await waitFor(() => {
+            const hreflangPt = document.querySelector('link[rel="alternate"][hreflang="pt"]');
+            const hreflangEn = document.querySelector('link[rel="alternate"][hreflang="en"]');
+            const hreflangEs = document.querySelector('link[rel="alternate"][hreflang="es"]');
+            const hreflangHi = document.querySelector('link[rel="alternate"][hreflang="hi"]');
+            const hreflangDefault = document.querySelector('link[rel="alternate"][hreflang="x-default"]');
+
+            expect(hreflangPt).not.toBeNull();
+            expect(hreflangEn).not.toBeNull();
+            expect(hreflangEs).not.toBeNull();
+            expect(hreflangHi).not.toBeNull();
+            expect(hreflangDefault).not.toBeNull();
+
+            // Check that URLs are distinct and not all pointing to the exact same URL
+            const enHref = hreflangEn?.getAttribute('href');
+            const esHref = hreflangEs?.getAttribute('href');
+            const hiHref = hreflangHi?.getAttribute('href');
+            const ptHref = hreflangPt?.getAttribute('href');
+
+            expect(enHref).toContain('/en');
+            expect(esHref).toContain('/es');
+            expect(hiHref).toContain('/hi');
+            expect(ptHref).not.toBe(enHref);
+        });
+    });
+
+    it('renders Open Graph alternate locales', async () => {
+        renderWithHelmet(<SEO title="Locales Test" />);
+
+        await waitFor(() => {
+            const altLocales = document.querySelectorAll('meta[property="og:locale:alternate"]');
+            expect(altLocales.length).toBe(3);
         });
     });
 });

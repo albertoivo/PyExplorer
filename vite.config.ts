@@ -20,27 +20,36 @@ interface PrerenderedRoute {
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
+const baseRoutes = [
+  '/',
+  '/about',
+  '/learn',
+  '/learn/o-que-e-python',
+  '/learn/por-que-aprender-python',
+  '/learn/python-para-criancas',
+  '/learn/primeiros-passos-python',
+  '/learn/jogos-aprender-programacao',
+  '/learn/como-ensinar-python-criancas',
+  '/learn/exercicios-python-criancas',
+  '/learn/scratch-vs-python',
+  '/learn/projetos-python-criancas',
+  '/python-para-criancas',
+  '/aprender-python-jogando',
+  '/login',
+  '/register'
+];
+
+const prerenderRoutes = [
+  ...baseRoutes,
+  ...['en', 'es', 'hi', 'pt'].flatMap(lang =>
+    baseRoutes.map(route => route === '/' ? `/${lang}` : `/${lang}${route}`)
+  )
+];
+
 // Conditionally include prerender plugin only in non-CI environments
 const prerenderPlugin = process.env.CI === 'true' ? null : prerender({
   staticDir: path.join(__dirname, 'dist'),
-  routes: [
-    '/',
-    '/about',
-    '/learn',
-    '/learn/o-que-e-python',
-    '/learn/por-que-aprender-python',
-    '/learn/python-para-criancas',
-    '/learn/primeiros-passos-python',
-    '/learn/jogos-aprender-programacao',
-    '/learn/como-ensinar-python-criancas',
-    '/learn/exercicios-python-criancas',
-    '/learn/scratch-vs-python',
-    '/learn/projetos-python-criancas',
-    '/python-para-criancas',
-    '/aprender-python-jogando',
-    '/login',
-    '/register'
-  ],
+  routes: prerenderRoutes,
   renderer: new prerender.PuppeteerRenderer({
     renderAfterTime: 2000,
     headless: true,
@@ -323,8 +332,8 @@ export default defineConfig({
     sourcemap: false,
     // Enable minification
     minify: 'esbuild',
-    // Target modern browsers for smaller bundles
-    target: 'es2020'
+    // Target es2018 so Puppeteer (HeadlessChrome 78) and older browsers run without syntax errors
+    target: 'es2018'
   },
   // Remove console.* and debugger in production builds
   esbuild: {

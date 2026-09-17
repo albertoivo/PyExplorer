@@ -11,8 +11,9 @@ interface StreakDisplayProps {
  * Exibe o streak diário do usuário
  */
 export function StreakDisplay({ streak, compact = false }: StreakDisplayProps) {
-    const { t } = useTranslation('gamification');
+    const { t, i18n } = useTranslation('gamification');
     const { currentStreak, longestStreak, activityHistory } = streak;
+    const dateLocale = i18n.language?.startsWith('en') ? 'en-US' : i18n.language?.startsWith('es') ? 'es-ES' : i18n.language?.startsWith('hi') ? 'hi-IN' : 'pt-BR';
 
     // Gera os últimos 7 dias
     const last7Days = [];
@@ -60,7 +61,7 @@ export function StreakDisplay({ streak, compact = false }: StreakDisplayProps) {
                         className={`streak-display__day ${isActive ? 'streak-display__day--active' : ''} ${isToday ? 'streak-display__day--today' : ''}`}
                     >
                         <span className="streak-display__day-label">
-                            {new Date(date + 'T12:00:00').toLocaleDateString('pt-BR', { weekday: 'short' }).slice(0, 3)}
+                            {new Date(date + 'T12:00:00').toLocaleDateString(dateLocale, { weekday: 'short' }).slice(0, 3)}
                         </span>
                         <span className="streak-display__day-icon">
                             {isActive ? '🔥' : '⚪'}

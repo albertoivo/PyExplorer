@@ -5,10 +5,12 @@ import { useProgress } from '../hooks/useProgress';
 import { CertificateGenerator } from '../components/game/CertificateGenerator';
 import { SEO } from '../components/common/SEO';
 import { useTranslation } from 'react-i18next';
+import { useLocalizedPath } from '../hooks/useLocalizedPath';
 import './CertificatePage.css';
 
 export function CertificatePage() {
-    const { t } = useTranslation('game');
+    const { t, i18n } = useTranslation(['game', 'common']);
+    const { getLocalizedPath } = useLocalizedPath();
     const { userData, user } = useAuth();
     const navigate = useNavigate();
 
@@ -30,7 +32,8 @@ export function CertificatePage() {
 
     // Fallback name
     const studentName = userData?.displayName || user?.displayName || t('certificate.guestName', "Apreciador de Python");
-    const completionDate = new Date().toLocaleDateString('pt-BR');
+    const dateLocale = i18n.language?.startsWith('en') ? 'en-US' : i18n.language?.startsWith('es') ? 'es-ES' : i18n.language?.startsWith('hi') ? 'hi-IN' : 'pt-BR';
+    const completionDate = new Date().toLocaleDateString(dateLocale);
 
     if (!user) {
         return (
@@ -38,7 +41,7 @@ export function CertificatePage() {
                 <div className="certificate-locked">
                     <h2>🔒 {t('certificate.lockedTitle', 'Acesso Restrito')}</h2>
                     <p>{t('certificate.loginRequired', 'Faça login para acessar seu certificado.')}</p>
-                    <button onClick={() => navigate('/login')} className="btn-primary">{t('common:nav.login', 'Entrar')}</button>
+                    <button onClick={() => navigate(getLocalizedPath('/login'))} className="btn-primary">{t('common:nav.login', 'Entrar')}</button>
                 </div>
             </div>
         );
@@ -68,7 +71,7 @@ export function CertificatePage() {
                         <p>{t('certificate.progressInfo', { defaultValue: '{{completed}} de {{total}} questões resolvidas ({{percent}}%)',  completed: completedQuestions, total: totalQuestions, percent: progressPercent })}</p>
                     </div>
                     <p>{t('certificate.continueDesc', 'Continue sua jornada para desbloquear seu diploma oficial.')}</p>
-                    <button onClick={() => navigate('/game')} className="btn-primary">{t('certificate.continueBtn', 'Continuar Jogando')}</button>
+                    <button onClick={() => navigate(getLocalizedPath('/game'))} className="btn-primary">{t('certificate.continueBtn', 'Continuar Jogando')}</button>
                 </div>
             </div>
         );

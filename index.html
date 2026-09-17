@@ -46,27 +46,27 @@
     "@type": "WebApplication",
     "name": "PyExplorer",
     "alternateName": "PyExplorer - Aprenda Python Jogando",
-    "description": "Jogo educativo gratuito para crianças e iniciantes aprenderem programação Python de forma divertida, com desafios interativos e sistema de recompensas.",
-          "@id": "https://pyexplorer.com.br#course",
+    "description": "Free educational game for kids and beginners to learn Python programming. Jogo educativo gratuito para aprender Python. Juego educativo gratuito de Python. पायथन सीखने का मुफ़्त शैक्षिक गेम।",
+          "@id": "https://pyexplorer.com.br#app",
           "url": "https://pyexplorer.com.br",
     "applicationCategory": "EducationalApplication",
     "operatingSystem": "Web Browser",
     "offers": {
       "@type": "Offer",
       "price": "0",
-      "priceCurrency": "BRL"
+      "priceCurrency": "USD"
     },
     "audience": {
       "@type": "EducationalAudience",
       "educationalRole": "student",
-      "audienceType": "Crianças e Iniciantes"
+      "audienceType": "Kids and Beginners"
     },
-    "educationalLevel": "Iniciante",
+    "educationalLevel": "Beginner",
     "learningResourceType": "Interactive Game",
-    "teaches": ["Python", "Programação", "Lógica de Programação", "Coding"],
-    "inLanguage": "pt-BR",
+    "teaches": ["Python", "Programming", "Logic", "Coding"],
+    "inLanguage": ["pt-BR", "en-US", "es-ES", "hi-IN"],
     "isAccessibleForFree": true,
-    "keywords": "python, programação, crianças, educação, jogo educativo, aprender python, curso grátis"
+    "keywords": "python, programming, kids, education, educational game, learn python, free course, coding for kids"
   }
   </script>
 
@@ -77,17 +77,17 @@
     "@type": "Course",
     "@id": "https://pyexplorer.com.br#course",
     "url": "https://pyexplorer.com.br",
-    "name": "Curso de Python para Crianças - PyExplorer",
-    "description": "Aprenda Python jogando! Curso interativo e gratuito de programação para crianças de 8 a 15 anos.",
+    "name": "Python Course for Kids - PyExplorer",
+    "description": "Learn Python by playing! Interactive and free programming course for kids aged 8-15.",
     "provider": {
       "@type": "Organization",
       "name": "PyExplorer",
       "url": "https://pyexplorer.com.br"
     },
-    "educationalLevel": "Iniciante",
-    "inLanguage": "pt-BR",
+    "educationalLevel": "Beginner",
+    "inLanguage": ["pt-BR", "en-US", "es-ES", "hi-IN"],
     "isAccessibleForFree": true,
-    "teaches": ["Python", "Programação", "Lógica", "Algoritmos"],
+    "teaches": ["Python", "Programming", "Logic", "Algorithms"],
     "hasCourseInstance": {
       "@type": "CourseInstance",
       "courseMode": "online",
@@ -134,12 +134,12 @@
   <!-- Fonte crítica acima da dobra (non-render-blocking) -->
   <link
     rel="preload"
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap"
     as="style"
     onload="this.onload=null;this.rel='stylesheet'" />
   <noscript>
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap"
       rel="stylesheet" />
   </noscript>
 </head>
@@ -148,22 +148,24 @@
   <div id="root" style="min-height: 100vh"></div>
   <script type="module" src="/src/main.tsx"></script>
 
-  <!-- Noscript fallback com conteúdo semântico SEO-friendly -->
+  <!-- Noscript fallback with multilingual SEO-friendly content -->
   <noscript>
     <div
       style="padding: 2rem; text-align: center; background: #1a1a2e; color: white; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem;">
-      <h1>🐍 PyExplorer — Aprenda Python Jogando</h1>
-      <p>O melhor jogo educativo <strong>gratuito</strong> para crianças e iniciantes aprenderem programação Python.</p>
-      <p>Resolva desafios interativos, ganhe estrelas e domine Python passo a passo. 100% em português, seguro e funciona offline.</p>
+      <h1>🐍 PyExplorer — Learn Python by Playing</h1>
+      <p>The best <strong>free</strong> educational game for kids and beginners to learn Python programming.</p>
+      <p>Solve interactive challenges, earn stars and master Python step by step — available in English, Portuguese, Spanish and Hindi.</p>
       <nav>
         <ul style="list-style:none;padding:0;display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;">
+          <li><a href="/en/learn" style="color:#00ff88;">📚 Learn Python</a></li>
+          <li><a href="/en/learn/o-que-e-python" style="color:#00ff88;">🐍 What is Python?</a></li>
           <li><a href="/learn" style="color:#00ff88;">📚 Aprenda Python</a></li>
-          <li><a href="/learn/o-que-e-python" style="color:#00ff88;">🐍 O que é Python?</a></li>
-          <li><a href="/learn/python-para-criancas" style="color:#00ff88;">👨‍👩‍👧‍👦 Python para Crianças</a></li>
-          <li><a href="/about" style="color:#00ff88;">ℹ️ Sobre o Projeto</a></li>
+          <li><a href="/es/learn" style="color:#00ff88;">📚 Aprende Python</a></li>
+          <li><a href="/hi/learn" style="color:#00ff88;">📚 Python सीखें</a></li>
+          <li><a href="/about" style="color:#00ff88;">ℹ️ About the Project</a></li>
         </ul>
       </nav>
-      <p><em>Habilite o JavaScript para a experiência completa do PyExplorer.</em></p>
+      <p><em>Enable JavaScript for the full PyExplorer experience.</em></p>
     </div>
   </noscript>
 </body>

@@ -1,11 +1,12 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useParams, Outlet } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import { AuthProvider } from './context/AuthContext';
 import { useAuth } from './hooks/useAuth';
 import { MascotProvider, useMascotContext } from './context/MascotContext';
 import { GamificationProvider, useGamification } from './context/GamificationContext';
 import { GamificationToastContainer } from './components/gamification';
+import { supportedLanguages, DEFAULT_LANGUAGE } from './i18n';
 
 // Layout (carregado imediatamente - pequenos)
 import { Header } from './components/layout/Header';
@@ -104,6 +105,44 @@ function GlobalToasts() {
 }
 
 /**
+ * Sincroniza o idioma da aplicação com o parâmetro :lang na URL.
+ * Exibe página 404 para prefixos de idioma inválidos (ex: /fr/about).
+ */
+function LanguageRouteWrapper() {
+  const { lang } = useParams<{ lang: string }>();
+  const { i18n } = useTranslation();
+
+  const isSupported = Boolean(lang && (supportedLanguages as readonly string[]).includes(lang));
+
+  useEffect(() => {
+    if (isSupported && lang && i18n.language !== lang) {
+      void i18n.changeLanguage(lang);
+    }
+  }, [lang, isSupported, i18n]);
+
+  if (!isSupported) {
+    return <NotFoundPage />;
+  }
+
+  return <Outlet />;
+}
+
+/**
+ * Garante que rotas na raiz (sem prefixo) utilizem o idioma padrão (pt).
+ */
+function RootRouteWrapper() {
+  const { i18n } = useTranslation();
+
+  useEffect(() => {
+    if (i18n.language !== DEFAULT_LANGUAGE) {
+      void i18n.changeLanguage(DEFAULT_LANGUAGE);
+    }
+  }, [i18n]);
+
+  return <Outlet />;
+}
+
+/**
  * Componente principal da aplicação PyExplorer
  * Um jogo educativo para ensinar Python para crianças
  */
@@ -126,6 +165,63 @@ function AppContent() {
   const hasPlayerContext = Boolean(userData) || isGuest;
   const { t } = useTranslation('common');
 
+  const renderRoutes = () => (
+    <>
+      {/* Páginas públicas */}
+      <Route index element={<HomePage />} />
+      <Route path="login" element={<LoginPage />} />
+      <Route path="register" element={<RegisterPage />} />
+      <Route path="learn" element={<LearnPage />} />
+      <Route path="learn/:slug" element={<ArticlePage />} />
+      <Route
+        path="python-para-criancas"
+        element={
+          <HomePage
+            seoTitleKey="seoPythonKids.title"
+            seoDescriptionKey="seoPythonKids.description"
+          />
+        }
+      />
+      <Route
+        path="aprender-python-jogando"
+        element={
+          <HomePage
+            seoTitleKey="seoLearnPlaying.title"
+            seoDescriptionKey="seoLearnPlaying.description"
+          />
+        }
+      />
+      <Route path="certificate" element={<CertificatePage />} />
+      <Route path="about" element={<AboutPage />} />
+
+      {/* Páginas protegidas (requerem login ou modo convidado) */}
+      <Route
+        path="game"
+        element={
+          <ProtectedRoute>
+            <GamePageWithPyodide />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="profile"
+        element={
+          <ProtectedRoute>
+            <ProfilePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="rewards"
+        element={
+          <ProtectedRoute>
+            <GamificationPage />
+          </ProtectedRoute>
+        }
+      />
+    </>
+  );
+
   const appLayout = (
     <div className="app">
       <a href="#main-content" className="skip-to-content">
@@ -135,58 +231,15 @@ function AppContent() {
       <main id="main-content" className="app__main" tabIndex={-1}>
         <Suspense fallback={<PageLoader />}>
           <Routes>
-            {/* Páginas públicas */}
-            <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/learn" element={<LearnPage />} />
-            <Route path="/learn/:slug" element={<ArticlePage />} />
-            <Route
-              path="/python-para-criancas"
-              element={
-                <HomePage
-                  seoTitle="Python para Crianças: Aprenda Programação Jogando"
-                  seoDescription="Descubra como ensinar Python para crianças de forma divertida e gratuita com o PyExplorer. O melhor jogo de programação infantil!"
-                />
-              }
-            />
-            <Route
-              path="/aprender-python-jogando"
-              element={
-                <HomePage
-                  seoTitle="Aprender Python Jogando: Aventura Educativa Grátis"
-                  seoDescription="Quer aprender Python do zero de um jeito divertido? No PyExplorer você aprende lógica e programação resolvendo desafios em um jogo incrível!"
-                />
-              }
-            />
-            <Route path="/certificate" element={<CertificatePage />} />
-            <Route path="/about" element={<AboutPage />} />
+            {/* Rotas padrão (Português) */}
+            <Route path="/" element={<RootRouteWrapper />}>
+              {renderRoutes()}
+            </Route>
 
-            {/* Páginas protegidas (requerem login ou modo convidado) */}
-            <Route
-              path="/game"
-              element={
-                <ProtectedRoute>
-                  <GamePageWithPyodide />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute>
-                  <ProfilePage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/rewards"
-              element={
-                <ProtectedRoute>
-                  <GamificationPage />
-                </ProtectedRoute>
-              }
-            />
+            {/* Rotas com prefixo de idioma (/pt, /en, /es, /hi) */}
+            <Route path="/:lang" element={<LanguageRouteWrapper />}>
+              {renderRoutes()}
+            </Route>
 
             {/* Catch-all route para página 404 */}
             <Route path="*" element={<NotFoundPage />} />

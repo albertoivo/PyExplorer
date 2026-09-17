@@ -2,6 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import { env } from '../../config/env';
 import { useTranslation } from 'react-i18next';
 import { AVAILABLE_LANGUAGES } from '../../i18n';
+import { getCleanPath, formatLocalizedPath } from '../../hooks/useLocalizedPath';
 
 interface BreadcrumbItem {
     name: string;
@@ -37,46 +38,78 @@ export function SEO({
     noindex = false,
     breadcrumbs
 }: SEOProps) {
-    const { i18n } = useTranslation();
+    const { i18n, t } = useTranslation(['common', 'learn']);
     const siteTitle = 'PyExplorer';
     const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
-    const metaDescription = description || "Aprenda Python de forma divertida! PyExplorer é um jogo educativo GRATUITO para crianças e iniciantes aprenderem programação.";
+    const metaDescription = description || t('common:seo.defaultDescription', "Learn Python the fun way! PyExplorer is a FREE educational game for kids and beginners to learn programming.");
 
     // OG Image deve ser URL absoluta para funcionar no WhatsApp/Facebook/LinkedIn
     const resolvedOgImage = ogImage
         ? (ogImage.startsWith('http') ? ogImage : `${env.APP_URL}${ogImage}`)
         : `${env.APP_URL}/og-image.jpg`;
 
-    // URL Canônica: Prioriza o prop 'canonical', caso contrário constrói a partir da URL base + pathname
-    const getCanonicalUrl = () => {
-        if (canonical) return canonical.replace(/\/$/, '');
-
-        if (typeof window === 'undefined') return env.APP_URL;
-
-        // Limpa a URL: remove trailing slash, query strings e hashes
-        const pathname = window.location.pathname.replace(/\/$/, '');
-        return `${env.APP_URL}${pathname}`;
+    // Extract clean path from window location if available
+    const getCleanCurrentPath = () => {
+        if (typeof window === 'undefined') return '/';
+        const pathname = window.location.pathname.replace(/\/$/, '') || '/';
+        return getCleanPath(pathname);
     };
 
-    const canonicalUrl = getCanonicalUrl();
+    const cleanPath = getCleanCurrentPath();
+    const currentLang = i18n.language ? i18n.language.split('-')[0].toLowerCase() : 'pt';
+
+    // Build language-specific URLs adhering strictly to Google Search Central guidelines
+    const getLangUrl = (langCode: string) => {
+        const localizedPath = formatLocalizedPath(cleanPath, langCode);
+        return `${env.APP_URL}${localizedPath === '/' ? '' : localizedPath}`;
+    };
+
+    const ptUrl = getLangUrl('pt');
+    const enUrl = getLangUrl('en');
+    const esUrl = getLangUrl('es');
+    const hiUrl = getLangUrl('hi');
+    const xDefaultUrl = ptUrl;
+
+    // Canonical URL points to the page itself in its current language variant
+    const canonicalUrl = canonical
+        ? canonical.replace(/\/$/, '')
+        : getLangUrl(currentLang);
 
     // BreadcrumbList JSON-LD gerado automaticamente a partir do prop breadcrumbs
     const breadcrumbStructuredData = breadcrumbs && breadcrumbs.length > 0 ? {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
-        "itemListElement": breadcrumbs.map((item, index) => ({
-            "@type": "ListItem",
-            "position": index + 1,
-            "name": item.name,
-            "item": `${env.APP_URL}${item.path === '/' ? '' : item.path}`
-        }))
+        "itemListElement": breadcrumbs.map((item, index) => {
+            const itemLocalizedPath = formatLocalizedPath(item.path, currentLang);
+            return {
+                "@type": "ListItem",
+                "position": index + 1,
+                "name": item.name,
+                "item": `${env.APP_URL}${itemLocalizedPath === '/' ? '' : itemLocalizedPath}`
+            };
+        })
     } : null;
 
-    const currentLang = i18n.language ? i18n.language.split('-')[0] : 'pt';
-    const ogLocale = currentLang === 'en' ? 'en_US' : currentLang === 'es' ? 'es_ES' : currentLang === 'hi' ? 'hi_IN' : 'pt_BR';
+    const localeMap: Record<string, string> = {
+        pt: 'pt_BR',
+        en: 'en_US',
+        es: 'es_ES',
+        hi: 'hi_IN'
+    };
+
+    const ogLocale = localeMap[currentLang] || 'pt_BR';
+    const alternateLocales = Object.entries(localeMap)
+        .filter(([code]) => code !== currentLang)
+        .map(([, loc]) => loc);
+
+    const htmlLang = currentLang === 'pt' ? 'pt-BR' : currentLang === 'en' ? 'en-US' : currentLang === 'es' ? 'es-ES' : 'hi-IN';
+    const langInfo = AVAILABLE_LANGUAGES.find(l => l.code === currentLang);
+    const dir = langInfo?.dir || 'ltr';
 
     return (
         <Helmet>
+            <html lang={htmlLang} dir={dir} />
+
             {/* Standard Metadata */}
             <title>{fullTitle}</title>
             <meta name="description" content={metaDescription} />
@@ -91,20 +124,19 @@ export function SEO({
 
             <link rel="canonical" href={canonicalUrl} />
 
-            {/* Hreflang alternates for all supported languages */}
-            {AVAILABLE_LANGUAGES.map((lang) => (
-                <link
-                    key={lang.code}
-                    rel="alternate"
-                    hrefLang={lang.code}
-                    href={canonicalUrl}
-                />
-            ))}
-            <link rel="alternate" hrefLang="x-default" href={canonicalUrl} />
+            {/* Hreflang alternates: each variant points to its distinct, dedicated URL */}
+            <link rel="alternate" hrefLang="pt" href={ptUrl} />
+            <link rel="alternate" hrefLang="en" href={enUrl} />
+            <link rel="alternate" hrefLang="es" href={esUrl} />
+            <link rel="alternate" hrefLang="hi" href={hiUrl} />
+            <link rel="alternate" hrefLang="x-default" href={xDefaultUrl} />
 
             {/* Open Graph */}
             <meta property="og:site_name" content="PyExplorer" />
             <meta property="og:locale" content={ogLocale} />
+            {alternateLocales.map((loc) => (
+                <meta key={loc} property="og:locale:alternate" content={loc} />
+            ))}
             <meta property="og:type" content={type} />
             <meta property="og:title" content={fullTitle} />
             <meta property="og:description" content={metaDescription} />
@@ -117,7 +149,7 @@ export function SEO({
                     {publishedTime && <meta property="article:published_time" content={publishedTime} />}
                     {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
                     <meta property="article:author" content={authorName || 'PyExplorer'} />
-                    <meta property="article:section" content="Educação Tecnológica" />
+                    <meta property="article:section" content={t('learn:seoTitle', 'Technology Education')} />
                 </>
             )}
 

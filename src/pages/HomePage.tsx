@@ -5,20 +5,27 @@ import { UserDashboard } from '../components/dashboard/UserDashboard';
 import { SEO } from '../components/common/SEO';
 import { WORLDS } from '../data/worlds';
 import { useTranslation } from 'react-i18next';
+import { useLocalizedPath } from '../hooks/useLocalizedPath';
 import './HomePage.css';
 
 interface HomePageProps {
     seoTitle?: string;
     seoDescription?: string;
+    seoTitleKey?: string;
+    seoDescriptionKey?: string;
 }
 
 /**
  * Página inicial do PyExplorer
  */
-export function HomePage({ seoTitle, seoDescription }: HomePageProps) {
+export function HomePage({ seoTitle, seoDescription, seoTitleKey, seoDescriptionKey }: HomePageProps) {
     const { userData } = useAuth();
     const [animateHero, setAnimateHero] = useState(false);
     const { t } = useTranslation(['home', 'worlds']);
+    const { getLocalizedPath } = useLocalizedPath();
+
+    const resolvedTitle = (seoTitleKey ? (t(seoTitleKey as unknown as TemplateStringsArray) as string) : undefined) || seoTitle || t('seo.title');
+    const resolvedDescription = (seoDescriptionKey ? (t(seoDescriptionKey as unknown as TemplateStringsArray) as string) : undefined) || seoDescription || t('seo.description');
 
     useEffect(() => {
         // Safe animation mode: em mobile evitamos animar a ilustração da hero
@@ -54,10 +61,10 @@ export function HomePage({ seoTitle, seoDescription }: HomePageProps) {
     return (
         <div className={`home-page ${animateHero ? 'home-page--animate-hero' : ''}`}>
             <SEO
-                title={seoTitle || t('seo.title')}
-                description={seoDescription || t('seo.description')}
+                title={resolvedTitle}
+                description={resolvedDescription}
                 breadcrumbs={[
-                    { name: t('breadcrumb'), path: "/" }
+                    { name: t('breadcrumb'), path: getLocalizedPath("/") }
                 ]}
             />
             {/* Hero Section */}
@@ -75,15 +82,15 @@ export function HomePage({ seoTitle, seoDescription }: HomePageProps) {
 
                     <div className="hero__actions">
                         {userData ? (
-                            <Link to="/game" className="hero__btn hero__btn--primary" onMouseEnter={handlePreload} onFocus={handlePreload}>
+                            <Link to={getLocalizedPath("/game")} className="hero__btn hero__btn--primary" onMouseEnter={handlePreload} onFocus={handlePreload}>
                                 {t('hero.continueAdventure')}
                             </Link>
                         ) : (
                             <>
-                                <Link to="/register" className="hero__btn hero__btn--primary">
+                                <Link to={getLocalizedPath("/register")} className="hero__btn hero__btn--primary">
                                     {t('hero.startPlaying')}
                                 </Link>
-                                <Link to="/login" className="hero__btn hero__btn--secondary">
+                                <Link to={getLocalizedPath("/login")} className="hero__btn hero__btn--secondary">
                                     {t('hero.haveAccount')}
                                 </Link>
                             </>
@@ -168,19 +175,19 @@ export function HomePage({ seoTitle, seoDescription }: HomePageProps) {
                 </div>
 
                 <div className="features__grid">
-                    <Link to="/learn/o-que-e-python" className="feature-card feature-card--link">
+                    <Link to={getLocalizedPath("/learn/o-que-e-python")} className="feature-card feature-card--link">
                         <div className="feature-card__icon" aria-hidden="true">🐍</div>
                         <h3 className="feature-card__title">{t('learnSection.whatIsPython')}</h3>
                         <p className="feature-card__description">{t('learnSection.whatIsPythonDesc')}</p>
                     </Link>
 
-                    <Link to="/learn/python-para-criancas" className="feature-card feature-card--link">
+                    <Link to={getLocalizedPath("/learn/python-para-criancas")} className="feature-card feature-card--link">
                         <div className="feature-card__icon" aria-hidden="true">👨‍👩‍👧‍👦</div>
                         <h3 className="feature-card__title">{t('learnSection.parentGuide')}</h3>
                         <p className="feature-card__description">{t('learnSection.parentGuideDesc')}</p>
                     </Link>
 
-                    <Link to="/learn/primeiros-passos-python" className="feature-card feature-card--link">
+                    <Link to={getLocalizedPath("/learn/primeiros-passos-python")} className="feature-card feature-card--link">
                         <div className="feature-card__icon" aria-hidden="true">👣</div>
                         <h3 className="feature-card__title">{t('learnSection.firstSteps')}</h3>
                         <p className="feature-card__description">{t('learnSection.firstStepsDesc')}</p>
@@ -188,7 +195,7 @@ export function HomePage({ seoTitle, seoDescription }: HomePageProps) {
                 </div>
 
                 <div style={{ textAlign: 'center', marginTop: '3rem' }}>
-                    <Link to="/learn" className="hero__btn hero__btn--secondary">
+                    <Link to={getLocalizedPath("/learn")} className="hero__btn hero__btn--secondary">
                         {t('learnSection.viewAllArticles')}
                     </Link>
                 </div>
@@ -202,7 +209,7 @@ export function HomePage({ seoTitle, seoDescription }: HomePageProps) {
                         {t('cta.description')}
                     </p>
                     {!userData && (
-                        <Link to="/register" className="cta__btn">
+                        <Link to={getLocalizedPath("/register")} className="cta__btn">
                             {t('cta.createAccount')}
                         </Link>
                     )}

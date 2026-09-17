@@ -106,5 +106,8 @@
         "installApp": "Instale o app!",
         "newVersion": "Nova versão disponível!",
         "offlineReady": "App pronto para funcionar offline!"
+    },
+    "seo": {
+        "defaultDescription": "Aprenda Python de forma divertida! PyExplorer é um jogo educativo GRATUITO para crianças e iniciantes aprenderem programação."
     }
 }

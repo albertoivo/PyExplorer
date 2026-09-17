@@ -5,18 +5,20 @@
 import { Link } from 'react-router-dom'
 import { SEO } from '../components/common/SEO'
 import { useTranslation } from 'react-i18next'
+import { useLocalizedPath } from '../hooks/useLocalizedPath'
 import './AboutPage.css'
 
 export function AboutPage() {
     const { t } = useTranslation('about');
+    const { getLocalizedPath } = useLocalizedPath();
     return (
         <div className="about-page">
             <SEO
                 title={t('seoTitle')}
                 description={t('seoDescription')}
                 breadcrumbs={[
-                    { name: t('common:nav.home', "Início"), path: "/" },
-                    { name: t('breadcrumb'), path: "/about" }
+                    { name: t('common:nav.home', "Início"), path: getLocalizedPath("/") },
+                    { name: t('breadcrumb'), path: getLocalizedPath("/about") }
                 ]}
                 structuredData={{
                     "@context": "https://schema.org",
@@ -88,7 +90,7 @@ export function AboutPage() {
                 <div className="about-cta">
                     <h2>{t('ctaTitle')}</h2>
                     <p>{t('ctaDesc')}</p>
-                    <Link to="/register" className="about-button">
+                    <Link to={getLocalizedPath('/register')} className="about-button">
                         {t('ctaButton')}
                     </Link>
                 </div>

@@ -64,5 +64,13 @@
         "title": "Pronto para começar sua aventura?",
         "description": "Junte-se a milhares de crianças aprendendo Python de forma divertida!",
         "createAccount": "🎮 Criar Conta Grátis"
+    },
+    "seoPythonKids": {
+        "title": "Python para Crianças: Aprenda Programação Jogando",
+        "description": "Descubra como ensinar Python para crianças de forma divertida e gratuita com o PyExplorer. O melhor jogo de programação infantil!"
+    },
+    "seoLearnPlaying": {
+        "title": "Aprender Python Jogando: Aventura Educativa Grátis",
+        "description": "Quer aprender Python do zero de um jeito divertido? No PyExplorer você aprende lógica e programação resolvendo desafios em um jogo incrível!"
     }
 }

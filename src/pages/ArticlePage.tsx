@@ -4,6 +4,7 @@ import { useArticleBySlug, useRelatedArticles } from '../data/learnData';
 import { SEO } from '../components/common/SEO';
 import { parseMarkdown } from '../utils/markdownParser';
 import { useTranslation } from 'react-i18next';
+import { useLocalizedPath, formatLocalizedPath } from '../hooks/useLocalizedPath';
 import './ArticlePage.css';
 
 export function ArticlePage() {
@@ -12,9 +13,10 @@ export function ArticlePage() {
     const article = useArticleBySlug(slug);
     const relatedArticles = useRelatedArticles(slug, 3);
     const navigate = useNavigate();
+    const { getLocalizedPath, currentLang } = useLocalizedPath();
     const contentRef = useRef<HTMLDivElement>(null);
 
-    // Intercepta cliques em links internos para evitar reload
+    // Intercepta cliques em links internos para evitar reload e aplicar prefixo de idioma
     useEffect(() => {
         const handleInternalLinks = (e: MouseEvent) => {
             const target = e.target as HTMLElement;
@@ -26,7 +28,8 @@ export function ArticlePage() {
 
                 if (isInternal) {
                     e.preventDefault();
-                    navigate(url.pathname + url.search + url.hash);
+                    const localizedTarget = formatLocalizedPath(url.pathname, currentLang) + url.search + url.hash;
+                    navigate(localizedTarget);
                 }
             }
         };
@@ -36,7 +39,7 @@ export function ArticlePage() {
             content.addEventListener('click', handleInternalLinks);
             return () => content.removeEventListener('click', handleInternalLinks);
         }
-    }, [navigate]);
+    }, [navigate, currentLang]);
 
     // Scroll to top quando artigo muda
     useEffect(() => {
@@ -44,10 +47,13 @@ export function ArticlePage() {
     }, [slug]);
 
     if (!article) {
-        return <Navigate to="/learn" replace />;
+        return <Navigate to={getLocalizedPath('/learn')} replace />;
     }
 
-    const articleUrl = `https://pyexplorer.com.br/learn/${article.slug}`;
+    const localizedArticlePath = getLocalizedPath(`/learn/${article.slug}`);
+    const articleUrl = `https://pyexplorer.com.br${localizedArticlePath}`;
+    const homeUrl = `https://pyexplorer.com.br${getLocalizedPath('/') === '/' ? '' : getLocalizedPath('/')}`;
+    const learnUrl = `https://pyexplorer.com.br${getLocalizedPath('/learn')}`;
 
     const structuredData: Record<string, unknown>[] = [
         {
@@ -66,8 +72,8 @@ export function ArticlePage() {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             "itemListElement": [
-                { "@type": "ListItem", "position": 1, "name": t('common:nav.home', 'Início'), "item": "https://pyexplorer.com.br" },
-                { "@type": "ListItem", "position": 2, "name": t('learn:breadcrumb', 'Aprender'), "item": "https://pyexplorer.com.br/learn" },
+                { "@type": "ListItem", "position": 1, "name": t('common:nav.home', 'Início'), "item": homeUrl },
+                { "@type": "ListItem", "position": 2, "name": t('learn:breadcrumb', 'Aprender'), "item": learnUrl },
                 { "@type": "ListItem", "position": 3, "name": article.title, "item": articleUrl }
             ]
         }
@@ -99,9 +105,9 @@ export function ArticlePage() {
             />
             {/* Breadcrumb */}
             <nav className="article-breadcrumb">
-                <Link to="/">{t('common:nav.home', 'Início')}</Link>
+                <Link to={getLocalizedPath('/')}>{t('common:nav.home', 'Início')}</Link>
                 <span>/</span>
-                <Link to="/learn">{t('learn:breadcrumb', 'Aprender')}</Link>
+                <Link to={getLocalizedPath('/learn')}>{t('learn:breadcrumb', 'Aprender')}</Link>
                 <span>/</span>
                 <span>{article.title}</span>
             </nav>
@@ -128,7 +134,7 @@ export function ArticlePage() {
                 <div className="article-cta__content">
                     <h2>{t('learn:article.practiceNow', '🎮 Hora de Praticar!')}</h2>
                     <p>{t('learn:article.practiceDescription', 'Coloque em prática o que você aprendeu neste artigo!')}</p>
-                    <Link to="/game" className="article-cta__button">
+                    <Link to={getLocalizedPath('/game')} className="article-cta__button">
                         {t('learn:cta.button', 'Jogar PyExplorer')}
                     </Link>
                 </div>
@@ -142,7 +148,7 @@ export function ArticlePage() {
                         {relatedArticles.map(related => (
                             <Link
                                 key={related.id}
-                                to={`/learn/${related.slug}`}
+                                to={getLocalizedPath(`/learn/${related.slug}`)}
                                 className="article-related__card"
                             >
                                 <span className="article-related__icon">{related.icon}</span>
@@ -156,7 +162,7 @@ export function ArticlePage() {
 
             {/* Voltar */}
             <div className="article-back">
-                <Link to="/learn" className="article-back__link">
+                <Link to={getLocalizedPath('/learn')} className="article-back__link">
                     {t('learn:article.backToArticles', '← Voltar para Artigos')}
                 </Link>
             </div>

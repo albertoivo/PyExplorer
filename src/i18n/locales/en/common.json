@@ -106,5 +106,8 @@
         "installApp": "Install app!",
         "newVersion": "New version available!",
         "offlineReady": "App ready to work offline!"
+    },
+    "seo": {
+        "defaultDescription": "Learn Python the fun way! PyExplorer is a FREE educational game for kids and beginners to learn programming."
     }
 }

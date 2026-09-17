@@ -1,97 +1,618 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://pyexplorer.com.br</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br" />
     <lastmod>2026-08-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://pyexplorer.com.br/login</loc>
-    <lastmod>2026-08-14</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <loc>https://pyexplorer.com.br/en</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br" />
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://pyexplorer.com.br/register</loc>
-    <lastmod>2026-08-14</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <loc>https://pyexplorer.com.br/es</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br" />
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/hi</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br" />
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://pyexplorer.com.br/learn</loc>
-    <lastmod>2026-08-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn" />
+    <lastmod>2026-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://pyexplorer.com.br/en/learn</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn" />
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/es/learn</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn" />
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/hi/learn</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn" />
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/about</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/about" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/about" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/about" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/about" />
+    <lastmod>2026-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/en/about</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/about" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/about" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/about" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/about" />
+    <lastmod>2026-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/es/about</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/about" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/about" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/about" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/about" />
+    <lastmod>2026-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/hi/about</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/about" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/about" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/about" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/about" />
+    <lastmod>2026-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://pyexplorer.com.br/python-para-criancas</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/python-para-criancas" />
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/en/python-para-criancas</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/python-para-criancas" />
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/es/python-para-criancas</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/python-para-criancas" />
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/hi/python-para-criancas</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/python-para-criancas" />
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://pyexplorer.com.br/aprender-python-jogando</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/aprender-python-jogando" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/aprender-python-jogando" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/aprender-python-jogando" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/aprender-python-jogando" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/aprender-python-jogando" />
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://pyexplorer.com.br/about</loc>
-    <lastmod>2026-08-14</lastmod>
+    <loc>https://pyexplorer.com.br/en/aprender-python-jogando</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/aprender-python-jogando" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/aprender-python-jogando" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/aprender-python-jogando" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/aprender-python-jogando" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/aprender-python-jogando" />
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/es/aprender-python-jogando</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/aprender-python-jogando" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/aprender-python-jogando" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/aprender-python-jogando" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/aprender-python-jogando" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/aprender-python-jogando" />
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/hi/aprender-python-jogando</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/aprender-python-jogando" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/aprender-python-jogando" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/aprender-python-jogando" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/aprender-python-jogando" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/aprender-python-jogando" />
+    <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://pyexplorer.com.br/learn/o-que-e-python</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/o-que-e-python" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/o-que-e-python" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/o-que-e-python" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/o-que-e-python" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/o-que-e-python" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/en/learn/o-que-e-python</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/o-que-e-python" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/o-que-e-python" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/o-que-e-python" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/o-que-e-python" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/o-que-e-python" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/es/learn/o-que-e-python</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/o-que-e-python" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/o-que-e-python" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/o-que-e-python" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/o-que-e-python" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/o-que-e-python" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/hi/learn/o-que-e-python</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/o-que-e-python" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/o-que-e-python" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/o-que-e-python" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/o-que-e-python" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/o-que-e-python" />
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://pyexplorer.com.br/learn/por-que-aprender-python</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/por-que-aprender-python" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/por-que-aprender-python" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/por-que-aprender-python" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/por-que-aprender-python" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/por-que-aprender-python" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/en/learn/por-que-aprender-python</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/por-que-aprender-python" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/por-que-aprender-python" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/por-que-aprender-python" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/por-que-aprender-python" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/por-que-aprender-python" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/es/learn/por-que-aprender-python</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/por-que-aprender-python" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/por-que-aprender-python" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/por-que-aprender-python" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/por-que-aprender-python" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/por-que-aprender-python" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/hi/learn/por-que-aprender-python</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/por-que-aprender-python" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/por-que-aprender-python" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/por-que-aprender-python" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/por-que-aprender-python" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/por-que-aprender-python" />
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://pyexplorer.com.br/learn/python-para-criancas</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/python-para-criancas" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/en/learn/python-para-criancas</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/python-para-criancas" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/es/learn/python-para-criancas</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/python-para-criancas" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/hi/learn/python-para-criancas</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/python-para-criancas" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/python-para-criancas" />
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://pyexplorer.com.br/learn/como-ensinar-python-criancas</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/como-ensinar-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/como-ensinar-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/como-ensinar-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/como-ensinar-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/como-ensinar-python-criancas" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/en/learn/como-ensinar-python-criancas</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/como-ensinar-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/como-ensinar-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/como-ensinar-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/como-ensinar-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/como-ensinar-python-criancas" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/es/learn/como-ensinar-python-criancas</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/como-ensinar-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/como-ensinar-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/como-ensinar-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/como-ensinar-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/como-ensinar-python-criancas" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/hi/learn/como-ensinar-python-criancas</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/como-ensinar-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/como-ensinar-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/como-ensinar-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/como-ensinar-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/como-ensinar-python-criancas" />
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://pyexplorer.com.br/learn/primeiros-passos-python</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/primeiros-passos-python" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/primeiros-passos-python" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/primeiros-passos-python" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/primeiros-passos-python" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/primeiros-passos-python" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/en/learn/primeiros-passos-python</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/primeiros-passos-python" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/primeiros-passos-python" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/primeiros-passos-python" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/primeiros-passos-python" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/primeiros-passos-python" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/es/learn/primeiros-passos-python</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/primeiros-passos-python" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/primeiros-passos-python" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/primeiros-passos-python" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/primeiros-passos-python" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/primeiros-passos-python" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/hi/learn/primeiros-passos-python</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/primeiros-passos-python" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/primeiros-passos-python" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/primeiros-passos-python" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/primeiros-passos-python" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/primeiros-passos-python" />
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://pyexplorer.com.br/learn/jogos-aprender-programacao</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/jogos-aprender-programacao" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/jogos-aprender-programacao" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/jogos-aprender-programacao" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/jogos-aprender-programacao" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/jogos-aprender-programacao" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/en/learn/jogos-aprender-programacao</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/jogos-aprender-programacao" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/jogos-aprender-programacao" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/jogos-aprender-programacao" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/jogos-aprender-programacao" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/jogos-aprender-programacao" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/es/learn/jogos-aprender-programacao</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/jogos-aprender-programacao" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/jogos-aprender-programacao" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/jogos-aprender-programacao" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/jogos-aprender-programacao" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/jogos-aprender-programacao" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/hi/learn/jogos-aprender-programacao</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/jogos-aprender-programacao" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/jogos-aprender-programacao" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/jogos-aprender-programacao" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/jogos-aprender-programacao" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/jogos-aprender-programacao" />
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://pyexplorer.com.br/learn/exercicios-python-criancas</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/exercicios-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/exercicios-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/exercicios-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/exercicios-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/exercicios-python-criancas" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/en/learn/exercicios-python-criancas</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/exercicios-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/exercicios-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/exercicios-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/exercicios-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/exercicios-python-criancas" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/es/learn/exercicios-python-criancas</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/exercicios-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/exercicios-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/exercicios-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/exercicios-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/exercicios-python-criancas" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/hi/learn/exercicios-python-criancas</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/exercicios-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/exercicios-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/exercicios-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/exercicios-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/exercicios-python-criancas" />
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://pyexplorer.com.br/learn/scratch-vs-python</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/scratch-vs-python" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/scratch-vs-python" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/scratch-vs-python" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/scratch-vs-python" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/scratch-vs-python" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/en/learn/scratch-vs-python</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/scratch-vs-python" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/scratch-vs-python" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/scratch-vs-python" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/scratch-vs-python" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/scratch-vs-python" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/es/learn/scratch-vs-python</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/scratch-vs-python" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/scratch-vs-python" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/scratch-vs-python" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/scratch-vs-python" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/scratch-vs-python" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/hi/learn/scratch-vs-python</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/scratch-vs-python" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/scratch-vs-python" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/scratch-vs-python" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/scratch-vs-python" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/scratch-vs-python" />
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://pyexplorer.com.br/learn/projetos-python-criancas</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/projetos-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/projetos-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/projetos-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/projetos-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/projetos-python-criancas" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/en/learn/projetos-python-criancas</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/projetos-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/projetos-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/projetos-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/projetos-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/projetos-python-criancas" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/es/learn/projetos-python-criancas</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/projetos-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/projetos-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/projetos-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/projetos-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/projetos-python-criancas" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pyexplorer.com.br/hi/learn/projetos-python-criancas</loc>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://pyexplorer.com.br/learn/projetos-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pyexplorer.com.br/en/learn/projetos-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://pyexplorer.com.br/es/learn/projetos-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://pyexplorer.com.br/hi/learn/projetos-python-criancas" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pyexplorer.com.br/learn/projetos-python-criancas" />
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

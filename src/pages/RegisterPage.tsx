@@ -8,13 +8,15 @@ import { GuestModeButton } from '../components/common/GuestModeButton';
 import { AuthCard } from '../components/auth/AuthCard';
 import { AuthAlert } from '../components/common/AuthAlert';
 import { useTranslation } from 'react-i18next';
+import { useLocalizedPath } from '../hooks/useLocalizedPath';
 import './AuthPages.css';
 
 /**
- * Página de cadastro
+ * Página de cadastro de novos usuários
  */
 export function RegisterPage() {
     const { t } = useTranslation('auth');
+    const { getLocalizedPath } = useLocalizedPath();
     const [displayName, setDisplayName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -28,9 +30,9 @@ export function RegisterPage() {
 
     useEffect(() => {
         if (userData || isGuest) {
-            navigate('/game', { replace: true });
+            navigate(getLocalizedPath('/game'), { replace: true });
         }
-    }, [userData, isGuest, navigate]);
+    }, [userData, isGuest, navigate, getLocalizedPath]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -87,9 +89,10 @@ export function RegisterPage() {
             <SEO
                 title={t('register.seoTitle')}
                 description={t('register.seoDescription')}
+                noindex
                 breadcrumbs={[
-                    { name: t('common:nav.home', "Início"), path: "/" },
-                    { name: t('register.breadcrumb'), path: "/register" }
+                    { name: t('common:nav.home', "Início"), path: getLocalizedPath('/') },
+                    { name: t('register.breadcrumb'), path: getLocalizedPath('/register') }
                 ]}
             />
             <AuthCard
@@ -195,7 +198,7 @@ export function RegisterPage() {
                 <div className="auth-links">
                     <p>
                         {t('register.hasAccount')}{' '}
-                        <Link to="/login" className="auth-link">
+                        <Link to={getLocalizedPath('/login')} className="auth-link">
                             {t('register.doLogin')}
                         </Link>
                     </p>

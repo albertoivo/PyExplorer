@@ -8,6 +8,7 @@ import { GuestModeButton } from '../components/common/GuestModeButton';
 import { AuthCard } from '../components/auth/AuthCard';
 import { AuthAlert } from '../components/common/AuthAlert';
 import { useTranslation } from 'react-i18next';
+import { useLocalizedPath } from '../hooks/useLocalizedPath';
 import './AuthPages.css';
 
 /**
@@ -15,6 +16,7 @@ import './AuthPages.css';
  */
 export function LoginPage() {
     const { t } = useTranslation('auth');
+    const { getLocalizedPath } = useLocalizedPath();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -30,10 +32,10 @@ export function LoginPage() {
     // Redireciona quando o userData ou modo convidado estiver pronto.
     useEffect(() => {
         if (userData || isGuest) {
-            const destination = (location.state as { from?: Location })?.from?.pathname || '/game';
+            const destination = (location.state as { from?: Location })?.from?.pathname || getLocalizedPath('/game');
             navigate(destination, { replace: true });
         }
-    }, [userData, isGuest, navigate, location.state]);
+    }, [userData, isGuest, navigate, location.state, getLocalizedPath]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -93,9 +95,10 @@ export function LoginPage() {
             <SEO
                 title={t('login.seoTitle')}
                 description={t('login.seoDescription')}
+                noindex
                 breadcrumbs={[
-                    { name: t('common:nav.home', "Início"), path: "/" },
-                    { name: t('login.breadcrumb'), path: "/login" }
+                    { name: t('common:nav.home', "Início"), path: getLocalizedPath('/') },
+                    { name: t('login.breadcrumb'), path: getLocalizedPath('/login') }
                 ]}
             />
             <AuthCard
@@ -181,7 +184,7 @@ export function LoginPage() {
                 <div className="auth-links">
                     <p>
                         {t('login.noAccount')}{' '}
-                        <Link to="/register" className="auth-link">
+                        <Link to={getLocalizedPath('/register')} className="auth-link">
                             {t('login.createFree')}
                         </Link>
                     </p>

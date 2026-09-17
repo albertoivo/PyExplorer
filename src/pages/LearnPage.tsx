@@ -6,10 +6,12 @@ import { Link } from 'react-router-dom'
 import { useArticles, type Article } from '../data/learnData'
 import { SEO } from '../components/common/SEO'
 import { useTranslation } from 'react-i18next'
+import { useLocalizedPath } from '../hooks/useLocalizedPath'
 import './LearnPage.css'
 
 export function LearnPage() {
     const { t } = useTranslation('learn');
+    const { getLocalizedPath } = useLocalizedPath();
     const articles = useArticles();
     const beginnerArticles = articles.filter(a => a.category === 'beginner')
     const parentArticles = articles.filter(a => a.category === 'parents')
@@ -21,22 +23,22 @@ export function LearnPage() {
                 title={t('seoTitle')}
                 description={t('seoDescription')}
                 breadcrumbs={[
-                    { name: t('common:nav.home', "Início"), path: "/" },
-                    { name: t('breadcrumb'), path: "/learn" }
+                    { name: t('common:nav.home', "Início"), path: getLocalizedPath("/") },
+                    { name: t('breadcrumb'), path: getLocalizedPath("/learn") }
                 ]}
                 structuredData={{
                     "@context": "https://schema.org",
                     "@type": "CollectionPage",
                     "name": t('seoTitle'),
                     "description": t('seoDescription'),
-                    "url": "https://pyexplorer.com.br/learn",
+                    "url": `https://pyexplorer.com.br${getLocalizedPath('/learn') === '/' ? '' : getLocalizedPath('/learn')}`,
                     "mainEntity": {
                         "@type": "ItemList",
                         "itemListElement": articles.map((article, index) => ({
                             "@type": "ListItem",
                             "position": index + 1,
                             "name": article.title,
-                            "url": `https://pyexplorer.com.br/learn/${article.slug}`
+                            "url": `https://pyexplorer.com.br${getLocalizedPath(`/learn/${article.slug}`)}`
                         }))
                     }
                 }}
@@ -107,7 +109,7 @@ export function LearnPage() {
                 <div className="learn-cta__content">
                     <h2>{t('cta.title')}</h2>
                     <p>{t('cta.description')}</p>
-                    <Link to="/game" className="learn-cta__button">
+                    <Link to={getLocalizedPath('/game')} className="learn-cta__button">
                         {t('cta.button')}
                     </Link>
                 </div>
@@ -121,8 +123,9 @@ export function LearnPage() {
  */
 function ArticleCard({ article }: { article: Article }) {
     const { t } = useTranslation('learn');
+    const { getLocalizedPath } = useLocalizedPath();
     return (
-        <Link to={`/learn/${article.slug}`} className="article-card">
+        <Link to={getLocalizedPath(`/learn/${article.slug}`)} className="article-card">
             <div className="article-card__icon">{article.icon}</div>
             <div className="article-card__content">
                 <h3 className="article-card__title">{article.title}</h3>

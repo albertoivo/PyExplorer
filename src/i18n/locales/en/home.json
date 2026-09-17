@@ -64,5 +64,13 @@
         "title": "Ready to start your adventure?",
         "description": "Join thousands of kids learning Python the fun way!",
         "createAccount": "🎮 Create Free Account"
+    },
+    "seoPythonKids": {
+        "title": "Python for Kids: Learn Programming by Playing",
+        "description": "Discover how to teach Python to kids in a fun and free way with PyExplorer. The best coding game for children!"
+    },
+    "seoLearnPlaying": {
+        "title": "Learn Python by Playing: Free Educational Adventure",
+        "description": "Want to learn Python from scratch in a fun way? In PyExplorer you learn logic and programming by solving challenges in an amazing game!"
     }
 }

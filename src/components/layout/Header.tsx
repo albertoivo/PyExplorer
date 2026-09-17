@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useGamification } from '../../context/GamificationContext';
 import { SHOP_ITEMS } from '../../data/gamificationData';
 import { LanguageSwitcher } from './LanguageSwitcher';
+import { useLocalizedPath } from '../../hooks/useLocalizedPath';
 import reactLogo from '../../assets/react.svg';
 import './Header.css';
 
@@ -15,6 +16,7 @@ import './Header.css';
 export function Header() {
     const { userData, isGuest, logout, loading } = useAuth();
     const { gamification, currentLevel } = useGamification();
+    const { getLocalizedPath } = useLocalizedPath();
 
     const { t } = useTranslation('common');
     const [menuOpen, setMenuOpen] = useState(false);
@@ -49,7 +51,7 @@ export function Header() {
         <header className="header">
             <div className="header__container">
                 {/* Logo e Nome do PyExplorer */}
-                <Link to="/" className="header__logo" aria-label="PyExplorer Página Inicial">
+                <Link to={getLocalizedPath('/')} className="header__logo" aria-label="PyExplorer Página Inicial">
                     <span className="header__logo-icon-wrapper">
                         {(() => {
                             if (!userData && !isGuest) return <span className="header__logo-emoji">🐍</span>;
@@ -124,7 +126,7 @@ export function Header() {
                     {/* Links de Navegação */}
                     <div className="header__nav-links">
                         <NavLink
-                            to="/"
+                            to={getLocalizedPath('/')}
                             className={({ isActive }) => `header__nav-link ${isActive ? 'header__nav-link--active' : ''}`}
                             onClick={() => setMenuOpen(false)}
                             end
@@ -133,7 +135,7 @@ export function Header() {
                         </NavLink>
 
                         <NavLink
-                            to="/learn"
+                            to={getLocalizedPath('/learn')}
                             className={({ isActive }) => `header__nav-link ${isActive ? 'header__nav-link--active' : ''}`}
                             onClick={() => setMenuOpen(false)}
                         >
@@ -143,7 +145,7 @@ export function Header() {
                         {userData && (
                             <>
                                 <NavLink
-                                    to="/game"
+                                    to={getLocalizedPath('/game')}
                                     className={({ isActive }) => `header__nav-link ${isActive ? 'header__nav-link--active' : ''}`}
                                     onClick={() => setMenuOpen(false)}
                                 >
@@ -151,7 +153,7 @@ export function Header() {
                                 </NavLink>
 
                                 <NavLink
-                                    to="/certificate"
+                                    to={getLocalizedPath('/certificate')}
                                     className={({ isActive }) => `header__nav-link ${isActive ? 'header__nav-link--active' : ''}`}
                                     onClick={() => setMenuOpen(false)}
                                 >
@@ -159,7 +161,7 @@ export function Header() {
                                 </NavLink>
 
                                 <NavLink
-                                    to="/rewards"
+                                    to={getLocalizedPath('/rewards')}
                                     className={({ isActive }) => `header__nav-link ${isActive ? 'header__nav-link--active' : ''}`}
                                     onClick={() => setMenuOpen(false)}
                                 >
@@ -167,7 +169,7 @@ export function Header() {
                                 </NavLink>
 
                                 <NavLink
-                                    to="/profile"
+                                    to={getLocalizedPath('/profile')}
                                     className={({ isActive }) => `header__nav-link ${isActive ? 'header__nav-link--active' : ''}`}
                                     onClick={() => setMenuOpen(false)}
                                 >
@@ -205,10 +207,10 @@ export function Header() {
                             </div>
                         ) : (
                             <div className="header__auth-links">
-                                <Link to="/login" className="header__auth-link" onClick={() => setMenuOpen(false)}>
+                                <Link to={getLocalizedPath('/login')} className="header__auth-link" onClick={() => setMenuOpen(false)}>
                                     {t('nav.login')}
                                 </Link>
-                                <Link to="/register" className="header__auth-link header__auth-link--primary" onClick={() => setMenuOpen(false)}>
+                                <Link to={getLocalizedPath('/register')} className="header__auth-link header__auth-link--primary" onClick={() => setMenuOpen(false)}>
                                     {t('nav.register')}
                                 </Link>
                             </div>
