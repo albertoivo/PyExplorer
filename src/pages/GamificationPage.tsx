@@ -1,16 +1,14 @@
 import { useState } from 'react';
 import { useGamification } from '../context/GamificationContext';
 import { useAuth } from '../hooks/useAuth';
-import { SHOP_ITEMS } from '../data/gamificationData';
 import { SEO } from '../components/common/SEO';
 import {
-    LevelBadge,
-    StreakDisplay,
     AchievementGrid,
     MissionList,
     AvatarShop,
-    PowerUpBar,
     Leaderboard,
+    GamificationHeader,
+    GamificationOverview,
 } from '../components/gamification';
 import './GamificationPage.css';
 
@@ -39,7 +37,6 @@ export function GamificationPage() {
         userStars,
     } = useGamification();
 
-
     const [activeTab, setActiveTab] = useState<GamificationTab>('overview');
 
     const tabs: { id: GamificationTab; name: string; icon: string }[] = [
@@ -59,86 +56,16 @@ export function GamificationPage() {
             />
 
             {/* Header com nível e stats */}
-            <header className="gamification-page__header">
-                <div className="gamification-page__user">
-                    <div className="gamification-page__avatar">
-                        {(() => {
-                            const equippedId = inventory.equippedAvatar || 'avatar_snake_green';
-                            const equippedFrameId = inventory.equippedFrame;
-                            const item = SHOP_ITEMS.find(i => i.id === equippedId);
-                            const frameItem = equippedFrameId ? SHOP_ITEMS.find(i => i.id === equippedFrameId) : null;
-                            const avatarIcon = item?.icon || '🐍';
-
-                            if (frameItem?.color) {
-                                const borderColor = frameItem.color === 'rainbow'
-                                    ? 'linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet)'
-                                    : frameItem.color;
-                                return (
-                                    <span style={{
-                                        display: 'inline-flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        width: '100px',
-                                        height: '100px',
-                                        borderRadius: '50%',
-                                        border: frameItem.color === 'rainbow' ? '4px solid transparent' : `4px solid ${borderColor}`,
-                                        background: frameItem.color === 'rainbow' ? borderColor : 'transparent',
-                                        backgroundClip: frameItem.color === 'rainbow' ? 'padding-box' : undefined,
-                                    }}>
-                                        <span style={{ fontSize: '60px', lineHeight: 1 }}>{avatarIcon}</span>
-                                    </span>
-                                );
-                            }
-                            return avatarIcon;
-                        })()}
-                    </div>
-                    <div className="gamification-page__user-info">
-                        <h1 className="gamification-page__name">{userData?.displayName || 'Jogador'}</h1>
-                        <LevelBadge level={currentLevel} currentXP={gamification.level.totalXP} showProgress />
-                    </div>
-                </div>
-
-                <div className="gamification-page__stats">
-                    <div
-                        className="gamification-page__stat clickable"
-                        onClick={() => setActiveTab('overview')}
-                        title="Ver Visão Geral"
-                    >
-                        <span className="gamification-page__stat-icon">⚡</span>
-                        <span className="gamification-page__stat-value">{userData?.totalScore || 0}</span>
-                        <span className="gamification-page__stat-label">Pontos</span>
-                    </div>
-                    <div
-                        className="gamification-page__stat clickable"
-                        onClick={() => setActiveTab('achievements')}
-                        title="Ver Conquistas"
-                    >
-                        <span className="gamification-page__stat-icon">🏅</span>
-                        <span className="gamification-page__stat-value">{unlockedAchievements.length}</span>
-                        <span className="gamification-page__stat-label">Conquistas</span>
-                    </div>
-                    <div
-                        className="gamification-page__stat clickable"
-                        onClick={() => setActiveTab('missions')}
-                        title="Ver Missões"
-                    >
-                        <span className="gamification-page__stat-icon">📋</span>
-                        <span className="gamification-page__stat-value">
-                            {activeMissions.filter(m => m.status === 'active').length}
-                        </span>
-                        <span className="gamification-page__stat-label">Missões</span>
-                    </div>
-                    <div
-                        className="gamification-page__stat clickable"
-                        onClick={() => setActiveTab('overview')} // Streak is in Overview
-                        title="Ver Streak"
-                    >
-                        <span className="gamification-page__stat-icon">🔥</span>
-                        <span className="gamification-page__stat-value">{streak.currentStreak}</span>
-                        <span className="gamification-page__stat-label">Streak</span>
-                    </div>
-                </div>
-            </header>
+            <GamificationHeader
+                userData={userData}
+                inventory={inventory}
+                currentLevel={currentLevel}
+                totalXP={gamification.level.totalXP}
+                unlockedAchievementsCount={unlockedAchievements.length}
+                activeMissionsCount={activeMissions.filter(m => m.status === 'active').length}
+                streakCount={streak.currentStreak}
+                setActiveTab={setActiveTab}
+            />
 
             {/* Tabs */}
             <nav className="gamification-page__tabs">
@@ -157,66 +84,17 @@ export function GamificationPage() {
             {/* Conteúdo */}
             <main className="gamification-page__content">
                 {activeTab === 'overview' && (
-                    <div className="gamification-page__overview">
-                        <div className="gamification-page__section">
-                            <StreakDisplay streak={streak} />
-                        </div>
-
-                        <div className="gamification-page__section">
-                            <h3 className="gamification-page__section-title">⚡ Power-ups</h3>
-                            <PowerUpBar
-                                userPowerUps={userPowerUps}
-                                userStars={userStars}
-                                onUsePowerUp={usePowerUp}
-                                onBuyPowerUp={buyPowerUp}
-                            />
-                        </div>
-
-                        <div className="gamification-page__section">
-                            <h3 className="gamification-page__section-title">📋 Missões de Hoje</h3>
-                            <div className="gamification-page__mini-missions">
-                                {dailyMissions.slice(0, 2).map(mission => {
-                                    const userMission = activeMissions.find(m => m.missionId === mission.id);
-                                    const progress = userMission?.progress || 0;
-                                    const percentage = (progress / mission.targetValue) * 100;
-
-                                    return (
-                                        <div key={mission.id} className="mini-mission">
-                                            <span className="mini-mission__icon">{mission.icon}</span>
-                                            <div className="mini-mission__info">
-                                                <span className="mini-mission__title">{mission.title}</span>
-                                                <div className="mini-mission__bar">
-                                                    <div className="mini-mission__fill" style={{ width: `${percentage}%` }} />
-                                                </div>
-                                            </div>
-                                            <span className="mini-mission__progress">{progress}/{mission.targetValue}</span>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                            <button className="gamification-page__see-all" onClick={() => setActiveTab('missions')}>
-                                Ver todas as missões →
-                            </button>
-                        </div>
-
-                        <div className="gamification-page__section">
-                            <h3 className="gamification-page__section-title">🏅 Últimas Conquistas</h3>
-                            <div className="gamification-page__recent-achievements">
-                                {unlockedAchievements.slice(0, 4).map(achievement => (
-                                    <div key={achievement.id} className="recent-achievement">
-                                        <span className="recent-achievement__icon">{achievement.icon}</span>
-                                        <span className="recent-achievement__name">{achievement.name}</span>
-                                    </div>
-                                ))}
-                                {unlockedAchievements.length === 0 && (
-                                    <p className="gamification-page__empty">Nenhuma conquista ainda. Continue jogando!</p>
-                                )}
-                            </div>
-                            <button className="gamification-page__see-all" onClick={() => setActiveTab('achievements')}>
-                                Ver todas as conquistas →
-                            </button>
-                        </div>
-                    </div>
+                    <GamificationOverview
+                        streak={streak}
+                        userPowerUps={userPowerUps}
+                        userStars={userStars}
+                        dailyMissions={dailyMissions}
+                        activeMissions={activeMissions}
+                        unlockedAchievements={unlockedAchievements}
+                        usePowerUp={usePowerUp}
+                        buyPowerUp={buyPowerUp}
+                        setActiveTab={setActiveTab}
+                    />
                 )}
 
                 {activeTab === 'achievements' && (
@@ -253,4 +131,3 @@ export function GamificationPage() {
         </div>
     );
 }
-
