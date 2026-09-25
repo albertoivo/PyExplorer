@@ -11,6 +11,7 @@ import { WorldCard } from './WorldCard';
 import { SagaTabs } from './SagaTabs';
 import { SagaBanner } from './SagaBanner';
 import { STORY_CHAPTERS, type StoryEpisode } from '../../data/gamificationData';
+import { calculateSagaStats } from '../../utils/game/sagaLogic';
 import './WorldMap.css';
 
 const VIEWED_TUTORIALS_KEY = 'pyexplorer_viewed_tutorials';
@@ -78,38 +79,7 @@ export const WorldMap = memo(function WorldMap({ onSelectWorld, worldProgress }:
 
     // Cálculo das estatísticas por Saga
     const sagaStats = useMemo(() => {
-        const stats = new Map<string, { completed: number; total: number; percentage: number; unlockedCount: number }>();
-
-        for (const saga of SAGAS) {
-            let totalSagaQuestions = 0;
-            let completedSagaQuestions = 0;
-            let unlockedCount = 0;
-
-            for (const worldId of saga.worldIds) {
-                const worldObj = WORLDS.find(w => w.id === worldId);
-                if (!worldObj) continue;
-
-                if (isWorldUnlocked(worldObj)) {
-                    unlockedCount++;
-                }
-
-                const status = worldProgress?.get(worldId);
-                if (status) {
-                    totalSagaQuestions += status.total;
-                    completedSagaQuestions += status.completed;
-                }
-            }
-
-            const percentage = totalSagaQuestions > 0 ? (completedSagaQuestions / totalSagaQuestions) * 100 : 0;
-            stats.set(saga.id, {
-                completed: completedSagaQuestions,
-                total: totalSagaQuestions,
-                percentage,
-                unlockedCount,
-            });
-        }
-
-        return stats;
+        return calculateSagaStats(SAGAS, WORLDS, worldProgress, isWorldUnlocked);
     }, [worldProgress, isWorldUnlocked]);
 
     // Sagas filtradas para exibição
