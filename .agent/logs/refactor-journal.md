@@ -8,3 +8,15 @@
     - `src/firebase/__tests__/firebaseConfig.test.ts` — fixed brittle hardcoded test expecting exactly `pyexplorer-cd32d` that failed when running tests with `.env` mocks.
 - **🧹 Architectural Gain:** SRP — The view component now delegates saga statistics calculation to a pure, testable function inside `src/utils/game/`.
 - **🔬 Verification:** `tsc`, `npm test`, `npm run lint`, and `npm run build` all passed successfully.
+
+## 2024-09-30 — Extracted QuestionEngine Logic to useQuestionEngine Hook
+
+- **💡 What:** Extracted state, handlers, and side effects from `src/components/game/QuestionEngine.tsx` into a new custom hook `src/hooks/game/useQuestionEngine.ts`.
+- **🎯 Why:** `QuestionEngine.tsx` was a "God component" of 326 lines handling complex local state, `localStorage` read/writes, score calculation, power-up application, sound effects, animations, and component rendering all at once.
+- **📁 Files Changed:**
+  - `src/components/game/QuestionEngine.tsx` (Reduced from 326 lines to 181 lines, now focuses only on mapping question types to UI components).
+  - `src/hooks/game/useQuestionEngine.ts` (New file, encapsulates business logic).
+- **🧹 Architectural Gain:**
+  - **Single Responsibility Principle (SRP):** UI rendering is now decoupled from the complex question-handling business logic.
+  - **Maintainability:** Easier to write isolated unit tests for the hook and the presentational logic in the future.
+- **🔬 Verification:** Confirmed that `npx tsc -b --noEmit`, `npm test`, `npm run lint`, and `npm run build` all pass.
