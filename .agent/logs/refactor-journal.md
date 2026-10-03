@@ -20,3 +20,14 @@
   - **Single Responsibility Principle (SRP):** UI rendering is now decoupled from the complex question-handling business logic.
   - **Maintainability:** Easier to write isolated unit tests for the hook and the presentational logic in the future.
 - **🔬 Verification:** Confirmed that `npx tsc -b --noEmit`, `npm test`, `npm run lint`, and `npm run build` all pass.
+## 2025-02-04 — Extract Gamification Firebase Fallback Logic
+
+- **💡 What:** Moved `saveGamificationWithFallback` and `isPermissionDeniedError` out of `src/hooks/gamification/useGamificationStore.ts` into `src/firebase/services/gamificationService.ts`. Re-exported the function in `src/firebase/firestore.ts`.
+- **🎯 Why:** Code smell identified (Violated Single Responsibility Principle by mixing Firebase save logic and Firebase-specific error handling directly inside a React state hook).
+- **📁 Files Changed:**
+    - `src/firebase/services/gamificationService.ts`: Added fallback and error-handling functions, imported necessary utils.
+    - `src/hooks/gamification/useGamificationStore.ts`: Removed Firebase logic, imported newly exposed fallback method from firestore module.
+    - `src/firebase/firestore.ts`: Added export for `saveGamificationWithFallback` to match existing patterns.
+    - `src/hooks/__tests__/useGamification.test.ts`: Updated tests to mock and expect calls to `saveGamificationWithFallback` instead of `saveGamificationData`.
+- **🧹 Architectural Gain:** SRP — `useGamificationStore` is now more tightly focused on local state management and React lifecycles. Firebase interactions are strictly within the `src/firebase/` service layer.
+- **🔬 Verification:** Confirmation that `npx tsc -b --noEmit`, `npm test`, and `npm run lint` all passed.

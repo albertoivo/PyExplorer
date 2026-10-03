@@ -5,14 +5,12 @@ import {
     checkDailyAndWeeklyReset,
     applyStreakUpdate,
     migrateLegacyStreak,
-    normalizeGamificationForRules,
-    removePetField,
     checkAndUnlockAchievements,
     ensureEndgameMissions,
 } from '../../utils/gamificationState';
 import { calculateStreak } from '../../utils/gamificationUtils';
 import { checkPetStatus, getInitialPet } from '../../utils/petLogic';
-import { getGamification, saveGamificationData } from '../../firebase/firestore';
+import { getGamification, saveGamificationWithFallback } from '../../firebase/firestore';
 
 const GUEST_GAMIFICATION_KEY = 'pyexplorer_guest_gamification';
 
@@ -21,33 +19,6 @@ type LegacyStreakUserFields = {
     longestStreak?: number;
     lastActiveDate?: string;
 };
-
-type FirebaseLikeError = {
-    code?: string;
-    message?: string;
-};
-
-function isPermissionDeniedError(error: unknown): boolean {
-    const err = error as FirebaseLikeError;
-    return err?.code === 'permission-denied' || err?.code === 'firestore/permission-denied';
-}
-
-export async function saveGamificationWithFallback(uid: string, data: UserGamification): Promise<void> {
-    const normalized = normalizeGamificationForRules(data);
-    try {
-        await saveGamificationData(uid, normalized);
-    } catch (error) {
-        if (!isPermissionDeniedError(error)) throw error;
-        if (normalized.pet) {
-            try {
-                await saveGamificationData(uid, removePetField(normalized));
-                return;
-            } catch (error2) {
-                if (!isPermissionDeniedError(error2)) throw error2;
-            }
-        }
-    }
-}
 
 interface UseGamificationStoreProps {
     userData: UserData | null;
