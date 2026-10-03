@@ -5,7 +5,7 @@ import type { QuestionDocument, World, Difficulty } from '../types/question';
 // Re-exports from services to maintain backward compatibility
 export { getUser, saveUser, updateUserScore, unlockWorld } from './services/usersService';
 export { getProgress, saveProgress, getUserProgress, updateProgress, updateProgressBatch } from './services/progressService';
-export { getGamification, saveGamificationData } from './services/gamificationService';
+export { getGamification, saveGamificationData, saveGamificationWithFallback } from './services/gamificationService';
 export { getTopUsers } from './services/leaderboardService';
 
 // ============================================

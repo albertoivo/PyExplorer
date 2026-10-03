@@ -3,8 +3,36 @@ import { db } from '../firebaseConfig';
 import type { UserGamification, UserAchievement, UserMission } from '../../types/gamification';
 import { getUser } from './usersService';
 import { updateLeaderboard, LEADERBOARD_COLLECTION } from './leaderboardService';
+import { normalizeGamificationForRules, removePetField } from '../../utils/gamificationState';
 
 const GAMIFICATION_COLLECTION = 'gamification';
+
+type FirebaseLikeError = {
+    code?: string;
+    message?: string;
+};
+
+function isPermissionDeniedError(error: unknown): boolean {
+    const err = error as FirebaseLikeError;
+    return err?.code === 'permission-denied' || err?.code === 'firestore/permission-denied';
+}
+
+export async function saveGamificationWithFallback(uid: string, data: UserGamification): Promise<void> {
+    const normalized = normalizeGamificationForRules(data);
+    try {
+        await saveGamificationData(uid, normalized);
+    } catch (error) {
+        if (!isPermissionDeniedError(error)) throw error;
+        if (normalized.pet) {
+            try {
+                await saveGamificationData(uid, removePetField(normalized));
+                return;
+            } catch (error2) {
+                if (!isPermissionDeniedError(error2)) throw error2;
+            }
+        }
+    }
+}
 
 /**
  * Valida os dados de gamificação antes de salvar
