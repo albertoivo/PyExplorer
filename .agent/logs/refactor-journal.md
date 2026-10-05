@@ -31,3 +31,15 @@
     - `src/hooks/__tests__/useGamification.test.ts`: Updated tests to mock and expect calls to `saveGamificationWithFallback` instead of `saveGamificationData`.
 - **🧹 Architectural Gain:** SRP — `useGamificationStore` is now more tightly focused on local state management and React lifecycles. Firebase interactions are strictly within the `src/firebase/` service layer.
 - **🔬 Verification:** Confirmation that `npx tsc -b --noEmit`, `npm test`, and `npm run lint` all passed.
+
+## 2024-10-05 — Extract Local Storage logic into `useLocalStorage` hook from `WorldMap` 🧹
+
+- **💡 What:** Extract the `localStorage` access patterns inside `src/components/game/WorldMap.tsx` into a custom hook (`useLocalStorage`).
+- **🎯 Why:** Code smell identified (DRY violations + Side Effect inside Component). The `WorldMap.tsx` accessed `localStorage` directly multiple times using `useState` and `useEffect` with `try/catch` wrappers. This mixed persistence logic directly within a UI component and duplicated code for each persistent state (`VIEWED_TUTORIALS_KEY` and `VIEWED_STORIES_KEY`).
+- **📁 Files Changed:**
+  - `src/hooks/useLocalStorage.ts` (New file for the hook)
+  - `src/components/game/WorldMap.tsx` (Used the new hook and removed explicit `localStorage` handling)
+- **🧹 Architectural Gain:**
+  - Abstraction & Reusability: Extracted generic local storage logic into a reusable hook that guarantees type safety and handles parsing / error states centrally.
+  - SRP (Single Responsibility Principle): The UI component `WorldMap` no longer owns the responsibility of safely interacting with the browser's `localStorage` API.
+- **🔬 Verification:** `tsc`, `npm test`, `npm run lint`, and `npm run build` all passed successfully.
