@@ -12,6 +12,7 @@ import { SagaTabs } from './SagaTabs';
 import { SagaBanner } from './SagaBanner';
 import { STORY_CHAPTERS, type StoryEpisode } from '../../data/gamificationData';
 import { calculateSagaStats } from '../../utils/game/sagaLogic';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 import './WorldMap.css';
 
 const VIEWED_TUTORIALS_KEY = 'pyexplorer_viewed_tutorials';
@@ -39,23 +40,8 @@ export const WorldMap = memo(function WorldMap({ onSelectWorld, worldProgress }:
     const [activeStory, setActiveStory] = useState<StoryEpisode | null>(null);
     const [pendingWorldNavigation, setPendingWorldNavigation] = useState<World | null>(null);
 
-    const [viewedTutorials, setViewedTutorials] = useState<World[]>(() => {
-        try {
-            const viewed = localStorage.getItem(VIEWED_TUTORIALS_KEY);
-            return viewed ? JSON.parse(viewed) : [];
-        } catch {
-            return [];
-        }
-    });
-
-    const [viewedStories, setViewedStories] = useState<string[]>(() => {
-        try {
-            const viewed = localStorage.getItem(VIEWED_STORIES_KEY);
-            return viewed ? JSON.parse(viewed) : [];
-        } catch {
-            return [];
-        }
-    });
+    const [viewedTutorials, setViewedTutorials] = useLocalStorage<World[]>(VIEWED_TUTORIALS_KEY, []);
+    const [viewedStories, setViewedStories] = useLocalStorage<string[]>(VIEWED_STORIES_KEY, []);
 
     const isWorldUnlocked = useCallback((world: WorldInfo): boolean => {
         if (!world.requiredScore) return true;
@@ -95,13 +81,9 @@ export const WorldMap = memo(function WorldMap({ onSelectWorld, worldProgress }:
     const markTutorialViewed = useCallback((worldId: World) => {
         setViewedTutorials(prev => {
             if (prev.includes(worldId)) return prev;
-            const newList = [...prev, worldId];
-            try {
-                localStorage.setItem(VIEWED_TUTORIALS_KEY, JSON.stringify(newList));
-            } catch { /* ignore */ }
-            return newList;
+            return [...prev, worldId];
         });
-    }, []);
+    }, [setViewedTutorials]);
 
     const hasViewedStory = useCallback((worldId: string, type: 'intro' | 'outro'): boolean => {
         return viewedStories.includes(`${worldId}_${type}`);
@@ -111,13 +93,9 @@ export const WorldMap = memo(function WorldMap({ onSelectWorld, worldProgress }:
         const key = `${worldId}_${type}`;
         setViewedStories(prev => {
             if (prev.includes(key)) return prev;
-            const newList = [...prev, key];
-            try {
-                localStorage.setItem(VIEWED_STORIES_KEY, JSON.stringify(newList));
-            } catch { /* ignore */ }
-            return newList;
+            return [...prev, key];
         });
-    }, []);
+    }, [setViewedStories]);
 
     const handleStoryComplete = useCallback(() => {
         if (!activeStory) return;
