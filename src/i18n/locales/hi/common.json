@@ -103,8 +103,16 @@
     "player": "खिलाड़ी",
     "offline": {
         "noConnection": "कोई इंटरनेट कनेक्शन नहीं",
+        "pending": "{{count}} लंबित",
+        "pendingToSync": "{{count}} आइटम सिंक करने के लिए",
+        "syncing": "सिंक हो रहा है...",
+        "syncNow": "अभी सिंक करें",
         "installApp": "ऐप इंस्टॉल करें!",
+        "install": "इंस्टॉल करें",
         "newVersion": "नया संस्करण उपलब्ध है!",
+        "updateAvailable": "नया संस्करण उपलब्ध है!",
+        "update": "अपडेट करें",
+        "updating": "अपडेट हो रहा है...",
         "offlineReady": "ऐप ऑफ़लाइन काम करने के लिए तैयार है!"
     },
     "seo": {

@@ -85,6 +85,12 @@
     transform: scale(1.05);
 }
 
+.offline-indicator__btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
 /* Responsivo */
 @media (max-width: 480px) {
     .offline-indicator {

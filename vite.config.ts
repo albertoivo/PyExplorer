@@ -102,7 +102,7 @@ export default defineConfig({
     },
     react(),
     VitePWA({
-      registerType: 'autoUpdate',
+      registerType: 'prompt',
       injectRegister: 'inline',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'robots.txt', 'sitemap.xml'],
       manifest: {
@@ -185,8 +185,8 @@ export default defineConfig({
         ]
       },
       workbox: {
-        // Skip waiting para aplicar updates imediatamente
-        skipWaiting: true,
+        // Aguarda a confirmação do usuário (via botão Atualizar) antes de ativar
+        skipWaiting: false,
         clientsClaim: true,
         navigateFallbackDenylist: [/^\/sitemap.xml$/, /^\/robots.txt$/, /^\/__\//],
 

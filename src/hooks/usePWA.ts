@@ -16,6 +16,7 @@ export function usePWA() {
     const [isPWA, setIsPWA] = useState<boolean>(checkIsPWA);
     const [deferredPrompt, setDeferredPrompt] = useState<Event | null>(null);
     const [updateAvailable, setUpdateAvailable] = useState(false);
+    const [isUpdating, setIsUpdating] = useState(false);
     const [swRegistration, setSWRegistration] = useState<ServiceWorkerRegistration | null>(null);
 
     // Update isPWA state if display mode changes
@@ -100,26 +101,50 @@ export function usePWA() {
                     }
                 });
             });
+
+            // Checa por atualizações ao focar na janela (quando o usuário volta à aba)
+            const handleFocus = () => {
+                navigator.serviceWorker.getRegistration().then(reg => {
+                    reg?.update().catch(() => {});
+                });
+            };
+            window.addEventListener('focus', handleFocus);
+            return () => window.removeEventListener('focus', handleFocus);
         }
     }, []);
 
-    const applyUpdate = useCallback(() => {
-        if (swRegistration?.waiting) {
-            let reloaded = false;
-            const handleReload = () => {
-                if (!reloaded) {
-                    reloaded = true;
-                    window.location.reload();
-                }
-            };
+    const applyUpdate = useCallback(async () => {
+        setIsUpdating(true);
 
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.addEventListener?.('controllerchange', handleReload, { once: true });
+        let registration = swRegistration;
+        if (!registration && 'serviceWorker' in navigator) {
+            try {
+                registration = (await navigator.serviceWorker.getRegistration()) || null;
+            } catch {
+                // Silencioso em caso de erro ao obter registro
             }
-            swRegistration.waiting.postMessage({ type: 'SKIP_WAITING' });
+        }
 
-            // Fallback reload in case controllerchange does not fire
+        let reloaded = false;
+        const handleReload = () => {
+            if (!reloaded) {
+                reloaded = true;
+                window.location.reload();
+            }
+        };
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.addEventListener?.('controllerchange', handleReload, { once: true });
+        }
+
+        if (registration?.waiting) {
+            registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+            // Fallback reload caso controllerchange não dispare
             setTimeout(handleReload, 500);
+        } else {
+            // Se nenhum worker estiver em espera (ex: já ativado, redundant ou skipWaiting automático),
+            // força o reload da página diretamente para carregar os novos assets
+            handleReload();
         }
     }, [swRegistration]);
 
@@ -129,5 +154,6 @@ export function usePWA() {
         installPWA,
         updateAvailable,
         applyUpdate,
+        isUpdating,
     };
 }

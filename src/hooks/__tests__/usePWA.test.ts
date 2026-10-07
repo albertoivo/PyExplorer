@@ -374,4 +374,98 @@ describe('usePWA', () => {
 
         window.location.reload = originalReload;
     });
+
+    it('reloads immediately when applyUpdate is called and no worker is waiting', async () => {
+        const mockRegistration = {
+            addEventListener: vi.fn(),
+            installing: null,
+            waiting: null,
+        };
+
+        Object.defineProperty(navigator, 'serviceWorker', {
+            writable: true,
+            value: {
+                ready: Promise.resolve(mockRegistration),
+                controller: {},
+                register: vi.fn(),
+                addEventListener: vi.fn(),
+                removeEventListener: vi.fn(),
+                getRegistration: vi.fn().mockResolvedValue(mockRegistration),
+            },
+        });
+
+        const originalReload = window.location.reload;
+        const mockReload = vi.fn();
+        Object.defineProperty(window, 'location', {
+            configurable: true,
+            value: { reload: mockReload },
+        });
+
+        const { result } = renderHook(() => usePWA());
+
+        await act(async () => {
+            await Promise.resolve();
+        });
+
+        expect(result.current.isUpdating).toBe(false);
+
+        await act(async () => {
+            await result.current.applyUpdate();
+        });
+
+        expect(result.current.isUpdating).toBe(true);
+        expect(mockReload).toHaveBeenCalledTimes(1);
+
+        window.location.reload = originalReload;
+    });
+
+    it('fetches registration via getRegistration if swRegistration is null on applyUpdate', async () => {
+        const mockWaiting = { postMessage: vi.fn() };
+        const mockRegistration = {
+            addEventListener: vi.fn(),
+            installing: null,
+            waiting: mockWaiting,
+        };
+
+        let controllerChangeHandler: (() => void) | null = null;
+        Object.defineProperty(navigator, 'serviceWorker', {
+            writable: true,
+            value: {
+                ready: new Promise(() => {}), // never resolves to simulate null swRegistration
+                controller: {},
+                register: vi.fn(),
+                addEventListener: vi.fn((event, handler) => {
+                    if (event === 'controllerchange') {
+                        controllerChangeHandler = handler;
+                    }
+                }),
+                removeEventListener: vi.fn(),
+                getRegistration: vi.fn().mockResolvedValue(mockRegistration),
+            },
+        });
+
+        const originalReload = window.location.reload;
+        const mockReload = vi.fn();
+        Object.defineProperty(window, 'location', {
+            configurable: true,
+            value: { reload: mockReload },
+        });
+
+        const { result } = renderHook(() => usePWA());
+
+        await act(async () => {
+            await result.current.applyUpdate();
+        });
+
+        expect(result.current.isUpdating).toBe(true);
+        expect(mockWaiting.postMessage).toHaveBeenCalledWith({ type: 'SKIP_WAITING' });
+
+        act(() => {
+            if (controllerChangeHandler) (controllerChangeHandler as () => void)();
+        });
+
+        expect(mockReload).toHaveBeenCalledTimes(1);
+
+        window.location.reload = originalReload;
+    });
 });

@@ -103,8 +103,16 @@
     "player": "Player",
     "offline": {
         "noConnection": "No connection",
+        "pending": "{{count}} pending",
+        "pendingToSync": "{{count}} items to sync",
+        "syncing": "Syncing...",
+        "syncNow": "Sync now",
         "installApp": "Install app!",
+        "install": "Install",
         "newVersion": "New version available!",
+        "updateAvailable": "New version available!",
+        "update": "Update",
+        "updating": "Updating...",
         "offlineReady": "App ready to work offline!"
     },
     "seo": {

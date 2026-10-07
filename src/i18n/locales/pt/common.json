@@ -103,8 +103,16 @@
     "player": "Jogador",
     "offline": {
         "noConnection": "Sem conexão",
+        "pending": "{{count}} pendentes",
+        "pendingToSync": "{{count}} itens para sincronizar",
+        "syncing": "Sincronizando...",
+        "syncNow": "Sincronizar",
         "installApp": "Instale o app!",
+        "install": "Instalar",
         "newVersion": "Nova versão disponível!",
+        "updateAvailable": "Nova versão disponível!",
+        "update": "Atualizar",
+        "updating": "Atualizando...",
         "offlineReady": "App pronto para funcionar offline!"
     },
     "seo": {

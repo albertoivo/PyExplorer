@@ -21,6 +21,7 @@ export function OfflineIndicator() {
         installPWA,
         updateAvailable,
         applyUpdate,
+        isUpdating,
     } = usePWA();
 
     // Não mostra nada se está online, não há nada pendente/atualização e já é PWA ou não pode instalar
@@ -88,8 +89,12 @@ export function OfflineIndicator() {
                 >
                     <span className="offline-indicator__icon" aria-hidden="true">✨</span>
                     <span className="offline-indicator__text">{t('offline.updateAvailable', 'Nova versão disponível!')}</span>
-                    <button className="offline-indicator__btn offline-indicator__btn--primary" onClick={applyUpdate}>
-                        {t('offline.update', 'Atualizar')}
+                    <button
+                        className="offline-indicator__btn offline-indicator__btn--primary"
+                        onClick={applyUpdate}
+                        disabled={isUpdating}
+                    >
+                        {isUpdating ? t('offline.updating', 'Atualizando...') : t('offline.update', 'Atualizar')}
                     </button>
                 </div>
             )}
