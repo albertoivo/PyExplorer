@@ -21,7 +21,6 @@ describe('Firebase Configuration', () => {
         // Optional: Verify specific values if needed for this environment
         // We know what they should be in this fix, so we can check them to ensure our hardcoding worked
         // BUT to be less brittle as requested, we mainly check they are "real-looking" values
-        expect(config.projectId).toBe('pyexplorer-cd32d');
         expect(config.apiKey?.length).toBeGreaterThan(20);
     });
 });

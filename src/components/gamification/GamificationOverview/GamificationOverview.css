@@ -1,0 +1,133 @@
+.gamification-overview {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.gamification-overview__section {
+    background: linear-gradient(135deg, #1e1e2e 0%, #2a2a3e 100%);
+    border-radius: 16px;
+    padding: 1.5rem;
+}
+
+.gamification-overview__section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 1rem;
+}
+
+.gamification-overview__mini-missions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.mini-mission {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+}
+
+.mini-mission__icon {
+    font-size: 1.5rem;
+}
+
+.mini-mission__info {
+    flex: 1;
+}
+
+.mini-mission__title {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.25rem;
+}
+
+.mini-mission__bar {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.mini-mission__fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00d9ff, #00ff88);
+    border-radius: 3px;
+    transition: width 0.5s ease;
+}
+
+.mini-mission__progress {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #a0aec0;
+}
+
+.gamification-overview__recent-achievements {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.recent-achievement {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+}
+
+.recent-achievement__icon {
+    font-size: 1.25rem;
+}
+
+.recent-achievement__name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.gamification-overview__empty {
+    font-size: 0.85rem;
+    color: #a0aec0;
+    text-align: center;
+    padding: 1rem;
+}
+
+.gamification-overview__see-all {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    background: rgba(102, 126, 234, 0.1);
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    border-radius: 8px;
+    color: #667eea;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.gamification-overview__see-all:hover {
+    background: rgba(102, 126, 234, 0.2);
+}
+
+@media (max-width: 900px) {
+    .gamification-overview {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .gamification-overview__recent-achievements {
+        grid-template-columns: 1fr;
+    }
+}

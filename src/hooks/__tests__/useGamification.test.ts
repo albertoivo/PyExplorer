@@ -2,7 +2,7 @@
 import { renderHook, act, waitFor } from '@testing-library/react';
 import { useGamification } from '../useGamification';
 import { useAuth } from '../useAuth';
-import { saveGamificationData, getGamification } from '../../firebase/firestore';
+import { saveGamificationData, getGamification, saveGamificationWithFallback } from '../../firebase/firestore';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import type { UserData } from '../../types/question';
 
@@ -73,6 +73,7 @@ describe('useGamification Hook', () => {
 
         (getGamification as any).mockResolvedValue(null); // Retorna null para usar estado inicial
         (saveGamificationData as any).mockResolvedValue(undefined);
+        (saveGamificationWithFallback as any).mockResolvedValue(undefined);
     });
 
     it('should initialize with default state', async () => {
@@ -104,7 +105,7 @@ describe('useGamification Hook', () => {
                 totalScore: initialXP + 50
             }));
 
-            expect(saveGamificationData).toHaveBeenCalledWith(
+            expect(saveGamificationWithFallback).toHaveBeenCalledWith(
                 mockUser.uid,
                 expect.objectContaining({
                     level: expect.objectContaining({ totalXP: initialXP + 50 }),
@@ -136,7 +137,7 @@ describe('useGamification Hook', () => {
                 result.current.recordQuestionCompleted(false, 50, 10);
             });
 
-            expect(saveGamificationData).toHaveBeenCalledWith(
+            expect(saveGamificationWithFallback).toHaveBeenCalledWith(
                 mockUser.uid,
                 expect.objectContaining({
                     stats: expect.objectContaining({
@@ -200,7 +201,7 @@ describe('useGamification Hook', () => {
             });
 
             expect(result.current.gamification.inventory.equippedAvatar).toBe('new_avatar_id');
-            expect(saveGamificationData).toHaveBeenCalled();
+            expect(saveGamificationWithFallback).toHaveBeenCalled();
         });
 
         it('should buy a shop item if affordable', async () => {
