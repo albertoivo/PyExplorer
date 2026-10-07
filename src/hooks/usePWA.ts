@@ -116,12 +116,13 @@ export function usePWA() {
     const applyUpdate = useCallback(async () => {
         setIsUpdating(true);
 
-        let registration = swRegistration;
-        if (!registration && 'serviceWorker' in navigator) {
+        // Prefer the most recent registration; fall back to the one captured via `ready`
+        let registration: ServiceWorkerRegistration | null = swRegistration;
+        if ('serviceWorker' in navigator && typeof navigator.serviceWorker.getRegistration === 'function') {
             try {
-                registration = (await navigator.serviceWorker.getRegistration()) || null;
-            } catch {
-                // Silencioso em caso de erro ao obter registro
+                registration = (await navigator.serviceWorker.getRegistration()) || swRegistration;
+            } catch (e) {
+                console.error('Failed to get Service Worker registration', e);
             }
         }
 
@@ -133,17 +134,25 @@ export function usePWA() {
             }
         };
 
+        // Listen for controller change to clear update flags and reload
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.addEventListener?.('controllerchange', handleReload, { once: true });
+            navigator.serviceWorker.addEventListener?.('controllerchange', () => {
+                setUpdateAvailable(false);
+                setIsUpdating(false);
+                handleReload();
+            }, { once: true });
         }
 
         if (registration?.waiting) {
-            registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-            // Fallback reload caso controllerchange não dispare
+            try {
+                registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+            } catch (e) {
+                console.error('Failed to send SKIP_WAITING', e);
+            }
+            // Fallback reload if controllerchange does not fire
             setTimeout(handleReload, 500);
         } else {
-            // Se nenhum worker estiver em espera (ex: já ativado, redundant ou skipWaiting automático),
-            // força o reload da página diretamente para carregar os novos assets
+            // No waiting worker – force reload to load new assets
             handleReload();
         }
     }, [swRegistration]);
