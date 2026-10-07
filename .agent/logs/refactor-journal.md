@@ -43,3 +43,14 @@
   - Abstraction & Reusability: Extracted generic local storage logic into a reusable hook that guarantees type safety and handles parsing / error states centrally.
   - SRP (Single Responsibility Principle): The UI component `WorldMap` no longer owns the responsibility of safely interacting with the browser's `localStorage` API.
 - **🔬 Verification:** `tsc`, `npm test`, `npm run lint`, and `npm run build` all passed successfully.
+## 2025-03-05 — Refactoring `coreLogic.ts` into Single Responsibility files
+
+- **💡 What:** Split `src/utils/gamification/coreLogic.ts` (400 lines) into `src/utils/gamification/initialState.ts` and `src/utils/gamification/questionLogic.ts`.
+- **🎯 Why:** Code smell identified: `coreLogic.ts` violated SRP by handling basic gamification object initialization/parsing as well as complex logic rules like processing completed questions.
+- **📁 Files Changed:**
+  - `src/utils/gamification/coreLogic.ts` (deleted)
+  - `src/utils/gamification/initialState.ts` (created)
+  - `src/utils/gamification/questionLogic.ts` (created)
+  - `src/utils/gamificationState.ts` (updated exports)
+- **🧹 Architectural Gain:** Applied SRP (Single Responsibility Principle). Initial state setup and deep complex rules are now strictly separated by domain concerns.
+- **🔬 Verification:** Confirmed that `tsc`, `npm test`, `npm run lint`, and `npm run build` all pass successfully.
