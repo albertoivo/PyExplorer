@@ -64,7 +64,7 @@ export function CertificateGenerator({ studentName, completionDate }: Certificat
                                 <p className="certificate-text">{t('certificate.certifiedThat', 'Certificamos que')}</p>
                                 <h2 className="student-name">{studentName}</h2>
                                 <p className="certificate-text">
-                                    completou com sucesso a jornada do iniciante em
+                                    {t('certificate.completedJourney', 'completou com sucesso a jornada do iniciante em')}
                                 </p>
                                 <h3 className="course-title">{t('certificate.pythonProgramming', 'Programação Python')}</h3>
                             </div>
@@ -80,7 +80,9 @@ export function CertificateGenerator({ studentName, completionDate }: Certificat
                                 </div>
 
                                 <div className="date-block">
-                                    <p className="date-text">Data: {completionDate}</p>
+                                    <p className="date-text">
+                                        {t('certificate.dateLabel', { defaultValue: 'Data: {{date}}', date: completionDate })}
+                                    </p>
                                     <small>{t('certificate.verifiedAt', 'pyexplorer.firebaseapp.com')}</small>
                                 </div>
                             </div>
@@ -95,20 +97,22 @@ export function CertificateGenerator({ studentName, completionDate }: Certificat
                     className="download-btn"
                     disabled={isGenerating}
                 >
-                    {isGenerating ? 'Gerando PDF...' : '📥 Baixar Certificado (PDF)'}
+                    {isGenerating
+                        ? t('certificate.generatingPdf', 'Gerando PDF...')
+                        : t('certificate.downloadPdf', '📥 Baixar Certificado (PDF)')}
                 </button>
                 <button
                     onClick={() => {
                         const shareData = {
-                            title: 'PyExplorer - Certificado de Conclusão',
-                            text: `Eu completei a jornada de Programação Python no PyExplorer! 🚀🐍`,
+                            title: t('certificate.shareTitle', 'PyExplorer - Certificado de Conclusão'),
+                            text: t('certificate.shareText', 'Eu completei a jornada de Programação Python no PyExplorer! 🚀🐍'),
                             url: window.location.origin
                         };
                         if (navigator.share) {
                             navigator.share(shareData).catch(console.error);
                         } else {
                             navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
-                            alert('Link copiado para a área de transferência!');
+                            alert(t('certificate.linkCopied', 'Link copiado para a área de transferência!'));
                         }
                     }}
                     className="download-btn share-btn"

@@ -98,7 +98,68 @@
         "name": "Pythoninho",
         "ariaLabel": "Pythoninho Mascot: {{mood}}. {{state}}",
         "clickToInteract": "Click to interact",
-        "saying": "Saying: {{msg}}"
+        "saying": "Saying: {{msg}}",
+        "moods": {
+            "idle": "Hello! I am here to help!",
+            "happy": "That's it! You are doing great!",
+            "excited": "AMAZING! You are awesome!",
+            "thinking": "Hmm, let me think...",
+            "confused": "Oops! Not quite right...",
+            "encouraging": "You can do it! Try again!",
+            "celebrating": "CONGRATS! You are a champion!",
+            "sleeping": "Zzz...",
+            "waving": "Welcome back!"
+        },
+        "moodNames": {
+            "idle": "Neutral",
+            "happy": "Happy",
+            "excited": "Excited",
+            "thinking": "Thinking",
+            "confused": "Confused",
+            "encouraging": "Encouraging",
+            "celebrating": "Celebrating",
+            "sleeping": "Sleeping",
+            "waving": "Waving"
+        },
+        "messages": {
+            "correct": [
+                "That's it! Well done!",
+                "Perfect! You're awesome!",
+                "Right on target! 🎯",
+                "You're rocking it!",
+                "Excellent work!",
+                "Wow! Very good!",
+                "Impressive! 🌟",
+                "You are a genius!"
+            ],
+            "incorrect": [
+                "Don't give up! You can do it!",
+                "Almost there! Try again!",
+                "Mistakes are part of learning! Let's go!",
+                "You are learning! 💪",
+                "Don't worry, try once more!",
+                "Practice makes perfect!",
+                "I know you can do it!"
+            ],
+            "celebrate": [
+                "CONGRATULATIONS! You are amazing! 🎉",
+                "What an achievement! Keep it up!",
+                "You are rocking it! 🏆",
+                "Fantastic! You're the best!"
+            ],
+            "idle": [
+                "I'm here if you need me!",
+                "Shall we learn together?",
+                "Python is really cool!",
+                "Enjoying the game? 🐍"
+            ],
+            "hint": [
+                "Think calmly...",
+                "Tip: read the question again!",
+                "You already know the answer!",
+                "Trust yourself!"
+            ]
+        }
     },
     "player": "Player",
     "offline": {
@@ -113,7 +174,11 @@
         "updateAvailable": "New version available!",
         "update": "Update",
         "updating": "Updating...",
-        "offlineReady": "App ready to work offline!"
+        "offlineReady": "App ready to work offline!",
+        "pending_one": "{{count}} pending",
+        "pending_other": "{{count}} pending",
+        "pendingToSync_one": "{{count}} item to sync",
+        "pendingToSync_other": "{{count}} items to sync"
     },
     "seo": {
         "defaultDescription": "Learn Python the fun way! PyExplorer is a FREE educational game for kids and beginners to learn programming."

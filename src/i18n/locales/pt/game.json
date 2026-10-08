@@ -31,7 +31,31 @@
         "avatarLabel": "Avatar de {{speaker}}",
         "progressLabel": "Passo {{current}} de {{total}}",
         "skip": "Pular",
-        "startAdventure": "Começar Aventura! 🚀"
+        "startAdventure": "Começar Aventura! 🚀",
+        "basic_commands_intro": {
+            "title": "O Início da Jornada",
+            "speaker_0": "Mestre Python",
+            "text_0": "Olá, jovem explorador! Seja bem-vindo ao mundo de PyExplorer.",
+            "speaker_1": "Mestre Python",
+            "text_1": "Eu sou o Mestre Python. Vou te ensinar a magia do código.",
+            "speaker_2": "Mestre Python",
+            "text_2": "Para começar, você precisa aprender como falar com o computador.",
+            "speaker_3": "Mestre Python",
+            "text_3": "Use o comando \"print()\" para mostrar mensagens na tela.",
+            "speaker_4": "Você",
+            "text_4": "Parece fácil! Vamos lá!"
+        },
+        "basic_commands_outro": {
+            "title": "O Primeiro Desafio Vencido",
+            "speaker_0": "Mestre Python",
+            "text_0": "Impressionante! Você derrotou o Guardião Printus.",
+            "speaker_1": "Mestre Python",
+            "text_1": "Você provou que sabe se comunicar com a máquina.",
+            "speaker_2": "Mestre Python",
+            "text_2": "Mas cuidado... O próximo mundo guarda segredos maiores.",
+            "speaker_3": "Mestre Python",
+            "text_3": "Prepare-se para conhecer as Variáveis!"
+        }
     },
     "result": {
         "success": "🎉 Sucesso!",
@@ -72,7 +96,8 @@
         "balanceAfter": "Saldo após revelar: {{after}} ⭐",
         "revealPreviousFirst": "Revele a dica anterior primeiro!",
         "extraHintPrefix": "Dica extra:",
-        "cancel": "Cancelar"
+        "cancel": "Cancelar",
+        "defaultLevel1": "Pense bem! Leia a pergunta com calma e tente lembrar do que você aprendeu no tutorial. 🤔"
     },
     "completedModal": {
         "title": "Questão Concluída!",
@@ -229,7 +254,14 @@
         "pythonProgramming": "Programação Python",
         "masterPy": "Mestre Py",
         "chiefInstructor": "Instrutor Chefe",
-        "verifiedAt": "pyexplorer.firebaseapp.com"
+        "verifiedAt": "pyexplorer.firebaseapp.com",
+        "completedJourney": "completou com sucesso a jornada do iniciante em",
+        "dateLabel": "Data: {{date}}",
+        "generatingPdf": "Gerando PDF...",
+        "downloadPdf": "📥 Baixar Certificado (PDF)",
+        "shareTitle": "PyExplorer - Certificado de Conclusão",
+        "shareText": "Eu completei a jornada de Programação Python no PyExplorer! 🚀🐍",
+        "linkCopied": "Link copiado para a área de transferência!"
     },
     "flashcards": {
         "title": "📚 Flashcards",
@@ -247,7 +279,9 @@
         "youKnow": "Você sabe",
         "toReview": "Para revisar",
         "restart": "🔄 Recomeçar",
-        "finish": "✨ Concluir"
+        "finish": "✨ Concluir",
+        "reviewedAll_one": "Você revisou 1 flashcard!",
+        "reviewedAll_other": "Você revisou todos os {{count}} flashcards!"
     },
     "tutorials": {
         "title": "📖 Tutorial",
@@ -279,5 +313,70 @@
         "error": "❌ Erro: {{message}}",
         "checking": "Verificando... ⏳",
         "check": "Verificar Ordem ✨"
+    },
+    "completedQuestions_one": "Você já resolveu 1 questão hoje!",
+    "completedQuestions_other": "Você já resolveu {{count}} questões hoje!",
+    "customHints": {
+        "basic_1": {
+            "level_1": "Qual comando você aprendeu no tutorial para mostrar coisas na tela? 📺",
+            "level_2": "O comando começa com \"pr\" e termina com \"int()\". É como imprimir na tela!",
+            "level_3": "A resposta é print()! Usamos print(\"texto\") para mostrar qualquer coisa na tela."
+        },
+        "basic_3": {
+            "level_1": "Qual comando mostra texto na tela? 🖥️",
+            "level_2": "O comando é print(). Basta escrever print antes do parêntese.",
+            "level_3": "Complete com: print. O código fica: print(\"Olá, mundo!\")"
+        },
+        "var_2": {
+            "level_1": "Para criar uma variável, você só precisa escolher um nome! 📦",
+            "level_2": "O nome da variável deve ser \"idade\". Escreva: idade = 10",
+            "level_3": "A resposta é: idade. O código fica: idade = 10"
+        },
+        "dec_3": {
+            "level_1": "Qual palavra em Python significa \"SE\"? 🤔",
+            "level_2": "A palavra é \"if\". if idade >= 18: verifica se é maior de idade.",
+            "level_3": "Complete com: if. O código fica: if idade >= 18:"
+        },
+        "loop_3": {
+            "level_1": "Lembre-se: range não inclui o último número! 🔢",
+            "level_2": "Para ir até 5, você precisa colocar 6. Porque 6 não entra!",
+            "level_3": "A resposta é: 6. range(1, 6) gera 1, 2, 3, 4, 5."
+        }
+    },
+    "worldMap": {
+        "title": "🗺️ A Jornada do Desenvolvedor",
+        "subtitle": "Explore as 4 Sagas Épicas, resolva desafios e torne-se um Mestre em Python!",
+        "scoreTooltip": "Pontuação acumulada em todas as questões",
+        "xpPoints": "{{count}} Pontos XP",
+        "xpPoints_one": "{{count}} Ponto XP",
+        "xpPoints_other": "{{count}} Pontos XP"
+    },
+    "turtle": {
+        "mismatchError": "O desenho não ficou igual ao esperado. Tente novamente! 🐢",
+        "unknownError": "Erro desconhecido"
+    },
+    "boss": {
+        "title": "Desafio do Chefe: {{name}}",
+        "warning": "⚠️ Você terá {{seconds}} segundos!",
+        "start": "⚔️ Iniciar Batalha",
+        "statusDefeated": "DERROTADO! 💀",
+        "statusVictorious": "VITORIOSO... 😈",
+        "statusFurious": "FURIOSO! ⚡",
+        "timeoutFeedback": "Ah não! O tempo acabou! O Guardião foi mais rápido desta vez... Tente novamente!",
+        "victoryFeedback": "Incrível! Você derrotou o {{name}}!",
+        "rejectedFeedback": "O código rodou, mas o Boss não aceitou a resposta. Verifique os requisitos!",
+        "casting": "Invocando magia...",
+        "attack": "⚔️ Atacar (Rodar)",
+        "retry": "🔄 Tentar Novamente",
+        "continue": "🎉 Continuar",
+        "defaultMonsterName": "Monstro do Código"
+    },
+    "pythonErrors": {
+        "syntaxError": "❌ Erro de Sintaxe: Algo está escrito errado no código",
+        "nameError": "❌ Ops! O nome \"{{name}}\" não foi criado ainda",
+        "indentationError": "❌ Erro de Espaçamento: Verifique os espaços no início das linhas",
+        "typeError": "❌ Erro de Tipo: Você misturou tipos diferentes (como texto e número)",
+        "zeroDivisionError": "❌ Ops! Não podemos dividir por zero!",
+        "indexError": "❌ Erro de Índice: Você tentou acessar algo que não existe na lista"
     }
 }

@@ -219,16 +219,36 @@
         "max": "MÁX"
     },
     "levels": {
-        "1": { "name": "Aprendiz de Python" },
-        "2": { "name": "Explorador de Datos" },
-        "3": { "name": "Maestro de Variables" },
-        "4": { "name": "Guardián de la Lógica" },
-        "5": { "name": "Arquitecto de Funciones" },
-        "6": { "name": "Ingeniero de Código" },
-        "7": { "name": "Hechicero de Algoritmos" },
-        "8": { "name": "Caballero del Conocimiento" },
-        "9": { "name": "Señor de la Programación" },
-        "10": { "name": "Gran Maestro Python" }
+        "1": {
+            "name": "Aprendiz de Python"
+        },
+        "2": {
+            "name": "Explorador de Datos"
+        },
+        "3": {
+            "name": "Maestro de Variables"
+        },
+        "4": {
+            "name": "Guardián de la Lógica"
+        },
+        "5": {
+            "name": "Arquitecto de Funciones"
+        },
+        "6": {
+            "name": "Ingeniero de Código"
+        },
+        "7": {
+            "name": "Hechicero de Algoritmos"
+        },
+        "8": {
+            "name": "Caballero del Conocimiento"
+        },
+        "9": {
+            "name": "Señor de la Programación"
+        },
+        "10": {
+            "name": "Gran Maestro Python"
+        }
     },
     "powerups": {
         "title": "Power-Ups Disponibles",
@@ -366,7 +386,11 @@
     "streak": {
         "bonus": "Bonificación de Racha",
         "daysInRow": "{{count}} días seguidos",
-        "record": "Récord: {{count}} días"
+        "record": "Récord: {{count}} días",
+        "daysInRow_one": "{{count}} día seguido",
+        "daysInRow_other": "{{count}} días seguidos",
+        "record_one": "Récord: {{count}} día",
+        "record_other": "Récord: {{count}} días"
     },
     "toast": {
         "achievementUnlocked": "¡Nuevo Logro Desbloqueado!",
@@ -399,5 +423,9 @@
             "boss": "Jefe",
             "collection": "Colección"
         }
+    },
+    "notifications": {
+        "shield": "¡Escudo de Racha!",
+        "missionComplete": "¡Misión Cumplida!"
     }
 }

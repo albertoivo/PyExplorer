@@ -219,16 +219,36 @@
         "max": "MAX"
     },
     "levels": {
-        "1": { "name": "Aprendiz de Python" },
-        "2": { "name": "Explorador de Dados" },
-        "3": { "name": "Mestre das Variáveis" },
-        "4": { "name": "Guardião da Lógica" },
-        "5": { "name": "Arquiteto de Funções" },
-        "6": { "name": "Engenheiro de Código" },
-        "7": { "name": "Feiticeiro dos Algoritmos" },
-        "8": { "name": "Cavaleiro do Conhecimento" },
-        "9": { "name": "Lorde da Programação" },
-        "10": { "name": "Grão-Mestre Python" }
+        "1": {
+            "name": "Aprendiz de Python"
+        },
+        "2": {
+            "name": "Explorador de Dados"
+        },
+        "3": {
+            "name": "Mestre das Variáveis"
+        },
+        "4": {
+            "name": "Guardião da Lógica"
+        },
+        "5": {
+            "name": "Arquiteto de Funções"
+        },
+        "6": {
+            "name": "Engenheiro de Código"
+        },
+        "7": {
+            "name": "Feiticeiro dos Algoritmos"
+        },
+        "8": {
+            "name": "Cavaleiro do Conhecimento"
+        },
+        "9": {
+            "name": "Lorde da Programação"
+        },
+        "10": {
+            "name": "Grão-Mestre Python"
+        }
     },
     "powerups": {
         "title": "Power-Ups Disponíveis",
@@ -366,7 +386,11 @@
     "streak": {
         "bonus": "Bônus de Ofensiva",
         "daysInRow": "{{count}} dias seguidos",
-        "record": "Recorde: {{count}} dias"
+        "record": "Recorde: {{count}} dias",
+        "daysInRow_one": "{{count}} dia seguido",
+        "daysInRow_other": "{{count}} dias seguidos",
+        "record_one": "Recorde: {{count}} dia",
+        "record_other": "Recorde: {{count}} dias"
     },
     "toast": {
         "achievementUnlocked": "Nova Conquista Desbloqueada!",
@@ -399,5 +423,9 @@
             "boss": "Chefão",
             "collection": "Coleção"
         }
+    },
+    "notifications": {
+        "shield": "Escudo de Streak!",
+        "missionComplete": "Missão Cumprida!"
     }
 }

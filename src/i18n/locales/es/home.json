@@ -29,7 +29,11 @@
         "questions": "Preguntas",
         "completed": "completadas",
         "playNow": "🎮 Jugar Ahora",
-        "myProfile": "👤 Mi Perfil"
+        "myProfile": "👤 Mi Perfil",
+        "streakDays_one": "{{count}} día",
+        "streakDays_other": "{{count}} días",
+        "streakRecord_one": "Récord: {{count}} día",
+        "streakRecord_other": "Récord: {{count}} días"
     },
     "features": {
         "title": "¿Por qué PyExplorer es Especial?",

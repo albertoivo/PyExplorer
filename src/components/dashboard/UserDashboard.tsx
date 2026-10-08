@@ -3,6 +3,7 @@ import { useGamification } from '../../hooks/useGamification';
 import { useProgress } from '../../hooks/useProgress';
 import type { UserData } from '../../types/question';
 import { useTranslation } from 'react-i18next';
+import { useLocalizedPath } from '../../hooks/useLocalizedPath';
 
 interface UserDashboardProps {
     userData: UserData;
@@ -16,6 +17,7 @@ export function UserDashboard({ userData }: UserDashboardProps) {
     const { t } = useTranslation(['home', 'gamification']);
     const { currentLevel, levelProgress, streak } = useGamification();
     const { stats: progressStats } = useProgress();
+    const { getLocalizedPath } = useLocalizedPath();
 
     // Preload Pyodide script on hover for faster game start
     const handlePreload = () => {
@@ -99,10 +101,10 @@ export function UserDashboard({ userData }: UserDashboardProps) {
             </div>
 
             <div className="user-progress__cta">
-                <Link to="/game" className="hero__btn hero__btn--primary" onMouseEnter={handlePreload} onFocus={handlePreload}>
+                <Link to={getLocalizedPath("/game")} className="hero__btn hero__btn--primary" onMouseEnter={handlePreload} onFocus={handlePreload}>
                     {t('home:dashboard.playNow', '🎮 Jogar Agora')}
                 </Link>
-                <Link to="/profile" className="hero__btn hero__btn--secondary" aria-label={t('common:aria.accessProfile', 'Acessar Perfil')}>
+                <Link to={getLocalizedPath("/profile")} className="hero__btn hero__btn--secondary" aria-label={t('common:aria.accessProfile', 'Acessar Perfil')}>
                     {t('home:dashboard.myProfile', '👤 Meu Perfil')}
                 </Link>
             </div>

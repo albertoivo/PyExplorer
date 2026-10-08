@@ -51,10 +51,20 @@ export function ProgressiveHints({
 
     const hints: QuestionHints = useMemo(() => {
         const base = getHintsForQuestion(questionId, explanation);
+        const localizedHints = base.hints.map(h => {
+            const localizedText = (h.level === 1 && h.text.startsWith('Pense bem!'))
+                ? t('hints.defaultLevel1', { defaultValue: h.text })
+                : t(`customHints.${questionId}.level_${h.level}` as never, { defaultValue: h.text });
+            return {
+                ...h,
+                text: localizedText
+            };
+        });
+
         if (activePowerUp === 'extra_hint') {
             return {
                 ...base,
-                hints: base.hints.map((h, idx) => {
+                hints: localizedHints.map((h, idx) => {
                     if (idx === 1) {
                         return { ...h, cost: 0, text: t('hints.extraHintPrefix', '🌟 [Dica Extra do Mestre Python]: ') + h.text };
                     }
@@ -62,7 +72,7 @@ export function ProgressiveHints({
                 }) as QuestionHints['hints']
             };
         }
-        return base;
+        return { ...base, hints: localizedHints as QuestionHints['hints'] };
     }, [questionId, explanation, activePowerUp, t]);
 
     const userStars = userData?.totalScore ?? 0;

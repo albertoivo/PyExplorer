@@ -98,7 +98,68 @@
         "name": "Pythoninho",
         "ariaLabel": "Mascote Pythoninho: {{mood}}. {{state}}",
         "clickToInteract": "Clique para interagir",
-        "saying": "Dizendo: {{msg}}"
+        "saying": "Dizendo: {{msg}}",
+        "moods": {
+            "idle": "Olá! Estou aqui para ajudar!",
+            "happy": "Isso aí! Você está indo muito bem!",
+            "excited": "INCRÍVEL! Você é demais!",
+            "thinking": "Hmm, deixe-me pensar...",
+            "confused": "Oops! Não foi bem assim...",
+            "encouraging": "Você consegue! Tenta de novo!",
+            "celebrating": "PARABÉNS! Você é um campeão!",
+            "sleeping": "Zzz...",
+            "waving": "Bem-vindo de volta!"
+        },
+        "moodNames": {
+            "idle": "Neutro",
+            "happy": "Feliz",
+            "excited": "Animado",
+            "thinking": "Pensando",
+            "confused": "Confuso",
+            "encouraging": "Encorajador",
+            "celebrating": "Celebrando",
+            "sleeping": "Dormindo",
+            "waving": "Acenando"
+        },
+        "messages": {
+            "correct": [
+                "Isso aí! Mandou bem!",
+                "Perfeito! Você é demais!",
+                "Acertou em cheio! 🎯",
+                "Você está arrasando!",
+                "Excelente trabalho!",
+                "Uau! Muito bom!",
+                "Impressionante! 🌟",
+                "Você é um gênio!"
+            ],
+            "incorrect": [
+                "Não desiste! Você consegue!",
+                "Quase lá! Tenta de novo!",
+                "Errar faz parte! Vamos lá!",
+                "Você está aprendendo! 💪",
+                "Não se preocupa, tenta outra vez!",
+                "A prática leva à perfeição!",
+                "Eu sei que você consegue!"
+            ],
+            "celebrate": [
+                "PARABÉNS! Você é incrível! 🎉",
+                "Que conquista! Continue assim!",
+                "Você está arrasando! 🏆",
+                "Fantástico! Você é demais!"
+            ],
+            "idle": [
+                "Estou aqui se precisar!",
+                "Vamos aprender juntos?",
+                "Python é muito legal!",
+                "Curtindo o jogo? 🐍"
+            ],
+            "hint": [
+                "Pensa com calma...",
+                "Dica: leia a pergunta de novo!",
+                "Você já sabe a resposta!",
+                "Confia em você!"
+            ]
+        }
     },
     "player": "Jogador",
     "offline": {
@@ -113,7 +174,11 @@
         "updateAvailable": "Nova versão disponível!",
         "update": "Atualizar",
         "updating": "Atualizando...",
-        "offlineReady": "App pronto para funcionar offline!"
+        "offlineReady": "App pronto para funcionar offline!",
+        "pending_one": "{{count}} pendente",
+        "pending_other": "{{count}} pendentes",
+        "pendingToSync_one": "{{count}} item para sincronizar",
+        "pendingToSync_other": "{{count}} itens para sincronizar"
     },
     "seo": {
         "defaultDescription": "Aprenda Python de forma divertida! PyExplorer é um jogo educativo GRATUITO para crianças e iniciantes aprenderem programação."

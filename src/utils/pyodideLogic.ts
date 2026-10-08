@@ -1,3 +1,5 @@
+import i18n from '../i18n';
+
 /**
  * Compara outputs considerando diferentes tipos
  */
@@ -30,19 +32,44 @@ export function formatPythonError(error: string): string {
     // Remove caminhos de arquivo longos
     let formatted = error.replace(/File ".*?", /g, '');
 
-    // Traduz erros comuns
-    const translations: [RegExp, string][] = [
-        [/SyntaxError: invalid syntax/g, '❌ Erro de Sintaxe: Algo está escrito errado no código'],
-        [/NameError: name '(.+)' is not defined/g, '❌ Ops! O nome "$1" não foi criado ainda'],
-        [/IndentationError/g, '❌ Erro de Espaçamento: Verifique os espaços no início das linhas'],
-        [/TypeError/g, '❌ Erro de Tipo: Você misturou tipos diferentes (como texto e número)'],
-        [/ZeroDivisionError/g, '❌ Ops! Não podemos dividir por zero!'],
-        [/IndexError/g, '❌ Erro de Índice: Você tentou acessar algo que não existe na lista'],
-    ];
+    const t = (key: string, def: string, options?: Record<string, unknown>) => {
+        try {
+            return i18n.t(`pythonErrors.${key}` as never, { defaultValue: def, ns: 'game', ...options });
+        } catch {
+            return def;
+        }
+    };
 
-    for (const [pattern, replacement] of translations) {
-        formatted = formatted.replace(pattern, replacement);
-    }
+    // Traduz erros comuns
+    formatted = formatted.replace(
+        /SyntaxError: invalid syntax/g,
+        t('syntaxError', '❌ Erro de Sintaxe: Algo está escrito errado no código')
+    );
+
+    formatted = formatted.replace(
+        /NameError: name '(.+)' is not defined/g,
+        (_, name) => t('nameError', `❌ Ops! O nome "${name}" não foi criado ainda`, { name })
+    );
+
+    formatted = formatted.replace(
+        /IndentationError/g,
+        t('indentationError', '❌ Erro de Espaçamento: Verifique os espaços no início das linhas')
+    );
+
+    formatted = formatted.replace(
+        /TypeError/g,
+        t('typeError', '❌ Erro de Tipo: Você misturou tipos diferentes (como texto e número)')
+    );
+
+    formatted = formatted.replace(
+        /ZeroDivisionError/g,
+        t('zeroDivisionError', '❌ Ops! Não podemos dividir por zero!')
+    );
+
+    formatted = formatted.replace(
+        /IndexError/g,
+        t('indexError', '❌ Erro de Índice: Você tentou acessar algo que não existe na lista')
+    );
 
     return formatted;
 }

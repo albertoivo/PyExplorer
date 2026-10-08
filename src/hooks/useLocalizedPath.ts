@@ -19,15 +19,43 @@ export function getCleanPath(pathname: string): string {
     return pathname.startsWith('/') ? pathname : `/${pathname}`;
 }
 
+const SEO_PATHS: Record<string, Record<string, string>> = {
+    '/python-para-criancas': {
+        pt: '/python-para-criancas',
+        en: '/python-for-kids',
+        es: '/python-para-ninos',
+        hi: '/bachon-ke-liye-python'
+    },
+    '/aprender-python-jogando': {
+        pt: '/aprender-python-jogando',
+        en: '/learn-python-playing',
+        es: '/aprender-python-jugando',
+        hi: '/khel-khel-mein-python'
+    }
+};
+
 /**
  * Prepends the language prefix to a path if the language is not the default (pt).
+ * Maps specific SEO paths to their localized equivalents.
  * e.g., for 'en' and '/learn' -> '/en/learn'
- *       for 'en' and '/' -> '/en'
- *       for 'pt' and '/learn' -> '/learn'
+ *       for 'en' and '/python-para-criancas' -> '/en/python-for-kids'
  */
 export function formatLocalizedPath(path: string, lang: string): string {
-    const clean = getCleanPath(path);
+    let clean = getCleanPath(path);
     const cleanLang = lang ? lang.split('-')[0].toLowerCase() : DEFAULT_LANGUAGE;
+
+    // Check if it's a known SEO path
+    if (SEO_PATHS[clean]) {
+        clean = SEO_PATHS[clean][cleanLang] || clean;
+    } else {
+        // Reverse lookup: in case the passed path is already a localized SEO path
+        for (const [ptPath, translations] of Object.entries(SEO_PATHS)) {
+            if (Object.values(translations).includes(clean)) {
+                clean = (translations as Record<string, string>)[cleanLang] || ptPath;
+                break;
+            }
+        }
+    }
 
     if (cleanLang === DEFAULT_LANGUAGE || !supportedLanguages.includes(cleanLang as SupportedLanguage)) {
         return clean;

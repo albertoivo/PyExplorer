@@ -94,7 +94,7 @@ export const TurtleQuestion = memo(function TurtleQuestion({
                 if (isMatch) {
                     onAnswer(true, code);
                 } else {
-                    setError('O desenho não ficou igual ao esperado. Tente novamente! 🐢');
+                    setError(t('turtle.mismatchError', 'O desenho não ficou igual ao esperado. Tente novamente! 🐢'));
                     onAnswer(false, code);
                 }
             } else {
@@ -103,7 +103,7 @@ export const TurtleQuestion = memo(function TurtleQuestion({
             }
 
         } catch (err) {
-            const message = err instanceof Error ? err.message : 'Erro desconhecido';
+            const message = err instanceof Error ? err.message : t('turtle.unknownError', 'Erro desconhecido');
             setError(message);
             onAnswer(false, code);
         } finally {

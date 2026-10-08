@@ -134,11 +134,11 @@ export function FullFunctionQuestion({
             if (result.hasError) {
                 setOutput(result.stderr);
             } else {
-                setOutput(result.stdout || '(Nenhuma saída)');
+                setOutput(result.stdout || t('question.noOutput', '(Nenhuma saída)'));
             }
         } catch (err) {
-            const message = err instanceof Error ? err.message : 'Erro desconhecido';
-            setOutput(`❌ Erro: ${message}`);
+            const message = err instanceof Error ? err.message : t('parsons.unknownError', 'Erro desconhecido');
+            setOutput(t('parsons.error', { defaultValue: '❌ Erro: {{message}}', message }));
         } finally {
             setIsRunning(false);
         }
@@ -148,7 +148,7 @@ export function FullFunctionQuestion({
         <div className="question-container question-container--code">
             <QuestionHeader
                 badgeClassName="question-type-badge--full"
-                badgeText={t('questionTypes.badgeFull', '⚡ Ecreva a Função')}
+                badgeText={t('questionTypes.badgeFull', '⚡ Escreva a Função')}
                 difficulty={question.difficulty}
                 title={question.title}
                 prompt={question.prompt}

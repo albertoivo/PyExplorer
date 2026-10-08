@@ -1,3 +1,5 @@
+import i18n from '../i18n';
+
 // Mensagens aleatórias para diferentes situações
 export const RANDOM_MESSAGES = {
     correct: [
@@ -40,6 +42,17 @@ export const RANDOM_MESSAGES = {
 };
 
 export function getRandomMessage(type: keyof typeof RANDOM_MESSAGES): string {
-    const messages = RANDOM_MESSAGES[type];
-    return messages[Math.floor(Math.random() * messages.length)];
+    try {
+        const localized = i18n.t(`mascot.messages.${type}` as never, {
+            returnObjects: true,
+            defaultValue: RANDOM_MESSAGES[type],
+            ns: 'common',
+        });
+        const messages = Array.isArray(localized) ? (localized as string[]) : RANDOM_MESSAGES[type];
+        return messages[Math.floor(Math.random() * messages.length)];
+    } catch {
+        const messages = RANDOM_MESSAGES[type];
+        return messages[Math.floor(Math.random() * messages.length)];
+    }
 }
+

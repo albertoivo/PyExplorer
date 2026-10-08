@@ -209,7 +209,7 @@ export function Header() {
                                     {isGuest && <span className="header__user-guest">({t('nav.guest')})</span>}
                                 </Link>
                                 <button onClick={handleLogout} className="header__logout-icon-btn" title={t('nav.logout')} aria-label={t('nav.logout')}>
-                                    <span aria-hidden="true">Sair</span>
+                                    <span aria-hidden="true">{t('nav.logout')}</span>
                                 </button>
                             </div>
                         ) : (

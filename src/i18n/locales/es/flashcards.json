@@ -1,0 +1,310 @@
+{
+    "title": "📚 Tarjetas de Repaso",
+    "cards": {
+        "fc_basic_1": {
+            "question": "¿Qué comando muestra texto en la pantalla?",
+            "answer": "print()",
+            "hint": null
+        },
+        "fc_basic_2": {
+            "question": "Los textos deben ir entre...",
+            "answer": "Comillas (simples o dobles)",
+            "hint": null
+        },
+        "fc_basic_3": {
+            "question": "¿Qué significan las líneas con #?",
+            "answer": "Son comentarios (Python los ignora)",
+            "hint": null
+        },
+        "fc_basic_4": {
+            "question": "¿Python puede hacer cálculos?",
+            "answer": "¡Sí! Python calcula y muestra resultados",
+            "hint": null
+        },
+        "fc_num_1": {
+            "question": "¿Qué símbolo divide en Python?",
+            "answer": "/ (barra)",
+            "hint": null
+        },
+        "fc_num_2": {
+            "question": "¿Qué símbolo multiplica?",
+            "answer": "* (asterisco)",
+            "hint": null
+        },
+        "fc_num_3": {
+            "question": "¿Cómo hacer potencia en Python?",
+            "answer": "** (dos asteriscos)",
+            "hint": null
+        },
+        "fc_num_4": {
+            "question": "¿Qué hace %?",
+            "answer": "Da el resto de la división",
+            "hint": null
+        },
+        "fc_var_1": {
+            "question": "¿Qué es una variable?",
+            "answer": "Una \"caja\" que guarda valores",
+            "hint": null
+        },
+        "fc_var_2": {
+            "question": "¿Cómo crear una variable?",
+            "answer": "nombre = valor",
+            "hint": null
+        },
+        "fc_var_3": {
+            "question": "¿Las variables pueden cambiar de valor?",
+            "answer": "¡Sí! Por eso son \"variables\"",
+            "hint": null
+        },
+        "fc_var_4": {
+            "question": "¿Los nombres de variables pueden empezar con un número?",
+            "answer": "¡No! Solo letras o _",
+            "hint": "edad2 BIEN, 2edad MAL"
+        },
+        "fc_dec_1": {
+            "question": "¿Qué significa \"if\" en Python?",
+            "answer": "SI condicional (si una condición es verdadera)",
+            "hint": null
+        },
+        "fc_dec_2": {
+            "question": "¿Qué significa \"else\"?",
+            "answer": "SI NO (cuando if es falso)",
+            "hint": null
+        },
+        "fc_dec_3": {
+            "question": "¿Qué símbolo comprueba igualdad?",
+            "answer": "== (dos iguales)",
+            "hint": "= es asignación, == es comparación"
+        },
+        "fc_dec_4": {
+            "question": "¿Qué es elif?",
+            "answer": "else if (otra condición)",
+            "hint": null
+        },
+        "fc_loop_1": {
+            "question": "¿Para qué sirve \"for\"?",
+            "answer": "Para repetir comandos varias veces",
+            "hint": null
+        },
+        "fc_loop_2": {
+            "question": "¿Qué números genera range(5)?",
+            "answer": "0, 1, 2, 3, 4",
+            "hint": "Son 5 números, comenzando desde 0"
+        },
+        "fc_loop_3": {
+            "question": "¿Cuál es la diferencia entre for y while?",
+            "answer": "for: cantidad fija. while: condición",
+            "hint": "¡while puede convertirse en un bucle infinito!"
+        },
+        "fc_loop_4": {
+            "question": "¿Qué números genera range(1, 6)?",
+            "answer": "1, 2, 3, 4, 5",
+            "hint": "¡El último número nunca entra!"
+        },
+        "fc_list_1": {
+            "question": "¿Cómo crear una lista?",
+            "answer": "Con corchetes [ ]",
+            "hint": null
+        },
+        "fc_list_2": {
+            "question": "¿Cuál es el índice del primer elemento?",
+            "answer": "0 (cero)",
+            "hint": null
+        },
+        "fc_list_3": {
+            "question": "¿Cómo agregar un elemento a una lista?",
+            "answer": ".append()",
+            "hint": null
+        },
+        "fc_list_4": {
+            "question": "¿Cómo saber el tamaño de una lista?",
+            "answer": "len(lista)",
+            "hint": null
+        },
+        "fc_func_1": {
+            "question": "¿Cómo empezar una función?",
+            "answer": "Con \"def\"",
+            "hint": null
+        },
+        "fc_func_2": {
+            "question": "¿Para qué sirve \"return\"?",
+            "answer": "Para devolver un resultado",
+            "hint": null
+        },
+        "fc_func_3": {
+            "question": "¿Qué son los parámetros?",
+            "answer": "Valores que recibe la función",
+            "hint": null
+        },
+        "fc_func_4": {
+            "question": "Una función sin return devuelve...",
+            "answer": "None (nada)",
+            "hint": "Usa siempre return si necesitas el resultado"
+        },
+        "fc_str_1": {
+            "question": "¿Cómo unir dos cadenas de texto?",
+            "answer": "Con + (más)",
+            "hint": null
+        },
+        "fc_str_2": {
+            "question": "¿Qué es una f-string?",
+            "answer": "Cadena con f delante, permite {variables}",
+            "hint": null
+        },
+        "fc_str_3": {
+            "question": "¿Cómo poner todo en mayúsculas?",
+            "answer": ".upper()",
+            "hint": null
+        },
+        "fc_str_4": {
+            "question": "¿Qué obtiene string[0]?",
+            "answer": "La primera letra",
+            "hint": null
+        },
+        "fc_input_1": {
+            "question": "¿Qué comando pide al usuario escribir?",
+            "answer": "input()",
+            "hint": null
+        },
+        "fc_input_2": {
+            "question": "input() siempre devuelve...",
+            "answer": "Texto (cadena)",
+            "hint": "Incluso si escribes 42, devuelve \"42\""
+        },
+        "fc_input_3": {
+            "question": "¿Cómo convertir texto a número entero?",
+            "answer": "int()",
+            "hint": null
+        },
+        "fc_input_4": {
+            "question": "¿Y a número decimal?",
+            "answer": "float()",
+            "hint": null
+        },
+        "fc_dict_1": {
+            "question": "¿Cómo crear un diccionario?",
+            "answer": "Con llaves { }",
+            "hint": null
+        },
+        "fc_dict_2": {
+            "question": "¿Cómo acceder a un valor?",
+            "answer": "diccionario[\"clave\"]",
+            "hint": null
+        },
+        "fc_dict_3": {
+            "question": "¿Cómo añadir una nueva clave?",
+            "answer": "d[\"nueva\"] = valor",
+            "hint": null
+        },
+        "fc_dict_4": {
+            "question": "¿Diferencia entre lista y diccionario?",
+            "answer": "Lista: índice numérico. Dict: clave nombrada",
+            "hint": "lista[0] vs dict[\"nombre\"]"
+        },
+        "fc_error_1": {
+            "question": "¿Cómo proteger el código de errores?",
+            "answer": "try/except",
+            "hint": null
+        },
+        "fc_error_2": {
+            "question": "¿Qué es ZeroDivisionError?",
+            "answer": "Error de división por cero",
+            "hint": "Ocurre al dividir por 0"
+        },
+        "fc_error_3": {
+            "question": "¿Qué es ValueError?",
+            "answer": "Error de valor inválido",
+            "hint": null
+        },
+        "fc_error_4": {
+            "question": "¿El programa se detiene después de try/except?",
+            "answer": "¡No! Continúa con normalidad",
+            "hint": "except captura el error"
+        },
+        "fc_file_1": {
+            "question": "¿Qué comando abre un archivo?",
+            "answer": "open()",
+            "hint": null
+        },
+        "fc_file_2": {
+            "question": "¿Qué hace el modo \"w\"?",
+            "answer": "Abre para escritura (write)",
+            "hint": "Puede crear o sobrescribir el archivo"
+        },
+        "fc_file_3": {
+            "question": "¿Por qué usar \"with open\"?",
+            "answer": "¡Cierra el archivo automáticamente!",
+            "hint": null
+        },
+        "fc_mod_1": {
+            "question": "¿Qué palabra importa bibliotecas?",
+            "answer": "import",
+            "hint": null
+        },
+        "fc_mod_2": {
+            "question": "¿Qué módulo genera sorteos aleatorios?",
+            "answer": "random",
+            "hint": null
+        },
+        "fc_mod_3": {
+            "question": "¿Qué módulo tiene raíz cuadrada y Pi?",
+            "answer": "math",
+            "hint": null
+        },
+        "fc_oop_1": {
+            "question": "¿Qué palabra crea una clase?",
+            "answer": "class",
+            "hint": null
+        },
+        "fc_oop_2": {
+            "question": "¿Qué hace __init__(self)?",
+            "answer": "Inicializa el objeto cuando se crea",
+            "hint": "Es el constructor de la clase"
+        },
+        "fc_oop_3": {
+            "question": "¿Qué significa self?",
+            "answer": "El propio objeto (\"yo mismo\")",
+            "hint": null
+        },
+        "fc_py_1": {
+            "question": "¿Qué es List Comprehension?",
+            "answer": "Crear listas en 1 sola línea usando for",
+            "hint": null
+        },
+        "fc_py_2": {
+            "question": "¿Podemos poner if en List Comp?",
+            "answer": "¡Sí! Para filtrar elementos",
+            "hint": null
+        },
+        "fc_tur_1": {
+            "question": "¿Qué comando avanza hacia adelante?",
+            "answer": "forward()",
+            "hint": null
+        },
+        "fc_tur_2": {
+            "question": "¿Cómo girar la tortuga a la derecha?",
+            "answer": "right()",
+            "hint": null
+        },
+        "fc_ds_1": {
+            "question": "¿Cómo sumar todos los elementos de una lista?",
+            "answer": "sum()",
+            "hint": null
+        },
+        "fc_ds_2": {
+            "question": "¿Cómo calcular el promedio?",
+            "answer": "sum(lista) / len(lista)",
+            "hint": "Suma total dividida por la cantidad"
+        },
+        "fc_web_1": {
+            "question": "¿Qué es una API?",
+            "answer": "Interfaz para obtener datos de la web",
+            "hint": "Como un camarero digital"
+        },
+        "fc_web_2": {
+            "question": "¿Qué formato de datos usa la web?",
+            "answer": "JSON (parecido a un diccionario)",
+            "hint": null
+        }
+    }
+}

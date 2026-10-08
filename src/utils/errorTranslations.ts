@@ -1,9 +1,11 @@
+import i18n from '../i18n';
+
 /**
- * Traduz mensagens de erro do Firebase para português.
+ * Traduz mensagens de erro do Firebase.
  * Centralizado aqui para evitar problemas com Fast Refresh nos contextos.
  *
  * Usa regex para extrair o código de erro (ex: "auth/user-not-found")
- * e lookup direto O(1) em vez de loop O(n) sobre todas as traduções.
+ * e lookup com suporte multilíngue via i18n.
  */
 export function translateFirebaseError(message: string): string {
     const translations: Record<string, string> = {
@@ -35,19 +37,31 @@ export function translateFirebaseError(message: string): string {
         'auth/credential-already-in-use': 'Essa credencial já está associada a outra conta',
     };
 
+    const getLocalized = (code: string): string => {
+        try {
+            const key = code.replace(/^auth\//, '').replace(/-/g, '_');
+            return i18n.t(`errors.${key}` as never, {
+                defaultValue: translations[code] || message,
+                ns: 'auth',
+            });
+        } catch {
+            return translations[code] || message;
+        }
+    };
+
     // Extrai o código do Firebase da mensagem (ex: "Firebase: Error (auth/invalid-email).")
     const codeMatch = message.match(/auth\/[\w-]+/);
     if (codeMatch) {
         const code = codeMatch[0];
         if (code in translations) {
-            return translations[code];
+            return getLocalized(code);
         }
     }
 
     // Fallback: tenta match por substring (para mensagens sem formato padrão)
-    for (const [code, translation] of Object.entries(translations)) {
+    for (const [code] of Object.entries(translations)) {
         if (message.includes(code)) {
-            return translation;
+            return getLocalized(code);
         }
     }
 

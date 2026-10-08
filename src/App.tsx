@@ -191,6 +191,63 @@ function AppContent() {
           />
         }
       />
+      {/* English SEO Routes */}
+      <Route
+        path="python-for-kids"
+        element={
+          <HomePage
+            seoTitleKey="seoPythonKids.title"
+            seoDescriptionKey="seoPythonKids.description"
+          />
+        }
+      />
+      <Route
+        path="learn-python-playing"
+        element={
+          <HomePage
+            seoTitleKey="seoLearnPlaying.title"
+            seoDescriptionKey="seoLearnPlaying.description"
+          />
+        }
+      />
+      {/* Spanish SEO Routes */}
+      <Route
+        path="python-para-ninos"
+        element={
+          <HomePage
+            seoTitleKey="seoPythonKids.title"
+            seoDescriptionKey="seoPythonKids.description"
+          />
+        }
+      />
+      <Route
+        path="aprender-python-jugando"
+        element={
+          <HomePage
+            seoTitleKey="seoLearnPlaying.title"
+            seoDescriptionKey="seoLearnPlaying.description"
+          />
+        }
+      />
+      {/* Hindi SEO Routes */}
+      <Route
+        path="bachon-ke-liye-python"
+        element={
+          <HomePage
+            seoTitleKey="seoPythonKids.title"
+            seoDescriptionKey="seoPythonKids.description"
+          />
+        }
+      />
+      <Route
+        path="khel-khel-mein-python"
+        element={
+          <HomePage
+            seoTitleKey="seoLearnPlaying.title"
+            seoDescriptionKey="seoLearnPlaying.description"
+          />
+        }
+      />
       <Route path="certificate" element={<CertificatePage />} />
       <Route path="about" element={<AboutPage />} />
 

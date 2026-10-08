@@ -1,0 +1,310 @@
+{
+    "title": "📚 Review Flashcards",
+    "cards": {
+        "fc_basic_1": {
+            "question": "Which command shows text on the screen?",
+            "answer": "print()",
+            "hint": null
+        },
+        "fc_basic_2": {
+            "question": "Text must be placed between...",
+            "answer": "Quotes (single or double)",
+            "hint": null
+        },
+        "fc_basic_3": {
+            "question": "What do lines with # mean?",
+            "answer": "They are comments (Python ignores them)",
+            "hint": null
+        },
+        "fc_basic_4": {
+            "question": "Can Python do calculations?",
+            "answer": "Yes! Python calculates and shows results",
+            "hint": null
+        },
+        "fc_num_1": {
+            "question": "Which symbol divides in Python?",
+            "answer": "/ (slash)",
+            "hint": null
+        },
+        "fc_num_2": {
+            "question": "Which symbol multiplies?",
+            "answer": "* (asterisk)",
+            "hint": null
+        },
+        "fc_num_3": {
+            "question": "How to do exponentiation in Python?",
+            "answer": "** (two asterisks)",
+            "hint": null
+        },
+        "fc_num_4": {
+            "question": "What does % do?",
+            "answer": "Gives the remainder of division",
+            "hint": null
+        },
+        "fc_var_1": {
+            "question": "What is a variable?",
+            "answer": "A \"little box\" that stores values",
+            "hint": null
+        },
+        "fc_var_2": {
+            "question": "How to create a variable?",
+            "answer": "name = value",
+            "hint": null
+        },
+        "fc_var_3": {
+            "question": "Can variables change their value?",
+            "answer": "Yes! That is why they are \"variables\"",
+            "hint": null
+        },
+        "fc_var_4": {
+            "question": "Can variable names start with a number?",
+            "answer": "No! Only letters or _",
+            "hint": "age2 OK, 2age WRONG"
+        },
+        "fc_dec_1": {
+            "question": "What does \"if\" mean in Python?",
+            "answer": "IF (a condition is true)",
+            "hint": null
+        },
+        "fc_dec_2": {
+            "question": "What does \"else\" mean?",
+            "answer": "ELSE (when if is false)",
+            "hint": null
+        },
+        "fc_dec_3": {
+            "question": "Which symbol checks equality?",
+            "answer": "== (two equals)",
+            "hint": "= is assignment, == is comparison"
+        },
+        "fc_dec_4": {
+            "question": "What is elif?",
+            "answer": "else if (another condition)",
+            "hint": null
+        },
+        "fc_loop_1": {
+            "question": "What is \"for\" used for?",
+            "answer": "Repeat commands multiple times",
+            "hint": null
+        },
+        "fc_loop_2": {
+            "question": "Which numbers does range(5) generate?",
+            "answer": "0, 1, 2, 3, 4",
+            "hint": "There are 5 numbers, starting from 0"
+        },
+        "fc_loop_3": {
+            "question": "What is the difference between for and while?",
+            "answer": "for: fixed count. while: condition",
+            "hint": "while can become an infinite loop!"
+        },
+        "fc_loop_4": {
+            "question": "Which numbers does range(1, 6) generate?",
+            "answer": "1, 2, 3, 4, 5",
+            "hint": "The last number is never included!"
+        },
+        "fc_list_1": {
+            "question": "How to create a list?",
+            "answer": "With square brackets [ ]",
+            "hint": null
+        },
+        "fc_list_2": {
+            "question": "What is the index of the first item?",
+            "answer": "0 (zero)",
+            "hint": null
+        },
+        "fc_list_3": {
+            "question": "How to add an item to a list?",
+            "answer": ".append()",
+            "hint": null
+        },
+        "fc_list_4": {
+            "question": "How to get the size of a list?",
+            "answer": "len(list)",
+            "hint": null
+        },
+        "fc_func_1": {
+            "question": "How to start a function?",
+            "answer": "With \"def\"",
+            "hint": null
+        },
+        "fc_func_2": {
+            "question": "What is \"return\" used for?",
+            "answer": "Return a result",
+            "hint": null
+        },
+        "fc_func_3": {
+            "question": "What are parameters?",
+            "answer": "Values that the function receives",
+            "hint": null
+        },
+        "fc_func_4": {
+            "question": "A function without return gives...",
+            "answer": "None (nothing)",
+            "hint": "Always use return if you need the result"
+        },
+        "fc_str_1": {
+            "question": "How to join two strings?",
+            "answer": "With + (plus)",
+            "hint": null
+        },
+        "fc_str_2": {
+            "question": "What is an f-string?",
+            "answer": "String prefixed with f, allowing {variables}",
+            "hint": null
+        },
+        "fc_str_3": {
+            "question": "How to make everything uppercase?",
+            "answer": ".upper()",
+            "hint": null
+        },
+        "fc_str_4": {
+            "question": "What does string[0] get?",
+            "answer": "The first letter",
+            "hint": null
+        },
+        "fc_input_1": {
+            "question": "Which command asks the user to type?",
+            "answer": "input()",
+            "hint": null
+        },
+        "fc_input_2": {
+            "question": "input() always returns...",
+            "answer": "Text (string)",
+            "hint": "Even if typing 42, it returns \"42\""
+        },
+        "fc_input_3": {
+            "question": "How to convert text to an integer?",
+            "answer": "int()",
+            "hint": null
+        },
+        "fc_input_4": {
+            "question": "And to a decimal number?",
+            "answer": "float()",
+            "hint": null
+        },
+        "fc_dict_1": {
+            "question": "How to create a dictionary?",
+            "answer": "With curly braces { }",
+            "hint": null
+        },
+        "fc_dict_2": {
+            "question": "How to access a value?",
+            "answer": "dictionary[\"key\"]",
+            "hint": null
+        },
+        "fc_dict_3": {
+            "question": "How to add a new key?",
+            "answer": "d[\"new\"] = value",
+            "hint": null
+        },
+        "fc_dict_4": {
+            "question": "Difference between list and dictionary?",
+            "answer": "List: index. Dict: named key",
+            "hint": "list[0] vs dict[\"name\"]"
+        },
+        "fc_error_1": {
+            "question": "How to protect code from errors?",
+            "answer": "try/except",
+            "hint": null
+        },
+        "fc_error_2": {
+            "question": "What is ZeroDivisionError?",
+            "answer": "Division by zero error",
+            "hint": "Happens when dividing by 0"
+        },
+        "fc_error_3": {
+            "question": "What is ValueError?",
+            "answer": "Invalid value error",
+            "hint": null
+        },
+        "fc_error_4": {
+            "question": "Does the program stop after try/except?",
+            "answer": "No! It continues normally",
+            "hint": "except catches the error"
+        },
+        "fc_file_1": {
+            "question": "Which command opens a file?",
+            "answer": "open()",
+            "hint": null
+        },
+        "fc_file_2": {
+            "question": "What does \"w\" mode do?",
+            "answer": "Opens for writing (write)",
+            "hint": "Can create or overwrite the file"
+        },
+        "fc_file_3": {
+            "question": "Why use \"with open\"?",
+            "answer": "Closes the file automatically!",
+            "hint": null
+        },
+        "fc_mod_1": {
+            "question": "Which keyword imports libraries?",
+            "answer": "import",
+            "hint": null
+        },
+        "fc_mod_2": {
+            "question": "Which module makes random choices?",
+            "answer": "random",
+            "hint": null
+        },
+        "fc_mod_3": {
+            "question": "Which module has square root and Pi?",
+            "answer": "math",
+            "hint": null
+        },
+        "fc_oop_1": {
+            "question": "Which keyword creates a class?",
+            "answer": "class",
+            "hint": null
+        },
+        "fc_oop_2": {
+            "question": "What does __init__(self) do?",
+            "answer": "Initializes the object when created",
+            "hint": "It is the class constructor"
+        },
+        "fc_oop_3": {
+            "question": "What does self mean?",
+            "answer": "The object itself (\"myself\")",
+            "hint": null
+        },
+        "fc_py_1": {
+            "question": "What is List Comprehension?",
+            "answer": "Create lists in 1 single line with for",
+            "hint": null
+        },
+        "fc_py_2": {
+            "question": "Can we put if inside List Comp?",
+            "answer": "Yes! To filter items",
+            "hint": null
+        },
+        "fc_tur_1": {
+            "question": "Which command moves forward?",
+            "answer": "forward()",
+            "hint": null
+        },
+        "fc_tur_2": {
+            "question": "How to turn the turtle right?",
+            "answer": "right()",
+            "hint": null
+        },
+        "fc_ds_1": {
+            "question": "How to sum all items in a list?",
+            "answer": "sum()",
+            "hint": null
+        },
+        "fc_ds_2": {
+            "question": "How to calculate the average?",
+            "answer": "sum(list) / len(list)",
+            "hint": "Total sum divided by quantity"
+        },
+        "fc_web_1": {
+            "question": "What is an API?",
+            "answer": "Interface to fetch data from the web",
+            "hint": "Like a digital waiter"
+        },
+        "fc_web_2": {
+            "question": "Which data format does the web use?",
+            "answer": "JSON (similar to dictionary)",
+            "hint": null
+        }
+    }
+}

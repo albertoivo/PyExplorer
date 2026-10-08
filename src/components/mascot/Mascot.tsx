@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import './Mascot.css';
 import { MOOD_CONFIGS } from '../../utils/mascotConfig';
-import { RANDOM_MESSAGES } from '../../utils/mascotMessages';
+import { getRandomMessage } from '../../utils/mascotMessages';
 import { useTranslation } from 'react-i18next';
 
 // ============================================
@@ -55,7 +55,13 @@ export function Mascot({
     const [isMessageVisible, setIsMessageVisible] = useState(!!message);
     const [currentMessage, setCurrentMessage] = useState(message);
 
-    const config = useMemo(() => MOOD_CONFIGS[mood], [mood]);
+    const config = useMemo(() => {
+        const raw = MOOD_CONFIGS[mood];
+        return {
+            ...raw,
+            defaultMessage: t(`mascot.moods.${mood}` as never, { defaultValue: raw.defaultMessage })
+        };
+    }, [mood, t]);
 
     // Atualiza mensagem
     useEffect(() => {
@@ -103,8 +109,7 @@ export function Mascot({
         if (onClick) {
             onClick();
         } else {
-            const messages = RANDOM_MESSAGES.idle;
-            const random = messages[Math.floor(Math.random() * messages.length)];
+            const random = getRandomMessage('idle');
             setCurrentMessage(random);
             setIsMessageVisible(true);
         }

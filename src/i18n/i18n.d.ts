@@ -21,6 +21,7 @@ export interface Resources {
     worlds: typeof worlds;
     notFound: typeof notFound;
     tutorials: typeof tutorials;
+    flashcards: Record<string, unknown>;
     articles: Record<string, unknown>;
 }
 

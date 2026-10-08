@@ -219,16 +219,36 @@
         "max": "MAX"
     },
     "levels": {
-        "1": { "name": "Python Apprentice" },
-        "2": { "name": "Data Explorer" },
-        "3": { "name": "Variable Master" },
-        "4": { "name": "Logic Guardian" },
-        "5": { "name": "Function Architect" },
-        "6": { "name": "Code Engineer" },
-        "7": { "name": "Algorithm Sorcerer" },
-        "8": { "name": "Knight of Knowledge" },
-        "9": { "name": "Lord of Programming" },
-        "10": { "name": "Grandmaster Python" }
+        "1": {
+            "name": "Python Apprentice"
+        },
+        "2": {
+            "name": "Data Explorer"
+        },
+        "3": {
+            "name": "Variable Master"
+        },
+        "4": {
+            "name": "Logic Guardian"
+        },
+        "5": {
+            "name": "Function Architect"
+        },
+        "6": {
+            "name": "Code Engineer"
+        },
+        "7": {
+            "name": "Algorithm Sorcerer"
+        },
+        "8": {
+            "name": "Knight of Knowledge"
+        },
+        "9": {
+            "name": "Lord of Programming"
+        },
+        "10": {
+            "name": "Grandmaster Python"
+        }
     },
     "powerups": {
         "title": "Available Power-Ups",
@@ -366,7 +386,11 @@
     "streak": {
         "bonus": "Streak Bonus",
         "daysInRow": "{{count}} days in a row",
-        "record": "Record: {{count}} days"
+        "record": "Record: {{count}} days",
+        "daysInRow_one": "{{count}} day in a row",
+        "daysInRow_other": "{{count}} days in a row",
+        "record_one": "Record: {{count}} day",
+        "record_other": "Record: {{count}} days"
     },
     "toast": {
         "achievementUnlocked": "New Achievement Unlocked!",
@@ -399,5 +423,9 @@
             "boss": "Boss",
             "collection": "Collection"
         }
+    },
+    "notifications": {
+        "shield": "Streak Shield!",
+        "missionComplete": "Mission Complete!"
     }
 }

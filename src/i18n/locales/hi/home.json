@@ -29,7 +29,11 @@
         "questions": "प्रश्न",
         "completed": "पूरे किए गए",
         "playNow": "🎮 अभी खेलें",
-        "myProfile": "👤 मेरी प्रोफ़ाइल"
+        "myProfile": "👤 मेरी प्रोफ़ाइल",
+        "streakDays_one": "{{count}} दिन",
+        "streakDays_other": "{{count}} दिन",
+        "streakRecord_one": "रिकॉर्ड: {{count}} दिन",
+        "streakRecord_other": "रिकॉर्ड: {{count}} दिन"
     },
     "features": {
         "title": "PyExplorer विशेष क्यों है?",

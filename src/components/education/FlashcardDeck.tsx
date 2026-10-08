@@ -14,7 +14,7 @@ interface FlashcardDeckProps {
  * Deck de Flashcards para revisão
  */
 export function FlashcardDeck({ worldId, onClose }: FlashcardDeckProps) {
-    const { t } = useTranslation('game');
+    const { t } = useTranslation(['game', 'flashcards', 'common']);
     const cards = useMemo(() => {
         if (worldId) {
             return getFlashcardsByWorld(worldId);
@@ -141,7 +141,9 @@ export function FlashcardDeck({ worldId, onClose }: FlashcardDeckProps) {
                                 {/* Front */}
                                 <div className="flashcard__front">
                                     <span className="flashcard__emoji">{currentCard.emoji}</span>
-                                    <p className="flashcard__question">{currentCard.question}</p>
+                                    <p className="flashcard__question">
+                                        {t(`flashcards:cards.${currentCard.id}.question`, { defaultValue: currentCard.question })}
+                                    </p>
                                     <span className="flashcard__hint-text">{t('flashcards.tapToFlip', 'Toque para ver a resposta')}</span>
 
                                     <span className={`flashcard__difficulty flashcard__difficulty--${currentCard.difficulty}`}>
@@ -154,14 +156,18 @@ export function FlashcardDeck({ worldId, onClose }: FlashcardDeckProps) {
                                 {/* Back */}
                                 <div className="flashcard__back">
                                     <div className="flashcard__answer-label">{t('flashcards.answerLabel', 'Resposta:')}</div>
-                                    <p className="flashcard__answer">{currentCard.answer}</p>
+                                    <p className="flashcard__answer">
+                                        {t(`flashcards:cards.${currentCard.id}.answer`, { defaultValue: currentCard.answer })}
+                                    </p>
 
                                     {currentCard.codeExample && (
                                         <pre className="flashcard__code">{currentCard.codeExample}</pre>
                                     )}
 
                                     {currentCard.hint && (
-                                        <p className="flashcard__extra-hint">💡 {currentCard.hint}</p>
+                                        <p className="flashcard__extra-hint">
+                                            💡 {t(`flashcards:cards.${currentCard.id}.hint`, { defaultValue: currentCard.hint })}
+                                        </p>
                                     )}
                                 </div>
                             </div>

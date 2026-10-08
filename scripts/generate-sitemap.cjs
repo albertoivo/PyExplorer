@@ -32,7 +32,7 @@ function getLastModDate(filePath) {
 
 function getArticleSlugs() {
     const content = fs.readFileSync(LEARN_DATA_FILE, 'utf-8');
-    const slugRegex = /["']?slug["']?:\s*['"]([^'"]+)['"]/g;
+    const slugRegex = /"pt":\s*['"]([^'"]+)['"]/g;
     const slugs = [];
     let match;
     while ((match = slugRegex.exec(content)) !== null) {
@@ -63,11 +63,35 @@ function resolveComponentPath(componentName, appContent) {
     return null;
 }
 
+const LOCALIZED_PATHS = {
+    '/python-para-criancas': {
+        pt: '/python-para-criancas',
+        en: '/python-for-kids',
+        es: '/python-para-ninos',
+        hi: '/bachon-ke-liye-python'
+    },
+    '/aprender-python-jogando': {
+        pt: '/aprender-python-jogando',
+        en: '/learn-python-playing',
+        es: '/aprender-python-jugando',
+        hi: '/khel-khel-mein-python'
+    }
+};
+
 function getAlternates(cleanPath) {
-    const ptUrl = cleanPath === '/' ? BASE_URL : `${BASE_URL}${cleanPath}`;
-    const enUrl = `${BASE_URL}/en${cleanPath === '/' ? '' : cleanPath}`;
-    const esUrl = `${BASE_URL}/es${cleanPath === '/' ? '' : cleanPath}`;
-    const hiUrl = `${BASE_URL}/hi${cleanPath === '/' ? '' : cleanPath}`;
+    let ptUrl, enUrl, esUrl, hiUrl;
+
+    if (LOCALIZED_PATHS[cleanPath]) {
+        ptUrl = `${BASE_URL}${LOCALIZED_PATHS[cleanPath].pt}`;
+        enUrl = `${BASE_URL}/en${LOCALIZED_PATHS[cleanPath].en}`;
+        esUrl = `${BASE_URL}/es${LOCALIZED_PATHS[cleanPath].es}`;
+        hiUrl = `${BASE_URL}/hi${LOCALIZED_PATHS[cleanPath].hi}`;
+    } else {
+        ptUrl = cleanPath === '/' ? BASE_URL : `${BASE_URL}${cleanPath}`;
+        enUrl = `${BASE_URL}/en${cleanPath === '/' ? '' : cleanPath}`;
+        esUrl = `${BASE_URL}/es${cleanPath === '/' ? '' : cleanPath}`;
+        hiUrl = `${BASE_URL}/hi${cleanPath === '/' ? '' : cleanPath}`;
+    }
 
     return [
         { hreflang: 'pt', href: ptUrl },
@@ -79,6 +103,12 @@ function getAlternates(cleanPath) {
 }
 
 function getLocalizedUrl(cleanPath, lang) {
+    if (LOCALIZED_PATHS[cleanPath]) {
+        return lang === 'pt' 
+            ? `${BASE_URL}${LOCALIZED_PATHS[cleanPath].pt}` 
+            : `${BASE_URL}/${lang}${LOCALIZED_PATHS[cleanPath][lang]}`;
+    }
+
     if (lang === 'pt') {
         return cleanPath === '/' ? BASE_URL : `${BASE_URL}${cleanPath}`;
     }

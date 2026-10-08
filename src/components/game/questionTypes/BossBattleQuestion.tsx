@@ -1,4 +1,5 @@
 import { useState, useEffect, memo, useMemo, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import Editor from '@monaco-editor/react';
 import '../../../config/monacoSetup';
 import type { QuestionDocument, PythonExecutionResult } from '../../../types/question';
@@ -19,12 +20,15 @@ const formatTime = (seconds: number) => {
 };
 
 export const BossBattleQuestion = memo(function BossBattleQuestion({ question, onRun, onComplete, onNext, isExecuting }: BossBattleQuestionProps) {
+    const { t } = useTranslation('game');
     const [code, setCode] = useState(question.bossMetadata?.initialCode || question.starterCode || '');
     const [timeLeft, setTimeLeft] = useState(question.bossMetadata?.timeLimitSeconds || 60);
     const [isActive, setIsActive] = useState(false); // Só começa quando o usuário clica "Iniciar Batalha"
     const [hasWon, setHasWon] = useState(false);
     const [isGameOver, setIsGameOver] = useState(false);
     const [feedback, setFeedback] = useState<string | null>(null);
+
+    const bossName = question.bossMetadata?.bossName || t('boss.defaultMonsterName', 'Monstro do Código');
 
     // Timer de contagem regressiva
     useEffect(() => {
@@ -35,7 +39,7 @@ export const BossBattleQuestion = memo(function BossBattleQuestion({ question, o
                 setTimeLeft((prev) => {
                     if (prev <= 1) {
                         setIsGameOver(true);
-                        setFeedback('Ah não! O tempo acabou! O Guardião foi mais rápido desta vez... Tente novamente!');
+                        setFeedback(t('boss.timeoutFeedback', 'Ah não! O tempo acabou! O Guardião foi mais rápido desta vez... Tente novamente!'));
                         return 0;
                     }
                     return prev - 1;
@@ -44,7 +48,7 @@ export const BossBattleQuestion = memo(function BossBattleQuestion({ question, o
         }
 
         return () => clearInterval(interval);
-    }, [isActive, isGameOver, hasWon]);
+    }, [isActive, isGameOver, hasWon, t]);
 
     const handleRun = async () => {
         if (!isActive) setIsActive(true); // Garante que o timer tá rodando
@@ -56,11 +60,11 @@ export const BossBattleQuestion = memo(function BossBattleQuestion({ question, o
             // Vitória!
             setIsActive(false); // Para o timer
             setHasWon(true);
-            setFeedback(`Incrível! Você derrotou o ${question.bossMetadata?.bossName}!`);
+            setFeedback(t('boss.victoryFeedback', { defaultValue: 'Incrível! Você derrotou o {{name}}!', name: bossName }));
             onComplete(100); // Pontuação máxima do Boss
         } else {
             // Erro ou falha nos testes
-            setFeedback(result.stderr || 'O código rodou, mas o Boss não aceitou a resposta. Verifique os requisitos!');
+            setFeedback(result.stderr || t('boss.rejectedFeedback', 'O código rodou, mas o Boss não aceitou a resposta. Verifique os requisitos!'));
         }
     };
 
@@ -95,13 +99,15 @@ export const BossBattleQuestion = memo(function BossBattleQuestion({ question, o
         return (
             <div className="boss-intro">
                 <div className="boss-avatar-large">{question.bossMetadata?.bossAvatar || '👹'}</div>
-                <h2>Desafio do Chefe: {question.bossMetadata?.bossName || 'Monstro do Código'}</h2>
+                <h2>{t('boss.title', { defaultValue: 'Desafio do Chefe: {{name}}', name: bossName })}</h2>
                 <div className="boss-challenge-desc">
                     <p>{question.prompt}</p>
-                    <p className="boss-warning">⚠️ Você terá {question.bossMetadata?.timeLimitSeconds} segundos!</p>
+                    <p className="boss-warning">
+                        {t('boss.warning', { defaultValue: '⚠️ Você terá {{seconds}} segundos!', seconds: question.bossMetadata?.timeLimitSeconds || 60 })}
+                    </p>
                 </div>
                 <button className="boss-start-btn" onClick={handleStart}>
-                    ⚔️ Iniciar Batalha
+                    {t('boss.start', '⚔️ Iniciar Batalha')}
                 </button>
             </div>
         );
@@ -114,9 +120,13 @@ export const BossBattleQuestion = memo(function BossBattleQuestion({ question, o
                 <div className="boss-info">
                     <span className="boss-avatar">{question.bossMetadata?.bossAvatar || '👹'}</span>
                     <div>
-                        <h3>{question.bossMetadata?.bossName}</h3>
+                        <h3>{bossName}</h3>
                         <span className="boss-status">
-                            {hasWon ? 'DERROTADO! 💀' : isGameOver ? 'VITORIOSO... 😈' : 'FURIOSO! ⚡'}
+                            {hasWon
+                                ? t('boss.statusDefeated', 'DERROTADO! 💀')
+                                : isGameOver
+                                ? t('boss.statusVictorious', 'VITORIOSO... 😈')
+                                : t('boss.statusFurious', 'FURIOSO! ⚡')}
                         </span>
                     </div>
                 </div>
@@ -156,11 +166,11 @@ export const BossBattleQuestion = memo(function BossBattleQuestion({ question, o
             <div className="boss-controls">
                 {hasWon ? (
                     <button className="boss-btn victory" onClick={onNext}>
-                        🎉 Continuar
+                        {t('boss.continue', '🎉 Continuar')}
                     </button>
                 ) : isGameOver ? (
                     <button className="boss-btn retry" onClick={handleRetail}>
-                        🔄 Tentar Novamente
+                        {t('boss.retry', '🔄 Tentar Novamente')}
                     </button>
                 ) : (
                     <button
@@ -168,7 +178,7 @@ export const BossBattleQuestion = memo(function BossBattleQuestion({ question, o
                         onClick={handleRun}
                         disabled={isExecuting}
                     >
-                        {isExecuting ? 'Conjurando...' : '⚔️ Atacar (Rodar)'}
+                        {isExecuting ? t('boss.casting', 'Conjurando...') : t('boss.attack', '⚔️ Atacar (Rodar)')}
                     </button>
                 )}
             </div>

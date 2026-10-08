@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo, useEffect, memo } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { World } from '../../types/question';
 import { useAuth } from '../../hooks/useAuth';
 import { useGamification } from '../../context/GamificationContext';
@@ -24,6 +25,7 @@ interface WorldMapProps {
 }
 
 export const WorldMap = memo(function WorldMap({ onSelectWorld, worldProgress }: WorldMapProps) {
+    const { t } = useTranslation('game');
     const { userData } = useAuth();
     const { gamification } = useGamification();
     const userScore = userData?.totalScore || 0;
@@ -191,15 +193,15 @@ export const WorldMap = memo(function WorldMap({ onSelectWorld, worldProgress }:
         <div className="world-map">
             {/* Header com estilo épico */}
             <div className="world-map__header">
-                <h2 className="world-map__title">🗺️ A Jornada do Desenvolvedor</h2>
+                <h2 className="world-map__title">{t('worldMap.title', '🗺️ A Jornada do Desenvolvedor')}</h2>
                 <p className="world-map__subtitle">
-                    Explore as 4 Sagas Épicas, resolva desafios e torne-se um Mestre em Python!
+                    {t('worldMap.subtitle', 'Explore as 4 Sagas Épicas, resolva desafios e torne-se um Mestre em Python!')}
                 </p>
 
                 <div className="world-map__stats-bar">
-                    <div className="world-map__score" title="Pontuação acumulada em todas as questões">
+                    <div className="world-map__score" title={t('worldMap.scoreTooltip', 'Pontuação acumulada em todas as questões')}>
                         <span className="world-map__score-icon">⚡</span>
-                        <span className="world-map__score-value">{effectiveScore} Pontos XP</span>
+                        <span className="world-map__score-value">{t('worldMap.xpPoints', { count: effectiveScore, defaultValue: '{{count}} Pontos XP' })}</span>
                     </div>
                 </div>
 

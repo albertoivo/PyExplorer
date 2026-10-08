@@ -1,0 +1,310 @@
+{
+    "title": "📚 पुनरावृत्ति फ़्लैशकार्ड",
+    "cards": {
+        "fc_basic_1": {
+            "question": "स्क्रीन पर टेक्स्ट दिखाने के लिए कौन सा कमांड है?",
+            "answer": "print()",
+            "hint": null
+        },
+        "fc_basic_2": {
+            "question": "टेक्स्ट को किसके बीच रखा जाना चाहिए...",
+            "answer": "उद्धरण चिह्नों (सिंगल या डबल कोट्स) के बीच",
+            "hint": null
+        },
+        "fc_basic_3": {
+            "question": "# से शुरू होने वाली लाइनों का क्या अर्थ है?",
+            "answer": "वे टिप्पणियाँ (कमेंट्स) हैं (पायथन उन्हें अनदेखा करता है)",
+            "hint": null
+        },
+        "fc_basic_4": {
+            "question": "क्या पायथन गणना कर सकता है?",
+            "answer": "हाँ! पायथन गणना करता है और परिणाम दिखाता है",
+            "hint": null
+        },
+        "fc_num_1": {
+            "question": "पायथन में विभाजन का प्रतीक कौन सा है?",
+            "answer": "/ (स्लैश)",
+            "hint": null
+        },
+        "fc_num_2": {
+            "question": "गुणा का प्रतीक कौन सा है?",
+            "answer": "* (तारांकन)",
+            "hint": null
+        },
+        "fc_num_3": {
+            "question": "पायथन में घात (पावर) कैसे करें?",
+            "answer": "** (दो तारांकन)",
+            "hint": null
+        },
+        "fc_num_4": {
+            "question": "% क्या करता है?",
+            "answer": "विभाजन का शेषफल देता है",
+            "hint": null
+        },
+        "fc_var_1": {
+            "question": "वेरिएबल क्या है?",
+            "answer": "एक \"डिब्बा\" जो मान सुरक्षित रखता है",
+            "hint": null
+        },
+        "fc_var_2": {
+            "question": "वेरिएबल कैसे बनाएं?",
+            "answer": "name = value",
+            "hint": null
+        },
+        "fc_var_3": {
+            "question": "क्या वेरिएबल का मान बदल सकता है?",
+            "answer": "हाँ! इसीलिए वे \"वेरिएबल\" कहलाते हैं",
+            "hint": null
+        },
+        "fc_var_4": {
+            "question": "क्या वेरिएबल का नाम संख्या से शुरू हो सकता है?",
+            "answer": "नहीं! केवल अक्षर या _",
+            "hint": "age2 सही है, 2age गलत है"
+        },
+        "fc_dec_1": {
+            "question": "पायथन में \"if\" का क्या अर्थ है?",
+            "answer": "यदि (जब कोई शर्त सच हो)",
+            "hint": null
+        },
+        "fc_dec_2": {
+            "question": "\"else\" का क्या अर्थ है?",
+            "answer": "अन्यथा (जब if शर्त असत्य हो)",
+            "hint": null
+        },
+        "fc_dec_3": {
+            "question": "समानता की जाँच कौन सा प्रतीक करता है?",
+            "answer": "== (दो बराबर)",
+            "hint": "= मान देना है, == तुलना करना है"
+        },
+        "fc_dec_4": {
+            "question": "elif क्या है?",
+            "answer": "else if (एक और शर्त)",
+            "hint": null
+        },
+        "fc_loop_1": {
+            "question": "\"for\" किस काम आता है?",
+            "answer": "कमांड को कई बार दोहराने के लिए",
+            "hint": null
+        },
+        "fc_loop_2": {
+            "question": "range(5) कौन से नंबर उत्पन्न करता है?",
+            "answer": "0, 1, 2, 3, 4",
+            "hint": "0 से शुरू होकर कुल 5 नंबर"
+        },
+        "fc_loop_3": {
+            "question": "for और while में क्या अंतर है?",
+            "answer": "for: निश्चित संख्या। while: शर्त पर आधारित",
+            "hint": "while अनंत लूप बन सकता है!"
+        },
+        "fc_loop_4": {
+            "question": "range(1, 6) कौन से नंबर उत्पन्न करता है?",
+            "answer": "1, 2, 3, 4, 5",
+            "hint": "अंतिम नंबर कभी शामिल नहीं होता!"
+        },
+        "fc_list_1": {
+            "question": "लिस्ट कैसे बनाएं?",
+            "answer": "स्क्वायर ब्रैकेट्स [ ] के साथ",
+            "hint": null
+        },
+        "fc_list_2": {
+            "question": "पहले आइटम का इंडेक्स क्या होता है?",
+            "answer": "0 (शून्य)",
+            "hint": null
+        },
+        "fc_list_3": {
+            "question": "लिस्ट में नया आइटम कैसे जोड़ें?",
+            "answer": ".append()",
+            "hint": null
+        },
+        "fc_list_4": {
+            "question": "लिस्ट का आकार कैसे जानें?",
+            "answer": "len(list)",
+            "hint": null
+        },
+        "fc_func_1": {
+            "question": "फ़ंक्शन कैसे शुरू करें?",
+            "answer": "\"def\" के साथ",
+            "hint": null
+        },
+        "fc_func_2": {
+            "question": "\"return\" किस काम आता है?",
+            "answer": "परिणाम वापस भेजने के लिए",
+            "hint": null
+        },
+        "fc_func_3": {
+            "question": "पैरामीटर क्या होते हैं?",
+            "answer": "वे मान जो फ़ंक्शन प्राप्त करता है",
+            "hint": null
+        },
+        "fc_func_4": {
+            "question": "बिना return वाला फ़ंक्शन क्या देता है?",
+            "answer": "None (कुछ नहीं)",
+            "hint": "यदि परिणाम चाहिए तो हमेशा return का उपयोग करें"
+        },
+        "fc_str_1": {
+            "question": "दो स्ट्रिंग्स को कैसे जोड़ें?",
+            "answer": "+ (प्लस) के साथ",
+            "hint": null
+        },
+        "fc_str_2": {
+            "question": "f-string क्या है?",
+            "answer": "f से शुरू होने वाली स्ट्रिंग जो {variables} की अनुमति देती है",
+            "hint": null
+        },
+        "fc_str_3": {
+            "question": "सभी अक्षरों को बड़े (Uppercase) में कैसे करें?",
+            "answer": ".upper()",
+            "hint": null
+        },
+        "fc_str_4": {
+            "question": "string[0] क्या देता है?",
+            "answer": "पहला अक्षर",
+            "hint": null
+        },
+        "fc_input_1": {
+            "question": "उपयोगकर्ता से इनपुट मांगने वाला कमांड कौन सा है?",
+            "answer": "input()",
+            "hint": null
+        },
+        "fc_input_2": {
+            "question": "input() हमेशा क्या लौटाता है?",
+            "answer": "टेक्स्ट (स्ट्रिंग)",
+            "hint": "भले ही आप 42 लिखें, यह \"42\" लौटाता है"
+        },
+        "fc_input_3": {
+            "question": "टेक्स्ट को पूर्णांक संख्या में कैसे बदलें?",
+            "answer": "int()",
+            "hint": null
+        },
+        "fc_input_4": {
+            "question": "और दशमलव संख्या में?",
+            "answer": "float()",
+            "hint": null
+        },
+        "fc_dict_1": {
+            "question": "डिक्शनरी कैसे बनाएं?",
+            "answer": "मंझले कोष्ठक { } के साथ",
+            "hint": null
+        },
+        "fc_dict_2": {
+            "question": "वैल्यू तक कैसे पहुँचें?",
+            "answer": "dictionary[\"key\"]",
+            "hint": null
+        },
+        "fc_dict_3": {
+            "question": "नई की (key) कैसे जोड़ें?",
+            "answer": "d[\"new\"] = value",
+            "hint": null
+        },
+        "fc_dict_4": {
+            "question": "लिस्ट और डिक्शनरी में क्या अंतर है?",
+            "answer": "लिस्ट: इंडेक्स। डिक्ट: नामांकित की",
+            "hint": "list[0] बनाम dict[\"name\"]"
+        },
+        "fc_error_1": {
+            "question": "कोड को गलतियों से कैसे बचाएं?",
+            "answer": "try/except",
+            "hint": null
+        },
+        "fc_error_2": {
+            "question": "ZeroDivisionError क्या है?",
+            "answer": "शून्य से भाग देने पर होने वाली त्रुटि",
+            "hint": "शून्य से भाग करने पर आता है"
+        },
+        "fc_error_3": {
+            "question": "ValueError क्या है?",
+            "answer": "अमान्य मान की त्रुटि",
+            "hint": null
+        },
+        "fc_error_4": {
+            "question": "क्या try/except के बाद प्रोग्राम रुक जाता है?",
+            "answer": "नहीं! यह सामान्य रूप से जारी रहता है",
+            "hint": "except त्रुटि को संभाल लेता है"
+        },
+        "fc_file_1": {
+            "question": "फ़ाइल खोलने के लिए कौन सा कमांड है?",
+            "answer": "open()",
+            "hint": null
+        },
+        "fc_file_2": {
+            "question": "\"w\" मोड क्या करता है?",
+            "answer": "लिखने (write) के लिए खोलता है",
+            "hint": "फ़ाइल बना सकता है या ओवरराइट कर सकता है"
+        },
+        "fc_file_3": {
+            "question": "\"with open\" का उपयोग क्यों करें?",
+            "answer": "फ़ाइल को अपने आप बंद कर देता है!",
+            "hint": null
+        },
+        "fc_mod_1": {
+            "question": "लाइब्रेरी आयात करने के लिए कौन सा शब्द है?",
+            "answer": "import",
+            "hint": null
+        },
+        "fc_mod_2": {
+            "question": "रैंडम चयन कौन सा मॉड्यूल करता है?",
+            "answer": "random",
+            "hint": null
+        },
+        "fc_mod_3": {
+            "question": "वर्गमूल और Pi किस मॉड्यूल में हैं?",
+            "answer": "math",
+            "hint": null
+        },
+        "fc_oop_1": {
+            "question": "क्लास बनाने के लिए कौन सा शब्द है?",
+            "answer": "class",
+            "hint": null
+        },
+        "fc_oop_2": {
+            "question": "__init__(self) क्या करता है?",
+            "answer": "ऑब्जेक्ट बनने पर उसे आरंभ करता है",
+            "hint": "यह क्लास का कंस्ट्रक्टर है"
+        },
+        "fc_oop_3": {
+            "question": "self का क्या अर्थ है?",
+            "answer": "स्वयं ऑब्जेक्ट (\"मैं खुद\")",
+            "hint": null
+        },
+        "fc_py_1": {
+            "question": "List Comprehension क्या है?",
+            "answer": "for के साथ 1 लाइन में लिस्ट बनाना",
+            "hint": null
+        },
+        "fc_py_2": {
+            "question": "क्या List Comp में if लगा सकते हैं?",
+            "answer": "हाँ! फ़िल्टर करने के लिए",
+            "hint": null
+        },
+        "fc_tur_1": {
+            "question": "आगे बढ़ने के लिए कौन सा कमांड है?",
+            "answer": "forward()",
+            "hint": null
+        },
+        "fc_tur_2": {
+            "question": "कछुए को दाईं ओर कैसे मोड़ें?",
+            "answer": "right()",
+            "hint": null
+        },
+        "fc_ds_1": {
+            "question": "लिस्ट के सभी नंबरों को कैसे जोड़ें?",
+            "answer": "sum()",
+            "hint": null
+        },
+        "fc_ds_2": {
+            "question": "औसत कैसे निकालें?",
+            "answer": "sum(list) / len(list)",
+            "hint": "कुल जोड़ को संख्या से भाग दें"
+        },
+        "fc_web_1": {
+            "question": "API क्या है?",
+            "answer": "वेब से डेटा लाने का इंटरफ़ेस",
+            "hint": "एक डिजिटल वेटर की तरह"
+        },
+        "fc_web_2": {
+            "question": "वेब किस डेटा प्रारूप का उपयोग करता है?",
+            "answer": "JSON (डिक्शनरी जैसा)",
+            "hint": null
+        }
+    }
+}
