@@ -106,6 +106,41 @@ export function SEO({
     const langInfo = AVAILABLE_LANGUAGES.find(l => l.code === currentLang);
     const dir = langInfo?.dir || 'ltr';
 
+    const defaultWebAppSchema = {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "PyExplorer",
+        "alternateName": t('common:seo.alternateName', "PyExplorer - Learn Python Playing"),
+        "description": metaDescription,
+        "@id": `${env.APP_URL}#app`,
+        "url": env.APP_URL,
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "Web Browser",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "audience": { "@type": "EducationalAudience", "educationalRole": "student", "audienceType": "Kids and Beginners" },
+        "educationalLevel": "Beginner",
+        "learningResourceType": "Interactive Game",
+        "teaches": ["Python", "Programming", "Logic", "Coding"],
+        "inLanguage": [htmlLang],
+        "isAccessibleForFree": true,
+        "keywords": keywords?.join(', ') || t('common:seo.keywords', "python, programming, kids, educational game")
+    };
+
+    const defaultCourseSchema = {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "@id": `${env.APP_URL}#course`,
+        "url": env.APP_URL,
+        "name": t('common:seo.courseName', "Python Course for Kids - PyExplorer"),
+        "description": metaDescription,
+        "provider": { "@type": "Organization", "name": "PyExplorer", "url": env.APP_URL },
+        "educationalLevel": "Beginner",
+        "inLanguage": [htmlLang],
+        "isAccessibleForFree": true,
+        "teaches": ["Python", "Programming", "Logic", "Algorithms"],
+        "hasCourseInstance": { "@type": "CourseInstance", "courseMode": "online", "courseWorkload": "PT10H" }
+    };
+
     return (
         <Helmet>
             <html lang={htmlLang} dir={dir} />
@@ -130,6 +165,9 @@ export function SEO({
             <link rel="alternate" hrefLang="es" href={esUrl} />
             <link rel="alternate" hrefLang="hi" href={hiUrl} />
             <link rel="alternate" hrefLang="x-default" href={xDefaultUrl} />
+
+            {/* Dynamic PWA Manifest */}
+            <link rel="manifest" href={`/manifest-${currentLang}.webmanifest`} />
 
             {/* Open Graph */}
             <meta property="og:site_name" content="PyExplorer" />
@@ -160,7 +198,14 @@ export function SEO({
             <meta name="twitter:description" content={metaDescription} />
             <meta name="twitter:image" content={resolvedOgImage} />
 
-            {/* Structured Data (JSON-LD) */}
+            {/* Structured Data (JSON-LD) - Default Schemas + Any specific ones */}
+            <script type="application/ld+json">
+                {JSON.stringify(defaultWebAppSchema)}
+            </script>
+            <script type="application/ld+json">
+                {JSON.stringify(defaultCourseSchema)}
+            </script>
+
             {structuredData && (
                 <script type="application/ld+json">
                     {JSON.stringify(structuredData)}

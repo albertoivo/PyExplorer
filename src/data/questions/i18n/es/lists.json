@@ -1,0 +1,141 @@
+{
+  "list_1": {
+    "title": "Creando una lista",
+    "prompt": "¿Qué símbolo usamos para crear una lista en Python?",
+    "explanation": "¡Las listas usan corchetes [ ]! ¡frutas = [\"maçã\", \"banana\"] guarda dos frutas en una lista! 📋"
+  },
+  "list_2": {
+    "title": "El primer ítem es cero",
+    "prompt": "En Python, el primer ítem de una lista tiene posición 0 (no 1).",
+    "explanation": "¡Python empieza desde cero! frutas[0] es el primer ítem, frutas[1] es el segundo. 🎯"
+  },
+  "list_3": {
+    "title": "Toma el segundo ítem",
+    "prompt": "Completa para mostrar \"banana\" (segundo ítem):",
+    "explanation": "¡La posición 0 es maçã, la posición 1 es banana, la posición 2 es laranja! 🍌"
+  },
+  "list_4": {
+    "title": "Añadir a la lista",
+    "prompt": "¿Qué método añade un ítem al final de la lista?",
+    "explanation": "¡append() añade al final! ¡frutas.append(\"uva\") pone uva al final de la lista! ➕"
+  },
+  "list_5": {
+    "title": "Contar pares en la lista",
+    "prompt": "Crea una función que cuente cuántos números pares hay en la lista.",
+    "explanation": "Usa for para pasar por cada número. ¡Si numero % 2 == 0, es par! Cuenta cuántos son. 🔢"
+  },
+  "list_6": {
+    "title": "Tamaño de la Lista",
+    "prompt": "¿Qué comando dice cuántos ítems tiene la lista `[10, 20, 30]`?",
+    "explanation": "len() viene de \"length\" (longitud). Cuenta cuántos ítems hay en la lista. ¡len([10, 20, 30]) da 3! 📏"
+  },
+  "list_slice_1": {
+    "title": "Rebanando la Lista",
+    "prompt": "¿Qué devuelve lista[1:3] de la lista [\"a\", \"b\", \"c\", \"d\"]?",
+    "explanation": "¡lista[1:3] toma desde el índice 1 hasta antes del 3! Es como rebanar un pastel 🎂 - el índice 1 es \"b\" y el índice 2 es \"c\"."
+  },
+  "list_slice_2": {
+    "title": "Tomando los Primeros",
+    "prompt": "Completa para tomar los 2 primeros números:",
+    "explanation": "¡[0:2] toma desde el principio (0) hasta antes del 2, o sea, índices 0 y 1! ✂️"
+  },
+  "list_pop_1": {
+    "title": "Removiendo y Tomando",
+    "prompt": "¿Qué hace lista.pop()?",
+    "explanation": "¡pop() saca el último ítem de la lista y te lo devuelve! Es como sacar la última carta de la baraja. 🃏",
+    "options": [
+      "Remueve y devuelve el último ítem",
+      "Añade un ítem al final",
+      "Cuenta los ítems",
+      "Ordena la lista"
+    ]
+  },
+  "list_sort_1": {
+    "title": "Ordenando la Lista",
+    "prompt": "El método lista.sort() pone los números en orden creciente.",
+    "explanation": "¡Eso es! ¡sort() organiza la lista! [3, 1, 2] se vuelve [1, 2, 3]. ¡Muy útil! 📊"
+  },
+  "list_remove_1": {
+    "title": "Removiendo por Valor",
+    "prompt": "Completa para remover \"banana\" de la lista:",
+    "explanation": "¡remove() saca el ítem por su valor! Dile el nombre del ítem y desaparecerá de la lista. 🍌❌"
+  },
+  "list_7": {
+    "title": "Lista de Compras",
+    "prompt": "Añade \"leite\" a la lista de compras usando append:",
+    "explanation": "¡append() pega el ítem al final de la lista! ¡Ahora \"leite\" es parte de las compras! 🛒"
+  },
+  "list_8": {
+    "title": "¿Cuántos colores?",
+    "prompt": "Usa `len` para descubrir cuántos colores hay en la lista:",
+    "explanation": "¡len() cuenta cuántos ítems hay en la lista! Es como contar con los dedos: ¡uno, dos, tres colores! 🎨"
+  },
+  "list_iter_1": {
+    "title": "Paseando por la Lista",
+    "prompt": "¿Qué bucle es mejor para pasar por cada ítem de una lista?",
+    "explanation": "¡Usamos `for item in lista` para visitar cada ítem, uno por uno! Es como pasar lista en el salón de clases. 📢",
+    "options": [
+      "for item in lista:",
+      "if item in lista:",
+      "loop lista:",
+      "repeat lista:"
+    ]
+  },
+  "list_iter_2": {
+    "title": "Mostrando las Frutas",
+    "prompt": "Completa el bucle para mostrar cada fruta de la lista:",
+    "explanation": "`in` significa \"dentro\" o \"en\". ¡Para cada fruta EN la lista de frutas, muestra la fruta! 🍎🍐"
+  },
+  "list_9": {
+    "title": "Removiendo el Primero",
+    "prompt": "¿Cómo removemos el PRIMER ítem de una lista llamada `cores`?",
+    "explanation": "pop() sin número saca el último. ¡Pero si le dices el índice, saca ese en específico! pop(0) saca el ítem de la posición 0 (el primero). 1️⃣"
+  },
+  "list_10": {
+    "title": "Orden Inverso",
+    "prompt": "¿Cómo ordenamos una lista del mayor al menor?",
+    "explanation": "sort() organiza del menor al mayor. ¡Para invertirlo (mayor a menor), usamos la opción reverse=True! 🔄"
+  },
+  "list_11": {
+    "title": "Sumando la Lista",
+    "prompt": "Usa `sum()` para sumar todos los números de la lista:",
+    "explanation": "¡`sum()` es una función mágica que suma todo lo que hay en la lista! 10 + 20 + 30 = 60. ¡Súper rápido! ➕"
+  },
+  "list_12": {
+    "title": "Añadiendo Colores",
+    "prompt": "¿Qué comando añade el color \"Roxo\" al final de la lista `cores`?",
+    "explanation": "append(\"Roxo\") añade el ítem al final de la lista. ¡Es como añadir otro vagón al tren! 🚂"
+  },
+  "list_13": {
+    "title": "Tomando el Medio",
+    "prompt": "Tenemos `nums = [0, 1, 2, 3, 4]`. ¿Qué toma `nums[2:4]`?",
+    "explanation": "Toma desde el índice 2 (número 2) hasta ANTES del índice 4 (número 4). ¡Así que toma 2 y 3! ¡El 4 se queda afuera! 🍰"
+  },
+  "list_14": {
+    "title": "Reventando Globos",
+    "prompt": "Tenemos `baloes = [\"vermelho\", \"azul\"]`. ¿Qué hace `baloes.pop()`?",
+    "explanation": "`pop()` revienta (remueve) el ÚLTIMO ítem de la lista. ¡Adiós, globo azul! 🎈",
+    "options": [
+      "Remueve \"azul\"",
+      "Remueve \"vermelho\"",
+      "Remueve todo",
+      "No hace nada"
+    ]
+  },
+  "list_15": {
+    "title": "Organizando Puntos",
+    "prompt": "Pon la lista de puntos en orden creciente (del menor al mayor):",
+    "explanation": "¡`sort()` organiza el desorden! Pone los números en orden creciente (1, 2, 3) o las letras en orden alfabético (A, B, C). 📊"
+  },
+  "list_16": {
+    "title": "¿Mochila Llena?",
+    "prompt": "Descubre cuántos ítems tiene la mochila usando `len()`:",
+    "explanation": "¡`len()` cuenta todo por ti! Es súper útil para saber si la mochila está llena o si cabe más. 🎒"
+  },
+  "boss_battle_7": {
+    "title": "El Gigante Organizador",
+    "prompt": "El Gigante tiene una lista [5, 2, 8, 1]. ¡Ordena la lista y muéstrala!",
+    "explanation": "¡El Gigante está desordenado! ¡Usa sort() para organizar la lista! 🗿",
+    "bossName": "Gigante del Orden"
+  }
+}

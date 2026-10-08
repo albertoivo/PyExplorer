@@ -1,0 +1,144 @@
+{
+  "func_1": {
+    "title": "¿Qué es una función?",
+    "prompt": "Una función en Python es...",
+    "explanation": "¡Las funciones son como recetas! 📖 Las escribes una vez y puedes usarlas tantas veces como quieras. ¡Solo \"llama\" a la función por su nombre y ella hace todo el trabajo!",
+    "options": [
+      "Un bloque de código que podemos reutilizar",
+      "Un tipo de variable especial",
+      "Un comando para borrar archivos",
+      "Lo mismo que un número"
+    ]
+  },
+  "func_2": {
+    "title": "return devuelve un valor",
+    "prompt": "El comando return sirve para devolver un resultado de la función.",
+    "explanation": "¡return es como el cartero de la función! Toma el resultado y se lo entrega a quien llamó a la función. ¡Sin return, la función no devuelve nada! 📬"
+  },
+  "func_3": {
+    "title": "Doblar un número",
+    "prompt": "Crea una función llamada \"dobro\" que recibe un número y devuelve su doble.",
+    "explanation": "¡Doblar es multiplicar por 2! Así que solo devuelve numero * 2. ¡Así de simple! ✌️"
+  },
+  "func_4": {
+    "title": "Saludo personalizado",
+    "prompt": "Crea una función llamada \"saudar\" que recibe un nombre y devuelve \"Olá, <nome>!\".",
+    "explanation": "Usa f-strings para construir el texto: f\"Olá, {nome}!\" o junta textos con +: \"Olá, \" + nome + \"!\". ¡Ambas formas funcionan! 👋"
+  },
+  "func_5": {
+    "title": "Suma hasta N",
+    "prompt": "Crea una función llamada \"soma_ate\" que suma todos los números de 1 hasta n.",
+    "explanation": "¡Usa un bucle for de 1 a n y ve sumando! Empieza con soma = 0 y añade cada número. ➕"
+  },
+  "func_parsons_greet": {
+    "title": "Saludo Educado",
+    "prompt": "Arma la función que da los buenos días a una persona.",
+    "explanation": "Definimos la función primero y luego la usamos (llamamos) al final."
+  },
+  "func_6": {
+    "title": "Suma de Dos Números",
+    "prompt": "Completa la función para sumar dos números:",
+    "explanation": "¡Las funciones pueden recibir múltiples piezas de información! Aquí a y b son parámetros. Para sumar, usamos el signo más (+). ➕"
+  },
+  "func_7": {
+    "title": "Reutilizando Funciones",
+    "prompt": "Si escribo `saudar()` 3 veces en mi código, ¿qué pasa?",
+    "explanation": "¡Esa es la magia de las funciones! ¡Escribes la receta una vez, y puedes cocinar el plato cuantas veces quieras llamando a su nombre! 🍳🍳🍳",
+    "options": [
+      "La función corre 3 veces",
+      "La función corre solo 1 vez",
+      "Da un error",
+      "No pasa nada"
+    ]
+  },
+  "func_default_1": {
+    "title": "Valores por Defecto",
+    "prompt": "¿Qué significa `def saudar(nome=\"Amigo\"):`?",
+    "explanation": "¡Los parámetros por defecto son como Planes B! Si nadie provee un nombre, la función usa \"Amigo\". saudar() muestra \"Amigo\", ¡pero saudar(\"Ana\") muestra \"Ana\"! 🎁",
+    "options": [
+      "Si no se pasa nombre, usa \"Amigo\"",
+      "El nombre siempre será \"Amigo\"",
+      "Da error por tener = en el parámetro",
+      "Crea una variable global"
+    ]
+  },
+  "func_default_2": {
+    "title": "Creando Valor por Defecto",
+    "prompt": "Completa la función para que, si nadie pasa el color, use \"azul\":",
+    "explanation": "Ponemos = después del parámetro para darle un valor por defecto. cor=\"azul\" significa: si no dicen el color, ¡usa azul! 🎨"
+  },
+  "func_scope_1": {
+    "title": "Variables Locales",
+    "prompt": "Una variable creada dentro de una función solo existe dentro de ella. ¿Verdadero o falso?",
+    "explanation": "Las variables dentro de las funciones son \"locales\" - ¡viven solo allí! Cuando la función termina, desaparecen. ¡Es como un secreto que solo la función conoce! 🔒"
+  },
+  "turtle_house": {
+    "title": "Dibujando un Círculo",
+    "prompt": "¡Vamos a crear una función para dibujar un círculo! Usa el comando turtle.circle(raio).",
+    "explanation": "¡El comando turtle.circle(50) dibuja un círculo perfecto con tamaño 50! ¡Las funciones facilitan dibujar múltiples formas idénticas! 🔵"
+  },
+  "func_8": {
+    "title": "Variable Secreta",
+    "prompt": "¿Puedo usar una variable que creé DENTRO de una función, FUERA de ella?",
+    "explanation": "¡Lo que pasa en la función, se queda en la función! Las variables creadas allí dentro son \"locales\" y nadie de afuera puede verlas. ¡Es un secreto! 🤫",
+    "options": [
+      "No, es local y \"muere\" cuando la función termina",
+      "Sí, está disponible para siempre",
+      "Sí, pero solo si usas la contraseña correcta",
+      "Depende del nombre de la variable"
+    ]
+  },
+  "func_9": {
+    "title": "Área del Rectángulo",
+    "prompt": "Completa la función que calcula el área (ancho por altura):",
+    "explanation": "¡Las funciones pueden recibir múltiples informaciones! Para el área, necesitamos el ancho Y la altura. ¡Multiplicamos ambos y listo! 🟦"
+  },
+  "func_10": {
+    "title": "Parámetro Fantasma",
+    "prompt": "¿El parámetro de una función existe fuera de ella? Ej: def func(nome): ... print(nome)",
+    "explanation": "¡No! Los parámetros son como variables locales. Solo existen dentro de la función. ¡Fuera de ella, Python no sabe quiénes son! 👻"
+  },
+  "func_11": {
+    "title": "Return vs Print",
+    "prompt": "¿Cuál es la diferencia entre `return` y `print` en una función?",
+    "explanation": "`print` solo muestra en la pantalla (útil para humanos). ¡`return` entrega el dato al programa para usar en otras cuentas! 📦",
+    "options": [
+      "Return devuelve el valor al programa, Print solo muestra en pantalla",
+      "Son la misma cosa",
+      "Print devuelve el valor",
+      "Return muestra en pantalla"
+    ]
+  },
+  "func_12": {
+    "title": "Secreto de Función",
+    "prompt": "Si creo una variable dentro de una función, ¿puedo usarla fuera de la función?",
+    "explanation": "¡No! Las variables creadas dentro de la función son \"locales\". Están atrapadas allí adentro y el resto del programa no puede verlas. ¡Es como un diario secreto! 🔒"
+  },
+  "func_13": {
+    "title": "Olvidé el Argumento",
+    "prompt": "Si `def oi(nome=\"Mundo\"):`, ¿qué pasa si solo llamo a `oi()`?",
+    "explanation": "¡Como definimos un valor por defecto (\"Mundo\"), Python lo usa cuando olvidamos pasar el nombre! ¡Es nuestro plan B! 🛡️",
+    "options": [
+      "Da un error",
+      "Usa \"Mundo\" como nombre",
+      "Usa \"oi\" como nombre",
+      "No muestra nada"
+    ]
+  },
+  "func_15": {
+    "title": "Muchos por Defecto",
+    "prompt": "¿Puede una función tener más de un parámetro con valor por defecto? Ej: `def func(a=1, b=2):`",
+    "explanation": "¡Sí! Puedes tener tantos parámetros por defecto como quieras, siempre y cuando estén al final de la lista de argumentos. ¡Es como tener múltiples Planes B! 🛡️"
+  },
+  "func_16": {
+    "title": "Fecha Completa",
+    "prompt": "Completa la función que recibe día, mes y año:",
+    "explanation": "¡Las funciones pueden recibir tantos datos como quieras! Solo sepáralos por comas. ¡Día, Mes y Año forman el equipo completo de la fecha! 📅"
+  },
+  "boss_battle_6": {
+    "title": "El Maestro de las Recetas",
+    "prompt": "Crea una función llamada \"triplo\" que recibe un número y devuelve su triple. Luego llama a triplo(4) y muestra el resultado.",
+    "explanation": "¡El Maestro quiere ver tu receta! ¡Crea la función y úsala! 👨‍🍳",
+    "bossName": "Chef Función"
+  }
+}

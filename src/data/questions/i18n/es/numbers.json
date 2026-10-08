@@ -1,0 +1,125 @@
+{
+  "num_1": {
+    "title": "Suma en Python",
+    "prompt": "¿Qué símbolo usamos para sumar dos números?",
+    "explanation": "¡El + funciona igual que en matemáticas! 5 + 3 = 8. ¡Python es tu calculadora personal! 🧮"
+  },
+  "num_2": {
+    "title": "Multiplicación con asterisco",
+    "prompt": "En Python, usamos el asterisco (*) para multiplicar números.",
+    "explanation": "¡Exacto! El asterisco (*) es la multiplicación. 4 * 3 = 12. Distinto de la x del cuaderno, ¡pero hace lo mismo! ✖️"
+  },
+  "num_3": {
+    "title": "Calcula la edad futura",
+    "prompt": "Completa el código para calcular la edad dentro de 5 años:",
+    "explanation": "Para calcular la edad futura, ¡suma la edad actual con los años! 10 + 5 = 15! 🎂"
+  },
+  "num_4": {
+    "title": "División en Python",
+    "prompt": "¿Cuál es el resultado de 10 / 2 en Python?",
+    "explanation": "¡La división con / siempre da un número con punto decimal! 10 / 2 = 5.0. Para números enteros, usa // (dos barras)."
+  },
+  "num_5": {
+    "title": "Calcula el doble",
+    "prompt": "Completa para calcular el doble de un número:",
+    "explanation": "¡El doble es multiplicar por 2! 7 * 2 = 14! ✌️"
+  },
+  "num_parsons_avg": {
+    "title": "Calculando la Media",
+    "prompt": "Organiza el código para calcular la media de 3 notas.",
+    "explanation": "¡Primero definimos las notas, luego sumamos y dividimos por 3 para hallar el promedio!"
+  },
+  "num_6": {
+    "title": "Poder de la Potencia",
+    "prompt": "Completa el código para calcular 3 elevado a 2 (3 al cuadrado):",
+    "explanation": "Para hacer potencias, usamos dos asteriscos (**). ¡3 ** 2 es 3 veces 3! 🚀"
+  },
+  "num_7": {
+    "title": "Resto de la División",
+    "prompt": "Completa para descubrir el resto de dividir 10 entre 3:",
+    "explanation": "¡El símbolo % muestra lo que sobra de la división! 10 dividido entre 3 da 3 y sobra 1. ¡Así que 10 % 3 es 1! 🍕"
+  },
+  "num_hard_operators": {
+    "title": "Todos los Operadores",
+    "prompt": "Completa para calcular: (20 + 10) / 2, luego muestra el resultado entero:",
+    "explanation": "¡Paréntesis primero! (20 + 10) = 30, luego 30 / 2 = 15. ¡Usamos int() para quitar el punto decimal! 🎯"
+  },
+  "num_hard_order": {
+    "title": "Orden de Operaciones",
+    "prompt": "¿Cuál es el resultado de: 2 + 3 * 4 - 1?",
+    "explanation": "¡Multiplicación primero! 3 * 4 = 12. Luego: 2 + 12 - 1 = 13. ¡Recuerda que * y / van antes de + y -! 📐"
+  },
+  "num_8": {
+    "title": "División Entera",
+    "prompt": "¿Qué hace el operador // en Python?",
+    "explanation": "¡El // es la \"división entera\"! Divide y solo toma la parte entera, ignorando los decimales. 7 // 2 = 3 (¡y no 3.5!). ✂️",
+    "options": [
+      "Divide y descarta la parte decimal",
+      "Divide y mantiene los decimales",
+      "Calcula el porcentaje",
+      "Multiplica por 2"
+    ]
+  },
+  "num_random_1": {
+    "title": "Sorteo Aleatorio",
+    "prompt": "Necesitamos \"random\" para sortear números. Completa el código:",
+    "explanation": "¡import random trae superpoderes de sorteo! randint(1, 10) elige un número sorpresa entre 1 y 10. 🎲"
+  },
+  "num_math_1": {
+    "title": "Matemáticas Avanzadas",
+    "prompt": "Para usar Pi (3.14...) y Raíz Cuadrada, ¿qué biblioteca importamos?",
+    "explanation": "¡La biblioteca `math` tiene todo lo de matemáticas! math.pi, math.sqrt (raíz cuadrada) y mucho más. 🤓",
+    "options": [
+      "import math",
+      "import calc",
+      "import numbers",
+      "import school"
+    ]
+  },
+  "num_9": {
+    "title": "Sobras de Pizza",
+    "prompt": "Tenemos 7 porciones de pizza para 3 personas. ¿Cuántas porciones sobran? Usa %:",
+    "explanation": "7 dividido entre 3 da 2 porciones a cada uno, y SOBRA 1. ¡El operador % nos da esa sobra! 🍕"
+  },
+  "num_10": {
+    "title": "Calculando el Cambio",
+    "prompt": "Pagaste 10 y costó 7. ¿Cuánto sobró? Completa con resta:",
+    "explanation": "Para saber cuánto sobró, hacemos una resta usando el signo menos -! 10 - 7 = 3. 💸"
+  },
+  "num_11": {
+    "title": "Redondeando Números",
+    "prompt": "Usa `round()` para redondear 3.7 al número entero más cercano:",
+    "explanation": "¡`round()` redondea el número! 3.7 está más cerca de 4, así que se convierte en 4. Si fuera 3.2, ¡sería 3! 🔵"
+  },
+  "num_12": {
+    "title": "Cuadrado Mágico",
+    "prompt": "Calcula 5 elevado al cuadrado (potencia de 2) usando **:",
+    "explanation": "¡Usamos ** para potencias! 5 ** 2 es lo mismo que 5 por 5. ¡El resultado es 25! 🚀"
+  },
+  "num_13": {
+    "title": "División de Enteros",
+    "prompt": "¿Cuántas veces cabe el 2 en el 9? Usa // para descubrirlo:",
+    "explanation": "¡9 // 2 es la división entera! El 2 cabe 4 veces en el 9 (2, 4, 6, 8). ¡El resto (1) se descarta! 📦"
+  },
+  "num_14": {
+    "title": "Repartiendo Dulces",
+    "prompt": "Tenemos 11 dulces para 4 niños. ¿Cuántos recibe cada uno (sin romperlos)? Usa //",
+    "explanation": "11 // 4 da 2. La división entera descarta el resto (sobran 3 dulces). ¡Nadie recibe dulces rotos! 🍬"
+  },
+  "num_15": {
+    "title": "Superpotencia",
+    "prompt": "Calcula 2 elevado a 4 (2 * 2 * 2 * 2) usando el operador de potencia:",
+    "explanation": "¡Dos asteriscos (**) significan potencia! 2 ** 4 es 2 multiplicado por sí mismo 4 veces. 🚀"
+  },
+  "num_16": {
+    "title": "Días de la Semana",
+    "prompt": "Si hoy es el día 1 y la semana tiene 7 días, ¿qué día de la semana (0-6) será dentro de 10 días? Usa % 7:",
+    "explanation": "¡El % 7 (resto de la división) es mágico para los días de la semana! Hace que los días vuelvan a empezar al pasar de 7. 📅"
+  },
+  "boss_battle_3": {
+    "title": "El Mago Calculador",
+    "prompt": "El Mago propone un reto: ¡calcula 15 + 7 * 3 y muestra el resultado! ¡Cuidado con el orden de las operaciones!",
+    "explanation": "¡Al Mago le encantan las matemáticas! Recuerda: ¡la multiplicación va antes que la suma! 🧙‍♂️",
+    "bossName": "Mago Numérico"
+  }
+}

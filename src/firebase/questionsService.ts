@@ -1,15 +1,20 @@
 import { collection, doc, setDoc, getDocs, writeBatch } from 'firebase/firestore';
 import { db } from './firebaseConfig';
-import { COMPLETE_QUESTIONS as ALL_QUESTIONS } from '../data/completeQuestions';
-import type { QuestionDocument, TestCase } from '../types/question';
+import i18n from 'i18next';
+import { COMPLETE_QUESTIONS } from '../data/completeQuestions';
+import { resolveQuestion, toLocalizedQuestion } from '../data/questions/localize';
+import type { LocalizedQuestionDocument, QuestionDocument, TestCase } from '../types/question';
 
 const QUESTIONS_COLLECTION = 'questions';
+
+/** Questões canônicas (código local) já com todas as traduções embutidas — formato do Firestore. */
+const ALL_QUESTIONS: LocalizedQuestionDocument[] = COMPLETE_QUESTIONS.map(toLocalizedQuestion);
 
 /**
  * Sanitiza dados para o Firestore (converte nested arrays para JSON strings)
  * O Firestore não suporta arrays aninhados, então serializamos os inputs complexos
  */
-function sanitizeForFirestore(question: QuestionDocument): Record<string, unknown> {
+function sanitizeForFirestore(question: LocalizedQuestionDocument): Record<string, unknown> {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, ...data } = question;
 
@@ -29,8 +34,8 @@ function sanitizeForFirestore(question: QuestionDocument): Record<string, unknow
 /**
  * Desserializa dados vindos do Firestore
  */
-function deserializeFromFirestore(data: Record<string, unknown>, id: string): QuestionDocument {
-    const question = { ...data, id } as QuestionDocument;
+function deserializeFromFirestore(data: Record<string, unknown>, id: string): LocalizedQuestionDocument {
+    const question = { ...data, id } as LocalizedQuestionDocument;
 
     // Desserializa inputs que foram serializados (ou que estão em formato JSON)
     if (question.tests && Array.isArray(question.tests)) {
@@ -141,7 +146,16 @@ export async function seedQuestions(): Promise<{ success: boolean; count: number
  * Busca todas as questões do Firestore
  * Retorna as questões mock como fallback se houver erro
  */
-export async function fetchAllQuestions(): Promise<QuestionDocument[]> {
+export async function fetchAllQuestions(language: string = i18n.language): Promise<QuestionDocument[]> {
+    const localized = await fetchAllLocalizedQuestions();
+    return localized.map(q => resolveQuestion(q, language));
+}
+
+/**
+ * Busca as questões no formato persistido (todas as traduções), sem resolver idioma.
+ * Permite trocar de idioma sem refazer a requisição.
+ */
+export async function fetchAllLocalizedQuestions(): Promise<LocalizedQuestionDocument[]> {
     try {
         const querySnapshot = await getDocs(collection(db, QUESTIONS_COLLECTION));
 
@@ -172,7 +186,7 @@ export async function fetchAllQuestions(): Promise<QuestionDocument[]> {
  * Atualiza uma questão existente no Firestore
  */
 // fallow-ignore-next-line unused-export
-export async function updateQuestion(question: QuestionDocument): Promise<void> {
+export async function updateQuestion(question: LocalizedQuestionDocument): Promise<void> {
     const docRef = doc(db, QUESTIONS_COLLECTION, question.id);
     const sanitizedData = sanitizeForFirestore(question);
     await setDoc(docRef, sanitizedData, { merge: true });
@@ -182,7 +196,7 @@ export async function updateQuestion(question: QuestionDocument): Promise<void> 
  * Adiciona uma nova questão ao Firestore
  */
 // fallow-ignore-next-line unused-export
-export async function addQuestion(question: QuestionDocument): Promise<void> {
+export async function addQuestion(question: LocalizedQuestionDocument): Promise<void> {
     const docRef = doc(db, QUESTIONS_COLLECTION, question.id);
     const sanitizedData = sanitizeForFirestore(question);
     await setDoc(docRef, sanitizedData);

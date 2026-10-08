@@ -1,0 +1,141 @@
+{
+  "strings_1": {
+    "title": "What is a String?",
+    "prompt": "A string in Python is... 📝",
+    "explanation": "String is the name we give to texts in programming! \"Hello, world!\" is a string. It is always enclosed in quotes!",
+    "options": [
+      "A text",
+      "A number",
+      "A list",
+      "A function"
+    ]
+  },
+  "strings_2": {
+    "title": "Joining Strings",
+    "prompt": "We can use + to join two strings. True or false? ➕",
+    "explanation": "Yes! \"Hello, \" + \"world!\" makes \"Hello, world!\". It's like gluing two pieces of paper together!"
+  },
+  "strings_3": {
+    "title": "Uppercase",
+    "prompt": "Complete the code to transform the text to uppercase: 🔠",
+    "explanation": "The upper() method transforms all letters to UPPERCASE! It's like shouting the text! 📢"
+  },
+  "strings_4": {
+    "title": "String Length",
+    "prompt": "Which function do we use to find out how many letters are in a string? 📏",
+    "explanation": "The len() function counts how many characters are in the string. len(\"Python\") gives 6, because Python has 6 letters!"
+  },
+  "strings_5": {
+    "title": "Counting Vowels",
+    "prompt": "Create a function that counts how many vowels (a, e, i, o, u) are in a word: 🔤",
+    "explanation": "Go through each letter of the text with a for loop. If the letter is in the list of vowels, add 1 to the counter!"
+  },
+  "strings_6": {
+    "title": "Magic F-string",
+    "prompt": "Use an f-string to put the age in the text:",
+    "explanation": "By putting an f before the quotes, you can use {variable} inside the text! Python changes {nome} to \"Leo\" automatically. ✨"
+  },
+  "strings_split_1": {
+    "title": "Breaking the Text",
+    "prompt": "What does \"hello cool world\".split() return?",
+    "explanation": "split() breaks the text at the spaces and returns a list! Each word becomes a separate item. ✂️",
+    "options": [
+      "[\"hello\", \"cool\", \"world\"]",
+      "\"hello cool world\"",
+      "[\"hellocoolworld\"]",
+      "Error"
+    ]
+  },
+  "strings_split_2": {
+    "title": "Separating by Comma",
+    "prompt": "Complete to separate the fruits:",
+    "explanation": "You can tell it where to cut! split(\",\") cuts at the commas. Each piece becomes a list item! 🍎"
+  },
+  "strings_join_1": {
+    "title": "Joining the List",
+    "prompt": "How to join [\"a\", \"b\", \"c\"] into \"a-b-c\"?",
+    "explanation": "join() is the opposite of split! It joins the list items using the text before the dot as glue! 🧲"
+  },
+  "strings_join_2": {
+    "title": "Joining with Space",
+    "prompt": "Complete to join the words with a space:",
+    "explanation": "\" \".join(lista) uses space as glue between words! Result: \"I love Python\". 📝"
+  },
+  "strings_7": {
+    "title": "First Letters",
+    "prompt": "Complete to get the first 3 letters of \"Python\":",
+    "explanation": "We use [0:3] to get from the beginning (0) until before 3. P(0), y(1), t(2). The h(3) is left out! ✂️"
+  },
+  "strings_8": {
+    "title": "Magic Sentence",
+    "prompt": "Use f-string to put the age in the text:",
+    "explanation": "F-string is magic! Just put the variable inside curly braces { } and Python swaps it for the value. Don't forget the f before the quotes! 🎩"
+  },
+  "strings_lower": {
+    "title": "Lowercase Text",
+    "prompt": "If upper() shouts, lower() whispers! Complete to make the text lowercase:",
+    "explanation": "lower() transforms everything into small (lowercase) letters. Great for when we don't want to shout! 🤫"
+  },
+  "strings_replace": {
+    "title": "Swapping Words",
+    "prompt": "Use replace() to change \"Cat\" to \"Dog\":",
+    "explanation": "replace(\"old\", \"new\") looks for the old word and swaps it for the new one! It's like editing text automatically. 🔄"
+  },
+  "strings_strip": {
+    "title": "Cleaning Spaces",
+    "prompt": "What does the strip() method do?",
+    "explanation": "strip() cleans up the mess! It removes empty spaces that are left over at the beginning and end of the text. ✨",
+    "options": [
+      "Removes spaces from beginning and end",
+      "Removes all spaces from text",
+      "Removes letters s, t, r, i, p",
+      "Erases the text"
+    ]
+  },
+  "strings_9": {
+    "title": "Cutting the Middle",
+    "prompt": "Get the letters \"yth\" from the word \"Python\":",
+    "explanation": "We want from index 1 (\"y\") to 3 (\"h\"). But slicing stops BEFORE the end, so we use [1:4]! 🍰"
+  },
+  "strings_10": {
+    "title": "Double F-string",
+    "prompt": "Complete the f-string with name and age:",
+    "explanation": "You can put as many variables as you want in an f-string! Just use curly braces {} for each one. Double magic! ✨✨"
+  },
+  "strings_11": {
+    "title": "Pretty Title",
+    "prompt": "The `.title()` method makes the first letter of each word uppercase.",
+    "explanation": "Yes! `title()` makes the text fancy! \"the mouse gnawed\" becomes \"The Mouse Gnawed\". Great for names and titles! 🎩"
+  },
+  "strings_12": {
+    "title": "The Last Letter",
+    "prompt": "Use a negative index to get the last letter of the word:",
+    "explanation": "Negative indices count backwards! -1 is the last item, -2 is the second to last... It's a super useful shortcut! 🔙"
+  },
+  "strings_13": {
+    "title": "Separating Dates",
+    "prompt": "Separate the day, month, and year by cutting at the slashes (/):",
+    "explanation": "split(\"/\") cuts the text wherever there is a slash! This is how we separate the date parts. 📅"
+  },
+  "strings_14": {
+    "title": "Word Train",
+    "prompt": "Join the list `[\"choo\", \"choo\"]` with \"-\" to make a train:",
+    "explanation": "`join` is the glue! It uses the dash \"-\" to glue the wagons and become \"choo-choo\". All aboard! 🚂"
+  },
+  "strings_15": {
+    "title": "Counting Letters",
+    "prompt": "Use `count()` to count how many times the letter \"a\" appears in the word:",
+    "explanation": "`count()` counts how many times something appears in the text. In \"banana\", the letter \"a\" appears 3 times! 🔢"
+  },
+  "strings_16": {
+    "title": "Game Scoreboard",
+    "prompt": "Use f-string to show the name and points:",
+    "explanation": "With an f-string, you can quickly build complex sentences! Just put the variables in the right places inside the braces { }. 🏆"
+  },
+  "boss_battle_8": {
+    "title": "The Mysterious Scribe",
+    "prompt": "The Scribe wrote \"python\" in lowercase. Transform it to UPPERCASE and show it!",
+    "explanation": "The Scribe wants you to shout! Use upper() to make everything uppercase! 📜",
+    "bossName": "Scribe of Letters"
+  }
+}

@@ -138,6 +138,39 @@ export interface QuestionDocument {
   points?: number;
 }
 
+/** Idiomas suportados para conteúdo de questões */
+export type ContentLocale = 'pt' | 'en' | 'es' | 'hi';
+
+/**
+ * Texto localizado. `pt` é obrigatório (idioma canônico/fallback).
+ * Strings simples são aceitas por retrocompatibilidade (tratadas como `pt`).
+ */
+export type LocalizedText =
+  | string
+  | ({ pt: string } & Partial<Record<Exclude<ContentLocale, 'pt'>, string>>);
+
+/**
+ * Formato persistido no Firestore: campos textuais com todas as traduções no mesmo documento.
+ * Código (starterCode, tests, parsonsSegments...) nunca é traduzido.
+ */
+export interface LocalizedQuestionDocument
+  extends Omit<QuestionDocument, 'title' | 'prompt' | 'options' | 'explanationKidFriendly' | 'bossMetadata'> {
+  title: LocalizedText;
+  prompt: LocalizedText;
+  options?: LocalizedText[];
+  explanationKidFriendly: LocalizedText;
+  bossMetadata?: Omit<BossMetadata, 'bossName'> & { bossName: LocalizedText };
+}
+
+/** Tradução de uma questão (arquivos em src/data/questions/i18n/<lang>/<world>.json) */
+export interface QuestionTranslation {
+  title?: string;
+  prompt?: string;
+  options?: string[];
+  explanation?: string;
+  bossName?: string;
+}
+
 /**
  * Status de progresso em uma questão
  */

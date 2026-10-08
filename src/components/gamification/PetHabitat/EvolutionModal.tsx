@@ -35,6 +35,12 @@ export function EvolutionModal() {
 
     if (!pet?.justEvolved) return null;
 
+    const translatedPetName = pet?.name === 'Ovo Misterioso'
+        ? t('petHabitat.defaultEggName', 'Ovo Misterioso')
+        : pet?.name?.toLowerCase() === 'mascote bebê'
+        ? t('petHabitat.defaultBabyName', 'Mascote Bebê')
+        : pet?.name;
+
     return (
         <div className="evolution-modal-overlay">
             <div
@@ -56,7 +62,7 @@ export function EvolutionModal() {
                     </div>
 
                     <div className="evolution-modal__details">
-                        <h3>{pet.name}</h3>
+                        <h3>{translatedPetName}</h3>
                         <p className="evolution-type">{t('evolution.type', { defaultValue: 'Tipo: {{type}}',  type: pet.type.toUpperCase() })}</p>
                     </div>
                 </div>
@@ -70,7 +76,7 @@ export function EvolutionModal() {
                         onClick={() => {
                             const shareData = {
                                 title: t('evolution.shareTitle', 'PyExplorer - Meu Mascote Evoluiu!'),
-                                text: t('evolution.shareText', { defaultValue: 'Meu mascote {{name}} evoluiu para o tipo {{type}} no PyExplorer! Venha aprender Python jogando!',  name: pet.name, type: pet.type.toUpperCase() }),
+                                text: t('evolution.shareText', { defaultValue: 'Meu mascote {{name}} evoluiu para o tipo {{type}} no PyExplorer! Venha aprender Python jogando!',  name: translatedPetName, type: pet.type.toUpperCase() }),
                                 url: window.location.origin
                             };
                             if (navigator.share) {

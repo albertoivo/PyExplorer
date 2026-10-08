@@ -1,0 +1,141 @@
+{
+  "list_1": {
+    "title": "Creating a list",
+    "prompt": "What symbol do we use to create a list in Python?",
+    "explanation": "Lists use square brackets [ ]! frutas = [\"maçã\", \"banana\"] stores two fruits in a list! 📋"
+  },
+  "list_2": {
+    "title": "First item is zero",
+    "prompt": "In Python, the first item in a list has position 0 (not 1).",
+    "explanation": "Python starts from zero! frutas[0] is the first item, frutas[1] is the second. 🎯"
+  },
+  "list_3": {
+    "title": "Get the second item",
+    "prompt": "Complete to show \"banana\" (second item):",
+    "explanation": "Position 0 is maçã, position 1 is banana, position 2 is laranja! 🍌"
+  },
+  "list_4": {
+    "title": "Add to list",
+    "prompt": "Which method adds an item to the end of the list?",
+    "explanation": "append() adds to the end! frutas.append(\"uva\") puts uva at the end of the list! ➕"
+  },
+  "list_5": {
+    "title": "Count evens in list",
+    "prompt": "Create a function that counts how many even numbers are in the list.",
+    "explanation": "Use for to go through each number. If numero % 2 == 0, it's even! Count how many there are. 🔢"
+  },
+  "list_6": {
+    "title": "List Size",
+    "prompt": "What command tells how many items are in the list `[10, 20, 30]`?",
+    "explanation": "len() stands for length. It counts how many items are in the list. len([10, 20, 30]) gives 3! 📏"
+  },
+  "list_slice_1": {
+    "title": "Slicing the List",
+    "prompt": "What does lista[1:3] return from the list [\"a\", \"b\", \"c\", \"d\"]?",
+    "explanation": "lista[1:3] gets from index 1 until before 3! It's like slicing a cake 🎂 - index 1 is \"b\" and index 2 is \"c\"."
+  },
+  "list_slice_2": {
+    "title": "Getting the First Ones",
+    "prompt": "Complete to get the first 2 numbers:",
+    "explanation": "[0:2] gets from the beginning (0) until before 2, meaning indices 0 and 1! ✂️"
+  },
+  "list_pop_1": {
+    "title": "Removing and Getting",
+    "prompt": "What does lista.pop() do?",
+    "explanation": "pop() takes the last item from the list and gives it to you! It's like drawing the last card from the deck. 🃏",
+    "options": [
+      "Removes and returns the last item",
+      "Adds an item at the end",
+      "Counts the items",
+      "Sorts the list"
+    ]
+  },
+  "list_sort_1": {
+    "title": "Sorting the List",
+    "prompt": "The method lista.sort() puts the numbers in ascending order.",
+    "explanation": "That's it! sort() organizes the list! [3, 1, 2] becomes [1, 2, 3]. Very useful! 📊"
+  },
+  "list_remove_1": {
+    "title": "Removing by Value",
+    "prompt": "Complete to remove \"banana\" from the list:",
+    "explanation": "remove() takes the item out by value! Tell the item's name and it vanishes from the list. 🍌❌"
+  },
+  "list_7": {
+    "title": "Shopping List",
+    "prompt": "Add \"leite\" to the shopping list using append:",
+    "explanation": "append() glues the item to the end of the list! Now \"leite\" is part of the groceries! 🛒"
+  },
+  "list_8": {
+    "title": "How many colors?",
+    "prompt": "Use `len` to find out how many colors are in the list:",
+    "explanation": "len() counts how many items are in the list! It's like counting on your fingers: one, two, three colors! 🎨"
+  },
+  "list_iter_1": {
+    "title": "Walking through the List",
+    "prompt": "Which loop is better to go through each item in a list?",
+    "explanation": "We use `for item in lista` to visit each item, one by one! It's like a roll call in the classroom. 📢",
+    "options": [
+      "for item in lista:",
+      "if item in lista:",
+      "loop lista:",
+      "repeat lista:"
+    ]
+  },
+  "list_iter_2": {
+    "title": "Showing the Fruits",
+    "prompt": "Complete the loop to show each fruit in the list:",
+    "explanation": "`in` means inside or in. For each fruit IN the list of fruits, show the fruit! 🍎🍐"
+  },
+  "list_9": {
+    "title": "Removing the First",
+    "prompt": "How do we remove the FIRST item of a list called `cores`?",
+    "explanation": "pop() without a number takes the last one. But if you tell the index, it takes that specific one! pop(0) takes the item at position 0 (the first one). 1️⃣"
+  },
+  "list_10": {
+    "title": "Reverse Order",
+    "prompt": "How do we sort a list from largest to smallest?",
+    "explanation": "sort() organizes from smallest to largest. To invert it (largest to smallest), we use the reverse=True option! 🔄"
+  },
+  "list_11": {
+    "title": "Summing the List",
+    "prompt": "Use `sum()` to sum all numbers in the list:",
+    "explanation": "`sum()` is a magic function that adds up everything in the list! 10 + 20 + 30 = 60. Super fast! ➕"
+  },
+  "list_12": {
+    "title": "Adding Colors",
+    "prompt": "Which command adds the color \"Roxo\" at the end of the list `cores`?",
+    "explanation": "append(\"Roxo\") adds the item at the end of the list. It's like adding another wagon to the train! 🚂"
+  },
+  "list_13": {
+    "title": "Getting the Middle",
+    "prompt": "We have `nums = [0, 1, 2, 3, 4]`. What does `nums[2:4]` get?",
+    "explanation": "It gets from index 2 (number 2) until BEFORE index 4 (number 4). So it gets 2 and 3! The 4 is left out! 🍰"
+  },
+  "list_14": {
+    "title": "Popping Balloons",
+    "prompt": "We have `baloes = [\"vermelho\", \"azul\"]`. What does `baloes.pop()` do?",
+    "explanation": "`pop()` pops (removes) the LAST item of the list. Bye bye, blue balloon! 🎈",
+    "options": [
+      "Removes \"azul\"",
+      "Removes \"vermelho\"",
+      "Removes everything",
+      "Does nothing"
+    ]
+  },
+  "list_15": {
+    "title": "Organizing Points",
+    "prompt": "Put the list of points in ascending order (from smallest to largest):",
+    "explanation": "`sort()` organizes the mess! It puts numbers in ascending order (1, 2, 3) or letters in alphabetical order (A, B, C). 📊"
+  },
+  "list_16": {
+    "title": "Backpack Full?",
+    "prompt": "Find out how many items are in the backpack using `len()`:",
+    "explanation": "`len()` counts everything for you! It's super useful to know if the backpack is full or if there's room for more. 🎒"
+  },
+  "boss_battle_7": {
+    "title": "The Organizing Giant",
+    "prompt": "The Giant has a list [5, 2, 8, 1]. Sort the list and show it!",
+    "explanation": "The Giant is messy! Use sort() to organize the list! 🗿",
+    "bossName": "Giant of Order"
+  }
+}

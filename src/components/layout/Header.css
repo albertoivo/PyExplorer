@@ -11,14 +11,14 @@
   top: 0;
   z-index: 1000;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
-  min-height: 64px;
+  min-height: 56px;
   transition: all 0.3s ease;
 }
 
 .header__container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0.75rem 1.5rem;
+  padding: 0.5rem 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -228,58 +228,66 @@
   color: #ffd700;
 }
 
-.user-pill__profile {
+.user-pill__profile-link {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: transform 0.2s ease;
+  border-radius: 20px;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.user-pill__profile-link:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(0, 217, 255, 0.4);
 }
 
 .user-pill__avatar {
-  width: 34px;
-  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
   border-radius: 50%;
   border: 2px solid var(--color-primary, #00d9ff);
-  object-fit: cover;
-}
-
-.user-pill__details {
-  display: flex;
-  flex-direction: column;
+  background: rgba(255, 255, 255, 0.1);
+  font-size: 1.1rem;
+  flex-shrink: 0;
 }
 
 .user-pill__name {
   color: #ffffff;
-  font-weight: 700;
-  font-size: 0.85rem;
-  line-height: 1.2;
+  font-weight: 600;
+  font-size: 0.9rem;
+  max-width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.user-pill__level {
-  color: #a0aec0;
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-
-.header__logout-btn {
-  padding: 0.4rem 0.85rem;
-  border-radius: 20px;
+.header__logout-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem 0.8rem;
+  border-radius: 12px;
   border: 1px solid rgba(255, 107, 107, 0.3);
   background: rgba(255, 107, 107, 0.1);
   color: #ff6b6b;
-  font-weight: 600;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.25s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
+  flex-shrink: 0;
 }
 
-.header__logout-btn:hover {
+.header__logout-icon-btn:hover {
   background: rgba(255, 107, 107, 0.25);
   border-color: #ff6b6b;
-  color: #ffffff;
-  transform: scale(1.03);
+  transform: scale(1.08);
 }
 
 /* Auth Links */
@@ -320,7 +328,7 @@
    RESPONSIVO MOBILE (Drawer Elegante com Glassmorphism)
    ================================================== */
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .header__container {
     padding: 0.65rem 1rem;
   }
@@ -385,12 +393,16 @@
   }
 
   .mobile-profile__avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    border: 2px solid #00d9ff;
-    object-fit: cover;
-    box-shadow: 0 0 12px rgba(0, 217, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid #00d9ff;
+  font-size: 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 12px rgba(0, 217, 255, 0.4);
   }
 
   .mobile-profile__level-badge {

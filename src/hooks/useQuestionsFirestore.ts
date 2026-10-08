@@ -1,13 +1,20 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import type { QuestionDocument, World } from '../types/question';
-import { fetchAllQuestions, autoSyncQuestions } from '../firebase/questionsService';
+import { useTranslation } from 'react-i18next';
+import type { LocalizedQuestionDocument, QuestionDocument, World } from '../types/question';
+import { fetchAllLocalizedQuestions, autoSyncQuestions } from '../firebase/questionsService';
+import { resolveQuestion } from '../data/questions/localize';
 
 /**
  * Hook para gerenciar questões do Firestore
  * Sincroniza automaticamente questões novas e carrega do Firestore
  */
 export function useQuestionsFirestore() {
-    const [questions, setQuestions] = useState<QuestionDocument[]>([]);
+    const { i18n } = useTranslation();
+    const [localizedQuestions, setLocalizedQuestions] = useState<LocalizedQuestionDocument[]>([]);
+    const questions = useMemo(
+        () => localizedQuestions.map(q => resolveQuestion(q, i18n.language)),
+        [localizedQuestions, i18n.language]
+    );
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [source, setSource] = useState<'firestore' | 'local' | 'loading'>('loading');
@@ -32,8 +39,8 @@ export function useQuestionsFirestore() {
                 }
             }
 
-            const data = await fetchAllQuestions();
-            setQuestions(data);
+            const data = await fetchAllLocalizedQuestions();
+            setLocalizedQuestions(data);
             setSource(data.length > 0 ? 'firestore' : 'local');
         } catch (err) {
             const message = err instanceof Error ? err.message : 'Erro ao carregar questões';

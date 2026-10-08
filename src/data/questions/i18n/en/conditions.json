@@ -1,0 +1,153 @@
+{
+  "dec_1": {
+    "title": "Magic Word: if",
+    "prompt": "The word \"if\" in Python is used to...",
+    "explanation": "if is like asking: \"IF this is true, do that\". For example: IF it's raining, take an umbrella! ☔",
+    "options": [
+      "Ask a question and decide what to do",
+      "Repeat something multiple times",
+      "Create a variable",
+      "Show text on screen"
+    ]
+  },
+  "dec_2": {
+    "title": "else is Mandatory",
+    "prompt": "When we use if, we are required to use else as well.",
+    "explanation": "Not always! else is optional. You only use it when you want something to happen if the condition is false. Like having a plan B! 🅱️"
+  },
+  "dec_3": {
+    "title": "Comparing Values",
+    "prompt": "Which symbol do we use to check if two values are EQUAL?",
+    "explanation": "Two equals (==) to compare! One equal (=) assigns values. Two equals (==) asks: \"Are they equal?\" ⚖️"
+  },
+  "dec_4": {
+    "title": "Is an Adult?",
+    "prompt": "Complete the code to show \"Maior de idade\" if age is 18 or older:",
+    "explanation": "We use if to check: IF age >= 18, show message! The >= sign means \"greater than or equal to\". 📊"
+  },
+  "dec_5": {
+    "title": "Even or Odd?",
+    "prompt": "Complete the code to check if the number is even:",
+    "explanation": "% gives remainder of division. If numero % 2 == 0, the remainder is 0, so it is even! 🎲"
+  },
+  "cond_parsons_rain": {
+    "title": "Rainy Day",
+    "prompt": "Build the logic: If it is raining, take an umbrella. Else, wear sunglasses.",
+    "explanation": "Computer checks the condition in `if`. If true, runs the first block. If not, jumps to `else`!"
+  },
+  "dec_6": {
+    "title": "Many Options",
+    "prompt": "Use `elif` to check if grade is 8:",
+    "explanation": "When we have more than one option, we use elif (means \"else if\"). Like saying: \"If not the first, check this one...\" 🤔"
+  },
+  "cond_and_1": {
+    "title": "Two Conditions Together",
+    "prompt": "Which word do we use to check if BOTH conditions are true?",
+    "explanation": "and means both must be true! if idade >= 18 and tem_ingresso: checks if adult AND has ticket. 🎫"
+  },
+  "cond_or_1": {
+    "title": "One or the Other",
+    "prompt": "Complete to check if it is Saturday OR Sunday:",
+    "explanation": "or means either one! If ONE condition is true, it enters the if. 🌴"
+  },
+  "cond_not_1": {
+    "title": "Negating with not",
+    "prompt": "The \"not\" operator inverts a condition. If something is True, not turns it into False.",
+    "explanation": "not flips everything! not True = False, not False = True. Like saying \"It is NOT true that...\" 🔄"
+  },
+  "cond_in_1": {
+    "title": "Check if in List",
+    "prompt": "How do we check if \"banana\" is in the fruit list?",
+    "explanation": "in checks if something is inside a list or string! \"banana\" in frutas returns True if banana is in the list. 🍌",
+    "options": [
+      "\"banana\" in frutas",
+      "frutas.contains(\"banana\")",
+      "frutas.has(\"banana\")",
+      "\"banana\" == frutas"
+    ]
+  },
+  "cond_in_2": {
+    "title": "Checking Letter",
+    "prompt": "Complete to check if the letter \"a\" is in the word:",
+    "explanation": "in works with text too! \"a\" in \"banana\" is True because banana contains the letter a! 🔤"
+  },
+  "dec_7": {
+    "title": "Not Equal Symbol",
+    "prompt": "The != symbol means \"not equal\" in Python.",
+    "explanation": "That's right! The exclamation mark ! with = means \"not equal\"! 3 != 4 is True! ≠"
+  },
+  "turtle_colors": {
+    "title": "Conditional Colors",
+    "prompt": "Complete the code to draw 4 lines: if the number is even, use blue; if odd, use red.",
+    "explanation": "Use if/else to pick colors! If i is even (i % 2 == 0), use blue. Else, use red! 🎨"
+  },
+  "dec_8": {
+    "title": "Traffic Light",
+    "prompt": "Complete with elif for the yellow light:",
+    "explanation": "elif tests another condition if the first fails! \"If green, go. ELSE IF yellow, caution!\". 🚦"
+  },
+  "dec_9": {
+    "title": "Roller Coaster",
+    "prompt": "To ride the coaster, need height > 1.20 AND age >= 10:",
+    "explanation": "When we need TWO things at the same time, we use \"and\"! Height ok AND Age ok = Fun! 🎢"
+  },
+  "dec_10": {
+    "title": "Less Than",
+    "prompt": "Is the expression 5 < 10 True?",
+    "explanation": "Yes! < means \"less than\". 5 is less than 10, so answer is True! ✅"
+  },
+  "dec_11": {
+    "title": "If NOT True",
+    "prompt": "What does the code `if not chovendo:` do?",
+    "explanation": "`not` inverts condition! If `chovendo` is False (not raining), `not chovendo` becomes True and code runs! ☀️",
+    "options": [
+      "Runs if it is NOT raining",
+      "Runs if it IS raining",
+      "Throws an error",
+      "Stops the rain"
+    ]
+  },
+  "dec_12": {
+    "title": "Weekend",
+    "prompt": "Which code correctly checks if it is Saturday OR Sunday?",
+    "explanation": "We use `or`! Computer checks: Is it Saturday? OR Is it Sunday? If either is true, you can rest! 🎮",
+    "options": [
+      "if dia == \"Sábado\" or dia == \"Domingo\":",
+      "if dia == \"Sábado\" and dia == \"Domingo\":",
+      "if dia = \"Sábado\" or \"Domingo\":",
+      "if dia == \"Sábado\" | \"Domingo\":"
+    ]
+  },
+  "dec_13": {
+    "title": "Third Option",
+    "prompt": "If not 1 or 2, check if it is 3 using elif:",
+    "explanation": "elif saves the day! Checks the next option if previous ones failed. \"If not 1 nor 2... what about 3?\" 🤔"
+  },
+  "dec_14": {
+    "title": "Sunny Day",
+    "prompt": "If it is NOT raining, I go to the beach. Which code does this?",
+    "explanation": "`not` flips logic! If `chovendo` is False, `not chovendo` becomes True and we hit the beach! 🏖️",
+    "options": [
+      "if not chovendo:",
+      "if chovendo:",
+      "if no chovendo:",
+      "if chovendo == True:"
+    ]
+  },
+  "dec_15": {
+    "title": "In the Middle",
+    "prompt": "Check if the number is greater than 10 AND less than 20:",
+    "explanation": "We use `and` when we want TWO things to be true at the same time. Greater than 10 AND less than 20! 🤝"
+  },
+  "dec_16": {
+    "title": "Item in Backpack",
+    "prompt": "Check if \"lanterna\" is in your backpack:",
+    "explanation": "`in` is like a detective! Searches inside the list and tells you if it found what you wanted. 🔦"
+  },
+  "boss_battle_4": {
+    "title": "The Logic Sphinx",
+    "prompt": "The Sphinx asks: If vida = 100 and vida > 50, show \"Você está bem!\". Else, show \"Cuidado!\".",
+    "explanation": "The Sphinx tests your logic! Use if and else to choose what to display! 🦁",
+    "bossName": "Sphinx of Decisions"
+  }
+}

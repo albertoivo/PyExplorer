@@ -39,63 +39,6 @@
   <meta name="twitter:image" content="https://pyexplorer.com.br/og-image.jpg" />
   <meta name="twitter:image:alt" content="PyExplorer - Aprenda Python Jogando" />
 
-  <!-- Schema.org JSON-LD para Google -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "PyExplorer",
-    "alternateName": "PyExplorer - Aprenda Python Jogando",
-    "description": "Free educational game for kids and beginners to learn Python programming. Jogo educativo gratuito para aprender Python. Juego educativo gratuito de Python. पायथन सीखने का मुफ़्त शैक्षिक गेम।",
-          "@id": "https://pyexplorer.com.br#app",
-          "url": "https://pyexplorer.com.br",
-    "applicationCategory": "EducationalApplication",
-    "operatingSystem": "Web Browser",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
-    "audience": {
-      "@type": "EducationalAudience",
-      "educationalRole": "student",
-      "audienceType": "Kids and Beginners"
-    },
-    "educationalLevel": "Beginner",
-    "learningResourceType": "Interactive Game",
-    "teaches": ["Python", "Programming", "Logic", "Coding"],
-    "inLanguage": ["pt-BR", "en-US", "es-ES", "hi-IN"],
-    "isAccessibleForFree": true,
-    "keywords": "python, programming, kids, education, educational game, learn python, free course, coding for kids"
-  }
-  </script>
-
-  <!-- Schema.org - Educational Course -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Course",
-    "@id": "https://pyexplorer.com.br#course",
-    "url": "https://pyexplorer.com.br",
-    "name": "Python Course for Kids - PyExplorer",
-    "description": "Learn Python by playing! Interactive and free programming course for kids aged 8-15.",
-    "provider": {
-      "@type": "Organization",
-      "name": "PyExplorer",
-      "url": "https://pyexplorer.com.br"
-    },
-    "educationalLevel": "Beginner",
-    "inLanguage": ["pt-BR", "en-US", "es-ES", "hi-IN"],
-    "isAccessibleForFree": true,
-    "teaches": ["Python", "Programming", "Logic", "Algorithms"],
-    "hasCourseInstance": {
-      "@type": "CourseInstance",
-      "courseMode": "online",
-      "courseWorkload": "PT10H"
-    }
-  }
-  </script>
-
   <!-- PWA Meta Tags -->
   <meta name="theme-color" content="#0f0f1a" />
   <meta name="background-color" content="#0f0f1a" />
@@ -108,7 +51,7 @@
   <meta name="msapplication-tap-highlight" content="no" />
   <meta name="format-detection" content="telephone=no" />
 
-  <link rel="manifest" href="/manifest.webmanifest" />
+  <!-- PWA Manifest dinâmico será injetado pelo Helmet, mas mantemos o fallback do VitePWA caso necessário -->
 
   <!-- LLMs.txt para IA -->
   <link rel="describedby" href="/llms.txt" />

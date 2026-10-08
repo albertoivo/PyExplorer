@@ -1,0 +1,34 @@
+{
+  "api_01": {
+    "title": "What is an API?",
+    "prompt": "An API on the internet works like what?",
+    "explanation": "API stands for Application Programming Interface. It's like a digital waiter that fetches data on the internet for your code!",
+    "options": [
+      "A waiter that takes your order to the internet server and brings back the response",
+      "A piece of keyboard hardware",
+      "A computer error",
+      "A board game"
+    ]
+  },
+  "api_02": {
+    "title": "JSON Data Format",
+    "prompt": "On the internet, data almost always arrives in JSON format, which is very similar to a Python dictionary. Complete to get the status value:",
+    "explanation": "JSON is the universal web format for sending and receiving information!"
+  },
+  "api_03": {
+    "title": "Extracting Weather Temperature",
+    "prompt": "Order the code to access the current temperature inside the response from a weather forecast API:",
+    "explanation": "Nested dictionaries (one inside another) are super common when receiving real data from the web!"
+  },
+  "api_04": {
+    "title": "API URL Builder",
+    "prompt": "Create a function `construir_url(endpoint, usuario)` that joins a website address with the username: `f\"https://api.exemplo.com/{endpoint}/{usuario}\"`",
+    "explanation": "Building dynamic URLs with f-strings lets us fetch information for any user on the web!"
+  },
+  "boss_battle_18": {
+    "title": "The Guardian of Networks",
+    "prompt": "Given the response dictionary `api_data = {\"user\": \"Heroi\", \"score\": 999}`, print `\"Heroi marcou 999\"` using an f-string!",
+    "explanation": "Connect the information returned by the API into a perfect sentence!",
+    "bossName": "Web Guardian"
+  }
+}

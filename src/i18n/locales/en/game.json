@@ -141,7 +141,11 @@
         "extraHintActive": "Extra hint activated!",
         "doubleStarsActive": "Double stars activated!",
         "hintsUsedPenalty": "Hints used (penalty applied)",
-        "verifyAnswer": "Check Answer 🚀"
+        "verifyAnswer": "Check Answer 🚀",
+        "preparingPython": "Preparing Python...",
+        "loadingLibraries": "Loading libraries...",
+        "initializingPython": "Initializing Python...",
+        "almostReady": "Almost ready!"
     },
     "sagaBanner": {
         "questions": "Questions"
@@ -256,5 +260,24 @@
         "start": "🚀 Start!",
         "close": "Close tutorial",
         "stepCounter": "Step {{current}} of {{total}}"
+    },
+    "parsons": {
+        "badge": "🧩 Code Puzzle",
+        "instructions": "Drag or use the <b>▲ ▼</b> buttons to order the lines and <b>◀ ▶</b> to adjust the indentation.",
+        "indentLess": "Decrease indentation",
+        "indentMore": "Increase indentation",
+        "indentLessLine": "Decrease indentation of line {{line}}",
+        "indentMoreLine": "Increase indentation of line {{line}}",
+        "drag": "Drag to reorder",
+        "up": "Move up",
+        "down": "Move down",
+        "upLine": "Move line {{line}} up",
+        "downLine": "Move line {{line}} down",
+        "output": "Output:",
+        "wrong": "The code ran, but the answer does not pass the tests.",
+        "unknownError": "Unknown error",
+        "error": "❌ Error: {{message}}",
+        "checking": "Checking... ⏳",
+        "check": "Check Order ✨"
     }
 }

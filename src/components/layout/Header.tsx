@@ -6,7 +6,6 @@ import { useGamification } from '../../context/GamificationContext';
 import { SHOP_ITEMS } from '../../data/gamificationData';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { useLocalizedPath } from '../../hooks/useLocalizedPath';
-import reactLogo from '../../assets/react.svg';
 import './Header.css';
 
 /**
@@ -56,10 +55,10 @@ export function Header() {
                         {(() => {
                             if (!userData && !isGuest) return <span className="header__logo-emoji">🐍</span>;
                             const equippedAvatarId = gamification?.inventory?.equippedAvatar || 'avatar_snake_green';
-                            const equippedFrameId = gamification?.inventory?.equippedFrame;
                             const avatarItem = SHOP_ITEMS.find(i => i.id === equippedAvatarId);
-                            const frameItem = equippedFrameId ? SHOP_ITEMS.find(i => i.id === equippedFrameId) : null;
                             const avatarIcon = avatarItem?.icon || '🐍';
+                            const equippedFrameId = gamification?.inventory?.equippedFrame;
+                            const frameItem = equippedFrameId ? SHOP_ITEMS.find(i => i.id === equippedFrameId) : null;
 
                             if (frameItem?.color) {
                                 const borderColor = frameItem.color === 'rainbow'
@@ -113,11 +112,17 @@ export function Header() {
                     {userData && (
                         <div className="header__mobile-profile">
                             <div className="mobile-profile__avatar-container">
-                                <img src={reactLogo} className="mobile-profile__avatar" alt="Avatar" />
+                                {(() => {
+                                    const equippedAvatarId = gamification?.inventory?.equippedAvatar || 'avatar_snake_green';
+                                    const avatarItem = SHOP_ITEMS.find(i => i.id === equippedAvatarId);
+                                    const avatarIcon = avatarItem?.icon || '🐍';
+                                    return <div className="mobile-profile__avatar">{avatarIcon}</div>;
+                                })()}
                                 <span className="mobile-profile__level-badge">{t('nav.level')} {currentLevel?.level || 1}</span>
                             </div>
                             <div className="mobile-profile__info">
-                                <span className="mobile-profile__name">{userData.displayName}</span>
+                                <span className="mobile-profile__name">{userData.displayName || 'Explorador'}</span>
+                                {isGuest && <span className="header__user-guest">({t('nav.guest')})</span>}
                                 <span className="mobile-profile__title">{currentLevel?.name || t('nav.explorer')}</span>
                             </div>
                         </div>
@@ -193,16 +198,18 @@ export function Header() {
                                         <span aria-hidden="true">🔥</span> {currentStreak}
                                     </span>
                                 </div>
-                                <div className="user-pill__profile">
-                                    <img src={reactLogo} className="user-pill__avatar" alt="Avatar" />
-                                    <div className="user-pill__details">
-                                        <span className="user-pill__name">{userData.displayName}</span>
-                                        <span className="user-pill__level">{t('nav.level')} {currentLevel?.level || 1}</span>
-                                        {isGuest && <span className="header__user-guest">({t('nav.guest')})</span>}
-                                    </div>
-                                </div>
-                                <button onClick={handleLogout} className="header__logout-btn" title={t('nav.logout')}>
-                                    <span aria-hidden="true">🚪</span> {t('nav.logout')}
+                                <Link to={getLocalizedPath('/profile')} className="user-pill__profile-link" title={`${userData.displayName} - ${t('nav.level')} ${currentLevel?.level || 1}`}>
+                                    {(() => {
+                                        const equippedAvatarId = gamification?.inventory?.equippedAvatar || 'avatar_snake_green';
+                                        const avatarItem = SHOP_ITEMS.find(i => i.id === equippedAvatarId);
+                                        const avatarIcon = avatarItem?.icon || '🐍';
+                                        return <div className="user-pill__avatar">{avatarIcon}</div>;
+                                    })()}
+                                    <span className="user-pill__name">{userData.displayName || 'Explorador'}</span>
+                                    {isGuest && <span className="header__user-guest">({t('nav.guest')})</span>}
+                                </Link>
+                                <button onClick={handleLogout} className="header__logout-icon-btn" title={t('nav.logout')} aria-label={t('nav.logout')}>
+                                    <span aria-hidden="true">Sair</span>
                                 </button>
                             </div>
                         ) : (

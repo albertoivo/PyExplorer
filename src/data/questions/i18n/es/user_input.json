@@ -1,0 +1,132 @@
+{
+  "input_1": {
+    "title": "Preguntando al Usuario",
+    "prompt": "¿Qué comando usamos para pedir que la persona escriba algo?",
+    "explanation": "¡input() es como un micrófono! 🎤 El programa se detiene y espera a que escribas algo. ¡Lo que escribas se guarda para usarlo después!"
+  },
+  "input_2": {
+    "title": "input() siempre da texto",
+    "prompt": "Incluso si escribes un número, input() devuelve texto (string).",
+    "explanation": "¡Exacto! input() siempre devuelve texto. Si escribes 42, devuelve \"42\" (con comillas). ¡Para usarlo como número, conviértelo con int()! 🔢"
+  },
+  "input_3": {
+    "title": "Pregunta el nombre",
+    "prompt": "Completa el código para preguntar el nombre de la persona:",
+    "explanation": "Usa input() con un mensaje dentro de los paréntesis. ¡La persona verá el mensaje y podrá escribir su respuesta! 💬"
+  },
+  "input_4": {
+    "title": "Convirtiendo a número",
+    "prompt": "Si el usuario escribió \"25\", ¿cómo lo convertimos en número entero?",
+    "explanation": "¡int() convierte texto en número entero! int(\"25\") se vuelve 25 (sin comillas). ¡Así puedes hacer cuentas! 🔢"
+  },
+  "input_5": {
+    "title": "Calculando la edad futura",
+    "prompt": "Completa para tomar la edad y calcular cuántos años tendrá en 5 años:",
+    "explanation": "¡input() da texto, pero necesitamos números para sumar! Usa int() para convertir. ¡Así 10 + 5 = 15! 🎂"
+  },
+  "input_6": {
+    "title": "str() para texto",
+    "prompt": "Si tenemos idade = 10 (número) y queremos unirlo con texto, ¿qué hacemos?",
+    "explanation": "¡str() convierte cualquier cosa en texto! str(10) se vuelve \"10\". Así puedes unir: \"Idade: \" + str(10) = \"Idade: 10\" 📝",
+    "options": [
+      "str(idade) - convierte a texto",
+      "text(idade) - convierte a texto",
+      "No hace falta convertir",
+      "palavra(idade)"
+    ]
+  },
+  "input_7": {
+    "title": "Números decimales (Punto vs Coma)",
+    "prompt": "Usa float() para convertir un número con punto decimal (ej: 1.80):",
+    "explanation": "float() sirve para números con decimales. ¡Python siempre usa PUNTO (1.80) y no coma! 📏"
+  },
+  "input_parsons_1": {
+    "title": "Preguntar y Responder",
+    "prompt": "Organiza el código para preguntar el nombre y saludar:",
+    "explanation": "¡Primero preguntamos (input), luego respondemos (print)! ¡El orden importa!"
+  },
+  "input_8": {
+    "title": "Texto y Número",
+    "prompt": "Completa para unir el texto con el número 10:",
+    "explanation": "¡No podemos sumar texto con número! Usa str(10) para transformar el 10 en texto, ¡y Python te dejará unirlos! 📝"
+  },
+  "input_9": {
+    "title": "Precio del Juguete",
+    "prompt": "El juguete cuesta 25.50. ¿Qué función convierte el texto \"25.50\" a número?",
+    "explanation": "Como tiene decimales, ¡usamos `float()`! Si usamos `int()`, Python dará error porque no sabe qué hacer con el punto. 💸"
+  },
+  "input_10": {
+    "title": "Peso con Punto",
+    "prompt": "Si el usuario escribe \"35.5\" (peso), ¿qué conversión debemos usar?",
+    "explanation": "Como tiene punto decimal, ¡es un número float! Si fuera entero, usaríamos int(). ⚖️"
+  },
+  "input_11": {
+    "title": "Calculadora de Doble",
+    "prompt": "Completa para convertir el texto en número antes de multiplicar:",
+    "explanation": "¡El input llega como texto! Necesitamos convertir a `int` (entero) antes de multiplicar, ¡o Python repetirá el texto! ✖️"
+  },
+  "input_12": {
+    "title": "Contraseña Numérica",
+    "prompt": "Si tu contraseña es el número 1234, ¿cómo transformarla en texto para verificar?",
+    "explanation": "`str()` convierte números en texto (string). ¡Es útil para comparar contraseñas o unir con otras palabras! 🔐"
+  },
+  "input_13": {
+    "title": "Color Favorito",
+    "prompt": "Pregunta el color favorito y guárdalo en la variable `cor`:",
+    "explanation": "Usamos `input()` para hacer una pregunta. La respuesta se guarda en la variable `cor`. 🎨"
+  },
+  "input_14": {
+    "title": "Mensaje del Input",
+    "prompt": "El texto que ponemos dentro de `input(...)` sirve para:",
+    "explanation": "El texto dentro de `input()` es el mensaje que aparece pidiendo la información. ¡Sin él, el usuario no sabría qué escribir! 🗣️",
+    "options": [
+      "Mostrar una pregunta al usuario",
+      "Guardar la respuesta",
+      "Crear un error",
+      "Nada"
+    ]
+  },
+  "input_15": {
+    "title": "Año de Nacimiento",
+    "prompt": "Si estamos en 2025, calcula el año en que la persona nació:",
+    "explanation": "Para descubrir el año de nacimiento, ¡restamos la edad al año actual! 2025 menos la edad da el año de nacimiento. 📅"
+  },
+  "input_16": {
+    "title": "Hola Personalizado",
+    "prompt": "Usa f-string para saludar con el nombre escrito:",
+    "explanation": "¡Con f-string, ponemos la respuesta del usuario (variable `nome`) directo dentro de la frase de saludo! 👋"
+  },
+  "input_17": {
+    "title": "Multiplicando Entradas",
+    "prompt": "Pide dos números y multiplícalos:",
+    "explanation": "Pedimos dos números (convirtiendo con `int`) y usamos el asterisco `*` para multiplicarlos. ✖️"
+  },
+  "input_18": {
+    "title": "Dos Preguntas",
+    "prompt": "Si tenemos dos `input()` seguidos, ¿qué sucede?",
+    "explanation": "¡Python va paso a paso! Pregunta la primera, espera a que respondas, y solo después pregunta la segunda. 🚶‍♂️",
+    "options": [
+      "Pregunta la primera, espera, luego pregunta la segunda",
+      "Pregunta las dos al mismo tiempo",
+      "Solo pregunta la primera",
+      "Da error"
+    ]
+  },
+  "input_19": {
+    "title": "Input Vacío",
+    "prompt": "Si el usuario presiona ENTER sin escribir nada en `input()`, ¿qué se guarda?",
+    "explanation": "Si no escribe nada, Python guarda un texto vacío (comillas sin nada dentro: \"\"). ¡Es como una caja vacía! 📦",
+    "options": [
+      "Un string vacío \"\"",
+      "El número 0",
+      "La palabra \"Nada\"",
+      "El programa se traba"
+    ]
+  },
+  "boss_battle_9": {
+    "title": "El Oráculo Preguntón",
+    "prompt": "El Oráculo quiere saber: pregunta nombre y edad, luego muestra \"Nome tem X anos\" (sustituye Nome y X por los valores).",
+    "explanation": "¡El Oráculo te escucha! ¡Usa input() para preguntar y f-string para responder! 🔮",
+    "bossName": "Oráculo del Input"
+  }
+}

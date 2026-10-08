@@ -1,0 +1,665 @@
+{
+  "basic_commands": {
+    "title": "Welcome to Python! \ud83d\udc0d",
+    "description": "Learn your first commands and start programming!",
+    "keyConcepts": [
+      "print()",
+      "texts",
+      "quotes",
+      "comments"
+    ],
+    "steps": [
+      {
+        "title": "Hello, Programmer!",
+        "content": "You are about to learn Python, one of the coolest programming languages in the world! Python is used to create games, apps, robots, and even teach artificial intelligence!"
+      },
+      {
+        "title": "Your First Command: print()",
+        "content": "The print() command is like a megaphone for the computer. Everything you put inside the parentheses will appear on the screen!"
+      },
+      {
+        "title": "Texts Need Quotes",
+        "content": "When you write text in Python, you need to put it inside quotes. It can be double quotes \" \" or single quotes ' '. This way Python knows it's a text!"
+      },
+      {
+        "title": "Python Knows Math!",
+        "content": "You can use Python like a magic calculator! If you put an equation inside print(), it calculates and shows the result."
+      },
+      {
+        "title": "Comments: Secret Notes",
+        "content": "Lines that start with # are comments. Python ignores them! It's like writing a note just for you or other programmers."
+      },
+      {
+        "title": "Ready to Start!",
+        "content": "You learned the basics! Now it's time to practice. Remember: print() shows on the screen, texts stay in quotes, and # makes comments. Good luck!"
+      }
+    ]
+  },
+  "numbers": {
+    "title": "Magic Calculator \ud83d\udd22",
+    "description": "Learn to perform incredible calculations with Python!",
+    "keyConcepts": [
+      "operations",
+      "+",
+      "-",
+      "*",
+      "/",
+      "//",
+      "%",
+      "**"
+    ],
+    "steps": [
+      {
+        "title": "Python: Your Personal Calculator",
+        "content": "Python is very good at math! You can do any calculation with it, from the simplest to the most complicated."
+      },
+      {
+        "title": "Addition and Subtraction",
+        "content": "Use + to add and - to subtract. It's just like school math!"
+      },
+      {
+        "title": "Multiplication and Division",
+        "content": "Use * to multiply and / to divide. Careful: the result of division always has a decimal point!"
+      },
+      {
+        "title": "Integer Division and Remainder",
+        "content": "// divides and ignores decimals. % gives the remainder of the division. They are super useful!"
+      },
+      {
+        "title": "Power: The Super Power!",
+        "content": "Use ** to raise a number to a power. 2 ** 3 means 2 \u00d7 2 \u00d7 2!"
+      },
+      {
+        "title": "Math Wizard!",
+        "content": "Now you know how to do any calculation in Python! Practice a lot and become a number wizard!"
+      }
+    ]
+  },
+  "variables": {
+    "title": "Magic Boxes \ud83d\udce6",
+    "description": "Learn to store information to use later!",
+    "keyConcepts": [
+      "variables",
+      "assignment",
+      "types",
+      "int",
+      "str",
+      "float",
+      "conversion"
+    ],
+    "steps": [
+      {
+        "title": "What is a Variable?",
+        "content": "A variable is like a magic box! You give it a name and can store anything inside: numbers, texts, lists..."
+      },
+      {
+        "title": "Creating a Variable",
+        "content": "To create a variable, write the name, an equal sign (=), and the value. It's like putting a label on the box!"
+      },
+      {
+        "title": "Variables Can Change",
+        "content": "The cool thing is you can change the value whenever you want! That's why it's called \"variable\" - the value can vary."
+      },
+      {
+        "title": "Data Types",
+        "content": "Python has 4 basic data types: int (integer numbers), str (texts), float (decimal numbers), and bool (true/false)."
+      },
+      {
+        "title": "Discovering the Type",
+        "content": "Use type() to find out the type of any variable. It's like asking: \"What kind of thing are you?\""
+      },
+      {
+        "title": "Converting Types",
+        "content": "Sometimes you need to convert one type to another. Use int(), str(), and float() for this!"
+      },
+      {
+        "title": "Joining Texts",
+        "content": "Use + to join texts! But beware: to join text with a number, first convert with str()."
+      },
+      {
+        "title": "Rules for Names",
+        "content": "Variable names can have letters, numbers, and _. But they cannot start with a number and cannot have spaces!"
+      },
+      {
+        "title": "You Learned Variables!",
+        "content": "Now you know how to store information, the 4 basic types, and how to convert between them! This is super important!"
+      }
+    ]
+  },
+  "conditions": {
+    "title": "Making Choices \ud83d\udd00",
+    "description": "Learn to make the computer make decisions!",
+    "keyConcepts": [
+      "if",
+      "else",
+      "elif",
+      "comparisons",
+      "and",
+      "or",
+      "not",
+      "in"
+    ],
+    "steps": [
+      {
+        "title": "Decisions in Everyday Life",
+        "content": "Every day you make decisions: \"IF it's raining, I'll take an umbrella\". The computer can do this too with the if command!"
+      },
+      {
+        "title": "The if Command",
+        "content": "if means \"se\" in Portuguese. We use it to ask questions and run code only if the answer is true."
+      },
+      {
+        "title": "Comparing Values",
+        "content": "We can compare values with: == (equal), != (different), > (greater), < (less), >= (greater or equal), <= (less or equal)"
+      },
+      {
+        "title": "Else: The Plan B",
+        "content": "Use else to say what to do when the condition is false. It's your plan B!"
+      },
+      {
+        "title": "Multiple Options: elif",
+        "content": "elif (\"else if\") allows testing multiple conditions. It's like having many doors to choose from!"
+      },
+      {
+        "title": "AND: Two Conditions Together",
+        "content": "Use and when TWO conditions need to be true. Both must be true!"
+      },
+      {
+        "title": "OR: One or the Other",
+        "content": "Use or when AT LEAST ONE condition needs to be true. One is enough!"
+      },
+      {
+        "title": "NOT: Inverting",
+        "content": "Use not to invert a condition. True becomes False and False becomes True!"
+      },
+      {
+        "title": "IN: Checking with in",
+        "content": "Use in to check if something is inside a list or text. Super useful!"
+      },
+      {
+        "title": "Master of Decisions!",
+        "content": "Now you master if, else, elif, and, or, not, and in! Your programs can make complex decisions!"
+      }
+    ]
+  },
+  "loops": {
+    "title": "Repeating Magic \ud83d\udd04",
+    "description": "Learn to repeat commands without writing everything again!",
+    "keyConcepts": [
+      "for",
+      "range()",
+      "while",
+      "break",
+      "continue"
+    ],
+    "steps": [
+      {
+        "title": "Why Repeat?",
+        "content": "Imagine writing \"Hi!\" 100 times... Tiring, right? With loops, you write it once and the computer repeats it as many times as you want!"
+      },
+      {
+        "title": "The for Loop",
+        "content": "for repeats a block of code a specific number of times. It's like a carousel that spins several times!"
+      },
+      {
+        "title": "Understanding range()",
+        "content": "range(5) generates numbers from 0 to 4 (5 numbers). range(1, 6) generates from 1 to 5. The last number never enters!"
+      },
+      {
+        "title": "Looping through Lists",
+        "content": "You can also use for to iterate over each item in a list!"
+      },
+      {
+        "title": "The while Loop",
+        "content": "while repeats WHILE a condition is true. Be careful not to create an infinite loop!"
+      },
+      {
+        "title": "break: Emergency Brake!",
+        "content": "Use break to STOP the loop immediately! It's like hitting the emergency brake."
+      },
+      {
+        "title": "continue: Skip a Turn",
+        "content": "Use continue to SKIP to the next iteration of the loop, without executing the rest of the code."
+      },
+      {
+        "title": "Loop Master!",
+        "content": "You learned for, while, break, and continue! Now you can control loops like a pro!"
+      }
+    ]
+  },
+  "lists": {
+    "title": "Organizing Everything \ud83d\udcdc",
+    "description": "Learn to store many things in a single list!",
+    "keyConcepts": [
+      "list",
+      "index",
+      "append",
+      "len",
+      "slicing",
+      "pop",
+      "sort"
+    ],
+    "steps": [
+      {
+        "title": "What is a List?",
+        "content": "Lists are like backpacks where you store several things together! It can have numbers, texts, or even other lists inside."
+      },
+      {
+        "title": "Creating a List",
+        "content": "Use square brackets [ ] and separate items with commas. Simple as that!"
+      },
+      {
+        "title": "Accessing Items",
+        "content": "To get an item, use the index in square brackets. REMEMBER: In Python, we count starting from 0!"
+      },
+      {
+        "title": "Slicing the List",
+        "content": "Use [start:end] to get a piece of the list. The end is not included! It's like slicing a cake."
+      },
+      {
+        "title": "Adding Items",
+        "content": "Use .append() to add an item to the end of the list!"
+      },
+      {
+        "title": "Removing Items",
+        "content": "Use .pop() to remove the last one, or .remove() to remove by value."
+      },
+      {
+        "title": "Sorting the List",
+        "content": "Use .sort() to put the items in order!"
+      },
+      {
+        "title": "Counting Items",
+        "content": "len() tells you how many items are in the list. Super useful!"
+      },
+      {
+        "title": "Master of Lists!",
+        "content": "You master lists! Create, access, slice, add, remove, and sort. Lists are essential in programming!"
+      }
+    ]
+  },
+  "functions": {
+    "title": "Your Own Magic \u2728",
+    "description": "Learn to create reusable functions!",
+    "keyConcepts": [
+      "def",
+      "parameters",
+      "return",
+      "default",
+      "scope"
+    ],
+    "steps": [
+      {
+        "title": "What is a Function?",
+        "content": "Functions are like cake recipes! You write it once and can use it as many times as you want. Just \"call\" it by name."
+      },
+      {
+        "title": "Creating a Function",
+        "content": "Use def to define a function. After the name, put parentheses and a colon. The function code is indented!"
+      },
+      {
+        "title": "Parameters: The Inputs",
+        "content": "Parameters are information you pass to the function. They are like the ingredients of a recipe!"
+      },
+      {
+        "title": "return: The Output",
+        "content": "return gives back a result from the function. It's like the postman delivering the answer!"
+      },
+      {
+        "title": "Multiple Parameters",
+        "content": "You can have as many parameters as you want! Separate them with commas."
+      },
+      {
+        "title": "Default Parameters",
+        "content": "You can give a default value to a parameter! If no one passes it, use the default. It's like a plan B."
+      },
+      {
+        "title": "Scope: Local Variables",
+        "content": "Variables created INSIDE a function only exist there! They \"die\" when the function ends. They are called local variables."
+      },
+      {
+        "title": "Function Creator!",
+        "content": "You master functions! Create, parameters, return, default values, and scope. Your functions will make your code amazing!"
+      }
+    ]
+  },
+  "strings": {
+    "title": "Master of Words \ud83d\udcdd",
+    "description": "Learn to manipulate texts like a pro!",
+    "keyConcepts": [
+      "string",
+      "methods",
+      "f-string",
+      "split",
+      "join",
+      "slicing"
+    ],
+    "steps": [
+      {
+        "title": "What are Strings?",
+        "content": "Strings are texts in Python. Everything inside quotes is a string, be it a letter, a word, or a whole book!"
+      },
+      {
+        "title": "Joining Texts",
+        "content": "Use + to join (concatenate) strings. You can create personalized messages!"
+      },
+      {
+        "title": "f-strings: The Modern Way",
+        "content": "f-strings are easier! Put f before the quotes and use {variable} inside the text."
+      },
+      {
+        "title": "String Methods",
+        "content": "Strings have superpowers! Use .upper() for uppercase, .lower() for lowercase."
+      },
+      {
+        "title": "Breaking Text: split()",
+        "content": "split() divides the text into a list! By default, it cuts at spaces, but you can choose the separator."
+      },
+      {
+        "title": "Joining List: join()",
+        "content": "join() is the opposite of split! It joins a list of words into a single text."
+      },
+      {
+        "title": "Slicing Strings",
+        "content": "You can get parts of a string using [start:end]. It's like cutting a piece of cake!"
+      },
+      {
+        "title": "Master of Strings!",
+        "content": "You master texts! Join, separate, slice, transform... Strings are essential in every program!"
+      }
+    ]
+  },
+  "user_input": {
+    "title": "Talking to the User \ud83c\udfa4",
+    "description": "Learn to make interactive programs!",
+    "keyConcepts": [
+      "input()",
+      "int()",
+      "str()",
+      "float()",
+      "conversion"
+    ],
+    "steps": [
+      {
+        "title": "Programs that Talk!",
+        "content": "Until now, your programs only spoke. But with input() they can listen! It's like giving a microphone to the user."
+      },
+      {
+        "title": "The input() Command",
+        "content": "input() makes the program stop and wait for the user to type something. Whatever is typed is stored in a variable."
+      },
+      {
+        "title": "input() Always Gives Text!",
+        "content": "CAREFUL! Even if the user types 42, input() returns \"42\" (text). To do math, you need to convert it!"
+      },
+      {
+        "title": "int() - Converting to Number",
+        "content": "Use int() to transform text into an integer number. This way you can do math!"
+      },
+      {
+        "title": "float() - Numbers with Point",
+        "content": "For decimal numbers (like 1.75), use float(). IMPORTANT: In Python, we use a POINT (.) and not a comma for decimals!"
+      },
+      {
+        "title": "Interactive Programs!",
+        "content": "Now you know how to make programs that talk to the user! Remember: input() gives text, use int() or float() for numbers."
+      }
+    ]
+  },
+  "dictionaries": {
+    "title": "Magic Phonebook \ud83d\udcda",
+    "description": "Learn to organize data with keys and values!",
+    "keyConcepts": [
+      "dictionary",
+      "key",
+      "value",
+      "{}",
+      "access"
+    ],
+    "steps": [
+      {
+        "title": "What is a Dictionary?",
+        "content": "Imagine a phonebook: you look for the NAME (key) and find the PHONE (value). Dictionaries work like this!"
+      },
+      {
+        "title": "Keys and Values",
+        "content": "Each information in the dictionary has a key (the name) and a value (the information)."
+      },
+      {
+        "title": "Accessing Values",
+        "content": "To get a value, use the key in square brackets. It's like looking in the phonebook!"
+      },
+      {
+        "title": "Adding New Keys",
+        "content": "To add something new, just assign it! The key is created automatically."
+      },
+      {
+        "title": "Lists vs Dictionaries",
+        "content": "Lists use indexes (0, 1, 2...). Dictionaries use names as keys. Use dictionaries when names make more sense!"
+      },
+      {
+        "title": "Master of Dictionaries!",
+        "content": "Dictionaries are super useful for organizing data clearly. Everything has a name!"
+      }
+    ]
+  },
+  "error_handling": {
+    "title": "Hunting Bugs! \ud83d\udee1\ufe0f",
+    "description": "Learn to protect your programs against errors!",
+    "keyConcepts": [
+      "try",
+      "except",
+      "error",
+      "exception",
+      "protection"
+    ],
+    "steps": [
+      {
+        "title": "What are Errors?",
+        "content": "Sometimes the program encounters problems: dividing by zero, converting invalid text... Python stops and shows an error."
+      },
+      {
+        "title": "Errors Stop the Program!",
+        "content": "Without protection, any error makes the whole program stop. But we can avoid this!"
+      },
+      {
+        "title": "try/except to the Rescue!",
+        "content": "Put the \"dangerous\" code inside try. If an error occurs, the except takes care of it!"
+      },
+      {
+        "title": "Program Continues!",
+        "content": "With try/except, even if there's an error, the program doesn't stop. It continues after the except!"
+      },
+      {
+        "title": "Types of Error",
+        "content": "Each error has a name: ZeroDivisionError, ValueError, TypeError... You can handle each one differently!"
+      },
+      {
+        "title": "Robust Programs!",
+        "content": "Now your programs can handle problems without breaking! Use try/except whenever something could go wrong."
+      }
+    ]
+  },
+  "files": {
+    "title": "Files of Knowledge \ud83d\udcc2",
+    "description": "Learn to read and write real text files!",
+    "keyConcepts": [
+      "open()",
+      "read()",
+      "write()",
+      "with",
+      "modes"
+    ],
+    "steps": [
+      {
+        "title": "Saving Data Forever",
+        "content": "When the program closes, variables disappear. To save data forever, we use files on the computer!"
+      },
+      {
+        "title": "Writing to Files",
+        "content": "We use with open(\"name.txt\", \"w\") to open a file in write mode (\"w\" for write)."
+      },
+      {
+        "title": "Reading Files",
+        "content": "We use the \"r\" (read) mode to read the contents of a file!"
+      },
+      {
+        "title": "Master of Files!",
+        "content": "Now you know how to save scores, diaries, and reports in real files!"
+      }
+    ]
+  },
+  "modules": {
+    "title": "Module Bazaar \ud83e\uddf0",
+    "description": "Import superpowers and ready-made tools!",
+    "keyConcepts": [
+      "import",
+      "random",
+      "math",
+      "datetime"
+    ],
+    "steps": [
+      {
+        "title": "What are Modules?",
+        "content": "Modules are ready-made toolboxes created by other programmers so you don't have to reinvent the wheel!"
+      },
+      {
+        "title": "random Module",
+        "content": "Use import random to make draws and games with random numbers!"
+      },
+      {
+        "title": "math Module",
+        "content": "Use import math for super calculations like square root and pi!"
+      },
+      {
+        "title": "Module Summoner!",
+        "content": "With import you have thousands of incredible tools at your fingertips!"
+      }
+    ]
+  },
+  "oop_basics": {
+    "title": "The Art of Objects \ud83e\uddd9\u200d\u2642\ufe0f",
+    "description": "Create molds and characters with Classes and Objects!",
+    "keyConcepts": [
+      "class",
+      "object",
+      "__init__",
+      "self",
+      "methods"
+    ],
+    "steps": [
+      {
+        "title": "Molds (Classes) and Objects",
+        "content": "A Class is the recipe or mold for a cookie. The Object is the real cookie you create!"
+      },
+      {
+        "title": "Creating a Class with class",
+        "content": "We use class ClassName: and the __init__(self) method to initialize the characteristics."
+      },
+      {
+        "title": "Actions (Methods)",
+        "content": "Methods are functions created inside the class that give superpowers to objects!"
+      },
+      {
+        "title": "Architect of Objects!",
+        "content": "You learned Object-Oriented Programming, the pillar of almost all modern games and software!"
+      }
+    ]
+  },
+  "pythonic": {
+    "title": "Magic Shortcuts \u26a1",
+    "description": "Write clean, fast, and powerful code!",
+    "keyConcepts": [
+      "list comprehension",
+      "lambda",
+      "shortcuts"
+    ],
+    "steps": [
+      {
+        "title": "Elegant Code (Pythonic)",
+        "content": "In Python, we like clean and readable code. List Comprehension allows creating lists in a single line!"
+      },
+      {
+        "title": "List Comprehension",
+        "content": "Instead of using a 4-line for, summarize everything in [expression for item in list]!"
+      },
+      {
+        "title": "Pythonic Sprinter!",
+        "content": "Your programs are now super elegant and professional!"
+      }
+    ]
+  },
+  "turtle_art": {
+    "title": "Art & Turtle Studio \ud83c\udfa8",
+    "description": "Draw geometric shapes and animations on the screen!",
+    "keyConcepts": [
+      "turtle",
+      "forward",
+      "right",
+      "left",
+      "drawing loops"
+    ],
+    "steps": [
+      {
+        "title": "Drawing with Code",
+        "content": "With the turtle module, you control a little turtle pen that draws on the screen as it moves!"
+      },
+      {
+        "title": "Main Commands",
+        "content": "forward(steps) moves forward, right(ang) and left(ang) turn the turtle!"
+      },
+      {
+        "title": "Code Artist!",
+        "content": "Now you can create incredible stars, spirals, and mandalas!"
+      }
+    ]
+  },
+  "data_science": {
+    "title": "Data & AI Lab \ud83e\udd16",
+    "description": "Analyze statistics and discover intelligence in data!",
+    "keyConcepts": [
+      "statistics",
+      "max/min",
+      "average",
+      "data filters"
+    ],
+    "steps": [
+      {
+        "title": "The Power of Data",
+        "content": "Artificial Intelligence learns by analyzing millions of data. In Python, we use functions like sum(), max(), min(), and len()."
+      },
+      {
+        "title": "Calculating the Average",
+        "content": "The average of a list of numbers is calculated by dividing the total sum by the number of items!"
+      },
+      {
+        "title": "Data Scientist!",
+        "content": "You now know how to extract insights and intelligence from numbers!"
+      }
+    ]
+  },
+  "web_api": {
+    "title": "The Internet Web & APIs \ud83c\udf10",
+    "description": "Connect your code to live real-world data!",
+    "keyConcepts": [
+      "API",
+      "JSON",
+      "requests",
+      "keys"
+    ],
+    "steps": [
+      {
+        "title": "What is an API?",
+        "content": "APIs allow your Python code to talk to the internet to get the weather, news, currencies, and much more!"
+      },
+      {
+        "title": "Reading JSON Data",
+        "content": "Web responses come in JSON, which we access exactly like dictionaries in Python!"
+      },
+      {
+        "title": "Master of the Web!",
+        "content": "Your programs are now connected to the whole world!"
+      }
+    ]
+  }
+}

@@ -18,15 +18,15 @@ import './GamePage.css';
 import { useGameState } from '../hooks/game/useGameState';
 import { useGameActions } from '../hooks/game/useGameActions';
 
-const getWorldName = (world: World): string => {
-    const worldObj = WORLDS.find(w => w.id === world);
-    return worldObj ? worldObj.name : world;
-};
-
 export function GamePage() {
-    const { t } = useTranslation('game');
+    const { t } = useTranslation(['game', 'worlds']);
     const gameState = useGameState();
     const actions = useGameActions(gameState);
+
+    const getWorldName = (world: World): string => {
+        const worldObj = WORLDS.find(w => w.id === world);
+        return t(`worlds:${world}.name`, worldObj ? worldObj.name : world);
+    };
 
     const { loading: pyodideLoading, loadingProgress, loadPyodide, ready } = usePyodide();
 

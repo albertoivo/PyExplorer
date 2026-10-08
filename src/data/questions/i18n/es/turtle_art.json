@@ -1,0 +1,38 @@
+{
+  "turtle_01": {
+    "title": "Primera Línea de la Tortuga",
+    "prompt": "Haz que la tortuguita camine 100 pasos hacia adelante. ¡Usa la función forward(numero) para dibujar tu primera línea recta en la pantalla!",
+    "explanation": "¡El comando `forward(100)` hace que la tortuga camine 100 pasos hacia adelante y dibuje una línea recta!"
+  },
+  "turtle_02": {
+    "title": "Doblando la Esquina",
+    "prompt": "Haz que la tortuga camine 100 pasos hacia adelante (forward(100)) y luego gire 90 grados a la derecha (right(90)).",
+    "explanation": "¡Usamos `right(90)` para girar la tortuga 90 grados a la derecha. Es el giro perfecto para hacer una esquina!"
+  },
+  "turtle_03": {
+    "title": "Dibujando un Cuadrado",
+    "prompt": "¡Usa un bucle `for` para hacer que la tortuga gire 90 grados 4 veces y dibuje un cuadrado perfecto!",
+    "explanation": "¡Un cuadrado tiene 4 lados iguales y 4 giros de 90 grados! Con el bucle `for i in range(4)`, el código queda súper limpio."
+  },
+  "turtle_04": {
+    "title": "El Triángulo Mágico",
+    "prompt": "¡Dibuja un triángulo de 3 lados iguales! En un triángulo, la tortuga necesita girar 120 grados en cada esquina.",
+    "explanation": "¡Para cerrar un triángulo, la tortuga hace 3 giros de 120 grados (3 x 120 = 360 grados en total)!"
+  },
+  "turtle_05": {
+    "title": "La Estrella Brillante",
+    "prompt": "¡Crea una estrella brillante de 5 puntas! Repite 5 veces: camina 100 pasos hacia adelante (forward(100)) y gira 144 grados a la derecha (right(144)).",
+    "explanation": "¡Con giros de 144 grados, las líneas se cruzan perfectamente para formar una hermosa estrella de 5 puntas! 🌟"
+  },
+  "turtle_06": {
+    "title": "El Hexágono del Panal",
+    "prompt": "¡Crea un hexágono de 6 lados! Repite 6 veces: camina 80 pasos y gira 60 grados a la izquierda.",
+    "explanation": "¡Un hexágono tiene 6 lados y giros de 60 grados! ¡Es la forma que usan las abejas para construir panales de miel! 🐝"
+  },
+  "boss_battle_16": {
+    "title": "El Maestro de los Pinceles",
+    "prompt": "Importa `turtle`, crea `t = turtle.Turtle()` y haz un bucle `for i in range(3): t.forward(50); t.left(120)` para dibujar un triángulo.",
+    "explanation": "¡El Maestro de los Pinceles quiere verte dibujar un triángulo perfecto con 3 giros de 120 grados!",
+    "bossName": "Maestro Pincel"
+  }
+}

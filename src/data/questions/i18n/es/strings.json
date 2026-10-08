@@ -1,0 +1,141 @@
+{
+  "strings_1": {
+    "title": "¿Qué es un String?",
+    "prompt": "Un string en Python es... 📝",
+    "explanation": "¡String (cadena) es el nombre que le damos a los textos en programación! \"¡Hola, mundo!\" es un string. ¡Siempre está encerrado en comillas!",
+    "options": [
+      "Un texto",
+      "Un número",
+      "Una lista",
+      "Una función"
+    ]
+  },
+  "strings_2": {
+    "title": "Juntando Strings",
+    "prompt": "Podemos usar + para juntar dos strings. ¿Verdadero o falso? ➕",
+    "explanation": "¡Sí! \"¡Hola, \" + \"mundo!\" da \"¡Hola, mundo!\". ¡Es como pegar dos pedazos de papel!"
+  },
+  "strings_3": {
+    "title": "Mayúsculas",
+    "prompt": "Completa el código para transformar el texto a mayúsculas: 🔠",
+    "explanation": "¡El método upper() transforma todas las letras a MAYÚSCULAS! ¡Es como gritar el texto! 📢"
+  },
+  "strings_4": {
+    "title": "Tamaño del String",
+    "prompt": "¿Qué función usamos para descubrir cuántas letras hay en un string? 📏",
+    "explanation": "La función len() cuenta cuántos caracteres hay en el string. len(\"Python\") da 6, ¡porque Python tiene 6 letras!"
+  },
+  "strings_5": {
+    "title": "Contando Vocales",
+    "prompt": "Crea una función que cuente cuántas vocales (a, e, i, o, u) hay en una palabra: 🔤",
+    "explanation": "Pasa por cada letra del texto con un for. ¡Si la letra está en la lista de vocales, añade 1 al contador!"
+  },
+  "strings_6": {
+    "title": "F-string Mágica",
+    "prompt": "Usa una f-string para poner la edad en el texto:",
+    "explanation": "¡Poniendo una f antes de las comillas, puedes usar {variable} dentro del texto! Python cambia {nome} por \"Leo\" automáticamente. ✨"
+  },
+  "strings_split_1": {
+    "title": "Rompiendo el Texto",
+    "prompt": "¿Qué devuelve \"hola mundo genial\".split()?",
+    "explanation": "¡split() rompe el texto en los espacios y devuelve una lista! Cada palabra se vuelve un ítem separado. ✂️",
+    "options": [
+      "[\"hola\", \"mundo\", \"genial\"]",
+      "\"hola mundo genial\"",
+      "[\"holamundogenial\"]",
+      "Error"
+    ]
+  },
+  "strings_split_2": {
+    "title": "Separando por Coma",
+    "prompt": "Completa para separar las frutas:",
+    "explanation": "¡Tú puedes decirle dónde cortar! split(\",\") corta en las comas. ¡Cada pedazo se convierte en un ítem de la lista! 🍎"
+  },
+  "strings_join_1": {
+    "title": "Juntando la Lista",
+    "prompt": "¿Cómo juntar [\"a\", \"b\", \"c\"] en \"a-b-c\"?",
+    "explanation": "¡join() es lo opuesto a split! ¡Junta los ítems de la lista usando el texto antes del punto como pegamento! 🧲"
+  },
+  "strings_join_2": {
+    "title": "Juntando con Espacio",
+    "prompt": "Completa para juntar las palabras con espacio:",
+    "explanation": "¡\" \".join(lista) usa espacio como pegamento entre palabras! Resultado: \"Amo Python\". 📝"
+  },
+  "strings_7": {
+    "title": "Primeras Letras",
+    "prompt": "Completa para tomar las primeras 3 letras de \"Python\":",
+    "explanation": "Usamos [0:3] para tomar desde el principio (0) hasta antes del 3. P(0), y(1), t(2). ¡La h(3) se queda afuera! ✂️"
+  },
+  "strings_8": {
+    "title": "Frase Mágica",
+    "prompt": "Usa f-string para poner la edad en el texto:",
+    "explanation": "¡F-string es magia! Solo pon la variable entre llaves { } y Python la cambia por el valor. ¡No olvides la f antes de las comillas! 🎩"
+  },
+  "strings_lower": {
+    "title": "Texto en Minúsculas",
+    "prompt": "¡Si upper() grita, lower() susurra! Completa para dejar el texto en minúsculas:",
+    "explanation": "lower() transforma todo en letras pequeñas (minúsculas). ¡Genial para cuando no queremos gritar! 🤫"
+  },
+  "strings_replace": {
+    "title": "Cambiando Palabras",
+    "prompt": "Usa replace() para cambiar \"Gato\" por \"Perro\":",
+    "explanation": "¡replace(\"viejo\", \"nuevo\") busca la palabra vieja y la cambia por la nueva! Es como editar un texto automáticamente. 🔄"
+  },
+  "strings_strip": {
+    "title": "Limpiando Espacios",
+    "prompt": "¿Qué hace el método strip()?",
+    "explanation": "¡strip() limpia el desorden! Elimina los espacios vacíos que sobran al principio y al final del texto. ✨",
+    "options": [
+      "Elimina espacios del principio y del fin",
+      "Elimina todos los espacios del texto",
+      "Elimina las letras s, t, r, i, p",
+      "Borra el texto"
+    ]
+  },
+  "strings_9": {
+    "title": "Cortando el Medio",
+    "prompt": "Toma las letras \"yth\" de la palabra \"Python\":",
+    "explanation": "Queremos del índice 1 (\"y\") hasta el 3 (\"h\"). ¡Pero el corte se detiene ANTES del fin, así que usamos [1:4]! 🍰"
+  },
+  "strings_10": {
+    "title": "Doble F-string",
+    "prompt": "Completa la f-string con nombre y edad:",
+    "explanation": "¡Puedes poner cuantas variables quieras en una f-string! Solo usa llaves {} para cada una. ¡Doble magia! ✨✨"
+  },
+  "strings_11": {
+    "title": "Título Bonito",
+    "prompt": "El método `.title()` hace que la primera letra de cada palabra sea mayúscula.",
+    "explanation": "¡Sí! ¡`title()` hace que el texto sea elegante! \"el ratón royó\" se vuelve \"El Ratón Royó\". ¡Genial para nombres y títulos! 🎩"
+  },
+  "strings_12": {
+    "title": "La Última Letra",
+    "prompt": "Usa un índice negativo para tomar la última letra de la palabra:",
+    "explanation": "¡Los índices negativos cuentan de atrás hacia adelante! -1 es el último ítem, -2 es el penúltimo... ¡Es un atajo súper útil! 🔙"
+  },
+  "strings_13": {
+    "title": "Separando Fechas",
+    "prompt": "Separa el día, mes y año cortando en las barras (/):",
+    "explanation": "¡split(\"/\") corta el texto donde haya una barra! Así es como separamos las partes de la fecha. 📅"
+  },
+  "strings_14": {
+    "title": "Tren de Palabras",
+    "prompt": "Junta la lista `[\"chu\", \"chu\"]` con \"-\" para hacer un tren:",
+    "explanation": "¡`join` es el pegamento! Usa el guion \"-\" para pegar los vagones y volverse \"chu-chu\". ¡Todos a bordo! 🚂"
+  },
+  "strings_15": {
+    "title": "Contando Letras",
+    "prompt": "Usa `count()` para contar cuántas veces aparece la letra \"a\" en la palabra:",
+    "explanation": "`count()` cuenta cuántas veces aparece algo en el texto. ¡En \"banana\", la letra \"a\" aparece 3 veces! 🔢"
+  },
+  "strings_16": {
+    "title": "Marcador del Juego",
+    "prompt": "Usa f-string para mostrar el nombre y los puntos:",
+    "explanation": "¡Con f-string, puedes armar frases complejas rapidísimo! Solo pon las variables en los lugares correctos dentro de las llaves { }. 🏆"
+  },
+  "boss_battle_8": {
+    "title": "El Escriba Misterioso",
+    "prompt": "El Escriba escribió \"python\" en minúsculas. ¡Transfórmalo a MAYÚSCULAS y muéstralo!",
+    "explanation": "¡El Escriba quiere que grites! ¡Usa upper() para dejar todo en mayúsculas! 📜",
+    "bossName": "Escriba de las Letras"
+  }
+}

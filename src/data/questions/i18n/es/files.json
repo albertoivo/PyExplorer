@@ -1,0 +1,28 @@
+{
+  "file_01": {
+    "title": "Abriendo la Puerta del Archivo",
+    "prompt": "¿Qué función se usa en Python para abrir un archivo?",
+    "explanation": "¡La función open() es como la llave que abre la puerta de un diario o archivo en la computadora!"
+  },
+  "file_02": {
+    "title": "Escribiendo en el Diario",
+    "prompt": "Para escribir en un archivo nuevo o sobrescribir, usamos el modo \"w\" (write). Completa el código:",
+    "explanation": "¡La \"w\" viene de la palabra inglesa \"write\", que significa escribir! Es el modo de escritura."
+  },
+  "file_03": {
+    "title": "Leyendo con Seguridad",
+    "prompt": "Ordena el código para abrir un archivo \"segredo.txt\" para lectura (\"r\") e imprimir su contenido:",
+    "explanation": "¡Usar \"with open\" es increíble porque cierra el archivo solo cuando terminamos, evitando que se quede bloqueado!"
+  },
+  "file_04": {
+    "title": "El Contador de Líneas",
+    "prompt": "Crea una función `contar_linhas(texto_multilinhas)` que simule el contenido de un archivo dividiendo el texto en líneas (`.splitlines()`) y devolviendo la cantidad total de líneas.",
+    "explanation": "¡splitlines() divide un texto enorme en una lista de líneas individuales, y len() cuenta cuántas líneas hay!"
+  },
+  "boss_battle_12": {
+    "title": "El Archivista Fantasma",
+    "prompt": "Escribe código que abra \"desafio.txt\" en modo escritura (\"w\") y guarde el texto \"Venci o Boss!\"",
+    "explanation": "¡El Archivista solo acepta mensajes guardados en un archivo de verdad!",
+    "bossName": "Archivista Fantasma"
+  }
+}

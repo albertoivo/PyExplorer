@@ -1,0 +1,136 @@
+{
+  "loop_1": {
+    "title": "¿Para qué sirve for?",
+    "prompt": "El comando \"for\" en Python se usa para...",
+    "explanation": "¡for es un bucle! Repite comandos varias veces sin tener que escribir todo de nuevo. ¡Como una máquina del tiempo! ⏰",
+    "options": [
+      "Repetir algo varias veces",
+      "Hacer preguntas",
+      "Crear variables",
+      "Borrar archivos"
+    ]
+  },
+  "loop_2": {
+    "title": "range(5) va de 0 a 4",
+    "prompt": "El comando range(5) genera los números del 0 al 4 (cinco números en total).",
+    "explanation": "range(5) crea: 0, 1, 2, 3, 4. Son 5 números, ¡pero empieza en 0! En programación casi todo empieza desde cero. 🏢"
+  },
+  "loop_3": {
+    "title": "Cuenta hasta 5",
+    "prompt": "Completa el código para mostrar los números del 1 al 5:",
+    "explanation": "¡range(1, 6) va del 1 al 5! El último número no entra, así que para llegar a 5 debe ser 6. 🪧"
+  },
+  "loop_4": {
+    "title": "While repite mientras...",
+    "prompt": "El comando \"while\" repite algo mientras una condición sea...",
+    "explanation": "¡While significa \"mientras\"! Repite mientras la condición sea verdadera. ¡Cuando se vuelve falsa, para! 🔁"
+  },
+  "loop_5": {
+    "title": "Suma con bucle",
+    "prompt": "Completa el código para sumar los números del 1 al 5:",
+    "explanation": "¡Suma cada número! 1+2+3+4+5 = 15. ¡El bucle lo hace automáticamente! ➕"
+  },
+  "loop_parsons_1": {
+    "title": "Repitiendo Cosas",
+    "prompt": "Coloca los bloques en el orden correcto para imprimir los números del 0 al 4.",
+    "explanation": "¡Primero empezamos el bucle con `for`! Todo lo que queremos repetir debe estar indentado dentro del bucle."
+  },
+  "turtle_triangle_loop": {
+    "title": "Triángulo Repetido",
+    "prompt": "Usa un bucle \"for\" para dibujar un triángulo. (Pista: Un triángulo tiene 3 lados y el ángulo exterior es 120 grados).",
+    "explanation": "¡Para cerrar un triángulo, la tortuga gira 360 grados en total: 3 giros de 120 grados!"
+  },
+  "loop_6": {
+    "title": "Bucle Mientras",
+    "prompt": "Completa el `while` para repetir mientras x sea menor que 3:",
+    "explanation": "while significa mientras. Repetirá MIENTRAS x sea menor que 3. ¡No olvides aumentar x para que no sea infinito! 🔄"
+  },
+  "loop_break_1": {
+    "title": "Deteniendo el Bucle",
+    "prompt": "¿Qué comando detiene el bucle inmediatamente, incluso antes de terminar?",
+    "explanation": "¡break es como un freno de emergencia! 🛑 Cuando Python ve break, sale del bucle de inmediato."
+  },
+  "loop_break_2": {
+    "title": "Encontrar y Parar",
+    "prompt": "Completa para parar cuando encuentre el número 5:",
+    "explanation": "¡Cuando i llega a 5, break detiene el bucle! Así que solo muestra 0, 1, 2, 3, 4. 🎯"
+  },
+  "loop_continue_1": {
+    "title": "Saltando una Vuelta",
+    "prompt": "¿Qué comando salta a la siguiente vuelta del bucle sin ejecutar el resto?",
+    "explanation": "¡continue es como saltar la canción actual! 🎵 El bucle no para, solo salta a la siguiente vuelta."
+  },
+  "loop_continue_2": {
+    "title": "Saltando Pares",
+    "prompt": "Completa para saltar los números pares:",
+    "explanation": "Si i es par, continue salta el print y va al siguiente número. Resultado: ¡solo impares! 🔢"
+  },
+  "loop_7": {
+    "title": "Cuenta Regresiva",
+    "prompt": "Completa el while para contar de 5 a 1:",
+    "explanation": "¡Para contar hacia atrás restamos! n = n - 1 hace bajar el número cada vuelta. 5, 4, 3... 🚀"
+  },
+  "loop_8": {
+    "title": "Empezando desde 5",
+    "prompt": "¿Qué números genera el comando `range(5, 8)`?",
+    "explanation": "range(5, 8) genera 5, 6 y 7. ¡El 8 no entra! 🏁"
+  },
+  "loop_9": {
+    "title": "Saltando Números",
+    "prompt": "¿Qué hace `range(0, 10, 2)`?",
+    "explanation": "¡El tercer número es el paso! range(0, 10, 2) genera 0, 2, 4, 6, 8. ¡Va saltando de 2 en 2! 🐇",
+    "options": [
+      "Cuenta de 0 a 10 saltando de 2 en 2",
+      "Cuenta de 0 a 2 diez veces",
+      "Cuenta de 2 a 10",
+      "Da error"
+    ]
+  },
+  "loop_10": {
+    "title": "¿Cuándo para While?",
+    "prompt": "Un bucle `while x < 5:` se detendrá cuando...",
+    "explanation": "El while continúa MIENTRAS x < 5. En cuanto x llega a 5, la condición se vuelve Falsa y ¡se detiene! 🛑",
+    "options": [
+      "x sea igual o mayor que 5",
+      "x sea menor que 5",
+      "Nunca para",
+      "Inmediatamente"
+    ]
+  },
+  "loop_11": {
+    "title": "Cuenta Regresiva con For",
+    "prompt": "Completa el range para contar de 10 a 1 (bajando de 1 en 1):",
+    "explanation": "¡El paso -1 lo hace caminar hacia atrás! 10, 9, 8... ¡hasta 1! 🚀"
+  },
+  "loop_12": {
+    "title": "Energía del Juego",
+    "prompt": "Repite el juego mientras la energía sea mayor que 0:",
+    "explanation": "El bucle sigue mientras energia > 0, lo que significa que aún hay energía para jugar. 🔋"
+  },
+  "loop_13": {
+    "title": "¡Encontrado, Detente!",
+    "prompt": "Detén el bucle en cuanto encuentres \"Tesouro\":",
+    "explanation": "¡Encontramos el tesoro! break para el bucle al instante para no buscar más. 💎"
+  },
+  "loop_14": {
+    "title": "Saltar el Cero",
+    "prompt": "¡Dividir por cero da error! Completa para SALTAR el print cuando x sea 0:",
+    "explanation": "¡Usamos `continue` para saltar esta vuelta y proteger nuestro código del error de división! 🛡️"
+  },
+  "loop_15": {
+    "title": "Saltar el 5",
+    "prompt": "En un bucle de 1 a 10, ¿cómo saltar el número 5 pero continuar con los demás?",
+    "explanation": "`continue` le dice al bucle: \"¡Salta esta vuelta y ve a la siguiente!\". El 5 se ignora, pero los demás siguen. ⏭️"
+  },
+  "loop_16": {
+    "title": "Huyendo del Monstruo",
+    "prompt": "Si encuentras \"Monstro\", ¡detén el bucle inmediatamente para huir!",
+    "explanation": "¡`break` es el botón de emergencia! En cuanto vimos al monstruo, paramos todo y ¡a correr! 🏃💨"
+  },
+  "boss_battle_5": {
+    "title": "El Dragón Repetidor",
+    "prompt": "El Dragón exige que cuentes del 1 al 5, ¡un número por línea! Usa un bucle for.",
+    "explanation": "¡El Dragón quiere oírte contar! Usa range(1, 6) para ir del 1 al 5. 🐉",
+    "bossName": "Dragón de los Bucles"
+  }
+}

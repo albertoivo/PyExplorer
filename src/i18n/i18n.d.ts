@@ -8,6 +8,7 @@ import type game from './locales/pt/game.json';
 import type gamification from './locales/pt/gamification.json';
 import type worlds from './locales/pt/worlds.json';
 import type notFound from './locales/pt/notFound.json';
+import type tutorials from './locales/pt/tutorials.json';
 
 export interface Resources {
     common: typeof common;
@@ -19,6 +20,7 @@ export interface Resources {
     gamification: typeof gamification;
     worlds: typeof worlds;
     notFound: typeof notFound;
+    tutorials: typeof tutorials;
     articles: Record<string, unknown>;
 }
 

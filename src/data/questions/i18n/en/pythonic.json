@@ -1,0 +1,34 @@
+{
+  "py_01": {
+    "title": "The Superpower of List Comprehension",
+    "prompt": "What is the main advantage of using a List Comprehension `[x for x in lista]`?",
+    "explanation": "List comprehension is a magic trick that summarizes 4 lines of a \"for\" loop into 1 single, super elegant line!",
+    "options": [
+      "Create and transform lists in just one clean line of code",
+      "Make the program run without needing a computer",
+      "Make the code longer and harder",
+      "Turn off Python"
+    ]
+  },
+  "py_02": {
+    "title": "Doubling Numbers in One Line",
+    "prompt": "We want to create a list with the doubles of numbers from 1 to 3. Complete the shortcut:",
+    "explanation": "The syntax [expression for item in list] is the gold standard of Pythonic code!"
+  },
+  "py_03": {
+    "title": "Filtering Evens Quickly",
+    "prompt": "Order the code to filter only even numbers from a list using List Comprehension with `if`:",
+    "explanation": "We can place an `if` at the end of the list comprehension to filter only the items we care about!"
+  },
+  "py_04": {
+    "title": "Super-Filter of Short Words",
+    "prompt": "Create a function `palavras_curtas(lista_palavras)` that uses list comprehension to return only words with fewer than 5 letters!",
+    "explanation": "Look how clean and fast the code becomes! True Python master magic!"
+  },
+  "boss_battle_15": {
+    "title": "The Speedster of Code",
+    "prompt": "The Speedster demands a quick answer: create a list comprehension `[x**2 for x in range(1, 4)]` and print the result!",
+    "explanation": "Use the speed of list comprehension to defeat the boss in 1 line!",
+    "bossName": "Pythonic Speedster"
+  }
+}

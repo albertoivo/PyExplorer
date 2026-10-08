@@ -141,7 +141,11 @@
         "extraHintActive": "¡Pista extra activada!",
         "doubleStarsActive": "¡Estrellas dobles activadas!",
         "hintsUsedPenalty": "Pistas usadas (penalización aplicada)",
-        "verifyAnswer": "Verificar Respuesta 🚀"
+        "verifyAnswer": "Verificar Respuesta 🚀",
+        "preparingPython": "Preparando Python...",
+        "loadingLibraries": "Cargando bibliotecas...",
+        "initializingPython": "Inicializando Python...",
+        "almostReady": "¡Casi listo!"
     },
     "sagaBanner": {
         "questions": "Preguntas"
@@ -256,5 +260,24 @@
         "start": "🚀 ¡Empezar!",
         "close": "Cerrar tutorial",
         "stepCounter": "Paso {{current}} de {{total}}"
+    },
+    "parsons": {
+        "badge": "🧩 Rompecabezas de Código",
+        "instructions": "Arrastra o usa los botones <b>▲ ▼</b> para ordenar las líneas y <b>◀ ▶</b> para ajustar la sangría.",
+        "indentLess": "Reducir sangría",
+        "indentMore": "Aumentar sangría",
+        "indentLessLine": "Reducir sangría de la línea {{line}}",
+        "indentMoreLine": "Aumentar sangría de la línea {{line}}",
+        "drag": "Arrastra para reordenar",
+        "up": "Mover arriba",
+        "down": "Mover abajo",
+        "upLine": "Mover la línea {{line}} hacia arriba",
+        "downLine": "Mover la línea {{line}} hacia abajo",
+        "output": "Salida:",
+        "wrong": "El código se ejecutó, pero la respuesta no pasa las pruebas.",
+        "unknownError": "Error desconocido",
+        "error": "❌ Error: {{message}}",
+        "checking": "Verificando... ⏳",
+        "check": "Verificar Orden ✨"
     }
 }

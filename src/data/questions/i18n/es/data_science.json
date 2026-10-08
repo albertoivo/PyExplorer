@@ -1,0 +1,34 @@
+{
+  "ds_01": {
+    "title": "¿Qué es la Ciencia de Datos?",
+    "prompt": "¿Cuál es el objetivo principal de un Científico de Datos usando Python?",
+    "explanation": "¡Los científicos de datos usan Python para convertir montañas de números en descubrimientos increíbles!",
+    "options": [
+      "Analizar información y descubrir patrones valiosos",
+      "Construir robots físicamente de hierro",
+      "Formatear la computadora cada semana",
+      "Borrar la base de datos"
+    ]
+  },
+  "ds_02": {
+    "title": "Puntuación Media del Jugador",
+    "prompt": "Para hallar la media de las puntuaciones, sumamos todo con `sum()` y dividimos entre la cantidad con `len()`. Completa la función:",
+    "explanation": "¡La media estadística es la suma dividida por la cantidad de elementos!"
+  },
+  "ds_03": {
+    "title": "Encontrando el Valor Máximo y Mínimo",
+    "prompt": "Ordena el código para encontrar la calificación más alta y la más baja de un grupo de estudiantes:",
+    "explanation": "¡Las funciones `max()` y `min()` recorren la lista entera en milisegundos para encontrar los extremos!"
+  },
+  "ds_04": {
+    "title": "Detector de Aprobados en IA",
+    "prompt": "¡Crea una función `filtro_aprovados(notas, corte)` que devuelva una lista solo con las notas mayores o iguales a la nota de corte!",
+    "explanation": "¡Los filtros son la base del Aprendizaje Automático para separar datos válidos y positivos!"
+  },
+  "boss_battle_17": {
+    "title": "El Oráculo de los Datos",
+    "prompt": "Dada la lista `dados = [10, 50, 20, 80, 30]`, ¡filtra y muestra solo los números mayores que 25!",
+    "explanation": "¡El Oráculo de los Datos quiere verte extraer solo la información relevante!",
+    "bossName": "Oráculo de Datos"
+  }
+}

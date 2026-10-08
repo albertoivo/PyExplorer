@@ -1,0 +1,34 @@
+{
+  "api_01": {
+    "title": "¿Qué es una API?",
+    "prompt": "¿Una API en internet funciona como qué?",
+    "explanation": "¡API significa Application Programming Interface. Es como un camarero digital que busca datos en internet para tu código!",
+    "options": [
+      "Un camarero que lleva tu pedido al servidor de internet y trae la respuesta",
+      "Una pieza de hardware del teclado",
+      "Un error de computadora",
+      "Un juego de mesa"
+    ]
+  },
+  "api_02": {
+    "title": "Formato de Datos JSON",
+    "prompt": "En internet, los datos llegan casi siempre en formato JSON, que es muy parecido a un diccionario Python. Completa para obtener el valor del estado:",
+    "explanation": "¡JSON es el formato universal de la web para enviar y recibir información!"
+  },
+  "api_03": {
+    "title": "Extrayendo la Temperatura del Clima",
+    "prompt": "Ordena el código para acceder a la temperatura actual dentro de la respuesta de una API de pronóstico del tiempo:",
+    "explanation": "¡Los diccionarios anidados (uno dentro de otro) son súper comunes cuando recibimos datos reales de la web!"
+  },
+  "api_04": {
+    "title": "Constructor de URL de API",
+    "prompt": "Crea una función `construir_url(endpoint, usuario)` que una la dirección del sitio con el nombre de usuario: `f\"https://api.exemplo.com/{endpoint}/{usuario}\"`",
+    "explanation": "¡Construir URLs dinámicas con f-strings nos permite consultar información de cualquier usuario en la web!"
+  },
+  "boss_battle_18": {
+    "title": "El Guardián de las Redes",
+    "prompt": "Dado el diccionario de respuesta `api_data = {\"user\": \"Heroi\", \"score\": 999}`, imprime `\"Heroi marcou 999\"` usando una f-string.",
+    "explanation": "¡Conecta la información devuelta por la API en una frase perfecta!",
+    "bossName": "Guardián Web"
+  }
+}

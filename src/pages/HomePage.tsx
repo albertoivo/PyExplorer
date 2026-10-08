@@ -6,6 +6,7 @@ import { SEO } from '../components/common/SEO';
 import { WORLDS } from '../data/worlds';
 import { useTranslation } from 'react-i18next';
 import { useLocalizedPath } from '../hooks/useLocalizedPath';
+import { getLocalizedArticleSlug } from '../data/learnData';
 import './HomePage.css';
 
 interface HomePageProps {
@@ -21,7 +22,7 @@ interface HomePageProps {
 export function HomePage({ seoTitle, seoDescription, seoTitleKey, seoDescriptionKey }: HomePageProps) {
     const { userData } = useAuth();
     const [animateHero, setAnimateHero] = useState(false);
-    const { t } = useTranslation(['home', 'worlds']);
+    const { t, i18n } = useTranslation(['home', 'worlds']);
     const { getLocalizedPath } = useLocalizedPath();
 
     const resolvedTitle = (seoTitleKey ? (t(seoTitleKey as unknown as TemplateStringsArray) as string) : undefined) || seoTitle || t('seo.title');
@@ -175,19 +176,19 @@ export function HomePage({ seoTitle, seoDescription, seoTitleKey, seoDescription
                 </div>
 
                 <div className="features__grid">
-                    <Link to={getLocalizedPath("/learn/o-que-e-python")} className="feature-card feature-card--link">
+                    <Link to={getLocalizedPath(`/learn/${getLocalizedArticleSlug('what-is-python', i18n.language)}`)} className="feature-card feature-card--link">
                         <div className="feature-card__icon" aria-hidden="true">🐍</div>
                         <h3 className="feature-card__title">{t('learnSection.whatIsPython')}</h3>
                         <p className="feature-card__description">{t('learnSection.whatIsPythonDesc')}</p>
                     </Link>
 
-                    <Link to={getLocalizedPath("/learn/python-para-criancas")} className="feature-card feature-card--link">
+                    <Link to={getLocalizedPath(`/learn/${getLocalizedArticleSlug('python-for-kids', i18n.language)}`)} className="feature-card feature-card--link">
                         <div className="feature-card__icon" aria-hidden="true">👨‍👩‍👧‍👦</div>
                         <h3 className="feature-card__title">{t('learnSection.parentGuide')}</h3>
                         <p className="feature-card__description">{t('learnSection.parentGuideDesc')}</p>
                     </Link>
 
-                    <Link to={getLocalizedPath("/learn/primeiros-passos-python")} className="feature-card feature-card--link">
+                    <Link to={getLocalizedPath(`/learn/${getLocalizedArticleSlug('first-steps-python', i18n.language)}`)} className="feature-card feature-card--link">
                         <div className="feature-card__icon" aria-hidden="true">👣</div>
                         <h3 className="feature-card__title">{t('learnSection.firstSteps')}</h3>
                         <p className="feature-card__description">{t('learnSection.firstStepsDesc')}</p>

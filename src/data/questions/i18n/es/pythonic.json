@@ -1,0 +1,34 @@
+{
+  "py_01": {
+    "title": "El Superpoder de List Comprehension",
+    "prompt": "¿Cuál es la principal ventaja de usar una List Comprehension `[x for x in lista]`?",
+    "explanation": "¡List comprehension es un truco mágico que resume 4 líneas de un bucle \"for\" en una sola línea súper elegante!",
+    "options": [
+      "Crear y transformar listas en solo una línea limpia de código",
+      "Hacer que el programa corra sin necesitar computadora",
+      "Hacer el código más largo y difícil",
+      "Apagar Python"
+    ]
+  },
+  "py_02": {
+    "title": "Doblando Números en Una Línea",
+    "prompt": "Queremos crear una lista con los dobles de los números del 1 al 3. Completa el atajo:",
+    "explanation": "¡La sintaxis [expresion for item in lista] es el estándar de oro del código Pythonic!"
+  },
+  "py_03": {
+    "title": "Filtrando Pares con Rapidez",
+    "prompt": "Ordena el código para filtrar solo números pares de una lista usando List Comprehension con `if`:",
+    "explanation": "¡Podemos poner un `if` al final de la list comprehension para filtrar solo los elementos que nos interesan!"
+  },
+  "py_04": {
+    "title": "Superfiltro de Palabras Cortas",
+    "prompt": "¡Crea una función `palavras_curtas(lista_palavras)` que use list comprehension para devolver solo las palabras con menos de 5 letras!",
+    "explanation": "¡Mira qué limpio y rápido queda el código! ¡Una verdadera magia de maestro de Python!"
+  },
+  "boss_battle_15": {
+    "title": "El Velocista del Código",
+    "prompt": "El Velocista exige una respuesta rápida: crea una list comprehension `[x**2 for x in range(1, 4)]` e imprime el resultado.",
+    "explanation": "¡Usa la velocidad de list comprehension para derrotar al jefe en 1 línea!",
+    "bossName": "Velocista Pythonic"
+  }
+}

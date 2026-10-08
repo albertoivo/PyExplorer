@@ -1,0 +1,28 @@
+{
+  "mod_01": {
+    "title": "Summoning Ready-Made Magic",
+    "prompt": "Which command do we use to bring a library or module into our Python code?",
+    "explanation": "import is the magic word to import (bring in) ready-made tools created by other programmers!"
+  },
+  "mod_02": {
+    "title": "Lucky Dice",
+    "prompt": "We want to generate a random number between 1 and 6 using the `random` module. Complete the word import:",
+    "explanation": "The random module is used to create surprises and random draws, perfect for games!"
+  },
+  "mod_03": {
+    "title": "Square Root Calculator",
+    "prompt": "Order the code to import the `math` module and calculate the square root of 16:",
+    "explanation": "math is Python's math module! The sqrt() function comes from \"square root\"."
+  },
+  "mod_04": {
+    "title": "Rounding Up",
+    "prompt": "Create a function `teto(numero)` that uses the `math` module and returns the smallest integer greater than or equal to `numero` (using `math.ceil()`).",
+    "explanation": "math.ceil() puts a \"ceiling\" on the number: if it's 3.2, it rounds up to 4!"
+  },
+  "boss_battle_13": {
+    "title": "The Alchemist of Modules",
+    "prompt": "Import the `math` module and display the value of `math.pi` rounded to 2 decimal places using `round(math.pi, 2)`.",
+    "explanation": "The Alchemist loves the universal constants of mathematics!",
+    "bossName": "Pi Alchemist"
+  }
+}

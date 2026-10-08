@@ -1,0 +1,28 @@
+{
+  "oop_01": {
+    "title": "The Mold of Objects",
+    "prompt": "In Object-Oriented Programming, which word do we use to create the \"mold\" or \"blueprint\" of an object?",
+    "explanation": "A \"class\" is like a cookie cutter! It defines the shape and recipe, and the objects are the finished cookies."
+  },
+  "oop_02": {
+    "title": "The Magic Constructor",
+    "prompt": "The special method that initializes an object when it is born is called `__init__`. Complete the required parameter representing the object itself:",
+    "explanation": "self means \"myself\"! That's how the object knows what its own features and attributes are."
+  },
+  "oop_03": {
+    "title": "Creating a Virtual Pet",
+    "prompt": "Order the code to define the `Pet` class and create a dog named \"Rex\":",
+    "explanation": "Creating an object from a class is called \"instantiation\". meu_pet is now a real object!"
+  },
+  "oop_04": {
+    "title": "The Robot that Introduces Itself",
+    "prompt": "Create a `Robo` class that receives `nome` in `__init__` and has a `falar()` method returning `\"Eu sou o robô \" + self.nome`. Create a function `testar_robo(nome)` that returns this greeting!",
+    "explanation": "Methods are functions created inside the class that give superpowers and actions to the object!"
+  },
+  "boss_battle_14": {
+    "title": "The Steel Titan",
+    "prompt": "Create a `Guerreiro` class with `__init__(self, ataque)` and create the object `g = Guerreiro(50)`. Display `g.ataque`!",
+    "explanation": "The Titan demands that you build your own Warrior using Object Orientation!",
+    "bossName": "Steel Titan"
+  }
+}

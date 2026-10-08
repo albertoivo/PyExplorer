@@ -1,0 +1,125 @@
+{
+  "var_1": {
+    "title": "¿Qué es una variable?",
+    "prompt": "Una variable en Python es como una...",
+    "explanation": "¡Las variables son como cajitas mágicas! 📦 Les das un nombre y puedes guardar cualquier cosa dentro: números, textos, listas... ¡Y luego usarlas cuando quieras!",
+    "options": [
+      "Cajita que guarda información",
+      "Un tipo de matemática difícil",
+      "Un comando para borrar datos",
+      "Una contraseña secreta"
+    ]
+  },
+  "var_2": {
+    "title": "Crea una variable",
+    "prompt": "Crea una variable llamada \"idade\" con el valor 10:",
+    "explanation": "Para crear una variable, ¡basta con escribir su nombre, un signo igual (=) y el valor! idade = 10 significa: \"crea una cajita llamada idade y guarda 10 dentro\"."
+  },
+  "var_3": {
+    "title": "Las variables pueden cambiar",
+    "prompt": "Después de crear una variable, podemos cambiar su valor en cualquier momento.",
+    "explanation": "¡Por eso las llamamos \"variables\"! El valor puede variar. Es como una cajita que puedes vaciar y poner otra cosa dentro cuando quieras. 🔄"
+  },
+  "var_4": {
+    "title": "¿Qué muestra este código?",
+    "prompt": "¿Qué aparece en la pantalla al ejecutar este código?\n\nnome = \"Ana\"\nprint(\"Olá, \" + nome)",
+    "explanation": "¡El + une textos! Python sustituye \"nome\" por el valor guardado (\"Ana\") y lo une con \"Olá, \". Resultado: \"Olá, Ana\"! ¡Es como armar un rompecabezas de palabras! 🧩"
+  },
+  "var_5": {
+    "title": "Guardando y mostrando",
+    "prompt": "¡Tienes un perro llamado Rex! Completa el código para guardar su nombre en la variable:",
+    "explanation": "¡Las variables guardan valores que podemos usar después! Solo elige un nombre, usa = y pon el valor. ¡Luego usa el nombre de la variable!"
+  },
+  "var_6": {
+    "title": "Nombre de Variable",
+    "prompt": "Los nombres de variables pueden empezar con números (ej: 1nome = \"Ana\").",
+    "explanation": "¡Las variables no pueden empezar con números! Deben empezar con una letra o guión bajo (_). \"nome1\" se puede, ¡pero \"1nome\" no! 🚫"
+  },
+  "var_7": {
+    "title": "¿Cuál es el tipo?",
+    "prompt": "Si hacemos x = \"10\" (con comillas), ¿cuál es el tipo de x?",
+    "explanation": "¿Tiene comillas? ¡Entonces es texto! Aunque tenga un número dentro, las comillas lo convierten en string (texto). ¡\"10\" no sirve para cuentas matemáticas! 🎭"
+  },
+  "var_type_1": {
+    "title": "Tipos de Datos",
+    "prompt": "¿Cuáles son los 4 tipos básicos de datos en Python?",
+    "explanation": "¡Python tiene 4 tipos básicos: int (enteros como 10), str (textos como \"Olá\"), float (decimales como 3.14) y bool (True o False)! 🎯"
+  },
+  "var_type_int": {
+    "title": "Convirtiendo en Número",
+    "prompt": "¿Cómo convertimos el texto \"42\" en número para hacer cuentas?",
+    "explanation": "¡int() convierte texto en número entero! int(\"42\") se vuelve 42 (sin comillas). ¡Ahora puedes hacer cuentas con él! 🔢"
+  },
+  "var_type_str": {
+    "title": "Número se vuelve Texto",
+    "prompt": "Completa para transformar la edad en texto y unirla con el mensaje:",
+    "explanation": "¡str() convierte cualquier cosa en texto! Es necesario porque no se puede unir texto con números directamente. str(10) se vuelve \"10\"! 📝"
+  },
+  "var_type_float": {
+    "title": "Números Decimales",
+    "prompt": "El tipo \"float\" se usa para números con decimales, como 3.14 o 2.5.",
+    "explanation": "Float viene de \"floating point\" (punto flotante). ¡Son números con decimales! 3.14, 2.5, 0.99 son todos float. 🎈"
+  },
+  "var_convert_hard": {
+    "title": "Calculadora de Texto",
+    "prompt": "El usuario escribió dos números como texto. Completa para sumarlos:",
+    "explanation": "¡Los textos no se suman como números! \"15\" + \"7\" daría \"157\". Primero convertimos con int(): int(\"15\") + int(\"7\") = 22! 🧮"
+  },
+  "var_type_check": {
+    "title": "Descubriendo el Tipo",
+    "prompt": "¿Qué función usamos para descubrir el tipo de una variable?",
+    "explanation": "¡type() revela el tipo! type(10) dice \"int\", type(\"oi\") dice \"str\". Es como preguntar: \"¿Qué tipo de cosa eres?\" 🔍"
+  },
+  "var_8": {
+    "title": "Texto a Decimal",
+    "prompt": "Convierte el texto \"3.5\" a un número decimal (float):",
+    "explanation": "Para convertir texto con punto a número, ¡usamos float()! int() daría error porque no entiende el punto. float(\"3.5\") se vuelve 3.5. 🌊"
+  },
+  "var_9": {
+    "title": "¿Int Redondea?",
+    "prompt": "Si hago int(3.9), ¿Python redondea a 4?",
+    "explanation": "¡No! int() es como una tijera: CORTA la parte decimal. 3.9 se vuelve 3, y 3.1 se vuelve 3 también. ¡No redondea! ✂️"
+  },
+  "var_10": {
+    "title": "Identificando Floats",
+    "prompt": "¿Cuál de estos valores es un float (número decimal)?",
+    "explanation": "¡Los floats son números con punto decimal! \"10.5\" es texto (tiene comillas) y 10 es entero. ¡El único float verdadero es 10.5! 🎈"
+  },
+  "var_11": {
+    "title": "¿Verdadero o Falso?",
+    "prompt": "¿Qué tipo de variable guarda solo `True` (Verdadero) o `False` (Falso)?",
+    "explanation": "El tipo `bool` (Booleano) solo tiene dos valores: `True` o `False`. ¡Se usa para lógica y decisiones! 🚦"
+  },
+  "var_12": {
+    "title": "Actualizando Puntos",
+    "prompt": "¡Ganaste más puntos! Actualiza la variable `pontos` a 50:",
+    "explanation": "¡Las variables pueden cambiar de valor! Primero era 20, luego la cambiamos a 50. ¡El valor viejo se descarta y el nuevo toma su lugar! 🔄"
+  },
+  "var_13": {
+    "title": "¿Sumando Textos?",
+    "prompt": "¿Qué pasa si hacemos: \"1\" + \"1\"?",
+    "explanation": "¡Cuando usamos comillas, son textos! Sumar textos es unirlos. ¡Así que \"1\" con \"1\" se vuelve \"11\"! 🚂"
+  },
+  "var_14": {
+    "title": "Subiendo de Nivel",
+    "prompt": "¡Pasaste de nivel! Completa para aumentar el nivel en 1:",
+    "explanation": "¡Para actualizar una variable usamos su valor anterior! `nivel = nivel + 1` toma el 5, le suma 1 y guarda el 6. 🆙"
+  },
+  "var_15": {
+    "title": "Cortando Decimales",
+    "prompt": "¿Qué pasa si hacemos `int(8.9)`?",
+    "explanation": "La función `int()` es como una tijera: ¡corta todo lo que viene después del punto decimal! 8.9 se vuelve 8. ¡No redondea! ✂️",
+    "options": [
+      "8 (Corta la parte decimal)",
+      "9 (Redondea hacia arriba)",
+      "8.9 (No cambia nada)",
+      "Error"
+    ]
+  },
+  "boss_battle_2": {
+    "title": "El Mímico de las Cajas",
+    "prompt": "¡Este monstruo desordenó todas las cajas! Crea una variable llamada `tesouro` y guarda el valor \"ouro\" en ella. Luego, muestra lo que hay dentro usando print(tesouro).",
+    "explanation": "¡Las variables son como cajas mágicas! El Mímico quiere que crees una cajita llamada \"tesouro\" y pongas \"ouro\" adentro. ¡Usa print(tesouro) para mostrar lo que hay!",
+    "bossName": "Mímico Variable"
+  }
+}

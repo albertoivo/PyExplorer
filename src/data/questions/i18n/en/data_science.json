@@ -1,0 +1,34 @@
+{
+  "ds_01": {
+    "title": "What is Data Science?",
+    "prompt": "What is the main goal of a Data Scientist using Python?",
+    "explanation": "Data scientists use Python to turn mountains of numbers into incredible discoveries!",
+    "options": [
+      "Analyze information and uncover valuable patterns",
+      "Physically build iron robots",
+      "Format the computer every week",
+      "Delete the database"
+    ]
+  },
+  "ds_02": {
+    "title": "Player Average Score",
+    "prompt": "To find the average of the scores, we add everything with `sum()` and divide by the count with `len()`. Complete the function:",
+    "explanation": "The statistical average is the sum divided by the number of items!"
+  },
+  "ds_03": {
+    "title": "Finding the Maximum and Minimum Value",
+    "prompt": "Order the code to find the highest and lowest score from a set of students:",
+    "explanation": "The `max()` and `min()` functions scan the entire list in milliseconds to find the extremes!"
+  },
+  "ds_04": {
+    "title": "AI Passing Score Detector",
+    "prompt": "Create a function `filtro_aprovados(notas, corte)` that returns a list with only the scores greater than or equal to the cutoff score!",
+    "explanation": "Filters are the foundation of Machine Learning for separating valid and positive data!"
+  },
+  "boss_battle_17": {
+    "title": "The Data Oracle",
+    "prompt": "Given the list `dados = [10, 50, 20, 80, 30]`, filter and display only the numbers greater than 25!",
+    "explanation": "The Data Oracle wants to see you extract only the relevant information!",
+    "bossName": "Data Oracle"
+  }
+}

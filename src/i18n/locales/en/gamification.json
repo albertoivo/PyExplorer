@@ -349,7 +349,9 @@
         "xpLabel": "XP Progress",
         "xpProgress": "XP: {{current}} / {{needed}} ({{remaining}} XP left to Level {{next}})",
         "xpProgressMax": "XP: {{current}} (Max Level)",
-        "xpTooltip": "Happy pets grant bonus XP across all quests!"
+        "xpTooltip": "Happy pets grant bonus XP across all quests!",
+        "defaultEggName": "Mysterious Egg",
+        "defaultBabyName": "Baby Mascot"
     },
     "evolution": {
         "awesome": "Awesome!",

@@ -1,0 +1,125 @@
+{
+  "num_1": {
+    "title": "Addition in Python",
+    "prompt": "Which symbol do we use to add two numbers?",
+    "explanation": "+ works just like in math! 5 + 3 = 8. Python is your personal calculator! 🧮"
+  },
+  "num_2": {
+    "title": "Multiplication with Asterisk",
+    "prompt": "In Python, we use the asterisk (*) to multiply numbers.",
+    "explanation": "That's right! The asterisk (*) is multiplication. 4 * 3 = 12. Different from the x in your notebook, but does the same thing! ✖️"
+  },
+  "num_3": {
+    "title": "Calculate Future Age",
+    "prompt": "Complete the code to calculate the age 5 years from now:",
+    "explanation": "To calculate future age, add the current age with the years! 10 + 5 = 15! 🎂"
+  },
+  "num_4": {
+    "title": "Division in Python",
+    "prompt": "What is the result of 10 / 2 in Python?",
+    "explanation": "Division with / always gives a number with a decimal point! 10 / 2 = 5.0. For an integer, use // (two slashes)."
+  },
+  "num_5": {
+    "title": "Calculate Double",
+    "prompt": "Complete to calculate double of a number:",
+    "explanation": "Double means multiplying by 2! 7 * 2 = 14! ✌️"
+  },
+  "num_parsons_avg": {
+    "title": "Calculating the Average",
+    "prompt": "Arrange the code to calculate the average of 3 grades.",
+    "explanation": "First we define the grades, then we add them up and divide by 3 to find the average!"
+  },
+  "num_6": {
+    "title": "Power of Exponentiation",
+    "prompt": "Complete the code to calculate 3 raised to the power of 2 (3 squared):",
+    "explanation": "To raise to a power, we use two asterisks (**). 3 ** 2 is 3 times 3! 🚀"
+  },
+  "num_7": {
+    "title": "Remainder of Division",
+    "prompt": "Complete to find the remainder of dividing 10 by 3:",
+    "explanation": "The % symbol shows what is left over from division! 10 divided by 3 gives 3 with remainder 1. So 10 % 3 is 1! 🍕"
+  },
+  "num_hard_operators": {
+    "title": "All Operators",
+    "prompt": "Complete to calculate: (20 + 10) / 2, then display the integer result:",
+    "explanation": "Parentheses first! (20 + 10) = 30, then 30 / 2 = 15. We use int() to remove the decimal point! 🎯"
+  },
+  "num_hard_order": {
+    "title": "Order of Operations",
+    "prompt": "What is the result of: 2 + 3 * 4 - 1?",
+    "explanation": "Multiplication first! 3 * 4 = 12. Then: 2 + 12 - 1 = 13. Remember: * and / come before + and -! 📐"
+  },
+  "num_8": {
+    "title": "Integer Division",
+    "prompt": "What does the // operator do in Python?",
+    "explanation": "// is integer division! It divides and only keeps the whole part of the number, discarding whatever comes after the decimal point. 7 // 2 = 3 (not 3.5)! ✂️",
+    "options": [
+      "Divides and discards the decimal part",
+      "Divides and keeps the decimal",
+      "Calculates percentage",
+      "Multiplies by 2"
+    ]
+  },
+  "num_random_1": {
+    "title": "Random Draw",
+    "prompt": "We need \"random\" to draw numbers. Complete the code:",
+    "explanation": "import random brings random superpower tools! randint(1, 10) picks a surprise number between 1 and 10. 🎲"
+  },
+  "num_math_1": {
+    "title": "Advanced Math",
+    "prompt": "To use Pi (3.14...) and Square Root, which library do we import?",
+    "explanation": "The `math` library has everything math! math.pi, math.sqrt (square root), and much more. 🤓",
+    "options": [
+      "import math",
+      "import calc",
+      "import numbers",
+      "import school"
+    ]
+  },
+  "num_9": {
+    "title": "Pizza Leftovers",
+    "prompt": "We have 7 slices of pizza for 3 people. How many slices are left over? Use %:",
+    "explanation": "7 divided by 3 gives 2 slices for each, and 1 is LEFT OVER. The % operator gives us that leftover! 🍕"
+  },
+  "num_10": {
+    "title": "Calculating Change",
+    "prompt": "You paid 10 and it cost 7. How much was left? Complete with subtraction:",
+    "explanation": "To know how much is left, we do subtraction using the minus sign -! 10 - 7 = 3. 💸"
+  },
+  "num_11": {
+    "title": "Rounding Numbers",
+    "prompt": "Use `round()` to round 3.7 to the nearest whole integer:",
+    "explanation": "`round()` rounds the number! 3.7 is closer to 4, so it turns into 4. If it were 3.2, it would turn into 3! 🔵"
+  },
+  "num_12": {
+    "title": "Magic Square",
+    "prompt": "Calculate 5 squared (power of 2) using **:",
+    "explanation": "We use ** for exponentiation! 5 ** 2 is the same as 5 times 5. The result is 25! 🚀"
+  },
+  "num_13": {
+    "title": "Integer Division",
+    "prompt": "How many times does 2 fit into 9? Use // to find out:",
+    "explanation": "9 // 2 is integer division! 2 fits into 9 four times (2, 4, 6, 8). The remainder (1) is discarded! 📦"
+  },
+  "num_14": {
+    "title": "Sharing Candies",
+    "prompt": "We have 11 candies for 4 children. How many does each get (without breaking)? Use //",
+    "explanation": "11 // 4 gives 2. Integer division throws away the remainder (3 candies left over). No one gets broken candies! 🍬"
+  },
+  "num_15": {
+    "title": "Super Power",
+    "prompt": "Calculate 2 raised to the power of 4 (2 * 2 * 2 * 2) using the exponent operator:",
+    "explanation": "Two asterisks (**) mean exponentiation! 2 ** 4 is 2 multiplied by itself 4 times. 🚀"
+  },
+  "num_16": {
+    "title": "Days of the Week",
+    "prompt": "If today is day 1 and a week has 7 days, which day of the week (0-6) will it be in 10 days? Use % 7:",
+    "explanation": "% 7 (modulo division) is magic for days of the week! It makes the days \"loop\" back to the start whenever they exceed 7. 📅"
+  },
+  "boss_battle_3": {
+    "title": "The Calculating Wizard",
+    "prompt": "The Wizard presents a challenge: calculate 15 + 7 * 3 and show the result! Watch out for operator precedence!",
+    "explanation": "The Wizard loves math! Remember: multiplication comes before addition! 🧙‍♂️",
+    "bossName": "Number Wizard"
+  }
+}

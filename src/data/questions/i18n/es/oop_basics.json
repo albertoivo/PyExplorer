@@ -1,0 +1,28 @@
+{
+  "oop_01": {
+    "title": "El Molde de los Objetos",
+    "prompt": "En Programación Orientada a Objetos, ¿qué palabra usamos para crear el \"molde\" o \"plano\" de un objeto?",
+    "explanation": "¡Una \"class\" es como un cortador de galletas! Define la forma y la receta, y los objetos son las galletas listas."
+  },
+  "oop_02": {
+    "title": "El Constructor Mágico",
+    "prompt": "El método especial que inicializa un objeto cuando nace se llama `__init__`. Completa el parámetro obligatorio que representa al propio objeto:",
+    "explanation": "¡self significa \"yo mismo\"! Así es como el objeto conoce sus propias características y atributos."
+  },
+  "oop_03": {
+    "title": "Creando una Mascota Virtual",
+    "prompt": "Ordena el código para definir la clase `Pet` y crear un perro llamado \"Rex\":",
+    "explanation": "Crear un objeto a partir de una clase se llama \"instanciación\". ¡meu_pet ahora es un objeto real!"
+  },
+  "oop_04": {
+    "title": "El Robot que se Presenta",
+    "prompt": "Crea una clase `Robo` que reciba `nome` en `__init__` y tenga un método `falar()` que devuelva `\"Eu sou o robô \" + self.nome`. ¡Crea una función `testar_robo(nome)` que devuelva ese saludo!",
+    "explanation": "¡Los métodos son funciones creadas dentro de la clase que dan superpoderes y acciones al objeto!"
+  },
+  "boss_battle_14": {
+    "title": "El Titán de Acero",
+    "prompt": "Crea una clase `Guerreiro` con `__init__(self, ataque)` y crea el objeto `g = Guerreiro(50)`. ¡Muestra `g.ataque`!",
+    "explanation": "¡El Titán exige que construyas tu propio Guerrero usando Orientación a Objetos!",
+    "bossName": "Titán de Acero"
+  }
+}

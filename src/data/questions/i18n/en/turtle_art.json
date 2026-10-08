@@ -1,0 +1,38 @@
+{
+  "turtle_01": {
+    "title": "Turtle's First Line",
+    "prompt": "Make the little turtle walk 100 steps forward. Use the forward(number) function to draw your first straight line on the screen!",
+    "explanation": "The `forward(100)` command makes the turtle walk 100 steps forward and draw a straight line!"
+  },
+  "turtle_02": {
+    "title": "Turning the Corner",
+    "prompt": "Make the turtle walk 100 steps forward (forward(100)) and then turn 90 degrees to the right (right(90))!",
+    "explanation": "We use `right(90)` to turn the turtle 90 degrees to the right. It is the perfect turn to make a corner!"
+  },
+  "turtle_03": {
+    "title": "Drawing a Square",
+    "prompt": "Use a `for` loop to make the turtle turn 90 degrees 4 times and draw a perfect square!",
+    "explanation": "A square has 4 equal sides and 4 turns of 90 degrees! With the `for i in range(4)` loop, the code is super clean."
+  },
+  "turtle_04": {
+    "title": "The Magic Triangle",
+    "prompt": "Draw a triangle with 3 equal sides! In a triangle, the turtle needs to turn 120 degrees at each corner.",
+    "explanation": "To close a triangle, the turtle makes 3 turns of 120 degrees (3 x 120 = 360 degrees in total)!"
+  },
+  "turtle_05": {
+    "title": "The Shiny Star",
+    "prompt": "Create a shiny 5-pointed star! Repeat 5 times: walk 100 steps forward (forward(100)) and turn 144 degrees to the right (right(144)).",
+    "explanation": "With 144 degree turns, the lines cross perfectly to form a beautiful 5-pointed star! 🌟"
+  },
+  "turtle_06": {
+    "title": "The Honeycomb Hexagon",
+    "prompt": "Create a 6-sided hexagon! Repeat 6 times: walk 80 steps and turn 60 degrees to the left.",
+    "explanation": "A hexagon has 6 sides and 60 degree turns! It is the shape used by bees to build honeycombs! 🐝"
+  },
+  "boss_battle_16": {
+    "title": "The Master of Brushes",
+    "prompt": "Import `turtle`, create `t = turtle.Turtle()` and use a loop `for i in range(3): t.forward(50); t.left(120)` to draw a triangle!",
+    "explanation": "The Master of Brushes wants to see you draw a perfect triangle with 3 turns of 120 degrees!",
+    "bossName": "Brush Master"
+  }
+}

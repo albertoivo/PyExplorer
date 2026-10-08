@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 export interface PyodideLoaderProps {
     loadingProgress: number;
 }
@@ -6,11 +8,13 @@ export interface PyodideLoaderProps {
  * Componente que exibe a tela de carregamento do Pyodide/Python.
  */
 export function PyodideLoader({ loadingProgress }: PyodideLoaderProps) {
+    const { t } = useTranslation('game');
+    
     return (
         <div className="game-page game-page--loading">
             <div className="pyodide-loading">
                 <div className="pyodide-loading__icon">🐍</div>
-                <h2 className="pyodide-loading__title">Preparando o Python...</h2>
+                <h2 className="pyodide-loading__title">{t('engine.preparingPython', 'Preparando o Python...')}</h2>
                 <div className="pyodide-loading__bar">
                     <div
                         className="pyodide-loading__progress"
@@ -18,9 +22,9 @@ export function PyodideLoader({ loadingProgress }: PyodideLoaderProps) {
                     />
                 </div>
                 <p className="pyodide-loading__text">
-                    {loadingProgress < 30 && 'Carregando bibliotecas...'}
-                    {loadingProgress >= 30 && loadingProgress < 80 && 'Inicializando Python...'}
-                    {loadingProgress >= 80 && 'Quase pronto!'}
+                    {loadingProgress < 30 && t('engine.loadingLibraries', 'Carregando bibliotecas...')}
+                    {loadingProgress >= 30 && loadingProgress < 80 && t('engine.initializingPython', 'Inicializando Python...')}
+                    {loadingProgress >= 80 && t('engine.almostReady', 'Quase pronto!')}
                 </p>
             </div>
         </div>

@@ -126,6 +126,12 @@ export function PetHabitat() {
     const moodLabel = t(`petHabitat.moods.${pet.mood}`, { defaultValue: pet.mood });
     const typeLabel = pet.stage !== 'egg' ? t(`petHabitat.types.${pet.type}`, { defaultValue: pet.type }) : null;
 
+    const translatedPetName = pet.name === 'Ovo Misterioso'
+        ? t('petHabitat.defaultEggName', 'Ovo Misterioso')
+        : pet.name?.toLowerCase() === 'mascote bebê'
+        ? t('petHabitat.defaultBabyName', 'Mascote Bebê')
+        : pet.name;
+
     return (
         <div className="pet-habitat">
             <div className="pet-habitat__header">
@@ -147,7 +153,7 @@ export function PetHabitat() {
             </div>
 
             <div className="pet-habitat__info">
-                <div className="pet-habitat__name" title={pet.name}>{pet.name}</div>
+                <div className="pet-habitat__name" title={translatedPetName}>{translatedPetName}</div>
                 <div className="pet-habitat__meta">
                     <span className="pet-badge pet-badge--stage">{stageLabel}</span>
                     {typeLabel && <span className="pet-badge pet-badge--type">{typeLabel}</span>}

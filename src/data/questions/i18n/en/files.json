@@ -1,0 +1,28 @@
+{
+  "file_01": {
+    "title": "Opening the File Door",
+    "prompt": "Which function is used in Python to open a file?",
+    "explanation": "The open() function is like the key that unlocks the door to a diary or file on the computer!"
+  },
+  "file_02": {
+    "title": "Writing in the Diary",
+    "prompt": "To write to a new file or overwrite, we use \"w\" (write) mode. Complete the code:",
+    "explanation": "The \"w\" stands for the English word \"write\"! It is the writing mode."
+  },
+  "file_03": {
+    "title": "Reading Safely",
+    "prompt": "Order the code to open a file \"segredo.txt\" for reading (\"r\") and print its content:",
+    "explanation": "Using \"with open\" is awesome because it closes the file automatically when we finish, preventing it from getting locked!"
+  },
+  "file_04": {
+    "title": "The Line Counter",
+    "prompt": "Create a function `contar_linhas(texto_multilinhas)` that simulates the content of a file by splitting the text into lines (`.splitlines()`) and returning the total number of lines!",
+    "explanation": "splitlines() splits a huge text into a list of individual lines, and len() counts how many lines exist!"
+  },
+  "boss_battle_12": {
+    "title": "The Ghost Archivist",
+    "prompt": "Write code that opens \"desafio.txt\" in write mode (\"w\") and records the text \"Venci o Boss!\"",
+    "explanation": "The Archivist only accepts messages saved to an actual file!",
+    "bossName": "Ghost Archivist"
+  }
+}

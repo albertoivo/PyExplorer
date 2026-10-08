@@ -1,0 +1,28 @@
+{
+  "mod_01": {
+    "title": "Invocando Magias Listas",
+    "prompt": "¿Qué comando usamos para traer una biblioteca o módulo a nuestro código Python?",
+    "explanation": "¡import es la palabra mágica para importar (traer) herramientas listas que otros programadores crearon!"
+  },
+  "mod_02": {
+    "title": "Dado de la Suerte",
+    "prompt": "Queremos generar un número aleatorio entre 1 y 6 usando el módulo `random`. Completa la palabra import:",
+    "explanation": "¡El módulo random sirve para crear sorpresas y sorteos aleatorios, perfecto para juegos!"
+  },
+  "mod_03": {
+    "title": "Calculadora de Raíz Cuadrada",
+    "prompt": "Ordena el código para importar el módulo `math` y calcular la raíz cuadrada de 16:",
+    "explanation": "¡math es el módulo matemático de Python! La función sqrt() viene de \"square root\", que significa raíz cuadrada."
+  },
+  "mod_04": {
+    "title": "Redondeando Hacia Arriba",
+    "prompt": "Crea una función `teto(numero)` que use el módulo `math` y devuelva el menor entero mayor o igual a `numero` (usando `math.ceil()`).",
+    "explanation": "¡math.ceil() pone un \"techo\" al número: si es 3.2, lo redondea hacia arriba a 4!"
+  },
+  "boss_battle_13": {
+    "title": "El Alquimista de los Módulos",
+    "prompt": "Importa el módulo `math` y muestra el valor de `math.pi` redondeado a 2 decimales usando `round(math.pi, 2)`.",
+    "explanation": "¡El Alquimista adora las constantes universales de las matemáticas!",
+    "bossName": "Alquimista del Pi"
+  }
+}

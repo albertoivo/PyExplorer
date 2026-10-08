@@ -1,0 +1,138 @@
+{
+  "dict_1": {
+    "title": "¿Qué es un Diccionario?",
+    "prompt": "En Python, un diccionario guarda información usando...",
+    "explanation": "¡Los diccionarios son como libretas de direcciones! 📒 Cada información tiene un nombre (clave) y un valor. Por ejemplo: {\"nome\": \"Ana\", \"idade\": 12}",
+    "options": [
+      "Claves y valores (como nome: \"Ana\")",
+      "Solo números en orden",
+      "Solo textos",
+      "Índices como 0, 1, 2"
+    ]
+  },
+  "dict_2": {
+    "title": "Claves de Diccionario",
+    "prompt": "En un diccionario, usamos llaves { } en lugar de corchetes [ ].",
+    "explanation": "¡Eso es! Las listas usan [ ], ¡pero los diccionarios usan { }! Es fácil de recordar: ¡los diccionarios necesitan llaves 🔑 para abrir!"
+  },
+  "dict_3": {
+    "title": "Accediendo a Valores",
+    "prompt": "Completa para mostrar el nombre de la persona:",
+    "explanation": "Para obtener un valor del diccionario, usa la clave entre corchetes: ¡pessoa[\"nome\"] da \"Lucas\"! 🔑"
+  },
+  "dict_4": {
+    "title": "Añadiendo al Diccionario",
+    "prompt": "¿Cómo añadimos una nueva clave \"cidade\" con valor \"Rio\"?",
+    "explanation": "¡Es simple! ¡Solo haz pessoa[\"cidade\"] = \"Rio\" y listo! La nueva clave se crea automáticamente. ✨"
+  },
+  "dict_5": {
+    "title": "Creando un Diccionario",
+    "prompt": "Crea un diccionario llamado \"pet\" con nombre \"Rex\" y tipo \"cachorro\":",
+    "explanation": "Los diccionarios usan \"clave\": valor. ¡La clave va entre comillas, luego dos puntos, luego el valor! 📕"
+  },
+  "dict_6": {
+    "title": "Buscando Información",
+    "prompt": "Crea una función que recibe un diccionario de persona y devuelve la edad:",
+    "explanation": "¡Usa pessoa[\"idade\"] para tomar la edad del diccionario y return para devolverla! 🎂"
+  },
+  "dict_parsons_1": {
+    "title": "Ficha del Alumno",
+    "prompt": "Organiza el código para crear una ficha de alumno y mostrar el nombre:",
+    "explanation": "¡Primero creamos el diccionario, luego accedemos con la clave!"
+  },
+  "dict_7": {
+    "title": "Actualizando Valor",
+    "prompt": "¡La puntuación cambió! Cambia el valor de \"pontos\" a 50:",
+    "explanation": "Para cambiar un valor, ¡solo usa la clave y el signo de igual! Es como borrar lo que estaba escrito en la libreta y escribir el nuevo valor. ✏️"
+  },
+  "dict_8": {
+    "title": "Clave Perdida",
+    "prompt": "¿Qué pasa si intentamos acceder a una clave que NO existe en el diccionario?",
+    "explanation": "Si la clave no existe, Python no la encuentra y grita: ¡KeyError! Es como buscar un nombre en la libreta que no está ahí. 📢",
+    "options": [
+      "Error: KeyError",
+      "Devuelve Cero",
+      "Devuelve Vacío",
+      "Crea la clave automáticamente"
+    ]
+  },
+  "dict_9": {
+    "title": "Claves y Valores",
+    "prompt": "En `{\"cor\": \"azul\"}`, ¿qué es la \"cor\"?",
+    "explanation": "La \"cor\" es la CLAVE (nombre de la información) y \"azul\" es el VALOR (la información en sí). ¡La clave abre el valor! 🔑"
+  },
+  "dict_10": {
+    "title": "¿Está en la Mochila?",
+    "prompt": "¿Cómo verificamos si la clave \"mapa\" existe en la mochila?",
+    "explanation": "¡Usamos `in` para preguntar si una clave existe en el diccionario! Es como mirar dentro de la mochila para ver si el mapa está ahí. 🎒",
+    "options": [
+      "\"mapa\" in mochila",
+      "mochila.has(\"mapa\")",
+      "\"mapa\" == mochila",
+      "check(\"mapa\")"
+    ]
+  },
+  "dict_11": {
+    "title": "Precio Nuevo",
+    "prompt": "¡La poción se volvió más cara! Cambia el precio a 20:",
+    "explanation": "¡Los diccionarios son fáciles de actualizar! Solo usa la clave [\"poção\"] y dale el nuevo valor. ¡El valor antiguo desaparece y el nuevo asume! 💰"
+  },
+  "dict_12": {
+    "title": "Tamaño del Diccionario",
+    "prompt": "Si tenemos `d = {\"a\": 1, \"b\": 2, \"c\": 3}`, ¿qué devuelve `len(d)`?",
+    "explanation": "`len()` cuenta cuántas claves (pares) existen en el diccionario. Tenemos \"a\", \"b\" y \"c\", ¡así que son 3 elementos! 📏",
+    "options": [
+      "3 (cuenta las claves)",
+      "6 (cuenta todo)",
+      "1 (cuenta el diccionario)",
+      "0"
+    ]
+  },
+  "dict_13": {
+    "title": "Borrando Claves",
+    "prompt": "Usa `del` para borrar la clave \"idade\" del diccionario:",
+    "explanation": "`del` viene de \"delete\" (borrar). ¡Elimina la clave y el valor del diccionario para siempre! 🗑️"
+  },
+  "dict_14": {
+    "title": "Solo las Claves",
+    "prompt": "¿Qué método usamos para ver todas las claves (nombres) del diccionario?",
+    "explanation": "¡`keys()` devuelve una lista solo con las claves! Es útil para saber qué información tenemos guardada. 🔑"
+  },
+  "dict_15": {
+    "title": "Solo los Valores",
+    "prompt": "¿Qué método usamos para ver todos los valores guardados?",
+    "explanation": "`values()` muestra solo los valores, ignorando los nombres de las claves. 💎"
+  },
+  "dict_16": {
+    "title": "Empezando de Cero",
+    "prompt": "Crea un diccionario vacío llamado `mochila`:",
+    "explanation": "Para crear un diccionario vacío, usamos llaves sin nada dentro `{}`. ¡Luego podemos añadir cosas! 🎒"
+  },
+  "dict_17": {
+    "title": "Mezclando Todo",
+    "prompt": "¿Puede un diccionario tener claves de texto y valores numéricos al mismo tiempo? Ej: `{\"nome\": \"Ana\", \"idade\": 10}`",
+    "explanation": "¡Sí! Esa es la mejor parte de los diccionarios. ¡Puedes guardar textos, números e incluso listas en el mismo lugar! 🥗"
+  },
+  "dict_18": {
+    "title": "Diccionario dentro de Diccionario",
+    "prompt": "Accede a la nota de matemáticas (\"mat\") del alumno \"joao\":",
+    "explanation": "¡Podemos tener diccionarios dentro de diccionarios! Primero abrimos la clave \"joao\", luego la clave \"mat\". 📦📦"
+  },
+  "dict_19": {
+    "title": "Bucle en Diccionario",
+    "prompt": "Cuando hacemos `for x in dicionario:`, ¿qué es la `x`?",
+    "explanation": "¡Por defecto, el bucle recorre las claves! Si quieres los valores, necesitas usar `.values()`. 🗝️",
+    "options": [
+      "La clave (nombre)",
+      "El valor",
+      "Los dos juntos",
+      "El índice"
+    ]
+  },
+  "boss_battle_10": {
+    "title": "El Bibliotecario de los Secretos",
+    "prompt": "Crea un diccionario \"heroi\" con nombre \"Link\" y vida 100. ¡Luego muestra el nombre del héroe!",
+    "explanation": "¡El Bibliotecario guarda secretos en diccionarios! ¡Usa claves y valores! 📚",
+    "bossName": "Guardián de los Libros"
+  }
+}

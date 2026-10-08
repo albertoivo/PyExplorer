@@ -1,0 +1,153 @@
+{
+  "dec_1": {
+    "title": "Palabra mágica: if",
+    "prompt": "La palabra \"if\" en Python sirve para...",
+    "explanation": "¡if significa \"si\" condicional! Como preguntar: \"SI esto es verdad, haz aquello\". Por ejemplo: ¡SI llueve, lleva paraguas! ☔",
+    "options": [
+      "Hacer una pregunta y decidir qué hacer",
+      "Repetir algo varias veces",
+      "Crear una variable",
+      "Mostrar texto en pantalla"
+    ]
+  },
+  "dec_2": {
+    "title": "else es obligatorio",
+    "prompt": "Cuando usamos if, estamos obligados a usar else también.",
+    "explanation": "¡No siempre! else es opcional. Solo lo usas cuando quieres un plan B en caso de que sea falso. 🅱️"
+  },
+  "dec_3": {
+    "title": "Comparando valores",
+    "prompt": "¿Qué símbolo usamos para verificar si dos valores son IGUALES?",
+    "explanation": "¡Dos iguales (==) para comparar! Un igual (=) asigna valores. Dos iguales (==) pregunta: \"¿Son iguales?\" ⚖️"
+  },
+  "dec_4": {
+    "title": "¿Es mayor de edad?",
+    "prompt": "Completa el código para mostrar \"Maior de idade\" si la edad es 18 o más:",
+    "explanation": "Usamos if para verificar: SI edad >= 18, ¡mostramos el mensaje! El signo >= significa \"mayor o igual\". 📊"
+  },
+  "dec_5": {
+    "title": "¿Par o impar?",
+    "prompt": "Completa el código para verificar si el número es par:",
+    "explanation": "% da el resto de la división. Si numero % 2 == 0, ¡el resto es cero, así que es par! 🎲"
+  },
+  "cond_parsons_rain": {
+    "title": "Día de Lluvia",
+    "prompt": "Arma la lógica: Si está lloviendo, lleva paraguas. Si no, usa lentes de sol.",
+    "explanation": "La computadora verifica la condición en `if`. Si es verdad, hace el primer bloque. Si no, ¡salta a `else`!"
+  },
+  "dec_6": {
+    "title": "Muchas Opciones",
+    "prompt": "Usa `elif` para verificar si la nota es 8:",
+    "explanation": "Cuando tenemos más de una opción usamos elif (significa \"else if\"). Es como decir: \"Si no es la primera, comprueba esta...\". 🤔"
+  },
+  "cond_and_1": {
+    "title": "Dos condiciones juntas",
+    "prompt": "¿Qué palabra usamos para verificar si DOS condiciones son verdaderas?",
+    "explanation": "¡and significa \"y\"! if idade >= 18 and tem_ingresso: verifica si es mayor de edad Y tiene entrada. ¡Las dos deben ser verdad! 🎫"
+  },
+  "cond_or_1": {
+    "title": "Una u otra",
+    "prompt": "Completa para verificar si es sábado O domingo:",
+    "explanation": "¡or significa \"o\"! Basta que UNA condición sea verdad para entrar al if. 🌴"
+  },
+  "cond_not_1": {
+    "title": "Negando con not",
+    "prompt": "El operador \"not\" invierte el valor de una condición. Si algo es True, not lo transforma en False.",
+    "explanation": "¡not invierte todo! not True = False, not False = True. 🔄"
+  },
+  "cond_in_1": {
+    "title": "Verificar si está en la lista",
+    "prompt": "¿Cómo verificamos si \"banana\" está en la lista de frutas?",
+    "explanation": "¡in verifica si algo está dentro de una lista o texto! \"banana\" in frutas devuelve True si banana está en la lista. 🍌",
+    "options": [
+      "\"banana\" in frutas",
+      "frutas.contains(\"banana\")",
+      "frutas.has(\"banana\")",
+      "\"banana\" == frutas"
+    ]
+  },
+  "cond_in_2": {
+    "title": "Verificando letra",
+    "prompt": "Completa para verificar si la letra \"a\" está en la palabra:",
+    "explanation": "¡in funciona en textos también! \"a\" in \"banana\" es True porque banana tiene la letra a! 🔤"
+  },
+  "dec_7": {
+    "title": "Símbolo de Diferente",
+    "prompt": "El símbolo != significa \"diferente\" en Python.",
+    "explanation": "¡Exacto! El signo de exclamación ! con = significa \"no igual\", es decir, \"diferente\". 3 != 4 es Verdadero. ≠"
+  },
+  "turtle_colors": {
+    "title": "Colores Condicionales",
+    "prompt": "Completa el código para dibujar 4 líneas: si el número es par, usa azul; si es impar, usa rojo.",
+    "explanation": "¡Usa if/else para elegir colores! Si i es par (i % 2 == 0), usa azul. Si no (else), usa rojo. 🎨"
+  },
+  "dec_8": {
+    "title": "Semáforo",
+    "prompt": "Completa con elif para el semáforo amarillo:",
+    "explanation": "¡elif sirve para probar otra condición si la primera falla! 🚦"
+  },
+  "dec_9": {
+    "title": "Montaña Rusa",
+    "prompt": "Para subir a la atracción se necesita altura > 1.20 Y edad >= 10:",
+    "explanation": "¡Cuando necesitamos DOS cosas al mismo tiempo usamos \"and\"! 🎢"
+  },
+  "dec_10": {
+    "title": "Menor que",
+    "prompt": "¿La expresión 5 < 10 es Verdadera (True)?",
+    "explanation": "¡Sí! < significa \"menor que\". 5 es menor que 10, así que la respuesta es True! ✅"
+  },
+  "dec_11": {
+    "title": "Si NO es verdad",
+    "prompt": "¿Qué hace el código `if not chovendo:`?",
+    "explanation": "¡`not` invierte la condición! Si `chovendo` es Falso, `not chovendo` se vuelve Verdadero y el código corre. ☀️",
+    "options": [
+      "Se ejecuta si NO está lloviendo",
+      "Se ejecuta si ESTÁ lloviendo",
+      "Da error",
+      "Detiene la lluvia"
+    ]
+  },
+  "dec_12": {
+    "title": "Fin de Semana",
+    "prompt": "¿Qué código verifica correctamente si es Sábado O Domingo?",
+    "explanation": "¡Usamos `or`! Si cualquiera de los dos es verdad, ¡puedes descansar! 🎮",
+    "options": [
+      "if dia == \"Sábado\" or dia == \"Domingo\":",
+      "if dia == \"Sábado\" and dia == \"Domingo\":",
+      "if dia = \"Sábado\" or \"Domingo\":",
+      "if dia == \"Sábado\" | \"Domingo\":"
+    ]
+  },
+  "dec_13": {
+    "title": "Tercera Opción",
+    "prompt": "Si no es 1 ni 2, verifica si es 3 usando elif:",
+    "explanation": "¡elif salva el día! Comprueba la siguiente opción si las anteriores fallaron. 🤔"
+  },
+  "dec_14": {
+    "title": "Día de Sol",
+    "prompt": "Si NO está lloviendo, voy a la playa. ¿Qué código hace eso?",
+    "explanation": "¡`not` invierte la lógica! Si `chovendo` es Falso, `not chovendo` se vuelve Verdadero y ¡vamos a la playa! 🏖️",
+    "options": [
+      "if not chovendo:",
+      "if chovendo:",
+      "if no chovendo:",
+      "if chovendo == True:"
+    ]
+  },
+  "dec_15": {
+    "title": "En el Medio",
+    "prompt": "Verifica si el número es mayor que 10 Y menor que 20:",
+    "explanation": "Usamos `and` cuando queremos que DOS cosas sean verdaderas al mismo tiempo. 🤝"
+  },
+  "dec_16": {
+    "title": "Objeto en la Mochila",
+    "prompt": "Verifica si \"lanterna\" está en tu mochila:",
+    "explanation": "¡El comando `in` es como un detective! Busca dentro de la lista y te avisa si lo encontró. 🔦"
+  },
+  "boss_battle_4": {
+    "title": "La Esfinge Lógica",
+    "prompt": "La Esfinge pregunta: Si vida = 100 y vida > 50, muestra \"Você está bem!\". Si no, muestra \"Cuidado!\".",
+    "explanation": "¡La Esfinge prueba tu lógica! ¡Usa if y else para decidir qué mostrar! 🦁",
+    "bossName": "Esfinge de las Decisiones"
+  }
+}

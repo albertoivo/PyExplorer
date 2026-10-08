@@ -27,7 +27,7 @@ export function TutorialModal({
     onComplete,
     forceWatch = false
 }: TutorialModalProps) {
-    const { t } = useTranslation('game');
+    const { t } = useTranslation(['game', 'tutorials']);
     const [tutorial, setTutorial] = useState<WorldTutorial | null>(null);
     const [currentStep, setCurrentStep] = useState(0);
     const [isAnimating, setIsAnimating] = useState(false);
@@ -137,7 +137,9 @@ export function TutorialModal({
                 {/* Header */}
                 <div className="tutorial-modal__header">
                     <div className="tutorial-modal__title-row">
-                        <h2 id="tutorial-title" className="tutorial-modal__title">{tutorial.title}</h2>
+                        <h2 id="tutorial-title" className="tutorial-modal__title">
+                            {t(`tutorials:${worldId}.title`, { defaultValue: tutorial.title })}
+                        </h2>
                         {!forceWatch && (
                             <button
                                 className="tutorial-modal__close"
@@ -164,8 +166,12 @@ export function TutorialModal({
                 {/* Content */}
                 <div className={`tutorial-modal__content tutorial-modal__content--${step.animation || 'fadeIn'}`}>
                     <div className="tutorial-modal__step-icon">{step.icon}</div>
-                    <h3 className="tutorial-modal__step-title">{step.title}</h3>
-                    <p className="tutorial-modal__step-text">{step.content}</p>
+                    <h3 className="tutorial-modal__step-title">
+                        {t(`tutorials:${worldId}.steps.${currentStep}.title`, { defaultValue: step.title })}
+                    </h3>
+                    <p className="tutorial-modal__step-text">
+                        {t(`tutorials:${worldId}.steps.${currentStep}.content`, { defaultValue: step.content })}
+                    </p>
 
                     {/* Code example */}
                     {showCode && step.code && (
@@ -195,7 +201,7 @@ export function TutorialModal({
                             <div className="tutorial-modal__exercise-header">
                                 {t('tutorials.tryItYourself', '🎯 Tente você mesmo:')}
                             </div>
-                            <p>{step.exercise.prompt}</p>
+                            <p>{t(`tutorials:${worldId}.steps.${currentStep}.exercise.prompt`, { defaultValue: step.exercise.prompt })}</p>
                             <pre className="tutorial-modal__code">{step.exercise.template}</pre>
                         </div>
                     )}
@@ -218,7 +224,7 @@ export function TutorialModal({
                             <div className="tutorial-modal__concepts-list">
                                 {tutorial.keyConcepts.map((concept, idx) => (
                                     <span key={idx} className="tutorial-modal__concept-tag">
-                                        {concept}
+                                        {t(`tutorials:${worldId}.keyConcepts.${idx}`, { defaultValue: concept })}
                                     </span>
                                 ))}
                             </div>

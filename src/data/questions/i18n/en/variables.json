@@ -1,0 +1,125 @@
+{
+  "var_1": {
+    "title": "What is a Variable?",
+    "prompt": "A variable in Python is like a...",
+    "explanation": "Variables are like magic boxes! 📦 You give it a name and can store anything inside: numbers, text, lists... And then use it whenever you want!",
+    "options": [
+      "Little box that stores information",
+      "A difficult kind of math",
+      "A command to delete data",
+      "A secret password"
+    ]
+  },
+  "var_2": {
+    "title": "Create a Variable",
+    "prompt": "Create a variable named \"idade\" with value 10:",
+    "explanation": "To create a variable, just write its name, an equal sign (=), and the value! idade = 10 means: \"create a box named idade and store 10 inside it\"."
+  },
+  "var_3": {
+    "title": "Variables Can Change",
+    "prompt": "After creating a variable, we can change its value at any time.",
+    "explanation": "That's why we call it a \"variable\"! The value can vary. It's like a box you can empty and put something else into whenever you want. 🔄"
+  },
+  "var_4": {
+    "title": "What does this code show?",
+    "prompt": "What appears on screen when we run this code?\n\nnome = \"Ana\"\nprint(\"Olá, \" + nome)",
+    "explanation": "The + joins texts! Python replaces \"nome\" with the stored value (\"Ana\") and joins it with \"Olá, \". Result: \"Olá, Ana\"! It's like putting together a word puzzle! 🧩"
+  },
+  "var_5": {
+    "title": "Storing and Displaying",
+    "prompt": "You have a dog named Rex! Complete the code to store his name in the variable:",
+    "explanation": "Variables store values that we can use later! Just pick a name, use =, and put the value. Then just use the variable name!"
+  },
+  "var_6": {
+    "title": "Variable Name",
+    "prompt": "Variable names can start with numbers (e.g. 1nome = \"Ana\").",
+    "explanation": "Variables cannot start with numbers! They must start with a letter or underscore (_). \"nome1\" is fine, but \"1nome\" is not! 🚫"
+  },
+  "var_7": {
+    "title": "What is the Type?",
+    "prompt": "If we do x = \"10\" (with quotes), what is the type of x?",
+    "explanation": "Has quotes? Then it's text! Even if there's a number inside, the quotes turn it into a string (text). \"10\" cannot be used for math calculations! 🎭"
+  },
+  "var_type_1": {
+    "title": "Data Types",
+    "prompt": "What are the 4 basic data types in Python?",
+    "explanation": "Python has 4 basic types: int (whole numbers like 10), str (text like \"Olá\"), float (decimal numbers like 3.14), and bool (True or False)! 🎯"
+  },
+  "var_type_int": {
+    "title": "Turning into a Number",
+    "prompt": "How do we turn the text \"42\" into a number for calculations?",
+    "explanation": "int() turns text into an integer number! int(\"42\") becomes 42 (without quotes). Now you can do math with it! 🔢"
+  },
+  "var_type_str": {
+    "title": "Number Becomes Text",
+    "prompt": "Complete to turn age into text and join with the message:",
+    "explanation": "str() turns anything into text! It's needed because you cannot join text with numbers directly. str(10) becomes \"10\"! 📝"
+  },
+  "var_type_float": {
+    "title": "Decimal Numbers",
+    "prompt": "The \"float\" type is used for numbers with decimals, like 3.14 or 2.5.",
+    "explanation": "Float comes from \"floating point\". They are numbers with decimals! 3.14, 2.5, 0.99 are all floats! 🎈"
+  },
+  "var_convert_hard": {
+    "title": "Text Calculator",
+    "prompt": "The user typed two numbers as text. Complete to add them together:",
+    "explanation": "Texts cannot be added like numbers! \"15\" + \"7\" would give \"157\". We must convert with int() first: int(\"15\") + int(\"7\") = 22! 🧮"
+  },
+  "var_type_check": {
+    "title": "Finding the Type",
+    "prompt": "Which function do we use to find the type of a variable?",
+    "explanation": "type() reveals the type! type(10) says \"int\", type(\"oi\") says \"str\". It's like asking: \"What kind of thing are you?\" 🔍"
+  },
+  "var_8": {
+    "title": "Text to Decimal",
+    "prompt": "Convert the text \"3.5\" to a decimal number (float):",
+    "explanation": "To convert text with a point to a number, we use float()! int() would give an error because it doesn't understand the point. float(\"3.5\") becomes 3.5! 🌊"
+  },
+  "var_9": {
+    "title": "Does Int Round?",
+    "prompt": "If I do int(3.9), does Python round up to 4?",
+    "explanation": "No! int() is like scissors: it CUTS the decimal part. 3.9 becomes 3, and 3.1 becomes 3 too. It doesn't round! ✂️"
+  },
+  "var_10": {
+    "title": "Identifying Floats",
+    "prompt": "Which of these values is a float (decimal number)?",
+    "explanation": "Floats are numbers with a decimal point! \"10.5\" is text (has quotes) and 10 is an integer. The only true float is 10.5! 🎈"
+  },
+  "var_11": {
+    "title": "True or False?",
+    "prompt": "Which variable type stores only `True` or `False`?",
+    "explanation": "The `bool` (Boolean) type only has two values: `True` or `False`. It's used for logic and decisions! 🚦"
+  },
+  "var_12": {
+    "title": "Updating Points",
+    "prompt": "You earned more points! Update the `pontos` variable to 50:",
+    "explanation": "Variables can change value! First it was 20, then we change it to 50. The old value is discarded and the new takes its place! 🔄"
+  },
+  "var_13": {
+    "title": "Adding Texts?",
+    "prompt": "What happens if we do: \"1\" + \"1\"?",
+    "explanation": "When we use quotes, they are texts! Adding texts joins them together. So \"1\" with \"1\" becomes \"11\"! 🚂"
+  },
+  "var_14": {
+    "title": "Leveling Up",
+    "prompt": "You passed a level! Complete to increase the level by 1:",
+    "explanation": "To update a variable, we use its old value! `nivel = nivel + 1` takes 5, adds 1 and stores 6. 🆙"
+  },
+  "var_15": {
+    "title": "Cutting Decimals",
+    "prompt": "What happens if we do `int(8.9)`?",
+    "explanation": "The `int()` function is like scissors: it cuts off everything after the decimal! 8.9 becomes 8, 8.1 becomes 8. It does not round! ✂️",
+    "options": [
+      "8 (Cuts the decimal part)",
+      "9 (Rounds up)",
+      "8.9 (Changes nothing)",
+      "Error"
+    ]
+  },
+  "boss_battle_2": {
+    "title": "The Box Mimic",
+    "prompt": "This monster scrambled all the boxes! Create a variable named `tesouro` and store \"ouro\" in it. Then show what is inside using print(tesouro).",
+    "explanation": "Variables are like magic boxes! The Mimic wants you to create a box named \"tesouro\" and put \"ouro\" inside. Use print(tesouro) to show what's inside!",
+    "bossName": "Variable Mimic"
+  }
+}

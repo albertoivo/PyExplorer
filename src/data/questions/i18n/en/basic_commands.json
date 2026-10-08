@@ -1,0 +1,114 @@
+{
+  "basic_1": {
+    "title": "Which command shows text on the screen?",
+    "prompt": "In Python, what is the magic command we use to show a message on the screen?",
+    "explanation": "The print() command is like a megaphone for the computer! Whatever you put inside the parentheses will appear on the screen. For example: print(\"Olá!\") shows \"Olá!\" on the screen."
+  },
+  "basic_2": {
+    "title": "Text needs quotes",
+    "prompt": "To write text in Python, we need to put it between quotes. For example: \"Olá mundo\"",
+    "explanation": "That's right! Text in Python goes between quotes (\"double quotes\" or 'single quotes'). That way Python knows it's text and not a command!"
+  },
+  "basic_3": {
+    "title": "Complete the code to say \"Olá\"",
+    "prompt": "Complete the code below to show \"Olá, mundo!\" on the screen:",
+    "explanation": "We use print() to show things on the screen! It's the first command every programmer learns. Now you know how to write messages for the whole world to see! 🌍"
+  },
+  "basic_4": {
+    "title": "What appears on the screen?",
+    "prompt": "If we run this code, what will appear?\n\nprint(5 + 3)",
+    "explanation": "Python is very smart! When we ask it to calculate 5 + 3, it does the math and shows the result: 8! Python can be your personal calculator! 🧮"
+  },
+  "basic_5": {
+    "title": "Comments are executed",
+    "prompt": "Lines that start with # are comments and are NOT executed by Python.",
+    "explanation": "Lines with # are little notes for you or other programmers, but Python ignores them! It's like writing a note in your notebook that only you will read. 📝"
+  },
+  "turtle_1": {
+    "title": "Drawing a Square",
+    "prompt": "Let's draw a square! Use the commands forward(100) and right(90) to make the 4 lines.",
+    "explanation": "A square has 4 equal sides and 4 corners of 90 degrees. By moving and turning 4 times, we close the square! ⏹️"
+  },
+  "basic_parsons_1": {
+    "title": "Print Order",
+    "prompt": "Put the blocks in order to show \"Olá\" and then \"Mundo\".",
+    "explanation": "Python reads code from top to bottom! First \"Olá\", then \"Mundo\"."
+  },
+  "basic_6": {
+    "title": "Single or Double Quotes?",
+    "prompt": "Which of these options is correct for creating text in Python?",
+    "explanation": "In Python, you can use either single quotes (' ') or double quotes (\" \")! What matters is opening and closing with the same kind. 😉",
+    "options": ["'Olá'", "\"Olá\"", "Both options above", "None of the options"]
+  },
+  "basic_7": {
+    "title": "What is # for?",
+    "prompt": "When we put a # at the beginning of a line, Python:",
+    "explanation": "The # creates a comment! Python skips that line, so you can write notes to yourself without breaking the code! 📝",
+    "options": ["Reads the code normally", "Ignores the line (it's a comment)", "Stops the program", "Repeats the line"]
+  },
+  "basic_hard_1": {
+    "title": "Several Prints",
+    "prompt": "Complete it to show your name, age and city on 3 separate lines:",
+    "explanation": "Each print() shows one line! To show 3 different pieces of information, we use 3 prints, one for each thing. 📋"
+  },
+  "basic_hard_2": {
+    "title": "Calculator with Print",
+    "prompt": "Build the code to calculate 10 + 5 * 2 and show the result:",
+    "explanation": "First we store the calculation in a variable, then we use print to show it! Remember: multiplication comes before addition! 🧮"
+  },
+  "basic_8": {
+    "title": "Mixing Quotes",
+    "prompt": "Can I use single quotes INSIDE double quotes?",
+    "explanation": "Yes! If you started with double quotes, you can use single quotes inside the text (and vice versa). Example: print(\"O gato fez 'miau'\") 😺",
+    "options": ["Yes, it works perfectly!", "No, it gives an error", "Only with numbers", "Python erases the text"]
+  },
+  "basic_9": {
+    "title": "Comment on the Same Line",
+    "prompt": "Can I put a comment on the same line as code? Ex: print(\"Oi\") # Isso é um oi",
+    "explanation": "Yes! Python reads the code until it finds the #. Everything AFTER the # is ignored. That way you can explain the code right there! 📝"
+  },
+  "basic_10": {
+    "title": "Joining with a Comma",
+    "prompt": "What happens if we use a comma in print? Ex: print(\"Oi\", \"Mundo\")",
+    "explanation": "The comma in print separates things and adds a space automatically! It's super useful for joining text and numbers. 🤝",
+    "options": ["Prints with a space between them", "Gives an error", "Prints them stuck together (OiMundo)", "Prints on different lines"]
+  },
+  "basic_11": {
+    "title": "Uppercase or Lowercase?",
+    "prompt": "Does the command `Print(\"Olá\")` (with a capital P) work?",
+    "explanation": "Python is \"case sensitive\"! `print` must always be all lowercase. `Print` or `PRINT` don't work! 🚫",
+    "options": ["No, it gives an error", "Yes, it works normally", "It works, but slowly", "It depends on the computer"]
+  },
+  "basic_12": {
+    "title": "Quotes inside Quotes",
+    "prompt": "Which of these options works without an error?",
+    "explanation": "Both work! The secret is mixing: if you use double quotes outside, use single quotes inside (and vice versa). That way Python doesn't get confused! 🎭",
+    "options": ["print(\"Ela disse 'Oi'\")", "print('Ela disse \"Oi\"')", "Both options above", "None of the options"]
+  },
+  "basic_13": {
+    "title": "Invisible Code",
+    "prompt": "Which of these lines will Python completely IGNORE?",
+    "explanation": "Python ignores everything that starts with #! For Python, that line doesn't exist. It's perfect for leaving notes! 👻"
+  },
+  "basic_14": {
+    "title": "Magic Quotes",
+    "prompt": "Which command is WRONG because of the quotes?",
+    "explanation": "Quotes must match at the beginning and the end! If you started with double quotes, end with double quotes. No mixing! 🎭"
+  },
+  "basic_15": {
+    "title": "Ignoring Code",
+    "prompt": "Complete the code so that Python ignores the line (a comment):",
+    "explanation": "The # symbol makes Python ignore everything after it on the same line. That's how we write comments! 🤫"
+  },
+  "basic_16": {
+    "title": "Blank Line",
+    "prompt": "How do we skip a line (show an empty line) using print?",
+    "explanation": "If you use `print()` with nothing inside, it shows an empty line! It's great for separating text and organizing what appears on the screen. 📄"
+  },
+  "boss_battle_1": {
+    "title": "The Portal Guardian",
+    "prompt": "Use two print() commands to greet me and tell me your age! Example: \"Olá!\" and \"Tenho 9 anos\"",
+    "explanation": "The Portal Guardian protects the exit. He only lets through those who speak his language (Python)!",
+    "bossName": "Guardian Printus"
+  }
+}

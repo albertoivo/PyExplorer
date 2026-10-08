@@ -1,0 +1,114 @@
+{
+  "basic_1": {
+    "title": "¿Qué comando muestra texto en la pantalla?",
+    "prompt": "En Python, ¿cuál es el comando mágico que usamos para mostrar un mensaje en la pantalla?",
+    "explanation": "¡El comando print() es como un megáfono para la computadora! Todo lo que pongas dentro de los paréntesis aparecerá en la pantalla. Por ejemplo: print(\"Olá!\") muestra \"Olá!\" en la pantalla."
+  },
+  "basic_2": {
+    "title": "Los textos necesitan comillas",
+    "prompt": "Para escribir un texto en Python, necesitamos ponerlo entre comillas. Por ejemplo: \"Olá mundo\"",
+    "explanation": "¡Así es! Los textos en Python van entre comillas (\"comillas dobles\" o 'comillas simples'). ¡Así Python sabe que es un texto y no un comando!"
+  },
+  "basic_3": {
+    "title": "Completa el código para decir \"Olá\"",
+    "prompt": "Completa el código de abajo para mostrar \"Olá, mundo!\" en la pantalla:",
+    "explanation": "¡Usamos print() para mostrar cosas en la pantalla! Es el primer comando que todo programador aprende. ¡Ahora sabes escribir mensajes para que todo el mundo los vea! 🌍"
+  },
+  "basic_4": {
+    "title": "¿Qué aparece en la pantalla?",
+    "prompt": "Si ejecutamos este código, ¿qué va a aparecer?\n\nprint(5 + 3)",
+    "explanation": "¡Python es muy listo! Cuando le pedimos calcular 5 + 3, hace la cuenta y muestra el resultado: ¡8! ¡Python puede ser tu calculadora personal! 🧮"
+  },
+  "basic_5": {
+    "title": "Los comentarios se ejecutan",
+    "prompt": "Las líneas que empiezan con # son comentarios y Python NO las ejecuta.",
+    "explanation": "Las líneas con # son notitas para ti o para otros programadores, ¡pero Python las ignora! Es como escribir una nota en tu cuaderno que solo tú vas a leer. 📝"
+  },
+  "turtle_1": {
+    "title": "Dibujando un Cuadrado",
+    "prompt": "¡Vamos a dibujar un cuadrado! Usa los comandos forward(100) y right(90) para hacer las 4 líneas.",
+    "explanation": "Un cuadrado tiene 4 lados iguales y 4 esquinas de 90 grados. ¡Repitiendo avanzar y girar 4 veces, cerramos el cuadrado! ⏹️"
+  },
+  "basic_parsons_1": {
+    "title": "Orden del Print",
+    "prompt": "Pon los bloques en orden para mostrar \"Olá\" y después \"Mundo\".",
+    "explanation": "¡Python lee el código de arriba hacia abajo! Primero \"Olá\", después \"Mundo\"."
+  },
+  "basic_6": {
+    "title": "¿Comillas Simples o Dobles?",
+    "prompt": "¿Cuál de estas opciones es correcta para crear un texto en Python?",
+    "explanation": "¡En Python puedes usar tanto comillas simples (' ') como comillas dobles (\" \")! Lo importante es abrir y cerrar con el mismo tipo. 😉",
+    "options": ["'Olá'", "\"Olá\"", "Las dos opciones anteriores", "Ninguna de las opciones"]
+  },
+  "basic_7": {
+    "title": "¿Para qué sirve el #?",
+    "prompt": "Cuando ponemos un # al principio de la línea, Python:",
+    "explanation": "¡El # crea un comentario! Python se salta esa línea, así que puedes escribirte notas sin estorbar al código. 📝",
+    "options": ["Lee el código normalmente", "Ignora la línea (es un comentario)", "Detiene el programa", "Repite la línea"]
+  },
+  "basic_hard_1": {
+    "title": "Varios Prints",
+    "prompt": "Completa para mostrar tu nombre, edad y ciudad en 3 líneas separadas:",
+    "explanation": "¡Cada print() muestra una línea! Para mostrar 3 datos diferentes, usamos 3 prints, uno para cada cosa. 📋"
+  },
+  "basic_hard_2": {
+    "title": "Calculadora con Print",
+    "prompt": "Arma el código para calcular 10 + 5 * 2 y mostrar el resultado:",
+    "explanation": "¡Primero guardamos la cuenta en una variable y después usamos print para mostrarla! Recuerda: ¡la multiplicación va antes que la suma! 🧮"
+  },
+  "basic_8": {
+    "title": "Mezclando Comillas",
+    "prompt": "¿Puedo usar comillas simples DENTRO de comillas dobles?",
+    "explanation": "¡Sí! Si empezaste con comillas dobles, puedes usar comillas simples dentro del texto (y viceversa). Ejemplo: print(\"O gato fez 'miau'\") 😺",
+    "options": ["¡Sí, funciona perfectamente!", "No, da error", "Solo si es un número", "Python borra el texto"]
+  },
+  "basic_9": {
+    "title": "Comentario en la Línea",
+    "prompt": "¿Puedo poner un comentario en la misma línea del código? Ej: print(\"Oi\") # Isso é um oi",
+    "explanation": "¡Sí! Python lee el código hasta encontrar el #. Todo lo que viene DESPUÉS del # lo ignora. ¡Así puedes explicar el código ahí mismo! 📝"
+  },
+  "basic_10": {
+    "title": "Uniendo con Coma",
+    "prompt": "¿Qué pasa si usamos una coma en el print? Ej: print(\"Oi\", \"Mundo\")",
+    "explanation": "¡La coma en el print separa las cosas y añade un espacio automáticamente! Es súper útil para unir textos y números. 🤝",
+    "options": ["Imprime con un espacio entre ellos", "Da error", "Imprime todo pegado (OiMundo)", "Imprime en líneas diferentes"]
+  },
+  "basic_11": {
+    "title": "¿Mayúscula o Minúscula?",
+    "prompt": "¿Funciona el comando `Print(\"Olá\")` (con P mayúscula)?",
+    "explanation": "¡Python distingue mayúsculas de minúsculas (\"case sensitive\")! `print` siempre debe ir todo en minúsculas. ¡`Print` o `PRINT` no funcionan! 🚫",
+    "options": ["No, da error", "Sí, funciona normal", "Funciona, pero va lento", "Depende de la computadora"]
+  },
+  "basic_12": {
+    "title": "Comillas dentro de Comillas",
+    "prompt": "¿Cuál de estas opciones funciona sin dar error?",
+    "explanation": "¡Las dos funcionan! El secreto es mezclar: si usas comillas dobles afuera, usa comillas simples adentro (y viceversa). ¡Así Python no se confunde! 🎭",
+    "options": ["print(\"Ela disse 'Oi'\")", "print('Ela disse \"Oi\"')", "Las dos opciones anteriores", "Ninguna de las opciones"]
+  },
+  "basic_13": {
+    "title": "Código Invisible",
+    "prompt": "¿Cuál de estas líneas va a IGNORAR Python por completo?",
+    "explanation": "¡Python ignora todo lo que empieza con #! Para él, esa línea no existe. ¡Es perfecta para dejar notas! 👻"
+  },
+  "basic_14": {
+    "title": "Comillas Mágicas",
+    "prompt": "¿Qué comando está MAL por culpa de las comillas?",
+    "explanation": "¡Las comillas deben ser iguales al principio y al final! Si empezaste con comillas dobles, termina con comillas dobles. ¡No se pueden mezclar! 🎭"
+  },
+  "basic_15": {
+    "title": "Ignorando Código",
+    "prompt": "Completa el código para que Python ignore la línea (comentario):",
+    "explanation": "El símbolo # hace que Python ignore todo lo que viene después en la misma línea. ¡Así hacemos comentarios! 🤫"
+  },
+  "basic_16": {
+    "title": "Línea en Blanco",
+    "prompt": "¿Cómo saltamos una línea (mostramos una línea vacía) usando print?",
+    "explanation": "¡Si usas `print()` sin nada dentro, muestra una línea vacía! Es genial para separar textos y organizar lo que aparece en la pantalla. 📄"
+  },
+  "boss_battle_1": {
+    "title": "El Guardián del Portal",
+    "prompt": "¡Usa dos comandos print() para saludarme y decirme tu edad! Ejemplo: \"Olá!\" y \"Tenho 9 anos\"",
+    "explanation": "El Guardián del Portal protege la salida. ¡Solo deja pasar a quien sabe hablar su idioma (Python)!",
+    "bossName": "Guardián Printus"
+  }
+}

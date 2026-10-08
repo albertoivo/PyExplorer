@@ -1,0 +1,136 @@
+{
+  "loop_1": {
+    "title": "What is for used for?",
+    "prompt": "The \"for\" command in Python is used to...",
+    "explanation": "for is a loop! It repeats commands multiple times without you having to retype everything. Like a time machine repeating steps! ⏰",
+    "options": [
+      "Repeat something multiple times",
+      "Ask questions",
+      "Create variables",
+      "Delete files"
+    ]
+  },
+  "loop_2": {
+    "title": "range(5) goes from 0 to 4",
+    "prompt": "The command range(5) generates numbers from 0 up to 4 (five numbers total).",
+    "explanation": "range(5) creates: 0, 1, 2, 3, 4. That is 5 numbers, starting at 0! In programming, almost everything starts from zero. Like an elevator with floor 0! 🏢"
+  },
+  "loop_3": {
+    "title": "Count to 5",
+    "prompt": "Complete the code to display numbers from 1 to 5:",
+    "explanation": "range(1, 6) goes from 1 to 5! The last number is not included, so to reach 5, it must be 6. 🪧"
+  },
+  "loop_4": {
+    "title": "While Repeats As Long As...",
+    "prompt": "The \"while\" command repeats something as long as a condition is...",
+    "explanation": "While repeats as long as the condition is true. When it becomes false, it stops! 🔁"
+  },
+  "loop_5": {
+    "title": "Sum with Loop",
+    "prompt": "Complete the code to add numbers from 1 to 5:",
+    "explanation": "Add each number! 1+2+3+4+5 = 15. The loop does this automatically! ➕"
+  },
+  "loop_parsons_1": {
+    "title": "Repeating Things",
+    "prompt": "Put the blocks in order to print numbers from 0 to 4.",
+    "explanation": "First we start the loop with `for`. Everything we want to repeat needs to be indented inside the loop!"
+  },
+  "turtle_triangle_loop": {
+    "title": "Repeated Triangle",
+    "prompt": "Use a \"for\" loop to draw a triangle. (Hint: A triangle has 3 sides and the outer angle is 120 degrees).",
+    "explanation": "To close a triangle, the turtle turns a total of 360 degrees. 3 turns of 360/3 = 120 degrees!"
+  },
+  "loop_6": {
+    "title": "While Loop",
+    "prompt": "Complete the `while` loop to repeat while x is less than 3:",
+    "explanation": "while means as long as. It repeats WHILE x < 3. Don't forget to increase x, or it loops forever! 🔄"
+  },
+  "loop_break_1": {
+    "title": "Stopping the Loop",
+    "prompt": "Which command stops the loop immediately, even before finishing?",
+    "explanation": "break is like an emergency brake! 🛑 When Python sees break, it exits the loop right away."
+  },
+  "loop_break_2": {
+    "title": "Find and Stop",
+    "prompt": "Complete to stop when finding number 5:",
+    "explanation": "When i reaches 5, break stops the loop! So it only shows 0, 1, 2, 3, 4. 🎯"
+  },
+  "loop_continue_1": {
+    "title": "Skipping a Turn",
+    "prompt": "Which command skips to the next loop iteration, without running the rest?",
+    "explanation": "continue is like skipping the current song! 🎵 The loop doesn't stop, it just jumps to the next turn."
+  },
+  "loop_continue_2": {
+    "title": "Skipping Evens",
+    "prompt": "Complete to skip even numbers:",
+    "explanation": "If i is even, continue skips print and moves to the next number. Result: only odds! 🔢"
+  },
+  "loop_7": {
+    "title": "Countdown",
+    "prompt": "Complete the while loop to count from 5 down to 1:",
+    "explanation": "To count backwards, we decrease the number! n = n - 1 makes the number drop each turn. 5, 4, 3... 🚀"
+  },
+  "loop_8": {
+    "title": "Starting from 5",
+    "prompt": "Which numbers does the command `range(5, 8)` generate?",
+    "explanation": "range(start, stop) begins at the first number and stops BEFORE the last. range(5, 8) produces 5, 6, and 7. 8 is not included! 🏁"
+  },
+  "loop_9": {
+    "title": "Skipping Numbers",
+    "prompt": "What does `range(0, 10, 2)` do?",
+    "explanation": "The third number in range is the step! range(0, 10, 2) produces 0, 2, 4, 6, 8. It skips by 2! 🐇",
+    "options": [
+      "Counts from 0 to 10 skipping by 2",
+      "Counts from 0 to 2 ten times",
+      "Counts from 2 to 10",
+      "Throws an error"
+    ]
+  },
+  "loop_10": {
+    "title": "When Does While Stop?",
+    "prompt": "A `while x < 5:` loop will stop when...",
+    "explanation": "while continues AS LONG AS x < 5. As soon as x reaches 5, the condition becomes False and the loop stops! 🛑",
+    "options": [
+      "x is equal to or greater than 5",
+      "x is less than 5",
+      "Never stops",
+      "Immediately"
+    ]
+  },
+  "loop_11": {
+    "title": "Countdown with For",
+    "prompt": "Complete the range to count from 10 down to 1 (decreasing by 1):",
+    "explanation": "The third number is the step! -1 makes it walk backwards. 10, 9, 8... down to 1! 🚀"
+  },
+  "loop_12": {
+    "title": "Game Energy",
+    "prompt": "Repeat the game while energy is greater than 0:",
+    "explanation": "The loop continues while condition is true. energia > 0 means there is still energy to play! 🔋"
+  },
+  "loop_13": {
+    "title": "Found It, Stop!",
+    "prompt": "Stop the loop as soon as you find \"Tesouro\":",
+    "explanation": "We found the treasure! break stops the loop immediately so we don't need to search further. 💎"
+  },
+  "loop_14": {
+    "title": "Skip Zero",
+    "prompt": "Dividing by zero throws an error! Complete to SKIP print when x is 0:",
+    "explanation": "We use `continue` to skip this iteration and protect our code from the zero error! 🛡️"
+  },
+  "loop_15": {
+    "title": "Skip 5",
+    "prompt": "In a loop from 1 to 10, how do you skip number 5 but continue with the others?",
+    "explanation": "`continue` tells the loop: \"Skip this round and go to the next!\". 5 is ignored, but 6, 7, 8... keep going! ⏭️"
+  },
+  "loop_16": {
+    "title": "Fleeing the Monster",
+    "prompt": "If you find \"Monstro\", stop the loop immediately to flee!",
+    "explanation": "`break` is the emergency button! As soon as we see the monster, we stop everything and run! 🏃💨"
+  },
+  "boss_battle_5": {
+    "title": "The Repeating Dragon",
+    "prompt": "The Dragon demands you count from 1 to 5, one number per line! Use a for loop.",
+    "explanation": "The Dragon wants to hear you count! Use range(1, 6) to go from 1 to 5! 🐉",
+    "bossName": "Dragon of Loops"
+  }
+}

@@ -1,0 +1,144 @@
+{
+  "func_1": {
+    "title": "What is a function?",
+    "prompt": "A function in Python is...",
+    "explanation": "Functions are like recipes! 📖 You write them once and can use them as many times as you want. Just \"call\" the function by its name and it does all the work!",
+    "options": [
+      "A block of code we can reuse",
+      "A special type of variable",
+      "A command to delete files",
+      "The same as a number"
+    ]
+  },
+  "func_2": {
+    "title": "return gives back a value",
+    "prompt": "The return command is used to give back a result from the function.",
+    "explanation": "return is like the function's postman! It takes the result and delivers it to whoever called the function. Without return, the function doesn't give back anything! 📬"
+  },
+  "func_3": {
+    "title": "Double a number",
+    "prompt": "Create a function called \"dobro\" that takes a number and returns its double.",
+    "explanation": "To double is to multiply by 2! So just return numero * 2. Simple as that! ✌️"
+  },
+  "func_4": {
+    "title": "Custom greeting",
+    "prompt": "Create a function called \"saudar\" that takes a name and returns \"Olá, <nome>!\".",
+    "explanation": "Use f-strings to build the text: f\"Olá, {nome}!\" or join texts with +: \"Olá, \" + nome + \"!\". Both ways work! 👋"
+  },
+  "func_5": {
+    "title": "Sum up to N",
+    "prompt": "Create a function called \"soma_ate\" that sums all numbers from 1 to n.",
+    "explanation": "Use a for loop from 1 to n and add them up! Start with soma = 0 and add each number. ➕"
+  },
+  "func_parsons_greet": {
+    "title": "Polite Greeting",
+    "prompt": "Assemble the function that says good morning to a person.",
+    "explanation": "We define the function first and then use it (call it) at the end."
+  },
+  "func_6": {
+    "title": "Sum of Two Numbers",
+    "prompt": "Complete the function to sum two numbers:",
+    "explanation": "Functions can receive multiple pieces of information! Here a and b are parameters. To sum them, we use the plus sign (+). ➕"
+  },
+  "func_7": {
+    "title": "Reusing Functions",
+    "prompt": "If I write `saudar()` 3 times in my code, what happens?",
+    "explanation": "That's the magic of functions! You write the recipe once, and you can cook the dish as many times as you want by calling its name! 🍳🍳🍳",
+    "options": [
+      "The function runs 3 times",
+      "The function runs only 1 time",
+      "Throws an error",
+      "Nothing happens"
+    ]
+  },
+  "func_default_1": {
+    "title": "Default Values",
+    "prompt": "What does `def saudar(nome=\"Amigo\"):` mean?",
+    "explanation": "Default parameters are like Plan B's! If no one provides a name, the function uses \"Amigo\". saudar() shows \"Amigo\", but saudar(\"Ana\") shows \"Ana\"! 🎁",
+    "options": [
+      "If name isn't passed, uses \"Amigo\"",
+      "The name will always be \"Amigo\"",
+      "Throws an error because of = in parameter",
+      "Creates a global variable"
+    ]
+  },
+  "func_default_2": {
+    "title": "Creating Default Value",
+    "prompt": "Complete the function so that if no one passes the color, it uses \"azul\":",
+    "explanation": "We put = after the parameter to give it a default value. cor=\"azul\" means: if they don't say the color, use blue! 🎨"
+  },
+  "func_scope_1": {
+    "title": "Local Variables",
+    "prompt": "A variable created inside a function only exists inside it. True or false?",
+    "explanation": "Variables inside functions are \"local\" - they live only there! When the function ends, they disappear. It's like a secret that only the function knows! 🔒"
+  },
+  "turtle_house": {
+    "title": "Drawing a Circle",
+    "prompt": "Let's create a function to draw a circle! Use the command turtle.circle(raio).",
+    "explanation": "The command turtle.circle(50) draws a perfect circle with size 50! Functions make it easy to draw multiple identical shapes! 🔵"
+  },
+  "func_8": {
+    "title": "Secret Variable",
+    "prompt": "Can I use a variable that I created INSIDE a function, OUTSIDE of it?",
+    "explanation": "What happens in the function, stays in the function! Variables created inside are \"local\" and nobody outside can see them. It's a secret! 🤫",
+    "options": [
+      "No, it's local and \"dies\" when the function ends",
+      "Yes, it's available forever",
+      "Yes, but only if you use the correct password",
+      "Depends on the variable's name"
+    ]
+  },
+  "func_9": {
+    "title": "Rectangle Area",
+    "prompt": "Complete the function that calculates the area (width times height):",
+    "explanation": "Functions can receive multiple pieces of information! For the area, we need the width AND the height. We multiply both and we're done! 🟦"
+  },
+  "func_10": {
+    "title": "Ghost Parameter",
+    "prompt": "Does a function's parameter exist outside of it? Ex: def func(nome): ... print(nome)",
+    "explanation": "No! Parameters are like local variables. They only exist inside the function. Outside of it, Python doesn't know who they are! 👻"
+  },
+  "func_11": {
+    "title": "Return vs Print",
+    "prompt": "What's the difference between `return` and `print` in a function?",
+    "explanation": "`print` only shows on the screen (useful for humans). `return` gives the data to the program to use in other calculations! 📦",
+    "options": [
+      "Return gives the value to the program, Print only shows on screen",
+      "They are the same thing",
+      "Print gives the value",
+      "Return shows on screen"
+    ]
+  },
+  "func_12": {
+    "title": "Function Secret",
+    "prompt": "If I create a variable inside a function, can I use it outside the function?",
+    "explanation": "No! Variables created inside the function are \"local\". They are trapped in there and the rest of the program can't see them. It's like a secret diary! 🔒"
+  },
+  "func_13": {
+    "title": "Forgot the Argument",
+    "prompt": "If `def oi(nome=\"Mundo\"):`, what happens if I just call `oi()`?",
+    "explanation": "Since we defined a default value (\"Mundo\"), Python uses it when we forget to pass the name! It's our Plan B! 🛡️",
+    "options": [
+      "Throws an error",
+      "Uses \"Mundo\" as name",
+      "Uses \"oi\" as name",
+      "Doesn't show anything"
+    ]
+  },
+  "func_15": {
+    "title": "Many Defaults",
+    "prompt": "Can a function have more than one parameter with a default value? Ex: `def func(a=1, b=2):`",
+    "explanation": "Yes! You can have as many default parameters as you want, as long as they are at the end of the arguments list. It's like having multiple Plan B's! 🛡️"
+  },
+  "func_16": {
+    "title": "Full Date",
+    "prompt": "Complete the function that takes day, month, and year:",
+    "explanation": "Functions can take as much data as you want! Just separate them by commas. Day, Month, and Year make up the complete date team! 📅"
+  },
+  "boss_battle_6": {
+    "title": "The Master of Recipes",
+    "prompt": "Create a function called \"triplo\" that takes a number and returns its triple. Then call triplo(4) and show the result.",
+    "explanation": "The Master wants to see your recipe! Create the function and use it! 👨‍🍳",
+    "bossName": "Chef Function"
+  }
+}

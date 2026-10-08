@@ -1,0 +1,665 @@
+{
+  "basic_commands": {
+    "title": "Bem-vindo ao Python! 🐍",
+    "description": "Aprenda seus primeiros comandos e comece a programar!",
+    "keyConcepts": [
+      "print()",
+      "textos",
+      "aspas",
+      "comentários"
+    ],
+    "steps": [
+      {
+        "title": "Olá, Programador!",
+        "content": "Você está prestes a aprender Python, uma das linguagens de programação mais legais do mundo! Python é usado para criar jogos, aplicativos, robôs e até ensinar inteligência artificial!"
+      },
+      {
+        "title": "Seu Primeiro Comando: print()",
+        "content": "O comando print() é como um megafone para o computador. Tudo que você colocar dentro dos parênteses vai aparecer na tela!"
+      },
+      {
+        "title": "Textos Precisam de Aspas",
+        "content": "Quando você escreve um texto em Python, precisa colocar ele entre aspas. Pode ser aspas duplas \" \" ou aspas simples ' '. Assim o Python sabe que é um texto!"
+      },
+      {
+        "title": "Python Sabe Matemática!",
+        "content": "Você pode usar o Python como uma calculadora mágica! Se você colocar uma conta dentro do print(), ele calcula e mostra o resultado."
+      },
+      {
+        "title": "Comentários: Recadinhos Secretos",
+        "content": "Linhas que começam com # são comentários. O Python ignora elas! É como escrever uma nota só para você ou outros programadores."
+      },
+      {
+        "title": "Pronto para Começar!",
+        "content": "Você aprendeu o básico! Agora é hora de praticar. Lembre-se: print() mostra na tela, textos ficam entre aspas, e # faz comentários. Boa sorte!"
+      }
+    ]
+  },
+  "numbers": {
+    "title": "Calculadora Mágica 🔢",
+    "description": "Aprenda a fazer cálculos incríveis com Python!",
+    "keyConcepts": [
+      "operações",
+      "+",
+      "-",
+      "*",
+      "/",
+      "//",
+      "%",
+      "**"
+    ],
+    "steps": [
+      {
+        "title": "Python: Sua Calculadora Pessoal",
+        "content": "Python é muito bom em matemática! Você pode fazer qualquer conta com ele, desde as mais simples até as mais complicadas."
+      },
+      {
+        "title": "Soma e Subtração",
+        "content": "Use + para somar e - para subtrair. É igualzinho à matemática da escola!"
+      },
+      {
+        "title": "Multiplicação e Divisão",
+        "content": "Use * para multiplicar e / para dividir. Cuidado: o resultado da divisão sempre tem pontinho!"
+      },
+      {
+        "title": "Divisão Inteira e Resto",
+        "content": "// divide e ignora os decimais. % dá o resto da divisão. São super úteis!"
+      },
+      {
+        "title": "Potência: O Super Poder!",
+        "content": "Use ** para elevar um número a uma potência. 2 ** 3 significa 2 × 2 × 2!"
+      },
+      {
+        "title": "Mago da Matemática!",
+        "content": "Agora você sabe fazer qualquer conta em Python! Pratique bastante e vire um mago dos números!"
+      }
+    ]
+  },
+  "variables": {
+    "title": "Caixinhas Mágicas 📦",
+    "description": "Aprenda a guardar informações para usar depois!",
+    "keyConcepts": [
+      "variáveis",
+      "atribuição",
+      "tipos",
+      "int",
+      "str",
+      "float",
+      "conversão"
+    ],
+    "steps": [
+      {
+        "title": "O que é uma Variável?",
+        "content": "Uma variável é como uma caixinha mágica! Você dá um nome para ela e pode guardar qualquer coisa dentro: números, textos, listas..."
+      },
+      {
+        "title": "Criando uma Variável",
+        "content": "Para criar uma variável, escreva o nome, um sinal de igual (=) e o valor. É como colocar uma etiqueta na caixinha!"
+      },
+      {
+        "title": "Variáveis Podem Mudar",
+        "content": "O legal é que você pode mudar o valor quando quiser! Por isso chama \"variável\" - o valor pode variar."
+      },
+      {
+        "title": "Tipos de Dados",
+        "content": "Python tem 4 tipos básicos de dados: int (números inteiros), str (textos), float (números decimais) e bool (verdadeiro/falso)."
+      },
+      {
+        "title": "Descobrindo o Tipo",
+        "content": "Use type() para descobrir o tipo de qualquer variável. É como perguntar: \"Que tipo de coisa você é?\""
+      },
+      {
+        "title": "Convertendo Tipos",
+        "content": "Às vezes você precisa converter um tipo em outro. Use int(), str() e float() para isso!"
+      },
+      {
+        "title": "Juntando Textos",
+        "content": "Use + para juntar textos! Mas atenção: para juntar texto com número, primeiro converta com str()."
+      },
+      {
+        "title": "Regras para Nomes",
+        "content": "Nomes de variáveis podem ter letras, números e _. Mas não podem começar com número e não podem ter espaços!"
+      },
+      {
+        "title": "Você Aprendeu Variáveis!",
+        "content": "Agora você sabe guardar informações, os 4 tipos básicos e como converter entre eles! Isso é super importante!"
+      }
+    ]
+  },
+  "conditions": {
+    "title": "Fazendo Escolhas 🔀",
+    "description": "Aprenda a fazer o computador tomar decisões!",
+    "keyConcepts": [
+      "if",
+      "else",
+      "elif",
+      "comparações",
+      "and",
+      "or",
+      "not",
+      "in"
+    ],
+    "steps": [
+      {
+        "title": "Decisões no Dia a Dia",
+        "content": "Todo dia você toma decisões: \"SE está chovendo, levo guarda-chuva\". O computador também pode fazer isso com o comando if!"
+      },
+      {
+        "title": "O Comando if",
+        "content": "if significa \"se\" em inglês. Usamos para fazer perguntas e executar código só se a resposta for verdadeira."
+      },
+      {
+        "title": "Comparando Valores",
+        "content": "Podemos comparar valores com: == (igual), != (diferente), > (maior), < (menor), >= (maior ou igual), <= (menor ou igual)"
+      },
+      {
+        "title": "Senão: O Plano B",
+        "content": "Use else para dizer o que fazer quando a condição é falsa. É o seu plano B!"
+      },
+      {
+        "title": "Várias Opções: elif",
+        "content": "elif (\"else if\") permite testar várias condições. É como ter muitas portas para escolher!"
+      },
+      {
+        "title": "E: Duas Condições Juntas",
+        "content": "Use and (\"e\") quando DUAS condições precisam ser verdadeiras. As duas precisam ser verdade!"
+      },
+      {
+        "title": "OU: Uma ou Outra",
+        "content": "Use or (\"ou\") quando PELO MENOS UMA condição precisa ser verdadeira. Basta uma!"
+      },
+      {
+        "title": "NÃO: Invertendo",
+        "content": "Use not (\"não\") para inverter uma condição. True vira False e False vira True!"
+      },
+      {
+        "title": "DENTRO: Verificando com in",
+        "content": "Use in para verificar se algo está dentro de uma lista ou texto. Super útil!"
+      },
+      {
+        "title": "Mestre das Decisões!",
+        "content": "Agora você domina if, else, elif, and, or, not e in! Seus programas podem tomar decisões complexas!"
+      }
+    ]
+  },
+  "loops": {
+    "title": "Repetindo Magias 🔄",
+    "description": "Aprenda a repetir comandos sem escrever tudo de novo!",
+    "keyConcepts": [
+      "for",
+      "range()",
+      "while",
+      "break",
+      "continue"
+    ],
+    "steps": [
+      {
+        "title": "Por que Repetir?",
+        "content": "Imagine escrever \"Oi!\" 100 vezes... Cansativo, né? Com loops, você escreve uma vez e o computador repete quantas vezes quiser!"
+      },
+      {
+        "title": "O Loop for",
+        "content": "for repete um bloco de código um número específico de vezes. É como um carrossel que gira várias voltas!"
+      },
+      {
+        "title": "Entendendo range()",
+        "content": "range(5) gera números de 0 a 4 (5 números). range(1, 6) gera de 1 a 5. O último número nunca entra!"
+      },
+      {
+        "title": "Loop em Listas",
+        "content": "Você também pode usar for para percorrer cada item de uma lista!"
+      },
+      {
+        "title": "O Loop while",
+        "content": "while repete ENQUANTO uma condição for verdadeira. Cuidado para não criar um loop infinito!"
+      },
+      {
+        "title": "break: Freio de Emergência!",
+        "content": "Use break para PARAR o loop imediatamente! É como apertar o freio de emergência."
+      },
+      {
+        "title": "continue: Pular uma Volta",
+        "content": "Use continue para PULAR para a próxima volta do loop, sem executar o resto do código."
+      },
+      {
+        "title": "Mestre dos Loops!",
+        "content": "Você aprendeu for, while, break e continue! Agora pode controlar loops como um profissional!"
+      }
+    ]
+  },
+  "lists": {
+    "title": "Organizando Tudo 📜",
+    "description": "Aprenda a guardar muitas coisas numa única lista!",
+    "keyConcepts": [
+      "lista",
+      "índice",
+      "append",
+      "len",
+      "slicing",
+      "pop",
+      "sort"
+    ],
+    "steps": [
+      {
+        "title": "O que é uma Lista?",
+        "content": "Listas são como mochilas onde você guarda várias coisas juntas! Pode ter números, textos, ou até outras listas dentro."
+      },
+      {
+        "title": "Criando uma Lista",
+        "content": "Use colchetes [ ] e separe os itens com vírgulas. Simples assim!"
+      },
+      {
+        "title": "Acessando Itens",
+        "content": "Para pegar um item, use o índice entre colchetes. LEMBRE: Em Python, contamos a partir do 0!"
+      },
+      {
+        "title": "Fatiando a Lista (Slicing)",
+        "content": "Use [início:fim] para pegar um pedaço da lista. O fim não entra! É como cortar um bolo."
+      },
+      {
+        "title": "Adicionando Itens",
+        "content": "Use .append() para adicionar um item no final da lista!"
+      },
+      {
+        "title": "Removendo Itens",
+        "content": "Use .pop() para remover o último, ou .remove() para remover pelo valor."
+      },
+      {
+        "title": "Ordenando a Lista",
+        "content": "Use .sort() para colocar os itens em ordem!"
+      },
+      {
+        "title": "Contando Itens",
+        "content": "len() te diz quantos itens tem na lista. Super útil!"
+      },
+      {
+        "title": "Mestre das Listas!",
+        "content": "Você domina listas! Criar, acessar, fatiar, adicionar, remover e ordenar. Listas são essenciais em programação!"
+      }
+    ]
+  },
+  "functions": {
+    "title": "Suas Próprias Magias ✨",
+    "description": "Aprenda a criar funções reutilizáveis!",
+    "keyConcepts": [
+      "def",
+      "parâmetros",
+      "return",
+      "padrão",
+      "escopo"
+    ],
+    "steps": [
+      {
+        "title": "O que é uma Função?",
+        "content": "Funções são como receitas de bolo! Você escreve uma vez e pode usar quantas vezes quiser. Basta \"chamar\" pelo nome."
+      },
+      {
+        "title": "Criando uma Função",
+        "content": "Use def para definir uma função. Depois do nome, coloque parênteses e dois pontos. O código da função fica indentado!"
+      },
+      {
+        "title": "Parâmetros: As Entradas",
+        "content": "Parâmetros são informações que você passa para a função. É como os ingredientes de uma receita!"
+      },
+      {
+        "title": "return: A Saída",
+        "content": "return devolve um resultado da função. É como o carteiro que entrega a resposta!"
+      },
+      {
+        "title": "Vários Parâmetros",
+        "content": "Você pode ter quantos parâmetros quiser! Separe eles com vírgulas."
+      },
+      {
+        "title": "Parâmetros Padrão",
+        "content": "Você pode dar um valor padrão para um parâmetro! Se ninguém passar, usa o padrão. É como um plano B."
+      },
+      {
+        "title": "Escopo: Variáveis Locais",
+        "content": "Variáveis criadas DENTRO de uma função só existem lá! Elas \"morrem\" quando a função termina. São chamadas variáveis locais."
+      },
+      {
+        "title": "Criador de Funções!",
+        "content": "Você domina funções! Criar, parâmetros, return, valores padrão e escopo. Suas funções vão deixar seu código incrível!"
+      }
+    ]
+  },
+  "strings": {
+    "title": "Mestre das Palavras 📝",
+    "description": "Aprenda a manipular textos como um profissional!",
+    "keyConcepts": [
+      "string",
+      "métodos",
+      "f-string",
+      "split",
+      "join",
+      "fatiamento"
+    ],
+    "steps": [
+      {
+        "title": "O que são Strings?",
+        "content": "Strings são textos em Python. Tudo que está entre aspas é uma string, seja uma letra, uma palavra ou um livro inteiro!"
+      },
+      {
+        "title": "Juntando Textos",
+        "content": "Use + para juntar (concatenar) strings. Você pode criar mensagens personalizadas!"
+      },
+      {
+        "title": "f-strings: A Forma Moderna",
+        "content": "f-strings são mais fáceis! Coloque f antes das aspas e use {variavel} dentro do texto."
+      },
+      {
+        "title": "Métodos de String",
+        "content": "Strings têm superpoderes! Use .upper() para maiúsculas, .lower() para minúsculas."
+      },
+      {
+        "title": "Quebrando Texto: split()",
+        "content": "split() divide o texto em uma lista! Por padrão corta nos espaços, mas você pode escolher o separador."
+      },
+      {
+        "title": "Juntando Lista: join()",
+        "content": "join() é o oposto de split! Junta uma lista de palavras em um texto único."
+      },
+      {
+        "title": "Fatiando Strings",
+        "content": "Você pode pegar partes de uma string usando [inicio:fim]. É como cortar um pedaço de bolo!"
+      },
+      {
+        "title": "Mestre das Strings!",
+        "content": "Você domina textos! Juntar, separar, fatiar, transformar... Strings são essenciais em todo programa!"
+      }
+    ]
+  },
+  "user_input": {
+    "title": "Conversando com o Usuário 🎤",
+    "description": "Aprenda a fazer programas interativos!",
+    "keyConcepts": [
+      "input()",
+      "int()",
+      "str()",
+      "float()",
+      "conversão"
+    ],
+    "steps": [
+      {
+        "title": "Programas que Conversam!",
+        "content": "Até agora, seus programas só falavam. Mas com input() eles podem ouvir! É como dar um microfone para o usuário."
+      },
+      {
+        "title": "O Comando input()",
+        "content": "input() faz o programa parar e esperar o usuário digitar algo. O que for digitado fica guardado numa variável."
+      },
+      {
+        "title": "input() Sempre Dá Texto!",
+        "content": "CUIDADO! Mesmo se o usuário digitar 42, o input() devolve \"42\" (texto). Para fazer contas, precisa converter!"
+      },
+      {
+        "title": "int() - Convertendo para Número",
+        "content": "Use int() para transformar texto em número inteiro. Assim você pode fazer contas!"
+      },
+      {
+        "title": "float() - Números com Ponto",
+        "content": "Para números decimais (como 1.75), use float(). IMPORTANTE: Em Python, usamos PONTO (.) e não vírgula para decimais!"
+      },
+      {
+        "title": "Programas Interativos!",
+        "content": "Agora você sabe fazer programas que conversam com o usuário! Lembre: input() dá texto, use int() ou float() para números."
+      }
+    ]
+  },
+  "dictionaries": {
+    "title": "Agenda Mágica 📚",
+    "description": "Aprenda a organizar dados com chaves e valores!",
+    "keyConcepts": [
+      "dicionário",
+      "chave",
+      "valor",
+      "{}",
+      "acesso"
+    ],
+    "steps": [
+      {
+        "title": "O que é um Dicionário?",
+        "content": "Imagine uma agenda telefônica: você procura pelo NOME (chave) e encontra o TELEFONE (valor). Dicionários funcionam assim!"
+      },
+      {
+        "title": "Chaves e Valores",
+        "content": "Cada informação no dicionário tem uma chave (o nome) e um valor (a informação)."
+      },
+      {
+        "title": "Acessando Valores",
+        "content": "Para pegar um valor, use a chave entre colchetes. É como procurar na agenda!"
+      },
+      {
+        "title": "Adicionando Novas Chaves",
+        "content": "Para adicionar algo novo, é só atribuir! A chave é criada automaticamente."
+      },
+      {
+        "title": "Listas vs Dicionários",
+        "content": "Listas usam índices (0, 1, 2...). Dicionários usam nomes como chave. Use dicionários quando os nomes fazem mais sentido!"
+      },
+      {
+        "title": "Mestre dos Dicionários!",
+        "content": "Dicionários são super úteis para organizar dados de forma clara. Cada coisa tem um nome!"
+      }
+    ]
+  },
+  "error_handling": {
+    "title": "Caçando Bugs! 🛡️",
+    "description": "Aprenda a proteger seus programas contra erros!",
+    "keyConcepts": [
+      "try",
+      "except",
+      "erro",
+      "exceção",
+      "proteção"
+    ],
+    "steps": [
+      {
+        "title": "O que são Erros?",
+        "content": "Às vezes o programa encontra problemas: dividir por zero, converter texto inválido... Python para e mostra um erro."
+      },
+      {
+        "title": "Erros Param o Programa!",
+        "content": "Sem proteção, qualquer erro faz o programa inteiro parar. Mas podemos evitar isso!"
+      },
+      {
+        "title": "try/except ao Resgate!",
+        "content": "Coloque o código \"perigoso\" dentro de try. Se der erro, o except cuida dele!"
+      },
+      {
+        "title": "Programa Continua!",
+        "content": "Com try/except, mesmo que dê erro, o programa não para. Ele continua depois do except!"
+      },
+      {
+        "title": "Tipos de Erro",
+        "content": "Cada erro tem um nome: ZeroDivisionError, ValueError, TypeError... Você pode tratar cada um diferente!"
+      },
+      {
+        "title": "Programas Robustos!",
+        "content": "Agora seus programas podem lidar com problemas sem quebrar! Use try/except sempre que algo pode dar errado."
+      }
+    ]
+  },
+  "files": {
+    "title": "Arquivos do Conhecimento 📂",
+    "description": "Aprenda a ler e escrever arquivos de texto reais!",
+    "keyConcepts": [
+      "open()",
+      "read()",
+      "write()",
+      "with",
+      "modos"
+    ],
+    "steps": [
+      {
+        "title": "Guardando Dados para Sempre",
+        "content": "Quando o programa fecha, as variáveis somem. Para guardar dados para sempre, usamos arquivos no computador!"
+      },
+      {
+        "title": "Escrevendo em Arquivos",
+        "content": "Usamos with open(\"nome.txt\", \"w\") para abrir um arquivo no modo escrita (\"w\" de write)."
+      },
+      {
+        "title": "Lendo Arquivos",
+        "content": "Usamos o modo \"r\" (read) para ler o conteúdo de um arquivo!"
+      },
+      {
+        "title": "Mestre dos Arquivos!",
+        "content": "Agora você sabe salvar pontuações, diários e relatórios em arquivos reais!"
+      }
+    ]
+  },
+  "modules": {
+    "title": "Bazar de Módulos 🧰",
+    "description": "Importe superpoderes e ferramentas prontas!",
+    "keyConcepts": [
+      "import",
+      "random",
+      "math",
+      "datetime"
+    ],
+    "steps": [
+      {
+        "title": "O que são Módulos?",
+        "content": "Módulos são caixas de ferramentas prontas criadas por outros programadores para você não precisar reinventar a roda!"
+      },
+      {
+        "title": "Módulo random",
+        "content": "Use import random para fazer sorteios e jogos com números aleatórios!"
+      },
+      {
+        "title": "Módulo math",
+        "content": "Use import math para super cálculos como raiz quadrada e pi!"
+      },
+      {
+        "title": "Invocador de Módulos!",
+        "content": "Com import você tem milhares de ferramentas incríveis ao seu alcance!"
+      }
+    ]
+  },
+  "oop_basics": {
+    "title": "A Arte dos Objetos 🧙‍♂️",
+    "description": "Crie moldes e personagens com Classes e Objetos!",
+    "keyConcepts": [
+      "class",
+      "objeto",
+      "__init__",
+      "self",
+      "métodos"
+    ],
+    "steps": [
+      {
+        "title": "Moldes (Classes) e Objetos",
+        "content": "Uma Classe é a receita ou fôrma de um biscoito. O Objeto é o biscoito de verdade que você cria!"
+      },
+      {
+        "title": "Criando uma Classe com class",
+        "content": "Usamos class NomeDaClasse: e o método __init__(self) para inicializar as características."
+      },
+      {
+        "title": "Ações (Métodos)",
+        "content": "Métodos são funções criadas dentro da classe que dão superpoderes aos objetos!"
+      },
+      {
+        "title": "Arquiteto de Objetos!",
+        "content": "Você aprendeu Orientação a Objetos, o pilar de quase todos os jogos e softwares modernos!"
+      }
+    ]
+  },
+  "pythonic": {
+    "title": "Atalhos Mágicos ⚡",
+    "description": "Escreva código limpo, rápido e poderoso!",
+    "keyConcepts": [
+      "list comprehension",
+      "lambda",
+      "atalhos"
+    ],
+    "steps": [
+      {
+        "title": "Código Elegante (Pythonic)",
+        "content": "Em Python, gostamos de código limpo e legível. List Comprehension permite criar listas em 1 única linha!"
+      },
+      {
+        "title": "List Comprehension",
+        "content": "Em vez de usar um for de 4 linhas, resuma tudo em [expressao for item in lista]!"
+      },
+      {
+        "title": "Velocista Pythonic!",
+        "content": "Seus programas agora são super elegantes e profissionais!"
+      }
+    ]
+  },
+  "turtle_art": {
+    "title": "Estúdio de Arte & Turtle 🎨",
+    "description": "Desenhe formas geométricas e animações na tela!",
+    "keyConcepts": [
+      "turtle",
+      "forward",
+      "right",
+      "left",
+      "loops de desenho"
+    ],
+    "steps": [
+      {
+        "title": "Desenhando com Código",
+        "content": "Com o módulo turtle, você controla uma canetinha tartaruga que desenha na tela enquanto anda!"
+      },
+      {
+        "title": "Comandos Principais",
+        "content": "forward(passos) anda para frente, right(ang) e left(ang) giram a tartaruga!"
+      },
+      {
+        "title": "Artista do Código!",
+        "content": "Agora você pode criar estrelas, espirais e mandalas incríveis!"
+      }
+    ]
+  },
+  "data_science": {
+    "title": "Laboratório de Dados & IA 🤖",
+    "description": "Analise estatísticas e descubra inteligência nos dados!",
+    "keyConcepts": [
+      "estatística",
+      "max/min",
+      "média",
+      "filtros de dados"
+    ],
+    "steps": [
+      {
+        "title": "O Poder dos Dados",
+        "content": "A Inteligência Artificial aprende analisando milhões de dados. Em Python, usamos funções como sum(), max(), min() e len()."
+      },
+      {
+        "title": "Calculando a Média",
+        "content": "A média de uma lista de números é calculada dividindo a soma total pelo número de itens!"
+      },
+      {
+        "title": "Cientista de Dados!",
+        "content": "Você agora sabe extrair insights e inteligência a partir dos números!"
+      }
+    ]
+  },
+  "web_api": {
+    "title": "A Teia da Internet & APIs 🌐",
+    "description": "Conecte seu código aos dados vivos do mundo real!",
+    "keyConcepts": [
+      "API",
+      "JSON",
+      "requisições",
+      "chaves"
+    ],
+    "steps": [
+      {
+        "title": "O que é uma API?",
+        "content": "APIs permitem que seu código Python converse com a internet para buscar o clima, notícias, moedas e muito mais!"
+      },
+      {
+        "title": "Lendo Dados JSON",
+        "content": "As respostas da web vêm em JSON, que acessamos exatamente como dicionários em Python!"
+      },
+      {
+        "title": "Mestre da Web!",
+        "content": "Seus programas agora estão conectados ao mundo inteiro!"
+      }
+    ]
+  }
+}

@@ -21,12 +21,20 @@ export interface Article {
     faqs?: { question: string, answer: string }[]
 }
 
-export type BaseArticle = Omit<Article, 'title' | 'description' | 'content' | 'keywords' | 'faqs'>;
+export interface BaseArticle {
+    id: string
+    slugs: Record<string, string>
+    icon: string
+    category: 'beginner' | 'intermediate' | 'tips' | 'parents'
+    readTime: number
+    publishedAt: string
+    updatedAt?: string
+}
 
 export const BASE_ARTICLES: BaseArticle[] = [
   {
     "id": "what-is-python",
-    "slug": "o-que-e-python",
+    "slugs": { "pt": "o-que-e-python", "en": "what-is-python", "es": "que-es-python", "hi": "python-kya-hai" },
     "icon": "🐍",
     "category": "beginner",
     "readTime": 5,
@@ -35,7 +43,7 @@ export const BASE_ARTICLES: BaseArticle[] = [
   },
   {
     "id": "why-learn-python",
-    "slug": "por-que-aprender-python",
+    "slugs": { "pt": "por-que-aprender-python", "en": "why-learn-python", "es": "por-que-aprender-python", "hi": "python-kyon-sikhen" },
     "icon": "🚀",
     "category": "beginner",
     "readTime": 4,
@@ -43,7 +51,7 @@ export const BASE_ARTICLES: BaseArticle[] = [
   },
   {
     "id": "python-for-kids",
-    "slug": "python-para-criancas",
+    "slugs": { "pt": "python-para-criancas", "en": "python-for-kids", "es": "python-para-ninos", "hi": "bacchon-ke-liye-python" },
     "icon": "👨‍👩‍👧‍👦",
     "category": "parents",
     "readTime": 6,
@@ -51,7 +59,7 @@ export const BASE_ARTICLES: BaseArticle[] = [
   },
   {
     "id": "how-to-teach-python",
-    "slug": "como-ensinar-python-criancas",
+    "slugs": { "pt": "como-ensinar-python-criancas", "en": "how-to-teach-python", "es": "como-ensenar-python-a-ninos", "hi": "python-kaise-sikhayen" },
     "icon": "💡",
     "category": "parents",
     "readTime": 6,
@@ -59,7 +67,7 @@ export const BASE_ARTICLES: BaseArticle[] = [
   },
   {
     "id": "first-steps-python",
-    "slug": "primeiros-passos-python",
+    "slugs": { "pt": "primeiros-passos-python", "en": "first-steps-python", "es": "primeros-pasos-python", "hi": "python-shuruat" },
     "icon": "👣",
     "category": "beginner",
     "readTime": 7,
@@ -67,7 +75,7 @@ export const BASE_ARTICLES: BaseArticle[] = [
   },
   {
     "id": "programming-games-kids",
-    "slug": "jogos-aprender-programacao",
+    "slugs": { "pt": "jogos-aprender-programacao", "en": "programming-games", "es": "juegos-para-programar", "hi": "programming-games" },
     "icon": "🎮",
     "category": "tips",
     "readTime": 5,
@@ -75,7 +83,7 @@ export const BASE_ARTICLES: BaseArticle[] = [
   },
   {
     "id": "python-exercises-kids",
-    "slug": "exercicios-python-criancas",
+    "slugs": { "pt": "exercicios-python-criancas", "en": "python-exercises-kids", "es": "ejercicios-python-ninos", "hi": "python-exercises" },
     "icon": "📝",
     "category": "beginner",
     "readTime": 6,
@@ -84,7 +92,7 @@ export const BASE_ARTICLES: BaseArticle[] = [
   },
   {
     "id": "scratch-vs-python",
-    "slug": "scratch-vs-python",
+    "slugs": { "pt": "scratch-vs-python", "en": "scratch-vs-python", "es": "scratch-vs-python", "hi": "scratch-vs-python" },
     "icon": "⚔️",
     "category": "parents",
     "readTime": 5,
@@ -93,7 +101,7 @@ export const BASE_ARTICLES: BaseArticle[] = [
   },
   {
     "id": "python-projects-kids",
-    "slug": "projetos-python-criancas",
+    "slugs": { "pt": "projetos-python-criancas", "en": "python-projects-kids", "es": "proyectos-python-ninos", "hi": "python-projects" },
     "icon": "🛠️",
     "category": "beginner",
     "readTime": 7,
@@ -106,7 +114,8 @@ export const BASE_ARTICLES: BaseArticle[] = [
  * Hook para acessar os artigos traduzidos
  */
 export function useArticles(): Article[] {
-    const { t } = useTranslation('articles');
+    const { t, i18n } = useTranslation('articles');
+    const lang = i18n.language ? i18n.language.split('-')[0].toLowerCase() : 'pt';
     
     return useMemo(() => {
         return BASE_ARTICLES.map(base => {
@@ -115,6 +124,7 @@ export function useArticles(): Article[] {
 
             return {
                 ...base,
+                slug: base.slugs[lang] || base.slugs['pt'],
                 title: t(`${base.id}.title` as never, { defaultValue: '' }),
                 description: t(`${base.id}.description` as never, { defaultValue: '' }),
                 content: t(`${base.id}.content` as never, { defaultValue: '' }),
@@ -122,18 +132,32 @@ export function useArticles(): Article[] {
                 faqs: Array.isArray(translatedFaqs) ? translatedFaqs : []
             };
         });
-    }, [t]);
+    }, [t, lang]);
 }
 
 /**
- * Hook para buscar um artigo pelo slug
+ * Hook para buscar um artigo pelo slug (em qualquer idioma) ou pelo idioma atual
  */
 export function useArticleBySlug(slug?: string): Article | undefined {
     const articles = useArticles();
     return useMemo(() => {
         if (!slug) return undefined;
-        return articles.find(article => article.slug === slug);
+        // Search if the slug matches the current language's slug first
+        const currentMatch = articles.find(article => article.slug === slug);
+        if (currentMatch) return currentMatch;
+        // Fallback: search if the slug matches ANY language (handles deep linking to an old/different slug)
+        return articles.find(article => Object.values((article as unknown as BaseArticle).slugs || {}).includes(slug));
     }, [articles, slug]);
+}
+
+/**
+ * Retorna o slug localizado de um artigo pelo seu ID e idioma
+ */
+export function getLocalizedArticleSlug(id: string, lang: string): string {
+    const article = BASE_ARTICLES.find(a => a.id === id);
+    if (!article) return id;
+    const cleanLang = lang ? lang.split('-')[0].toLowerCase() : 'pt';
+    return article.slugs[cleanLang] || article.slugs['pt'] || id;
 }
 
 /**

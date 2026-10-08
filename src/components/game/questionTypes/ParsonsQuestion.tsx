@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import type { QuestionDocument } from '../../../types/question';
 import { usePyodide } from '../../../hooks/usePyodide';
 import { QuestionHeader } from './QuestionTypeShared';
@@ -49,6 +50,8 @@ export function ParsonsQuestion({
 
     const [isRunning, setIsRunning] = useState(false);
     const [output, setOutput] = useState<string>('');
+    const [hasError, setHasError] = useState(false);
+    const { t } = useTranslation('game');
     const { runPython, ready } = usePyodide();
 
     // Drag and Drop handlers
@@ -109,6 +112,7 @@ export function ParsonsQuestion({
         if (disabled || !ready) return;
         setIsRunning(true);
         setOutput('');
+        setHasError(false);
 
         // Reconstrói o código Python com indentação
         const assembledCode = blocks
@@ -125,17 +129,20 @@ export function ParsonsQuestion({
 
             if (result.hasError) {
                 setOutput(result.stderr);
+                setHasError(true);
                 onAnswer(false, assembledCode);
             } else {
                 const passed = result.allTestsPassed ?? true;
                 if (!passed) {
-                    setOutput(result.stdout || 'O código rodou, mas a resposta não está correta baseada nos testes.');
+                    setOutput(result.stdout || t('parsons.wrong'));
+                    setHasError(true);
                 }
                 onAnswer(passed, assembledCode);
             }
         } catch (err) {
-            const message = err instanceof Error ? err.message : 'Erro desconhecido';
-            setOutput(`❌ Erro: ${message}`);
+            const message = err instanceof Error ? err.message : t('parsons.unknownError');
+            setOutput(t('parsons.error', { message }));
+            setHasError(true);
             onAnswer(false, assembledCode);
         } finally {
             setIsRunning(false);
@@ -146,13 +153,13 @@ export function ParsonsQuestion({
         <div className="question-container question-container--parsons">
             <QuestionHeader
                 badgeClassName="question-type-badge--parsons"
-                badgeText="🧩 Quebra-Cabeça de Código"
+                badgeText={t('parsons.badge')}
                 difficulty={question.difficulty}
                 title={question.title}
                 prompt={question.prompt}
             />
             <p className="parsons-instructions">
-                Arraste ou use os botões <b>▲ ▼</b> para ordenar as linhas e <b>◀ ▶</b> para ajustar a margem (indentação).
+                <Trans t={t} i18nKey="parsons.instructions" components={{ b: <b /> }} />
             </p>
 
             <div className="parsons-area">
@@ -173,8 +180,8 @@ export function ParsonsQuestion({
                                 className="parsons-btn parsons-btn--indent"
                                 onClick={() => changeIndentation(index, -1)}
                                 disabled={disabled || block.indentation === 0}
-                                title="Diminuir indentação"
-                                aria-label={`Diminuir indentação da linha ${index + 1}`}
+                                title={t('parsons.indentLess')}
+                                aria-label={t('parsons.indentLessLine', { line: index + 1 })}
                             >
                                 ◀
                             </button>
@@ -183,8 +190,8 @@ export function ParsonsQuestion({
                                 className="parsons-btn parsons-btn--indent"
                                 onClick={() => changeIndentation(index, 1)}
                                 disabled={disabled || block.indentation >= 4}
-                                title="Aumentar indentação"
-                                aria-label={`Aumentar indentação da linha ${index + 1}`}
+                                title={t('parsons.indentMore')}
+                                aria-label={t('parsons.indentMoreLine', { line: index + 1 })}
                             >
                                 ▶
                             </button>
@@ -192,7 +199,7 @@ export function ParsonsQuestion({
 
                         {/* Bloco de Código com Drag Handle */}
                         <div className="parsons-block">
-                            <span className="parsons-drag-handle" title="Arraste para reordenar" aria-hidden="true">⋮⋮</span>
+                            <span className="parsons-drag-handle" title={t('parsons.drag')} aria-hidden="true">⋮⋮</span>
                             <code className="parsons-code">{block.content}</code>
                         </div>
 
@@ -203,8 +210,8 @@ export function ParsonsQuestion({
                                 className="parsons-btn parsons-btn--order"
                                 onClick={() => moveBlock(index, -1)}
                                 disabled={disabled || index === 0}
-                                title="Mover para cima"
-                                aria-label={`Mover linha ${index + 1} para cima`}
+                                title={t('parsons.up')}
+                                aria-label={t('parsons.upLine', { line: index + 1 })}
                             >
                                 ▲
                             </button>
@@ -213,8 +220,8 @@ export function ParsonsQuestion({
                                 className="parsons-btn parsons-btn--order"
                                 onClick={() => moveBlock(index, 1)}
                                 disabled={disabled || index === blocks.length - 1}
-                                title="Mover para baixo"
-                                aria-label={`Mover linha ${index + 1} para baixo`}
+                                title={t('parsons.down')}
+                                aria-label={t('parsons.downLine', { line: index + 1 })}
                             >
                                 ▼
                             </button>
@@ -224,8 +231,8 @@ export function ParsonsQuestion({
             </div>
 
             {output && (
-                <div className={`question-output ${showResult && !output.includes('Erro') ? 'question-output--success' : 'question-output--error'}`}>
-                    <div className="question-output__header">Saída:</div>
+                <div className={`question-output ${showResult && !hasError ? 'question-output--success' : 'question-output--error'}`}>
+                    <div className="question-output__header">{t('parsons.output')}</div>
                     <pre className="question-output__content">{output}</pre>
                 </div>
             )}
@@ -237,7 +244,7 @@ export function ParsonsQuestion({
                         onClick={handleSubmit}
                         disabled={disabled || !ready || isRunning}
                     >
-                        {isRunning ? 'Verificando... ⏳' : 'Verificar Ordem ✨'}
+                        {isRunning ? t('parsons.checking') : t('parsons.check')}
                     </button>
                 </div>
             )}

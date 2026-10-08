@@ -1,0 +1,138 @@
+{
+  "dict_1": {
+    "title": "What is a Dictionary?",
+    "prompt": "In Python, a dictionary stores information using...",
+    "explanation": "Dictionaries are like address books! 📒 Every piece of information has a name (key) and a value. For example: {\"nome\": \"Ana\", \"idade\": 12}",
+    "options": [
+      "Keys and values (like nome: \"Ana\")",
+      "Only numbers in order",
+      "Only texts",
+      "Indexes like 0, 1, 2"
+    ]
+  },
+  "dict_2": {
+    "title": "Dictionary Keys",
+    "prompt": "In a dictionary, we use curly braces { } instead of brackets [ ].",
+    "explanation": "That's it! Lists use [ ], but dictionaries use { }! It's easy to remember: dictionaries need keys 🔑 to open!"
+  },
+  "dict_3": {
+    "title": "Accessing Values",
+    "prompt": "Complete the code to show the person's name:",
+    "explanation": "To get a value from the dictionary, use the key inside brackets: pessoa[\"nome\"] gives \"Lucas\"! 🔑"
+  },
+  "dict_4": {
+    "title": "Adding to the Dictionary",
+    "prompt": "How do we add a new key \"cidade\" with the value \"Rio\"?",
+    "explanation": "It's simple! Just do pessoa[\"cidade\"] = \"Rio\" and you're done! The new key is created automatically. ✨"
+  },
+  "dict_5": {
+    "title": "Creating a Dictionary",
+    "prompt": "Create a dictionary called \"pet\" with nome \"Rex\" and tipo \"cachorro\":",
+    "explanation": "Dictionaries use \"key\": value. The key is in quotes, followed by a colon, then the value! 📕"
+  },
+  "dict_6": {
+    "title": "Searching for Information",
+    "prompt": "Create a function that takes a person dictionary and returns their age:",
+    "explanation": "Use pessoa[\"idade\"] to get the age from the dictionary and return to give it back! 🎂"
+  },
+  "dict_parsons_1": {
+    "title": "Student Record",
+    "prompt": "Organize the code to create a student record and show the name:",
+    "explanation": "First we create the dictionary, then we access it using the key!"
+  },
+  "dict_7": {
+    "title": "Updating a Value",
+    "prompt": "The score changed! Change the value of \"pontos\" to 50:",
+    "explanation": "To change a value, just use the key and the equals sign! It's like erasing what was written in the address book and writing the new value. ✏️"
+  },
+  "dict_8": {
+    "title": "Lost Key",
+    "prompt": "What happens if we try to access a key that does NOT exist in the dictionary?",
+    "explanation": "If the key doesn't exist, Python can't find it and yells: KeyError! It's like looking for a name in the address book that isn't there. 📢",
+    "options": [
+      "Error: KeyError",
+      "Returns Zero",
+      "Returns Empty",
+      "Creates the key automatically"
+    ]
+  },
+  "dict_9": {
+    "title": "Keys and Values",
+    "prompt": "In `{\"cor\": \"azul\"}`, what is \"cor\"?",
+    "explanation": "\"cor\" is the KEY (name of the information) and \"azul\" is the VALUE (the actual info). The key opens the value! 🔑"
+  },
+  "dict_10": {
+    "title": "Is it in the Backpack?",
+    "prompt": "How do we check if the key \"mapa\" exists in the backpack?",
+    "explanation": "We use `in` to ask if a key exists in the dictionary! It's like looking inside the backpack to see if the map is there. 🎒",
+    "options": [
+      "\"mapa\" in mochila",
+      "mochila.has(\"mapa\")",
+      "\"mapa\" == mochila",
+      "check(\"mapa\")"
+    ]
+  },
+  "dict_11": {
+    "title": "New Price",
+    "prompt": "The potion got more expensive! Change the price to 20:",
+    "explanation": "Dictionaries are easy to update! Just use the key [\"poção\"] and give it the new value. The old value disappears and the new one takes over! 💰"
+  },
+  "dict_12": {
+    "title": "Dictionary Size",
+    "prompt": "If we have `d = {\"a\": 1, \"b\": 2, \"c\": 3}`, what does `len(d)` return?",
+    "explanation": "`len()` counts how many keys (pairs) exist in the dictionary. We have \"a\", \"b\" and \"c\", so that's 3 items! 📏",
+    "options": [
+      "3 (counts the keys)",
+      "6 (counts everything)",
+      "1 (counts the dictionary)",
+      "0"
+    ]
+  },
+  "dict_13": {
+    "title": "Deleting Keys",
+    "prompt": "Use `del` to delete the key \"idade\" from the dictionary:",
+    "explanation": "`del` stands for \"delete\". It removes the key and the value from the dictionary forever! 🗑️"
+  },
+  "dict_14": {
+    "title": "Only the Keys",
+    "prompt": "Which method do we use to see all the keys (names) in the dictionary?",
+    "explanation": "`keys()` returns a list with just the keys! It's useful to know what information we have stored. 🔑"
+  },
+  "dict_15": {
+    "title": "Only the Values",
+    "prompt": "Which method do we use to see all the stored values?",
+    "explanation": "`values()` shows only the values, ignoring the key names. 💎"
+  },
+  "dict_16": {
+    "title": "Starting from Scratch",
+    "prompt": "Create an empty dictionary called `mochila`:",
+    "explanation": "To create an empty dictionary, we use curly braces with nothing inside `{}`. Then we can add things! 🎒"
+  },
+  "dict_17": {
+    "title": "Mixing it Up",
+    "prompt": "Can a dictionary have text keys and number values at the same time? Ex: `{\"nome\": \"Ana\", \"idade\": 10}`",
+    "explanation": "Yes! That's the best part of dictionaries. You can store texts, numbers, and even lists in the same place! 🥗"
+  },
+  "dict_18": {
+    "title": "Dictionary inside a Dictionary",
+    "prompt": "Access the math score (\"mat\") of the student \"joao\":",
+    "explanation": "We can have dictionaries inside dictionaries! First we open the key \"joao\", then the key \"mat\". 📦📦"
+  },
+  "dict_19": {
+    "title": "Looping a Dictionary",
+    "prompt": "When we do `for x in dicionario:`, what is `x`?",
+    "explanation": "By default, the loop iterates over the keys! If you want the values, you need to use `.values()`. 🗝️",
+    "options": [
+      "The key (name)",
+      "The value",
+      "Both together",
+      "The index"
+    ]
+  },
+  "boss_battle_10": {
+    "title": "The Librarian of Secrets",
+    "prompt": "Create a dictionary \"heroi\" with name \"Link\" and life 100. Then show the hero's name!",
+    "explanation": "The Librarian stores secrets in dictionaries! Use keys and values! 📚",
+    "bossName": "Guardian of the Books"
+  }
+}

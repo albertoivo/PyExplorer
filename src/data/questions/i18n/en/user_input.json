@@ -1,0 +1,132 @@
+{
+  "input_1": {
+    "title": "Asking the User",
+    "prompt": "Which command do we use to ask a person to type something?",
+    "explanation": "input() is like a microphone! 🎤 The program stops and waits for you to type something. Whatever you type is stored to use later!"
+  },
+  "input_2": {
+    "title": "input() Always Gives Text",
+    "prompt": "Even if you type a number, input() returns text (string).",
+    "explanation": "That's right! input() always returns text. If you type 42, it returns \"42\" (with quotes). To use it as a number, you need to convert it with int()! 🔢"
+  },
+  "input_3": {
+    "title": "Ask for Name",
+    "prompt": "Complete the code to ask for the person's name:",
+    "explanation": "Use input() with a message inside the parentheses. The person will see the message and be able to type the answer! 💬"
+  },
+  "input_4": {
+    "title": "Converting to Number",
+    "prompt": "If the user typed \"25\", how do we turn it into an integer number?",
+    "explanation": "int() turns text into an integer number! int(\"25\") becomes 25 (without quotes). That way you can do math! 🔢"
+  },
+  "input_5": {
+    "title": "Calculating Future Age",
+    "prompt": "Complete to get age and calculate how old they will be in 5 years:",
+    "explanation": "input() gives text, but we need a number to add! Use int() to convert. So 10 + 5 = 15! 🎂"
+  },
+  "input_6": {
+    "title": "str() for Text",
+    "prompt": "If we have idade = 10 (number) and want to join it with text, what do we do?",
+    "explanation": "str() turns anything into text! str(10) becomes \"10\". That way you can join: \"Idade: \" + str(10) = \"Idade: 10\" 📝",
+    "options": [
+      "str(idade) - converts to text",
+      "text(idade) - converts to text",
+      "No need to convert",
+      "palavra(idade)"
+    ]
+  },
+  "input_7": {
+    "title": "Decimal Numbers (Dot vs Comma)",
+    "prompt": "Use float() to convert a number with a decimal point (e.g. 1.80):",
+    "explanation": "float() is for decimal numbers. Python uses a DOT (1.80), never a comma! Always use a dot. 📏"
+  },
+  "input_parsons_1": {
+    "title": "Ask and Answer",
+    "prompt": "Arrange the code to ask for a name and say hello:",
+    "explanation": "First we ask (input), then we reply (print)! Order matters!"
+  },
+  "input_8": {
+    "title": "Text and Number",
+    "prompt": "Complete to join the text with the number 10:",
+    "explanation": "We cannot add text to a number! Use str(10) to turn 10 into text, then Python lets you join them! 📝"
+  },
+  "input_9": {
+    "title": "Toy Price",
+    "prompt": "The toy costs 25.50. Which function converts the text \"25.50\" into a number?",
+    "explanation": "Since it has decimals (cents), we use `float()`! If we used `int()`, Python would complain because it doesn't know what to do with the point. 💸"
+  },
+  "input_10": {
+    "title": "Weight with Decimal Point",
+    "prompt": "If the user types \"35.5\" (weight), which conversion should we use?",
+    "explanation": "Since it has a decimal point, it is a float number! If it were an integer, we would use int(). ⚖️"
+  },
+  "input_11": {
+    "title": "Doubling Calculator",
+    "prompt": "Complete to convert text into a number before multiplying:",
+    "explanation": "Input arrives as text! We need to convert to `int` (integer) before multiplying, otherwise Python repeats the text! ✖️"
+  },
+  "input_12": {
+    "title": "Numeric Password",
+    "prompt": "If your password is the number 1234, how do you turn it into text to check?",
+    "explanation": "`str()` turns numbers into text (string). Useful for comparing passwords or joining with other words! 🔐"
+  },
+  "input_13": {
+    "title": "Favorite Color",
+    "prompt": "Ask for favorite color and store it in variable `cor`:",
+    "explanation": "We use `input()` to ask a question. The person's response is stored in the variable `cor`. 🎨"
+  },
+  "input_14": {
+    "title": "Input Prompt Message",
+    "prompt": "The text we put inside `input(...)` is used to:",
+    "explanation": "The text inside `input()` is the prompt message on screen asking for information. Without it, the user doesn't know what to type! 🗣️",
+    "options": [
+      "Display a question to the user",
+      "Store the answer",
+      "Create an error",
+      "Nothing"
+    ]
+  },
+  "input_15": {
+    "title": "Birth Year",
+    "prompt": "If we are in 2025, calculate the year the person was born:",
+    "explanation": "To find birth year, subtract the age from current year! 2025 minus age gives the year born. 📅"
+  },
+  "input_16": {
+    "title": "Personalized Hello",
+    "prompt": "Use an f-string to say hello with the typed name:",
+    "explanation": "With an f-string, we insert the user's answer (variable `nome`) directly into the greeting sentence! 👋"
+  },
+  "input_17": {
+    "title": "Multiplying Inputs",
+    "prompt": "Ask for two numbers and multiply them:",
+    "explanation": "We prompt for two numbers (converting with `int`) and use the asterisk `*` to multiply them. ✖️"
+  },
+  "input_18": {
+    "title": "Two Questions",
+    "prompt": "If we have two `input()` calls in a row, what happens?",
+    "explanation": "Python runs step by step! It asks the first, waits for your answer, and only then asks the second. 🚶‍♂️",
+    "options": [
+      "Asks the first, waits, then asks the second",
+      "Asks both at the same time",
+      "Only asks the first",
+      "Throws an error"
+    ]
+  },
+  "input_19": {
+    "title": "Empty Input",
+    "prompt": "If the user hits ENTER without typing anything into `input()`, what is stored?",
+    "explanation": "If nothing is typed, Python stores an empty string (quotes with nothing inside: \"\"). It's like an empty box! 📦",
+    "options": [
+      "An empty string \"\"",
+      "The number 0",
+      "The word \"Nada\"",
+      "The program crashes"
+    ]
+  },
+  "boss_battle_9": {
+    "title": "The Inquiring Oracle",
+    "prompt": "The Oracle wants to know: ask for name and age, then display \"Nome tem X anos\" (replace Nome and X with the values).",
+    "explanation": "The Oracle listens to you! Use input() to ask and f-string to reply! 🔮",
+    "bossName": "Input Oracle"
+  }
+}

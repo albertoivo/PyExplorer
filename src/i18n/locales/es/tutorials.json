@@ -1,0 +1,665 @@
+{
+  "basic_commands": {
+    "title": "\u00a1Bienvenido a Python! \ud83d\udc0d",
+    "description": "\u00a1Aprende tus primeros comandos y empieza a programar!",
+    "keyConcepts": [
+      "print()",
+      "textos",
+      "comillas",
+      "comentarios"
+    ],
+    "steps": [
+      {
+        "title": "\u00a1Hola, Programador!",
+        "content": "\u00a1Est\u00e1s a punto de aprender Python, uno de los lenguajes de programaci\u00f3n m\u00e1s geniales del mundo! \u00a1Python se usa para crear juegos, aplicaciones, robots e incluso para ense\u00f1ar inteligencia artificial!"
+      },
+      {
+        "title": "Tu Primer Comando: print()",
+        "content": "El comando print() es como un meg\u00e1fono para la computadora. \u00a1Todo lo que pongas dentro de los par\u00e9ntesis aparecer\u00e1 en la pantalla!"
+      },
+      {
+        "title": "Los Textos Necesitan Comillas",
+        "content": "Cuando escribes un texto en Python, necesitas ponerlo entre comillas. Pueden ser comillas dobles \" \" o simples ' '. \u00a1As\u00ed Python sabe que es un texto!"
+      },
+      {
+        "title": "\u00a1Python Sabe Matem\u00e1ticas!",
+        "content": "\u00a1Puedes usar Python como una calculadora m\u00e1gica! Si pones una cuenta dentro de print(), calcula y muestra el resultado."
+      },
+      {
+        "title": "Comentarios: Notas Secretas",
+        "content": "Las l\u00edneas que empiezan con # son comentarios. \u00a1Python las ignora! Es como escribir una nota solo para ti u otros programadores."
+      },
+      {
+        "title": "\u00a1Listo para Empezar!",
+        "content": "\u00a1Aprendiste lo b\u00e1sico! Ahora es el momento de practicar. Recuerda: print() muestra en pantalla, los textos van entre comillas y # hace comentarios. \u00a1Buena suerte!"
+      }
+    ]
+  },
+  "numbers": {
+    "title": "Calculadora M\u00e1gica \ud83d\udd22",
+    "description": "\u00a1Aprende a hacer c\u00e1lculos incre\u00edbles con Python!",
+    "keyConcepts": [
+      "operaciones",
+      "+",
+      "-",
+      "*",
+      "/",
+      "//",
+      "%",
+      "**"
+    ],
+    "steps": [
+      {
+        "title": "Python: Tu Calculadora Personal",
+        "content": "\u00a1Python es muy bueno en matem\u00e1ticas! Puedes hacer cualquier cuenta con \u00e9l, desde las m\u00e1s simples hasta las m\u00e1s complicadas."
+      },
+      {
+        "title": "Suma y Resta",
+        "content": "Usa + para sumar y - para restar. \u00a1Es igual a las matem\u00e1ticas de la escuela!"
+      },
+      {
+        "title": "Multiplicaci\u00f3n y Divisi\u00f3n",
+        "content": "Usa * para multiplicar y / para dividir. Cuidado: \u00a1el resultado de la divisi\u00f3n siempre tiene un punto decimal!"
+      },
+      {
+        "title": "Divisi\u00f3n Entera y Resto",
+        "content": "// divide e ignora los decimales. % da el resto de la divisi\u00f3n. \u00a1Son s\u00faper \u00fatiles!"
+      },
+      {
+        "title": "Potencia: \u00a1El S\u00faper Poder!",
+        "content": "Usa ** para elevar un n\u00famero a una potencia. \u00a12 ** 3 significa 2 \u00d7 2 \u00d7 2!"
+      },
+      {
+        "title": "\u00a1Mago de las Matem\u00e1ticas!",
+        "content": "\u00a1Ahora sabes c\u00f3mo hacer cualquier cuenta en Python! \u00a1Practica mucho y convi\u00e9rtete en un mago de los n\u00fameros!"
+      }
+    ]
+  },
+  "variables": {
+    "title": "Cajas M\u00e1gicas \ud83d\udce6",
+    "description": "\u00a1Aprende a guardar informaci\u00f3n para usarla despu\u00e9s!",
+    "keyConcepts": [
+      "variables",
+      "asignaci\u00f3n",
+      "tipos",
+      "int",
+      "str",
+      "float",
+      "conversi\u00f3n"
+    ],
+    "steps": [
+      {
+        "title": "\u00bfQu\u00e9 es una Variable?",
+        "content": "\u00a1Una variable es como una caja m\u00e1gica! Le das un nombre y puedes guardar cualquier cosa dentro: n\u00fameros, textos, listas..."
+      },
+      {
+        "title": "Creando una Variable",
+        "content": "Para crear una variable, escribe el nombre, un signo de igual (=) y el valor. \u00a1Es como ponerle una etiqueta a la caja!"
+      },
+      {
+        "title": "Las Variables Pueden Cambiar",
+        "content": "\u00a1Lo genial es que puedes cambiar el valor cuando quieras! Por eso se llama \"variable\" - el valor puede variar."
+      },
+      {
+        "title": "Tipos de Datos",
+        "content": "Python tiene 4 tipos b\u00e1sicos de datos: int (n\u00fameros enteros), str (textos), float (n\u00fameros decimales) y bool (verdadero/falso)."
+      },
+      {
+        "title": "Descubriendo el Tipo",
+        "content": "Usa type() para averiguar el tipo de cualquier variable. Es como preguntar: \"\u00bfQu\u00e9 tipo de cosa eres?\""
+      },
+      {
+        "title": "Convirtiendo Tipos",
+        "content": "A veces necesitas convertir un tipo a otro. \u00a1Usa int(), str() y float() para esto!"
+      },
+      {
+        "title": "Uniendo Textos",
+        "content": "\u00a1Usa + para unir textos! Pero cuidado: para unir texto con un n\u00famero, primero convi\u00e9rtelo con str()."
+      },
+      {
+        "title": "Reglas para Nombres",
+        "content": "Los nombres de variables pueden tener letras, n\u00fameros y _. \u00a1Pero no pueden empezar con un n\u00famero y no pueden tener espacios!"
+      },
+      {
+        "title": "\u00a1Aprendiste Variables!",
+        "content": "\u00a1Ahora sabes c\u00f3mo guardar informaci\u00f3n, los 4 tipos b\u00e1sicos y c\u00f3mo convertir entre ellos! \u00a1Esto es s\u00faper importante!"
+      }
+    ]
+  },
+  "conditions": {
+    "title": "Tomando Decisiones \ud83d\udd00",
+    "description": "\u00a1Aprende a hacer que la computadora tome decisiones!",
+    "keyConcepts": [
+      "if",
+      "else",
+      "elif",
+      "comparaciones",
+      "and",
+      "or",
+      "not",
+      "in"
+    ],
+    "steps": [
+      {
+        "title": "Decisiones del D\u00eda a D\u00eda",
+        "content": "Todos los d\u00edas tomas decisiones: \"SI est\u00e1 lloviendo, llevar\u00e9 paraguas\". \u00a1La computadora tambi\u00e9n puede hacer esto con el comando if!"
+      },
+      {
+        "title": "El Comando if",
+        "content": "if significa \"si\" en ingl\u00e9s. Lo usamos para hacer preguntas y ejecutar c\u00f3digo solo si la respuesta es verdadera."
+      },
+      {
+        "title": "Comparando Valores",
+        "content": "Podemos comparar valores con: == (igual), != (diferente), > (mayor), < (menor), >= (mayor o igual), <= (menor o igual)"
+      },
+      {
+        "title": "Sino: El Plan B",
+        "content": "Usa else para decir qu\u00e9 hacer cuando la condici\u00f3n es falsa. \u00a1Es tu plan B!"
+      },
+      {
+        "title": "Varias Opciones: elif",
+        "content": "elif (\"else if\") permite probar m\u00faltiples condiciones. \u00a1Es como tener muchas puertas para elegir!"
+      },
+      {
+        "title": "Y: Dos Condiciones Juntas",
+        "content": "Usa and (\"y\") cuando DOS condiciones necesitan ser verdaderas. \u00a1Ambas deben ser verdad!"
+      },
+      {
+        "title": "O: Una o la Otra",
+        "content": "Usa or (\"o\") cuando AL MENOS UNA condici\u00f3n necesita ser verdadera. \u00a1Una es suficiente!"
+      },
+      {
+        "title": "NO: Invirtiendo",
+        "content": "Usa not (\"no\") para invertir una condici\u00f3n. \u00a1True se convierte en False y False se convierte en True!"
+      },
+      {
+        "title": "DENTRO: Comprobando con in",
+        "content": "Usa in para comprobar si algo est\u00e1 dentro de una lista o texto. \u00a1S\u00faper \u00fatil!"
+      },
+      {
+        "title": "\u00a1Maestro de Decisiones!",
+        "content": "\u00a1Ahora dominas if, else, elif, and, or, not e in! \u00a1Tus programas pueden tomar decisiones complejas!"
+      }
+    ]
+  },
+  "loops": {
+    "title": "Magia que se Repite \ud83d\udd04",
+    "description": "\u00a1Aprende a repetir comandos sin escribir todo de nuevo!",
+    "keyConcepts": [
+      "for",
+      "range()",
+      "while",
+      "break",
+      "continue"
+    ],
+    "steps": [
+      {
+        "title": "\u00bfPor qu\u00e9 Repetir?",
+        "content": "Imagina escribir \"\u00a1Hola!\" 100 veces... Cansado, \u00bfverdad? \u00a1Con bucles, lo escribes una vez y la computadora lo repite cuantas veces quieras!"
+      },
+      {
+        "title": "El Bucle for",
+        "content": "for repite un bloque de c\u00f3digo un n\u00famero espec\u00edfico de veces. \u00a1Es como un carrusel que gira varias veces!"
+      },
+      {
+        "title": "Entendiendo range()",
+        "content": "range(5) genera n\u00fameros del 0 al 4 (5 n\u00fameros). range(1, 6) genera del 1 al 5. \u00a1El \u00faltimo n\u00famero nunca entra!"
+      },
+      {
+        "title": "Bucle en Listas",
+        "content": "\u00a1Tambi\u00e9n puedes usar for para recorrer cada elemento de una lista!"
+      },
+      {
+        "title": "El Bucle while",
+        "content": "while repite MIENTRAS una condici\u00f3n sea verdadera. \u00a1Cuidado con crear un bucle infinito!"
+      },
+      {
+        "title": "break: \u00a1Freno de Emergencia!",
+        "content": "\u00a1Usa break para DETENER el bucle inmediatamente! Es como usar el freno de emergencia."
+      },
+      {
+        "title": "continue: Saltar un Turno",
+        "content": "Usa continue para SALTAR a la siguiente iteraci\u00f3n del bucle, sin ejecutar el resto del c\u00f3digo."
+      },
+      {
+        "title": "\u00a1Maestro de los Bucles!",
+        "content": "\u00a1Aprendiste for, while, break y continue! \u00a1Ahora puedes controlar bucles como un profesional!"
+      }
+    ]
+  },
+  "lists": {
+    "title": "Organizando Todo \ud83d\udcdc",
+    "description": "\u00a1Aprende a guardar muchas cosas en una sola lista!",
+    "keyConcepts": [
+      "lista",
+      "\u00edndice",
+      "append",
+      "len",
+      "slicing",
+      "pop",
+      "sort"
+    ],
+    "steps": [
+      {
+        "title": "\u00bfQu\u00e9 es una Lista?",
+        "content": "\u00a1Las listas son como mochilas donde guardas varias cosas juntas! Puede tener n\u00fameros, textos o incluso otras listas dentro."
+      },
+      {
+        "title": "Creando una Lista",
+        "content": "Usa corchetes [ ] y separa los elementos con comas. \u00a1As\u00ed de simple!"
+      },
+      {
+        "title": "Accediendo a los Elementos",
+        "content": "Para obtener un elemento, usa el \u00edndice entre corchetes. RECUERDA: \u00a1En Python, contamos empezando desde 0!"
+      },
+      {
+        "title": "Cortando la Lista (Slicing)",
+        "content": "Usa [inicio:fin] para tomar un pedazo de la lista. \u00a1El final no est\u00e1 incluido! Es como cortar un pastel."
+      },
+      {
+        "title": "A\u00f1adiendo Elementos",
+        "content": "\u00a1Usa .append() para a\u00f1adir un elemento al final de la lista!"
+      },
+      {
+        "title": "Eliminando Elementos",
+        "content": "Usa .pop() para eliminar el \u00faltimo, o .remove() para eliminar por valor."
+      },
+      {
+        "title": "Ordenando la Lista",
+        "content": "\u00a1Usa .sort() para poner los elementos en orden!"
+      },
+      {
+        "title": "Contando Elementos",
+        "content": "len() te dice cu\u00e1ntos elementos hay en la lista. \u00a1S\u00faper \u00fatil!"
+      },
+      {
+        "title": "\u00a1Maestro de las Listas!",
+        "content": "\u00a1Dominas las listas! Crear, acceder, cortar, a\u00f1adir, eliminar y ordenar. \u00a1Las listas son esenciales en programaci\u00f3n!"
+      }
+    ]
+  },
+  "functions": {
+    "title": "Tu Propia Magia \u2728",
+    "description": "\u00a1Aprende a crear funciones reutilizables!",
+    "keyConcepts": [
+      "def",
+      "par\u00e1metros",
+      "return",
+      "por defecto",
+      "alcance"
+    ],
+    "steps": [
+      {
+        "title": "\u00bfQu\u00e9 es una Funci\u00f3n?",
+        "content": "\u00a1Las funciones son como recetas de pastel! La escribes una vez y puedes usarla cuantas veces quieras. Solo tienes que \"llamarla\" por su nombre."
+      },
+      {
+        "title": "Creando una Funci\u00f3n",
+        "content": "Usa def para definir una funci\u00f3n. Despu\u00e9s del nombre, pon par\u00e9ntesis y dos puntos. \u00a1El c\u00f3digo de la funci\u00f3n va indentado!"
+      },
+      {
+        "title": "Par\u00e1metros: Las Entradas",
+        "content": "Los par\u00e1metros son informaci\u00f3n que le pasas a la funci\u00f3n. \u00a1Son como los ingredientes de una receta!"
+      },
+      {
+        "title": "return: La Salida",
+        "content": "return devuelve un resultado de la funci\u00f3n. \u00a1Es como el cartero que entrega la respuesta!"
+      },
+      {
+        "title": "Varios Par\u00e1metros",
+        "content": "\u00a1Puedes tener tantos par\u00e1metros como quieras! Sep\u00e1ralos con comas."
+      },
+      {
+        "title": "Par\u00e1metros por Defecto",
+        "content": "\u00a1Puedes darle un valor por defecto a un par\u00e1metro! Si nadie lo pasa, usa el valor por defecto. Es como un plan B."
+      },
+      {
+        "title": "Alcance: Variables Locales",
+        "content": "\u00a1Las variables creadas DENTRO de una funci\u00f3n solo existen all\u00ed! Ellas \"mueren\" cuando la funci\u00f3n termina. Se llaman variables locales."
+      },
+      {
+        "title": "\u00a1Creador de Funciones!",
+        "content": "\u00a1Dominas las funciones! Crear, par\u00e1metros, return, valores por defecto y alcance. \u00a1Tus funciones har\u00e1n que tu c\u00f3digo sea asombroso!"
+      }
+    ]
+  },
+  "strings": {
+    "title": "Maestro de Palabras \ud83d\udcdd",
+    "description": "\u00a1Aprende a manipular textos como un profesional!",
+    "keyConcepts": [
+      "string",
+      "m\u00e9todos",
+      "f-string",
+      "split",
+      "join",
+      "slicing"
+    ],
+    "steps": [
+      {
+        "title": "\u00bfQu\u00e9 son las Strings?",
+        "content": "Las strings son textos en Python. Todo lo que est\u00e1 entre comillas es una string, \u00a1ya sea una letra, una palabra o un libro entero!"
+      },
+      {
+        "title": "Uniendo Textos",
+        "content": "Usa + para unir (concatenar) strings. \u00a1Puedes crear mensajes personalizados!"
+      },
+      {
+        "title": "f-strings: La Forma Moderna",
+        "content": "\u00a1Las f-strings son m\u00e1s f\u00e1ciles! Pon una f antes de las comillas y usa {variable} dentro del texto."
+      },
+      {
+        "title": "M\u00e9todos de String",
+        "content": "\u00a1Las strings tienen superpoderes! Usa .upper() para may\u00fasculas, .lower() para min\u00fasculas."
+      },
+      {
+        "title": "Cortando Texto: split()",
+        "content": "\u00a1split() divide el texto en una lista! Por defecto corta en los espacios, pero puedes elegir el separador."
+      },
+      {
+        "title": "Uniendo Listas: join()",
+        "content": "\u00a1join() es lo opuesto a split! Une una lista de palabras en un solo texto."
+      },
+      {
+        "title": "Cortando Strings (Slicing)",
+        "content": "Puedes obtener partes de una string usando [inicio:fin]. \u00a1Es como cortar un pedazo de pastel!"
+      },
+      {
+        "title": "\u00a1Maestro de las Strings!",
+        "content": "\u00a1Dominas los textos! Unir, separar, cortar, transformar... \u00a1Las strings son esenciales en cada programa!"
+      }
+    ]
+  },
+  "user_input": {
+    "title": "Hablando con el Usuario \ud83c\udfa4",
+    "description": "\u00a1Aprende a hacer programas interactivos!",
+    "keyConcepts": [
+      "input()",
+      "int()",
+      "str()",
+      "float()",
+      "conversi\u00f3n"
+    ],
+    "steps": [
+      {
+        "title": "\u00a1Programas que Hablan!",
+        "content": "Hasta ahora, tus programas solo hablaban. \u00a1Pero con input() pueden escuchar! Es como darle un micr\u00f3fono al usuario."
+      },
+      {
+        "title": "El Comando input()",
+        "content": "input() hace que el programa se detenga y espere a que el usuario escriba algo. Lo que se escribe se guarda en una variable."
+      },
+      {
+        "title": "\u00a1input() Siempre Devuelve Texto!",
+        "content": "\u00a1CUIDADO! Incluso si el usuario escribe 42, input() devuelve \"42\" (texto). \u00a1Para hacer matem\u00e1ticas, necesitas convertirlo!"
+      },
+      {
+        "title": "int() - Convirtiendo a N\u00famero",
+        "content": "Usa int() para transformar el texto en un n\u00famero entero. \u00a1De esta manera puedes hacer matem\u00e1ticas!"
+      },
+      {
+        "title": "float() - N\u00fameros con Punto",
+        "content": "Para n\u00fameros decimales (como 1.75), usa float(). IMPORTANTE: \u00a1En Python usamos un PUNTO (.) y no una coma para los decimales!"
+      },
+      {
+        "title": "\u00a1Programas Interactivos!",
+        "content": "\u00a1Ahora sabes c\u00f3mo hacer programas que hablan con el usuario! Recuerda: input() da texto, usa int() o float() para n\u00fameros."
+      }
+    ]
+  },
+  "dictionaries": {
+    "title": "Directorio M\u00e1gico \ud83d\udcda",
+    "description": "\u00a1Aprende a organizar datos con claves y valores!",
+    "keyConcepts": [
+      "diccionario",
+      "clave",
+      "valor",
+      "{}",
+      "acceso"
+    ],
+    "steps": [
+      {
+        "title": "\u00bfQu\u00e9 es un Diccionario?",
+        "content": "Imagina una gu\u00eda telef\u00f3nica: buscas el NOMBRE (clave) y encuentras el TEL\u00c9FONO (valor). \u00a1Los diccionarios funcionan as\u00ed!"
+      },
+      {
+        "title": "Claves y Valores",
+        "content": "Cada informaci\u00f3n en el diccionario tiene una clave (el nombre) y un valor (la informaci\u00f3n)."
+      },
+      {
+        "title": "Accediendo a los Valores",
+        "content": "Para obtener un valor, usa la clave entre corchetes. \u00a1Es como buscar en la gu\u00eda telef\u00f3nica!"
+      },
+      {
+        "title": "A\u00f1adiendo Nuevas Claves",
+        "content": "\u00a1Para a\u00f1adir algo nuevo, simplemente as\u00edgnalo! La clave se crea autom\u00e1ticamente."
+      },
+      {
+        "title": "Listas vs Diccionarios",
+        "content": "Las listas usan \u00edndices (0, 1, 2...). Los diccionarios usan nombres como claves. \u00a1Usa diccionarios cuando los nombres tengan m\u00e1s sentido!"
+      },
+      {
+        "title": "\u00a1Maestro de los Diccionarios!",
+        "content": "Los diccionarios son s\u00faper \u00fatiles para organizar los datos con claridad. \u00a1Cada cosa tiene un nombre!"
+      }
+    ]
+  },
+  "error_handling": {
+    "title": "\u00a1Cazando Bugs! \ud83d\udee1\ufe0f",
+    "description": "\u00a1Aprende a proteger tus programas contra errores!",
+    "keyConcepts": [
+      "try",
+      "except",
+      "error",
+      "excepci\u00f3n",
+      "protecci\u00f3n"
+    ],
+    "steps": [
+      {
+        "title": "\u00bfQu\u00e9 son los Errores?",
+        "content": "A veces el programa encuentra problemas: dividir por cero, convertir texto inv\u00e1lido... Python se detiene y muestra un error."
+      },
+      {
+        "title": "\u00a1Los Errores Detienen el Programa!",
+        "content": "Sin protecci\u00f3n, cualquier error hace que todo el programa se detenga. \u00a1Pero podemos evitarlo!"
+      },
+      {
+        "title": "\u00a1try/except al Rescate!",
+        "content": "Pon el c\u00f3digo \"peligroso\" dentro de try. Si ocurre un error, \u00a1except se encarga de \u00e9l!"
+      },
+      {
+        "title": "\u00a1El Programa Contin\u00faa!",
+        "content": "Con try/except, incluso si hay un error, el programa no se detiene. \u00a1Contin\u00faa despu\u00e9s del except!"
+      },
+      {
+        "title": "Tipos de Error",
+        "content": "Cada error tiene un nombre: ZeroDivisionError, ValueError, TypeError... \u00a1Puedes manejar cada uno de manera diferente!"
+      },
+      {
+        "title": "\u00a1Programas Robustos!",
+        "content": "\u00a1Ahora tus programas pueden manejar problemas sin romperse! Usa try/except siempre que algo pueda salir mal."
+      }
+    ]
+  },
+  "files": {
+    "title": "Archivos del Conocimiento \ud83d\udcc2",
+    "description": "\u00a1Aprende a leer y escribir archivos de texto reales!",
+    "keyConcepts": [
+      "open()",
+      "read()",
+      "write()",
+      "with",
+      "modos"
+    ],
+    "steps": [
+      {
+        "title": "Guardando Datos para Siempre",
+        "content": "Cuando el programa se cierra, las variables desaparecen. \u00a1Para guardar datos para siempre, usamos archivos en la computadora!"
+      },
+      {
+        "title": "Escribiendo en Archivos",
+        "content": "Usamos with open(\"nombre.txt\", \"w\") para abrir un archivo en modo de escritura (\"w\" por write)."
+      },
+      {
+        "title": "Leyendo Archivos",
+        "content": "\u00a1Usamos el modo \"r\" (read) para leer el contenido de un archivo!"
+      },
+      {
+        "title": "\u00a1Maestro de Archivos!",
+        "content": "\u00a1Ahora sabes c\u00f3mo guardar puntuaciones, diarios y reportes en archivos reales!"
+      }
+    ]
+  },
+  "modules": {
+    "title": "Bazar de M\u00f3dulos \ud83e\uddf0",
+    "description": "\u00a1Importa superpoderes y herramientas listas para usar!",
+    "keyConcepts": [
+      "import",
+      "random",
+      "math",
+      "datetime"
+    ],
+    "steps": [
+      {
+        "title": "\u00bfQu\u00e9 son los M\u00f3dulos?",
+        "content": "\u00a1Los m\u00f3dulos son cajas de herramientas listas para usar creadas por otros programadores para que no tengas que reinventar la rueda!"
+      },
+      {
+        "title": "M\u00f3dulo random",
+        "content": "\u00a1Usa import random para hacer sorteos y juegos con n\u00fameros aleatorios!"
+      },
+      {
+        "title": "M\u00f3dulo math",
+        "content": "\u00a1Usa import math para s\u00faper c\u00e1lculos como ra\u00edz cuadrada y pi!"
+      },
+      {
+        "title": "\u00a1Invocador de M\u00f3dulos!",
+        "content": "\u00a1Con import tienes miles de herramientas incre\u00edbles a tu alcance!"
+      }
+    ]
+  },
+  "oop_basics": {
+    "title": "El Arte de los Objetos \ud83e\uddd9\u200d\u2642\ufe0f",
+    "description": "\u00a1Crea moldes y personajes con Clases y Objetos!",
+    "keyConcepts": [
+      "class",
+      "objeto",
+      "__init__",
+      "self",
+      "m\u00e9todos"
+    ],
+    "steps": [
+      {
+        "title": "Moldes (Clases) y Objetos",
+        "content": "Una Clase es la receta o molde para una galleta. \u00a1El Objeto es la galleta real que t\u00fa creas!"
+      },
+      {
+        "title": "Creando una Clase con class",
+        "content": "Usamos class NombreClase: y el m\u00e9todo __init__(self) para inicializar las caracter\u00edsticas."
+      },
+      {
+        "title": "Acciones (M\u00e9todos)",
+        "content": "\u00a1Los m\u00e9todos son funciones creadas dentro de la clase que le dan superpoderes a los objetos!"
+      },
+      {
+        "title": "\u00a1Arquitecto de Objetos!",
+        "content": "\u00a1Aprendiste Programaci\u00f3n Orientada a Objetos, el pilar de casi todos los juegos y software modernos!"
+      }
+    ]
+  },
+  "pythonic": {
+    "title": "Atajos M\u00e1gicos \u26a1",
+    "description": "\u00a1Escribe c\u00f3digo limpio, r\u00e1pido y poderoso!",
+    "keyConcepts": [
+      "list comprehension",
+      "lambda",
+      "atajos"
+    ],
+    "steps": [
+      {
+        "title": "C\u00f3digo Elegante (Pythonic)",
+        "content": "En Python, nos gusta el c\u00f3digo limpio y legible. \u00a1List Comprehension te permite crear listas en una sola l\u00ednea!"
+      },
+      {
+        "title": "List Comprehension",
+        "content": "\u00a1En lugar de usar un for de 4 l\u00edneas, resume todo en [expresion for elemento in lista]!"
+      },
+      {
+        "title": "\u00a1Velocista Pythonic!",
+        "content": "\u00a1Tus programas ahora son s\u00faper elegantes y profesionales!"
+      }
+    ]
+  },
+  "turtle_art": {
+    "title": "Estudio de Arte & Turtle \ud83c\udfa8",
+    "description": "\u00a1Dibuja formas geom\u00e9tricas y animaciones en la pantalla!",
+    "keyConcepts": [
+      "turtle",
+      "forward",
+      "right",
+      "left",
+      "bucles de dibujo"
+    ],
+    "steps": [
+      {
+        "title": "Dibujando con C\u00f3digo",
+        "content": "\u00a1Con el m\u00f3dulo turtle, controlas un peque\u00f1o l\u00e1piz tortuga que dibuja en la pantalla a medida que se mueve!"
+      },
+      {
+        "title": "Comandos Principales",
+        "content": "\u00a1forward(pasos) avanza, right(ang) y left(ang) giran la tortuga!"
+      },
+      {
+        "title": "\u00a1Artista del C\u00f3digo!",
+        "content": "\u00a1Ahora puedes crear estrellas incre\u00edbles, espirales y mandalas!"
+      }
+    ]
+  },
+  "data_science": {
+    "title": "Laboratorio de Datos & IA \ud83e\udd16",
+    "description": "\u00a1Analiza estad\u00edsticas y descubre inteligencia en los datos!",
+    "keyConcepts": [
+      "estad\u00edstica",
+      "max/min",
+      "promedio",
+      "filtros de datos"
+    ],
+    "steps": [
+      {
+        "title": "El Poder de los Datos",
+        "content": "La Inteligencia Artificial aprende analizando millones de datos. En Python usamos funciones como sum(), max(), min() y len()."
+      },
+      {
+        "title": "Calculando el Promedio",
+        "content": "\u00a1El promedio de una lista de n\u00fameros se calcula dividiendo la suma total por el n\u00famero de elementos!"
+      },
+      {
+        "title": "\u00a1Cient\u00edfico de Datos!",
+        "content": "\u00a1Ahora sabes c\u00f3mo extraer conocimientos e inteligencia de los n\u00fameros!"
+      }
+    ]
+  },
+  "web_api": {
+    "title": "La Telara\u00f1a de Internet & APIs \ud83c\udf10",
+    "description": "\u00a1Conecta tu c\u00f3digo a datos en vivo del mundo real!",
+    "keyConcepts": [
+      "API",
+      "JSON",
+      "peticiones",
+      "claves"
+    ],
+    "steps": [
+      {
+        "title": "\u00bfQu\u00e9 es una API?",
+        "content": "\u00a1Las APIs permiten que tu c\u00f3digo en Python hable con Internet para obtener el clima, noticias, monedas y mucho m\u00e1s!"
+      },
+      {
+        "title": "Leyendo Datos JSON",
+        "content": "\u00a1Las respuestas web vienen en JSON, a las que accedemos exactamente igual que a los diccionarios en Python!"
+      },
+      {
+        "title": "\u00a1Maestro de la Web!",
+        "content": "\u00a1Tus programas ahora est\u00e1n conectados a todo el mundo!"
+      }
+    ]
+  }
+}

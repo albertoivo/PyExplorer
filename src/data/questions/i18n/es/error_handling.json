@@ -1,0 +1,150 @@
+{
+  "error_1": {
+    "title": "¿Qué es un Error?",
+    "prompt": "Cuando hacemos algo mal en el código, Python...",
+    "explanation": "¡Cuando algo sale mal, Python detiene todo y te avisa! 🚨 Esto te ayuda a encontrar y arreglar problemas.",
+    "options": [
+      "Se detiene y muestra un mensaje de error",
+      "Continúa ignorando el problema",
+      "Borra el código",
+      "Reinicia la computadora"
+    ]
+  },
+  "error_2": {
+    "title": "try y except",
+    "prompt": "Podemos usar try/except para evitar que el programa se detenga cuando hay un error.",
+    "explanation": "¡Eso es! try/except es como una red de seguridad 🥅. ¡Si algo sale mal dentro del try, el except atrapa el problema y el programa continúa!"
+  },
+  "error_3": {
+    "title": "Error de División",
+    "prompt": "¿Qué pasa si intentamos dividir por cero?",
+    "explanation": "¡Dividir por cero es imposible! 🚫 Python avisa con ZeroDivisionError. ¡Usa try/except para manejar este caso!",
+    "options": [
+      "Error: ZeroDivisionError",
+      "El resultado es cero",
+      "El resultado es infinito",
+      "Nada, funciona normal"
+    ]
+  },
+  "error_4": {
+    "title": "Protegiendo el Código",
+    "prompt": "Completa el código para manejar el error de división por cero:",
+    "explanation": "try es donde pones el código que podría dar error. ¡Si sale mal, except se encarga! 🛡️"
+  },
+  "error_5": {
+    "title": "Conversión Segura",
+    "prompt": "Completa para manejar el error cuando el usuario no escribe un número:",
+    "explanation": "Si el usuario escribe \"abc\" en lugar de un número, int() da un error. ¡El except atrapa este error y muestra un mensaje amigable! 😊"
+  },
+  "error_6": {
+    "title": "Tipo de Error",
+    "prompt": "Si intentamos hacer int(\"abc\"), ¿qué error ocurre?",
+    "explanation": "¡ValueError significa que el valor es incorrecto! \"abc\" no puede convertirse en número. ¡Python te avisa exactamente qué tipo de problema es! 🔍"
+  },
+  "error_parsons_1": {
+    "title": "Calculadora Segura",
+    "prompt": "Arma el código para dividir con protección contra errores:",
+    "explanation": "¡El try va primero, luego el código peligroso (con espacios), y el except de último!"
+  },
+  "error_7": {
+    "title": "Texto + Número = ?",
+    "prompt": "¿Qué pasa si intentamos hacer: print(\"Hola\" + 5)?",
+    "explanation": "¡Python no sabe cómo sumar texto con números! Se confunde y da TypeError. ¡Usa str(5) para arreglarlo! 😵‍💫"
+  },
+  "error_8": {
+    "title": "Variable Fantasma",
+    "prompt": "¿Qué pasa si usamos `print(x)` pero la variable `x` no fue creada?",
+    "explanation": "Python dirá: \"¿Quién es x? ¡No lo conozco!\". Esto genera un NameError porque el nombre no ha sido definido. 👻",
+    "options": [
+      "NameError",
+      "Imprime 0",
+      "Imprime vacío",
+      "SyntaxError"
+    ]
+  },
+  "error_9": {
+    "title": "Fuera de los Límites",
+    "prompt": "Si la lista tiene 3 elementos, ¿qué pasa si intentamos acceder al índice 10?",
+    "explanation": "¡IndexError! Python intentó buscar el ítem 10, pero la lista terminó antes. ¡Es como intentar leer la página 100 de un libro de 10 páginas! 📖",
+    "options": [
+      "IndexError",
+      "NameError",
+      "ZeroDivisionError",
+      "Devuelve vacío"
+    ]
+  },
+  "error_10": {
+    "title": "Sin Problemas",
+    "prompt": "Si el código en el `try` NO da error, ¿qué pasa con el `except`?",
+    "explanation": "¡El `except` solo trabaja si hay problemas! Si todo sale bien en el `try`, Python salta el `except`. ¡Un merecido descanso! 🏖️",
+    "options": [
+      "Es ignorado (no corre)",
+      "Se ejecuta también",
+      "Da un error",
+      "Repite el código"
+    ]
+  },
+  "error_11": {
+    "title": "Lista Corta",
+    "prompt": "Protege el código en caso de que la lista no tenga el ítem 10 (IndexError):",
+    "explanation": "`IndexError` ocurre cuando intentamos tomar un ítem que no existe en la lista. ¡Con `try/except`, evitamos que el programa se caiga! 🛡️"
+  },
+  "error_12": {
+    "title": "Atrapando el Error Correcto",
+    "prompt": "Para atrapar SOLO el error de división por cero, usamos:",
+    "explanation": "¡Es mejor ser específico! `except ZeroDivisionError:` atrapa solo los errores de división, dejando pasar otros errores para que puedas verlos. 🎯",
+    "options": [
+      "except ZeroDivisionError:",
+      "except Error:",
+      "except:",
+      "except Zero:"
+    ]
+  },
+  "error_13": {
+    "title": "Clave Inexistente",
+    "prompt": "¿Qué error ocurre si intentamos acceder a `dic[\"clave\"]` y la clave no existe?",
+    "explanation": "KeyError significa \"Error de Clave\". ¡Ocurre cuando intentamos usar una clave que no está en el diccionario! 🔑❌"
+  },
+  "error_14": {
+    "title": "Siempre se Ejecuta",
+    "prompt": "¿Qué bloque de try/except corre SIEMPRE, haya error o no?",
+    "explanation": "`finally` significa \"finalmente\". Se ejecuta al final de todo, ¡sin importar lo que pase! Genial para limpieza. 🧹"
+  },
+  "error_15": {
+    "title": "Múltiples Problemas",
+    "prompt": "Completa para manejar `ValueError` y `ZeroDivisionError` por separado:",
+    "explanation": "¡Puedes tener múltiples `except`! Uno para cada tipo de problema. ¡Así das el mensaje correcto para el error correcto! 👨‍⚕️"
+  },
+  "error_16": {
+    "title": "Error de Escritura",
+    "prompt": "¿Puede `try/except` atrapar errores de tipeo (SyntaxError), como olvidar los dos puntos `:` ?",
+    "explanation": "¡No! `SyntaxError` ocurre ANTES de que el programa corra. Python ni siquiera empieza si hay un error de sintaxis, ¡así que el `try` no funciona! 🚫"
+  },
+  "error_17": {
+    "title": "Espacios Equivocados",
+    "prompt": "¿Qué es un IndentationError?",
+    "explanation": "¡Python es muy exigente con los espacios! Si no alineas el código correctamente, da un `IndentationError`. 📏",
+    "options": [
+      "Error en espacios/tabulación del código",
+      "Error matemático",
+      "Error de nombre de variable",
+      "Error de importación"
+    ]
+  },
+  "error_18": {
+    "title": "El Texto no es un Número",
+    "prompt": "Maneja el error de convertir \"diez\" en número (ValueError):",
+    "explanation": "`ValueError` ocurre cuando el valor no tiene sentido. ¡Intentar convertir \"diez\" en un número es un error de valor! 🔠"
+  },
+  "error_19": {
+    "title": "Ignorando el Error",
+    "prompt": "Si hay un error, no hagas nada (usa `pass`):",
+    "explanation": "`pass` significa \"pasar\". Es como decir \"no importa\". El error ocurre, se atrapa, y el programa continúa sin hacer nada. 😶"
+  },
+  "boss_battle_11": {
+    "title": "El Guardián Anti-Bugs",
+    "prompt": "Usa try/except para intentar dividir 10 por 0. Si da error, muestra \"¡Imposible dividir por cero!\".",
+    "explanation": "¡El Guardián protege contra bugs! ¡Usa try/except para atrapar el error! 🛡️",
+    "bossName": "Cazador de Bugs"
+  }
+}

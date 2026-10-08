@@ -141,7 +141,11 @@
         "extraHintActive": "अतिरिक्त संकेत सक्रिय!",
         "doubleStarsActive": "दोगुने सितारे सक्रिय!",
         "hintsUsedPenalty": "संकेत प्रयुक्त (दंड लागू)",
-        "verifyAnswer": "उत्तर जांचें 🚀"
+        "verifyAnswer": "उत्तर जांचें 🚀",
+        "preparingPython": "पायथन तैयार किया जा रहा है...",
+        "loadingLibraries": "लाइब्रेरी लोड हो रही हैं...",
+        "initializingPython": "पायथन शुरू हो रहा है...",
+        "almostReady": "लगभग तैयार!"
     },
     "sagaBanner": {
         "questions": "प्रश्न"
@@ -256,5 +260,24 @@
         "start": "🚀 शुरू करें!",
         "close": "ट्यूटोरियल बंद करें",
         "stepCounter": "कदम {{current}} का {{total}}"
+    },
+    "parsons": {
+        "badge": "🧩 कोड पहेली",
+        "instructions": "पंक्तियों को क्रम में लगाने के लिए खींचें या <b>▲ ▼</b> बटन का उपयोग करें, और इंडेंटेशन बदलने के लिए <b>◀ ▶</b> का।",
+        "indentLess": "इंडेंटेशन घटाएँ",
+        "indentMore": "इंडेंटेशन बढ़ाएँ",
+        "indentLessLine": "पंक्ति {{line}} का इंडेंटेशन घटाएँ",
+        "indentMoreLine": "पंक्ति {{line}} का इंडेंटेशन बढ़ाएँ",
+        "drag": "क्रम बदलने के लिए खींचें",
+        "up": "ऊपर ले जाएँ",
+        "down": "नीचे ले जाएँ",
+        "upLine": "पंक्ति {{line}} को ऊपर ले जाएँ",
+        "downLine": "पंक्ति {{line}} को नीचे ले जाएँ",
+        "output": "आउटपुट:",
+        "wrong": "कोड चला, लेकिन उत्तर टेस्ट पास नहीं करता।",
+        "unknownError": "अज्ञात त्रुटि",
+        "error": "❌ त्रुटि: {{message}}",
+        "checking": "जाँच हो रही है... ⏳",
+        "check": "क्रम जाँचें ✨"
     }
 }

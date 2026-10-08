@@ -349,7 +349,9 @@
         "xpLabel": "Progresso de XP",
         "xpProgress": "XP: {{current}} / {{needed}} (Faltam {{remaining}} XP para o Nível {{next}})",
         "xpProgressMax": "XP: {{current}} (Nível Máximo)",
-        "xpTooltip": "Pets felizes concedem bônus de XP em todas as missões!"
+        "xpTooltip": "Pets felizes concedem bônus de XP em todas as missões!",
+        "defaultEggName": "Ovo Misterioso",
+        "defaultBabyName": "Mascote Bebê"
     },
     "evolution": {
         "awesome": "Incrível!",
