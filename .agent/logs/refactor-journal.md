@@ -54,3 +54,15 @@
   - `src/utils/gamificationState.ts` (updated exports)
 - **🧹 Architectural Gain:** Applied SRP (Single Responsibility Principle). Initial state setup and deep complex rules are now strictly separated by domain concerns.
 - **🔬 Verification:** Confirmed that `tsc`, `npm test`, `npm run lint`, and `npm run build` all pass successfully.
+
+## 2026-10-09 — Extract `useProgress` Hook to Domain-Specific Sub-Hooks
+
+- **💡 What:** Refactored `src/hooks/useProgress.ts` (originally ~200 lines) by extracting its logic into three dedicated sub-hooks: `useProgressStore.ts`, `useProgressActions.ts`, and `useProgressStats.ts` within the new `src/hooks/progress/` directory.
+- **🎯 Why:** The `useProgress` hook had become a "god hook", mixing state management, caching, database interactions (Firestore/localStorage), complex business logic for recording attempts, and computing derived statistics. This violated the Single Responsibility Principle.
+- **📁 Files Changed:**
+  - `src/hooks/useProgress.ts` (updated to compose sub-hooks)
+  - `src/hooks/progress/useProgressStore.ts` (created)
+  - `src/hooks/progress/useProgressActions.ts` (created)
+  - `src/hooks/progress/useProgressStats.ts` (created)
+- **🧹 Architectural Gain:** Strict adherence to the Single Responsibility Principle (SRP). The main hook now acts purely as an orchestrator composing specialized sub-hooks. State is isolated from business actions (`recordAttempt`) and derived getters (`stats`, `getWorldStats`), vastly improving testability and code readability.
+- **🔬 Verification:** Ran `tsc -b --noEmit` with zero errors. `npm test` successfully executed all 593 tests. Both `npm run lint` and `npm run build` completed successfully.
