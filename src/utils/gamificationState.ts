@@ -9,3 +9,4 @@ export * from './gamification/shopLogic';
 export * from './gamification/powerUpLogic';
 export * from './gamification/achievementLogic';
 export * from './gamification/streakLogic';
+export * from './gamification/loadLogic';

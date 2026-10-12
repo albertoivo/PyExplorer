@@ -66,3 +66,13 @@
   - `src/hooks/progress/useProgressStats.ts` (created)
 - **🧹 Architectural Gain:** Strict adherence to the Single Responsibility Principle (SRP). The main hook now acts purely as an orchestrator composing specialized sub-hooks. State is isolated from business actions (`recordAttempt`) and derived getters (`stats`, `getWorldStats`), vastly improving testability and code readability.
 - **🔬 Verification:** Ran `tsc -b --noEmit` with zero errors. `npm test` successfully executed all 593 tests. Both `npm run lint` and `npm run build` completed successfully.
+## 2026-10-12 — Extract gamification data processing logic into pure utility
+
+- **💡 What:** Extracted the inline `processLoadedGamificationData` business logic for processing loaded gamification data (handling daily resets, legacy streak migration, streak updates, and pet status checks) from the `useGamificationStore` hook into a pure TypeScript function in `src/utils/gamification/loadLogic.ts`.
+- **🎯 Why:** Code smell identified: The `useGamificationStore.ts` hook contained heavy inline business logic within a `useCallback` block inside `loadGamification` function to manage multiple game states and legacy fallback rules, making the hook large and violating the Single Responsibility Principle.
+- **📁 Files Changed:**
+    - `src/utils/gamification/loadLogic.ts` (created) — encapsulated the logic for processing the loaded gamification data.
+    - `src/hooks/gamification/useGamificationStore.ts` — updated to import and use the new pure function.
+    - `src/utils/gamificationState.ts` — updated to export the new logic module.
+- **🧹 Architectural Gain:** SRP — The state store component now delegates gamification data validation, migration, and update logic to a pure, testable function inside `src/utils/gamification/`.
+- **🔬 Verification:** `tsc`, `npm test`, `npm run lint`, and `npm run build` all passed successfully.
