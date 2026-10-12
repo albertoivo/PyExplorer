@@ -2,14 +2,10 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import type { UserGamification, Achievement } from '../../types/gamification';
 import type { UserData } from '../../types/question';
 import {
-    checkDailyAndWeeklyReset,
-    applyStreakUpdate,
-    migrateLegacyStreak,
     checkAndUnlockAchievements,
     ensureEndgameMissions,
+    processLoadedGamificationData,
 } from '../../utils/gamificationState';
-import { calculateStreak } from '../../utils/gamificationUtils';
-import { checkPetStatus, getInitialPet } from '../../utils/petLogic';
 import { getGamification, saveGamificationWithFallback } from '../../firebase/firestore';
 
 const GUEST_GAMIFICATION_KEY = 'pyexplorer_guest_gamification';
@@ -107,66 +103,36 @@ export function useGamificationStore({
             if (isGuest) {
                 const stored = localStorage.getItem(GUEST_GAMIFICATION_KEY);
                 if (stored) {
-                    let data = JSON.parse(stored);
-                    const resetted = checkDailyAndWeeklyReset(data);
-                    if (resetted) {
-                        data = resetted;
-                        localStorage.setItem(GUEST_GAMIFICATION_KEY, JSON.stringify(data));
+                    const data = JSON.parse(stored);
+                    const { finalData, hasUpdates, shieldUsed } = processLoadedGamificationData(data);
+
+                    if (hasUpdates) {
+                        localStorage.setItem(GUEST_GAMIFICATION_KEY, JSON.stringify(finalData));
                     }
 
-                    const { newState: updatedData, changed, shieldUsed } = applyStreakUpdate(data, calculateStreak);
-                    if (changed) {
-                        data = updatedData;
-                        localStorage.setItem(GUEST_GAMIFICATION_KEY, JSON.stringify(data));
-                        if (shieldUsed) {
-                            setMissionNotification({
-                                title: '🛡️ Escudo de Streak Ativado! Seu streak de ofensivas foi protegido contra 1 dia de inatividade!',
-                                rewards: { stars: 0, xp: 0 }
-                            });
-                        }
+                    if (shieldUsed) {
+                        setMissionNotification({
+                            title: '🛡️ Escudo de Streak Ativado! Seu streak de ofensivas foi protegido contra 1 dia de inatividade!',
+                            rewards: { stars: 0, xp: 0 }
+                        });
                     }
-                    setGamification(data);
+                    setGamification(finalData);
                 }
             } else if (currentUserData) {
                 const remoteData = await getGamification(currentUserData.uid);
                 if (remoteData) {
-                    let finalData = remoteData;
-                    let hasUpdates = false;
-
-                    const resetted = checkDailyAndWeeklyReset(remoteData);
-                    if (resetted) {
-                        finalData = resetted;
-                        hasUpdates = true;
-                    }
-
                     const legacyUser = currentUserData as typeof currentUserData & LegacyStreakUserFields;
-                    const legacyMigration = migrateLegacyStreak(finalData, legacyUser.streak, legacyUser.longestStreak, legacyUser.lastActiveDate);
-                    if (legacyMigration.changed) {
-                        finalData = legacyMigration.newState;
-                        hasUpdates = true;
-                    }
+                    const { finalData, hasUpdates, shieldUsed } = processLoadedGamificationData(remoteData, {
+                        streak: legacyUser.streak,
+                        longestStreak: legacyUser.longestStreak,
+                        lastActiveDate: legacyUser.lastActiveDate,
+                    });
 
-                    const { newState: updatedFinalData, changed: streakChanged, shieldUsed: streakShieldUsed } = applyStreakUpdate(finalData, calculateStreak);
-                    if (streakChanged) {
-                        finalData = updatedFinalData;
-                        hasUpdates = true;
-                        if (streakShieldUsed) {
-                            setMissionNotification({
-                                title: '🛡️ Escudo de Streak Ativado! Seu streak de ofensivas foi protegido contra 1 dia de inatividade!',
-                                rewards: { stars: 0, xp: 0 }
-                            });
-                        }
-                    }
-
-                    if (!finalData.pet) {
-                        finalData.pet = getInitialPet();
-                        hasUpdates = true;
-                    } else {
-                        const updatedPet = checkPetStatus(finalData.pet);
-                        if (JSON.stringify(updatedPet) !== JSON.stringify(finalData.pet)) {
-                            finalData.pet = updatedPet;
-                            hasUpdates = true;
-                        }
+                    if (shieldUsed) {
+                        setMissionNotification({
+                            title: '🛡️ Escudo de Streak Ativado! Seu streak de ofensivas foi protegido contra 1 dia de inatividade!',
+                            rewards: { stars: 0, xp: 0 }
+                        });
                     }
 
                     setGamification(finalData);
@@ -191,7 +157,15 @@ export function useGamificationStore({
                 } else {
                     const initial = getInitialGamification();
                     const legacyUser = currentUserData as typeof currentUserData & LegacyStreakUserFields;
-                    const { newState: initialWithLegacy } = migrateLegacyStreak(initial, legacyUser.streak, legacyUser.longestStreak, legacyUser.lastActiveDate);
+                    const { finalData: initialWithLegacy } = processLoadedGamificationData(
+                        initial,
+                        {
+                            streak: legacyUser.streak,
+                            longestStreak: legacyUser.longestStreak,
+                            lastActiveDate: legacyUser.lastActiveDate,
+                        },
+                        true // isInitial flag to prevent immediate streak set to 1
+                    );
 
                     setGamification(initialWithLegacy);
                     try {
