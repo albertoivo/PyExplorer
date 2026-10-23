@@ -14,7 +14,7 @@ interface UseWorldMapStateProps {
     onSelectWorld: (world: World) => void;
     worldProgress?: Map<World, { completed: number; total: number }>;
     effectiveScore: number;
-    unlockedWorlds: World[];
+    unlockedWorlds: string[];
 }
 
 export function useWorldMapState({ onSelectWorld, worldProgress, effectiveScore, unlockedWorlds }: UseWorldMapStateProps) {
