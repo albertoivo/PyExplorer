@@ -76,3 +76,13 @@
     - `src/utils/gamificationState.ts` — updated to export the new logic module.
 - **🧹 Architectural Gain:** SRP — The state store component now delegates gamification data validation, migration, and update logic to a pure, testable function inside `src/utils/gamification/`.
 - **🔬 Verification:** `tsc`, `npm test`, `npm run lint`, and `npm run build` all passed successfully.
+
+## 2025-01-26 — Extract `useWorldMapState` hook from `WorldMap.tsx`
+
+- **💡 What:** Extracted `useWorldMapState` hook from `src/components/game/WorldMap.tsx`, removing ~180 lines of state management, callbacks, and `useEffect` logic.
+- **🎯 Why:** Code smell identified (SRP violation and God component). The `WorldMap.tsx` component was 295 lines long, mixing UI rendering with complex state logic like story progression, tutorial orchestration, saga stats calculation, and persistence (`useLocalStorage`).
+- **📁 Files Changed:**
+  - `src/components/game/WorldMap.tsx`: Cleaned up to be purely a presentation layer.
+  - `src/hooks/game/useWorldMapState.ts`: Created to house all the extracted state and orchestration logic.
+- **🧹 Architectural Gain:** SRP — `WorldMap.tsx` now owns only the view rendering, while `useWorldMapState` manages domain state and orchestration. This improves testability and readability.
+- **🔬 Verification:** Confirmation that `npx tsc -b --noEmit`, `npm run lint`, `npm test`, and `npm run build` all passed. (Resolved a synchronous setState inside an effect along the way).
