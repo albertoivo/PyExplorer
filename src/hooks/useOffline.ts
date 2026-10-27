@@ -3,6 +3,7 @@ import type { QuestionDocument } from '../types/question';
 import { fetchAllQuestions } from '../firebase/questionsService';
 import { useAuth } from './useAuth';
 import { updateProgressBatch } from '../firebase/firestore';
+import { useNetworkStatus } from './useNetworkStatus';
 
 
 // Chaves do localStorage
@@ -19,8 +20,6 @@ interface OfflineProgress {
 }
 
 interface OfflineState {
-    /** Se está online */
-    isOnline: boolean;
     /** Questões em cache */
     cachedQuestions: QuestionDocument[];
     /** Progresso pendente de sincronização */
@@ -35,8 +34,8 @@ interface OfflineState {
  * Hook para gerenciar modo offline e sincronização
  */
 export function useOffline() {
+    const isOnline = useNetworkStatus();
     const [state, setState] = useState<OfflineState>({
-        isOnline: navigator.onLine,
         cachedQuestions: [],
         pendingProgress: [],
         lastSync: null,
@@ -116,7 +115,7 @@ export function useOffline() {
      * Sincroniza progresso pendente com o servidor
      */
     const syncPendingProgress = useCallback(async (): Promise<boolean> => {
-        if (!state.isOnline || state.pendingProgress.length === 0 || state.isSyncing) {
+        if (!isOnline || state.pendingProgress.length === 0 || state.isSyncing) {
             return false;
         }
 
@@ -151,34 +150,15 @@ export function useOffline() {
             setState(prev => ({ ...prev, isSyncing: false }));
             return false;
         }
-    }, [state.isOnline, state.pendingProgress, state.isSyncing, user]);
-
-    // Monitora status de conexão
-    useEffect(() => {
-        const handleOnline = () => {
-            setState(prev => ({ ...prev, isOnline: true }));
-        };
-
-        const handleOffline = () => {
-            setState(prev => ({ ...prev, isOnline: false }));
-        };
-
-        window.addEventListener('online', handleOnline);
-        window.addEventListener('offline', handleOffline);
-
-        return () => {
-            window.removeEventListener('online', handleOnline);
-            window.removeEventListener('offline', handleOffline);
-        };
-    }, []);
+    }, [isOnline, state.pendingProgress, state.isSyncing, user]);
 
     // Tenta sincronizar quando volta online
     useEffect(() => {
-        if (state.isOnline) {
+        if (isOnline) {
             // eslint-disable-next-line react-hooks/set-state-in-effect
             syncPendingProgress();
         }
-    }, [state.isOnline, syncPendingProgress]);
+    }, [isOnline, syncPendingProgress]);
 
     // Carrega dados do cache ao iniciar
     useEffect(() => {
@@ -202,7 +182,7 @@ export function useOffline() {
 
     return {
         // Estado
-        isOnline: state.isOnline,
+        isOnline,
         pendingSync: state.pendingProgress.length,
         lastSync: state.lastSync,
         isSyncing: state.isSyncing,
