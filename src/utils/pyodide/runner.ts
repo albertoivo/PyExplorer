@@ -147,8 +147,7 @@ function evaluateStdoutTests(pyodide: PyodideInterface, stdoutText: string, test
             continue;
         }
 
-// expectedOutput pode ser array de linhas ou string unica
-// expectedOutput pode ser array de linhas ou string unica
+// expectedOutput pode ser array de linhas ou string única (que pode conter \n)
         let expectedLines: string[];
 
         if (Array.isArray(test.expectedOutput)) {
