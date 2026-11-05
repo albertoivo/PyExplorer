@@ -15,3 +15,12 @@
     - `src/utils/pyodide/runner.ts`: Split testing logic into dedicated private helper functions.
 - **🧹 Architectural Gain:** SRP — `runPythonCode` now orchestrates execution and simply delegates validation to focused helper functions, increasing readability and testability.
 - **🔬 Verification:** Confirmed that `npx tsc --noEmit` and `npm test` passed successfully.
+## 2024-05-30 — Extracted Gamification Checks Logic to Pure Function
+
+- **💡 What:** Extracted `runGamificationChecks` logic from `src/hooks/gamification/useGamificationStore.ts` into a new pure function `runPostLoadGamificationChecks` in `src/utils/gamification/loadLogic.ts`.
+- **🎯 Why:** Code smell identified: The hook `useGamificationStore` contained inline business logic for evaluating achievements and missions on state changes, violating SRP. This makes it harder to test independently from React lifecycle.
+- **📁 Files Changed:**
+  - `src/utils/gamification/loadLogic.ts`: Created `runPostLoadGamificationChecks` pure function.
+  - `src/hooks/gamification/useGamificationStore.ts`: Replaced inline logic with the pure function call and handled side-effects cleanly.
+- **🧹 Architectural Gain:** SRP — `useGamificationStore` now focuses solely on state management and side effects, while domain rules for post-load logic reside in purely testable utility functions.
+- **🔬 Verification:** Confirmed that `tsc -b --noEmit`, `npm test`, `npm run lint`, and `npm run build` all pass successfully.
