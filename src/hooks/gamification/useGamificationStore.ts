@@ -2,9 +2,8 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import type { UserGamification, Achievement } from '../../types/gamification';
 import type { UserData } from '../../types/question';
 import {
-    checkAndUnlockAchievements,
-    ensureEndgameMissions,
     processLoadedGamificationData,
+    runPostLoadGamificationChecks,
 } from '../../utils/gamificationState';
 import { getGamification, saveGamificationWithFallback } from '../../firebase/firestore';
 
@@ -60,23 +59,10 @@ export function useGamificationStore({
     }, [userData, isGuest, gamification.level.totalXP]);
 
     const runGamificationChecks = useCallback((currentState: UserGamification, currentBalance: number) => {
-        let finalState = currentState;
-        let hasChanges = false;
-
-        const { newState: stateWithAchievements, unlocked } = checkAndUnlockAchievements(finalState, currentBalance);
-        if (unlocked.length > 0) {
-            finalState = stateWithAchievements;
-            hasChanges = true;
-            unlocked.forEach(a => safeAddAchievement(a));
-        }
-
-        const { newState: stateWithMissions, changed: missionsChanged } = ensureEndgameMissions(finalState);
-        if (missionsChanged) {
-            finalState = stateWithMissions;
-            hasChanges = true;
-        }
+        const { finalState, hasChanges, unlockedAchievements } = runPostLoadGamificationChecks(currentState, currentBalance);
 
         if (hasChanges) {
+            unlockedAchievements.forEach(a => safeAddAchievement(a));
             setGamification(finalState);
             saveGamification(finalState);
             if (finalState.level.totalXP !== currentState.level.totalXP) {

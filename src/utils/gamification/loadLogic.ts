@@ -1,8 +1,11 @@
 import type { UserGamification } from '../../types/gamification';
 import { checkDailyAndWeeklyReset } from './missionLogic';
 import { migrateLegacyStreak, applyStreakUpdate } from './streakLogic';
+import { checkAndUnlockAchievements } from './achievementLogic';
+import { ensureEndgameMissions } from './missionLogic';
 import { calculateStreak } from '../gamificationUtils';
 import { checkPetStatus, getInitialPet } from '../petLogic';
+import type { Achievement } from '../../types/gamification';
 
 type LegacyStreakUserFields = {
     streak?: number;
@@ -73,4 +76,28 @@ export function processLoadedGamificationData(
         hasUpdates,
         shieldUsed: streakShieldUsed,
     };
+}
+
+export function runPostLoadGamificationChecks(
+    currentState: UserGamification,
+    currentBalance: number
+): { finalState: UserGamification; hasChanges: boolean; unlockedAchievements: Achievement[] } {
+    let finalState = currentState;
+    let hasChanges = false;
+    let unlockedAchievements: Achievement[] = [];
+
+    const { newState: stateWithAchievements, unlocked } = checkAndUnlockAchievements(finalState, currentBalance);
+    if (unlocked.length > 0) {
+        finalState = stateWithAchievements;
+        hasChanges = true;
+        unlockedAchievements = unlocked;
+    }
+
+    const { newState: stateWithMissions, changed: missionsChanged } = ensureEndgameMissions(finalState);
+    if (missionsChanged) {
+        finalState = stateWithMissions;
+        hasChanges = true;
+    }
+
+    return { finalState, hasChanges, unlockedAchievements };
 }
