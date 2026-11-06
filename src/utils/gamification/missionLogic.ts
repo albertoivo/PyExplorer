@@ -6,6 +6,19 @@ import type {
 import { getLevelFromXP, ENDGAME_MISSIONS, generateDailyMissions, generateWeeklyMissions } from '../../data/gamificationData';
 import { getLocalDateStr } from '../gamificationUtils';
 
+/**
+ * Helper to find and hydrate an endgame mission definition based on its dynamic ID.
+ * Pure function.
+ */
+export function getEndgameMissionDef(missionId: string): Mission | undefined {
+    const typePart = missionId.replace(/^endgame_/, '').replace(/_\d+(_review)?$/, '');
+    const found = ENDGAME_MISSIONS.find(m => m.objectiveType === typePart || missionId.startsWith(`endgame_${m.objectiveType}`));
+    if (found) {
+        return { ...found, id: missionId } as Mission;
+    }
+    return undefined;
+}
+
 export function checkDailyAndWeeklyReset(data: UserGamification): UserGamification | null {
     const today = new Date();
     const todayStr = getLocalDateStr(today);
@@ -169,16 +182,11 @@ export function claimMissionRewardLogic(
 
     const daily = generateDailyMissions(today);
     const weekly = generateWeeklyMissions(today);
-    const allMissions = [...daily, ...weekly, ...ENDGAME_MISSIONS];
-    // For endgame missions, the ID might be constructed (e.g. endgame_speedrun_0)
-    // We need to find the definition either by exact match or by prefix for static endgame definitions
-    // Note: ENDGAME_MISSIONS do not have 'id' property in definitions, so we cast to any or handle specifically
-    let missionDef = allMissions.find(m => 'id' in m && m.id === missionId);
+    const allMissions = [...daily, ...weekly];
+    let missionDef = allMissions.find(m => m.id === missionId);
 
-    // If not found, try to find in ENDGAME_MISSIONS by title matching (since we construct IDs dynamically)
     if (!missionDef) {
-        // Find endgame mission definition by checking if the missionId (from user state) matches the constructed pattern
-        missionDef = ENDGAME_MISSIONS.find(m => missionId.startsWith(`endgame_${m.objectiveType}`)) as Mission;
+        missionDef = getEndgameMissionDef(missionId);
     }
 
     if (!missionDef) {
@@ -232,17 +240,15 @@ export function updateMissionProgress(
     const today = new Date();
     const daily = generateDailyMissions(today);
     const weekly = generateWeeklyMissions(today);
-    // Include Endgame missions for lookup
-    const allMissions = [...daily, ...weekly, ...ENDGAME_MISSIONS];
+    const allMissions = [...daily, ...weekly];
 
     const newActiveMissions = state.activeMissions.map(userMission => {
         if (userMission.status !== 'active') return userMission;
 
-        // Smart Lookup (duplicate logic from claimMissionRewardLogic)
-        let missionDef = allMissions.find(m => 'id' in m && m.id === userMission.missionId);
+        let missionDef = allMissions.find(m => m.id === userMission.missionId);
 
         if (!missionDef) {
-            missionDef = ENDGAME_MISSIONS.find(m => userMission.missionId.startsWith(`endgame_${m.objectiveType}`)) as Mission;
+            missionDef = getEndgameMissionDef(userMission.missionId);
         }
         if (!missionDef) return userMission;
 
@@ -399,17 +405,11 @@ export function hydrateMissions(activeMissions: UserGamification['activeMissions
                 if (found) weekly.push(isReview ? processHydration(found, um.missionId) : found);
             }
         } else if (baseId.startsWith('endgame_')) {
-            // Handle endgame hydration if needed (already static basically)
-            // But we need to match the specific endgame mission
-            // const typePart = baseId.split('_')[1];
-            const found = ENDGAME_MISSIONS.find(m => baseId.startsWith(`endgame_${m.objectiveType}`));
+            const found = getEndgameMissionDef(baseId);
             if (found) {
-                const hydrated = { ...found, id: um.missionId } as Mission; // Cast needed as ENDGAME lacks ID
-                daily.push(hydrated); // Endgame usually shown in daily or separate list? The UI splits daily/weekly.
-                // Ideally endgame is its own category. But for now put in Daily or Weekly based on... choice.
-                // Actually the UI currently only shows Daily/Weekly props.
-                // We might need to add 'endgame' prop to UI later.
-                // For now, let's just push to daily to ensure visibility.
+                // Ensure the final ID matches exactly the one in the user state (e.g. including _review)
+                const hydrated = { ...found, id: um.missionId };
+                daily.push(isReview ? processHydration(hydrated, um.missionId) : hydrated);
             }
         }
     });

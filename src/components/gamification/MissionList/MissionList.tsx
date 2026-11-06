@@ -1,7 +1,6 @@
 import type { Mission, UserMission } from '../../../types/gamification';
 import './MissionList.css';
-
-import { ENDGAME_MISSIONS } from '../../../data/gamificationData';
+import { getEndgameMissionDef } from '../../../utils/gamification/missionLogic';
 
 interface MissionListProps {
     dailyMissions: Mission[];
@@ -22,15 +21,10 @@ export function MissionList({ dailyMissions, weeklyMissions, userMissions }: Mis
     // Construct Mission objects for them
     const activeEndgameMissions: Mission[] = endgameUserMissions.map(um => {
         // Try to find matching definition
-        // ID format: endgame_{objectiveType}_{index}
-        const typePart = um.missionId.split('_')[1];
-        const def = ENDGAME_MISSIONS.find(m => m.objectiveType === typePart || (typePart === 'improve' && m.objectiveType === 'improve_stars') || (typePart === 'syntax' && m.objectiveType === 'syntax_master'));
+        const def = getEndgameMissionDef(um.missionId);
 
         if (def) {
-            return {
-                ...def,
-                id: um.missionId
-            };
+            return def;
         }
         // Fallback if not found (should not happen if data is consistent)
         return {
