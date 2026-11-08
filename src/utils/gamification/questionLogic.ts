@@ -1,6 +1,7 @@
-import type { UserGamification, LevelInfo, Mission } from '../../types/gamification';
-import { getLevelFromXP, ENDGAME_MISSIONS, generateDailyMissions, generateWeeklyMissions } from '../../data/gamificationData';
+import type { UserGamification, LevelInfo } from '../../types/gamification';
+import { getLevelFromXP, generateDailyMissions, generateWeeklyMissions } from '../../data/gamificationData';
 import { calculateStreak } from '../gamificationUtils';
+import { getEndgameMissionDef } from './missionLogic';
 import { getInitialPet, gainPetXp } from '../petLogic';
 
 export function recordQuestionLogic(
@@ -114,11 +115,7 @@ export function recordQuestionLogic(
         let def = [...daily, ...weekly].find(m => m.id === mission.missionId);
 
         if (!def && mission.missionId.startsWith('endgame_')) {
-            const typePart = mission.missionId.split('_')[1];
-            const found = ENDGAME_MISSIONS.find(m => m.objectiveType === typePart || (typePart === 'improve' && m.objectiveType === 'improve_stars') || (typePart === 'syntax' && m.objectiveType === 'syntax_master'));
-            if (found) {
-                def = { ...found, id: mission.missionId } as Mission;
-            }
+            def = getEndgameMissionDef(mission.missionId);
         }
 
         if (!def) return mission;
