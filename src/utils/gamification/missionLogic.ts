@@ -175,10 +175,8 @@ export function claimMissionRewardLogic(
     // Note: ENDGAME_MISSIONS do not have 'id' property in definitions, so we cast to any or handle specifically
     let missionDef = allMissions.find(m => 'id' in m && m.id === missionId);
 
-    // If not found, try to find in ENDGAME_MISSIONS by title matching (since we construct IDs dynamically)
     if (!missionDef) {
-        // Find endgame mission definition by checking if the missionId (from user state) matches the constructed pattern
-        missionDef = ENDGAME_MISSIONS.find(m => missionId.startsWith(`endgame_${m.objectiveType}`)) as Mission;
+        missionDef = getEndgameMissionDef(missionId);
     }
 
     if (!missionDef) {
@@ -242,7 +240,7 @@ export function updateMissionProgress(
         let missionDef = allMissions.find(m => 'id' in m && m.id === userMission.missionId);
 
         if (!missionDef) {
-            missionDef = ENDGAME_MISSIONS.find(m => userMission.missionId.startsWith(`endgame_${m.objectiveType}`)) as Mission;
+            missionDef = getEndgameMissionDef(userMission.missionId);
         }
         if (!missionDef) return userMission;
 
@@ -371,6 +369,29 @@ function processHydration(mission: Mission, originalId: string): Mission {
     return mission;
 }
 
+export function getEndgameMissionDef(missionId: string): Mission | undefined {
+    if (!missionId.startsWith('endgame_')) return undefined;
+
+    let found = ENDGAME_MISSIONS.find(m => missionId.startsWith(`endgame_${m.objectiveType}`));
+
+    // Fallback for legacy ID formats (e.g. endgame_improve_0)
+    if (!found) {
+        const typePart = missionId.split('_')[1];
+        if (typePart) {
+            found = ENDGAME_MISSIONS.find(m =>
+                m.objectiveType === typePart ||
+                (typePart === 'improve' && m.objectiveType === 'improve_stars') ||
+                (typePart === 'syntax' && m.objectiveType === 'syntax_master')
+            );
+        }
+    }
+
+    if (found) {
+        return { ...found, id: missionId } as Mission;
+    }
+    return undefined;
+}
+
 export function hydrateMissions(activeMissions: UserGamification['activeMissions']): { daily: Mission[], weekly: Mission[] } {
     const daily: Mission[] = [];
     const weekly: Mission[] = [];
@@ -399,17 +420,10 @@ export function hydrateMissions(activeMissions: UserGamification['activeMissions
                 if (found) weekly.push(isReview ? processHydration(found, um.missionId) : found);
             }
         } else if (baseId.startsWith('endgame_')) {
-            // Handle endgame hydration if needed (already static basically)
-            // But we need to match the specific endgame mission
-            // const typePart = baseId.split('_')[1];
-            const found = ENDGAME_MISSIONS.find(m => baseId.startsWith(`endgame_${m.objectiveType}`));
-            if (found) {
-                const hydrated = { ...found, id: um.missionId } as Mission; // Cast needed as ENDGAME lacks ID
-                daily.push(hydrated); // Endgame usually shown in daily or separate list? The UI splits daily/weekly.
-                // Ideally endgame is its own category. But for now put in Daily or Weekly based on... choice.
-                // Actually the UI currently only shows Daily/Weekly props.
-                // We might need to add 'endgame' prop to UI later.
-                // For now, let's just push to daily to ensure visibility.
+            const foundDef = getEndgameMissionDef(baseId);
+            if (foundDef) {
+                const hydrated = { ...foundDef, id: um.missionId };
+                daily.push(isReview ? processHydration(hydrated, um.missionId) : hydrated);
             }
         }
     });

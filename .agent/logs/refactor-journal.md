@@ -24,3 +24,14 @@
   - `src/hooks/gamification/useGamificationStore.ts`: Replaced inline logic with the pure function call and handled side-effects cleanly.
 - **🧹 Architectural Gain:** SRP — `useGamificationStore` now focuses solely on state management and side effects, while domain rules for post-load logic reside in purely testable utility functions.
 - **🔬 Verification:** Confirmed that `tsc -b --noEmit`, `npm test`, `npm run lint`, and `npm run build` all pass successfully.
+
+## 2025-02-14 — Centralize Endgame Mission Lookup
+
+- **💡 What:** Extracted duplicated logic for finding and mapping endgame missions by ID into a pure `getEndgameMissionDef` function. Replaced inline string-splitting parsing inside `missionLogic.ts`, `questionLogic.ts` and `MissionList.tsx`.
+- **🎯 Why:** Code smell identified (DRY Violation, brittle string splitting). The logic for resolving endgame missions (e.g. `endgame_speedrun_0` to the base `Mission` definition) was duplicated across three different files, with inconsistent fallback mechanisms.
+- **📁 Files Changed:**
+  - `src/utils/gamification/missionLogic.ts`: Created `getEndgameMissionDef` and refactored multiple spots to use it.
+  - `src/utils/gamification/questionLogic.ts`: Replaced find logic with `getEndgameMissionDef`.
+  - `src/components/gamification/MissionList/MissionList.tsx`: Simplified UI mapping.
+- **🧹 Architectural Gain:** DRY principle — centralized the ID parsing rules into a single source of truth that safely merges dynamic user mission IDs with static generic definitions.
+- **🔬 Verification:** Confirmed that `npx tsc -b --noEmit`, `npm test`, `npm run lint`, and `CI=true npm run build` all pass successfully.
